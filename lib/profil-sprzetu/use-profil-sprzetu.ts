@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
-import type { ProfilSprzetu, ProfilSprzetuBaterii } from "./types"
+import { migrujProfil, WERSJA_PROFILU_SPRZETU, type ProfilSprzetu, type ProfilSprzetuBaterii, type ProfilSprzetuPanelu } from "./types"
 
 const KEY = "offgrid.profil-sprzetu.v1"
 
@@ -21,6 +21,8 @@ export function useProfilSprzetu(): {
   profil: ProfilSprzetu
   wczytano: boolean
   zapiszBaterie: (dane: Partial<ProfilSprzetuBaterii>) => void
+  /** Zapisuje panel podstawowy (U14) — wołać wyłącznie po zgodzie użytkownika, nigdy automatycznie. */
+  zapiszPanel: (panel: ProfilSprzetuPanelu) => void
 } {
   const [profil, setProfil] = useState<ProfilSprzetu>({})
   const [wczytano, setWczytano] = useState(false)
@@ -32,7 +34,7 @@ export function useProfilSprzetu(): {
       .getItem<ProfilSprzetu>(KEY)
       .then((zapisany) => {
         if (!aktywny) return
-        if (zapisany !== null) setProfil(zapisany)
+        if (zapisany !== null) setProfil(migrujProfil(zapisany))
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -56,9 +58,9 @@ export function useProfilSprzetu(): {
   // useCallback ze stabilną tożsamością (deps: []) — bezpieczne jako zależność useEffect w
   // komponentach wołających, bez ryzyka nieskończonej pętli renderowania (setProfil/wczytanoRef
   // to referencje stabilne między renderami).
-  const zapiszBaterie = useCallback((dane: Partial<ProfilSprzetuBaterii>) => {
+  const zapisz = useCallback((zmiana: (poprzedni: ProfilSprzetu) => ProfilSprzetu) => {
     setProfil((poprzedni) => {
-      const nowy: ProfilSprzetu = { ...poprzedni, bateria: { ...poprzedni.bateria, ...dane } }
+      const nowy: ProfilSprzetu = { ...zmiana(poprzedni), schemaVersion: WERSJA_PROFILU_SPRZETU }
       if (wczytanoRef.current) {
         indexedDbStorageAdapter.setItem(KEY, nowy).catch((err) => {
           consoleReporter.reportError({
@@ -73,5 +75,11 @@ export function useProfilSprzetu(): {
     })
   }, [])
 
-  return { profil, wczytano, zapiszBaterie }
+  const zapiszBaterie = useCallback(
+    (dane: Partial<ProfilSprzetuBaterii>) => zapisz((poprzedni) => ({ ...poprzedni, bateria: { ...poprzedni.bateria, ...dane } })),
+    [zapisz],
+  )
+  const zapiszPanel = useCallback((panel: ProfilSprzetuPanelu) => zapisz((poprzedni) => ({ ...poprzedni, panel })), [zapisz])
+
+  return { profil, wczytano, zapiszBaterie, zapiszPanel }
 }

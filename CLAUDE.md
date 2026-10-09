@@ -52,7 +52,7 @@ Etap 1 wznowiony (patrz `docs/memory.md`) — repo ma już warstwę domenową: `
 
 ## Definicja ukończenia zadania
 
-Kod działa · testy przechodzą (gdy istnieją) · typecheck bez nowych błędów · **ekran w komplecie: autosave + tłumaczenia PL/EN/RU + „?” przy każdym polu + „i” przy tytule + narzędzie AI z „Użyj, gdy…” (D51, Dyrektywa #15, `pnpm check:pomoc-guard`, `pnpm check:ai-tools-guard`)** · brak martwego kodu · dokumentacja (w tym `docs/memory.md`, jeśli decyzja jest warta zapamiętania) zaktualizowana · zmiana nie narusza innych modułów. Pełna wersja: `docs/standards/10-testy.md` (10.4).
+Kod działa · testy przechodzą (gdy istnieją) · typecheck bez nowych błędów · **ekran w komplecie: autosave + tłumaczenia PL/EN/RU + „?” przy każdym polu + „i” przy tytule + narzędzie AI z „Użyj, gdy…” (D51, Dyrektywa #15, `pnpm check:pomoc-guard`, `pnpm check:ai-tools-guard`)** · brak martwego kodu · dokumentacja (w tym `docs/memory.md`, jeśli decyzja jest warta zapamiętania) zaktualizowana · zmiana nie narusza innych modułów · **wersja programu podbita wg `docs/wersjonowanie.md` (D82) razem z wpisem w `docs/historia-wersji.md` i linią „Wpływ na liczby”**. Pełna wersja: `docs/standards/10-testy.md` (10.4).
 
 **Deklaracja stanu repo — zawsze na końcu odpowiedzi, jednym zdaniem.** Ostatni element każdej odpowiedzi podsumowującej zadanie: jawnie, czy stało się commit (bez push) / push (do jakiej gałęzi) / PR otwarty / PR zmergowany / nic z powyższego (working tree niezacommitowane) — standard 15.21. Nigdy w środku odpowiedzi ani na początku obok planu.
 

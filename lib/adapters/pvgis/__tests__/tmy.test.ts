@@ -48,6 +48,17 @@ describe("parsujOdpowiedzTmy", () => {
     expect(w.dane.meta).toMatchObject({ bazaPromieniowania: "PVGIS-SARAH3", przesuniecieCzasuH: 0.1832, wysokoscNpmM: 119 })
   })
 
+  it("T2m przechodzi do rekordu jako tempC (godzinowa temperatura — Porównywarka paneli PV); brak T2m w godzinie → rekord bez tempC", () => {
+    const o = odpowiedz()
+    delete (o.outputs.tmy_hourly[5] as { T2m?: number }).T2m
+    const w = parsujOdpowiedzTmy(o)
+    if (!w.ok) throw new Error("oczekiwano ok")
+    expect(w.dane.rekordy[0]!.tempC).toBeCloseTo(1.5, 10)
+    expect(w.dane.rekordy[1]!.tempC).toBeCloseTo(0.5, 10)
+    expect(w.dane.rekordy[5]!.tempC).toBeUndefined()
+    expect(w.dane.rekordy[6]!.tempC).toBeDefined()
+  })
+
   it("średnie miesięczne T2m — 12 wartości, miesiąc ze znacznika PVGIS (M6/E1)", () => {
     const w = parsujOdpowiedzTmy(odpowiedz(0.9))
     if (!w.ok) throw new Error("oczekiwano ok")

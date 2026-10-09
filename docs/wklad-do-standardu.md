@@ -1129,3 +1129,34 @@ Status: 🔎 nowe
 ## [08.10.2026] Kryteria porównania jako pola z zaznaczeniem + reguła porównywalności
 Przy porównywarkach (np. paneli PV) każde kryterium jest osobnym polem z checkboxem: zaznaczone = liczone, odznaczone = pomijane; wagi zawsze widoczne i automatycznie przeliczane do 100%. Dodatkowo reguła porównywalności: brak parametru w karcie katalogowej = `null` i kryterium oznaczone „nie do porównania” dla tego elementu (nigdy 0 ani wartość domyślna), a gwiazdki informują, że skala jest względna w obrębie zestawu. Dlaczego do standardu: każda aplikacja rodziny z „rankingiem opcji” trafi na tę samą pułapkę zgadywania brakujących danych i niewidocznych wag. Źródło wzorca: `docs/porownywarka-paneli-pv-specyfikacja.md`.
 Status: 🔎 nowe
+
+## [08.10.2026] Źródło danych katalogowych jako klikalny obraz w aplikacji
+Dane z kart katalogowych (panele, falowniki, baterie) niech niosą w katalogu ścieżki obrazów karty serwowanych przez aplikację, a ekran pokazuje link „Zobacz kartę katalogową” przy każdym wpisie wstawionym z katalogu — użytkownik sam sprawdza, że liczba pochodzi z karty. Link znika, gdy użytkownik ręcznie zmieni liczbę z karty (dane przestają być potwierdzone). Test pilnuje, że pliki obrazów istnieją. Dlaczego do standardu: zasada „źródło każdej liczby” (brak danych = `null`, nie wartość typowa) jest weryfikowalna tylko wtedy, gdy użytkownik ma źródło pod ręką.
+Status: 🔎 nowe
+
+
+## [09.10.2026] Próg numeryczny zamiast „> 0” przy funkcjach trygonometrycznych w warunkach granicznych
+Przy cieniu międzyrzędowym warunek „słońce przed panelami” `cos(Δ) > 0` przepuścił Δ = 90°, bo `cos(π/2)` w zmiennoprzecinkowym to ~6e-17, nie 0 — tangens profilowy wyszedł gigantyczny, a odstęp rzędów „nieskończony”. Reguła do rozważenia: w kalkulatorach geometrycznych warunki typu „kierunek w półprzestrzeni” zapisywać z jawnym progiem (np. `<= 1e-9`) i mieć test na kąt dokładnie 90°/270°.
+Status: 🔎 nowe
+
+
+## [09.10.2026] Test spójności fizycznej dla danych przepisywanych z kart katalogowych
+Przy przepisywaniu około stu zestawów Voc/Vmp/Isc/Imp z kart paneli test sprawdzający relacje fizyczne (Vmp·Imp ≈ Pmax w ±2%, Voc > Vmp, Isc > Imp, współczynnik temperaturowy napięcia < 0) działa jak suma kontrolna: wyłapuje literówkę i zamianę wierszy bez drugiej osoby. Reguła do rozważenia: każdy katalog liczb z kart (panele, falowniki, baterie) niech ma taki test relacji fizycznych obok testu „pliki źródłowe istnieją”. Druga lekcja: gdy karta nazywa wiersz inaczej niż fizyka (JA Solar „maksymalne napięcie zasilania” = Vmp), to jawny opis w transkrypcji karty jest częścią danych, nie komentarzem.
+Status: 🔎 nowe
+
+## [09.10.2026] Ślad wersji programu, silnika i danych na każdym wydruku z obliczeniami
+Wydruk lub PDF z wynikiem obliczeń niesie wersję programu (z hashem builda), wersję silnika danego kalkulatora i daty źródeł danych (pogoda, katalog, cennik). Powód: wynik zapisany miesiąc temu bywa liczony wg innych reguł i danych; bez śladu nie da się ustalić, czy różnica pochodzi z błędu użytkownika czy ze zmiany reguł. Warunek utrzymania: zmiana reguł obliczeń podnosi wersję silnika (test przypominający mile widziany). W tym projekcie: hash commita wstrzykiwany w `next.config` jako `NEXT_PUBLIC_BUILD_ID`. Mechanizm ten sam dla całej rodziny aplikacji (wspólny blok „Wersja obliczeń i danych”).
+Status: 🔎 nowe
+
+## [09.10.2026] Stopka powtarzana na każdej stronie wydruku: `<tfoot>`, nie `position: fixed`
+Stopka w wydruku HTML, która ma być na każdej stronie i nie nachodzić na treść, najpewniej działa jako `<tfoot>` tabeli otaczającej dokument: przeglądarka powtarza ją i rezerwuje na nią miejsce. `position: fixed` powtarza element, ale zasłania treść dochodzącą do dołu strony. Sprawdzone w druku do PDF (Chromium, 3 strony A4). Dopisać do rozdziału o dokumentach i wydrukach, jeśli taki powstanie.
+Status: 🔎 nowe
+
+## [09.10.2026] Tryb prosty i pełny ekranu na jednym szkicu; tryb zapisywany, nie wyliczany na żywo
+Ekran z wieloma polami warto dać w dwóch trybach (prosty: kilka pytań i jedna rekomendacja po ludzku; pełny: wszystkie ustawienia) na tym samym szkicu, żeby przełączanie niczego nie gubiło. Pułapka: domyślny tryb wyliczany z zawartości szkicu („puste = prosty, są dane = pełny”) przeskakuje w trakcie wpisywania pierwszej liczby; wyliczenie trzeba wykonać raz przy pierwszym renderze szkicu i zapisać w nim. Rekomendacja trybu prostego ma być tabelą decyzyjną na liczbach, które ekran pełny też pokazuje (bez nowych wag), a przy sprzeczności kryteriów pokazywać kompromis zamiast wskazywać zwycięzcę.
+Status: 🔎 nowe
+
+## [09.10.2026] Numer wersji programu z regułą podbijania opartą na wpływie na liczby, plus test spójności z historią
+Dla aplikacji liczących twarde fakty numer wersji ma służyć do ustalenia, czy stary wynik jest jeszcze aktualny. Reguła: pierwsza cyfra = zmiana zasad liczenia albo formatu danych użytkownika; druga = nowa funkcja, nowe dane albo poprawka błędu zmieniającego wynik; trzecia = bez wpływu na liczby. Każdy wpis historii ma linię „Wpływ na liczby”, a test sprawdza, że `package.json` zgadza się z najnowszym wpisem (podbicie bez wpisu albo odwrotnie przestaje przechodzić). Sam skrót commita nie wystarcza: nie mówi, czy cokolwiek zmieniło się w liczbach.
+Status: 🔎 nowe
+

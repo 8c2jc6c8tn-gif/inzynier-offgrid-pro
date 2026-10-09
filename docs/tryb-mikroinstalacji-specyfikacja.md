@@ -1,0 +1,49 @@
+# Tryb mikroinstalacji — kamper, altana lub domek ROD, garaż (specyfikacja)
+
+**Status:** etap O1 wykonany 09.10.2026; kolejne etapy czekają na decyzje (sekcja 5).
+**Źródło:** prośba właściciela 09.10.2026 i jego wybór na karcie decyzji: „Rodzaj obiektu” (jedna aplikacja, wybór rodzaju obiektu zmienia dane w całej aplikacji), z dopiskiem „altana lub domek ROD”.
+
+## 1. Problem (audyt stanu z 09.10.2026)
+
+- Pełny proces (Moduły 1–7) liczy budynek: straty ciepła, zużycie z rachunku (M14 „Moje zużycie miesięcznie”), panele z miejscem na dachu i działce.
+- Moduł 12 (`kalkulator-mobilny`, 40 ekranów) ma samodzielne kalkulatory kampera i małych zestawów (lista odbiorników, akumulator kampera, panele na dach kampera, dobór regulatora PWM/MPPT, kable i bezpieczniki małej instalacji, Webasto nie jest osobnym ekranem).
+- Brakowało **wspólnego wyboru rodzaju obiektu**: ekrany pełnego procesu nie wiedziały, że liczysz kamper albo altanę, więc czytały dane budynku (np. Porównywarka paneli brała zużycie z M14).
+- Dane między ekranami przepływają przez nazwane drafty (`useOdczytDraftu`) i `lib/profil-sprzetu`; to ten sam mechanizm, którego użyto tu.
+
+## 2. Model (etap O1, wykonany)
+
+`lib/obiekt/profil-obiektu.ts`, draft `profil-obiektu`:
+- `rodzaj`: `budynek | kamper | altana-rod | garaz | ""` (pusty = zachowanie sprzed zmiany, nic nie jest zgadywane);
+- `miesiaceUzytkowania`: 12 znaczników od stycznia (altana lub domek ROD i kamper bywają używane tylko część roku);
+- `czyMikroinstalacja(rodzaj)`: kamper, altana lub domek ROD, garaż.
+
+Zużycie mikroinstalacji (`lib/obiekt/zuzycie-z-odbiornikow.ts`) = dobowe zużycie listy odbiorników z Modułu 12 (`zuzycie-per-urzadzenie`: moc × czas × współczynnik pracy dla cyklicznych) × liczba dni miesiąca użytkowania; miesiące bez zaznaczenia = 0 kWh. Brak odbiorników, lista niekompletna albo brak zaznaczonych miesięcy = `null` (wtedy ekrany liczą „na sucho”, tak jak przy braku zużycia budynku).
+
+Dni w miesiącach: kalendarz roku zwykłego (luty 28), nie założenie inżynierskie.
+
+## 3. Gdzie wybór działa już teraz (O1)
+
+| Miejsce | Zachowanie |
+|---|---|
+| Ustawienia → „Rodzaj obiektu” | Wybór rodzaju + miesiące użytkowania (autosave, PL/EN/RU, „?” przy polach). |
+| Pulpit: preset „Kamper, altana lub garaż” | Lokalizacja, tryb mobilny, panele, akumulator, okablowanie, bezpieczeństwo; ukrywa ogrzewanie budynku, stress-test, ESP32, AI, montaż baterii, Live. |
+| Porównywarka paneli PV | Dla mikroinstalacji zużycie bierze z listy odbiorników i miesięcy użytkowania zamiast z M14; komunikat i link do właściwego ekranu. |
+
+## 4. Czego mikroinstalacja NIE liczy (zgodnie z prośbą właściciela)
+
+Przenikania ciepła i strat budynku. Cele mikroinstalacji to: naładowanie akumulatora, nagrzanie wody latem (grzałka), zasilenie Webasto zimą (pobór elektryczny pompki i wentylatora wpisuje użytkownik z karty — aplikacja nie zakłada wartości), lodówka, oświetlenie.
+
+## 5. Kolejne etapy (propozycja, do decyzji właściciela)
+
+| Etap | Zakres | Zależności |
+|---|---|---|
+| O2 | Tablica 1–4 paneli z regulatorem MPPT albo mikroinwerterem w Porównywarce: dopasowanie napięcia/prądu do katalogu urządzeń PV (część 1 gotowa), ładowanie akumulatora (prąd ładowania z regulatora vs pojemność). | A4 Porównywarki; katalog urządzeń; `dobor-regulatora-pwm-mppt`, `akumulator-kampera`. |
+| O3 | Cele zasilania: ładowanie akumulatora, woda latem (grzałka ze zużyciem z listy), Webasto zimą jako odbiornik z danymi z karty. | O1; `grzalka-cwu`, `bojler-cwu`. |
+| O4 | Pozostałe ekrany pełnego procesu czytają rodzaj obiektu (zapotrzebowanie, magazyn energii, okablowanie): ukrywanie pól dotyczących budynku, domyślne podpowiedzi 12/24 V. | Audyt ekran po ekranie (ok. 270 ekranów) — dzielić na partie. |
+| O5 | Szablony zestawów (kamper, kemping, jacht, domek, warsztat — M12/E3) jako punkt startu listy odbiorników. | M12/E3 `szablony-zestawow`. |
+
+## 6. Pytania otwarte do właściciela
+
+1. Czy „altana lub domek ROD” ma mieć własny szablon odbiorników (lodówka turystyczna, oświetlenie LED, pompa wody, ładowanie narzędzi), czy wystarczy wspólna lista M12?
+2. Czy garaż to osobny rodzaj (pozostawiony), czy scalić z altaną?
+3. Napięcie systemu (12/24/48 V) jako część profilu obiektu — wybór raz dla całej mikroinstalacji?

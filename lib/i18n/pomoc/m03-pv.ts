@@ -509,6 +509,9 @@ export const pl = {
         gdzie: "Z karty falownika.",
         zakres: "Stosunek DC/AC zalecany {dcacMin}–{dcacMax}.",
       },
+      katalogRodzaj: { nazwa: "Rodzaj urządzenia", cel: "Zawęża listę katalogu do regulatorów, falowników hybrydowych, wyspowych albo mikroinwerterów.", gdzie: "Wybierz z listy.", zakres: "Tylko urządzenia, których dane są w katalogu." },
+      katalogProducent: { nazwa: "Producent urządzenia", cel: "Pierwszy krok wyboru z katalogu.", gdzie: "Wybierz z listy.", zakres: "Tylko producenci z danymi w katalogu." },
+      katalogModel: { nazwa: "Model urządzenia", cel: "Wstawia do pól falownika dane z karty producenta; to, czego karta nie podaje, zostaje puste.", gdzie: "Wybierz z listy.", zakres: "Wpisz ręcznie, jeśli Twojego modelu nie ma." },
     },
   },
   "technologie-paneli": {
@@ -1115,6 +1118,9 @@ export const en: Tlumaczenie<typeof pl> = {
       mpptMax: { nazwa: "MPPT window — upper limit [V]", cel: "Above it the inverter limits production.", gdzie: "From the inverter datasheet.", zakres: Z_KARTY_EN },
       maxPrad: { nazwa: "Maximum MPPT current [A]", cel: "Compared with the string current.", gdzie: "From the inverter datasheet.", zakres: Z_KARTY_EN },
       mocAc: { nazwa: "Inverter rated AC power [W]", cel: "For the DC/AC power ratio.", gdzie: "From the inverter datasheet.", zakres: "DC/AC ratio recommended {dcacMin}–{dcacMax}." },
+      katalogRodzaj: { nazwa: "Device type", cel: "Narrows the catalogue to controllers, hybrid inverters, off-grid inverters or microinverters.", gdzie: "Choose from the list.", zakres: "Only devices whose data is in the catalogue." },
+      katalogProducent: { nazwa: "Device manufacturer", cel: "First step of the catalogue selection.", gdzie: "Choose from the list.", zakres: "Only manufacturers with data in the catalogue." },
+      katalogModel: { nazwa: "Device model", cel: "Inserts the manufacturer datasheet values into the inverter fields; whatever the datasheet does not state stays empty.", gdzie: "Choose from the list.", zakres: "Type the values in if your model is not listed." },
     },
   },
   "technologie-paneli": {
@@ -1656,6 +1662,9 @@ export const ru: Tlumaczenie<typeof pl> = {
       mpptMax: { nazwa: "Окно MPPT — верхняя граница [В]", cel: "Выше неё инвертор ограничивает выработку.", gdzie: "Из документации инвертора.", zakres: Z_KARTY_RU },
       maxPrad: { nazwa: "Максимальный ток MPPT [А]", cel: "Сравнивается с током стринга.", gdzie: "Из документации инвертора.", zakres: Z_KARTY_RU },
       mocAc: { nazwa: "Номинальная мощность AC инвертора [Вт]", cel: "Для соотношения мощностей DC/AC.", gdzie: "Из документации инвертора.", zakres: "Рекомендуемое соотношение DC/AC {dcacMin}–{dcacMax}." },
+      katalogRodzaj: { nazwa: "Тип устройства", cel: "Сужает каталог до контроллеров, гибридных инверторов, автономных инверторов или микроинверторов.", gdzie: "Выберите из списка.", zakres: "Только устройства, данные которых есть в каталоге." },
+      katalogProducent: { nazwa: "Производитель устройства", cel: "Первый шаг выбора из каталога.", gdzie: "Выберите из списка.", zakres: "Только производители с данными в каталоге." },
+      katalogModel: { nazwa: "Модель устройства", cel: "Вставляет в поля инвертора данные из документации производителя; чего в документации нет, остаётся пустым.", gdzie: "Выберите из списка.", zakres: "Введите вручную, если вашей модели нет." },
     },
   },
   "technologie-paneli": {

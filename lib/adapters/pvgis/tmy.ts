@@ -125,6 +125,7 @@ export function parsujOdpowiedzTmy(json: unknown): WynikTmy {
         ghi: r["G(h)"],
         dni: r["Gb(n)"],
         dhi: r["Gd(h)"],
+        ...(r.T2m !== undefined ? { tempC: r.T2m } : {}),
       })),
       meta: {
         szerokosc: inputs.location.latitude,

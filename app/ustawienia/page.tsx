@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState, useSyncExternalStore } from "react"
 import { Button } from "@/components/ui/button"
 import { KontoSekcja } from "@/components/konto-sekcja"
+import { ObiektSekcja } from "@/components/obiekt-sekcja"
 import { JezykWybor } from "@/components/jezyk-wybor"
 import { WalutaWybor } from "@/components/waluta-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
@@ -214,6 +215,8 @@ export default function UstawieniaPage() {
         </p>
         <JezykWybor />
       </div>
+
+      <ObiektSekcja />
 
       <WalutaWybor />
 

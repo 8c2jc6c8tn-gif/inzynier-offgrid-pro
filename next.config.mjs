@@ -17,8 +17,29 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self)" },
 ]
 
+import { execSync } from "node:child_process"
+import { readFileSync } from "node:fs"
+
+/**
+ * Version stamp shown on printouts (offer sheet of the panel comparison), so a result can later be traced to the build that computed it.
+ * The build id is the short commit hash: from the host's variable when it gives one, otherwise from git; empty when neither is available.
+ */
+function oznaczenieKompilacji() {
+  const zHosta = process.env.VERCEL_GIT_COMMIT_SHA ?? process.env.GITHUB_SHA
+  if (zHosta) return zHosta.slice(0, 7)
+  try {
+    return execSync("git rev-parse --short=7 HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim()
+  } catch {
+    return ""
+  }
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_APP_VERSION: JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")).version,
+    NEXT_PUBLIC_BUILD_ID: oznaczenieKompilacji(),
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

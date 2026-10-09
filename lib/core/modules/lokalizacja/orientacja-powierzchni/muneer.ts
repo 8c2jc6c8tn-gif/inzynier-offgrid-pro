@@ -51,6 +51,8 @@ export type Godzina = {
   dni: number
   dhi: number
   ghi: number
+  /** Temperatura powietrza [°C] z rekordu TMY; brak w zapisach sprzed 08.10.2026. */
+  tempC?: number
 }
 
 /** Dzień roku 1…365/366 (UTC). */
@@ -91,6 +93,7 @@ export function przygotujGodziny(lat: number, lon: number, dane: RekordGodzinowy
       dni: r.dni,
       dhi: r.dhi,
       ghi: r.ghi,
+      ...(r.tempC !== undefined ? { tempC: r.tempC } : {}),
     }
   })
 }

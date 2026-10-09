@@ -125,6 +125,11 @@
      poniżej wymogu WCAG 1.4.11/2.4.11 (≥3:1 dla obrysu fokusu na tle). 0.8 → 3.68:1, z marginesem. */
   --ring: oklch(0.52 0.18 245 / 0.8);
   --chart-1: oklch(0.87 0 0);
+  /* Categorical series colours of multi-series charts (validated with the dataviz palette validator: light on #fcfcfb, dark on #1a1a19). */
+  --seria-1: #2a78d6;
+  --seria-2: #eb6834;
+  --seria-3: #1baf7a;
+  --seria-4: #eda100;
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -173,6 +178,10 @@
   --input: oklch(1 0 0 / 38%);
   --ring: oklch(0.68 0.15 245 / 0.6);
   --chart-1: oklch(0.87 0 0);
+  --seria-1: #3987e5;
+  --seria-2: #d95926;
+  --seria-3: #199e70;
+  --seria-4: #c98500;
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -215,6 +224,10 @@
     --input: oklch(1 0 0 / 38%);
     --ring: oklch(0.68 0.15 245 / 0.6);
     --chart-1: oklch(0.87 0 0);
+    --seria-1: #3987e5;
+    --seria-2: #d95926;
+    --seria-3: #199e70;
+    --seria-4: #c98500;
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
@@ -261,4 +274,15 @@
 /* Waga tekstu — preferencja z lib/wyglad/, przełączana klasą na <html> (ten sam wzorzec co .dark). */
 .czcionka-pogrubiona {
   --waga-tekstu: 550;
+}
+
+/* Wydruk oferty Porównywarki paneli (components/porownywarka-paneli/oferta.tsx): na czas wydruku zostaje tylko kartka
+   renderowana do `.druk-root`; reszta strony (nawigacja, formularz, asystent) znika, więc nie powstają puste strony. */
+@media print {
+  body.druk-oferty > :not(.druk-root) {
+    display: none !important;
+  }
+  body.druk-oferty {
+    background: white;
+  }
 }
