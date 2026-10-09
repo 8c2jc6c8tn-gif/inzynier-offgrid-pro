@@ -12,7 +12,7 @@ export const DZIEN_PROJEKTOWY = { rok: 2026, miesiac: 11, dzien: 21 } as const
 /**
  * Domyślne okno „bez cienia” w czasie słonecznym [godz.]. Praktyka projektowa, NIE norma — okno wybiera użytkownik; na
  * szerokości Polski szersze okno daje bardzo duże odstępy (słońce o 9:00 w grudniu stoi ok. 5° nad horyzontem), dlatego
- * ekran pokazuje obok tabelę strat. Do zmiany jedną linią po decyzji właściciela (karta „regułę odstępu” z 09.10.2026).
+ * ekran pokazuje obok tabelę strat. Właściciel zatwierdził 9–15 jako domyślne (karta „regułę odstępu”, 09.10.2026); użytkownik może wpisać własne okno.
  */
 export const OKNO_PROJEKTOWE_DOMYSLNE = { odH: 9, doH: 15 } as const
 
