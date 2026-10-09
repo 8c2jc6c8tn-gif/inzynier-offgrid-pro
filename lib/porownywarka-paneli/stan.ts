@@ -4,6 +4,7 @@
  * formularza), nie rdzeń obliczeniowy — rdzeń (`lib/core`) niczego stąd nie importuje.
  */
 import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
+import type { BosId } from "@/lib/core/dane/cennik-bos"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { DaneElektryczne, DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
@@ -69,6 +70,23 @@ export type FormularzStan = {
   uzyjZuzycia: boolean
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); puste = nie podano. Szkice sprzed A3 nie mają klucza. */
   tmin?: string
+  /**
+   * Inverter / MPPT controller / micro-inverter chosen from the device catalogue for the "Inverter and accessories" tab (A4); empty = none.
+   * The fields below belong to that tab; drafts saved before A4 have no keys.
+   */
+  urzadzenieId?: string
+  /** Battery voltage [V] choosing the row of the controller's nominal PV power table. */
+  akumV?: string
+  /** One-way length of the DC cable run from panels to the device [m]. */
+  trasaM?: string
+  /** Optional price of one device (the catalogue has no prices), typed in the display currency. */
+  cenaUrzadzenia?: string
+  /** Accessory lines the user switched off; `undefined` = the default set. */
+  bosWylaczone?: BosId[]
+  /** Own unit prices per accessory line (display currency), replacing the catalogue range. */
+  bosCeny?: Partial<Record<BosId, string>>
+  /** Chosen string layout `"<in series>x<parallel>"` per panel id, for the accessory estimate; absent = the proposed layout. */
+  bosUklad?: Record<string, string>
   panele: PanelSeed[]
   wycena: RodzajWyceny
   stawka: string
@@ -151,6 +169,8 @@ const KWOTY_PROSTE = przeliczPola<FormularzStan>("stawka", "cenaDzien", "cenaNoc
 export const KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
   ...KWOTY_PROSTE(stan, wspolczynnik),
   panele: stan.panele.map((p) => ({ ...p, cena: przeliczPoleTekst(p.cena, wspolczynnik) })),
+  ...(stan.cenaUrzadzenia === undefined ? {} : { cenaUrzadzenia: przeliczPoleTekst(stan.cenaUrzadzenia, wspolczynnik) }),
+  ...(stan.bosCeny === undefined ? {} : { bosCeny: Object.fromEntries(Object.entries(stan.bosCeny).map(([id, c]) => [id, przeliczPoleTekst(c, wspolczynnik)])) }),
 })
 
 /** Zapisany zestaw porównania (spec 12): pełna migawka formularza pod własną nazwą. */

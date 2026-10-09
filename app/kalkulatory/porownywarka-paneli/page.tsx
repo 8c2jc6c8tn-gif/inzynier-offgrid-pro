@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
+import { UrzadzenieIBos } from "@/components/porownywarka-paneli/urzadzenie-bos"
 import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
 import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
@@ -50,8 +51,8 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "urzadzenie" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "urzadzenie", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
 
 /** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
 const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
@@ -59,6 +60,7 @@ const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   miesiace: "UI-PORP-TAB-MIESIACE",
   oplacalnosc: "UI-PORP-TAB-OPLACALNOSC",
   elektryka: "UI-PORP-TAB-ELEKTRYKA",
+  urzadzenie: "UI-PORP-TAB-URZADZENIE",
   wiecej: "UI-PORP-TAB-WIECEJ",
   nadwyzka: "UI-PORP-TAB-NADWYZKA",
   miejsca: "UI-PORP-TAB-MIEJSCA",
@@ -1124,6 +1126,10 @@ export default function PorownywarkaPaneliPage() {
               />
             )}
 
+            {zakladka === "urzadzenie" && (
+              <UrzadzenieIBos panele={v.panele} dane={wejscie.panele} stan={stan} ustaw={ustaw} naElektryke={() => setZakladka("elektryka")} />
+            )}
+
             {zakladka === "wiecej" && (
               <div className="flex flex-col gap-4">
                 {v.panele.length < 2 ? (
@@ -1223,7 +1229,25 @@ export default function PorownywarkaPaneliPage() {
                         </Link>
                       </li>
                       <li>{t("UI-PORP-NADW-SZKLARNIA")}</li>
-                      <li>{t("UI-PORP-NADW-SYSTEM24")}</li>
+                      <li>
+                        {t("UI-PORP-NADW-SYSTEM24")}
+                        <ul className="mt-1 flex list-disc flex-col gap-1 pl-5">
+                          {(
+                            [
+                              ["/kalkulatory/dobor-zrodel-zasilania", "UI-M10-ZR-TYTUL"],
+                              ["/kalkulatory/napiecie-systemowe", "UI-NAPSYS-DORADCA-DOBORU-NAPIECIA"],
+                              ["/kalkulatory/panel-dla-urzadzenia", "UI-M12-PU-TYTUL"],
+                              ["/kalkulatory/blackout-minimum", "UI-M12-BM-TYTUL"],
+                            ] as const
+                          ).map(([href, klucz]) => (
+                            <li key={href}>
+                              <Link href={href} className="underline">
+                                {t(klucz)}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
                     </ul>
                   </>
                 )}

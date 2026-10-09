@@ -19,7 +19,12 @@ const KLUCZ_RODZAJU: Record<RodzajUrzadzeniaPv, string> = {
  * link do źródła i data odczytu pokazują, skąd liczby. Rodzaj i producenta pamięta komponent; gdy urządzenie już pochodzi z katalogu,
  * pola startują od jego wartości.
  */
-export function WyborUrzadzeniaPv(p: { urzadzenieId: string; onWybierz: (id: string) => void }) {
+export function WyborUrzadzeniaPv(p: {
+  urzadzenieId: string
+  onWybierz: (id: string) => void
+  /** Kinds offered in the first list; default = all kinds in the catalogue. */
+  rodzaje?: readonly RodzajUrzadzeniaPv[]
+}) {
   const t = useTranslate()
   const obecne = znajdzUrzadzeniePv(p.urzadzenieId)
   // `null` = user has not touched the field yet: then it shows the value of the device already taken from the catalogue.
@@ -42,7 +47,7 @@ export function WyborUrzadzeniaPv(p: { urzadzenieId: string; onWybierz: (id: str
         pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="katalogRodzaj" />}
       >
         <option value="">{t("UI-DOPTABFAL-KAT-WYBIERZ")}</option>
-        {RODZAJE_URZADZEN_PV.map((r) => (
+        {(p.rodzaje ?? RODZAJE_URZADZEN_PV).map((r) => (
           <option key={r} value={r}>
             {t(KLUCZ_RODZAJU[r])}
           </option>
