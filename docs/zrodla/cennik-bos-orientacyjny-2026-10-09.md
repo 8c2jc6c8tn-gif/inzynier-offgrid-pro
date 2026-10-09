@@ -1,6 +1,6 @@
 # Orientacyjny cennik BOS (osprzęt instalacji PV) — do akceptacji właściciela
 
-**Status:** PROJEKT DO AKCEPTACJI. Ceny **nie** trafiają do kodu przed akceptacją (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 9, decyzja C = opcja 2). Po akceptacji: wartości domyślne w Etapie A3, pokazywane jako zakres min–max z flagą **„orientacyjny — zweryfikuj w ofercie”**, edytowalne przez użytkownika.
+**Status:** ✅ ZAAKCEPTOWANY przez właściciela 09.10.2026 (karta decyzji, opcja „Akceptuję”: zakresy z pkt 4 jako domyślne w A3, konstrukcja z flagą „bardzo orientacyjne”). Poniżej treść z czasu zbierania. Ceny nie trafiały do kodu przed akceptacją (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 9, decyzja C = opcja 2). Po akceptacji: wartości domyślne w Etapie A3, pokazywane jako zakres min–max z flagą **„orientacyjny — zweryfikuj w ofercie”**, edytowalne przez użytkownika.
 
 **Data zebrania:** 09.10.2026 (pobrane przez WebFetch/WebSearch; strony streszczane automatycznie — przed akceptacją warto sprawdzić 2–3 pozycje ręcznie we wskazanych linkach).
 
