@@ -1143,3 +1143,12 @@ Status: 🔎 nowe
 ## [09.10.2026] Test spójności fizycznej dla danych przepisywanych z kart katalogowych
 Przy przepisywaniu około stu zestawów Voc/Vmp/Isc/Imp z kart paneli test sprawdzający relacje fizyczne (Vmp·Imp ≈ Pmax w ±2%, Voc > Vmp, Isc > Imp, współczynnik temperaturowy napięcia < 0) działa jak suma kontrolna: wyłapuje literówkę i zamianę wierszy bez drugiej osoby. Reguła do rozważenia: każdy katalog liczb z kart (panele, falowniki, baterie) niech ma taki test relacji fizycznych obok testu „pliki źródłowe istnieją”. Druga lekcja: gdy karta nazywa wiersz inaczej niż fizyka (JA Solar „maksymalne napięcie zasilania” = Vmp), to jawny opis w transkrypcji karty jest częścią danych, nie komentarzem.
 Status: 🔎 nowe
+
+## [09.10.2026] Ślad wersji programu, silnika i danych na każdym wydruku z obliczeniami
+Wydruk lub PDF z wynikiem obliczeń niesie wersję programu (z hashem builda), wersję silnika danego kalkulatora i daty źródeł danych (pogoda, katalog, cennik). Powód: wynik zapisany miesiąc temu bywa liczony wg innych reguł i danych; bez śladu nie da się ustalić, czy różnica pochodzi z błędu użytkownika czy ze zmiany reguł. Warunek utrzymania: zmiana reguł obliczeń podnosi wersję silnika (test przypominający mile widziany). W tym projekcie: hash commita wstrzykiwany w `next.config` jako `NEXT_PUBLIC_BUILD_ID`. Mechanizm ten sam dla całej rodziny aplikacji (wspólny blok „Wersja obliczeń i danych”).
+Status: 🔎 nowe
+
+## [09.10.2026] Stopka powtarzana na każdej stronie wydruku: `<tfoot>`, nie `position: fixed`
+Stopka w wydruku HTML, która ma być na każdej stronie i nie nachodzić na treść, najpewniej działa jako `<tfoot>` tabeli otaczającej dokument: przeglądarka powtarza ją i rezerwuje na nią miejsce. `position: fixed` powtarza element, ale zasłania treść dochodzącą do dołu strony. Sprawdzone w druku do PDF (Chromium, 3 strony A4). Dopisać do rozdziału o dokumentach i wydrukach, jeśli taki powstanie.
+Status: 🔎 nowe
+

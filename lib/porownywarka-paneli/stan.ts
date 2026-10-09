@@ -62,6 +62,9 @@ export type MiejsceSeed = {
   oknoDo?: string
 }
 
+/** One slot of the offer versions (A, B, C by position); `panelId` empty = the slot is unused. */
+export type WersjaOfertySeed = { panelId: string; etykieta: string }
+
 export type RodzajWyceny = "" | "siec" | "dzienNoc" | "reczna" | "agregat"
 
 export type FormularzStan = {
@@ -91,6 +94,10 @@ export type FormularzStan = {
   ofertaDla?: string
   ofertaWykonawca?: string
   ofertaUwagi?: string
+  /** Offer versions A/B/C: the compared panel and a short label per slot (always three entries once edited); absent = the first three panels. */
+  ofertaWersje?: WersjaOfertySeed[]
+  /** Letter of the version marked "recommended" on the printout; empty or absent = none. */
+  ofertaZalecana?: string
   panele: PanelSeed[]
   wycena: RodzajWyceny
   stawka: string

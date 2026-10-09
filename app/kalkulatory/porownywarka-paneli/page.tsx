@@ -1116,6 +1116,7 @@ export default function PorownywarkaPaneliPage() {
                   nachylenie: miejsce.nachylenie,
                   azymut: miejsce.azymut,
                   waluta,
+                  pogodaPobrano: dane?.pobrano ?? null,
                 }}
                 stan={stan}
                 ustaw={ustaw}
