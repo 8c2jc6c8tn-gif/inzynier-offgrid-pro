@@ -1138,3 +1138,8 @@ Status: 🔎 nowe
 ## [09.10.2026] Próg numeryczny zamiast „> 0” przy funkcjach trygonometrycznych w warunkach granicznych
 Przy cieniu międzyrzędowym warunek „słońce przed panelami” `cos(Δ) > 0` przepuścił Δ = 90°, bo `cos(π/2)` w zmiennoprzecinkowym to ~6e-17, nie 0 — tangens profilowy wyszedł gigantyczny, a odstęp rzędów „nieskończony”. Reguła do rozważenia: w kalkulatorach geometrycznych warunki typu „kierunek w półprzestrzeni” zapisywać z jawnym progiem (np. `<= 1e-9`) i mieć test na kąt dokładnie 90°/270°.
 Status: 🔎 nowe
+
+
+## [09.10.2026] Test spójności fizycznej dla danych przepisywanych z kart katalogowych
+Przy przepisywaniu około stu zestawów Voc/Vmp/Isc/Imp z kart paneli test sprawdzający relacje fizyczne (Vmp·Imp ≈ Pmax w ±2%, Voc > Vmp, Isc > Imp, współczynnik temperaturowy napięcia < 0) działa jak suma kontrolna: wyłapuje literówkę i zamianę wierszy bez drugiej osoby. Reguła do rozważenia: każdy katalog liczb z kart (panele, falowniki, baterie) niech ma taki test relacji fizycznych obok testu „pliki źródłowe istnieją”. Druga lekcja: gdy karta nazywa wiersz inaczej niż fizyka (JA Solar „maksymalne napięcie zasilania” = Vmp), to jawny opis w transkrypcji karty jest częścią danych, nie komentarzem.
+Status: 🔎 nowe

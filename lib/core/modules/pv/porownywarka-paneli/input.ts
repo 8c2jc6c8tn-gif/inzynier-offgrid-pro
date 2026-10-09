@@ -6,6 +6,27 @@
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 import type { KryteriumId } from "./constants"
 
+/**
+ * Dane elektryczne panelu w STC z tabeli karty (A3). Każde pole z karty; brak czytelnej wartości = `null` (bez „typowej” wartości).
+ * Vmp w najgorętszych warunkach nie jest liczone: karty nie podają współczynnika temperaturowego Vmp.
+ */
+export type DaneElektryczne = {
+  /** Napięcie jałowe w STC [V]. */
+  vocV: number
+  /** Napięcie w punkcie mocy maksymalnej w STC [V]. */
+  vmpV: number
+  /** Prąd zwarciowy w STC [A]. */
+  iscA: number
+  /** Prąd w punkcie mocy maksymalnej w STC [A]. */
+  impA: number
+  /** Współczynnik temperaturowy Voc β [%/°C] (ujemny). */
+  betaVocPctNaC: number
+  /** Maksymalne napięcie układu DC z karty [V]. */
+  maxNapieciaSystemuV: number
+  /** Maksymalny prąd bezpiecznika szeregowego z karty (I_MOD_MAX_OCPR) [A]; `null` = karta nie podaje. */
+  maxBezpiecznikSzeregowyA: number | null
+}
+
 export type DanePanelu = {
   id: string
   /** Producent i model jednym tekstem, tak jak na karcie (nazwa pokazywana na ekranie). */
@@ -31,6 +52,8 @@ export type DanePanelu = {
   masaKg: number | null
   /** Panel dwustronny — A1 liczy tylko stronę przednią (jawne w założeniach). */
   bifacjalny: boolean
+  /** Dane elektryczne w STC (A3); brak pola albo `null` = nie wpisano / karta nie podaje → bez oceny napięć i stringów. */
+  elektryka?: DaneElektryczne | null
 }
 
 export type MiejsceInput = {
@@ -89,6 +112,8 @@ export type PorownywarkaInput = {
   /** Zapotrzebowanie na energię w miesiącach [kWh], styczeń pierwszy (z ekranu „Moje zużycie miesięcznie”); `null` = tryb „suchy” (7.2). */
   zapotrzebowanieMiesiaceKwh?: number[] | null
   panele: DanePanelu[]
+  /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); wpisuje użytkownik (TMY nie jest temperaturą projektową); `null` = nie podano. */
+  tminC?: number | null
   /** `null` = bez wyceny (tryb „suchy”: sama produkcja). */
   wycena: WycenaKwh | null
   kryteria: KryteriaWybor

@@ -1,5 +1,5 @@
 import type { Warning } from "@/lib/core/calc-result"
-import { MAKS_PANELI_W_ZESTAWIE, NOCT_T_OTOCZENIA_C } from "./constants"
+import { MAKS_PANELI_W_ZESTAWIE, NOCT_T_OTOCZENIA_C, TMIN_ZAKRES_C } from "./constants"
 import type { PorownywarkaInput } from "./input"
 import { porpPozaZakresem, wartoscUjemnaPorp, zaDuzoPanelowPorp } from "./warnings"
 
@@ -35,6 +35,9 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
       }
     }
   }
+  if (input.tminC !== undefined && input.tminC !== null && !(Number.isFinite(input.tminC) && input.tminC >= TMIN_ZAKRES_C[0] && input.tminC <= TMIN_ZAKRES_C[1])) {
+    errors.push(porpPozaZakresem("PORP-TMIN-POZA-ZAKRESEM", "tminC", input.tminC, `${TMIN_ZAKRES_C[0]}…${TMIN_ZAKRES_C[1]} °C`))
+  }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))
@@ -53,6 +56,15 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     for (const [pole, v] of nieujemne) if (v !== null && !nieujemna(v)) errors.push(wartoscUjemnaPorp(pole, v))
     if (p.sprawnoscWzglednaPrzy200WPct !== null && !(p.sprawnoscWzglednaPrzy200WPct > 0 && p.sprawnoscWzglednaPrzy200WPct <= 100)) {
       errors.push(porpPozaZakresem("PORP-SPRAWNOSC-200-POZA-ZAKRESEM", "sprawnoscWzglednaPrzy200WPct", p.sprawnoscWzglednaPrzy200WPct, "(0–100] %"))
+    }
+    const el = p.elektryka
+    if (el) {
+      const dodatnie: [string, number][] = [["vocV", el.vocV], ["vmpV", el.vmpV], ["iscA", el.iscA], ["impA", el.impA], ["maxNapieciaSystemuV", el.maxNapieciaSystemuV]]
+      for (const [pole, v] of dodatnie) if (!(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-ELEKTRYKA-POZA-ZAKRESEM", pole, v, "> 0"))
+      if (!(Number.isFinite(el.betaVocPctNaC) && el.betaVocPctNaC < 0)) errors.push(porpPozaZakresem("PORP-ELEKTRYKA-POZA-ZAKRESEM", "betaVocPctNaC", el.betaVocPctNaC, "< 0 %/°C"))
+      if (el.maxBezpiecznikSzeregowyA !== null && !(Number.isFinite(el.maxBezpiecznikSzeregowyA) && el.maxBezpiecznikSzeregowyA > 0)) {
+        errors.push(porpPozaZakresem("PORP-ELEKTRYKA-POZA-ZAKRESEM", "maxBezpiecznikSzeregowyA", el.maxBezpiecznikSzeregowyA, "> 0 A"))
+      }
     }
     if (p.gammaPctNaC !== null && !Number.isFinite(p.gammaPctNaC)) errors.push(porpPozaZakresem("PORP-GAMMA-POZA-ZAKRESEM", "gammaPctNaC", p.gammaPctNaC, "liczba skończona"))
     if (p.noctC !== null && !(Number.isFinite(p.noctC) && p.noctC > NOCT_T_OTOCZENIA_C)) {

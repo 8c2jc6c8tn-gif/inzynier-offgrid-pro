@@ -113,6 +113,12 @@ export const pl = {
         gdzie: "To decyzja projektowa, nie norma: zwykle 9–15 albo węższe. W grudniu słońce na szerokości Polski stoi nisko, więc szerokie okno daje bardzo duże odstępy; tabelę strat dla różnych okien pokazuje kalkulator odstępu rzędów.",
         zakres: "Oba końce 0–24 godz., początek przed końcem; tylko dla montażu pochylonego.",
       },
+      tminC: {
+        nazwa: "Najniższa temperatura powietrza w miejscu [°C]",
+        cel: "Z niej liczę napięcie panelu zimą: im zimniej, tym wyższe napięcie jałowe, a od niego zależy, ile paneli wolno połączyć w jednym stringu. Ta liczba nie ma wartości domyślnej — wpisujesz ją Ty.",
+        gdzie: "Dane klimatyczne dla Twojej okolicy albo własne obserwacje; pod polem pokazuję najniższą temperaturę z Twoich danych pogodowych (rok typowy), ale to nie jest temperatura projektowa — rzeczywiste mrozy bywają niższe.",
+        zakres: "Liczba od −70 do 50 °C; wpisz ujemną wartość ze znakiem minus.",
+      },
       dlugoscPanelu: {
         nazwa: "Długość panelu [mm]",
         cel: "Dłuższy bok panelu; służy do policzenia, ile sztuk zmieści się w miejscu.",
@@ -382,6 +388,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "A design decision, not a standard: usually 9–15 or narrower. In December the sun at Polish latitudes is low, so a wide window gives very large spacing; the row-spacing calculator shows a loss table for different windows.",
         zakres: "Both ends within 0–24 h, start before end; tilted mounting only.",
       },
+      tminC: {
+        nazwa: "Lowest air temperature at the site [°C]",
+        cel: "From it I compute the panel voltage in winter: the colder, the higher the open-circuit voltage, and that decides how many panels may share one string. This number has no default — you enter it.",
+        gdzie: "Climate data for your area or your own observations; under the field I show the lowest temperature from your weather data (typical year), but it is not a design temperature — real frosts can be colder.",
+        zakres: "A number from −70 to 50 °C; type negative values with a minus sign.",
+      },
       dlugoscPanelu: {
         nazwa: "Panel length [mm]",
         cel: "The longer side of the panel; used to count how many pieces fit the place.",
@@ -650,6 +662,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Часы (солнечное время, 21 декабря), в которые ряд впереди не должен затенять панели. По ним я считаю шаг рядов, а по шагу — сколько штук поместится на месте. Шире окно = больше шаг = меньше панелей. Пусто = окно приложения по умолчанию (9–15).",
         gdzie: "Проектное решение, а не норма: обычно 9–15 или уже. В декабре солнце на широтах Польши низко, поэтому широкое окно даёт очень большой шаг; таблицу потерь для разных окон показывает калькулятор шага рядов.",
         zakres: "Оба конца в пределах 0–24 ч, начало раньше конца; только для наклонного монтажа.",
+      },
+      tminC: {
+        nazwa: "Наименьшая температура воздуха на месте [°C]",
+        cel: "По ней я считаю напряжение панели зимой: чем холоднее, тем выше напряжение холостого хода, а от него зависит, сколько панелей можно соединить в одной цепочке. У этого числа нет значения по умолчанию — вводите его вы.",
+        gdzie: "Климатические данные для вашей местности или собственные наблюдения; под полем показываю наименьшую температуру из ваших погодных данных (типичный год), но это не расчётная температура — реальные морозы бывают сильнее.",
+        zakres: "Число от −70 до 50 °C; отрицательные значения вводите со знаком минус.",
       },
       dlugoscPanelu: {
         nazwa: "Длина панели [мм]",

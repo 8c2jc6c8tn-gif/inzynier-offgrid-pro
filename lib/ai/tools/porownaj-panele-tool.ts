@@ -26,6 +26,18 @@ const Panel = z.object({
   szerokoscMm: z.number().optional().describe("Krótszy bok panelu [mm] z karty"),
   masaKg: z.number().optional().describe("Masa panelu [kg] z karty"),
   bifacjalny: z.boolean().optional(),
+  elektryka: z
+    .object({
+      vocV: z.number().describe("Napięcie jałowe Voc w STC [V] z karty"),
+      vmpV: z.number().describe("Napięcie Vmp w STC [V] z karty"),
+      iscA: z.number().describe("Prąd zwarciowy Isc w STC [A] z karty"),
+      impA: z.number().describe("Prąd Imp w STC [A] z karty"),
+      betaVocPctNaC: z.number().describe("Współczynnik temperaturowy Voc β [%/°C], ujemny — z karty"),
+      maxNapieciaSystemuV: z.number().describe("Maksymalne napięcie układu DC z karty [V]"),
+      maxBezpiecznikSzeregowyA: z.number().optional().describe("Maks. bezpiecznik szeregowy z karty [A]; pomiń, jeśli karta go nie podaje"),
+    })
+    .optional()
+    .describe("Dane elektryczne z karty (wszystkie z karty, nie zgaduj) — razem z tminC pozwalają ocenić stringi"),
 })
 
 const WymiaryMiejsca = z.object({
@@ -49,6 +61,7 @@ export const PorownajPaneleToolInput = z.object({
     .number()
     .optional()
     .describe("Liczba paneli na miejscu — ta sama dla każdego porównywanego modelu; bez niej podaj wymiaryMiejsca i wymiary paneli, a policzę, ile sztuk każdego modelu się zmieści"),
+  tminC: z.number().optional().describe("Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą — tylko od usera (rok typowy z PVGIS nie jest temperaturą projektową), dopytaj"),
   wymiaryMiejsca: WymiaryMiejsca.optional().describe("Wymiary miejsca montażu — tylko od usera, nie zgaduj"),
   zuzycieMiesieczneKwh: z
     .array(z.number())
@@ -78,6 +91,24 @@ export const PorownajPaneleToolOutput = z.object({
         .object({ rzedy: z.number(), panelowNaStole: z.number(), stolowWRzedzie: z.number(), odstepM: z.number() })
         .nullable()
         .describe("Montaż pochylony: liczba rzędów, paneli nad sobą, stołów w rzędzie i odstęp rzędów [m]; null przy montażu równoległym"),
+      masaNaM2Kg: z.number().nullable().describe("Masa panelu na m² jego powierzchni [kg/m²]; null bez masy lub wymiarów"),
+      elektryka: z
+        .object({
+          vocZimaPanelaV: z.number().describe("Voc jednego panelu w najniższej temperaturze [V]"),
+          maxPaneliWSzeregu: z.number().describe("Maks. liczba paneli w stringu wg limitu napięcia układu z karty (to nie limit falownika)"),
+          warianty: z.array(
+            z.object({
+              panelowWSzeregu: z.number(),
+              stringowRownolegle: z.number(),
+              vocZimaStringuV: z.number(),
+              iscMacierzyA: z.number(),
+              ochronaStringowWymagana: z.boolean().nullable().describe("null = karta nie podaje bezpiecznika szeregowego"),
+              alternatywaKablowa: z.boolean().nullable().describe("true = bezpiecznik niewymagany, ale norma żąda kabla stringu ≥ (Ns−1)·Isc,max"),
+            }),
+          ),
+        })
+        .nullable()
+        .describe("Równe układy stringów mieszczące się w limicie napięcia panelu; null bez danych elektrycznych albo bez tminC. Bez falownika nie wskazuję najlepszego układu — okno MPPT i Voc wejścia sprawdza kolejny etap"),
       zimaKwh: z.number().describe("Energia zimą XI–II [kWh] dla podanej liczby paneli"),
       rokKwh: z.number(),
       uzytecznaRokKwh: z.number().nullable().describe("Energia wykorzystana w roku [kWh]; null bez zużycia"),
@@ -124,7 +155,8 @@ export function utworzPorownajPaneleTool(
       "(moc, wymiary, γ, NOCT, degradacja, cena) podaje user z karty katalogowej — braków nie zgaduj, zostaw puste. " +
       "Liczbę paneli podaje user albo wynika z wymiarów miejsca (wtedy każdy model ma własną liczbę sztuk); z miesięcznym zużyciem wycenia tylko energię wykorzystaną. " +
       "Przy taryfie dwustrefowej (G12) wycenia energię z godzin taniej strefy po cenie nocnej. " +
-      "Użyj, gdy user waha się między dwoma lub więcej modelami paneli albo pyta, który panel da więcej zimą.",
+      "Z danymi elektrycznymi z karty i najniższą temperaturą miejsca ocenia też napięcie stringów zimą, limit paneli w szeregu i ochronę stringów. " +
+      "Użyj, gdy user waha się między dwoma lub więcej modelami paneli, pyta, który panel da więcej zimą, albo ile paneli wolno połączyć w jednym stringu.",
     inputSchema: PorownajPaneleToolInput,
     outputSchema: PorownajPaneleToolOutput,
     operationType: "read",
@@ -159,6 +191,7 @@ export function utworzPorownajPaneleTool(
         szerokoscMm: p.szerokoscMm ?? null,
         masaKg: p.masaKg ?? null,
         bifacjalny: p.bifacjalny ?? false,
+        elektryka: p.elektryka ? { ...p.elektryka, maxBezpiecznikSzeregowyA: p.elektryka.maxBezpiecznikSzeregowyA ?? null } : null,
       }))
       const wynik = calculatePorownywarkaPaneli({
         szerokoscGeograficzna: input.szerokoscGeograficzna,
@@ -168,6 +201,7 @@ export function utworzPorownajPaneleTool(
         liczbaPaneli: input.liczbaPaneli ?? null,
         wymiaryMiejsca: input.wymiaryMiejsca ?? null,
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
+        tminC: input.tminC ?? null,
         panele,
         wycena: strefowa
           ? { rodzaj: "dzienNoc", zlKwhDzien: input.cenaDzienZlKwh!, zlKwhNoc: input.cenaNocZlKwh!, oknaTanie: input.oknaTanie! }
@@ -185,6 +219,22 @@ export function utworzPorownajPaneleTool(
           liczbaPaneli: p.liczbaPaneli,
           mieszcaSieSzt: p.mieszcaSie,
           rozmieszczenie: p.rozmieszczenie === null ? null : { rzedy: p.rozmieszczenie.rzedy, panelowNaStole: p.rozmieszczenie.panelowNaStole, stolowWRzedzie: p.rozmieszczenie.stolowWRzedzie, odstepM: p.rozmieszczenie.odstepM },
+          masaNaM2Kg: p.masaNaM2Kg,
+          elektryka:
+            p.elektryka === null
+              ? null
+              : {
+                  vocZimaPanelaV: p.elektryka.vocZimaPanelaV,
+                  maxPaneliWSzeregu: p.elektryka.maxPaneliWSzeregu,
+                  warianty: p.elektryka.warianty.map((w) => ({
+                    panelowWSzeregu: w.panelowWSzeregu,
+                    stringowRownolegle: w.stringowRownolegle,
+                    vocZimaStringuV: w.vocZimaStringuV,
+                    iscMacierzyA: w.iscMacierzyA,
+                    ochronaStringowWymagana: w.ochrona === null ? null : w.ochrona.wymagana,
+                    alternatywaKablowa: w.ochrona === null ? null : w.ochrona.alternatywaKablowa,
+                  })),
+                },
           zimaKwh: p.zimaKwh,
           rokKwh: p.rokKwh,
           uzytecznaRokKwh: p.uzytecznaRokKwh,

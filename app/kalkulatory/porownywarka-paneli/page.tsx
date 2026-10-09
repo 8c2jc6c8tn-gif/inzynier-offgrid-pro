@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
 import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
@@ -47,14 +48,15 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
 
 /** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
 const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
 const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   miesiace: "UI-PORP-TAB-MIESIACE",
   oplacalnosc: "UI-PORP-TAB-OPLACALNOSC",
+  elektryka: "UI-PORP-TAB-ELEKTRYKA",
   wiecej: "UI-PORP-TAB-WIECEJ",
   nadwyzka: "UI-PORP-TAB-NADWYZKA",
   miejsca: "UI-PORP-TAB-MIEJSCA",
@@ -220,6 +222,10 @@ export default function PorownywarkaPaneliPage() {
   if (!wczytano) return <StanLadowania linie={6} />
 
   const v = result.value
+  const tmyMinC = (() => {
+    const temp = dane?.dane.rekordy.flatMap((r) => (r.tempC === undefined ? [] : [r.tempC])) ?? []
+    return temp.length === 0 ? null : temp.reduce((a, b) => Math.min(a, b), Infinity)
+  })()
   const brakTemperaturyWDanych = dane !== null && !dane.dane.rekordy.some((r) => r.tempC !== undefined)
   const nazwaPanelu = (id: string) => v.panele.find((p) => p.id === id)?.nazwa ?? ""
   const wynikGotowy = result.status === "VALID" || result.status === "VALID_WITH_WARNINGS"
@@ -1013,6 +1019,7 @@ export default function PorownywarkaPaneliPage() {
                           ],
                           ["UI-PORP-MOC-KWP", (p: WynikPanelu) => `${f2(p.mocKwp)} kWp`],
                           ["UI-PORP-MASA-RAZEM", (p: WynikPanelu) => (p.masaRazemKg === null ? null : `${f0(p.masaRazemKg)} kg`)],
+                          ["UI-PORP-MASA-M2", (p: WynikPanelu) => (p.masaNaM2Kg === null ? null : `${f1(p.masaNaM2Kg)} kg/m²`)],
                           ["UI-PORP-ZIMA-KWH", (p: WynikPanelu) => `${f1(p.zimaKwh)} kWh`],
                           ["UI-PORP-ZIMA-TANIA", (p: WynikPanelu) => (p.zimaTaniaKwh === null ? null : `${f1(p.zimaTaniaKwh)} kWh`)],
                           ["UI-PORP-ROK-KWH", (p: WynikPanelu) => `${f0(p.rokKwh)} kWh`],
@@ -1049,6 +1056,17 @@ export default function PorownywarkaPaneliPage() {
                 </div>
                 <p className="text-caption text-muted-foreground">{t(v.zUzytecznoscia ? "UI-PORP-OPLACALNOSC-NOTA-UZYT" : "UI-PORP-OPLACALNOSC-NOTA")}</p>
               </div>
+            )}
+
+            {zakladka === "elektryka" && (
+              <ElektrykaPaneli
+                panele={v.panele}
+                bezDanych={wejscie.panele.filter((x) => !x.elektryka && v.panele.some((w) => w.id === x.id)).map((x) => x.nazwa)}
+                tmin={stan.tmin ?? ""}
+                onTmin={(w) => ustaw("tmin", w)}
+                tmyMinC={tmyMinC}
+                brakTmin={wejscie.tminC == null && wejscie.panele.some((x) => x.elektryka)}
+              />
             )}
 
             {zakladka === "wiecej" && (

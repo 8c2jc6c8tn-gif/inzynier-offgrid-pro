@@ -1,6 +1,6 @@
 # Orientacyjny cennik BOS (osprzęt instalacji PV) — do akceptacji właściciela
 
-**Status:** ✅ ZAAKCEPTOWANY przez właściciela 09.10.2026 (karta decyzji, opcja „Akceptuję”: zakresy z pkt 4 jako domyślne w A3, konstrukcja z flagą „bardzo orientacyjne”). Poniżej treść z czasu zbierania. Ceny nie trafiały do kodu przed akceptacją (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 9, decyzja C = opcja 2). Po akceptacji: wartości domyślne w Etapie A3, pokazywane jako zakres min–max z flagą **„orientacyjny — zweryfikuj w ofercie”**, edytowalne przez użytkownika.
+**Status:** ✅ ZAAKCEPTOWANY przez właściciela 09.10.2026 (karta decyzji, opcja „Akceptuję”: zakresy z pkt 4 jako domyślne w A4, konstrukcja z flagą „bardzo orientacyjne”). Poniżej treść z czasu zbierania. Ceny nie trafiały do kodu przed akceptacją (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 9, decyzja C = opcja 2). Po akceptacji: wartości domyślne w Etapie A4 (BOS leży w A4 wg specyfikacji), pokazywane jako zakres min–max z flagą **„orientacyjny — zweryfikuj w ofercie”**, edytowalne przez użytkownika.
 
 **Data zebrania:** 09.10.2026 (pobrane przez WebFetch/WebSearch; strony streszczane automatycznie — przed akceptacją warto sprawdzić 2–3 pozycje ręcznie we wskazanych linkach).
 
@@ -46,7 +46,7 @@ Strona kategorii: https://solarne.info/akcesoria-elektryczne-kable-wtyczki-puszk
 - **Bezpieczniki gPV 10×38 pojedynczo, rozłączniki DC 32 A z jasnym VAT od dużego dystrybutora (TIM: „na zamówienie”), Solartraders (ceny tylko dla członków):** brak publicznych cen.
 - **Cena 100 m szpuli kabla** (rabat ilościowy): brak potwierdzonych danych (Allegro/robots zablokowane) — stosować cenę za metr jako górne oszacowanie.
 
-## 4. Propozycja zakresów domyślnych do Etapu A3 (netto, zł) — DO AKCEPTACJI
+## 4. Propozycja zakresów domyślnych do Etapu A4 (netto, zł) — DO AKCEPTACJI
 
 | Pozycja | Min | Max | Podstawa |
 |---|---|---|---|

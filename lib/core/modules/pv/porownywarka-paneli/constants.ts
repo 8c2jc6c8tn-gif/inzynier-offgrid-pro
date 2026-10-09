@@ -22,6 +22,9 @@ export const MAKS_PANELI_W_ZESTAWIE = 4
 /** Montaż pochylony: stoły z 1…2 paneli jeden nad drugim (typowe konstrukcje 1P/2P); wybieram układ z największą liczbą sztuk. */
 export const PANELI_NAD_SOBA_MAKS = 2
 
+/** Dopuszczalny zakres wpisanej najniższej temperatury miejsca [°C] (A3) — kontrola literówki, nie klimat. */
+export const TMIN_ZAKRES_C: readonly [number, number] = [-70, 50]
+
 /** Horyzont liczenia kosztu zimowej kWh [lata] — „zł/kWh zimowej w 25 latach” ze specyfikacji, sekcja 6.4. */
 export const HORYZONT_LAT = 25
 

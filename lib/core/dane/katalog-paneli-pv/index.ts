@@ -5,6 +5,7 @@
  * Katalog korzysta z kart z `docs/zrodla/karta-katalogowa-*`; kolejne dochodzą z PDF-ów od właściciela.
  */
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import { elektrykaPanelu } from "./elektryka"
 
 export type PozycjaKatalogu = Omit<DanePanelu, "cenaBruttoZl"> & {
   /** Producent i seria/model do wyboru kaskadowego na ekranie (producent → seria → moc). */
@@ -535,7 +536,7 @@ function jaSolar54d40Lb(pmaxW: number): PozycjaKatalogu {
   }
 }
 
-export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [
+const KATALOG_BEZ_ELEKTRYKI: readonly PozycjaKatalogu[] = [
   ...[485, 490, 495, 500, 505, 510].map(jaSolar),
   ...[485, 490, 495, 500, 505, 510].map(jaSolar60d40),
   ...[570, 575, 580, 585, 590, 595].map(astronergyN5),
@@ -554,6 +555,9 @@ export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [
   ...[430, 435, 440, 445, 450, 455, 460, 465, 470, 475].map(trinaVertexSPlus),
   ...[500, 505, 510, 515, 520].map(hyundaiHit),
 ]
+
+/** Katalog z danymi elektrycznymi z tabel STC kart (A3) dołączonymi po identyfikatorze wpisu. */
+export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = KATALOG_BEZ_ELEKTRYKI.map((p) => ({ ...p, elektryka: elektrykaPanelu(p.id) }))
 
 export function znajdzPanelKatalogu(id: string): PozycjaKatalogu | undefined {
   return KATALOG_PANELI_PV.find((p) => p.id === id)

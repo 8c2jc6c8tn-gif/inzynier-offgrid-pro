@@ -173,6 +173,23 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(w.ostrzezenia.some((x) => x.includes("Panel C"))).toBe(true)
   })
 
+  it("A3: dane elektryczne z karty + tminC → napięcie zimą, limit w szeregu i warianty stringów; bez tminC elektryka null i prośba w ostrzeżeniu", async () => {
+    // JA 500 W (karta): Voc 43,85, Vmp 36,91, Isc 14,42, Imp 13,55, β −0,25 %/°C, 1500 V, bezpiecznik 30 A; −20 °C → Voc zimą 48,7831 V
+    const elektryka = { vocV: 43.85, vmpV: 36.91, iscA: 14.42, impA: 13.55, betaVocPctNaC: -0.25, maxNapieciaSystemuV: 1500, maxBezpiecznikSzeregowyA: 30 }
+    const panele = [{ ...wejscie.panele[0]!, liczbaPaneli: undefined, dlugoscMm: 1953, szerokoscMm: 1134, masaKg: 27.3, elektryka }]
+    const z = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, liczbaPaneli: 12, tminC: -20, panele })
+    const e = z.panele[0]!.elektryka!
+    expect(e.vocZimaPanelaV).toBeCloseTo(48.7831, 4)
+    expect(e.maxPaneliWSzeregu).toBe(30)
+    expect(e.warianty.map((w) => [w.panelowWSzeregu, w.stringowRownolegle])).toEqual([[12, 1], [6, 2], [4, 3], [3, 4], [2, 6], [1, 12]])
+    expect(e.warianty.find((w) => w.stringowRownolegle === 4)).toMatchObject({ ochronaStringowWymagana: true, alternatywaKablowa: false })
+    expect(e.warianty.find((w) => w.stringowRownolegle === 3)).toMatchObject({ ochronaStringowWymagana: false, alternatywaKablowa: true })
+    expect(z.panele[0]!.masaNaM2Kg).toBeCloseTo(27.3 / (1.953 * 1.134), 6)
+    const bez = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, liczbaPaneli: 12, panele })
+    expect(bez.panele[0]!.elektryka).toBeNull()
+    expect(bez.ostrzezenia.some((x) => x.includes("temperatur"))).toBe(true)
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzPorownajPaneleTool(zly).handler(wejscie)

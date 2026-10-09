@@ -67,3 +67,13 @@ export function panelSieNieMiesciPorp(nazwa: string): Warning {
 export function liczbaPrzekraczaMiejscePorp(nazwa: string, wpisano: number, miesci: number): Warning {
   return ostrzezenie("PORP-LICZBA-PRZEKRACZA-MIEJSCE", "warning", `„${nazwa}”: wpisano ${wpisano} szt., w podanych wymiarach mieści się ${miesci}`, { nazwa, wpisano, miesci }, "liczbaPaneli")
 }
+
+/** A3: a panel has electrical data on the card, but the lowest temperature was not given — the string voltage in winter cannot be computed. */
+export function elektrykaBrakTminPorp(): Warning {
+  return ostrzezenie("PORP-ELEKTRYKA-BRAK-TMIN", "info", "brak najniższej temperatury miejsca — napięcie stringów zimą nie zostało policzone", undefined, "tminC")
+}
+
+/** A3: the catalogue entry or the typed panel has no electrical data (Voc, Vmp, Isc, Imp, β) — strings are not assessed for it. */
+export function elektrykaBrakDanychPorp(nazwa: string): Warning {
+  return ostrzezenie("PORP-ELEKTRYKA-BRAK-DANYCH", "info", `panel „${nazwa}” bez danych elektrycznych — stringi nieocenione`, { nazwa }, "elektryka")
+}

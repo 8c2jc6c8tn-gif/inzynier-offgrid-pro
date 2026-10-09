@@ -2,6 +2,7 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
+import { ocenElektryke, type WynikElektryki } from "./elektryka"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
 import { oknoMiejsca, pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca, wymiaryUzytkowe, type Pojemnosc, type RozmieszczeniePochylone } from "./pakowanie"
 import {
@@ -17,6 +18,8 @@ import {
   brakKryteriowPorp,
   brakTemperaturyGodzinowejPorp,
   brakWymiarowPaneluPorp,
+  elektrykaBrakDanychPorp,
+  elektrykaBrakTminPorp,
   liczbaPrzekraczaMiejscePorp,
   modelUproszczonyPorp,
   oknoOdstepuBezSloncaPorp,
@@ -42,6 +45,10 @@ export type WynikPanelu = {
   mocKwp: number
   /** Masa N paneli [kg]; `null`, gdy karta nie podaje masy. */
   masaRazemKg: number | null
+  /** Masa panelu na m² jego powierzchni [kg/m²] (obciążenie konstrukcji od paneli, bez stelaża i balastu); `null` bez masy albo wymiarów. */
+  masaNaM2Kg: number | null
+  /** Elektryka bez falownika (A3); `null` = brak danych elektrycznych panelu albo nie podano najniższej temperatury. */
+  elektryka: WynikElektryki | null
   /** Energia N paneli w miesiącach [kWh], styczeń pierwszy. */
   miesiaceKwh: number[]
   zimaKwh: number
@@ -254,6 +261,8 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (brakTemperatury) warnings.push(brakTemperaturyGodzinowejPorp())
   if (bezTemperatury.length > 0) warnings.push(modelUproszczonyPorp(bezTemperatury.map((p) => p.nazwa).join(", ")))
   for (const p of input.panele) if (p.bifacjalny) warnings.push(bifacjalnyPominietyPorp(p.nazwa))
+  for (const p of input.panele) if (!p.elektryka) warnings.push(elektrykaBrakDanychPorp(p.nazwa))
+  if ((input.tminC === null || input.tminC === undefined) && input.panele.some((p) => p.elektryka)) warnings.push(elektrykaBrakTminPorp())
 
   const stawka = stawkaKwh(input.wycena)
   const strefy = input.wycena?.rodzaj === "dzienNoc" ? input.wycena : null
@@ -308,6 +317,8 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
       rozmieszczenie: pojemnosc?.pochylone ?? null,
       mocKwp: (n * p.pmaxW) / 1000,
       masaRazemKg: p.masaKg === null ? null : p.masaKg * n,
+      masaNaM2Kg: p.masaKg === null || p.dlugoscMm === null || p.szerokoscMm === null ? null : p.masaKg / ((p.dlugoscMm / 1000) * (p.szerokoscMm / 1000)),
+      elektryka: ocenElektryke(p, n, input.tminC),
       miesiaceKwh,
       zimaKwh: ps.zimaKwh,
       zimaTaniaKwh: strefy ? ps.zimaTaniaKwh : null,

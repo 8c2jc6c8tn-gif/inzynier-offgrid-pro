@@ -3,7 +3,7 @@
  * korzystają z niego też zestawy porównań, ranking katalogu i porównanie miejsc (A2). To warstwa UI (teksty z pól
  * formularza), nie rdzeń obliczeniowy — rdzeń (`lib/core`) niczego stąd nie importuje.
  */
-import type { PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
+import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
@@ -56,6 +56,8 @@ export type FormularzStan = {
   miejsca: MiejsceSeed[]
   aktywneMiejsceId: string
   uzyjZuzycia: boolean
+  /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); puste = nie podano. Szkice sprzed A3 nie mają klucza. */
+  tmin?: string
   panele: PanelSeed[]
   wycena: RodzajWyceny
   stawka: string
@@ -109,6 +111,7 @@ export const STAN_POCZATKOWY: FormularzStan = {
   miejsca: [MIEJSCE_PUSTE("m1")],
   aktywneMiejsceId: "m1",
   uzyjZuzycia: true,
+  tmin: "",
   panele: [PANEL_PUSTY("p1"), PANEL_PUSTY("p2")],
   wycena: "",
   stawka: "",
@@ -220,6 +223,8 @@ export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu 
     szerokoscMm: liczba(p.szerokosc) ?? null,
     masaKg: liczba(p.masa) ?? null,
     bifacjalny: p.bifacjalny,
+    // Electrical data come only from the catalogue card; a hand-edited datasheet number clears `katalogId`, so they never outlive a changed panel.
+    elektryka: p.katalogId === "" ? null : (znajdzPanelKatalogu(p.katalogId)?.elektryka ?? null),
   }
 }
 
@@ -266,6 +271,7 @@ export function budujWejscie(a: {
     liczbaPaneli: liczba(m.liczbaPaneli) ?? null,
     wymiaryMiejsca: wymiaryZMiejsca(m),
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
+    tminC: liczba(stan.tmin ?? "") ?? null,
     panele,
     wycena,
     kryteria: stan.kryteria,
