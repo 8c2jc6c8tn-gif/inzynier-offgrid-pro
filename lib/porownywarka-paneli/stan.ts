@@ -87,6 +87,10 @@ export type FormularzStan = {
   bosCeny?: Partial<Record<BosId, string>>
   /** Chosen string layout `"<in series>x<parallel>"` per panel id, for the accessory estimate; absent = the proposed layout. */
   bosUklad?: Record<string, string>
+  /** Optional text for the printed offer sheet (A4): who it is for, who prepares it and free notes. Drafts saved before have no keys. */
+  ofertaDla?: string
+  ofertaWykonawca?: string
+  ofertaUwagi?: string
   panele: PanelSeed[]
   wycena: RodzajWyceny
   stawka: string

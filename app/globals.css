@@ -275,3 +275,14 @@
 .czcionka-pogrubiona {
   --waga-tekstu: 550;
 }
+
+/* Wydruk oferty Porównywarki paneli (components/porownywarka-paneli/oferta.tsx): na czas wydruku zostaje tylko kartka
+   renderowana do `.druk-root`; reszta strony (nawigacja, formularz, asystent) znika, więc nie powstają puste strony. */
+@media print {
+  body.druk-oferty > :not(.druk-root) {
+    display: none !important;
+  }
+  body.druk-oferty {
+    background: white;
+  }
+}

@@ -2068,7 +2068,7 @@ export const dictionaryPl = {
   "PORP-ZAL-BEZ-STRAT-SYSTEMOWYCH": "Energia bez strat systemowych (kable, regulator, zabrudzenie) — są takie same dla wszystkich porównywanych paneli, więc zmieniają kWh bezwzględnie, ale nie kolejność.",
   "PORP-ZAL-TA-SAMA-LICZBA-PANELI": "Każdy panel liczony dla tej samej liczby sztuk ({n}). Różne wymiary paneli mogą na tej samej powierzchni dać różną liczbę sztuk — wpisz wymiary miejsca zamiast liczby paneli, a policzę to osobno dla każdego.",
   "PORP-ZAL-SKALA-WZGLEDNA": "Gwiazdki są względne w obrębie porównywanego zestawu: najlepszy panel na danym kryterium dostaje 10, pozostałe proporcjonalnie. Wagi kryteriów są wstępne i przeliczane do 100% z kryteriów, które da się policzyć dla wszystkich paneli.",
-  "PORP-ZAL-BEZ-BOS": "Koszty dodatkowe (stelaż, kable, złączki, zabezpieczenia, montaż) nie są uwzględnione — wynik w złotówkach jest uproszczony i obejmuje tylko cenę paneli.",
+  "PORP-ZAL-BEZ-BOS": "Koszty dodatkowe (stelaż, kable, złączki, zabezpieczenia, montaż) nie wchodzą do wyniku porównania — okres zwrotu i koszt kWh obejmują tylko cenę paneli. Orientacyjny koszt osprzętu policzysz w zakładce „Falownik i osprzęt”.",
   "PORP-ZAL-HORYZONT-LAT": "Koszt zimowej kWh liczony w horyzoncie {lata} lat: cena paneli podzielona przez sumę zimowej energii z tych lat.",
   "PORP-ZAL-TEMPERATURA-OGNIWA": "Temperatura ogniwa = temperatura powietrza + (NOCT − 20) / 800 · nasłonecznienie, a moc zmienia się o γ na każdy stopień powyżej 25 °C. NOCT i γ pochodzą z kart paneli.",
   "PORP-ZAL-SWIATLO-INTERPOLACJA": "Sprawność względna przy słabym świetle: wartość z karty przy 200 W/m², liniowo do 100% przy 1000 W/m²; poniżej 200 W/m² przyjęto wartość z 200 W/m². Karta nie podaje nic pomiędzy punktami.",

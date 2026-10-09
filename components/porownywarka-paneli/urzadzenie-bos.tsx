@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { CENNIK_BOS, VAT_OSPRZETU, type BosId } from "@/lib/core/dane/cennik-bos"
-import { znajdzUrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
-import { BOS_DOMYSLNIE_WYLACZONE, obliczBos, type WynikBos } from "@/lib/core/modules/pv/porownywarka-paneli/bos"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { limityZUrzadzenia, ocenDopasowanie, type LimityWejsciaPv, type OcenaWariantuUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
+import type { LimityWejsciaPv, OcenaWariantuUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { useTranslate, useSymbolWaluty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
+import { kluczUkladu, podsumujUrzadzenie, wylaczoneBos, type PanelNaUrzadzeniu } from "@/lib/porownywarka-paneli/urzadzenie"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
@@ -38,8 +37,6 @@ const KLUCZ_JEDNOSTKI = {
 } as const
 
 type Tlumacz = ReturnType<typeof useTranslate>
-
-const kluczUkladu = (w: OcenaWariantuUrzadzenia) => `${w.panelowWSzeregu}x${w.stringowRownolegle}`
 
 /** Value of a catalogue limit as text, or the standard "the datasheet does not give it" wording. */
 function zakresOkna(min: number | null, max: number | null): string | null {
@@ -67,38 +64,17 @@ export function UrzadzenieIBos(p: {
   const waluta = useSymbolWaluty()
   const { kurs } = useDenominacja()
   const { stan, ustaw } = p
-  const urzadzenie = stan.urzadzenieId ? znajdzUrzadzeniePv(stan.urzadzenieId) : undefined
+  const podsumowanie = useMemo(() => podsumujUrzadzenie({ stan, panele: p.panele, dane: p.dane, kurs }), [stan, p.panele, p.dane, kurs])
+  const urzadzenie = podsumowanie?.urzadzenie
+  const limity = podsumowanie?.limity ?? null
+  const mikro = podsumowanie?.mikro ?? false
+  const wylaczone = wylaczoneBos(stan)
   const akumV = liczba(stan.akumV ?? "") ?? null
-  const limity = useMemo(() => (urzadzenie ? limityZUrzadzenia(urzadzenie, akumV) : null), [urzadzenie, akumV])
-  const wylaczone = stan.bosWylaczone ?? BOS_DOMYSLNIE_WYLACZONE
-  const cenyNadpisane = useMemo(() => {
-    const wynik: Partial<Record<BosId, number>> = {}
-    for (const [id, tekst] of Object.entries(stan.bosCeny ?? {})) {
-      const x = liczba(tekst)
-      if (x !== undefined && x >= 0) wynik[id as BosId] = x
-    }
-    return wynik
-  }, [stan.bosCeny])
-  const cenaUrzadzenia = liczba(stan.cenaUrzadzenia ?? "")
-  const trasaM = liczba(stan.trasaM ?? "") ?? null
-  const mikro = urzadzenie?.rodzaj === "mikroinwerter-sieciowy"
   const wymagaAkumulatora = urzadzenie !== undefined && (urzadzenie.napieciaAkumulatoraV?.length ?? 0) > 1 && urzadzenie.mocPvNominalna !== null
 
   const maDaneElektryczne = p.dane.some((x) => x.elektryka)
   // Results carry the electrics only when the lowest temperature is typed, so "no results at all" means that temperature is missing.
   const brakTmin = maDaneElektryczne && p.panele.every((x) => x.elektryka === null)
-
-  const ocenione = useMemo(
-    () =>
-      limity === null
-        ? []
-        : p.panele.flatMap((w) => {
-            const dane = p.dane.find((x) => x.id === w.id)
-            const d = dane && w.elektryka ? ocenDopasowanie(dane, w.elektryka, w.liczbaPaneli, limity) : null
-            return d ? [{ wynik: w, dopasowanie: d }] : []
-          }),
-    [limity, p.panele, p.dane],
-  )
 
   const przelaczPozycje = (id: BosId, wliczona: boolean) =>
     ustaw("bosWylaczone", wliczona ? wylaczone.filter((x) => x !== id) : [...wylaczone.filter((x) => x !== id), id])
@@ -169,20 +145,12 @@ export function UrzadzenieIBos(p: {
         </div>
       )}
 
-      {ocenione.map(({ wynik, dopasowanie }) => (
+      {podsumowanie?.panele.map((x) => (
         <PanelNaUrzadzeniu
-          key={wynik.id}
-          wynik={wynik}
-          dopasowanie={dopasowanie}
+          key={x.wynik.id}
+          panel={x}
           mikro={mikro}
-          wybranyUklad={stan.bosUklad?.[wynik.id] ?? null}
-          onUklad={(klucz) => ustaw("bosUklad", { ...stan.bosUklad, [wynik.id]: klucz })}
-          liczbaWejsc={limity?.liczbaWejsc ?? 1}
-          trasaM={trasaM}
-          cenaUrzadzenia={cenaUrzadzenia ?? null}
-          wylaczone={wylaczone}
-          cenyNadpisane={cenyNadpisane}
-          kurs={kurs}
+          onUklad={(klucz) => ustaw("bosUklad", { ...stan.bosUklad, [x.wynik.id]: klucz })}
           waluta={waluta}
         />
       ))}
@@ -223,7 +191,7 @@ export function UrzadzenieIBos(p: {
         </details>
       )}
 
-      {urzadzenie && ocenione.length > 0 && (
+      {podsumowanie && podsumowanie.panele.length > 0 && (
         <>
           <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-NOTA")}</p>
           <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-NOTA-ILOSCI")}</p>
@@ -269,47 +237,17 @@ function LimityUrzadzenia({ limity }: { limity: LimityWejsciaPv }) {
 }
 
 type PanelProps = {
-  wynik: WynikPanelu
-  dopasowanie: NonNullable<ReturnType<typeof ocenDopasowanie>>
+  panel: PanelNaUrzadzeniu
   mikro: boolean
-  wybranyUklad: string | null
   onUklad: (klucz: string) => void
-  liczbaWejsc: number
-  trasaM: number | null
-  cenaUrzadzenia: number | null
-  wylaczone: readonly BosId[]
-  cenyNadpisane: Partial<Record<BosId, number>>
-  kurs: number
   waluta: string
 }
 
 function PanelNaUrzadzeniu(p: PanelProps) {
   const t = useTranslate()
-  const { wynik, dopasowanie: d } = p
-  const e = wynik.elektryka!
+  const { wynik, dopasowanie: d, wybrany, bos } = p.panel
   const proponowany = d.proponowany === null ? null : d.warianty[d.proponowany]!
   const mieszczace = d.warianty.filter((w) => w.liczbaUrzadzen !== null)
-  const wybrany = mieszczace.find((w) => kluczUkladu(w) === p.wybranyUklad) ?? proponowany
-  const wybranyIndeks = wybrany === null ? -1 : d.warianty.indexOf(wybrany)
-  const ochronaA3 = wybranyIndeks < 0 ? null : e.warianty[wybranyIndeks]?.ochrona ?? null
-
-  const bos: WynikBos | null =
-    wybrany === null || p.mikro
-      ? null
-      : obliczBos(
-          {
-            stringow: wybrany.stringowRownolegle,
-            paneli: wynik.liczbaPaneli,
-            wejscUzytych: Math.min(wybrany.stringowRownolegle, wybrany.liczbaUrzadzen! * p.liczbaWejsc),
-            ochronaStringowWymagana: ochronaA3?.wymagana ?? false,
-            dlugoscTrasyM: p.trasaM,
-          },
-          { wylaczone: p.wylaczone, cenyNadpisane: p.cenyNadpisane, kurs: p.kurs },
-        )
-  const koszUrzadzen = wybrany === null || p.cenaUrzadzenia === null ? 0 : p.cenaUrzadzenia * wybrany.liczbaUrzadzen!
-  const razemMin = wynik.cenaRazemZl === null || bos === null ? null : wynik.cenaRazemZl + koszUrzadzen + bos.sumaMin
-  const razemMax = wynik.cenaRazemZl === null || bos === null ? null : wynik.cenaRazemZl + koszUrzadzen + bos.sumaMax
-  const zakresZl = (min: number, max: number) => (Math.round(min) === Math.round(max) ? `${f0(min)} ${p.waluta}` : `${f0(min)}–${f0(max)} ${p.waluta}`)
 
   const limity = d.limity
   const mocRodzaj = limity.mocLimitRodzaj === "wejscie-pv" ? "UI-PORP-URZ-MOC-R-WEJSCIE" : limity.mocLimitRodzaj === "wyjscie-ac" ? "UI-PORP-URZ-MOC-R-AC" : "UI-PORP-URZ-MOC-R-NOMINALNA"
@@ -381,42 +319,60 @@ function PanelNaUrzadzeniu(p: PanelProps) {
             </PoleSelect>
           )}
           <p className="text-small">{t("UI-PORP-URZ-BOS-UKLAD-WYBRANY", { s: wybrany.panelowWSzeregu, p: wybrany.stringowRownolegle })}</p>
-          <ul className="flex flex-col gap-1">
-            {bos.linie
-              .filter((l) => l.wliczona)
-              .map((l) => (
-                <li key={l.id} className="rounded-md border p-2 text-small">
-                  <p className="font-medium">
-                    {t(KLUCZ_POZYCJI[l.id])}
-                    {l.pewnosc === "bardzo-orientacyjna" && <span className="ml-2 text-caption text-muted-foreground">({t("UI-PORP-URZ-BOS-BARDZO")})</span>}
-                  </p>
-                  <p className="tabular-nums text-muted-foreground">
-                    {l.ilosc === null
-                      ? t("UI-PORP-URZ-BOS-BRAK-ILOSCI")
-                      : t("UI-PORP-URZ-BOS-WIERSZ", {
-                          n: f0(l.ilosc),
-                          j: t(KLUCZ_JEDNOSTKI[l.jednostka]),
-                          cena: l.cenaMin === l.cenaMax ? f2(l.cenaMin) : `${f2(l.cenaMin)}–${f2(l.cenaMax)}`,
-                          waluta: p.waluta,
-                        })}
-                    {l.sumaMin !== null && l.sumaMax !== null && ` = ${zakresZl(l.sumaMin, l.sumaMax)}`}
-                  </p>
-                  {l.id === "bezpiecznik-dc" && <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-BOS-BEZPIECZNIK-UWAGA")}</p>}
-                </li>
-              ))}
-          </ul>
-          {ochronaA3 === null && <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-BOS-OCHRONA-NIEZNANA")}</p>}
-          {bos.brakIlosci.includes("kabel-pv") && <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-BOS-BRAK-TRASY")}</p>}
-          <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-SUMA", { zakres: zakresZl(bos.sumaMin, bos.sumaMax) })}</p>
-          {razemMin !== null && razemMax !== null ? (
-            <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-RAZEM", { zakres: zakresZl(razemMin, razemMax) })}</p>
-          ) : (
-            <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-BOS-RAZEM-BRAK")}</p>
-          )}
+          <PozycjeBos panel={p.panel} waluta={p.waluta} />
           <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-BOS-NOTA")}</p>
         </div>
       )}
     </section>
+  )
+}
+
+const zakresKwot = (min: number, max: number, waluta: string) => (Math.round(min) === Math.round(max) ? `${f0(min)} ${waluta}` : `${f0(min)}–${f0(max)} ${waluta}`)
+
+/**
+ * Pozycje osprzętu wybranego układu z ilością, ceną jednostkową, sumami i łączną kwotą — ta sama lista na ekranie i w wydruku oferty
+ * (`druk`: bez ramek, ciemny tekst na białej kartce).
+ */
+export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?: boolean }) {
+  const t = useTranslate()
+  const { bos, ochronaA3, razemMin, razemMax } = p.panel
+  if (!bos) return null
+  const przygaszony = p.druk ? "text-neutral-700" : "text-muted-foreground"
+  return (
+    <>
+      <ul className="flex flex-col gap-1">
+        {bos.linie
+          .filter((l) => l.wliczona)
+          .map((l) => (
+            <li key={l.id} className={p.druk ? "border-b border-neutral-300 py-1 text-small" : "rounded-md border p-2 text-small"}>
+              <p className="font-medium">
+                {t(KLUCZ_POZYCJI[l.id])}
+                {l.pewnosc === "bardzo-orientacyjna" && <span className={`ml-2 text-caption ${przygaszony}`}> ({t("UI-PORP-URZ-BOS-BARDZO")})</span>}
+              </p>
+              <p className={`tabular-nums ${przygaszony}`}>
+                {l.ilosc === null
+                  ? t("UI-PORP-URZ-BOS-BRAK-ILOSCI")
+                  : t("UI-PORP-URZ-BOS-WIERSZ", {
+                      n: f0(l.ilosc),
+                      j: t(KLUCZ_JEDNOSTKI[l.jednostka]),
+                      cena: l.cenaMin === l.cenaMax ? f2(l.cenaMin) : `${f2(l.cenaMin)}–${f2(l.cenaMax)}`,
+                      waluta: p.waluta,
+                    })}
+                {l.sumaMin !== null && l.sumaMax !== null && ` = ${zakresKwot(l.sumaMin, l.sumaMax, p.waluta)}`}
+              </p>
+              {l.id === "bezpiecznik-dc" && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-BEZPIECZNIK-UWAGA")}</p>}
+            </li>
+          ))}
+      </ul>
+      {ochronaA3 === null && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-OCHRONA-NIEZNANA")}</p>}
+      {bos.brakIlosci.includes("kabel-pv") && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-BRAK-TRASY")}</p>}
+      <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-SUMA", { zakres: zakresKwot(bos.sumaMin, bos.sumaMax, p.waluta) })}</p>
+      {razemMin !== null && razemMax !== null ? (
+        <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-RAZEM", { zakres: zakresKwot(razemMin, razemMax, p.waluta) })}</p>
+      ) : (
+        <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-RAZEM-BRAK")}</p>
+      )}
+    </>
   )
 }
 

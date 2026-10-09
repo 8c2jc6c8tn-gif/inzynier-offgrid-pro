@@ -251,6 +251,24 @@ export const pl = {
         gdzie: "Lista układów z poprzedniej sekcji tej zakładki, które mieszczą się w limitach urządzenia.",
         zakres: "Jeden z układów mieszczących się w limitach.",
       },
+      ofertaDla: {
+        nazwa: "Dla kogo jest zestawienie",
+        cel: "Tekst wydrukowany w nagłówku zestawienia, żeby odbiorca wiedział, czego dotyczy. Zostaje tylko w tej przeglądarce.",
+        gdzie: "Dowolny: nazwisko klienta, nazwa obiektu, adres.",
+        zakres: "Opcjonalnie; puste = linia nie pojawia się na wydruku.",
+      },
+      ofertaWykonawca: {
+        nazwa: "Wykonawca lub sprzedawca",
+        cel: "Tekst wydrukowany w nagłówku zestawienia; informuje, kto przygotował porównanie.",
+        gdzie: "Twoja firma albo imię i nazwisko.",
+        zakres: "Opcjonalnie; puste = linia nie pojawia się na wydruku.",
+      },
+      ofertaUwagi: {
+        nazwa: "Uwagi do zestawienia",
+        cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
+        gdzie: "Wpisz sam; nie wpisuję tu nic z góry.",
+        zakres: "Opcjonalnie; puste = sekcja „Uwagi” nie pojawia się na wydruku.",
+      },
       gamma: {
         nazwa: "Współczynnik temperaturowy mocy γ [%/°C]",
         cel: "O ile procent spada moc na każdy stopień powyżej 25 °C ogniwa (zwykle liczba ujemna). Panel o mniejszym |γ| traci mniej w upale i zyskuje mniej w mrozie.",
@@ -598,6 +616,24 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "The list of layouts from the previous section of this tab that fit the device limits.",
         zakres: "One of the layouts that fit the limits.",
       },
+      ofertaDla: {
+        nazwa: "Who the summary is for",
+        cel: "Text printed in the header of the summary so the reader knows what it concerns. It stays only in this browser.",
+        gdzie: "Anything: the client's name, the site name, an address.",
+        zakres: "Optional; empty = the line does not appear on the printout.",
+      },
+      ofertaWykonawca: {
+        nazwa: "Installer or seller",
+        cel: "Text printed in the header of the summary; says who prepared the comparison.",
+        gdzie: "Your company or your name.",
+        zakres: "Optional; empty = the line does not appear on the printout.",
+      },
+      ofertaUwagi: {
+        nazwa: "Notes to the summary",
+        cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
+        gdzie: "Type them yourself; nothing is filled in beforehand.",
+        zakres: "Optional; empty = the “Notes” section does not appear on the printout.",
+      },
       gamma: {
         nazwa: "Power temperature coefficient γ [%/°C]",
         cel: "By how many percent the power drops for every degree of cell temperature above 25 °C (usually a negative number). A panel with a smaller |γ| loses less in heat and gains less in frost.",
@@ -944,6 +980,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Количество кабеля, разъёмов и защиты зависит от числа цепочек. По умолчанию беру схему из предложения (наименьшее число устройств, затем наименьшее число цепочек); здесь можно выбрать другую из укладывающихся в пределы.",
         gdzie: "Список схем из предыдущего раздела этой вкладки, которые укладываются в пределы устройства.",
         zakres: "Одна из схем, укладывающихся в пределы.",
+      },
+      ofertaDla: {
+        nazwa: "Для кого сводка",
+        cel: "Текст, печатаемый в шапке сводки, чтобы читатель знал, о чём она. Хранится только в этом браузере.",
+        gdzie: "Любой: имя клиента, название объекта, адрес.",
+        zakres: "Необязательно; пусто = строка в печати не появляется.",
+      },
+      ofertaWykonawca: {
+        nazwa: "Исполнитель или продавец",
+        cel: "Текст, печатаемый в шапке сводки; показывает, кто подготовил сравнение.",
+        gdzie: "Ваша компания или ваше имя.",
+        zakres: "Необязательно; пусто = строка в печати не появляется.",
+      },
+      ofertaUwagi: {
+        nazwa: "Примечания к сводке",
+        cel: "Ваши собственные предложения, которые попадут в печать под сравнением (например, срок, условия, что не входит в сводку).",
+        gdzie: "Введите сами; заранее ничего не подставляется.",
+        zakres: "Необязательно; пусто = раздел «Примечания» в печати не появляется.",
       },
       gamma: {
         nazwa: "Температурный коэффициент мощности γ [%/°C]",
