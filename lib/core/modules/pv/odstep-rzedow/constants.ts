@@ -16,6 +16,12 @@ export const DZIEN_PROJEKTOWY = { rok: 2026, miesiac: 11, dzien: 21 } as const
  */
 export const OKNO_PROJEKTOWE_DOMYSLNE = { odH: 9, doH: 15 } as const
 
+/**
+ * Dwa typowe okna do szybkiego wyboru (propozycja właściciela 09.10.2026): 9–15 (domyślne) i 10–14, które mieści więcej
+ * paneli kosztem zimowego cienia poza oknem. Użytkownik może wpisać dowolne własne.
+ */
+export const OKNA_TYPOWE: readonly { odH: number; doH: number }[] = [OKNO_PROJEKTOWE_DOMYSLNE, { odH: 10, doH: 14 }]
+
 /** Krok próbkowania okna projektowego [min]. */
 export const KROK_OKNA_MIN = 10
 

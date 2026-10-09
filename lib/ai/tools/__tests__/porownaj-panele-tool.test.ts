@@ -162,6 +162,17 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(w.zalozenia.some((x) => x.includes("10") && x.includes("14"))).toBe(true)
   })
 
+  it("panel bez NOCT obok kompletnego → wykluczony i wymieniony w wyniku, kompletny liczony z temperaturą", async () => {
+    const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({
+      ...wejscie,
+      panele: [wejscie.panele[0]!, { nazwa: "Panel C", pmaxW: 400, cenaBruttoZl: 300, gammaPctNaC: -0.3 }],
+    })
+    expect(w.uwzglednionaTemperatura).toBe(true)
+    expect(w.panele.map((p) => p.nazwa)).toEqual(["Panel A"])
+    expect(w.wykluczone).toEqual([{ nazwa: "Panel C", brakuje: ["noct"] }])
+    expect(w.ostrzezenia.some((x) => x.includes("Panel C"))).toBe(true)
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzPorownajPaneleTool(zly).handler(wejscie)

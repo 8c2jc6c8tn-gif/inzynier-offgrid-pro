@@ -70,9 +70,23 @@ describe("calculatePorownywarkaPaneli — uzysk (referencje ręczne)", () => {
     expect(w.value.panele[0]!.miesiaceKwh[0]).toBeCloseTo(3 * 79.5243, 3)
   })
 
-  it("jeden panel bez γ → uproszczony model dla WSZYSTKICH (P_STC · G / 1000): styczeń 74,4, lipiec 223,2 kWh", () => {
+  it("panel bez γ obok kompletnego → wykluczony („brak danych”), kompletny liczony z temperaturą (decyzja właściciela 09.10.2026)", () => {
     const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" }), panel({ id: "B", gammaPctNaC: null })]))
+    expect(w.value.zakresModelu.temperatura).toBe(true)
+    expect(w.value.panele.map((x) => x.id)).toEqual(["A"])
+    expect(w.value.panele[0]!.miesiaceKwh[0]).toBeCloseTo(79.5243, 3)
+    expect(w.value.wykluczone).toEqual([{ id: "B", nazwa: "Panel B", brakuje: ["gamma"] }])
+    expect(w.warnings.map((x) => x.code)).toContain("PORP-PANEL-WYKLUCZONY")
+    expect(w.warnings.map((x) => x.code)).not.toContain("PORP-MODEL-UPROSZCZONY")
+  })
+
+  it("brak NOCT: wykluczony; brak γ albo NOCT u wszystkich → nikt nie jest wykluczony, model uproszczony (P_STC · G / 1000): styczeń 74,4, lipiec 223,2 kWh", () => {
+    const bezNoct = calculatePorownywarkaPaneli(wejscie([panel({ id: "A" }), panel({ id: "B", noctC: null })]))
+    expect(bezNoct.value.wykluczone[0]).toMatchObject({ id: "B", brakuje: ["noct"] })
+    const w = calculatePorownywarkaPaneli(wejscie([panel({ id: "A", noctC: null }), panel({ id: "B", gammaPctNaC: null })]))
     expect(w.value.zakresModelu.temperatura).toBe(false)
+    expect(w.value.wykluczone).toEqual([])
+    expect(w.value.panele).toHaveLength(2)
     expect(w.value.panele[0]!.miesiaceKwh[0]).toBeCloseTo(74.4, 6)
     expect(w.value.panele[0]!.miesiaceKwh[6]).toBeCloseTo(223.2, 6)
     expect(w.warnings.map((x) => x.code)).toContain("PORP-MODEL-UPROSZCZONY")

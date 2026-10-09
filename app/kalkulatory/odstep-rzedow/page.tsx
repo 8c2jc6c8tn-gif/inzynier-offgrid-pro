@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { WyborOknaTypowego } from "@/components/odstep-rzedow-wybor-okna"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -303,6 +304,11 @@ export default function OdstepRzedowPage() {
 
       <section className="flex flex-col gap-4">
         <h2 className="font-semibold">{t("UI-ODRZ-KROK-REGULA")}</h2>
+        <WyborOknaTypowego
+          od={stan.oknoOd}
+          doH={stan.oknoDo}
+          onWybierz={(od, doH) => setStan((prev) => ({ ...prev, oknoOd: od, oknoDo: doH }))}
+        />
         <div className="grid grid-cols-2 gap-3">
           <Pole
             label={t("UI-ODRZ-OKNO-OD")}

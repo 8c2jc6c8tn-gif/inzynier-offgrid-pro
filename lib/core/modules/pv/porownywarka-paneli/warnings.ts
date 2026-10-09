@@ -33,6 +33,11 @@ export function modelUproszczonyPorp(brakuje: string): Warning {
   return ostrzezenie("PORP-MODEL-UPROSZCZONY", "info", `brak parametrów temperaturowych: ${brakuje}`, { brakuje })
 }
 
+/** Owner decision 09.10.2026: a panel lacking γ or NOCT is left out of the comparison (greyed in the UI), the others keep the temperature model. */
+export function panelWykluczonyPorp(opisy: string): Warning {
+  return ostrzezenie("PORP-PANEL-WYKLUCZONY", "warning", `panele wykluczone z porównania (brak danych): ${opisy}`, { opisy }, "panele")
+}
+
 /** A1 takes the front side only for bifacial panels. */
 export function bifacjalnyPominietyPorp(nazwa: string): Warning {
   return ostrzezenie("PORP-BIFACJALNY-POMINIETY", "info", `panel „${nazwa}” bifacjalny — tylko strona przednia`, { nazwa })

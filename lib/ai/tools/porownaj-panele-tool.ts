@@ -86,6 +86,9 @@ export const PorownajPaneleToolOutput = z.object({
       gwiazdki: z.number().nullable().describe("Ocena 0–10 względna w obrębie porównywanego zestawu; null bez kryteriów albo przy jednym panelu"),
     }),
   ),
+  wykluczone: z
+    .array(z.object({ nazwa: z.string(), brakuje: z.array(z.enum(["gamma", "noct"])) }))
+    .describe("Panele wykluczone z porównania, bo karta nie podaje γ albo NOCT, a inne panele je mają (nie ma ich w `panele`); wpisz brakującą wartość z karty"),
   liderZimowyNazwa: z.string().nullable(),
   przewagaZimowaKwh: z.number().nullable().describe("O ile kWh lider zimowy wyprzedza drugi panel"),
   przewagaZimowaZl: z.number().nullable().describe("Wartość tej przewagi w zł rocznie przy podanej wartości kWh"),
@@ -101,6 +104,7 @@ export type PorownajPaneleToolOutputT = z.infer<typeof PorownajPaneleToolOutput>
 
 const PUSTY = {
   panele: [],
+  wykluczone: [],
   liderZimowyNazwa: null,
   przewagaZimowaKwh: null,
   przewagaZimowaZl: null,
@@ -188,6 +192,7 @@ export function utworzPorownajPaneleTool(
           kosztZimowejKwhZl: p.kosztZimowejKwhZl,
           gwiazdki: v.gwiazdki[i] ?? null,
         })),
+        wykluczone: v.wykluczone.map((w) => ({ nazwa: w.nazwa, brakuje: w.brakuje })),
         liderZimowyNazwa: roznica ? (v.panele.find((p) => p.id === roznica.liderId)?.nazwa ?? null) : null,
         przewagaZimowaKwh: roznica?.roznicaKwh ?? null,
         przewagaZimowaZl: roznica?.roznicaZl ?? null,

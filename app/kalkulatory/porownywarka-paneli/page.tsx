@@ -6,6 +6,7 @@ import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
 import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { WyborOknaTypowego } from "@/components/odstep-rzedow-wybor-okna"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -468,6 +469,15 @@ export default function PorownywarkaPaneliPage() {
           </PoleSelect>
           {miejsce.montaz === "pochylony-na-konstrukcji" && (
             <>
+              <WyborOknaTypowego
+                od={miejsce.oknoOd ?? ""}
+                doH={miejsce.oknoDo ?? ""}
+                pusteToDomyslne
+                onWybierz={(od, doH) => {
+                  ustawMiejsce("oknoOd", od)
+                  ustawMiejsce("oknoDo", doH)
+                }}
+              />
               <div className="grid grid-cols-2 gap-3">
                 <Pole
                   label={t("UI-PORP-OKNO-OD")}
@@ -937,6 +947,14 @@ export default function PorownywarkaPaneliPage() {
               </div>
               <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
             </WerdyktPanel>
+
+            {v.wykluczone.length > 0 && (
+              <ul role="status" className="flex flex-col gap-1 rounded-md border bg-muted/50 p-3 text-small text-muted-foreground">
+                {v.wykluczone.map((w) => (
+                  <li key={w.id}>{t("UI-PORP-WYKLUCZONY", { nazwa: w.nazwa, czego: w.brakuje.map((b) => (b === "gamma" ? "γ" : "NOCT")).join(", ") })}</li>
+                ))}
+              </ul>
+            )}
 
             <div role="tablist" aria-label={t("UI-PORP-KROK-WYNIK")} className="flex flex-wrap gap-2">
               {ZAKLADKI.map((z) => (

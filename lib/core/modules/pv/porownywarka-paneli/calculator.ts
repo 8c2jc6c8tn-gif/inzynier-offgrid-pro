@@ -21,6 +21,7 @@ import {
   modelUproszczonyPorp,
   oknoOdstepuBezSloncaPorp,
   panelSieNieMiesciPorp,
+  panelWykluczonyPorp,
 } from "./warnings"
 
 export const CALCULATOR_VERSION = "1.1.0"
@@ -99,9 +100,14 @@ export type RoznicaZimowa = {
   roznicaZl: number | null
 }
 
+/** Panel pominięty w porównaniu, bo karta nie podaje γ albo NOCT, a pozostałe panele je mają (temperatura jest liczona). */
+export type WykluczonyPanel = { id: string; nazwa: string; brakuje: ("gamma" | "noct")[] }
+
 export type PorownywarkaResult = {
   zakresModelu: ZakresModelu
   panele: WynikPanelu[]
+  /** Panele wykluczone z liczenia („brak danych”, w interfejsie szare); puste, gdy nikogo nie wykluczono. */
+  wykluczone: WykluczonyPanel[]
   kryteria: KryteriumWynik[]
   /** Gwiazdki 0–10 per panel (kolejność wejścia); `null`, gdy mniej niż 2 panele albo żadne kryterium nie jest policzone. */
   gwiazdki: (number | null)[]
@@ -119,6 +125,7 @@ export type PorownywarkaResult = {
 const PUSTY: PorownywarkaResult = {
   zakresModelu: { temperatura: false, slabeSwiatlo: false },
   panele: [],
+  wykluczone: [],
   kryteria: [],
   gwiazdki: [],
   roznicaZimowa: null,
@@ -175,6 +182,23 @@ function sumaWspolczynnikowLat(p: DanePanelu): number {
  * energia wykorzystana vs nadwyżka przy znanym zapotrzebowaniu (7.2); scenariusz „tańszy = więcej paneli” (7.4, U11).
  */
 export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResult<PorownywarkaResult> {
+  const temperaturaWDanych = !!input.daneGodzinowe?.length && input.daneGodzinowe.every((r) => r.tempC !== undefined)
+  const zParametrami = input.panele.filter(maParametryTemperaturowe)
+  // Decision of the owner (09.10.2026): when the weather data has temperature and at least one panel has γ and NOCT, a panel
+  // without them is excluded („brak danych”) instead of switching the temperature off for everyone. Nobody has them → simple model.
+  if (!temperaturaWDanych || zParametrami.length === 0 || zParametrami.length === input.panele.length || validateInput(input).errors.length > 0) {
+    return policzPorownanie(input)
+  }
+  const wykluczone: WykluczonyPanel[] = input.panele
+    .filter((p) => !maParametryTemperaturowe(p))
+    .map((p) => ({ id: p.id, nazwa: p.nazwa, brakuje: [...(p.gammaPctNaC === null ? ["gamma" as const] : []), ...(p.noctC === null ? ["noct" as const] : [])] }))
+  const wynik = policzPorownanie({ ...input, panele: zParametrami })
+  if (wynik.status === "INVALID_INPUT") return wynik
+  const opisy = wykluczone.map((w) => `${w.nazwa} (${w.brakuje.map((b) => (b === "gamma" ? "γ" : "NOCT")).join(", ")})`).join("; ")
+  return { ...wynik, value: { ...wynik.value, wykluczone }, warnings: [panelWykluczonyPorp(opisy), ...wynik.warnings] }
+}
+
+function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResult> {
   const { errors } = validateInput(input)
   const inputs: Record<string, number> = { liczbaPanelowPorownywanych: input.panele.length }
   if (input.liczbaPaneli !== null) inputs.liczbaPaneli = input.liczbaPaneli
@@ -384,6 +408,7 @@ export function calculatePorownywarkaPaneli(input: PorownywarkaInput): CalcResul
     value: {
       zakresModelu,
       panele,
+      wykluczone: [],
       kryteria,
       gwiazdki,
       roznicaZimowa,
