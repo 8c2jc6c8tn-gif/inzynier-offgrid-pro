@@ -1,6 +1,6 @@
 # Wersjonowanie programu Inżynier Offgrid
 
-**Status:** propozycja spisana na prośbę właściciela (09.10.2026), do potwierdzenia; decyzja D82 w `rejestr-decyzji.md`. Numeracja startuje od **3.1.0**.
+**Status:** obowiązuje, potwierdzone przez właściciela 09.10.2026 („pasuje”); decyzja D82 w `rejestr-decyzji.md`. Numeracja startuje od **3.1.0**.
 
 Wersja programu to pole `version` w `package.json` w formacie `PIERWSZA.DRUGA.TRZECIA`. Widać ją na wydrukach (stopka i blok „Wersja obliczeń i danych”), razem z krótkim znacznikiem builda (skrót commita) jako dodatkowym śladem. Po to jest: z samej wersji ma dać się ustalić, czy dany wynik policzono według tych samych zasad i danych, co dziś.
 
