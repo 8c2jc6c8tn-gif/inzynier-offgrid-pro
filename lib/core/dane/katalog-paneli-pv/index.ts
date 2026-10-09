@@ -7,10 +7,21 @@
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 
 export type PozycjaKatalogu = Omit<DanePanelu, "cenaBruttoZl"> & {
+  /** Producent i seria/model do wyboru kaskadowego na ekranie (producent → seria → moc). */
+  producent: string
+  seria: string
+  /** Rynek/edycja karty, gdy ten wpis pochodzi z karty innego rynku niż pozostałe moce serii (np. „CN”, „EN/CEC”); pokazywany przy mocy. */
+  rynek?: string
   /** Plik źródłowy w repo (karta albo jej transkrypcja). */
   zrodlo: string
   /** Strony karty jako obrazy serwowane przez aplikację (`public/zrodla/paneli/`) — użytkownik otwiera je z ekranu jako potwierdzenie danych. */
   kartaObrazy: readonly string[]
+  /** Karta bez obrazów w repo (odczyt ze strony producenta): adres, pod którym użytkownik sam ją otworzy. */
+  zrodloUrl?: string
+  /** Ten wpis to odpowiednik (klon, inna edycja/rynek) panelu z katalogu: jego dane pochodzą z innej edycji karty. */
+  odpowiednik?: { seria: string; edycja: string }
+  /** NOCT wpisany z karty odpowiednika (decyzja właściciela 09.10.2026), bo karta tego wpisu go nie podaje. */
+  noctZOdpowiednika?: { seria: string; edycja: string }
 }
 
 const JA_SOLAR_KARTA = "docs/zrodla/karta-katalogowa-JA-Solar-JAM60D41-LB/00-INDEKS.md"
@@ -24,6 +35,8 @@ function jaSolar(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam60d41-lb-${pmaxW}`,
     nazwa: `JA Solar JAM60D41-${pmaxW}/LB`,
+    producent: "JA Solar",
+    seria: "JAM60D41 LB",
     pmaxW,
     dlugoscMm: 1953,
     szerokoscMm: 1134,
@@ -50,6 +63,8 @@ function astronergyN5(pmaxW: number): PozycjaKatalogu {
   return {
     id: `astronergy-n5-chsm72n-${pmaxW}`,
     nazwa: `Astronergy ASTRO N5 CHSM72N(DG)/F-BH ${pmaxW} W`,
+    producent: "Astronergy",
+    seria: "ASTRO N5 CHSM72N(DG)/F-BH",
     pmaxW,
     dlugoscMm: 2278,
     szerokoscMm: 1134,
@@ -76,6 +91,8 @@ function jaSolar54(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam54d41-lb-${pmaxW}`,
     nazwa: `JA Solar JAM54D41-${pmaxW}/LB`,
+    producent: "JA Solar",
+    seria: "JAM54D41 LB",
     pmaxW,
     dlugoscMm: 1762,
     szerokoscMm: 1134,
@@ -102,6 +119,8 @@ function hyundaiHit(pmaxW: number): PozycjaKatalogu {
   return {
     id: `hyundai-hit-h5xxcf-bf-zb-${pmaxW}`,
     nazwa: `HD Hyundai HiT-H${pmaxW}CF-BF(ZB)`,
+    producent: "HD Hyundai",
+    seria: "HiT-H5xxCF-BF(ZB)",
     pmaxW,
     dlugoscMm: 1961,
     szerokoscMm: 1134,
@@ -132,6 +151,8 @@ function jaSolar54d40(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam54d40-lr-${pmaxW}`,
     nazwa: `JA Solar JAM54D40-${pmaxW}/LR`,
+    producent: "JA Solar",
+    seria: "JAM54D40 LR",
     pmaxW,
     dlugoscMm: 1762,
     szerokoscMm: 1134,
@@ -158,6 +179,8 @@ function jaSolar60d40(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam60d40-lb-${pmaxW}`,
     nazwa: `JA Solar JAM60D40-${pmaxW}/LB`,
+    producent: "JA Solar",
+    seria: "JAM60D40 LB",
     pmaxW,
     dlugoscMm: 1953,
     szerokoscMm: 1134,
@@ -190,6 +213,8 @@ function jaSolar66d46(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam66d46-lb-${pmaxW}`,
     nazwa: `JA Solar JAM66D46-${pmaxW}/LB`,
+    producent: "JA Solar",
+    seria: "JAM66D46 LB",
     pmaxW,
     dlugoscMm: 2384,
     szerokoscMm: 1303,
@@ -220,6 +245,8 @@ function jaSolar72d40(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam72d40-mb-${pmaxW}`,
     nazwa: `JA Solar JAM72D40-${pmaxW}/MB`,
+    producent: "JA Solar",
+    seria: "JAM72D40 MB",
     pmaxW,
     dlugoscMm: 2278,
     szerokoscMm: 1134,
@@ -246,6 +273,8 @@ function jinkoTigerNeo(pmaxW: number): PozycjaKatalogu {
   return {
     id: `jinko-tiger-neo-48hl4m-bdv-${pmaxW}`,
     nazwa: `Jinko Tiger Neo 48HL4M-BDV ${pmaxW} W`,
+    producent: "Jinko",
+    seria: "Tiger Neo 48HL4M-BDV",
     pmaxW,
     dlugoscMm: 1762,
     szerokoscMm: 1134,
@@ -261,29 +290,68 @@ function jinkoTigerNeo(pmaxW: number): PozycjaKatalogu {
   }
 }
 
+const JINKO_66_ODPOWIEDNIK = { seria: "Jinko Tiger Neo 66HL4M-BDV 590–610 W", edycja: "JKM590-610N-66HL4M-BDV-F1-EN (CEC)" } as const
+const JINKO_72_ODPOWIEDNIK = { seria: "Jinko Tiger Neo 72HL4-BDV 550–570 W", edycja: "JKM550-570N-72HL4-BDV-F1-CN (karta na rynek chiński)" } as const
+
 const JINKO_66_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-66HL4M-BDV/00-INDEKS.md"
 
 /**
  * Jinko Tiger Neo 66HL4M-BDV (seria dwustronna 605–630 W, 132 ogniwa half-cut, 2382×1134 mm). Karta: γ(Pmax) −0,29 %/°C, degradacja ≤1%
- * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje NOCT/NMOT ani
- * sprawności przy 200 W/m² → `null`.
+ * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje sprawności przy
+ * 200 W/m² → `null`. Karta NIE podaje też NOCT; **NOCT 45 °C jest z odpowiednika 590–610 W (karta EN/CEC: „45±2”)** — decyzja właściciela
+ * 09.10.2026, oznaczona w `noctZOdpowiednika`.
  */
 function jinkoTigerNeo66(pmaxW: number): PozycjaKatalogu {
   return {
     id: `jinko-tiger-neo-66hl4m-bdv-${pmaxW}`,
     nazwa: `Jinko Tiger Neo 66HL4M-BDV ${pmaxW} W`,
+    producent: "Jinko",
+    seria: "Tiger Neo 66HL4M-BDV",
     pmaxW,
     dlugoscMm: 2382,
     szerokoscMm: 1134,
     masaKg: 32.4,
     gammaPctNaC: -0.29,
-    noctC: null,
+    noctC: 45,
     sprawnoscWzglednaPrzy200WPct: null,
     degradacjaPierwszyRokPct: 1.0,
     degradacjaLiniowaPctNaRok: 0.4,
     bifacjalny: true,
     zrodlo: JINKO_66_KARTA,
     kartaObrazy: ["/zrodla/paneli/jinko-tiger-neo-66hl4m-bdv-1.webp", "/zrodla/paneli/jinko-tiger-neo-66hl4m-bdv-2.webp"],
+    noctZOdpowiednika: JINKO_66_ODPOWIEDNIK,
+  }
+}
+
+const JINKO_66_590_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-66HL4M-BDV-590-610/00-INDEKS.md"
+
+/**
+ * Jinko Tiger Neo 66HL4M-BDV, edycja 590–610 W (JKM590-610N-66HL4M-BDV-F1-EN, CEC, 29.11.2023) — ODPOWIEDNIK serii 605–630 W (ten sam
+ * moduł 2382×1134 mm, 132 ogniwa, 32,4 kg, γ −0,29). Dodane są tylko moce, których nie ma w serii 605–630 W (590, 595, 600 W; 605 i 610 W
+ * już są — bez dubli). Karta: γ(Pmax) −0,29 %/°C, NOCT 45±2 °C, dwustronny. Gwarancje i degradacja na karcie bez czytelnych etykiet
+ * (12 / 30 / 0,40%, pierwszy rok niepodany) → degradacja `null`, nie z innej karty. Brak sprawności przy 200 W/m² → `null`.
+ */
+function jinkoTigerNeo66Edycja590(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `jinko-tiger-neo-66hl4m-bdv-${pmaxW}`,
+    nazwa: `Jinko Tiger Neo 66HL4M-BDV ${pmaxW} W`,
+    producent: "Jinko",
+    seria: "Tiger Neo 66HL4M-BDV",
+    rynek: "EN/CEC",
+    pmaxW,
+    dlugoscMm: 2382,
+    szerokoscMm: 1134,
+    masaKg: 32.4,
+    gammaPctNaC: -0.29,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: null,
+    degradacjaLiniowaPctNaRok: null,
+    bifacjalny: true,
+    zrodlo: JINKO_66_590_KARTA,
+    kartaObrazy: [],
+    zrodloUrl: "https://www.solarproof.com.au/datasheets/panel_datasheet_Datasheet-JKM590-610N-66HL4M-BDV-29.11.23.pdf",
+    odpowiednik: { seria: "Jinko Tiger Neo 66HL4M-BDV 605–630 W", edycja: JINKO_66_ODPOWIEDNIK.edycja },
   }
 }
 
@@ -291,25 +359,61 @@ const JINKO_72_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-72HL4-BDV/0
 
 /**
  * Jinko Tiger Neo 72HL4-BDV (seria dwustronna 575–600 W, 144 ogniwa half-cut, 2278×1134 mm). Karta: γ(Pmax) −0,29 %/°C, degradacja ≤1%
- * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje NOCT/NMOT ani
- * sprawności przy 200 W/m² → `null`.
+ * w pierwszym roku i ≤0,40%/rok (gwarancja liniowa 30 lat, górna granica; gwarancja produktowa 12 lat). Karta NIE podaje sprawności przy
+ * 200 W/m² → `null`. Karta NIE podaje też NOCT; **NOCT 45 °C jest z odpowiednika 550–570 W (karta CN: „45±2”)** — decyzja właściciela
+ * 09.10.2026, oznaczona w `noctZOdpowiednika`.
  */
 function jinkoTigerNeo72(pmaxW: number): PozycjaKatalogu {
   return {
     id: `jinko-tiger-neo-72hl4-bdv-${pmaxW}`,
     nazwa: `Jinko Tiger Neo 72HL4-BDV ${pmaxW} W`,
+    producent: "Jinko",
+    seria: "Tiger Neo 72HL4-BDV",
     pmaxW,
     dlugoscMm: 2278,
     szerokoscMm: 1134,
     masaKg: 31.0,
     gammaPctNaC: -0.29,
-    noctC: null,
+    noctC: 45,
     sprawnoscWzglednaPrzy200WPct: null,
     degradacjaPierwszyRokPct: 1.0,
     degradacjaLiniowaPctNaRok: 0.4,
     bifacjalny: true,
     zrodlo: JINKO_72_KARTA,
     kartaObrazy: ["/zrodla/paneli/jinko-tiger-neo-72hl4-bdv-1.webp", "/zrodla/paneli/jinko-tiger-neo-72hl4-bdv-2.webp"],
+    noctZOdpowiednika: JINKO_72_ODPOWIEDNIK,
+  }
+}
+
+const JINKO_72_CN_KARTA = "docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-72HL4-BDV-550-570-CN/00-INDEKS.md"
+
+/**
+ * Jinko Tiger Neo 72HL4-BDV, edycja 550–570 W (JKM550-570N-72HL4-BDV-F1-CN, karta na rynek chiński) — ODPOWIEDNIK serii 575–600 W (ten sam
+ * format 2278×1134 mm, 144 ogniwa half-cut; masa na tej karcie 32,0 kg, a nie 31,0 kg). Moce 550–570 W nie nakładają się na 575–600 W (bez
+ * dubli). Karta: γ(Pmax) **−0,30 %/°C** (seria 575–600 W ma −0,29), NOCT 45±2 °C (800 W/m², 20 °C, 1 m/s), dwustronny, dual glass.
+ * Degradacja w pierwszym roku na karcie nieczytelna → degradacja `null`. Brak sprawności przy 200 W/m² → `null`.
+ */
+function jinkoTigerNeo72Cn(pmaxW: number): PozycjaKatalogu {
+  return {
+    id: `jinko-tiger-neo-72hl4-bdv-${pmaxW}`,
+    nazwa: `Jinko Tiger Neo 72HL4-BDV ${pmaxW} W (karta CN)`,
+    producent: "Jinko",
+    seria: "Tiger Neo 72HL4-BDV",
+    rynek: "CN",
+    pmaxW,
+    dlugoscMm: 2278,
+    szerokoscMm: 1134,
+    masaKg: 32.0,
+    gammaPctNaC: -0.3,
+    noctC: 45,
+    sprawnoscWzglednaPrzy200WPct: null,
+    degradacjaPierwszyRokPct: null,
+    degradacjaLiniowaPctNaRok: null,
+    bifacjalny: true,
+    zrodlo: JINKO_72_CN_KARTA,
+    kartaObrazy: [],
+    zrodloUrl: "https://www.jinkosolar.com/uploads/JKM550-570N-72HL4-BDV-F1-CN.pdf",
+    odpowiednik: { seria: "Jinko Tiger Neo 72HL4-BDV 575–600 W", edycja: JINKO_72_ODPOWIEDNIK.edycja },
   }
 }
 
@@ -324,6 +428,8 @@ function longiHimoX10(pmaxW: number): PozycjaKatalogu {
   return {
     id: `longi-himo-x10-lr7-54hvh-${pmaxW}`,
     nazwa: `LONGi Hi-MO X10 LR7-54HVH-${pmaxW}M`,
+    producent: "LONGi",
+    seria: "Hi-MO X10 LR7-54HVH",
     pmaxW,
     dlugoscMm: 1800,
     szerokoscMm: 1134,
@@ -350,6 +456,8 @@ function longiHimoX10Scientist(pmaxW: number): PozycjaKatalogu {
   return {
     id: `longi-himo-x10-lr7-60hvh-${pmaxW}`,
     nazwa: `LONGi Hi-MO X10 LR7-60HVH-${pmaxW}M`,
+    producent: "LONGi",
+    seria: "Hi-MO X10 LR7-60HVH",
     pmaxW,
     dlugoscMm: 1990,
     szerokoscMm: 1134,
@@ -378,6 +486,8 @@ function trinaVertexSPlus(pmaxW: number): PozycjaKatalogu {
   return {
     id: `trina-vertex-s-plus-neg9r28-${pmaxW}`,
     nazwa: `Trina Vertex S+ TSM-${pmaxW}-NEG9R.28`,
+    producent: "Trina",
+    seria: "Vertex S+ TSM-NEG9R.28",
     pmaxW,
     dlugoscMm: 1762,
     szerokoscMm: 1134,
@@ -408,6 +518,8 @@ function jaSolar54d40Lb(pmaxW: number): PozycjaKatalogu {
   return {
     id: `ja-solar-jam54d40-lb-${pmaxW}`,
     nazwa: `JA Solar JAM54D40-${pmaxW}/LB`,
+    producent: "JA Solar",
+    seria: "JAM54D40 LB",
     pmaxW,
     dlugoscMm: 1762,
     szerokoscMm: 1134,
@@ -433,7 +545,9 @@ export const KATALOG_PANELI_PV: readonly PozycjaKatalogu[] = [
   ...[690, 695, 700, 705, 710, 715, 720].map(jaSolar66d46),
   ...[580, 585, 590, 595, 600, 605].map(jaSolar72d40),
   ...[445, 450, 455, 460, 465, 470].map(jinkoTigerNeo),
+  ...[590, 595, 600].map(jinkoTigerNeo66Edycja590),
   ...[605, 610, 615, 620, 625, 630].map(jinkoTigerNeo66),
+  ...[550, 555, 560, 565, 570].map(jinkoTigerNeo72Cn),
   ...[575, 580, 585, 590, 595, 600].map(jinkoTigerNeo72),
   ...[475, 480, 485, 490].map(longiHimoX10),
   ...[535, 540, 545, 550, 555, 560].map(longiHimoX10Scientist),

@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
 import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
@@ -559,19 +560,7 @@ export default function PorownywarkaPaneliPage() {
         {stan.panele.map((p, i) => (
           <fieldset key={p.id} className="flex flex-col gap-3 rounded-lg border p-4">
             <legend className="px-1 text-small font-medium">{t("UI-PORP-PANEL-N", { n: i + 1 })}</legend>
-            <PoleSelect
-              label={t("UI-PORP-Z-KATALOGU")}
-              value=""
-              onChange={(e) => wstawZKatalogu(p.id, e.target.value)}
-              pomoc={<PomocPola ekran="porownywarka-paneli" pole="katalog" />}
-            >
-              <option value="">{t("UI-PORP-KATALOG-WYBIERZ")}</option>
-              {KATALOG_PANELI_PV.map((k) => (
-                <option key={k.id} value={k.id}>
-                  {k.nazwa}
-                </option>
-              ))}
-            </PoleSelect>
+            <WyborZKatalogu katalogId={p.katalogId} onWybierz={(id) => wstawZKatalogu(p.id, id)} />
             {p.katalogId !== "" && (
               <ul className="-mt-1 flex flex-col gap-1 text-small">
                 {(KATALOG_PANELI_PV.find((k) => k.id === p.katalogId)?.kartaObrazy ?? []).map((obraz, n, wszystkie) => (
@@ -581,6 +570,25 @@ export default function PorownywarkaPaneliPage() {
                     </a>
                   </li>
                 ))}
+                {(() => {
+                  const k = KATALOG_PANELI_PV.find((x) => x.id === p.katalogId)
+                  if (!k) return null
+                  return (
+                    <>
+                      {k.kartaObrazy.length === 0 && k.zrodloUrl && (
+                        <li>
+                          <a href={k.zrodloUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                            {t("UI-PORP-KARTA-PRODUCENTA")}
+                          </a>
+                        </li>
+                      )}
+                      {k.odpowiednik && <li className="text-muted-foreground">{t("UI-PORP-ODPOWIEDNIK", { seria: k.odpowiednik.seria, edycja: k.odpowiednik.edycja })}</li>}
+                      {k.noctZOdpowiednika && (
+                        <li className="text-muted-foreground">{t("UI-PORP-NOCT-ODPOWIEDNIK", { seria: k.noctZOdpowiednika.seria, edycja: k.noctZOdpowiednika.edycja })}</li>
+                      )}
+                    </>
+                  )
+                })()}
               </ul>
             )}
             <Pole

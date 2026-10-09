@@ -10,7 +10,9 @@ describe("katalog paneli PV", () => {
 
   it("każdy wpis ma obrazy karty serwowane z public/ (potwierdzenie danych klikane w aplikacji)", () => {
     for (const p of KATALOG_PANELI_PV) {
-      expect(p.kartaObrazy.length, p.id).toBeGreaterThan(0)
+      // A card without images in the repo (read from the manufacturer's page) must at least give the address to open it.
+      if (p.kartaObrazy.length === 0) expect(p.zrodloUrl, p.id).toMatch(/^https:\/\//)
+      else expect(p.kartaObrazy.length, p.id).toBeGreaterThan(0)
       for (const obraz of p.kartaObrazy) expect(existsSync(`public${obraz}`), obraz).toBe(true)
     }
   })
@@ -125,18 +127,38 @@ describe("katalog paneli PV", () => {
     expect(KATALOG_PANELI_PV.filter((p) => p.id.startsWith("jinko-tiger-neo-48")).map((p) => p.pmaxW)).toEqual([445, 450, 455, 460, 465, 470])
   })
 
-  it("Jinko Tiger Neo 66HL4M-BDV: γ i degradacja z karty; brak NOCT na karcie → null", () => {
+  it("Jinko Tiger Neo 66HL4M-BDV: γ i degradacja z karty; NOCT 45 °C z odpowiednika 590–610 W (decyzja właściciela), oznaczony w danych", () => {
     const p630 = znajdzPanelKatalogu("jinko-tiger-neo-66hl4m-bdv-630")!
     expect(readFileSync(p630.zrodlo, "utf8")).toContain("γ (Pmax) **−0,29%/°C**")
-    expect(p630).toMatchObject({ pmaxW: 630, gammaPctNaC: -0.29, noctC: null, degradacjaPierwszyRokPct: 1, degradacjaLiniowaPctNaRok: 0.4, bifacjalny: true })
-    expect(KATALOG_PANELI_PV.filter((p) => p.id.startsWith("jinko-tiger-neo-66")).map((p) => p.pmaxW)).toEqual([605, 610, 615, 620, 625, 630])
+    expect(p630).toMatchObject({ pmaxW: 630, gammaPctNaC: -0.29, noctC: 45, degradacjaPierwszyRokPct: 1, degradacjaLiniowaPctNaRok: 0.4, bifacjalny: true })
+    expect(p630.noctZOdpowiednika?.seria).toContain("590–610")
+    // 590–600 W are the only new powers of the equivalent edition: 605 and 610 W stay single entries (no duplicates).
+    expect(KATALOG_PANELI_PV.filter((p) => p.id.startsWith("jinko-tiger-neo-66")).map((p) => p.pmaxW)).toEqual([590, 595, 600, 605, 610, 615, 620, 625, 630])
   })
 
-  it("Jinko Tiger Neo 72HL4-BDV: γ i degradacja z karty; brak NOCT na karcie → null", () => {
+  it("Jinko Tiger Neo 66HL4M-BDV 590–600 W (odpowiednik, EN/CEC): NOCT 45, degradacja null (karta nieczytelna), bez obrazów, ale z adresem karty", () => {
+    const p = znajdzPanelKatalogu("jinko-tiger-neo-66hl4m-bdv-595")!
+    expect(readFileSync(p.zrodlo, "utf8")).toContain("**45 ± 2 °C**")
+    expect(p).toMatchObject({ gammaPctNaC: -0.29, noctC: 45, degradacjaPierwszyRokPct: null, degradacjaLiniowaPctNaRok: null, dlugoscMm: 2382, szerokoscMm: 1134, masaKg: 32.4 })
+    expect(p.odpowiednik?.seria).toContain("605–630")
+    expect(p.kartaObrazy).toEqual([])
+    expect(p.zrodloUrl).toContain("JKM590-610N-66HL4M-BDV")
+  })
+
+  it("Jinko Tiger Neo 72HL4-BDV: γ i degradacja z karty; NOCT 45 °C z odpowiednika 550–570 W (karta CN), oznaczony w danych", () => {
     const p600 = znajdzPanelKatalogu("jinko-tiger-neo-72hl4-bdv-600")!
     expect(readFileSync(p600.zrodlo, "utf8")).toContain("γ (Pmax) **−0,29%/°C**")
-    expect(p600).toMatchObject({ pmaxW: 600, gammaPctNaC: -0.29, noctC: null, degradacjaPierwszyRokPct: 1, degradacjaLiniowaPctNaRok: 0.4, bifacjalny: true })
-    expect(KATALOG_PANELI_PV.filter((p) => p.id.startsWith("jinko-tiger-neo-72")).map((p) => p.pmaxW)).toEqual([575, 580, 585, 590, 595, 600])
+    expect(p600).toMatchObject({ pmaxW: 600, gammaPctNaC: -0.29, noctC: 45, degradacjaPierwszyRokPct: 1, degradacjaLiniowaPctNaRok: 0.4, bifacjalny: true })
+    expect(p600.noctZOdpowiednika?.edycja).toContain("CN")
+    expect(KATALOG_PANELI_PV.filter((p) => p.id.startsWith("jinko-tiger-neo-72")).map((p) => p.pmaxW)).toEqual([550, 555, 560, 565, 570, 575, 580, 585, 590, 595, 600])
+  })
+
+  it("Jinko Tiger Neo 72HL4-BDV 550–570 W (karta CN): γ −0,30 (inna niż w serii 575–600 W), NOCT 45, nazwa z dopiskiem, odpowiednik wskazuje serię", () => {
+    const p = znajdzPanelKatalogu("jinko-tiger-neo-72hl4-bdv-560")!
+    expect(readFileSync(p.zrodlo, "utf8")).toContain("**−0,30 %/°C**")
+    expect(p).toMatchObject({ nazwa: "Jinko Tiger Neo 72HL4-BDV 560 W (karta CN)", gammaPctNaC: -0.3, noctC: 45, masaKg: 32, degradacjaPierwszyRokPct: null, bifacjalny: true })
+    expect(p.odpowiednik?.seria).toContain("575–600")
+    expect(p.zrodloUrl).toContain("JKM550-570N-72HL4-BDV-F1-CN")
   })
 
   it("LONGi Hi-MO X10 LR7-54HVH: jednostronny BC, γ −0,26, NOCT 45 i degradacja 1% + 0,35%/rok zgodne z kartą (88,85% po 30 latach)", () => {

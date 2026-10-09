@@ -74,3 +74,8 @@ Tolerancja mocy: 0 ~ +3%. Współczynniki temperaturowe (wspólne dla serii): γ
 - **NOCT / NMOT** — karta nie zawiera tej pozycji (jak pozostałe karty Jinko w katalogu): `noctC: null`, zjawisko temperaturowe niedostępne dla tego panelu,
   dopóki użytkownik nie wpisze NOCT ręcznie z innego źródła;
 - sprawności względnej przy 200 W/m² (są tylko wykresy krzywych, bez liczby).
+
+## Uzupełnienie NOCT (09.10.2026, decyzja właściciela)
+
+Karta tej edycji NOCT nie podaje. Na polecenie właściciela w katalogu jest **NOCT 45 °C z odpowiednika** — karty 550–570 W na rynek chiński
+(`docs/zrodla/karta-katalogowa-Jinko-Tiger-Neo-72HL4-BDV-550-570-CN/00-INDEKS.md`, „45 ± 2”). Ekran oznacza ten wpis jako „NOCT z karty odpowiednika”.

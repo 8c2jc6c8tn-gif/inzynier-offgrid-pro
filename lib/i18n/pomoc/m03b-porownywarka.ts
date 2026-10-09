@@ -143,6 +143,18 @@ export const pl = {
         gdzie: "Katalog zawiera panele, dla których dostarczono kartę katalogową; każdy parametr pochodzi z karty.",
         zakres: "Zależy od panelu.",
       },
+      katalogSeria: {
+        nazwa: "Seria / model",
+        cel: "Druga część wyboru z katalogu: po producencie wybierasz serię (model) panelu, np. „Tiger Neo 66HL4M-BDV”. Dopiero potem wybierasz moc.",
+        gdzie: "Lista pokazuje serie wybranego producenta, dla których mamy kartę katalogową.",
+        zakres: "Jedna z serii producenta.",
+      },
+      katalogMoc: {
+        nazwa: "Moc",
+        cel: "Trzecia część wyboru z katalogu: moc z danej serii. Wybór mocy wstawia dane panelu z karty. Przy mocy pochodzącej z karty innego rynku (np. CN, EN/CEC) jest dopisek rynku, żeby nie pomylić identycznych oznaczeń.",
+        gdzie: "Lista pokazuje moce wybranej serii od najmniejszej.",
+        zakres: "Jedna z mocy serii.",
+      },
       nazwa: {
         nazwa: "Producent i model",
         cel: "Nazwa pokazywana na wykresach i w wynikach.",
@@ -400,6 +412,18 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "The catalogue holds the panels for which a datasheet was supplied; every parameter comes from the datasheet.",
         zakres: "Depends on the panel.",
       },
+      katalogSeria: {
+        nazwa: "Series / model",
+        cel: "The second part of the catalogue choice: after the manufacturer you pick the panel series (model), e.g. “Tiger Neo 66HL4M-BDV”. Only then do you pick the power.",
+        gdzie: "The list shows the series of the chosen manufacturer for which we have a datasheet.",
+        zakres: "One of the manufacturer's series.",
+      },
+      katalogMoc: {
+        nazwa: "Power",
+        cel: "The third part of the catalogue choice: the power within the series. Choosing it inserts the panel data from the datasheet. A power taken from the datasheet of another market (e.g. CN, EN/CEC) carries a market note, so identical designations are not confused.",
+        gdzie: "The list shows the powers of the chosen series, smallest first.",
+        zakres: "One of the series' powers.",
+      },
       nazwa: {
         nazwa: "Manufacturer and model",
         cel: "The name shown in charts and results.",
@@ -656,6 +680,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Подставляет данные панели из паспорта, сохранённого в приложении, чтобы не переписывать их вручную. Цену вы вводите сами.",
         gdzie: "В каталоге панели, для которых предоставлен паспорт; каждый параметр взят из паспорта.",
         zakres: "Зависит от панели.",
+      },
+      katalogSeria: {
+        nazwa: "Серия / модель",
+        cel: "Вторая часть выбора из каталога: после производителя выбираете серию (модель) панели, например «Tiger Neo 66HL4M-BDV». Только потом выбираете мощность.",
+        gdzie: "В списке серии выбранного производителя, для которых есть паспорт.",
+        zakres: "Одна из серий производителя.",
+      },
+      katalogMoc: {
+        nazwa: "Мощность",
+        cel: "Третья часть выбора из каталога: мощность в серии. Выбор мощности подставляет данные панели из паспорта. У мощности из паспорта другого рынка (например, CN, EN/CEC) есть пометка рынка, чтобы не перепутать одинаковые обозначения.",
+        gdzie: "В списке мощности выбранной серии по возрастанию.",
+        zakres: "Одна из мощностей серии.",
       },
       nazwa: {
         nazwa: "Производитель и модель",
