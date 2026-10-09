@@ -16,7 +16,7 @@ Wersja programu to pole `version` w `package.json` w formacie `PIERWSZA.DRUGA.TR
 
 ## Zasady stosowania
 
-1. Podbicie wyższej cyfry zeruje niższe (3.1.4 → 3.2.0 → 4.0.0).
+1. Podbicie wyższej cyfry zeruje niższe (3.1.4 → 3.2.0 → 4.0.0). Cyfry nie przechodzą po 9: każda jest zwykłą liczbą, więc po 3.1.9 jest 3.1.10, a druga cyfra rośnie dopiero wtedy, gdy zmiana jest tego rodzaju (nowa funkcja lub dane), nie dlatego, że trzecia „się skończyła”.
 2. **Jedno podbicie na pakiet zmian** (PR albo scalenie), według najwyższego poziomu wśród zmian; nie po każdym commicie. Podbicie i wpis w `docs/historia-wersji.md` idą w tym samym commicie co zmiana.
 3. Wątpliwość między dwoma poziomami: wyższy.
 4. Każdy wpis w historii ma linię **„Wpływ na liczby”**: „brak” albo co się zmienia i dla kogo (np. „wyniki Porównywarki przy włączonym wliczaniu osprzętu”). To właśnie ta linia pozwala sprawdzić, czy stary wynik jest nadal aktualny.
