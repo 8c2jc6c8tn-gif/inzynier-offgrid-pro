@@ -35,6 +35,7 @@ export const PRESETY: PresetPulpitu[] = [
   preset("elektryka", "🧰", [1, 5, 3, 4, 8]),
   preset("analiza", "🧪", [1, 7, 2, 3, 4, 6, 10]),
   preset("automatyka", "🤖", [1, 9, 10, 13, 8]),
+  preset("mikro", "🚐", [1, 12, 3, 4, 5, 8]),
   {
     id: "siec",
     nazwaKlucz: "UI-PULPIT-PRESET-SIEC",

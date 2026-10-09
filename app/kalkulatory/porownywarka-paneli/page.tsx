@@ -17,12 +17,14 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
+import { czyMikroinstalacja, KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
+import { KLUCZ_DRAFTU_ODBIORNIKOW, zuzycieMikroinstalacjiKwh, type DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import {
@@ -173,7 +175,15 @@ export default function PorownywarkaPaneliPage() {
   const waluta = useSymbolWaluty()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, KWOTY)
-  const { zuzycie } = useZuzycieMiesieczne("dom")
+  const { zuzycie: zuzycieDom } = useZuzycieMiesieczne("dom")
+  // Micro-installation (camper, garden cabin, garage): consumption comes from the appliance list and the months of use, not from the M14 bills.
+  const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
+  const { dane: odbiorniki } = useOdczytDraftu<DraftOdbiornikow>(KLUCZ_DRAFTU_ODBIORNIKOW)
+  const mikro = czyMikroinstalacja(profilObiektu?.rodzaj)
+  const zuzycie = useMemo(
+    () => (mikro ? zuzycieMikroinstalacjiKwh(odbiorniki, profilObiektu) : zuzycieDom),
+    [mikro, odbiorniki, profilObiektu, zuzycieDom],
+  )
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
   const { profil, zapiszPanel } = useProfilSprzetu()
   /** U14: saving the primary panel is always asked first, never automatic. */
@@ -532,7 +542,21 @@ export default function PorownywarkaPaneliPage() {
           </div>
           {stan.uzyjZuzycia &&
             (zuzycie ? (
-              <p className="text-caption text-muted-foreground">{t("UI-PORP-ZUZYCIE-JEST", { kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })}</p>
+              <p className="text-caption text-muted-foreground">
+                {mikro
+                  ? t("UI-PORP-ZUZYCIE-MIKRO", { rodzaj: t(KLUCZ_NAZWY_OBIEKTU[profilObiektu!.rodzaj as keyof typeof KLUCZ_NAZWY_OBIEKTU]), kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })
+                  : t("UI-PORP-ZUZYCIE-JEST", { kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })}
+              </p>
+            ) : mikro ? (
+              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
+                {t("UI-PORP-ZUZYCIE-MIKRO-BRAK")}{" "}
+                <Link href="/kalkulatory/zuzycie-per-urzadzenie" className="underline">
+                  {t("UI-PORP-ZUZYCIE-MIKRO-LINK")}
+                </Link>{" "}
+                <Link href="/ustawienia" className="underline">
+                  {t("UI-PORP-ZUZYCIE-MIKRO-USTAWIENIA")}
+                </Link>
+              </p>
             ) : (
               <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
                 {t("UI-PORP-ZUZYCIE-BRAK")}{" "}
@@ -1124,8 +1148,8 @@ export default function PorownywarkaPaneliPage() {
                 {!v.zUzytecznoscia ? (
                   <>
                     <p className="text-muted-foreground">{t("UI-PORP-NADW-SUCHY")}</p>
-                    <Link href="/kalkulatory/zuzycie-miesieczne" className="underline">
-                      {t("UI-PORP-ZUZYCIE-LINK")}
+                    <Link href={mikro ? "/kalkulatory/zuzycie-per-urzadzenie" : "/kalkulatory/zuzycie-miesieczne"} className="underline">
+                      {mikro ? t("UI-PORP-ZUZYCIE-MIKRO-LINK") : t("UI-PORP-ZUZYCIE-LINK")}
                     </Link>
                   </>
                 ) : (

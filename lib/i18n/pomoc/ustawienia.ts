@@ -22,6 +22,22 @@ export const pl = {
       },
     },
   },
+  "ustawienia-obiekt": {
+    pola: {
+      rodzaj: {
+        nazwa: "Rodzaj obiektu",
+        cel: "Mówi aplikacji, czy liczysz budynek całoroczny, czy mikroinstalację (kamper, altana lub domek ROD, garaż). Mikroinstalacja bierze zużycie z listy odbiorników, a nie ze strat ciepła budynku.",
+        gdzie: "Wybierz z listy; zmiana zapisuje się od razu w tej przeglądarce.",
+        zakres: "Budynek, kamper, altana lub domek ROD, garaż albo brak wyboru (aplikacja działa jak dotąd).",
+      },
+      miesiace: {
+        nazwa: "Miesiące użytkowania",
+        cel: "Mikroinstalacja bywa używana tylko w części roku (działka od wiosny do jesieni, kamper w sezonie). Zużycie w miesiącach bez zaznaczenia liczy się jako zero.",
+        gdzie: "Zaznacz miesiące, w których faktycznie korzystasz z obiektu.",
+        zakres: "Od jednego do dwunastu miesięcy; bez zaznaczenia aplikacja nie policzy zużycia mikroinstalacji.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -41,6 +57,22 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "ustawienia-obiekt": {
+    pola: {
+      rodzaj: {
+        nazwa: "Type of site",
+        cel: "Tells the app whether you are calculating a year-round building or a micro-installation (camper, garden-plot cabin, garage). A micro-installation takes its consumption from the list of appliances, not from building heat losses.",
+        gdzie: "Pick from the list; the change is saved at once in this browser.",
+        zakres: "Building, camper, garden-plot cabin, garage, or no choice (the app works as before).",
+      },
+      miesiace: {
+        nazwa: "Months of use",
+        cel: "A micro-installation is often used only part of the year (a garden plot from spring to autumn, a camper in season). Consumption in unticked months counts as zero.",
+        gdzie: "Tick the months in which you actually use the site.",
+        zakres: "From one to twelve months; with none ticked the app cannot calculate the micro-installation’s consumption.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -57,6 +89,22 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Показывает в списке дополнительную группу стилей «для развлечения» (например, ретро или сезонные), которая по умолчанию скрыта, чтобы не загромождать выбор.",
         gdzie: "Отметьте поле, чтобы группа появилась в списке; снимите отметку, чтобы скрыть её. Уже выбранный стиль из этой группы остаётся.",
         zakres: "Включено или выключено.",
+      },
+    },
+  },
+  "ustawienia-obiekt": {
+    pola: {
+      rodzaj: {
+        nazwa: "Тип объекта",
+        cel: "Сообщает приложению, считаете ли вы круглогодичное здание или микроустановку (кемпер, дачный домик, гараж). Микроустановка берёт потребление из списка потребителей, а не из теплопотерь здания.",
+        gdzie: "Выберите из списка; изменение сразу сохраняется в этом браузере.",
+        zakres: "Здание, кемпер, дачный домик, гараж или без выбора (приложение работает как раньше).",
+      },
+      miesiace: {
+        nazwa: "Месяцы использования",
+        cel: "Микроустановку часто используют лишь часть года (дача с весны до осени, кемпер в сезон). Потребление в неотмеченные месяцы считается нулевым.",
+        gdzie: "Отметьте месяцы, в которые вы реально пользуетесь объектом.",
+        zakres: "От одного до двенадцати месяцев; без отметок приложение не посчитает потребление микроустановки.",
       },
     },
   },

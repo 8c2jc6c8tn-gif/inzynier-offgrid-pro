@@ -6,8 +6,8 @@ import { KAFLE } from "../registry"
 const WSZYSTKIE = KAFLE.map((k) => k.id)
 
 describe("dashboard presets (docs/pulpit-i-nawigacja.md §3, D53, D54)", () => {
-  it("has the eight §3 presets, each with tile 1 first and the M14 tiles last", () => {
-    expect(PRESETY).toHaveLength(9)
+  it("has the eight §3 presets plus the micro-installation one, each with tile 1 first and the M14 tiles last", () => {
+    expect(PRESETY).toHaveLength(10)
     for (const p of PRESETY.filter((x) => x.id !== "siec")) {
       expect(p.widoczne[0]).toBe(1)
       expect(p.widoczne.slice(-2)).toEqual([15, 16])
