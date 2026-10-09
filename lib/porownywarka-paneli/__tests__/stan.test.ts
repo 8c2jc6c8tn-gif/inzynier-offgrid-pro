@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
-import { aktywneMiejsce, budujWejscie, kolejnyId, KWOTY_ZESTAWOW, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
+import { aktywneMiejsce, budujWejscie, elektrykaRecznaZPanelu, kolejnyId, KWOTY_ZESTAWOW, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
 
 const t = (k: string, p?: Record<string, string | number>) => (p ? `${k}:${JSON.stringify(p)}` : k)
 
@@ -67,5 +67,30 @@ describe("zestawy: przeliczenie kwot", () => {
     const wynik = KWOTY_ZESTAWOW({ zestawy: [{ id: "z1", nazwa: "A", zapisanoIso: "2026-10-08T00:00:00.000Z", stan: st }] }, 0.25)
     expect(Number(wynik.zestawy[0]!.stan.panele[0]!.cena)).toBeCloseTo(100, 6)
     expect(Number(wynik.zestawy[0]!.stan.stawka)).toBeCloseTo(0.25, 6)
+  })
+})
+
+describe("elektryka panelu wpisana ręcznie", () => {
+  const pelny = { ...PANEL_PUSTY("p1"), voc: "43.85", vmp: "36.91", isc: "14.42", imp: "13.55", betaVoc: "-0.25", maxV: "1500", maxBezp: "30" }
+
+  it("komplet pól daje dane elektryczne; bezpiecznik szeregowy jest opcjonalny (null)", () => {
+    expect(elektrykaRecznaZPanelu(pelny)).toEqual({ vocV: 43.85, vmpV: 36.91, iscA: 14.42, impA: 13.55, betaVocPctNaC: -0.25, maxNapieciaSystemuV: 1500, maxBezpiecznikSzeregowyA: 30 })
+    expect(elektrykaRecznaZPanelu({ ...pelny, maxBezp: "" })!.maxBezpiecznikSzeregowyA).toBeNull()
+  })
+
+  it("brak któregokolwiek z sześciu wymaganych pól = null (nic nie jest dopełniane „typową” wartością); szkice sprzed A3 bez kluczy też", () => {
+    for (const pole of ["voc", "vmp", "isc", "imp", "betaVoc", "maxV"] as const) expect(elektrykaRecznaZPanelu({ ...pelny, [pole]: "" }), pole).toBeNull()
+    const stary = { ...PANEL_PUSTY("p1") } as Record<string, unknown>
+    for (const k of ["voc", "vmp", "isc", "imp", "betaVoc", "maxV", "maxBezp"]) delete stary[k]
+    expect(elektrykaRecznaZPanelu(stary as ReturnType<typeof PANEL_PUSTY>)).toBeNull()
+  })
+
+  it("panele bez katalogId biorą elektrykę z własnych pól (każdy z swojej)", () => {
+    const wejscie = budujWejscie({
+      stan: { ...STAN_POCZATKOWY, panele: [{ ...pelny, moc: "500" }, { ...PANEL_PUSTY("p2"), moc: "500", voc: "40", vmp: "30", isc: "10", imp: "16", betaVoc: "-0.3", maxV: "1000" }] },
+      miejsce: MIEJSCE_PUSTE("m1"), lokalizacja: null, dane: null, zuzycie: null, t,
+    })
+    expect(wejscie.panele[0]!.elektryka).toMatchObject({ vocV: 43.85, maxNapieciaSystemuV: 1500 })
+    expect(wejscie.panele[1]!.elektryka).toMatchObject({ vocV: 40, maxNapieciaSystemuV: 1000 })
   })
 })

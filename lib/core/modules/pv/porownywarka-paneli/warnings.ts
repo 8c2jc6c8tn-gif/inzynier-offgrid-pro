@@ -77,3 +77,17 @@ export function elektrykaBrakTminPorp(): Warning {
 export function elektrykaBrakDanychPorp(nazwa: string): Warning {
   return ostrzezenie("PORP-ELEKTRYKA-BRAK-DANYCH", "info", `panel „${nazwa}” bez danych elektrycznych — stringi nieocenione`, { nazwa }, "elektryka")
 }
+
+/**
+ * A3: typed electrical data do not agree with the rated power — Vmp × Imp differs from Pmax by more than the rounding of a datasheet
+ * (the whole catalogue stays within 2%), which usually means a mistyped number. Not a norm: a consistency check of the typed numbers.
+ */
+export function elektrykaNiespojnaPorp(nazwa: string, vmpImpW: number, pmaxW: number): Warning {
+  return ostrzezenie(
+    "PORP-ELEKTRYKA-NIESPOJNA",
+    "warning",
+    `„${nazwa}”: Vmp × Imp = ${vmpImpW.toFixed(0)} W, a moc panelu to ${pmaxW} W — sprawdź przepisane liczby`,
+    { nazwa, vmpImp: Math.round(vmpImpW), pmax: pmaxW },
+    "elektryka",
+  )
+}

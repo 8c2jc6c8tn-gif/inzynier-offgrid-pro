@@ -130,6 +130,19 @@ describe("calculatePorownywarkaPaneli — elektryka i masa (A3)", () => {
     expect(kody).toContain("PORP-ELEKTRYKA-BRAK-DANYCH")
   })
 
+  it("dane elektryczne wpisane ręcznie dają taki sam wynik jak z katalogu, a niespójne Vmp × Imp daje ostrzeżenie", () => {
+    const zKarty = ja500()
+    const reczny: DanePanelu = { ...zKarty, id: "reczny", nazwa: "Wpisany ręcznie", elektryka: { ...zKarty.elektryka! } }
+    const wynik = calculatePorownywarkaPaneli(wejscie([zKarty, reczny], -20))
+    expect(wynik.value.panele[1]!.elektryka!.vocZimaPanelaV).toBeCloseTo(wynik.value.panele[0]!.elektryka!.vocZimaPanelaV, 9)
+    // 36,91 V × 13,55 A = 500,1 W ≈ 500 W: zgodne, bez ostrzeżenia
+    expect(wynik.warnings.map((x) => x.code)).not.toContain("PORP-ELEKTRYKA-NIESPOJNA")
+    // literówka: Imp 15,55 A zamiast 13,55 A → Vmp × Imp = 574 W przy 500 W
+    const zLiterowka: DanePanelu = { ...reczny, elektryka: { ...reczny.elektryka!, impA: 15.55 } }
+    const w2 = calculatePorownywarkaPaneli(wejscie([zLiterowka], -20))
+    expect(w2.warnings.filter((x) => x.code === "PORP-ELEKTRYKA-NIESPOJNA")).toHaveLength(1)
+  })
+
   it("najniższa temperatura poza zakresem → INVALID_INPUT", () => {
     const r = calculatePorownywarkaPaneli(wejscie([ja500()], -150))
     expect(r.status).toBe("INVALID_INPUT")

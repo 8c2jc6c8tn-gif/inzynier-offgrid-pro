@@ -1,6 +1,6 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
-import { HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
+import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
@@ -19,6 +19,7 @@ import {
   brakTemperaturyGodzinowejPorp,
   brakWymiarowPaneluPorp,
   elektrykaBrakDanychPorp,
+  elektrykaNiespojnaPorp,
   elektrykaBrakTminPorp,
   liczbaPrzekraczaMiejscePorp,
   modelUproszczonyPorp,
@@ -261,7 +262,12 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (brakTemperatury) warnings.push(brakTemperaturyGodzinowejPorp())
   if (bezTemperatury.length > 0) warnings.push(modelUproszczonyPorp(bezTemperatury.map((p) => p.nazwa).join(", ")))
   for (const p of input.panele) if (p.bifacjalny) warnings.push(bifacjalnyPominietyPorp(p.nazwa))
-  for (const p of input.panele) if (!p.elektryka) warnings.push(elektrykaBrakDanychPorp(p.nazwa))
+  for (const p of input.panele) {
+    if (!p.elektryka) warnings.push(elektrykaBrakDanychPorp(p.nazwa))
+    else if (Math.abs((p.elektryka.vmpV * p.elektryka.impA) / p.pmaxW - 1) > ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL) {
+      warnings.push(elektrykaNiespojnaPorp(p.nazwa, p.elektryka.vmpV * p.elektryka.impA, p.pmaxW))
+    }
+  }
   if ((input.tminC === null || input.tminC === undefined) && input.panele.some((p) => p.elektryka)) warnings.push(elektrykaBrakTminPorp())
 
   const stawka = stawkaKwh(input.wycena)

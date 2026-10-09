@@ -83,3 +83,6 @@ export const KRYTERIA: readonly DefinicjaKryterium[] = [
   { id: "tolerancjaMocy", waga: 2.5, kierunek: null, domyslnie: true },
   { id: "wiarygodnosc", waga: 2.5, kierunek: null, domyslnie: true },
 ]
+
+/** Largest accepted difference between Vmp × Imp and Pmax before the typed electrical data count as inconsistent [-]; the catalogue stays within it. */
+export const ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL = 0.02

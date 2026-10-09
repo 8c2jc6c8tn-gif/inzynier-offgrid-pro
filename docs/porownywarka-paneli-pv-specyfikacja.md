@@ -520,3 +520,12 @@ Prośba właściciela: reguła odstępu zależna od kąta pochylenia, a najlepie
 - **Dane elektryczne tylko z katalogu:** panel wpisany ręcznie (bez wyboru z katalogu) albo z ręcznie zmienioną liczbą z karty nie ma danych elektrycznych — ekran mówi to wprost. Ręczne pola Voc/Vmp/Isc/Imp/β i odczyt z karty (OCR) dojdą w Etapie B.
 - **Narzędzie AI** `porownaj_panele`: nowe wejścia `tminC` i `panele[].elektryka`, nowe wyjście `panele[].elektryka` i `masaNaM2Kg`.
 - **Uwaga o planie:** tabela etapów (sekcja 14) umieszcza koszt osprzętu (BOS) w A4; zaakceptowany cennik (`docs/zrodla/cennik-bos-orientacyjny-2026-10-09.md`) wchodzi więc do kodu w A4, razem z falownikiem (ilości: kabel DC, złączki MC4, zabezpieczenia wynikają ze stringów z A3 i wyboru falownika).
+
+## 26. Ręczne dane elektryczne panelu spoza katalogu (09.10.2026)
+
+Zamyka punkt z sekcji 25 („dane elektryczne tylko z katalogu”) i luka nr 1 instalatora: panel spoza katalogu można teraz ocenić.
+- **Pola w panelu** (tylko gdy panel nie pochodzi z katalogu): Voc, Vmp, Isc, Imp, β(Voc) i maks. napięcie układu DC — wszystkie sześć wymagane razem; maks. bezpiecznik szeregowy opcjonalny (`null` = przedziału bezpiecznika nie wyznaczamy). Brak któregokolwiek z sześciu = brak oceny stringów, nic nie jest dopełniane „typową” wartością.
+- **Kontrola literówek:** gdy |Vmp × Imp / Pmax − 1| > 2%, pokazujemy ostrzeżenie `PORP-ELEKTRYKA-NIESPOJNA` („sprawdź przepisane liczby”). 2% to tolerancja zaokrągleń kart — cały katalog mieści się w niej (test spójności katalogu); to kontrola arytmetyczna, nie norma.
+- **Silnik** bez zmian (`ocenElektryke`): ręczne dane trafiają do niego jako `DanePanelu.elektryka`, jak z katalogu; zmiana jest w `lib/porownywarka-paneli/stan.ts` (`elektrykaRecznaZPanelu`) i w formularzu. Wybór panelu z katalogu zawsze bierze elektrykę z katalogu.
+- **OCR kart** (Etap B) ma wypełniać te same pola, więc nic w silniku się nie zmieni.
+

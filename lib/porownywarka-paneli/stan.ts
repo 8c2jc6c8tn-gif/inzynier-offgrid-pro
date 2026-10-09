@@ -5,7 +5,7 @@
  */
 import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
-import type { DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
+import type { DaneElektryczne, DanePanelu, KryteriaWybor, OknoStrefy, PorownywarkaInput, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import type { ZapisTmy } from "@/lib/lokalizacja/dane-tmy"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
@@ -29,6 +29,17 @@ export type PanelSeed = {
   szerokosc: string
   masa: string
   bifacjalny: boolean
+  /**
+   * Hand-typed electrical data (STC) for a panel that is not from the catalogue; used only while `katalogId` is empty.
+   * Drafts saved before this field have no keys. Voc, Vmp, Isc, Imp, β and the system voltage limit are required together; the series fuse is optional.
+   */
+  voc?: string
+  vmp?: string
+  isc?: string
+  imp?: string
+  betaVoc?: string
+  maxV?: string
+  maxBezp?: string
 }
 
 /** Miejsce instalacji (U19): własna nazwa, kąty (z projektu albo wpisane), liczba paneli albo wymiary miejsca. */
@@ -89,6 +100,13 @@ export const PANEL_PUSTY = (id: string): PanelSeed => ({
   szerokosc: "",
   masa: "",
   bifacjalny: false,
+  voc: "",
+  vmp: "",
+  isc: "",
+  imp: "",
+  betaVoc: "",
+  maxV: "",
+  maxBezp: "",
 })
 
 export const MIEJSCE_PUSTE = (id: string): MiejsceSeed => ({
@@ -206,6 +224,21 @@ export function wymiaryZMiejsca(m: MiejsceSeed): WymiaryMiejsca | null {
   return m.montaz === "pochylony-na-konstrukcji" && od !== undefined && doH !== undefined ? { ...wymiary, oknoOdH: od, oknoDoH: doH } : wymiary
 }
 
+/**
+ * Electrical data typed by hand for a panel outside the catalogue: all of Voc, Vmp, Isc, Imp, β and the system voltage limit,
+ * otherwise `null` (nothing is completed from a "typical" panel). The series fuse is optional (`null` = the card does not give it).
+ */
+export function elektrykaRecznaZPanelu(p: PanelSeed): DaneElektryczne | null {
+  const voc = liczba(p.voc ?? "")
+  const vmp = liczba(p.vmp ?? "")
+  const isc = liczba(p.isc ?? "")
+  const imp = liczba(p.imp ?? "")
+  const beta = liczba(p.betaVoc ?? "")
+  const maxV = liczba(p.maxV ?? "")
+  if (voc === undefined || vmp === undefined || isc === undefined || imp === undefined || beta === undefined || maxV === undefined) return null
+  return { vocV: voc, vmpV: vmp, iscA: isc, impA: imp, betaVocPctNaC: beta, maxNapieciaSystemuV: maxV, maxBezpiecznikSzeregowyA: liczba(p.maxBezp ?? "") ?? null }
+}
+
 export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu | null {
   const moc = liczba(p.moc)
   if (moc === undefined) return null
@@ -224,7 +257,7 @@ export function panelDoSilnika(p: PanelSeed, nazwaDomyslna: string): DanePanelu 
     masaKg: liczba(p.masa) ?? null,
     bifacjalny: p.bifacjalny,
     // Electrical data come only from the catalogue card; a hand-edited datasheet number clears `katalogId`, so they never outlive a changed panel.
-    elektryka: p.katalogId === "" ? null : (znajdzPanelKatalogu(p.katalogId)?.elektryka ?? null),
+    elektryka: p.katalogId === "" ? elektrykaRecznaZPanelu(p) : (znajdzPanelKatalogu(p.katalogId)?.elektryka ?? null),
   }
 }
 

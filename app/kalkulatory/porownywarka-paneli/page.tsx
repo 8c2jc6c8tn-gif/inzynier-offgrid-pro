@@ -753,6 +753,37 @@ export default function PorownywarkaPaneliPage() {
               </div>
               <PomocPola ekran="porownywarka-paneli" pole="bifacjalny" />
             </div>
+            {p.katalogId === "" && (
+              <details className="rounded-md border p-3">
+                <summary className="cursor-pointer text-small font-medium">{t("UI-PORP-ELE-RECZNE-TYTUL")}</summary>
+                <p className="mt-2 text-caption text-muted-foreground">{t("UI-PORP-ELE-RECZNE-OPIS")}</p>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  {(
+                    [
+                      ["voc", "UI-PORP-ELE-F-VOC", "V", "eleVoc"],
+                      ["vmp", "UI-PORP-ELE-F-VMP", "V", "eleVmp"],
+                      ["isc", "UI-PORP-ELE-F-ISC", "A", "eleIsc"],
+                      ["imp", "UI-PORP-ELE-F-IMP", "A", "eleImp"],
+                      ["betaVoc", "UI-PORP-ELE-F-BETA", "%/°C", "eleBeta"],
+                      ["maxV", "UI-PORP-ELE-F-MAXV", "V", "eleMaxV"],
+                      ["maxBezp", "UI-PORP-ELE-F-MAXBEZP", "A", "eleMaxBezp"],
+                    ] as const
+                  ).map(([pole, klucz, jednostka, pomoc]) => (
+                    <Pole
+                      key={pole}
+                      label={t(klucz)}
+                      unit={jednostka}
+                      type="number"
+                      inputMode="decimal"
+                      step="any"
+                      value={p[pole] ?? ""}
+                      onChange={(e) => ustawPanel(p.id, { [pole]: e.target.value })}
+                      pomoc={<PomocPola ekran="porownywarka-paneli" pole={pomoc} />}
+                    />
+                  ))}
+                </div>
+              </details>
+            )}
             {stan.panele.length > 1 && (
               <Button
                 variant="outline"
