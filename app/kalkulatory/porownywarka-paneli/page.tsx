@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
+import { PrzelacznikTrybu, PytaniaProste, WerdyktProstyKarta } from "@/components/porownywarka-paneli/tryb-prosty"
 import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
 import { zwrotyZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
@@ -36,6 +37,7 @@ import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import {
   aktywneMiejsce,
   budujWejscie,
+  efektywnyTryb,
   kolejnyId,
   KWOTY,
   MIEJSCE_PUSTE,
@@ -193,6 +195,7 @@ export default function PorownywarkaPaneliPage() {
     [mikro, odbiorniki, profilObiektu, zuzycieDom],
   )
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
+  const prosty = efektywnyTryb(stan) === "prosty"
   const { profil, zapiszPanel } = useProfilSprzetu()
   /** U14: saving the primary panel is always asked first, never automatic. */
   const [doZapisuId, setDoZapisuId] = useState<string | null>(null)
@@ -220,6 +223,11 @@ export default function PorownywarkaPaneliPage() {
     const przeniesiony = migrujStarySzkic(stan)
     if (przeniesiony) setStan(przeniesiony)
   }, [stan, setStan])
+
+  // The mode is fixed on the first render of a draft that has none (an old draft that already holds data stays in the full mode); without this it would flip as soon as the user types the first value.
+  useEffect(() => {
+    if (stan.tryb === undefined) setStan((prev) => (prev.tryb ? prev : { ...prev, tryb: efektywnyTryb(prev) }))
+  }, [stan.tryb, setStan])
 
   const miejsce = aktywneMiejsce(stan)
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
@@ -342,6 +350,37 @@ export default function PorownywarkaPaneliPage() {
     return t("UI-PORP-GC-ZIMA", { lider: nazwaPanelu(r.liderId), drugi: nazwaPanelu(r.drugiId), kwh: f1(r.roznicaKwh) })
   })()
 
+  /** The note under the consumption switch (consumption found / missing); shown in the full mode under the checkbox and in the simple mode under question 1. */
+  const komunikatZuzycia = (
+    <>
+      {stan.uzyjZuzycia &&
+            (zuzycie ? (
+              <p className="text-caption text-muted-foreground">
+                {mikro
+                  ? t("UI-PORP-ZUZYCIE-MIKRO", { rodzaj: t(KLUCZ_NAZWY_OBIEKTU[profilObiektu!.rodzaj as keyof typeof KLUCZ_NAZWY_OBIEKTU]), kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })
+                  : t("UI-PORP-ZUZYCIE-JEST", { kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })}
+              </p>
+            ) : mikro ? (
+              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
+                {t("UI-PORP-ZUZYCIE-MIKRO-BRAK")}{" "}
+                <Link href="/kalkulatory/zuzycie-per-urzadzenie" className="underline">
+                  {t("UI-PORP-ZUZYCIE-MIKRO-LINK")}
+                </Link>{" "}
+                <Link href="/ustawienia" className="underline">
+                  {t("UI-PORP-ZUZYCIE-MIKRO-USTAWIENIA")}
+                </Link>
+              </p>
+            ) : (
+              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
+                {t("UI-PORP-ZUZYCIE-BRAK")}{" "}
+                <Link href="/kalkulatory/zuzycie-miesieczne" className="underline">
+                  {t("UI-PORP-ZUZYCIE-LINK")}
+                </Link>
+              </p>
+            ))}
+    </>
+  )
+
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/porownywarka-paneli" />
@@ -356,6 +395,26 @@ export default function PorownywarkaPaneliPage() {
         </p>
       )}
 
+      <PrzelacznikTrybu tryb={prosty ? "prosty" : "pelny"} onZmien={(k) => ustaw("tryb", k)} />
+
+      {prosty ? (
+        <PytaniaProste
+          stan={stan}
+          miejsce={miejsce}
+          powierzchnie={powierzchnie}
+          waluta={waluta}
+          blokZuzycia={komunikatZuzycia}
+          ustaw={ustaw}
+          ustawMiejsce={ustawMiejsce}
+          wybierzPowierzchnie={wybierzPowierzchnie}
+          ustawPanel={ustawPanel}
+          wstawZKatalogu={wstawZKatalogu}
+          dodajPanel={dodajPanel}
+          usunPanel={(id) => setStan((prev) => ({ ...prev, panele: prev.panele.filter((x) => x.id !== id) }))}
+          naPelny={() => ustaw("tryb", "pelny")}
+        />
+      ) : (
+        <>
       <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} />
 
       <section className="flex flex-col gap-4">
@@ -563,31 +622,7 @@ export default function PorownywarkaPaneliPage() {
             </div>
             <PomocPola ekran="porownywarka-paneli" pole="uzyjZuzycia" />
           </div>
-          {stan.uzyjZuzycia &&
-            (zuzycie ? (
-              <p className="text-caption text-muted-foreground">
-                {mikro
-                  ? t("UI-PORP-ZUZYCIE-MIKRO", { rodzaj: t(KLUCZ_NAZWY_OBIEKTU[profilObiektu!.rodzaj as keyof typeof KLUCZ_NAZWY_OBIEKTU]), kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })
-                  : t("UI-PORP-ZUZYCIE-JEST", { kwh: f0(zuzycie.reduce((a, b) => a + b, 0)) })}
-              </p>
-            ) : mikro ? (
-              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
-                {t("UI-PORP-ZUZYCIE-MIKRO-BRAK")}{" "}
-                <Link href="/kalkulatory/zuzycie-per-urzadzenie" className="underline">
-                  {t("UI-PORP-ZUZYCIE-MIKRO-LINK")}
-                </Link>{" "}
-                <Link href="/ustawienia" className="underline">
-                  {t("UI-PORP-ZUZYCIE-MIKRO-USTAWIENIA")}
-                </Link>
-              </p>
-            ) : (
-              <p role="status" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-3 text-small text-werdykt-uwaga-foreground">
-                {t("UI-PORP-ZUZYCIE-BRAK")}{" "}
-                <Link href="/kalkulatory/zuzycie-miesieczne" className="underline">
-                  {t("UI-PORP-ZUZYCIE-LINK")}
-                </Link>
-              </p>
-            ))}
+          {komunikatZuzycia}
         </div>
       </section>
 
@@ -987,6 +1022,9 @@ export default function PorownywarkaPaneliPage() {
         )}
       </section>
 
+        </>
+      )}
+
       <section className="flex flex-col gap-3">
         <h2 className="font-semibold">{t("UI-PORP-KROK-WYNIK")}</h2>
         {result.status === "INVALID_INPUT" ? (
@@ -1000,6 +1038,8 @@ export default function PorownywarkaPaneliPage() {
           </div>
         ) : (
           <>
+            {prosty && <WerdyktProstyKarta wynik={result} waluta={waluta} naPelny={() => ustaw("tryb", "pelny")} />}
+            {!prosty && (
             <WerdyktPanel poziom={result.status === "VALID" ? "ok" : "uwaga"} etykieta={t("UI-PORP-WERDYKT")}>
               <WynikGlowny>{naglowekWyniku}</WynikGlowny>
               {v.roznicaZimowa && (
@@ -1039,6 +1079,7 @@ export default function PorownywarkaPaneliPage() {
               </div>
               <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
             </WerdyktPanel>
+            )}
 
             {v.wykluczone.length > 0 && (
               <ul role="status" className="flex flex-col gap-1 rounded-md border bg-muted/50 p-3 text-small text-muted-foreground">
@@ -1048,6 +1089,8 @@ export default function PorownywarkaPaneliPage() {
               </ul>
             )}
 
+            {!prosty && (
+            <>
             <div role="tablist" aria-label={t("UI-PORP-KROK-WYNIK")} className="flex flex-wrap gap-2">
               {ZAKLADKI.map((z) => (
                 <Button
@@ -1458,6 +1501,8 @@ export default function PorownywarkaPaneliPage() {
                 </div>
               ))}
             </div>
+            </>
+            )}
           </>
         )}
       </section>

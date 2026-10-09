@@ -1152,3 +1152,7 @@ Status: 🔎 nowe
 Stopka w wydruku HTML, która ma być na każdej stronie i nie nachodzić na treść, najpewniej działa jako `<tfoot>` tabeli otaczającej dokument: przeglądarka powtarza ją i rezerwuje na nią miejsce. `position: fixed` powtarza element, ale zasłania treść dochodzącą do dołu strony. Sprawdzone w druku do PDF (Chromium, 3 strony A4). Dopisać do rozdziału o dokumentach i wydrukach, jeśli taki powstanie.
 Status: 🔎 nowe
 
+## [09.10.2026] Tryb prosty i pełny ekranu na jednym szkicu; tryb zapisywany, nie wyliczany na żywo
+Ekran z wieloma polami warto dać w dwóch trybach (prosty: kilka pytań i jedna rekomendacja po ludzku; pełny: wszystkie ustawienia) na tym samym szkicu, żeby przełączanie niczego nie gubiło. Pułapka: domyślny tryb wyliczany z zawartości szkicu („puste = prosty, są dane = pełny”) przeskakuje w trakcie wpisywania pierwszej liczby; wyliczenie trzeba wykonać raz przy pierwszym renderze szkicu i zapisać w nim. Rekomendacja trybu prostego ma być tabelą decyzyjną na liczbach, które ekran pełny też pokazuje (bez nowych wag), a przy sprzeczności kryteriów pokazywać kompromis zamiast wskazywać zwycięzcę.
+Status: 🔎 nowe
+

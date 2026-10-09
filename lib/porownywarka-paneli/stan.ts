@@ -68,6 +68,8 @@ export type WersjaOfertySeed = { panelId: string; etykieta: string }
 export type RodzajWyceny = "" | "siec" | "dzienNoc" | "reczna" | "agregat"
 
 export type FormularzStan = {
+  /** Screen mode; absent = decided by `efektywnyTryb` (a draft that already holds data stays in the full mode, an empty one starts simple). */
+  tryb?: "prosty" | "pelny"
   miejsca: MiejsceSeed[]
   aktywneMiejsceId: string
   uzyjZuzycia: boolean
@@ -193,6 +195,15 @@ export const STAN_ZESTAWOW_POCZATKOWY: StanZestawow = { zestawy: [] }
 export const KWOTY_ZESTAWOW = (stan: StanZestawow, wspolczynnik: number): StanZestawow => ({
   zestawy: stan.zestawy.map((z) => ({ ...z, stan: KWOTY(z.stan, wspolczynnik) })),
 })
+
+/** The mode the screen shows: the saved choice, otherwise the full mode for a draft that already holds data and the simple one for an empty form. */
+export function efektywnyTryb(stan: Pick<FormularzStan, "tryb" | "panele" | "miejsca">): "prosty" | "pelny" {
+  if (stan.tryb) return stan.tryb
+  const maDane =
+    stan.panele.some((p) => p.moc.trim() !== "" || p.katalogId !== "" || p.cena.trim() !== "") ||
+    stan.miejsca.some((m) => [m.nachylenie, m.azymut, m.liczbaPaneli, m.wymDlugosc, m.wymSzerokosc].some((x) => x.trim() !== ""))
+  return maDane ? "pelny" : "prosty"
+}
 
 export function aktywneMiejsce(stan: FormularzStan): MiejsceSeed {
   return stan.miejsca.find((m) => m.id === stan.aktywneMiejsceId) ?? stan.miejsca[0] ?? MIEJSCE_PUSTE("m1")

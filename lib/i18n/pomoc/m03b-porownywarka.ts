@@ -269,6 +269,12 @@ export const pl = {
         gdzie: "Włącz po wybraniu urządzenia w zakładce „Falownik i osprzęt”. Wynik jest zakresem, bo cennik osprzętu jest zakresem cen; montaż i podłączenie nie są wliczone.",
         zakres: "Domyślnie wyłączone; bez wybranego urządzenia nie ma co doliczyć.",
       },
+      stronaSwiata: {
+        nazwa: "Strona świata, w którą patrzą panele",
+        cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
+        gdzie: "Kompas w telefonie albo mapa: w którą stronę patrzy przód panelu (dla dachu: w którą stronę opada połać).",
+        zakres: "Osiem kierunków co 45°. Inny azymut ustawisz w trybie pełnym.",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -700,6 +706,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Turn on after choosing a device in the “Inverter and accessories” tab. The result is a range because the accessory price list is a range of prices; installation and connection are not included.",
         zakres: "Off by default; without a chosen device there is nothing to add.",
       },
+      stronaSwiata: {
+        nazwa: "The direction the panels face",
+        cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
+        gdzie: "A compass on the phone or a map: which way the front of the panel faces (for a roof: which way the slope falls).",
+        zakres: "Eight directions every 45°. You can set another azimuth in the full mode.",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1130,6 +1142,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Добавляет к цене панелей выбранное устройство (если указана его цена) и ориентировочные комплектующие из вкладки «Инвертор и комплектующие», чтобы срок окупаемости и стоимость зимнего кВт·ч отражали цену всей DC-установки, а не одних панелей.",
         gdzie: "Включите после выбора устройства во вкладке «Инвертор и комплектующие». Результат — диапазон, потому что прайс-лист комплектующих задаёт диапазон цен; монтаж и подключение не включены.",
         zakres: "По умолчанию выключено; без выбранного устройства добавлять нечего.",
+      },
+      stronaSwiata: {
+        nazwa: "Сторона света, в которую смотрят панели",
+        cel: "Вы выбираете направление вместо ввода азимута в градусах; приложение переводит его в азимут (север 0°, восток 90°, юг 180°, запад 270°). Юг даёт больше всего энергии зимой.",
+        gdzie: "Компас в телефоне или карта: куда смотрит лицевая сторона панели (для крыши: в какую сторону опускается скат).",
+        zakres: "Восемь направлений через 45°. Другой азимут можно задать в полном режиме.",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",
