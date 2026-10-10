@@ -9,7 +9,7 @@ export type WynikLimitu = { ok: true } | { ok: false; ponowZaSekund: number }
 
 export type Limiter = { sprobuj: (klucz: string) => WynikLimitu }
 
-/** Wartości wyjściowe do potwierdzenia przez właściciela (spec 33): 10 odczytów na godzinę z jednego adresu, 200 na dobę w całej aplikacji. */
+/** Wartości potwierdzone przez właściciela 10.10.2026 (spec 33): 10 odczytów na godzinę z jednego adresu, 200 na dobę w całej aplikacji. */
 export const LIMIT_NA_KLUCZ = { maks: 10, oknoMs: 60 * 60 * 1000 } as const
 export const LIMIT_GLOBALNY = { maks: 200, oknoMs: 24 * 60 * 60 * 1000 } as const
 
