@@ -629,3 +629,27 @@ Rozszerzenie zakładki „Bilans godzinowy” (sekcja 34), wersja 3.6.0, silnik 
 - **Czego nie robi:** nie sprawdza, czy tyle paneli zmieści się w miejscu (to robi pakowanie z wymiarów), nie liczy kosztu zestawu, nie zna profilu dobowego zużycia ani limitów mocy (jak sekcja 34).
 - **Testy:** ręczny rachunek na dobach syntetycznych (cel 50% bez baterii i z baterią 10 kWh, cele nieosiągalne z maksimum 4/24 i 14/24, panel bez energii zimą), integracja z silnikiem (n spełnia cel, n−1 nie; wynik niezależny od wpisanej liczby paneli; „w sumie” ≤ godzinowo; cel poza zakresem → INVALID_INPUT) i narzędzie AI.
 
+
+## 37. Zima z ociepleniem budynku — prosta wersja podstawowa i import ze Szkieletowego (PROJEKT, 10.10.2026; kod jeszcze nie powstał)
+
+**Status:** specyfikacja do akceptacji właściciela, bez kodu. Decyzje właściciela (10.10.2026): (1) metodykę przejmujemy z „Inżynier Szkieletowy Pro” (tam gotowa i sprawdzona), nie wymyślamy własnej; (2) w Offgrid jest **prosta wersja podstawowa** wpisywana ręcznie (klienci budujący dom liczą w Szkieletowym i dopiero potem przechodzą do Offgrid); (3) **docelowo** dokładne obliczenia pod konkretny budynek przez **import danych budynku** ze Szkieletowego. Zastrzeżenie widoczne w UI: **nie liczymy mostków cieplnych ani szczegółów węzłów** — to robi Szkieletowy.
+
+### 37.1 Co przejmujemy ze Szkieletowego (odczyt repo `inzynier-szkieletowy-pro`, 10.10.2026)
+- **U przegrody:** `U = 1 / (Rsi + Σ(d_j/λ_j) + Rse)`, d w metrach (źródło: `lib/warstwy-przegrod.ts`, `obliczUDokladne`). Opory przejmowania wg PN-EN ISO 6946:2017 Tablica 7 (w Szkieletowym zweryfikowana wizualnie na stronie 21 skanu): strumień w górę (dach) Rsi 0,10; poziomo (ściana) 0,13; w dół (podłoga) 0,17; Rse = 0,04 dla wszystkich. To zamyka naszą otwartą sprawę „Rsi per kierunek strumienia” (do tej pory 0,13 dla wszystkich); wartości są z normy, więc nie są zgadywane.
+- **Bilans roczny** (`lib/modules/lambda/oblicz.ts`, `obliczBilans`): `Qtr = ΣU·A · HDD · 24 / 1000` [kWh/rok]; `Qve = V · 0,34 · n · (1 − ηrek) · HDD · 24 / 1000`; `Qstraty = Qtr + Qve`. Stopniodni HDD w definicji A: Σ(20 − θdobowa) dla θdobowa < 15 °C (zgodna z założeniem temperatury wewnętrznej 20 °C). Zyski bytowe 250 W × 220 dni sezonu × współczynnik wykorzystania 0,9 — **założenia, nie norma** (Szkieletowy oznacza je jawnie jako 🔎); w Offgrid mają być widoczne jako założenia do zmiany, nie ukryte stałe.
+- **Czego nie przejmujemy:** mostków słupków/legarów (ISO 6946 §6.7.2 + Zał. F), zysków słonecznych (w Szkieletowym też niezaimplementowane), Glasera/punktu rosy, klasyfikacji EP/Zero/Plus.
+
+### 37.2 Dane od użytkownika (prosta wersja)
+Powierzchnia i wysokość (kubatura ogrzewana), temperatura wewnątrz (domyślnie 20 °C jak w Szkieletowym; zmiana jawnie); dla ściany, dachu i podłogi: warstwy (materiał, grubość) **albo** gotowe U; okna i drzwi: powierzchnia i U; krotność wymiany powietrza n (domyślnie 0,5 jak w Szkieletowym) i sprawność rekuperacji; źródło ciepła (prąd bezpośrednio η = 1, pompa ciepła z COP, inne z jawną sprawnością) i zapas paliwa (do „na ile wystarczy”). Materiały: lista z λ **z Szkieletowego** (`lib/warstwy-przegrod.ts`) wraz z jej statusem „orientacyjne, 🔎 do weryfikacji” — w Offgrid pokazujemy ten status, nie podajemy λ jako pewnika; użytkownik może wpisać λ z karty produktu.
+- Stopniodni i temperatury miesięczne: z **bazy meteo Szkieletowego** (61 stacji MIIB + PVGIS) albo z lokalizacji i klimatu już zapisanych w Offgrid (`offgrid.pvgis-tmy.v1`, T2m z TMY) — do rozstrzygnięcia w 37.4.
+
+### 37.3 Wynik i spięcie z bilansem zimy PV
+Miesięczne zapotrzebowanie na ciepło → zapotrzebowanie na prąd (przez COP/sprawność źródła) → dodane do zużycia zimowego, z którego liczy się pokrycie godzinowe (sekcje 34 i 36). Do „na ile wystarczy”: zapas paliwa ÷ miesięczne zużycie. Silnik: reużyć `lib/core/modules/ogrzewanie/obciazenie-cieplne` (Σ U·A·ΔT + wentylacja) i dołożyć wejście „z warstw”; uzgodnić z Szkieletowym wynik na tym samym budynku testem krzyżowym (te same dane → ten sam Qtr/Qve do tolerancji zaokrągleń).
+
+### 37.4 Pytania otwarte do właściciela
+1. **Źródło klimatu:** A — przejąć bazę meteo Szkieletowego (61 stacji, ~125 MB danych godzinowych nie, tylko miesięczne i stopniodni); B — liczyć HDD z TMY, który Offgrid już zapisuje. Rekomendacja B (zero nowych danych, spójne z lokalizacją użytkownika), z tabelą stacji tylko jeśli B okaże się niewystarczające.
+2. **Zyski bytowe 250 W / sezon 220 dni:** przejąć jako jawne założenie (rekomendacja), czy pominąć w wersji podstawowej (bezpieczniej: zawyża zapotrzebowanie).
+3. **Format importu (standard 18.15):** plik JSON z wersjonowanym schematem, wyłącznie dane wejściowe budynku (warstwy, geometria, otwory, lokalizacja, n, ηrek), nigdy wyniki; import to jednorazowa kopia, nie synchronizacja; Offgrid odmawia przy niezgodnej wersji schematu. **Eksport musi powstać po stronie Szkieletowego** (nie mam tam praw zapisu) — to osobne zadanie w tamtym repo. Do uzgodnienia: schemat pliku.
+
+### 37.5 Czego ta funkcja nie zrobi
+Mostków cieplnych, zysków słonecznych, Glasera, doboru źródła ciepła na moc szczytową (to osobny moduł obciążenia cieplnego), szczegółów węzłów. W UI i w narzędziu AI: jawne zastrzeżenie, że wynik jest uproszczony, a dokładny wymaga Inżyniera Szkieletowego Pro.
