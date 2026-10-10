@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { MAKS_PANELI_W_DOBORZE } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
 import type { BilansSeed } from "@/lib/porownywarka-paneli/stan"
@@ -64,6 +65,19 @@ export function BilansGodzinowyPaneli(p: {
               onChange={(e) => p.onBil({ sprawnosc: e.target.value })}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="bilSprawnosc" />}
             />
+            <Pole
+              label={t("UI-PORP-BIL-CEL")}
+              unit="%"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={100}
+              step="any"
+              value={p.bil.celZimy ?? ""}
+              onChange={(e) => p.onBil({ celZimy: e.target.value })}
+              placeholder={t("UI-PORP-BIL-CEL-PODPOWIEDZ")}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="bilCel" />}
+            />
           </div>
           {zProfilu !== undefined ? (
             <div className="flex flex-wrap items-center gap-2">
@@ -98,6 +112,15 @@ export function BilansGodzinowyPaneli(p: {
                 [t("UI-PORP-BIL-W-KOSZT"), koszt(b.kosztBrakuZimaZl), koszt(b.kosztBrakuRokZl)],
               ]
               if (b.cykleRok !== null) wiersze.push([t("UI-PORP-BIL-W-CYKLE"), "", f1(b.cykleRok)])
+              const dobor = b.doborNaZime
+              if (dobor) {
+                const godz =
+                  dobor.panelowGodzinowo !== null
+                    ? f0(dobor.panelowGodzinowo)
+                    : t("UI-PORP-BIL-DOBOR-NIEOSIAGALNE", { maks: MAKS_PANELI_W_DOBORZE, pokr: f0(dobor.pokrycieMaksPct) })
+                wiersze.push([t("UI-PORP-BIL-W-DOBOR-SUMA"), dobor.panelowSumowo === null ? "–" : f0(dobor.panelowSumowo), ""])
+                wiersze.push([t("UI-PORP-BIL-W-DOBOR-GODZ"), godz, ""])
+              }
               const wykorzystaneGodzinowo = b.bezposrednioRokKwh + b.zBateriiRokKwh
               return (
                 <div key={panel.id} className="flex flex-col gap-2">
@@ -122,6 +145,16 @@ export function BilansGodzinowyPaneli(p: {
                       </tbody>
                     </table>
                   </div>
+                  {b.doborNaZime && (
+                    <p className="text-caption text-muted-foreground">
+                      {t("UI-PORP-BIL-DOBOR-NOTA", {
+                        cel: f0(b.doborNaZime.celPct),
+                        zuzycie: f0(b.doborNaZime.zuzycieZimaKwh),
+                        panel: f1(b.doborNaZime.zimaNaPanelKwh),
+                        bat: f1(b.pojemnoscKwh),
+                      })}
+                    </p>
+                  )}
                   {panel.uzytecznaRokKwh !== null && (
                     <p className="text-caption text-muted-foreground">
                       {t("UI-PORP-BIL-POROWNANIE", { mies: f0(panel.uzytecznaRokKwh), godz: f0(wykorzystaneGodzinowo) })}

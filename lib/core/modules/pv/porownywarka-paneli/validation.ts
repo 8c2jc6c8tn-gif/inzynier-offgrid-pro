@@ -55,6 +55,9 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     if (bil.sprawnoscCyklu !== null && !(Number.isFinite(bil.sprawnoscCyklu) && bil.sprawnoscCyklu > 0 && bil.sprawnoscCyklu <= 1)) {
       errors.push(porpPozaZakresem("PORP-SPRAWNOSC-CYKLU-POZA-ZAKRESEM", "sprawnoscCyklu", bil.sprawnoscCyklu, "(0–1] czyli (0–100] %"))
     }
+    if (bil.celZimyPct != null && !(Number.isFinite(bil.celZimyPct) && bil.celZimyPct > 0 && bil.celZimyPct <= 100)) {
+      errors.push(porpPozaZakresem("PORP-CEL-ZIMY-POZA-ZAKRESEM", "celZimyPct", bil.celZimyPct, "(0–100] %"))
+    }
   }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {

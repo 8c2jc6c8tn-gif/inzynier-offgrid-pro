@@ -329,6 +329,12 @@ export const pl = {
         gdzie: "Karta baterii: „sprawność cyklu”, „round-trip efficiency” albo „sprawność energetyczna”.",
         zakres: "Liczba większa od 0 i najwyżej 100. Zostaw puste, jeśli karta jej nie podaje (wtedy 100% i ostrzeżenie w założeniach).",
       },
+      bilCel: {
+        nazwa: "Cel pokrycia zimy [%]",
+        cel: "Jaką część swojego zużycia z listopada–lutego mają pokryć panele. Podam, ile paneli to da: w sumie i godzina po godzinie z baterią.",
+        gdzie: "To Twoja decyzja, nie dana z karty. Zostaw puste, jeśli chcesz tylko bilans bez doboru liczby paneli.",
+        zakres: "Liczba większa od 0 i najwyżej 100. Cel bliski 100% bywa nieosiągalny: w nocy panele nie produkują, a bateria ma skończoną pojemność.",
+      },
       ofertaUwagi: {
         nazwa: "Uwagi do zestawienia",
         cel: "Własne zdania, które trafią na wydruk pod porównaniem (np. termin, warunki, co jest poza zestawieniem).",
@@ -820,6 +826,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Battery datasheet: “cycle efficiency”, “round-trip efficiency” or “energy efficiency”.",
         zakres: "A number greater than 0 and at most 100. Leave empty if the datasheet does not give it (then 100% and a warning in the assumptions).",
       },
+      bilCel: {
+        nazwa: "Winter coverage target [%]",
+        cel: "How much of your November–February consumption the panels should cover. I give the number of panels for it: in total and hour by hour with the battery.",
+        gdzie: "This is your decision, not a datasheet value. Leave empty if you only want the balance without a panel count.",
+        zakres: "A number greater than 0 and at most 100. A target close to 100% is often unreachable: panels do not produce at night and the battery has a finite capacity.",
+      },
       ofertaUwagi: {
         nazwa: "Notes to the summary",
         cel: "Your own sentences printed under the comparison (e.g. the deadline, terms, what is outside the summary).",
@@ -1310,6 +1322,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Доля энергии, которая возвращается из батареи после заряда и разряда; остальное теряется. Без него я считаю 100%, что завышает результат.",
         gdzie: "Паспорт батареи: «КПД цикла», «round-trip efficiency» или «энергетический КПД».",
         zakres: "Число больше 0 и не больше 100. Оставьте пустым, если паспорт его не указывает (тогда 100% и предупреждение в допущениях).",
+      },
+      bilCel: {
+        nazwa: "Цель покрытия зимы [%]",
+        cel: "Какую часть вашего потребления с ноября по февраль должны покрыть панели. Я назову число панелей: в сумме и час за часом с батареей.",
+        gdzie: "Это ваше решение, а не данные паспорта. Оставьте пустым, если нужен только баланс без подбора числа панелей.",
+        zakres: "Число больше 0 и не больше 100. Цель, близкая к 100%, часто недостижима: ночью панели не работают, а ёмкость батареи конечна.",
       },
       ofertaUwagi: {
         nazwa: "Примечания к сводке",

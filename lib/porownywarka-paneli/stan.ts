@@ -60,15 +60,16 @@ export type ObciazeniaSeed = {
 }
 
 /** Battery of the hourly balance (spec 34), as form texts: usable capacity [kWh] and cycle efficiency [%]; drafts saved before have no key (= both empty). */
-export type BilansSeed = { pojemnosc: string; sprawnosc: string }
-export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "" }
+export type BilansSeed = { pojemnosc: string; sprawnosc: string; celZimy?: string }
+export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "", celZimy: "" }
 
 /** Hourly-balance settings from the form texts; `null` while the capacity is empty (0 is a valid answer: no battery). Efficiency empty = not given. */
 export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInput | null {
   const pojemnosc = liczba(b?.pojemnosc ?? "")
   if (pojemnosc === undefined) return null
   const sprawnosc = liczba(b?.sprawnosc ?? "")
-  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100 }
+  const cel = liczba(b?.celZimy ?? "")
+  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100, celZimyPct: cel === undefined ? null : cel }
 }
 
 export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {
