@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { BilansGodzinowyPaneli } from "@/components/porownywarka-paneli/bilans-godzinowy"
+import { OpisyProducentow } from "@/components/porownywarka-paneli/producenci"
 import { ObciazeniaPaneli } from "@/components/porownywarka-paneli/obciazenia"
 import { OdczytKarty } from "@/components/porownywarka-paneli/odczyt-karty"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
@@ -29,7 +30,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
-import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
+import { KATALOG_PANELI_PV, znajdzPanelKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
@@ -63,8 +64,8 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "bilans" | "miejsca" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "bilans", "miejsca", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "bilans" | "miejsca" | "producenci" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "bilans", "miejsca", "producenci", "gwiazdki", "zalozenia"]
 
 /** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
 const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
@@ -79,6 +80,7 @@ const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   nadwyzka: "UI-PORP-TAB-NADWYZKA",
   bilans: "UI-PORP-BIL-TAB",
   miejsca: "UI-PORP-TAB-MIEJSCA",
+  producenci: "UI-PORP-TAB-PRODUCENCI",
   gwiazdki: "UI-PORP-TAB-GWIAZDKI",
   zalozenia: "UI-PORP-TAB-ZALOZENIA",
 }
@@ -1440,6 +1442,13 @@ export default function PorownywarkaPaneliPage() {
                 })()}
                 <p className="text-caption text-muted-foreground">{t("UI-PORP-MIEJSCA-NOTA")}</p>
               </div>
+            )}
+
+            {zakladka === "producenci" && (
+              <OpisyProducentow
+                producenci={[...new Set(stan.panele.map((p) => znajdzPanelKatalogu(p.katalogId)?.producent).filter((x): x is string => x !== undefined))]}
+                jestPanelPozaKatalogiem={stan.panele.some((p) => p.katalogId === "" && (p.nazwa.trim() !== "" || p.moc.trim() !== ""))}
+              />
             )}
 
             {zakladka === "gwiazdki" && (
