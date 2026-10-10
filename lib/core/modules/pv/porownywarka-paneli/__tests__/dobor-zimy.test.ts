@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 import { znajdzPanelKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
-import { dobierzPaneleNaZime, MAKS_PANELI_W_DOBORZE } from "../bilans-godzinowy"
+import { dobierzPaneleNaZime } from "../bilans-godzinowy"
 import { calculatePorownywarkaPaneli } from "../calculator"
 import type { DanePanelu, PorownywarkaInput } from "../input"
 import { domyslnyWyborKryteriow } from "../kryteria"
@@ -55,8 +55,34 @@ describe("dobierzPaneleNaZime — ręczny rachunek na dobach syntetycznych", () 
     expect(d.pokrycieMaksPct).toBe(0)
   })
 
-  it("granica doboru jest jawna i dodatnia", () => {
-    expect(MAKS_PANELI_W_DOBORZE).toBe(200)
+  it("bez sztywnego limitu: duże zużycie wymaga ponad 200 paneli, a wynik jest ręcznie policzalny", () => {
+    // zużycie 1000 kWh/godz., panel 1 kWh w 4 godzinach doby, bez baterii: pokrycie = 4n/(24·1000) → cel 10% przy n = 600
+    const w = { ...wspolne(0), zapotrzebowanieMiesiaceKwh: [48000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+    const d = dobierzPaneleNaZime(doby().jednostkowaKwh, w, 10)
+    expect(d.panelowGodzinowo).toBe(600)
+    expect(d.panelowSumowo).toBe(600)
+  })
+
+  it("fizyczne maksimum to granica przy dowolnej liczbie paneli, nie liczba z limitu", () => {
+    const w = { ...wspolne(0), zapotrzebowanieMiesiaceKwh: [48000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+    const d = dobierzPaneleNaZime(doby().jednostkowaKwh, w, 30)
+    expect(d.panelowGodzinowo).toBeNull()
+    expect(d.pokrycieMaksPct).toBeCloseTo((4 / 24) * 100, 8)
+  })
+
+  it("miejsce: porównanie bez obcinania wyniku", () => {
+    const d = dobierzPaneleNaZime(doby().jednostkowaKwh, wspolne(10), 50, 2)
+    // z baterią 10 kWh: pokrycie(n) = (4 + min(10; 4(n−1)))/24 → n=3 daje 14/24 ≥ 50%, n=2 daje 8/24
+    expect(d.panelowGodzinowo).toBe(3)
+    expect(d.miejsceNaPaneli).toBe(2)
+    expect(d.pokrycieNaMiejscuPct).toBeCloseTo((8 / 24) * 100, 8)
+    expect(d.miesciSieNaMiejscu).toBe(false)
+    const ok = dobierzPaneleNaZime(doby().jednostkowaKwh, wspolne(10), 50, 5)
+    expect(ok.miesciSieNaMiejscu).toBe(true)
+    const nieznane = dobierzPaneleNaZime(doby().jednostkowaKwh, wspolne(10), 50)
+    expect(nieznane.miejsceNaPaneli).toBeNull()
+    expect(nieznane.pokrycieNaMiejscuPct).toBeNull()
+    expect(nieznane.miesciSieNaMiejscu).toBeNull()
   })
 })
 
@@ -99,6 +125,18 @@ describe("calculatePorownywarkaPaneli — cel zimowy (spec 34)", () => {
     // wynik nie zależy od liczby paneli wpisanej w formularzu
     const inny = calculatePorownywarkaPaneli(wejscie(9, 40)).value.panele[0]!.bilansGodzinowy!.doborNaZime!
     expect(inny).toEqual(d)
+  })
+
+  it("miejsce z pakowania wymiarów trafia do doboru i nie zmienia samej liczby paneli", () => {
+    const bez = calculatePorownywarkaPaneli(wejscie(4, 40)).value.panele[0]!.bilansGodzinowy!.doborNaZime!
+    expect(bez.miejsceNaPaneli).toBeNull()
+    expect(bez.miesciSieNaMiejscu).toBeNull()
+    const maleMiejsce = { ...wejscie(4, 40), liczbaPaneli: null, wymiaryMiejsca: { dlugoscM: 3, szerokoscM: 2, marginesM: 0, montaz: "rownolegly" as const } }
+    const z = calculatePorownywarkaPaneli(maleMiejsce).value.panele[0]!.bilansGodzinowy!.doborNaZime!
+    expect(z.panelowGodzinowo).toBe(bez.panelowGodzinowo)
+    expect(z.miejsceNaPaneli).not.toBeNull()
+    expect(z.pokrycieNaMiejscuPct).not.toBeNull()
+    expect(z.miesciSieNaMiejscu).toBe(z.panelowGodzinowo! <= z.miejsceNaPaneli!)
   })
 
   it("„w sumie” nigdy nie obiecuje więcej paneli niż potrzeba godzinowo", () => {

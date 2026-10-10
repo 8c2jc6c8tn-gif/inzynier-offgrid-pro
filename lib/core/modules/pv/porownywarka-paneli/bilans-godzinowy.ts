@@ -168,8 +168,11 @@ export function podsumujBilans(b: WynikBilansu): PodsumowanieBilansu {
   }
 }
 
-/** Górna granica doboru liczby paneli — powyżej tego dobór uznajemy za nieosiągalny (zabezpiecza pętlę i nie sugeruje absurdalnych instalacji). */
-export const MAKS_PANELI_W_DOBORZE = 200
+/**
+ * „Dowolnie wiele paneli” w obliczeniu fizycznego maksimum: mnożnik produkcji tak duży, że każda godzina z jakąkolwiek produkcją pokrywa całe
+ * zapotrzebowanie, a bateria ładuje się do pełna. Nie jest limitem instalacji (ten daje miejsce), tylko zastępuje nieskończoność.
+ */
+const PANELE_GRANICZNE = 1e9
 
 export type DoborPanelowNaZime = {
   /** Cel wpisany przez użytkownika: jaka część zużycia zimowego (XI–II) ma być pokryta z paneli [%]. */
@@ -179,18 +182,31 @@ export type DoborPanelowNaZime = {
   zimaNaPanelKwh: number
   /** Liczba paneli, gdy liczymy samą sumę energii zimą wobec zużycia zimą (bez dopasowania godzin; zbyt optymistyczne). `null`, gdy panel nie daje zimą energii. */
   panelowSumowo: number | null
-  /** Najmniejsza liczba paneli, przy której bilans godzinowy (z baterią z formularza) osiąga cel; `null` = nieosiągalne w granicy `MAKS_PANELI_W_DOBORZE`. */
+  /** Najmniejsza liczba paneli, przy której bilans godzinowy (z baterią z formularza) osiąga cel; `null` = cel nieosiągalny przy dowolnej liczbie paneli. */
   panelowGodzinowo: number | null
-  /** Pokrycie zimy przy `MAKS_PANELI_W_DOBORZE` paneli [%] — pokazuje, ile najwyżej da się uzyskać, gdy cel jest nieosiągalny. */
+  /** Fizyczne maksimum pokrycia zimy [%] przy dowolnej liczbie paneli (z baterią z formularza) — ile najwyżej da się uzyskać. */
   pokrycieMaksPct: number
+  /** Ile paneli mieści się w podanym miejscu (z pakowania wymiarów); `null` = wymiarów miejsca albo panelu brak. */
+  miejsceNaPaneli: number | null
+  /** Pokrycie zimy przy tylu panelach, ile mieści się w miejscu [%]; `null`, gdy miejsce nieznane. */
+  pokrycieNaMiejscuPct: number | null
+  /** `true` = liczba z `panelowGodzinowo` mieści się w miejscu; `false` = cel nieosiągalny albo wymaga więcej paneli, niż się mieści; `null` = miejsce nieznane. */
+  miesciSieNaMiejscu: boolean | null
 }
 
 /**
  * Ile paneli pokryje zimę: dwie liczby obok siebie — „w sumie” (energia zimą ≥ cel · zużycie zimą) i „godzina po godzinie” (bilans z baterią).
  * Bilans godzinowy rośnie z liczbą paneli (więcej produkcji nigdy nie obniża pokrycia), więc najmniejszą liczbę znajdujemy bisekcją.
+ * Górną granicą nie jest sztywna liczba, tylko fizyka: gdy cel przekracza maksimum osiągalne przy dowolnej liczbie paneli, jest nieosiągalny.
+ * Miejsce (jeśli znane) służy do porównania, nie do ucinania wyniku.
  * `jednostkowaKwh` — produkcja jednego panelu w rekordach TMY.
  */
-export function dobierzPaneleNaZime(jednostkowaKwh: Float64Array, w: Omit<WejscieBilansu, "produkcjaKwh">, celPct: number): DoborPanelowNaZime {
+export function dobierzPaneleNaZime(
+  jednostkowaKwh: Float64Array,
+  w: Omit<WejscieBilansu, "produkcjaKwh">,
+  celPct: number,
+  miejsceNaPaneli: number | null = null,
+): DoborPanelowNaZime {
   const pokrycie = (n: number): number => {
     const produkcjaKwh = new Float64Array(jednostkowaKwh.length)
     for (let i = 0; i < produkcjaKwh.length; i++) produkcjaKwh[i] = jednostkowaKwh[i]! * n
@@ -200,12 +216,12 @@ export function dobierzPaneleNaZime(jednostkowaKwh: Float64Array, w: Omit<Wejsci
   let zimaNaPanelKwh = 0
   for (let i = 0; i < jednostkowaKwh.length; i++) if (MIESIACE_ZIMOWE_POROWNYWARKI.includes(w.miesiac[i]!)) zimaNaPanelKwh += jednostkowaKwh[i]!
   const panelowSumowo = zimaNaPanelKwh > 0 ? Math.ceil((celPct / 100) * zuzycieZimaKwh / zimaNaPanelKwh - 1e-9) : null
-  const maks = pokrycie(MAKS_PANELI_W_DOBORZE)
+  const maks = pokrycie(PANELE_GRANICZNE)
   const TOL = 1e-9
   let panelowGodzinowo: number | null = null
   if (maks >= celPct - TOL) {
     let lo = 1
-    let hi = MAKS_PANELI_W_DOBORZE
+    let hi = PANELE_GRANICZNE
     while (lo < hi) {
       const mid = Math.floor((lo + hi) / 2)
       if (pokrycie(mid) >= celPct - TOL) hi = mid
@@ -213,5 +229,16 @@ export function dobierzPaneleNaZime(jednostkowaKwh: Float64Array, w: Omit<Wejsci
     }
     panelowGodzinowo = lo
   }
-  return { celPct, zuzycieZimaKwh, zimaNaPanelKwh, panelowSumowo, panelowGodzinowo, pokrycieMaksPct: maks }
+  const znaneMiejsce = miejsceNaPaneli !== null
+  return {
+    celPct,
+    zuzycieZimaKwh,
+    zimaNaPanelKwh,
+    panelowSumowo,
+    panelowGodzinowo,
+    pokrycieMaksPct: maks,
+    miejsceNaPaneli,
+    pokrycieNaMiejscuPct: znaneMiejsce ? pokrycie(miejsceNaPaneli) : null,
+    miesciSieNaMiejscu: znaneMiejsce ? panelowGodzinowo !== null && panelowGodzinowo <= miejsceNaPaneli : null,
+  }
 }

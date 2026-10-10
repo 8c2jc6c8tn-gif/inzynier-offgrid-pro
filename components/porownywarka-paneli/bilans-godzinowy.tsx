@@ -4,7 +4,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { MAKS_PANELI_W_DOBORZE } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
 import type { BilansSeed } from "@/lib/porownywarka-paneli/stan"
@@ -117,7 +116,7 @@ export function BilansGodzinowyPaneli(p: {
                 const godz =
                   dobor.panelowGodzinowo !== null
                     ? f0(dobor.panelowGodzinowo)
-                    : t("UI-PORP-BIL-DOBOR-NIEOSIAGALNE", { maks: MAKS_PANELI_W_DOBORZE, pokr: f0(dobor.pokrycieMaksPct) })
+                    : t("UI-PORP-BIL-DOBOR-NIEOSIAGALNE", { pokr: f0(dobor.pokrycieMaksPct) })
                 wiersze.push([t("UI-PORP-BIL-W-DOBOR-SUMA"), dobor.panelowSumowo === null ? "–" : f0(dobor.panelowSumowo), ""])
                 wiersze.push([t("UI-PORP-BIL-W-DOBOR-GODZ"), godz, ""])
               }
@@ -152,6 +151,14 @@ export function BilansGodzinowyPaneli(p: {
                         zuzycie: f0(b.doborNaZime.zuzycieZimaKwh),
                         panel: f1(b.doborNaZime.zimaNaPanelKwh),
                         bat: f1(b.pojemnoscKwh),
+                      })}
+                    </p>
+                  )}
+                  {b.doborNaZime && b.doborNaZime.miejsceNaPaneli !== null && b.doborNaZime.pokrycieNaMiejscuPct !== null && (
+                    <p className="text-caption text-muted-foreground">
+                      {t(b.doborNaZime.miesciSieNaMiejscu ? "UI-PORP-BIL-DOBOR-MIEJSCE-OK" : "UI-PORP-BIL-DOBOR-MIEJSCE-ZA-MALO", {
+                        miejsce: f0(b.doborNaZime.miejsceNaPaneli),
+                        pokr: f0(b.doborNaZime.pokrycieNaMiejscuPct),
                       })}
                     </p>
                   )}

@@ -227,6 +227,7 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(dobor.celPct).toBe(10)
     expect(dobor.panelowSumowo).toBeGreaterThan(0)
     expect(dobor.pokrycieMaksPct).toBeGreaterThan(0)
+    expect(dobor.miesciSieNaMiejscu).toBeNull()
     expect((await h()).panele[0]!.bilansGodzinowy).toBeNull()
     const bezZuzycia = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, bilansGodzinowy: { pojemnoscKwh: 5 } })
     expect(bezZuzycia.panele[0]!.bilansGodzinowy).toBeNull()

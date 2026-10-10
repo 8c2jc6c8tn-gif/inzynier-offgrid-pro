@@ -174,8 +174,11 @@ export const PorownajPaneleToolOutput = z.object({
               celPct: z.number(),
               zimaNaPanelKwh: z.number().describe("Energia jednego panelu zimą XI–II [kWh]"),
               panelowSumowo: z.number().nullable().describe("Liczba paneli, gdy porównujemy tylko sumy energii zimą (bez dopasowania godzin) — zbyt optymistyczna"),
-              panelowGodzinowo: z.number().nullable().describe("Najmniejsza liczba paneli, przy której bilans godzinowy z podaną baterią osiąga cel; null = nieosiągalne do 200 paneli"),
-              pokrycieMaksPct: z.number().describe("Pokrycie zimy przy 200 panelach [%] — ile najwyżej da się uzyskać z tą baterią"),
+              panelowGodzinowo: z.number().nullable().describe("Najmniejsza liczba paneli, przy której bilans godzinowy z podaną baterią osiąga cel; null = cel nieosiągalny przy dowolnej liczbie paneli"),
+              pokrycieMaksPct: z.number().describe("Fizyczne maksimum pokrycia zimy przy dowolnej liczbie paneli [%] — ile najwyżej da się uzyskać z tą baterią"),
+              miejsceNaPaneli: z.number().nullable().describe("Ile paneli mieści się w podanym miejscu; null = wymiarów miejsca albo panelu brak"),
+              pokrycieNaMiejscuPct: z.number().nullable().describe("Pokrycie zimy przy tylu panelach, ile mieści się w miejscu [%]; null = miejsce nieznane"),
+              miesciSieNaMiejscu: z.boolean().nullable().describe("Czy potrzebna liczba paneli mieści się w miejscu; false także gdy cel jest nieosiągalny; null = miejsce nieznane"),
             })
             .nullable()
             .describe("Dobór liczby paneli na cel zimowy; null bez celu"),
@@ -361,6 +364,9 @@ export function utworzPorownajPaneleTool(
                           panelowSumowo: p.bilansGodzinowy.doborNaZime.panelowSumowo,
                           panelowGodzinowo: p.bilansGodzinowy.doborNaZime.panelowGodzinowo,
                           pokrycieMaksPct: p.bilansGodzinowy.doborNaZime.pokrycieMaksPct,
+                          miejsceNaPaneli: p.bilansGodzinowy.doborNaZime.miejsceNaPaneli,
+                          pokrycieNaMiejscuPct: p.bilansGodzinowy.doborNaZime.pokrycieNaMiejscuPct,
+                          miesciSieNaMiejscu: p.bilansGodzinowy.doborNaZime.miesciSieNaMiejscu,
                         },
                 },
           kosztZimowejKwhZl: p.kosztZimowejKwhZl,
