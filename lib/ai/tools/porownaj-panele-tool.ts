@@ -73,6 +73,10 @@ const Obciazenia = z.object({
 const BilansGodzinowy = z.object({
   pojemnoscKwh: z.number().describe("Pojemność użyteczna baterii [kWh]; 0, jeśli user nie ma baterii — tylko od usera albo z ekranu doboru pojemności"),
   sprawnoscCyklu: z.number().optional().describe("Sprawność cyklu baterii 0–1 (np. 0,92); pomiń, jeśli user nie zna — policzę z 100% i powiem o tym w założeniach"),
+  celZimyPct: z
+    .number()
+    .optional()
+    .describe("Cel: jaką część zużycia zimowego (XI–II) mają pokryć panele [%, 0–100] — tylko od usera, nie zgaduj; z nim podam, ile paneli to da (w sumie i godzina po godzinie z baterią)"),
 })
 
 export const PorownajPaneleToolInput = z.object({
@@ -165,6 +169,16 @@ export const PorownajPaneleToolOutput = z.object({
           odcieteRokKwh: z.number().describe("Produkcja, która nie zmieściła się w baterii ani nie miała odbiorcy [kWh/rok]"),
           cykleRok: z.number().nullable().describe("Pełne równoważne cykle baterii w roku; null bez baterii"),
           kosztBrakuRokZl: z.number().nullable().describe("Wartość brakującej energii w roku [zł]; null bez wyceny kWh"),
+          doborNaZime: z
+            .object({
+              celPct: z.number(),
+              zimaNaPanelKwh: z.number().describe("Energia jednego panelu zimą XI–II [kWh]"),
+              panelowSumowo: z.number().nullable().describe("Liczba paneli, gdy porównujemy tylko sumy energii zimą (bez dopasowania godzin) — zbyt optymistyczna"),
+              panelowGodzinowo: z.number().nullable().describe("Najmniejsza liczba paneli, przy której bilans godzinowy z podaną baterią osiąga cel; null = nieosiągalne do 200 paneli"),
+              pokrycieMaksPct: z.number().describe("Pokrycie zimy przy 200 panelach [%] — ile najwyżej da się uzyskać z tą baterią"),
+            })
+            .nullable()
+            .describe("Dobór liczby paneli na cel zimowy; null bez celu"),
         })
         .nullable()
         .describe("Bilans godzinowy; null bez pojemności baterii albo bez zużycia. Model uproszczony — porównuje panele i baterie ze sobą, nie wymiaruje instalacji"),
@@ -220,7 +234,7 @@ export function utworzPorownajPaneleTool(
       "Przy taryfie dwustrefowej (G12) wycenia energię z godzin taniej strefy po cenie nocnej. " +
       "Z danymi elektrycznymi z karty i najniższą temperaturą miejsca ocenia też napięcie stringów zimą, limit paneli w szeregu i ochronę stringów. " +
       "Z obciążeniem mechanicznym z karty i warunkami miejsca (strefa śniegowa i wiatrowa, wysokość, teren) porównuje obciążenie śniegiem i wiatrem wg Eurokodu z nośnością panelu. " +
-      "Z pojemnością baterii i miesięcznym zużyciem liczy bilans godzinowy: ile energii z paneli zużyte od razu, ile przejdzie przez baterię, ile brakuje zimą i w roku. " +
+      "Z pojemnością baterii i miesięcznym zużyciem liczy bilans godzinowy: ile energii z paneli zużyte od razu, ile przejdzie przez baterię, ile brakuje zimą i w roku; z celem zimowym podaje też, ile paneli pokryje zimę. " +
       "Użyj, gdy user waha się między dwoma lub więcej modelami paneli, pyta, który panel da więcej zimą, albo ile paneli wolno połączyć w jednym stringu.",
     inputSchema: PorownajPaneleToolInput,
     outputSchema: PorownajPaneleToolOutput,
@@ -268,7 +282,7 @@ export function utworzPorownajPaneleTool(
         liczbaPaneli: input.liczbaPaneli ?? null,
         wymiaryMiejsca: input.wymiaryMiejsca ?? null,
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
-        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null } : null,
+        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null } : null,
         tminC: input.tminC ?? null,
         obciazenia: o
           ? {
@@ -338,6 +352,16 @@ export function utworzPorownajPaneleTool(
                   odcieteRokKwh: p.bilansGodzinowy.odcieteRokKwh,
                   cykleRok: p.bilansGodzinowy.cykleRok,
                   kosztBrakuRokZl: p.bilansGodzinowy.kosztBrakuRokZl,
+                  doborNaZime:
+                    p.bilansGodzinowy.doborNaZime === null
+                      ? null
+                      : {
+                          celPct: p.bilansGodzinowy.doborNaZime.celPct,
+                          zimaNaPanelKwh: p.bilansGodzinowy.doborNaZime.zimaNaPanelKwh,
+                          panelowSumowo: p.bilansGodzinowy.doborNaZime.panelowSumowo,
+                          panelowGodzinowo: p.bilansGodzinowy.doborNaZime.panelowGodzinowo,
+                          pokrycieMaksPct: p.bilansGodzinowy.doborNaZime.pokrycieMaksPct,
+                        },
                 },
           kosztZimowejKwhZl: p.kosztZimowejKwhZl,
           gwiazdki: v.gwiazdki[i] ?? null,

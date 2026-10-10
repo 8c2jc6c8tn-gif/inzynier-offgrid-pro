@@ -167,3 +167,51 @@ export function podsumujBilans(b: WynikBilansu): PodsumowanieBilansu {
     brakTaniaZimaKwh: sumaZimy(b.brakTaniaMiesiaceKwh),
   }
 }
+
+/** Górna granica doboru liczby paneli — powyżej tego dobór uznajemy za nieosiągalny (zabezpiecza pętlę i nie sugeruje absurdalnych instalacji). */
+export const MAKS_PANELI_W_DOBORZE = 200
+
+export type DoborPanelowNaZime = {
+  /** Cel wpisany przez użytkownika: jaka część zużycia zimowego (XI–II) ma być pokryta z paneli [%]. */
+  celPct: number
+  zuzycieZimaKwh: number
+  /** Energia jednego panelu zimą [kWh]. */
+  zimaNaPanelKwh: number
+  /** Liczba paneli, gdy liczymy samą sumę energii zimą wobec zużycia zimą (bez dopasowania godzin; zbyt optymistyczne). `null`, gdy panel nie daje zimą energii. */
+  panelowSumowo: number | null
+  /** Najmniejsza liczba paneli, przy której bilans godzinowy (z baterią z formularza) osiąga cel; `null` = nieosiągalne w granicy `MAKS_PANELI_W_DOBORZE`. */
+  panelowGodzinowo: number | null
+  /** Pokrycie zimy przy `MAKS_PANELI_W_DOBORZE` paneli [%] — pokazuje, ile najwyżej da się uzyskać, gdy cel jest nieosiągalny. */
+  pokrycieMaksPct: number
+}
+
+/**
+ * Ile paneli pokryje zimę: dwie liczby obok siebie — „w sumie” (energia zimą ≥ cel · zużycie zimą) i „godzina po godzinie” (bilans z baterią).
+ * Bilans godzinowy rośnie z liczbą paneli (więcej produkcji nigdy nie obniża pokrycia), więc najmniejszą liczbę znajdujemy bisekcją.
+ * `jednostkowaKwh` — produkcja jednego panelu w rekordach TMY.
+ */
+export function dobierzPaneleNaZime(jednostkowaKwh: Float64Array, w: Omit<WejscieBilansu, "produkcjaKwh">, celPct: number): DoborPanelowNaZime {
+  const pokrycie = (n: number): number => {
+    const produkcjaKwh = new Float64Array(jednostkowaKwh.length)
+    for (let i = 0; i < produkcjaKwh.length; i++) produkcjaKwh[i] = jednostkowaKwh[i]! * n
+    return podsumujBilans(bilansGodzinowy({ ...w, produkcjaKwh })).pokrycieZimaPct ?? 0
+  }
+  const zuzycieZimaKwh = sumaZimy(w.zapotrzebowanieMiesiaceKwh)
+  let zimaNaPanelKwh = 0
+  for (let i = 0; i < jednostkowaKwh.length; i++) if (MIESIACE_ZIMOWE_POROWNYWARKI.includes(w.miesiac[i]!)) zimaNaPanelKwh += jednostkowaKwh[i]!
+  const panelowSumowo = zimaNaPanelKwh > 0 ? Math.ceil((celPct / 100) * zuzycieZimaKwh / zimaNaPanelKwh - 1e-9) : null
+  const maks = pokrycie(MAKS_PANELI_W_DOBORZE)
+  const TOL = 1e-9
+  let panelowGodzinowo: number | null = null
+  if (maks >= celPct - TOL) {
+    let lo = 1
+    let hi = MAKS_PANELI_W_DOBORZE
+    while (lo < hi) {
+      const mid = Math.floor((lo + hi) / 2)
+      if (pokrycie(mid) >= celPct - TOL) hi = mid
+      else lo = mid + 1
+    }
+    panelowGodzinowo = lo
+  }
+  return { celPct, zuzycieZimaKwh, zimaNaPanelKwh, panelowSumowo, panelowGodzinowo, pokrycieMaksPct: maks }
+}

@@ -208,7 +208,7 @@ describe("porownajPaneleTool (M3, D81)", () => {
 
   it("A5: bilans godzinowy z baterią — bilans zamknięty, bateria zmniejsza brak, bez zużycia albo bez baterii w wejściu null", async () => {
     const zuzycie = Array(12).fill(300)
-    const h = (bilansGodzinowy?: { pojemnoscKwh: number; sprawnoscCyklu?: number }) =>
+    const h = (bilansGodzinowy?: { pojemnoscKwh: number; sprawnoscCyklu?: number; celZimyPct?: number }) =>
       utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, zuzycieMiesieczneKwh: zuzycie, ...(bilansGodzinowy ? { bilansGodzinowy } : {}) })
     const bez = await h({ pojemnoscKwh: 0 })
     const z = await h({ pojemnoscKwh: 5, sprawnoscCyklu: 0.9 })
@@ -221,6 +221,12 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(b.cykleRok).toBeGreaterThan(0)
     expect(b.kosztBrakuRokZl).toBeCloseTo(b.brakRokKwh * 1, 6)
     expect(z.zalozenia.length).toBeGreaterThan(bez.zalozenia.length)
+    expect(b.doborNaZime).toBeNull()
+    const zCelem = await h({ pojemnoscKwh: 5, sprawnoscCyklu: 0.9, celZimyPct: 10 })
+    const dobor = zCelem.panele[0]!.bilansGodzinowy!.doborNaZime!
+    expect(dobor.celPct).toBe(10)
+    expect(dobor.panelowSumowo).toBeGreaterThan(0)
+    expect(dobor.pokrycieMaksPct).toBeGreaterThan(0)
     expect((await h()).panele[0]!.bilansGodzinowy).toBeNull()
     const bezZuzycia = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(true))).handler({ ...wejscie, bilansGodzinowy: { pojemnoscKwh: 5 } })
     expect(bezZuzycia.panele[0]!.bilansGodzinowy).toBeNull()

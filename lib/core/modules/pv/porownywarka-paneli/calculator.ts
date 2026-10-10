@@ -2,7 +2,7 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
-import { bilansGodzinowy, podsumujBilans, type PodsumowanieBilansu } from "./bilans-godzinowy"
+import { bilansGodzinowy, dobierzPaneleNaZime, podsumujBilans, type DoborPanelowNaZime, type PodsumowanieBilansu } from "./bilans-godzinowy"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
 import { najwyzszeWykorzystaniePct, obciazeniaMiejsca, ocenPanelObciazenia, type ObciazeniaMiejsca, type ObciazeniaPanelu } from "./obciazenia"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
@@ -33,13 +33,18 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.3.0"
+export const CALCULATOR_VERSION = "1.4.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
 
 /** Bilans godzinowy zestawu paneli i koszt brakującej energii wg wyceny (stawka płaska, agregat albo strefy taryfy po godzinie braku); `null` bez wyceny. */
-export type BilansGodzinowyPanelu = PodsumowanieBilansu & { kosztBrakuRokZl: number | null; kosztBrakuZimaZl: number | null }
+export type BilansGodzinowyPanelu = PodsumowanieBilansu & {
+  kosztBrakuRokZl: number | null
+  kosztBrakuZimaZl: number | null
+  /** Ile paneli pokryje cel zimowy (A5, „ile paneli pokryje zimę”); `null`, gdy użytkownik nie wpisał celu. */
+  doborNaZime: DoborPanelowNaZime | null
+}
 
 export type WynikPanelu = {
   id: string
@@ -332,20 +337,24 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     if (p.cenaBruttoZl === null) warnings.push(brakCenyPorp(p.nazwa))
     let bilans: BilansGodzinowyPanelu | null = null
     if (input.bilansGodzinowy && zapotrzebowanie) {
-      const produkcjaKwh = godzinowaEnergiaPanelu(p, profil, zakresModelu)
-      for (let i = 0; i < produkcjaKwh.length; i++) produkcjaKwh[i]! *= n
-      const ps5 = podsumujBilans(
-        bilansGodzinowy({
-          produkcjaKwh,
-          miesiac: profil.miesiac,
-          godzinaLokalna: profil.godzinaLokalna,
-          zapotrzebowanieMiesiaceKwh: zapotrzebowanie,
-          pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh,
-          sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu,
-          oknaTanie: okna,
-        }),
-      )
-      bilans = { ...ps5, kosztBrakuRokZl: wartosc(ps5.brakRokKwh, ps5.brakTaniaRokKwh), kosztBrakuZimaZl: wartosc(ps5.brakZimaKwh, ps5.brakTaniaZimaKwh) }
+      const jednostkowaKwh = godzinowaEnergiaPanelu(p, profil, zakresModelu)
+      const produkcjaKwh = jednostkowaKwh.map((x) => x * n)
+      const wspolne = {
+        miesiac: profil.miesiac,
+        godzinaLokalna: profil.godzinaLokalna,
+        zapotrzebowanieMiesiaceKwh: zapotrzebowanie,
+        pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh,
+        sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu,
+        oknaTanie: okna,
+      }
+      const ps5 = podsumujBilans(bilansGodzinowy({ produkcjaKwh, ...wspolne }))
+      const cel = input.bilansGodzinowy.celZimyPct ?? null
+      bilans = {
+        ...ps5,
+        kosztBrakuRokZl: wartosc(ps5.brakRokKwh, ps5.brakTaniaRokKwh),
+        kosztBrakuZimaZl: wartosc(ps5.brakZimaKwh, ps5.brakTaniaZimaKwh),
+        doborNaZime: cel === null ? null : dobierzPaneleNaZime(jednostkowaKwh, wspolne, cel),
+      }
     }
     const obciazenia = obcMiejsca ? ocenPanelObciazenia(p, obcMiejsca) : null
     if (obciazenia) {
@@ -463,6 +472,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   const bilansB = panele.find((p) => p.bilansGodzinowy !== null)?.bilansGodzinowy ?? null
   if (bilansB) {
     assumptions.push({ kod: "PORP-ZAL-BIL-PROFIL-PLASKI" }, { kod: "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" }, { kod: "PORP-ZAL-BIL-DWA-PRZEBIEGI" })
+    if (bilansB.doborNaZime) assumptions.push({ kod: "PORP-ZAL-DOBOR-ZIMY" })
     if (bilansB.sprawnoscZalozona && bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL-100" })
     else if (bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL", params: { sprawnosc: Math.round(bilansB.sprawnoscUzyta * 100) } })
   }
