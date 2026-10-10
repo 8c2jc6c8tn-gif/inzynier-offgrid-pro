@@ -49,6 +49,13 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
       errors.push(porpPozaZakresem("PORP-WYSOKOSC-KONSTRUKCJI-POZA-ZAKRESEM", "wysokoscKonstrukcjiM", obc.wysokoscKonstrukcjiM, `${hMin}…${hMax} m`))
     }
   }
+  const bil = input.bilansGodzinowy
+  if (bil) {
+    if (!nieujemna(bil.pojemnoscKwh)) errors.push(wartoscUjemnaPorp("pojemnoscKwh", bil.pojemnoscKwh))
+    if (bil.sprawnoscCyklu !== null && !(Number.isFinite(bil.sprawnoscCyklu) && bil.sprawnoscCyklu > 0 && bil.sprawnoscCyklu <= 1)) {
+      errors.push(porpPozaZakresem("PORP-SPRAWNOSC-CYKLU-POZA-ZAKRESEM", "sprawnoscCyklu", bil.sprawnoscCyklu, "(0–1] czyli (0–100] %"))
+    }
+  }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))

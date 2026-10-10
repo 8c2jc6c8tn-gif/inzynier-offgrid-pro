@@ -2,11 +2,13 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
+import { bilansGodzinowy, podsumujBilans, type PodsumowanieBilansu } from "./bilans-godzinowy"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
 import { najwyzszeWykorzystaniePct, obciazeniaMiejsca, ocenPanelObciazenia, type ObciazeniaMiejsca, type ObciazeniaPanelu } from "./obciazenia"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
 import { oknoMiejsca, pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca, wymiaryUzytkowe, type Pojemnosc, type RozmieszczeniePochylone } from "./pakowanie"
 import {
+  godzinowaEnergiaPanelu,
   maParametryTemperaturowe,
   miesiecznaEnergiaWgStref,
   profilNaslonecznienia,
@@ -31,10 +33,13 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
+
+/** Bilans godzinowy zestawu paneli i koszt brakującej energii wg wyceny (stawka płaska, agregat albo strefy taryfy po godzinie braku); `null` bez wyceny. */
+export type BilansGodzinowyPanelu = PodsumowanieBilansu & { kosztBrakuRokZl: number | null; kosztBrakuZimaZl: number | null }
 
 export type WynikPanelu = {
   id: string
@@ -67,6 +72,8 @@ export type WynikPanelu = {
   /** Produkcja ponad zapotrzebowanie w roku [kWh] i jej ułamek produkcji — to nie „strata”, tylko energia do zagospodarowania (U16). */
   nadwyzkaRokKwh: number | null
   nadwyzkaUlamek: number | null
+  /** Bilans godzinowy z baterią (A5, spec 34); `null` = nie wpisano baterii albo brak zapotrzebowania. */
+  bilansGodzinowy: BilansGodzinowyPanelu | null
   /** Cena N paneli [zł]; `null` bez ceny. */
   cenaRazemZl: number | null
   cenaZaWpZl: number | null
@@ -323,6 +330,23 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     const ps = podsumuj(miesiaceKwh, energia.tania.map((e) => e * n))
     const cenaRazemZl = p.cenaBruttoZl === null ? null : p.cenaBruttoZl * n
     if (p.cenaBruttoZl === null) warnings.push(brakCenyPorp(p.nazwa))
+    let bilans: BilansGodzinowyPanelu | null = null
+    if (input.bilansGodzinowy && zapotrzebowanie) {
+      const produkcjaKwh = godzinowaEnergiaPanelu(p, profil, zakresModelu)
+      for (let i = 0; i < produkcjaKwh.length; i++) produkcjaKwh[i]! *= n
+      const ps5 = podsumujBilans(
+        bilansGodzinowy({
+          produkcjaKwh,
+          miesiac: profil.miesiac,
+          godzinaLokalna: profil.godzinaLokalna,
+          zapotrzebowanieMiesiaceKwh: zapotrzebowanie,
+          pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh,
+          sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu,
+          oknaTanie: okna,
+        }),
+      )
+      bilans = { ...ps5, kosztBrakuRokZl: wartosc(ps5.brakRokKwh, ps5.brakTaniaRokKwh), kosztBrakuZimaZl: wartosc(ps5.brakZimaKwh, ps5.brakTaniaZimaKwh) }
+    }
     const obciazenia = obcMiejsca ? ocenPanelObciazenia(p, obcMiejsca) : null
     if (obciazenia) {
       const maks = najwyzszeWykorzystaniePct(obciazenia)
@@ -349,6 +373,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
       uzytecznaZimaKwh: ps.uzytecznaZimaKwh,
       nadwyzkaRokKwh: ps.nadwyzkaRokKwh,
       nadwyzkaUlamek: ps.nadwyzkaUlamek,
+      bilansGodzinowy: bilans,
       cenaRazemZl,
       cenaZaWpZl: p.cenaBruttoZl === null ? null : p.cenaBruttoZl / p.pmaxW,
       wartoscZimaZl: ps.wartoscZimaZl,
@@ -435,6 +460,12 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
     if (scenariusze.some((sc) => sc.naScianie > 0)) assumptions.push({ kod: "PORP-ZAL-SCIANA-POLUDNIOWA" })
   }
   if (miejsce.albedo === undefined) assumptions.push({ kod: "PORP-ZAL-ALBEDO-DOMYSLNE" })
+  const bilansB = panele.find((p) => p.bilansGodzinowy !== null)?.bilansGodzinowy ?? null
+  if (bilansB) {
+    assumptions.push({ kod: "PORP-ZAL-BIL-PROFIL-PLASKI" }, { kod: "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" }, { kod: "PORP-ZAL-BIL-DWA-PRZEBIEGI" })
+    if (bilansB.sprawnoscZalozona && bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL-100" })
+    else if (bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL", params: { sprawnosc: Math.round(bilansB.sprawnoscUzyta * 100) } })
+  }
   if (obcMiejsca) {
     if (obcMiejsca.snieg) assumptions.push({ kod: "PORP-ZAL-OBC-SNIEG" })
     if (obcMiejsca.wiatr) assumptions.push({ kod: "PORP-ZAL-OBC-WIATR" })

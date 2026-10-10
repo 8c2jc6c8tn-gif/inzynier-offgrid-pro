@@ -3,7 +3,9 @@
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
+import { BilansGodzinowyPaneli } from "@/components/porownywarka-paneli/bilans-godzinowy"
 import { ObciazeniaPaneli } from "@/components/porownywarka-paneli/obciazenia"
+import { OdczytKarty } from "@/components/porownywarka-paneli/odczyt-karty"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
 import { PrzelacznikTrybu, PytaniaProste, WerdyktProstyKarta } from "@/components/porownywarka-paneli/tryb-prosty"
 import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
@@ -37,6 +39,7 @@ import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import {
   aktywneMiejsce,
+  BILANS_PUSTY,
   budujWejscie,
   efektywnyTryb,
   kolejnyId,
@@ -60,8 +63,8 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
-type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "miejsca" | "gwiazdki" | "zalozenia"
-const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "miejsca", "gwiazdki", "zalozenia"]
+type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "bilans" | "miejsca" | "gwiazdki" | "zalozenia"
+const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "bilans", "miejsca", "gwiazdki", "zalozenia"]
 
 /** Name suggestions for an installation place (U19) — translated keys, offered through a datalist. */
 const PODPOWIEDZI_MIEJSC = ["UI-PORP-MIEJSCE-POD-1", "UI-PORP-MIEJSCE-POD-2", "UI-PORP-MIEJSCE-POD-3", "UI-PORP-MIEJSCE-POD-4", "UI-PORP-MIEJSCE-POD-5", "UI-PORP-MIEJSCE-POD-6", "UI-PORP-MIEJSCE-POD-7", "UI-PORP-MIEJSCE-POD-8"]
@@ -74,6 +77,7 @@ const ETYKIETY_ZAKLADEK: Record<Zakladka, string> = {
   oferta: "UI-PORP-TAB-OFERTA",
   wiecej: "UI-PORP-TAB-WIECEJ",
   nadwyzka: "UI-PORP-TAB-NADWYZKA",
+  bilans: "UI-PORP-BIL-TAB",
   miejsca: "UI-PORP-TAB-MIEJSCA",
   gwiazdki: "UI-PORP-TAB-GWIAZDKI",
   zalozenia: "UI-PORP-TAB-ZALOZENIA",
@@ -814,6 +818,7 @@ export default function PorownywarkaPaneliPage() {
               </div>
               <PomocPola ekran="porownywarka-paneli" pole="bifacjalny" />
             </div>
+            {p.katalogId === "" && <OdczytKarty idPanelu={p.id} nazwaPanelu={p.nazwa} onZastosuj={(poprawka) => ustawPanel(p.id, poprawka)} />}
             {p.katalogId === "" && (
               <details className="rounded-md border p-3">
                 <summary className="cursor-pointer text-small font-medium">{t("UI-PORP-ELE-RECZNE-TYTUL")}</summary>
@@ -1374,6 +1379,17 @@ export default function PorownywarkaPaneliPage() {
                   </>
                 )}
               </div>
+            )}
+
+            {zakladka === "bilans" && (
+              <BilansGodzinowyPaneli
+                panele={v.panele}
+                zUzytecznoscia={v.zUzytecznoscia}
+                bil={stan.bil ?? BILANS_PUSTY}
+                onBil={(zmiana) => setStan((prev) => ({ ...prev, bil: { ...(prev.bil ?? BILANS_PUSTY), ...zmiana } }))}
+                pojemnoscZProfilu={profil.bateria?.pojemnoscUzytecznaDzisKwh}
+                mikro={mikro}
+              />
             )}
 
             {zakladka === "miejsca" && (

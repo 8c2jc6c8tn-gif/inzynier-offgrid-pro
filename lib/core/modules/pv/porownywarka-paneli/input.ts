@@ -137,6 +137,9 @@ export type WymiaryMiejsca = {
 
 export type KryteriaWybor = Record<KryteriumId, boolean>
 
+/** Etap A5 (spec 34): bateria do bilansu godzinowego. Pojemność użyteczna z ekranu baterii albo wpisana (0 = bez baterii); sprawność cyklu [0–1], `null` = nie podano. */
+export type BilansGodzinowyInput = { pojemnoscKwh: number; sprawnoscCyklu: number | null }
+
 export type PorownywarkaInput = {
   szerokoscGeograficzna?: number
   dlugoscGeograficzna?: number
@@ -152,6 +155,8 @@ export type PorownywarkaInput = {
   tminC?: number | null
   /** Warunki obciążenia śniegiem i wiatrem do porównania z nośnością paneli (spec 32); brak albo `null` = nie wpisano. */
   obciazenia?: WarunkiObciazen | null
+  /** Bateria do bilansu godzinowego (A5); brak albo `null` = bilansu nie liczymy (wymaga też zapotrzebowania miesięcznego). */
+  bilansGodzinowy?: BilansGodzinowyInput | null
   /** `null` = bez wyceny (tryb „suchy”: sama produkcja). */
   wycena: WycenaKwh | null
   kryteria: KryteriaWybor
