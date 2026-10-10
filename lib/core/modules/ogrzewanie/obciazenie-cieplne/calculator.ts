@@ -2,10 +2,18 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { wspolczynnikStratWentylacyjnychWK } from "../infiltracja-powietrza/calculator"
 import { DNI_MIESIECY, GODZIN_NA_DOBE, TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C } from "./constants"
 import type { ObciazenieCieplneInput } from "./input"
+import { uZWarstw } from "./u-z-warstw"
 import { validateInput } from "./validation"
 import { bezMostkowIZyskow, miesiaceZeSrednich, temperaturaWewnetrznaNieWyzsza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
+
+/** U of a partition: the entered value, otherwise from layers (needs a flow direction); `null` = not known yet. */
+function uPrzegrody(p: ObciazenieCieplneInput["przegrody"][number]): { u: number | null; zWarstw: boolean } {
+  if (p.uWM2K !== null) return { u: p.uWM2K, zWarstw: false }
+  if (p.warstwy && p.warstwy.length > 0 && p.kierunekStrumienia) return { u: uZWarstw(p.warstwy, p.kierunekStrumienia)?.uWM2K ?? null, zWarstw: true }
+  return { u: null, zWarstw: false }
+}
 
 export type StrataPrzegrody = {
   nazwa: string
@@ -65,7 +73,8 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
   for (const [k, v] of Object.entries(input)) if (typeof v === "number") inputs[k] = v
   input.przegrody.forEach((p, i) => {
     if (p.powierzchniaM2 !== null) inputs[`przegroda${i + 1}PowierzchniaM2`] = p.powierzchniaM2
-    if (p.uWM2K !== null) inputs[`przegroda${i + 1}U`] = p.uWM2K
+    const u = uPrzegrody(p).u
+    if (u !== null) inputs[`przegroda${i + 1}U`] = u
   })
   const wynik = (
     status: CalcResult<ObciazenieCieplneResult | null>["status"],
@@ -87,7 +96,7 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
   const { temperaturaWewnetrznaC: ti, strefaKlimatyczna, kubaturaM3, wymianyPowietrzaNaH, cop } = input
   // A missing partition would silently lower the load — the whole result waits for complete data.
   const przegrodyKompletne = input.przegrody.every(
-    (p) => p.powierzchniaM2 !== null && p.uWM2K !== null && (p.zewnetrzna || p.temperaturaPoDrugiejStronieC !== null),
+    (p) => p.powierzchniaM2 !== null && uPrzegrody(p).u !== null && (p.zewnetrzna || p.temperaturaPoDrugiejStronieC !== null),
   )
   if (
     ti === null ||
@@ -104,7 +113,7 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
   if (ti <= te) return wynik("INVALID_INPUT", null, [temperaturaWewnetrznaNieWyzsza(ti, te)])
 
   const surowe = input.przegrody.map((p, i) => {
-    const htWK = p.uWM2K! * p.powierzchniaM2!
+    const htWK = uPrzegrody(p).u! * p.powierzchniaM2!
     const tDruga = p.zewnetrzna ? te : p.temperaturaPoDrugiejStronieC!
     return { nazwa: p.nazwa || `Przegroda ${i + 1}`, htWK, tDruga, zewnetrzna: p.zewnetrzna, strataW: htWK * (ti - tDruga) }
   })
@@ -135,6 +144,7 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
     { kod: "OC-ZALOZENIE-DOBA-PRZY-TE" },
   ]
   if (surowe.some((p) => !p.zewnetrzna)) assumptions.push({ kod: "OC-ZALOZENIE-STALA-TEMP-PRZYLEGLYCH" })
+  if (input.przegrody.some((p) => uPrzegrody(p).zWarstw)) assumptions.push({ kod: "OC-ZALOZENIE-U-Z-WARSTW" })
   if (cop !== null) assumptions.push({ kod: "OC-ZALOZENIE-COP", params: { cop } })
 
   return wynik(

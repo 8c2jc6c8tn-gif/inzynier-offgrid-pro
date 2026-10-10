@@ -1,4 +1,5 @@
 import type { StrefaKlimatyczna } from "./constants"
+import type { KierunekStrumienia, WarstwaPrzegrody } from "./u-z-warstw"
 
 /**
  * Moduł 6, Ekran 1 "Charakterystyka termiczna budynku" (dawne 5.1, `docs/zrodla/Tresc_Modul_6_Ogrzewanie_Ekrany.md`):
@@ -10,8 +11,15 @@ import type { StrefaKlimatyczna } from "./constants"
 export type Przegroda = {
   nazwa: string
   powierzchniaM2: number | null
-  /** Thermal transmittance U [W/(m²·K)] — from the design, energy certificate or product sheet. */
+  /** Thermal transmittance U [W/(m²·K)] — from the design, energy certificate or product sheet. When entered it wins over `warstwy`. */
   uWM2K: number | null
+  /**
+   * Optional: layers of the partition — used only when `uWM2K` is `null`; U = 1/(Rsi + Σ d/λ + Rse), homogeneous layers
+   * (no thermal bridges). Needs `kierunekStrumienia` (picks Rsi). Absent/`null` = U is entered directly.
+   */
+  warstwy?: WarstwaPrzegrody[] | null
+  /** Direction of the heat flow (wall = "poziomo", roof = "w-gore", floor = "w-dol"); only with `warstwy`. */
+  kierunekStrumienia?: KierunekStrumienia | null
   /** `true` = outdoor air on the other side (design θe, monthly mean for months). */
   zewnetrzna: boolean
   /**
