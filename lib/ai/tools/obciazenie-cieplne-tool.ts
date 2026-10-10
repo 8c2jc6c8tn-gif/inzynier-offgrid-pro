@@ -1,18 +1,28 @@
 /**
  * Narzędzie AI (9.3) dla Modułu 6, Ekran 1 "Charakterystyka termiczna budynku" (dawne 5.1).
  * `operationType: 'read'`. Współczynniki U, powierzchnie, temperatury, kubatura i wymiany powietrza
- * tylko od usera — brak → INCOMPLETE, nigdy wartość zgadnięta przez model.
+ * tylko od usera — brak → INCOMPLETE, nigdy wartość zgadnięta przez model. U przegrody można podać wprost albo przez
+ * warstwy (grubość + λ albo opór R, od usera/z karty produktu) z kierunkiem strumienia; λ materiałów model nie zgaduje.
  */
 import { z } from "zod"
-import { calculateObciazenieCieplne } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
+import { calculateObciazenieCieplne, uPrzegrody } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import type { StrefaKlimatyczna } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
+const Warstwa = z.object({
+  nazwa: z.string(),
+  gruboscMm: z.number().optional().describe("Grubość warstwy [mm] — razem z lambdaWmK; od usera"),
+  lambdaWmK: z.number().optional().describe("Przewodność cieplna λ [W/(m·K)] z karty produktu — tylko od usera, nigdy zgadnięta"),
+  oporM2KW: z.number().optional().describe("Gotowy opór warstwy R [m²·K/W] zamiast grubości i λ (np. szczelina z karty producenta)"),
+})
+
 const Przegroda = z.object({
   nazwa: z.string(),
   powierzchniaM2: z.number().describe("Powierzchnia przegrody [m²]"),
-  uWM2K: z.number().describe("Współczynnik U [W/(m²·K)] — tylko jeśli user podał"),
+  uWM2K: z.number().optional().describe("Współczynnik U [W/(m²·K)] — tylko jeśli user podał; ma pierwszeństwo przed warstwami"),
+  warstwy: z.array(Warstwa).optional().describe("Warstwy przegrody zamiast U — każda z grubością i λ albo oporem R; bez mostków cieplnych"),
+  kierunekStrumienia: z.enum(["poziomo", "w-gore", "w-dol"]).optional().describe("Wymagany z warstwami: 'poziomo' (ściana), 'w-gore' (dach, strop pod strychem), 'w-dol' (podłoga)"),
   temperaturaPoDrugiejStronieC: z
     .number()
     .optional()
@@ -38,7 +48,7 @@ export const ObciazenieCieplneToolOutput = z.object({
   strataWentylacjaW: z.number().nullable(),
   cieploDobaObliczeniowaKwh: z.number().nullable(),
   energiaElektrycznaDobaKwh: z.number().nullable(),
-  przegrody: z.array(z.object({ nazwa: z.string(), strataW: z.number(), udzialPct: z.number() })),
+  przegrody: z.array(z.object({ nazwa: z.string(), uWM2K: z.number().nullable(), strataW: z.number(), udzialPct: z.number() })),
   miesiace: z.array(z.object({ miesiac: z.number(), cieploKwh: z.number(), energiaElektrycznaKwh: z.number().nullable() })),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
@@ -51,22 +61,27 @@ export const obciazenieCieplneTool: AiToolDefinition<ObciazenieCieplneToolInputT
   description:
     "Straty ciepła budynku (moc W przy temperaturze obliczeniowej strefy klimatycznej I–V): przez przegrody Σ U·A·ΔT i " +
     "przez wymianę powietrza, ciepło na najzimniejszą dobę, prąd przy danym COP, opcjonalnie ciepło w miesiącach ze " +
-    "średnich temperatur. U, powierzchnie, kubaturę i wymiany powietrza podaje user — nie zgaduj. Bez mostków cieplnych " +
-    "i zysków z pełnej PN-EN 12831-1 — zawsze to przekaż. Użyj, gdy user pyta, ile ciepła traci dom albo jaka moc grzania.",
+    "średnich temperatur. U przegrody user podaje wprost albo przez warstwy (grubość i λ albo opór R, kierunek strumienia) — U " +
+    "liczone z warstw wg PN-EN ISO 6946 jest bez mostków cieplnych, więc dla ściany szkieletowej zbyt optymistyczne. U, λ, powierzchnie, " +
+    "kubaturę i wymiany powietrza podaje user — nie zgaduj. Bez mostków cieplnych i zysków z pełnej PN-EN 12831-1 — zawsze to " +
+    "przekaż. Użyj, gdy user pyta, ile ciepła traci dom, jaka moc grzania albo jakie U wychodzi z podanych warstw ściany, dachu lub podłogi.",
   inputSchema: ObciazenieCieplneToolInput,
   outputSchema: ObciazenieCieplneToolOutput,
   operationType: "read",
   requiresConfirmation: false,
   scope: "ogrzewanie/obciazenie-cieplne",
   handler: async (input) => {
+    const przegrody = input.przegrody.map((p) => ({
+      nazwa: p.nazwa,
+      powierzchniaM2: p.powierzchniaM2,
+      uWM2K: p.uWM2K ?? null,
+      warstwy: p.warstwy?.map((w) => ({ nazwa: w.nazwa, gruboscMm: w.gruboscMm ?? null, lambdaWmK: w.lambdaWmK ?? null, oporM2KW: w.oporM2KW ?? null })) ?? null,
+      kierunekStrumienia: p.kierunekStrumienia ?? null,
+      zewnetrzna: p.temperaturaPoDrugiejStronieC === undefined,
+      temperaturaPoDrugiejStronieC: p.temperaturaPoDrugiejStronieC ?? null,
+    }))
     const wynik = calculateObciazenieCieplne({
-      przegrody: input.przegrody.map((p) => ({
-        nazwa: p.nazwa,
-        powierzchniaM2: p.powierzchniaM2,
-        uWM2K: p.uWM2K,
-        zewnetrzna: p.temperaturaPoDrugiejStronieC === undefined,
-        temperaturaPoDrugiejStronieC: p.temperaturaPoDrugiejStronieC ?? null,
-      })),
+      przegrody,
       temperaturaWewnetrznaC: input.temperaturaWewnetrznaC,
       strefaKlimatyczna: input.strefaKlimatyczna as StrefaKlimatyczna,
       kubaturaM3: input.kubaturaM3,
@@ -83,7 +98,12 @@ export const obciazenieCieplneTool: AiToolDefinition<ObciazenieCieplneToolInputT
       strataWentylacjaW: v?.strataWentylacjaW ?? null,
       cieploDobaObliczeniowaKwh: v?.cieploDobaObliczeniowaKwh ?? null,
       energiaElektrycznaDobaKwh: v?.energiaElektrycznaDobaKwh ?? null,
-      przegrody: (v?.przegrody ?? []).map((p) => ({ nazwa: p.nazwa, strataW: p.strataW, udzialPct: p.udzialPct })),
+      przegrody: (v?.przegrody ?? []).map((p, i) => ({
+        nazwa: p.nazwa,
+        uWM2K: uPrzegrody(przegrody[i]!).u,
+        strataW: p.strataW,
+        udzialPct: p.udzialPct,
+      })),
       miesiace: (v?.miesiace ?? []).map((m) => ({ miesiac: m.miesiac, cieploKwh: m.cieploKwh, energiaElektrycznaKwh: m.energiaElektrycznaKwh })),
       ostrzezenia: tekstyOstrzezen(wynik.warnings),
       zalozenia: tekstyZalozen(wynik.assumptions),

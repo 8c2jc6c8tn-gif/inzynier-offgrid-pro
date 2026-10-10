@@ -56,6 +56,45 @@ describe("obciazenieCieplneTool (M6/E1, dawne 5.1)", () => {
     expect(w.ostrzezenia).toContain(t("pl", "OC-BEZ-PN-EN-12831"))
     for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
   })
+
+  it("warstwy zamiast U: ściana OSB + wełna + GK, poziomo → U 0,2422; 120 m² × 40 K = 1162,76 W; założenie o braku mostków", async () => {
+    const w = await obciazenieCieplneTool.handler({
+      przegrody: [
+        {
+          nazwa: "Ściana",
+          powierzchniaM2: 120,
+          kierunekStrumienia: "poziomo",
+          warstwy: [
+            { nazwa: "OSB", gruboscMm: 12, lambdaWmK: 0.13 },
+            { nazwa: "Wełna", gruboscMm: 145, lambdaWmK: 0.038 },
+            { nazwa: "GK", gruboscMm: 12.5, lambdaWmK: 0.25 },
+          ],
+        },
+      ],
+      temperaturaWewnetrznaC: 20,
+      strefaKlimatyczna: 3,
+      kubaturaM3: 300,
+      wymianyPowietrzaNaH: 0,
+    })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.przegrody[0]!.uWM2K).toBeCloseTo(0.24224236004864466, 12)
+    expect(w.przegrody[0]!.strataW).toBeCloseTo(1162.7633282334943, 9)
+    expect(w.zalozenia).toContain(t("pl", "OC-ZALOZENIE-U-Z-WARSTW"))
+  })
+
+  it("warstwy bez kierunku strumienia albo z niepełną warstwą → INCOMPLETE, bez zgadywania λ", async () => {
+    const baza = { temperaturaWewnetrznaC: 20, strefaKlimatyczna: 3, kubaturaM3: 300, wymianyPowietrzaNaH: 0 }
+    const bezKierunku = await obciazenieCieplneTool.handler({
+      ...baza,
+      przegrody: [{ nazwa: "Ściana", powierzchniaM2: 10, warstwy: [{ nazwa: "Wełna", gruboscMm: 100, lambdaWmK: 0.04 }] }],
+    })
+    expect(bezKierunku.status).toBe("INCOMPLETE")
+    const bezLambdy = await obciazenieCieplneTool.handler({
+      ...baza,
+      przegrody: [{ nazwa: "Ściana", powierzchniaM2: 10, kierunekStrumienia: "poziomo", warstwy: [{ nazwa: "Wełna", gruboscMm: 100 }] }],
+    })
+    expect(bezLambdy.status).toBe("INCOMPLETE")
+  })
 })
 
 describe("zapotrzebowanieCoCwuTool (M6/E2, dawne 5.2)", () => {

@@ -9,7 +9,7 @@ import { bezMostkowIZyskow, miesiaceZeSrednich, temperaturaWewnetrznaNieWyzsza }
 export const CALCULATOR_VERSION = "1.1.0"
 
 /** U of a partition: the entered value, otherwise from layers (needs a flow direction); `null` = not known yet. */
-function uPrzegrody(p: ObciazenieCieplneInput["przegrody"][number]): { u: number | null; zWarstw: boolean } {
+export function uPrzegrody(p: ObciazenieCieplneInput["przegrody"][number]): { u: number | null; zWarstw: boolean } {
   if (p.uWM2K !== null) return { u: p.uWM2K, zWarstw: false }
   if (p.warstwy && p.warstwy.length > 0 && p.kierunekStrumienia) return { u: uZWarstw(p.warstwy, p.kierunekStrumienia)?.uWM2K ?? null, zWarstw: true }
   return { u: null, zWarstw: false }

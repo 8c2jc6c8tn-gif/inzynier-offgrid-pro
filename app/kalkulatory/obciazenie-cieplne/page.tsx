@@ -20,16 +20,32 @@ import {
   type StrefaKlimatyczna,
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import { KIERUNKI_STRUMIENIA, type KierunekStrumienia } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
+import { KLUCZ_DRAFTU_OBCIAZENIA, podgladUZWarstw, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed, type WarstwaSeed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 import { SekcjaRaportEfektywnosci } from "./sekcja-raport-efektywnosci"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
 const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-${i + 1}`)
 
-const nowaPrzegroda = (nazwa: string): PrzegrodaSeed => ({ nazwa, powierzchniaM2: "", uWM2K: "", zewnetrzna: true, temperaturaPoDrugiejStronieC: "" })
+const nowaPrzegroda = (nazwa: string, kierunek: KierunekStrumienia | "" = ""): PrzegrodaSeed => ({
+  nazwa,
+  powierzchniaM2: "",
+  uWM2K: "",
+  zewnetrzna: true,
+  temperaturaPoDrugiejStronieC: "",
+  warstwy: [],
+  kierunek,
+})
+const nowaWarstwa = (): WarstwaSeed => ({ nazwa: "", gruboscMm: "", lambdaWmK: "", oporM2KW: "" })
+
+const KLUCZE_KIERUNKU: Record<KierunekStrumienia, string> = {
+  poziomo: "UI-OBCCIE-KIERUNEK-POZIOMO",
+  "w-gore": "UI-OBCCIE-KIERUNEK-W-GORE",
+  "w-dol": "UI-OBCCIE-KIERUNEK-W-DOL",
+}
 
 const stanPoczatkowy = (t: (k: string) => string): Seed => ({
-  przegrody: [nowaPrzegroda(t("UI-OBCCIE-SCIANY-ZEWNETRZNE")), nowaPrzegroda(t("UI-OBCCIE-OKNA-DRZWI")), nowaPrzegroda(t("UI-OBCCIE-DACH-STROP"))],
+  przegrody: [nowaPrzegroda(t("UI-OBCCIE-SCIANY-ZEWNETRZNE"), "poziomo"), nowaPrzegroda(t("UI-OBCCIE-OKNA-DRZWI")), nowaPrzegroda(t("UI-OBCCIE-DACH-STROP"), "w-gore")],
   temperaturaWewnetrznaC: "",
   strefa: "",
   kubaturaM3: "",
@@ -40,6 +56,97 @@ const stanPoczatkowy = (t: (k: string) => string): Seed => ({
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
+const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
+
+/** Optional "U from layers" of one partition: direction of the heat flow, layer rows and a live U preview. */
+function WarstwyPrzegrody({ p, i, ustaw }: { p: PrzegrodaSeed; i: number; ustaw: (z: Partial<PrzegrodaSeed>) => void }) {
+  const t = useTranslate()
+  const warstwy = p.warstwy ?? []
+  const podglad = podgladUZWarstw(p)
+  const ustawWarstwe = (j: number, z: Partial<WarstwaSeed>) => ustaw({ warstwy: warstwy.map((w, k) => (k === j ? { ...w, ...z } : w)) })
+  return (
+    <details className="rounded-md border p-3" open={warstwy.length > 0}>
+      <summary className="min-h-11 cursor-pointer font-medium">{t("UI-OBCCIE-WARSTWY-TYTUL")}</summary>
+      <div className="mt-2 flex flex-col gap-3">
+        <p className="text-small text-muted-foreground">{t("UI-OBCCIE-WARSTWY-OPIS")}</p>
+        <PoleSelect
+          id={`przegroda-${i}-kierunek`}
+          label={t("UI-OBCCIE-KIERUNEK-STRUMIENIA")}
+          value={p.kierunek ?? ""}
+          onChange={(e) => ustaw({ kierunek: e.target.value })}
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="kierunek" />}
+        >
+          <option value="">{t("UI-WYBIERZ")}</option>
+          {KIERUNKI_STRUMIENIA.map((k) => (
+            <option key={k} value={k}>
+              {t(KLUCZE_KIERUNKU[k])}
+            </option>
+          ))}
+        </PoleSelect>
+        {warstwy.map((w, j) => (
+          <div key={j} className="flex flex-col gap-3 rounded-md border p-3">
+            <Pole
+              id={`przegroda-${i}-warstwa-${j}-nazwa`}
+              label={t("UI-OBCCIE-WARSTWA-NAZWA", { p: j + 1 })}
+              value={w.nazwa}
+              onChange={(e) => ustawWarstwe(j, { nazwa: e.target.value })}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaNazwa" />}
+            />
+            <div className="grid gap-3 sm:grid-cols-3">
+              <Pole
+                id={`przegroda-${i}-warstwa-${j}-grubosc`}
+                label={t("UI-OBCCIE-WARSTWA-GRUBOSC")}
+                unit="mm"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={w.gruboscMm}
+                onChange={(e) => ustawWarstwe(j, { gruboscMm: e.target.value })}
+                pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaGrubosc" />}
+              />
+              <Pole
+                id={`przegroda-${i}-warstwa-${j}-lambda`}
+                label={t("UI-OBCCIE-WARSTWA-LAMBDA")}
+                unit="W/(m·K)"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={w.lambdaWmK}
+                onChange={(e) => ustawWarstwe(j, { lambdaWmK: e.target.value })}
+                pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaLambda" />}
+              />
+              <Pole
+                id={`przegroda-${i}-warstwa-${j}-opor`}
+                label={t("UI-OBCCIE-WARSTWA-OPOR")}
+                unit="m²·K/W"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={w.oporM2KW}
+                onChange={(e) => ustawWarstwe(j, { oporM2KW: e.target.value })}
+                pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaOpor" />}
+              />
+            </div>
+            <Button variant="ghost" className="min-h-11 w-fit" onClick={() => ustaw({ warstwy: warstwy.filter((_, k) => k !== j) })}>
+              {t("UI-OBCCIE-USUN-WARSTWE")}
+            </Button>
+          </div>
+        ))}
+        <Button variant="outline" className="min-h-11 w-fit" onClick={() => ustaw({ warstwy: [...warstwy, nowaWarstwa()] })}>
+          {t("UI-OBCCIE-DODAJ-WARSTWE")}
+        </Button>
+        {warstwy.length > 0 && (
+          <p className="text-small" role="status">
+            {podglad
+              ? t("UI-OBCCIE-U-Z-WARSTW", { u: f3(podglad.uWM2K), r: f3(podglad.oporCalkowityM2KW) })
+              : t("UI-OBCCIE-U-Z-WARSTW-NIEPELNE")}
+            {podglad && p.uWM2K.trim() !== "" && <> {t("UI-OBCCIE-U-WPISANE-WYGRYWA")}</>}
+          </p>
+        )}
+      </div>
+    </details>
+  )
+}
 
 function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; ustaw: (z: Partial<PrzegrodaSeed>) => void; usun: () => void }) {
   const t = useTranslate()
@@ -92,6 +199,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
           />
         )}
       </div>
+      <WarstwyPrzegrody p={p} i={i} ustaw={ustaw} />
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
         {t("UI-OBCCIE-USUN-PRZEGRODE")}
       </Button>

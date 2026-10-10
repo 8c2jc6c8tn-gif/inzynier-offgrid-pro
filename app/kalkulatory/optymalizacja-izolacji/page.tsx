@@ -18,7 +18,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import { KLUCZ_DRAFTU_OBCIAZENIA, uPrzegrodySeed, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
 type WariantSeed = { nazwa: string; lambda: string; grubosc: string; cena: string }
 type Seed = { przegroda: string; powierzchniaM2: string; uWM2K: string; warianty: WariantSeed[]; cenaCiepla: string }
@@ -166,7 +166,7 @@ export default function OptymalizacjaIzolacjiPage() {
             value={stan.przegroda}
             onChange={(e) => {
               const p = przegrodyZewnetrzne.find((x) => String(x.i) === e.target.value)
-              ustaw(p ? { przegroda: e.target.value, powierzchniaM2: p.powierzchniaM2, uWM2K: p.uWM2K } : { przegroda: "" })
+              ustaw(p ? { przegroda: e.target.value, powierzchniaM2: p.powierzchniaM2, uWM2K: uPrzegrodySeed(p) } : { przegroda: "" })
             }}
             pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="przegroda" />}
           >
