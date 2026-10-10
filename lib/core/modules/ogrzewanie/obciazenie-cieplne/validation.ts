@@ -14,6 +14,12 @@ export function validateInput(input: ObciazenieCieplneInput): Warning[] {
     if (p.uWM2K !== null && (p.uWM2K < 0 || p.uWM2K > U_SANITY_MAX)) {
       e.push(wartoscPozaZakresem(`przegrody.${i}.uWM2K`, "POLE-U-PRZEGRODY", p.uWM2K, 0, U_SANITY_MAX, etykieta))
     }
+    p.warstwy?.forEach((w, j) => {
+      const pole = `przegrody.${i}.warstwy.${j}`
+      if (w.gruboscMm !== null && w.gruboscMm <= 0) e.push(wartoscNiedodatnia(`${pole}.gruboscMm`, "POLE-WARSTWA-GRUBOSC", w.gruboscMm, etykieta))
+      if (w.lambdaWmK !== null && w.lambdaWmK <= 0) e.push(wartoscNiedodatnia(`${pole}.lambdaWmK`, "POLE-WARSTWA-LAMBDA", w.lambdaWmK, etykieta))
+      if (w.oporM2KW !== null && w.oporM2KW <= 0) e.push(wartoscNiedodatnia(`${pole}.oporM2KW`, "POLE-WARSTWA-OPOR", w.oporM2KW, etykieta))
+    })
   })
   if (input.kubaturaM3 !== null && input.kubaturaM3 < 0) e.push(wartoscUjemna("kubaturaM3", "POLE-KUBATURA", input.kubaturaM3))
   const n = input.wymianyPowietrzaNaH

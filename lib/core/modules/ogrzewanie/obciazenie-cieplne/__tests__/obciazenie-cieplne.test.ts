@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { calculateObciazenieCieplne } from "../calculator"
 import type { ObciazenieCieplneInput } from "../input"
+import { oporWarstwy, uZWarstw, type WarstwaPrzegrody } from "../u-z-warstw"
 
 const MIESIACE_PUSTE: (number | null)[] = Array(12).fill(null)
 
@@ -92,5 +93,83 @@ describe("calculateObciazenieCieplne (M6/E1, dawne 5.1)", () => {
   it("strefy I–V: −16/−18/−20/−22/−24 °C (PN-82/B-02403 Tablica 1 = zał. krajowy PN-EN 12831 wg Purmo)", () => {
     const te = ([1, 2, 3, 4, 5] as const).map((s) => calculateObciazenieCieplne({ ...DOM, strefaKlimatyczna: s }).value!.temperaturaZewnetrznaC)
     expect(te).toEqual([-16, -18, -20, -22, -24])
+  })
+})
+
+// Wall OSB 12 mm (λ 0.13) + wool 145 mm (λ 0.038) + plasterboard 12.5 mm (λ 0.25): ΣR = 3.958097166 (Python, independent of the code).
+const SCIANA_WARSTWY: WarstwaPrzegrody[] = [
+  { nazwa: "OSB", gruboscMm: 12, lambdaWmK: 0.13, oporM2KW: null },
+  { nazwa: "Wełna", gruboscMm: 145, lambdaWmK: 0.038, oporM2KW: null },
+  { nazwa: "Płyta GK", gruboscMm: 12.5, lambdaWmK: 0.25, oporM2KW: null },
+]
+
+describe("U z warstw (PN-EN ISO 6946, model prosty, bez mostków)", () => {
+  it("ściana: Rsi 0,13 + ΣR 3,958097 + Rse 0,04 → U = 0,242242", () => {
+    const u = uZWarstw(SCIANA_WARSTWY, "poziomo")!
+    expect(u.oporWarstwM2KW).toBeCloseTo(3.9580971659919024, 12)
+    expect(u.oporCalkowityM2KW).toBeCloseTo(4.128097166, 9)
+    expect(u.uWM2K).toBeCloseTo(0.24224236004864466, 12)
+  })
+
+  it("kierunek strumienia wybiera Rsi: w górę 0,10, w dół 0,17", () => {
+    expect(uZWarstw(SCIANA_WARSTWY, "w-gore")!.uWM2K).toBeCloseTo(0.24401568813411975, 12)
+    expect(uZWarstw(SCIANA_WARSTWY, "w-dol")!.uWM2K).toBeCloseTo(0.23991763151760045, 12)
+  })
+
+  it("warstwa podana gotowym oporem R zamiast grubości i λ (np. szczelina z karty producenta)", () => {
+    const u = uZWarstw([{ nazwa: "Szczelina", gruboscMm: null, lambdaWmK: null, oporM2KW: 0.18 }], "poziomo")!
+    expect(u.oporCalkowityM2KW).toBeCloseTo(0.35, 12)
+    expect(u.uWM2K).toBeCloseTo(1 / 0.35, 12)
+  })
+
+  it("niepełna warstwa albo pusta lista → null (brakująca warstwa po cichu zaniżyłaby R)", () => {
+    expect(uZWarstw([], "poziomo")).toBeNull()
+    expect(uZWarstw([...SCIANA_WARSTWY, { nazwa: "?", gruboscMm: 50, lambdaWmK: null, oporM2KW: null }], "poziomo")).toBeNull()
+    expect(oporWarstwy({ nazwa: "zero", gruboscMm: 0, lambdaWmK: 0.04, oporM2KW: null })).toBeNull()
+    expect(oporWarstwy({ nazwa: "R<=0", gruboscMm: null, lambdaWmK: null, oporM2KW: 0 })).toBeNull()
+  })
+
+  it("kalkulator: przegroda bez U, ale z warstwami → U z warstw (120 m² × 0,242242 × 40 K = 1162,763 W) + założenie", () => {
+    const przegrody = DOM.przegrody.map((p, i) =>
+      i === 0 ? { ...p, uWM2K: null, warstwy: SCIANA_WARSTWY, kierunekStrumienia: "poziomo" as const } : p,
+    )
+    const r = calculateObciazenieCieplne({ ...DOM, przegrody })
+    expect(r.status).toBe("VALID_WITH_WARNINGS")
+    expect(r.value!.przegrody[0]!.strataW).toBeCloseTo(1162.7633282334943, 9)
+    expect(r.value!.przegrody[1]!.strataW).toBe(880)
+    expect(r.assumptions).toContainEqual({ kod: "OC-ZALOZENIE-U-Z-WARSTW" })
+    expect(r.inputs.przegroda1U).toBeCloseTo(0.24224236004864466, 12)
+  })
+
+  it("wpisane U wygrywa z warstwami; bez warstw wynik i założenia jak dotąd", () => {
+    const przegrody = DOM.przegrody.map((p, i) => (i === 0 ? { ...p, warstwy: SCIANA_WARSTWY, kierunekStrumienia: "poziomo" as const } : p))
+    const r = calculateObciazenieCieplne({ ...DOM, przegrody })
+    expect(r.value!.przegrody[0]!.strataW).toBe(1200)
+    expect(r.assumptions).not.toContainEqual({ kod: "OC-ZALOZENIE-U-Z-WARSTW" })
+    expect(calculateObciazenieCieplne(DOM).assumptions).not.toContainEqual({ kod: "OC-ZALOZENIE-U-Z-WARSTW" })
+  })
+
+  it("INCOMPLETE: warstwy bez kierunku strumienia albo z niepełną warstwą — bez zgadywania", () => {
+    const bezKierunku = DOM.przegrody.map((p, i) => (i === 0 ? { ...p, uWM2K: null, warstwy: SCIANA_WARSTWY } : p))
+    expect(calculateObciazenieCieplne({ ...DOM, przegrody: bezKierunku }).status).toBe("INCOMPLETE")
+    const niepelna = DOM.przegrody.map((p, i) =>
+      i === 0
+        ? { ...p, uWM2K: null, kierunekStrumienia: "poziomo" as const, warstwy: [...SCIANA_WARSTWY, { nazwa: "?", gruboscMm: 30, lambdaWmK: null, oporM2KW: null }] }
+        : p,
+    )
+    expect(calculateObciazenieCieplne({ ...DOM, przegrody: niepelna }).status).toBe("INCOMPLETE")
+  })
+
+  it("INVALID_INPUT: grubość, λ albo opór warstwy ≤ 0", () => {
+    for (const zla of [
+      { nazwa: "x", gruboscMm: -5, lambdaWmK: 0.04, oporM2KW: null },
+      { nazwa: "x", gruboscMm: 50, lambdaWmK: 0, oporM2KW: null },
+      { nazwa: "x", gruboscMm: null, lambdaWmK: null, oporM2KW: -1 },
+    ]) {
+      const przegrody = DOM.przegrody.map((p, i) =>
+        i === 0 ? { ...p, uWM2K: null, kierunekStrumienia: "poziomo" as const, warstwy: [...SCIANA_WARSTWY, zla] } : p,
+      )
+      expect(calculateObciazenieCieplne({ ...DOM, przegrody }).status).toBe("INVALID_INPUT")
+    }
   })
 })
