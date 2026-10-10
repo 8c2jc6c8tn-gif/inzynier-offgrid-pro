@@ -33,7 +33,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.4.0"
+export const CALCULATOR_VERSION = "1.5.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -353,7 +353,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         ...ps5,
         kosztBrakuRokZl: wartosc(ps5.brakRokKwh, ps5.brakTaniaRokKwh),
         kosztBrakuZimaZl: wartosc(ps5.brakZimaKwh, ps5.brakTaniaZimaKwh),
-        doborNaZime: cel === null ? null : dobierzPaneleNaZime(jednostkowaKwh, wspolne, cel),
+        doborNaZime: cel === null ? null : dobierzPaneleNaZime(jednostkowaKwh, wspolne, cel, pojemnosc?.liczba ?? null),
       }
     }
     const obciazenia = obcMiejsca ? ocenPanelObciazenia(p, obcMiejsca) : null
