@@ -6,7 +6,7 @@ import { uZWarstw } from "./u-z-warstw"
 import { validateInput } from "./validation"
 import { bezMostkowIZyskow, miesiaceZeSrednich, temperaturaWewnetrznaNieWyzsza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 /** U of a partition: the entered value, otherwise from layers (needs a flow direction); `null` = not known yet. */
 export function uPrzegrody(p: ObciazenieCieplneInput["przegrody"][number]): { u: number | null; zWarstw: boolean } {
@@ -59,6 +59,10 @@ export type ObciazenieCieplneResult = {
   /** Heat recovery of the ventilation taken into H_V [%]; 0 = none. */
   odzyskWentylacjiPct: number
   strataWentylacjaW: number
+  /** Σ U·A of partitions against outdoor air + H_V [W/K]: the heat loss per kelvin of indoor–outdoor difference (for M7 Screen 1). */
+  hZewnetrznyWK: number
+  /** Heat flow through partitions to spaces of a fixed temperature (ground, attic) at θi [W]; negative = gain. */
+  strataStalaW: number
   /** Φ = Φ_T + Φ_V at θe [W]. */
   obciazenieW: number
   /** Heat for one day at design temperature: Φ × 24 h [kWh]. */
@@ -204,6 +208,8 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
       hvWK,
       odzyskWentylacjiPct: odzyskPct,
       strataWentylacjaW,
+      hZewnetrznyWK: hZewnWK,
+      strataStalaW: strataInnychW,
       obciazenieW,
       cieploDobaObliczeniowaKwh,
       energiaElektrycznaDobaKwh: cop === null ? null : cieploDobaObliczeniowaKwh / cop,

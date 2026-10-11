@@ -243,6 +243,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/bez-rekuperacji", label: "Rekuperacja zamarzła — straty bez odzysku" },
       { href: "/kalkulatory/awaria-stringa-zima", label: "Awaria stringa PV zimą" },
       { href: "/kalkulatory/deficyty-miesieczne", label: "Deficyty miesięczne i agregat" },
+      { href: "/kalkulatory/symulacja-mrozu", label: "Symulacja przy −20°C i −30°C" },
       { href: "/kalkulatory/ladowanie-z-agregatu", label: "Ładowanie magazynu z agregatu" },
       { href: "/kalkulatory/okno-sloneczne", label: "Krótkie okno słoneczne" },
       { href: "/kalkulatory/deep-winter-budget", label: "Deep Winter Energy Budget — budżet energii na zimowy miesiąc" },

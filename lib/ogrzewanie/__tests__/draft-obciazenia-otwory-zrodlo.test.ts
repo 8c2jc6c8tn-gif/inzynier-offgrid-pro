@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { calculateObciazenieCieplne } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
-import { ogrzewanieElektryczneZSzkicu, wejscieObciazenia, type SeedObciazenia } from "../draft-obciazenia-cieplnego"
+import { daneMrozuZSzkicu, ogrzewanieElektryczneZSzkicu, wejscieObciazenia, type SeedObciazenia } from "../draft-obciazenia-cieplnego"
 
 const MIESIACE = ["-2", "0", "4", "8", "13", "17", "19", "18", "13", "8", "3", "-1"]
 
@@ -73,5 +73,24 @@ describe("szkic obciążenia — okna i drzwi, odzysk, źródło ciepła", () =>
     expect(ogrzewanieElektryczneZSzkicu({ ...SEED, cop: "" })).toEqual({ stan: "brak-cop" })
     expect(ogrzewanieElektryczneZSzkicu({ ...SEED, miesiace: [...MIESIACE.slice(0, 11), ""] })).toEqual({ stan: "brak-miesiecy" })
     expect(ogrzewanieElektryczneZSzkicu({ ...SEED, strefa: "" })).toEqual({ stan: "brak-danych" })
+  })
+})
+
+describe("dane budynku dla M7/E1 ze szkicu Ekranu 1", () => {
+  it("H_zewn = 120·0,25 + 20·1,1 + H_V 50,25 = 102,25 W/K, brak przegród do gruntu → strumień stały 0, θi i COP ze szkicu", () => {
+    const d = daneMrozuZSzkicu(SEED)!
+    expect(d.budynek.wspolczynnikStratZewnetrznychWK).toBeCloseTo(102.25, 9)
+    expect(d.budynek.stalyStrumienStratW).toBe(0)
+    expect(d.budynek.temperaturaWewnetrznaC).toBe(20)
+    expect(d.zrodlo).toBe("prad")
+    expect(d.cop).toBe(3)
+  })
+
+  it("źródło na paliwo → zrodlo „paliwo” i brak COP; brak szkicu lub niekompletny szkic → null", () => {
+    const d = daneMrozuZSzkicu({ ...SEED, zrodlo: "paliwo" })!
+    expect(d.zrodlo).toBe("paliwo")
+    expect(d.cop).toBeNull()
+    expect(daneMrozuZSzkicu(null)).toBeNull()
+    expect(daneMrozuZSzkicu({ ...SEED, temperaturaWewnetrznaC: "" })).toBeNull()
   })
 })

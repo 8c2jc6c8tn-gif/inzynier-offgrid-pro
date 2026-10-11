@@ -214,6 +214,112 @@ export const pl = {
       },
     },
   },
+  "symulacja-mrozu": {
+    "migawka": {
+      "oCoChodzi": "Zimowa próba generalna: przez cały miesiąc ten sam mróz, co dzień inna pogoda — i sprawdzamy, ile dni system da radę bez agregatu.",
+      "jakDziala": "Wybierz miesiąc, podaj moc i ustawienie paneli oraz zużycie domu. Dla każdego scenariusza temperatury aplikacja odtwarza dobowe ciepło budynku (z Ekranu 1 Modułu 6), dolicza je do zużycia, obniża pojemność baterii o spadek z karty ogniwa i przelicza bilans dzień po dniu na produkcji PV z danych TMY Twojej lokalizacji.",
+      "poCo": "Średnia roczna ukrywa mroźne tygodnie. Tu widać, w których dniach zabraknie energii, ile jej brakuje łącznie i czy deficyty idą seriami — od tego zależy, jaki agregat i jaki zapas paliwa są potrzebne.",
+      "fizyka": "Q_doba = max(0, H_zewn·(θi − θe) + Φ_st)·24 h; E_el = Q/COP; D = E_baz + E_el + E_dod; C_ef = C·(1 − s/100); deficyt dnia = max(0, D − P_PV − energia z magazynu). Produkcja dnia = Σ G_poa·Δt/1000 · kWp · PR. Temperatura stała przez miesiąc, COP stały w scenariuszu — to uproszczenie."
+    },
+    "pola": {
+      "miesiac": {
+        "nazwa": "Miesiąc symulacji",
+        "cel": "Dni tego miesiąca z danych TMY to profil produkcji PV, na którym liczony jest bilans.",
+        "gdzie": "Zwykle najzimniejszy miesiąc: grudzień lub styczeń.",
+        "zakres": "Wymagane; dni z typowego roku meteorologicznego, nie z prognozy."
+      },
+      "mocKwp": {
+        "nazwa": "Moc paneli [kWp]",
+        "cel": "Skaluje nasłonecznienie płaszczyzny do energii elektrycznej.",
+        "gdzie": "Suma mocy znamionowych paneli z kart katalogowych lub z projektu.",
+        "zakres": "Twoja instalacja; wymagane > 0."
+      },
+      "pr": {
+        "nazwa": "Współczynnik sprawności instalacji PR [-]",
+        "cel": "Uwzględnia straty falownika, kabli, temperatury i zabrudzenia.",
+        "gdzie": "Z projektu lub z pomiarów własnej instalacji; aplikacja go nie zgaduje.",
+        "zakres": "Zwykle 0,6–0,9; wymagane > 0."
+      },
+      "nachylenieDeg": {
+        "nazwa": "Nachylenie paneli [°]",
+        "cel": "Od kąta zależy, ile zimowego słońca pada na panel.",
+        "gdzie": "Pomiar na dachu lub projekt konstrukcji.",
+        "zakres": "0° = płasko, 90° = pionowo."
+      },
+      "azymutDeg": {
+        "nazwa": "Azymut paneli [°]",
+        "cel": "Kierunek, w który patrzą panele — wpływa na zimową produkcję.",
+        "gdzie": "Kompas lub plan dachu: N = 0°, E = 90°, S = 180°, W = 270°.",
+        "zakres": "0–360°."
+      },
+      "korektaProdukcjiPct": {
+        "nazwa": "Korekta produkcji PV [%]",
+        "cel": "Obniża (wartość ujemna) lub podnosi produkcję, np. o szron i śnieg na panelach.",
+        "gdzie": "Własna ocena albo wynik ekranów o śniegu i oblodzeniu; puste = bez korekty.",
+        "zakres": "−100…100%; ujemna = mniej energii."
+      },
+      "zuzycieBazoweDobaKwh": {
+        "nazwa": "Zużycie dobowe bez ogrzewania [kWh/dobę]",
+        "cel": "Energia elektryczna domu bez ogrzewania, taka sama w każdym scenariuszu.",
+        "gdzie": "Moduł 2 (odbiorniki) albo rachunek z lata, gdy dom nie grzeje prądem.",
+        "zakres": "Twoje zużycie; wymagane ≥ 0."
+      },
+      "dodatkoweZuzycieDobaKwh": {
+        "nazwa": "Dodatkowe zużycie z mrozu [kWh/dobę]",
+        "cel": "Grzałki BMS, odszranianie, podgrzewanie rur i inne odbiorniki włączane przez mróz.",
+        "gdzie": "Karty urządzeń lub pomiar; puste = brak dodatkowych odbiorników.",
+        "zakres": "≥ 0."
+      },
+      "cop": {
+        "nazwa": "COP ogólny źródła ciepła",
+        "cel": "Ile ciepła powstaje z 1 kWh prądu; zastępuje COP z Ekranu 1, gdy go wpiszesz.",
+        "gdzie": "Karta pompy ciepła przy temperaturze zewnętrznej scenariusza; grzałka = 1.",
+        "zakres": "> 0; COP pompy spada wraz z mrozem."
+      },
+      "magazynKwh": {
+        "nazwa": "Pojemność użyteczna magazynu [kWh]",
+        "cel": "Magazyn przenosi nadwyżkę PV z dni słonecznych na dni bez słońca.",
+        "gdzie": "Karta baterii: pojemność w dopuszczalnej głębokości rozładowania. Puste lub 0 = bez magazynu.",
+        "zakres": "≥ 0; w temperaturze zwykłej, przed spadkiem z mrozu."
+      },
+      "magazynSprawnoscPct": {
+        "nazwa": "Sprawność magazynu przy ładowaniu [%]",
+        "cel": "Tyle energii nadwyżki trafia do baterii; reszta to straty.",
+        "gdzie": "Karta baterii i falownika (sprawność cyklu).",
+        "zakres": "Wymagana, gdy podano pojemność; 0–100%."
+      },
+      "magazynStanPoczatkowyPct": {
+        "nazwa": "Stan naładowania na początku miesiąca [%]",
+        "cel": "Od czego startuje bilans; puste = 0%, czyli strona bezpieczna.",
+        "gdzie": "Własna ocena po poprzednim miesiącu.",
+        "zakres": "0–100%."
+      },
+      "udzialNocyPct": {
+        "nazwa": "Udział zużycia w nocy [%]",
+        "cel": "Część zużycia przypadająca na godziny bez słońca — zasila się ją tylko z magazynu.",
+        "gdzie": "Profil dobowy zużycia domu (Moduł 2); puste = dzień i noc jednej doby się nie rozdziela.",
+        "zakres": "0–100%."
+      },
+      "scenariuszTemperaturaC": {
+        "nazwa": "Temperatura scenariusza [°C]",
+        "cel": "Stała temperatura zewnętrzna przez cały miesiąc w tym scenariuszu.",
+        "gdzie": "Domyślnie −20 i −30 °C; możesz wpisać własną, np. temperaturę obliczeniową strefy.",
+        "zakres": "−60…20 °C; do 6 scenariuszy."
+      },
+      "scenariuszCop": {
+        "nazwa": "COP w tym scenariuszu",
+        "cel": "COP pompy ciepła przy temperaturze scenariusza; puste = COP ogólny.",
+        "gdzie": "Wykres lub tabela mocy i COP z karty pompy przy tej temperaturze zewnętrznej.",
+        "zakres": "> 0."
+      },
+      "scenariuszSpadekPojemnosciPct": {
+        "nazwa": "Spadek pojemności baterii w mrozie [%]",
+        "cel": "Ogniwa w mrozie oddają mniej energii niż w temperaturze pokojowej.",
+        "gdzie": "Karta ogniwa: pojemność w funkcji temperatury. Przykład ze źródeł (−20% przy −20 °C) to tylko ilustracja; puste = brak spadku.",
+        "zakres": "0–99%."
+      }
+    }
+  },
   "ladowanie-z-agregatu": {
     "migawka": {
       "oCoChodzi": "Agregat ładujący magazyn to jak kran napełniający wannę, z którego ktoś w tym samym czasie nabiera wodę wiadrem — do wanny płynie tylko to, co zostanie.",
@@ -799,6 +905,112 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "symulacja-mrozu": {
+    "migawka": {
+      "oCoChodzi": "A winter dress rehearsal: the same frost all month, a different weather every day — and we check how many days the system manages without a generator.",
+      "jakDziala": "Pick the month and enter the panel power and orientation and the household consumption. For each temperature scenario the app rebuilds the daily heat of the building (from Module 6, Screen 1), adds it to the consumption, lowers the battery capacity by the datasheet derating and runs the balance day by day on the PV production from the TMY data of your location.",
+      "poCo": "The annual average hides freezing weeks. Here you see which days run short of energy, how much is missing in total and whether the deficits come in runs — that decides which generator and how much fuel you need.",
+      "fizyka": "Q_day = max(0, H_ext·(θi − θe) + Φ_fixed)·24 h; E_el = Q/COP; D = E_base + E_el + E_extra; C_eff = C·(1 − s/100); day deficit = max(0, D − P_PV − energy from the store). Day production = Σ G_poa·Δt/1000 · kWp · PR. Constant temperature through the month, constant COP within a scenario — a simplification."
+    },
+    "pola": {
+      "miesiac": {
+        "nazwa": "Month to simulate",
+        "cel": "The days of this month in the TMY data are the PV production profile the balance runs on.",
+        "gdzie": "Usually the coldest month: December or January.",
+        "zakres": "Required; days of a typical meteorological year, not a forecast."
+      },
+      "mocKwp": {
+        "nazwa": "Panel power [kWp]",
+        "cel": "Scales the in-plane irradiance to electric energy.",
+        "gdzie": "Sum of the rated powers of the panels from the datasheets or the design.",
+        "zakres": "Your installation; required > 0."
+      },
+      "pr": {
+        "nazwa": "Performance ratio PR [-]",
+        "cel": "Covers inverter, cable, temperature and soiling losses.",
+        "gdzie": "From the design or measurements of your own installation; the app does not guess it.",
+        "zakres": "Usually 0.6–0.9; required > 0."
+      },
+      "nachylenieDeg": {
+        "nazwa": "Panel tilt [°]",
+        "cel": "The angle decides how much winter sun falls on the panel.",
+        "gdzie": "Measurement on the roof or the mounting design.",
+        "zakres": "0° = flat, 90° = vertical."
+      },
+      "azymutDeg": {
+        "nazwa": "Panel azimuth [°]",
+        "cel": "The direction the panels face — it affects the winter production.",
+        "gdzie": "Compass or roof plan: N = 0°, E = 90°, S = 180°, W = 270°.",
+        "zakres": "0–360°."
+      },
+      "korektaProdukcjiPct": {
+        "nazwa": "PV production correction [%]",
+        "cel": "Lowers (negative) or raises the production, e.g. for frost and snow on the panels.",
+        "gdzie": "Your own estimate or the result of the snow and icing screens; empty = no correction.",
+        "zakres": "−100…100%; negative = less energy."
+      },
+      "zuzycieBazoweDobaKwh": {
+        "nazwa": "Daily consumption without heating [kWh/day]",
+        "cel": "The household's electricity without heating, the same in every scenario.",
+        "gdzie": "Module 2 (loads) or a summer bill when the house does not heat with electricity.",
+        "zakres": "Your consumption; required ≥ 0."
+      },
+      "dodatkoweZuzycieDobaKwh": {
+        "nazwa": "Extra consumption caused by frost [kWh/day]",
+        "cel": "BMS heaters, defrost, pipe heating and other loads switched on by the frost.",
+        "gdzie": "Device datasheets or measurement; empty = no extra loads.",
+        "zakres": "≥ 0."
+      },
+      "cop": {
+        "nazwa": "General COP of the heat source",
+        "cel": "How much heat comes from 1 kWh of electricity; replaces the COP from Screen 1 when you type it.",
+        "gdzie": "Heat pump datasheet at the scenario's outdoor temperature; heater = 1.",
+        "zakres": "> 0; the heat pump COP falls with the frost."
+      },
+      "magazynKwh": {
+        "nazwa": "Usable store capacity [kWh]",
+        "cel": "The store carries the PV surplus from sunny days to sunless ones.",
+        "gdzie": "Battery datasheet: capacity within the allowed depth of discharge. Empty or 0 = no store.",
+        "zakres": "≥ 0; at ordinary temperature, before the derating."
+      },
+      "magazynSprawnoscPct": {
+        "nazwa": "Store charging efficiency [%]",
+        "cel": "The share of the surplus that reaches the battery; the rest is lost.",
+        "gdzie": "Battery and inverter datasheet (round-trip efficiency).",
+        "zakres": "Required when a capacity is given; 0–100%."
+      },
+      "magazynStanPoczatkowyPct": {
+        "nazwa": "State of charge at the start of the month [%]",
+        "cel": "Where the balance starts; empty = 0%, the safe side.",
+        "gdzie": "Your own estimate after the previous month.",
+        "zakres": "0–100%."
+      },
+      "udzialNocyPct": {
+        "nazwa": "Share of consumption at night [%]",
+        "cel": "The part of the consumption in hours without sun — supplied from the store only.",
+        "gdzie": "The household's daily profile (Module 2); empty = day and night of one day are not separated.",
+        "zakres": "0–100%."
+      },
+      "scenariuszTemperaturaC": {
+        "nazwa": "Scenario temperature [°C]",
+        "cel": "Constant outdoor temperature for the whole month in this scenario.",
+        "gdzie": "−20 and −30 °C by default; you can enter your own, e.g. the design temperature of the zone.",
+        "zakres": "−60…20 °C; up to 6 scenarios."
+      },
+      "scenariuszCop": {
+        "nazwa": "COP in this scenario",
+        "cel": "The heat pump COP at the scenario temperature; empty = the general COP.",
+        "gdzie": "Capacity and COP chart or table from the heat pump datasheet at this outdoor temperature.",
+        "zakres": "> 0."
+      },
+      "scenariuszSpadekPojemnosciPct": {
+        "nazwa": "Battery capacity drop in the frost [%]",
+        "cel": "Cells deliver less energy in the frost than at room temperature.",
+        "gdzie": "Cell datasheet: capacity versus temperature. The source's example (−20% at −20 °C) is only an illustration; empty = no drop.",
+        "zakres": "0–99%."
+      }
+    }
+  },
   "ladowanie-z-agregatu": {
     "migawka": {
       "oCoChodzi": "A generator charging the store is like a tap filling a bathtub while someone scoops water out with a bucket — only what is left flows into the tub.",
@@ -1383,6 +1595,112 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "От 2005 до 2023 и не раньше первого года.",
       },
     },
+  },
+  "symulacja-mrozu": {
+    "migawka": {
+      "oCoChodzi": "Зимняя генеральная репетиция: весь месяц один и тот же мороз, каждый день разная погода — и мы проверяем, сколько дней система справится без генератора.",
+      "jakDziala": "Выберите месяц, укажите мощность и ориентацию панелей и потребление дома. Для каждого температурного сценария приложение восстанавливает суточное тепло здания (из Экрана 1 Модуля 6), добавляет его к потреблению, снижает ёмкость батареи на спад из паспорта ячейки и считает баланс день за днём на выработке PV по данным TMY вашей локации.",
+      "poCo": "Среднегодовое значение скрывает морозные недели. Здесь видно, в какие дни не хватит энергии, сколько её не хватает суммарно и идут ли дефициты сериями — от этого зависит, какой генератор и какой запас топлива нужны.",
+      "fizyka": "Q_сут = max(0, H_внеш·(θi − θe) + Φ_ф)·24 ч; E_эл = Q/COP; D = E_баз + E_эл + E_доп; C_эф = C·(1 − s/100); дефицит дня = max(0, D − P_PV − энергия из накопителя). Выработка дня = Σ G_poa·Δt/1000 · кВт_п · PR. Температура постоянна весь месяц, COP постоянен в сценарии — это упрощение."
+    },
+    "pola": {
+      "miesiac": {
+        "nazwa": "Месяц симуляции",
+        "cel": "Дни этого месяца из данных TMY — профиль выработки PV, на котором считается баланс.",
+        "gdzie": "Обычно самый холодный месяц: декабрь или январь.",
+        "zakres": "Обязательно; дни типичного метеорологического года, а не прогноз."
+      },
+      "mocKwp": {
+        "nazwa": "Мощность панелей [кВт_п]",
+        "cel": "Масштабирует облучённость плоскости до электрической энергии.",
+        "gdzie": "Сумма номинальных мощностей панелей из паспортов или проекта.",
+        "zakres": "Ваша установка; требуется > 0."
+      },
+      "pr": {
+        "nazwa": "Коэффициент производительности PR [-]",
+        "cel": "Учитывает потери инвертора, кабелей, температуры и загрязнения.",
+        "gdzie": "Из проекта или измерений вашей установки; приложение его не угадывает.",
+        "zakres": "Обычно 0,6–0,9; требуется > 0."
+      },
+      "nachylenieDeg": {
+        "nazwa": "Наклон панелей [°]",
+        "cel": "От угла зависит, сколько зимнего солнца попадает на панель.",
+        "gdzie": "Измерение на крыше или проект конструкции.",
+        "zakres": "0° = горизонтально, 90° = вертикально."
+      },
+      "azymutDeg": {
+        "nazwa": "Азимут панелей [°]",
+        "cel": "Направление, куда смотрят панели, — влияет на зимнюю выработку.",
+        "gdzie": "Компас или план крыши: С = 0°, В = 90°, Ю = 180°, З = 270°.",
+        "zakres": "0–360°."
+      },
+      "korektaProdukcjiPct": {
+        "nazwa": "Коррекция выработки PV [%]",
+        "cel": "Снижает (отрицательное значение) или повышает выработку, например из-за инея и снега на панелях.",
+        "gdzie": "Ваша оценка или результат экранов о снеге и обледенении; пусто = без коррекции.",
+        "zakres": "−100…100%; отрицательное = меньше энергии."
+      },
+      "zuzycieBazoweDobaKwh": {
+        "nazwa": "Суточное потребление без отопления [кВт·ч/сут]",
+        "cel": "Электроэнергия дома без отопления, одинаковая в каждом сценарии.",
+        "gdzie": "Модуль 2 (нагрузки) или летний счёт, если дом не отапливается электричеством.",
+        "zakres": "Ваше потребление; требуется ≥ 0."
+      },
+      "dodatkoweZuzycieDobaKwh": {
+        "nazwa": "Дополнительное потребление из-за мороза [кВт·ч/сут]",
+        "cel": "Нагреватели BMS, оттайка, обогрев труб и другие нагрузки, включаемые морозом.",
+        "gdzie": "Паспорта устройств или измерение; пусто = нет дополнительных нагрузок.",
+        "zakres": "≥ 0."
+      },
+      "cop": {
+        "nazwa": "Общий COP источника тепла",
+        "cel": "Сколько тепла получается из 1 кВт·ч электричества; заменяет COP из Экрана 1, если вы его введёте.",
+        "gdzie": "Паспорт теплового насоса при наружной температуре сценария; ТЭН = 1.",
+        "zakres": "> 0; COP теплового насоса падает с морозом."
+      },
+      "magazynKwh": {
+        "nazwa": "Полезная ёмкость накопителя [кВт·ч]",
+        "cel": "Накопитель переносит излишки PV из солнечных дней в дни без солнца.",
+        "gdzie": "Паспорт батареи: ёмкость в пределах допустимой глубины разряда. Пусто или 0 = без накопителя.",
+        "zakres": "≥ 0; при обычной температуре, до спада."
+      },
+      "magazynSprawnoscPct": {
+        "nazwa": "КПД накопителя при заряде [%]",
+        "cel": "Доля излишка, которая попадает в батарею; остальное — потери.",
+        "gdzie": "Паспорт батареи и инвертора (КПД цикла).",
+        "zakres": "Требуется, если указана ёмкость; 0–100%."
+      },
+      "magazynStanPoczatkowyPct": {
+        "nazwa": "Уровень заряда в начале месяца [%]",
+        "cel": "С чего начинается баланс; пусто = 0%, то есть безопасная сторона.",
+        "gdzie": "Ваша оценка после предыдущего месяца.",
+        "zakres": "0–100%."
+      },
+      "udzialNocyPct": {
+        "nazwa": "Доля потребления ночью [%]",
+        "cel": "Часть потребления в часы без солнца — питается только из накопителя.",
+        "gdzie": "Суточный профиль потребления дома (Модуль 2); пусто = день и ночь одних суток не разделяются.",
+        "zakres": "0–100%."
+      },
+      "scenariuszTemperaturaC": {
+        "nazwa": "Температура сценария [°C]",
+        "cel": "Постоянная наружная температура весь месяц в этом сценарии.",
+        "gdzie": "По умолчанию −20 и −30 °C; можно ввести свою, например расчётную температуру зоны.",
+        "zakres": "−60…20 °C; до 6 сценариев."
+      },
+      "scenariuszCop": {
+        "nazwa": "COP в этом сценарии",
+        "cel": "COP теплового насоса при температуре сценария; пусто = общий COP.",
+        "gdzie": "График или таблица мощности и COP из паспорта насоса при этой наружной температуре.",
+        "zakres": "> 0."
+      },
+      "scenariuszSpadekPojemnosciPct": {
+        "nazwa": "Спад ёмкости батареи на морозе [%]",
+        "cel": "Ячейки на морозе отдают меньше энергии, чем при комнатной температуре.",
+        "gdzie": "Паспорт ячейки: ёмкость в зависимости от температуры. Пример из источника (−20% при −20 °C) — лишь иллюстрация; пусто = без спада.",
+        "zakres": "0–99%."
+      }
+    }
   },
   "ladowanie-z-agregatu": {
     "migawka": {

@@ -239,3 +239,17 @@ describe("odzysk ciepła z wentylacji i zapas paliwa (silnik 1.2.0)", () => {
     expect(calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: null, zapas: 1000 } }).value!.paliwo).toBeNull()
   })
 })
+
+describe("współczynnik strat zewnętrznych i strumień stały (silnik 1.3.0, dla M7/E1)", () => {
+  it("H_zewn = Σ U·A przegród zewnętrznych + H_V = 70 + 50,25 = 120,25 W/K; strumień stały przez grunt = 100·0,3·(20 − 8) = 360 W", () => {
+    const v = calculateObciazenieCieplne(DOM).value!
+    expect(v.hZewnetrznyWK).toBeCloseTo(120.25, 9)
+    expect(v.strataStalaW).toBeCloseTo(360, 9)
+    // Odtworzenie obciążenia obliczeniowego z obu wielkości: 120,25 · 40 + 360 = 5170 W.
+    expect(v.hZewnetrznyWK * (20 - v.temperaturaZewnetrznaC) + v.strataStalaW).toBeCloseTo(v.obciazenieW, 9)
+  })
+
+  it("odzysk z wentylacji obniża H_zewn: 70 + 10,05 = 80,05 W/K", () => {
+    expect(calculateObciazenieCieplne({ ...DOM, sprawnoscOdzyskuPct: 80 }).value!.hZewnetrznyWK).toBeCloseTo(80.05, 9)
+  })
+})

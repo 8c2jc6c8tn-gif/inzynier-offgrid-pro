@@ -9,6 +9,7 @@ import { calculateObciazenieCieplne, uPrzegrody, type ObciazenieCieplneResult } 
 import type { ObciazenieCieplneInput } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/input"
 import { STREFY_KLIMATYCZNE } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { KIERUNKI_STRUMIENIA, uZWarstw } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
+import type { BudynekMrozu } from "@/lib/core/modules/stress-test/symulacja-mrozu/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 
 export const KLUCZ_DRAFTU_OBCIAZENIA = "obciazenie-cieplne"
@@ -148,4 +149,25 @@ export function ogrzewanieElektryczneZSzkicu(seed: SeedObciazenia | null): Ogrze
 export function useOgrzewanieElektryczne(): OgrzewanieElektryczne {
   const { dane } = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)
   return useMemo(() => ogrzewanieElektryczneZSzkicu(dane), [dane])
+}
+
+/** What M7/E1 takes from Screen 1: the building's heat-loss coefficients, the heat source and the COP typed there (`null` = none). */
+export type DaneMrozuZEkranu1 = { budynek: BudynekMrozu; zrodlo: "prad" | "paliwo"; cop: number | null }
+
+/** Pure: only a complete and valid Screen 1 yields data; an unchosen source with a typed COP counts as electric, as in the rest of the app. */
+export function daneMrozuZSzkicu(seed: SeedObciazenia | null): DaneMrozuZEkranu1 | null {
+  if (!seed) return null
+  const wejscie = wejscieObciazenia(seed)
+  const w = calculateObciazenieCieplne(wejscie).value
+  if (!w || wejscie.temperaturaWewnetrznaC === null) return null
+  return {
+    budynek: { wspolczynnikStratZewnetrznychWK: w.hZewnetrznyWK, stalyStrumienStratW: w.strataStalaW, temperaturaWewnetrznaC: wejscie.temperaturaWewnetrznaC },
+    zrodlo: seed.zrodlo === "paliwo" ? "paliwo" : "prad",
+    cop: wejscie.cop,
+  }
+}
+
+export function useDaneMrozuZEkranu1(): DaneMrozuZEkranu1 | null {
+  const { dane } = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)
+  return useMemo(() => daneMrozuZSzkicu(dane), [dane])
 }
