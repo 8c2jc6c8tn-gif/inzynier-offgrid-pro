@@ -28,6 +28,11 @@ export function BilansGodzinowyPaneli(p: {
   const t = useTranslate()
   const zProfilu = p.pojemnoscZProfilu !== undefined ? Math.round(p.pojemnoscZProfilu * 10) / 10 : undefined
   const wyniki = p.panele.filter((x) => x.bilansGodzinowy !== null)
+  const udzialy = [p.bil.profilDzien, p.bil.profilWieczor, p.bil.profilNoc].map((x) => x ?? "")
+  const wypelnione = udzialy.filter((x) => x.trim() !== "").length
+  const profilPelny = wypelnione === 3
+  const profilNiepelny = wypelnione > 0 && wypelnione < 3
+  const sumaProfilu = udzialy.reduce((a, b) => a + (Number(b) || 0), 0)
   return (
     <div className="flex flex-col gap-4 text-small">
       <p className="text-muted-foreground">{t("UI-PORP-BIL-OPIS")}</p>
@@ -78,6 +83,36 @@ export function BilansGodzinowyPaneli(p: {
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="bilCel" />}
             />
           </div>
+          <fieldset className="flex flex-col gap-2 rounded-lg border p-3">
+            <legend className="px-1 font-medium">{t("UI-PORP-BIL-PROFIL-TYTUL")}</legend>
+            <p className="text-caption text-muted-foreground">{t("UI-PORP-BIL-PROFIL-NOTA")}</p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {([
+                ["UI-PORP-BIL-PROFIL-DZIEN", "profilDzien", "profilDzien"],
+                ["UI-PORP-BIL-PROFIL-WIECZOR", "profilWieczor", "profilWieczor"],
+                ["UI-PORP-BIL-PROFIL-NOC", "profilNoc", "profilNoc"],
+              ] as const).map(([etykieta, pole, pomoc]) => (
+                <Pole
+                  key={pole}
+                  label={t(etykieta)}
+                  unit="%"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  step="any"
+                  value={p.bil[pole] ?? ""}
+                  onChange={(e) => p.onBil({ [pole]: e.target.value })}
+                  pomoc={<PomocPola ekran="porownywarka-paneli" pole={pomoc} />}
+                />
+              ))}
+            </div>
+            {profilNiepelny && <p role="status" className="text-small text-muted-foreground">{t("UI-PORP-BIL-PROFIL-NIEPELNY")}</p>}
+            {profilPelny && (
+              <p className="text-small text-muted-foreground">
+                {t(sumaProfilu === 100 ? "UI-PORP-BIL-PROFIL-SUMA-OK" : "UI-PORP-BIL-PROFIL-SUMA-INNA", { suma: f0(sumaProfilu) })}
+              </p>
+            )}
+          </fieldset>
           {zProfilu !== undefined ? (
             <div className="flex flex-wrap items-center gap-2">
               <span>{t("UI-PORP-BIL-Z-PROFILU", { kwh: f1(zProfilu) })}</span>

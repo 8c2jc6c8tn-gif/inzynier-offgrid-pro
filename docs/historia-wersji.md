@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.11.0] — 11.10.2026
+
+Porównywarka paneli PV: profil dobowy zużycia w bilansie godzinowym (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 39):
+- w zakładce „Bilans godzinowy” trzy opcjonalne pola: jaka część dobowego zużycia przypada na dzień (6–18), wieczór (18–22) i noc (22–6); bez nich zużycie jest rozłożone równo na dobę jak dotąd (bez wartości domyślnej),
+- zużycie każdego miesiąca dzieli się na godziny doby według tego profilu, więc bilans pokazuje realniejszy brak energii wieczorem i w nocy (albo mniejszy, gdy prąd zużywasz głównie w dzień); dotyczy też doboru liczby paneli na zimę,
+- narzędzie AI porównania paneli przyjmuje profil w trzech porach doby; pola mają „?” i tłumaczenia PL/EN/RU.
+
+Wpływ na liczby: brak dla dotychczasowych wejść (bez wpisanego profilu bilans jest taki sam). Z profilem zmienia się rozkład zużycia w ciągu doby, więc zmieniają się: pokrycie, brak energii, cykle baterii, koszt braku i dobór paneli na zimę w zakładce „Bilans godzinowy”. Suma zużycia miesiąca zostaje. Silnik porównywarki 1.6.0 → 1.7.0.
+
 ## [3.10.0] — 11.10.2026
 
 Porównywarka paneli PV: test „co, jeśli panel ma mniej mocy, niż deklaruje” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 38):

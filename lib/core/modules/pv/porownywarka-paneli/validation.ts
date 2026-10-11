@@ -63,6 +63,10 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
       errors.push(porpPozaZakresem("PORP-CEL-ZIMY-POZA-ZAKRESEM", "celZimyPct", bil.celZimyPct, "(0–100] %"))
     }
   }
+  const profil = input.bilansGodzinowy?.profilDobowy
+  if (profil != null && !(profil.length === 24 && profil.every((x) => Number.isFinite(x) && x >= 0) && profil.some((x) => x > 0))) {
+    errors.push(porpPozaZakresem("PORP-PROFIL-DOBOWY-POZA-ZAKRESEM", "profilDobowy", profil.length, "24 liczby >= 0, co najmniej jedna > 0"))
+  }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))

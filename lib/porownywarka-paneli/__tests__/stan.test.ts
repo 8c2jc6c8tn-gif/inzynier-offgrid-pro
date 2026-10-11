@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
-import { aktywneMiejsce, budujWejscie, elektrykaRecznaZPanelu, kolejnyId, KWOTY_ZESTAWOW, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
+import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
+import { aktywneMiejsce, BILANS_PUSTY, bilansZFormularza, budujWejscie, elektrykaRecznaZPanelu, kolejnyId, KWOTY_ZESTAWOW, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
 
 const t = (k: string, p?: Record<string, string | number>) => (p ? `${k}:${JSON.stringify(p)}` : k)
 
@@ -92,5 +93,29 @@ describe("elektryka panelu wpisana ręcznie", () => {
     })
     expect(wejscie.panele[0]!.elektryka).toMatchObject({ vocV: 43.85, maxNapieciaSystemuV: 1500 })
     expect(wejscie.panele[1]!.elektryka).toMatchObject({ vocV: 40, maxNapieciaSystemuV: 1000 })
+  })
+})
+
+describe("profil dobowy z trzech pór doby (spec 39)", () => {
+  it("udziały rozkładają się po równo na godziny pory: dzień 12 godz., wieczór 4, noc 8", () => {
+    const w = profilDobowyZPor(60, 20, 20)!
+    expect(w).toHaveLength(24)
+    expect(w[10]).toBeCloseTo(60 / 12, 12)
+    expect(w[19]).toBeCloseTo(20 / 4, 12)
+    expect(w[23]).toBeCloseTo(20 / 8, 12)
+    expect(w[3]).toBeCloseTo(20 / 8, 12)
+    expect(w.reduce((a, b) => a + b, 0)).toBeCloseTo(100, 10)
+  })
+
+  it("niekompletne albo zerowe udziały to null (nie uzupełniamy zgadywaniem)", () => {
+    expect(profilDobowyZPor(60, undefined, 20)).toBeNull()
+    expect(profilDobowyZPor(0, 0, 0)).toBeNull()
+    expect(profilDobowyZPor(-1, 50, 50)).toBeNull()
+  })
+
+  it("bilansZFormularza: puste pola = bez profilu, komplet = profil, część = bez profilu", () => {
+    expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5" })!.profilDobowy).toBeNull()
+    expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5", profilDzien: "50", profilWieczor: "30", profilNoc: "20" })!.profilDobowy).toHaveLength(24)
+    expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5", profilDzien: "50" })!.profilDobowy).toBeNull()
   })
 })

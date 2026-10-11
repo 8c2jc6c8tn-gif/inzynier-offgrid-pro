@@ -275,6 +275,24 @@ export const pl = {
         gdzie: "Z własnego pomiaru (np. woltomierz i amperomierz w pełnym słońcu, przeliczone na STC), z opinii o tym modelu albo z własnej ostrożnej oceny. Nie ma wartości domyślnej — wpisujesz ją Ty; puste pole = bez testu.",
         zakres: "Liczba większa od 0 i mniejsza niż 100.",
       },
+      profilDzien: {
+        nazwa: "Udział dnia (6–18) w dobowym zużyciu [%]",
+        cel: "Jaka część dobowego zużycia prądu przypada na godziny 6–18. Razem z wieczorem i nocą tworzy profil dobowy, według którego bilans godzinowy rozkłada zużycie każdego miesiąca.",
+        gdzie: "Twoje oszacowanie: z rachunków, z liczników godzinowych albo ze zwyczajów domowników. Nie ma wartości domyślnej; puste wszystkie trzy pola = zużycie równo na dobę.",
+        zakres: "Zero lub więcej; wszystkie trzy pory muszą być wypełnione; udziały są przeliczane proporcjonalnie.",
+      },
+      profilWieczor: {
+        nazwa: "Udział wieczoru (18–22) w dobowym zużyciu [%]",
+        cel: "Jaka część dobowego zużycia prądu przypada na godziny 18–22 (gotowanie, oświetlenie, telewizja). Wieczorem zwykle nie ma już słońca, więc ta część idzie z baterii albo z sieci.",
+        gdzie: "Twoje oszacowanie, jak przy porze dnia. Nie ma wartości domyślnej.",
+        zakres: "Zero lub więcej; wszystkie trzy pory muszą być wypełnione.",
+      },
+      profilNoc: {
+        nazwa: "Udział nocy (22–6) w dobowym zużyciu [%]",
+        cel: "Jaka część dobowego zużycia prądu przypada na godziny 22–6 (lodówka, ogrzewanie, urządzenia w trybie czuwania).",
+        gdzie: "Twoje oszacowanie, jak przy porze dnia. Nie ma wartości domyślnej.",
+        zakres: "Zero lub więcej; wszystkie trzy pory muszą być wypełnione.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -778,6 +796,24 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "From your own measurement (e.g. voltmeter and ammeter in full sun, converted to STC), from reviews of this model or from your own cautious estimate. There is no default value — you type it; an empty field means no test.",
         zakres: "A number greater than 0 and less than 100.",
       },
+      profilDzien: {
+        nazwa: "Day share (6–18) of daily consumption [%]",
+        cel: "What share of the daily electricity consumption falls between 6:00 and 18:00. Together with the evening and the night it forms the daily profile by which the hourly balance spreads each month's consumption.",
+        gdzie: "Your own estimate: from bills, from hourly meter data or from the household's habits. There is no default value; all three fields empty = consumption spread evenly over the day.",
+        zakres: "Zero or more; all three parts must be filled in; the shares are scaled proportionally.",
+      },
+      profilWieczor: {
+        nazwa: "Evening share (18–22) of daily consumption [%]",
+        cel: "What share of the daily electricity consumption falls between 18:00 and 22:00 (cooking, lighting, TV). The sun is usually gone by then, so this part comes from the battery or the grid.",
+        gdzie: "Your own estimate, as for the day. There is no default value.",
+        zakres: "Zero or more; all three parts must be filled in.",
+      },
+      profilNoc: {
+        nazwa: "Night share (22–6) of daily consumption [%]",
+        cel: "What share of the daily electricity consumption falls between 22:00 and 6:00 (fridge, heating, standby devices).",
+        gdzie: "Your own estimate, as for the day. There is no default value.",
+        zakres: "Zero or more; all three parts must be filled in.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1280,6 +1316,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Показывает рядом с основными результатами те же цифры для панели, у которой на столько процентов меньше мощности, чем заявлено в паспорте или на наклейке (обычно панели без известной марки). Цена панели остаётся прежней, поэтому стоимость энергии растёт, а срок окупаемости увеличивается.",
         gdzie: "Из собственного измерения (например, вольтметр и амперметр при полном солнце, пересчитанные на STC), из отзывов об этой модели или из собственной осторожной оценки. Значения по умолчанию нет — вводите вы; пустое поле означает отсутствие теста.",
         zakres: "Число больше 0 и меньше 100.",
+      },
+      profilDzien: {
+        nazwa: "Доля дня (6–18) в суточном потреблении [%]",
+        cel: "Какая часть суточного потребления электроэнергии приходится на часы с 6 до 18. Вместе с вечером и ночью образует суточный профиль, по которому почасовой баланс распределяет потребление каждого месяца.",
+        gdzie: "Ваша собственная оценка: по счетам, почасовым данным счётчика или привычкам домочадцев. Значения по умолчанию нет; все три поля пустые = потребление равномерно на сутки.",
+        zakres: "Ноль или больше; должны быть заполнены все три части; доли пересчитываются пропорционально.",
+      },
+      profilWieczor: {
+        nazwa: "Доля вечера (18–22) в суточном потреблении [%]",
+        cel: "Какая часть суточного потребления приходится на часы с 18 до 22 (готовка, освещение, телевизор). Вечером солнца обычно уже нет, поэтому эта часть берётся из батареи или сети.",
+        gdzie: "Ваша собственная оценка, как для дня. Значения по умолчанию нет.",
+        zakres: "Ноль или больше; должны быть заполнены все три части.",
+      },
+      profilNoc: {
+        nazwa: "Доля ночи (22–6) в суточном потреблении [%]",
+        cel: "Какая часть суточного потребления приходится на часы с 22 до 6 (холодильник, отопление, устройства в режиме ожидания).",
+        gdzie: "Ваша собственная оценка, как для дня. Значения по умолчанию нет.",
+        zakres: "Ноль или больше; должны быть заполнены все три части.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

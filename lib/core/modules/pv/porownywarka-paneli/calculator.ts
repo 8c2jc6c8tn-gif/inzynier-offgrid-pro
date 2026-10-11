@@ -33,7 +33,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.6.0"
+export const CALCULATOR_VERSION = "1.7.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -368,6 +368,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh,
         sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu,
         oknaTanie: okna,
+        profilDobowy: input.bilansGodzinowy.profilDobowy ?? null,
       }
       const ps5 = podsumujBilans(bilansGodzinowy({ produkcjaKwh, ...wspolne }))
       const cel = input.bilansGodzinowy.celZimyPct ?? null
@@ -512,7 +513,11 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (miejsce.albedo === undefined) assumptions.push({ kod: "PORP-ZAL-ALBEDO-DOMYSLNE" })
   const bilansB = panele.find((p) => p.bilansGodzinowy !== null)?.bilansGodzinowy ?? null
   if (bilansB) {
-    assumptions.push({ kod: "PORP-ZAL-BIL-PROFIL-PLASKI" }, { kod: "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" }, { kod: "PORP-ZAL-BIL-DWA-PRZEBIEGI" })
+    assumptions.push(
+      { kod: input.bilansGodzinowy?.profilDobowy ? "PORP-ZAL-BIL-PROFIL-DOBOWY" : "PORP-ZAL-BIL-PROFIL-PLASKI" },
+      { kod: "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" },
+      { kod: "PORP-ZAL-BIL-DWA-PRZEBIEGI" },
+    )
     if (bilansB.doborNaZime) assumptions.push({ kod: "PORP-ZAL-DOBOR-ZIMY" })
     if (bilansB.sprawnoscZalozona && bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL-100" })
     else if (bilansB.pojemnoscKwh > 0) assumptions.push({ kod: "PORP-ZAL-BIL-CYKL", params: { sprawnosc: Math.round(bilansB.sprawnoscUzyta * 100) } })
