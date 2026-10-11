@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.24.0] — 11.10.2026
+
+Moduł 10, ekran „Prognoza stanu naładowania i oś czasu” (dawne 12.4 i 12.43; spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 52):
+- nowy ekran: wpisujesz baterię z karty (pojemność, najniższy i najwyższy dopuszczalny stan naładowania, opcjonalnie sprawności i limity mocy), godzinę początku i długość prognozy (24, 48 albo 72 h) oraz profil doby — średnią produkcję paneli i zużycie w ośmiu oknach 3-godzinnych; ekran liczy stan naładowania co godzinę,
+- pokazuje, kiedy bateria osiągnie najniższy dopuszczalny stan („jeśli nic nie zmienisz”), ile energii zabraknie odbiornikom i ile produkcji się nie zmieści w baterii — czyli kiedy włączyć bojler czy pralkę,
+- oś czasu dzieli prognozę na odcinki (bateria się ładuje, jest nadwyżka, bateria zasila odbiorniki, brakuje energii) i pokazuje szczyty produkcji i zużycia na wykresie,
+- dla prognozy dłuższej niż doba możesz wpisać, jaki procent produkcji dadzą panele w kolejnych dobach (np. przy zachmurzeniu); wszystkie wartości profilu musisz wpisać sam (zera też) — aplikacja niczego nie zakłada; pogody i temperatury baterii ekran nie zna (zimny akumulator ujmiesz obniżonym limitem mocy ładowania); wody, temperatury i harmonogramów urządzeń z pełnej osi czasu źródła jeszcze nie ma,
+- pomoc „?” przy polach, tłumaczenia PL/EN/RU i narzędzie AI `policz_prognoze_soc`.
+
+Wpływ na liczby: bez zmian — nowy ekran, żaden istniejący wynik się nie zmienia.
+
 ## [3.23.0] — 11.10.2026
 
 Moduł 10, ekran „Prognoza produkcji miesięcznej” (dawne 12.3; spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 51):
