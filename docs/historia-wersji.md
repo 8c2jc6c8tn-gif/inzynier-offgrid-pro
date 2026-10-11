@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.17.0] — 11.10.2026
+
+Moduł 7, Ekran 1: „Symulacja przy −20°C i −30°C” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 45):
+- nowy ekran w Stress-teście zimowym: dzień po dniu przez cały miesiąc przy stałym mrozie (domyślnie −20 i −30 °C, do sześciu scenariuszy): produkcja paneli z danych pogodowych lokalizacji projektu, zużycie domu plus ogrzewanie budynku rosnące ze spadkiem temperatury, dodatkowe zużycie z mrozu i spadek pojemności baterii wpisany z karty ogniwa,
+- wynik na scenariusz: ile dni z deficytem, najdłuższa seria, ile energii trzeba pokryć agregatem, jaka część zużycia jest pokryta bez agregatu i tabela dzień po dniu; ogrzewanie bierze dane budynku z ekranu „Straty ciepła budynku”, a bez nich ekran mówi, że deficyty są zaniżone,
+- magazyn liczony tak jak w „Deficytach miesięcznych”; spadku pojemności ani COP w mrozie aplikacja nie zgaduje — wpisuje je użytkownik z karty,
+- narzędzie AI „policz symulację mrozu”.
+
+Wpływ na liczby: dotychczasowe wyniki bez zmian. Ekran „Straty ciepła budynku” liczy tak samo (silnik 1.2.0 → 1.3.0, tylko dwa nowe pola wyniku: współczynnik strat zewnętrznych i strumień stały). Nowe liczby pojawiają się wyłącznie na nowym ekranie (silnik symulacji 1.0.0).
+
 ## [3.16.0] — 11.10.2026
 
 Zima z ociepleniem budynku: okna i drzwi, odzysk z wentylacji, źródło ciepła i spięcie z bilansem zimy na panelach (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 44):

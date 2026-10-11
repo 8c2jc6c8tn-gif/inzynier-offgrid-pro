@@ -222,6 +222,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/stress-test/analiza-spof",
   "lib/core/modules/stress-test/bez-rekuperacji",
   "lib/core/modules/stress-test/ladowanie-z-agregatu",
+  "lib/core/modules/stress-test/symulacja-mrozu",
   "lib/core/modules/stress-test/pre-heat",
   "lib/core/modules/stress-test/awaria-stringa-zima",
   "lib/core/modules/stress-test/deficyty-miesieczne",

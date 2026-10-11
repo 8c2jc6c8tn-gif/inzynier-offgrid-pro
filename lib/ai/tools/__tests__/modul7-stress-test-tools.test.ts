@@ -15,6 +15,7 @@ import { bezRekuperacjiTool } from "../bez-rekuperacji-tool"
 import { preHeatTool } from "../pre-heat-tool"
 import { awariaStringaZimaTool } from "../awaria-stringa-zima-tool"
 import { ladowanieZAgregatuTool } from "../ladowanie-z-agregatu-tool"
+import { symulacjaMrozuTool } from "../symulacja-mrozu-tool"
 
 describe("obciazenieDachuSniegiemTool (M7/E23, dawne 6.34→7.32)", () => {
   it("kontrakt 9.3: 'read', bez potwierdzenia", () => {
@@ -282,5 +283,39 @@ describe("ladowanieZAgregatuTool (M7, decyzja 1A z 05.10.2026)", () => {
     })
     expect(w.mocLadowaniaKw).toBe(5)
     expect(w.ostrzezenia).toEqual([t("pl", "LADAG-LADOWANIE-OGRANICZONE", { ladowarka: 6, odbiorniki: 1, agregat: 6, zapas: 5 })])
+  })
+})
+
+describe("symulacjaMrozuTool (M7/E1, dawne 6.1)", () => {
+  it("kontrakt 9.3 ('read', bez potwierdzenia)", () => {
+    expect(symulacjaMrozuTool.operationType).toBe("read")
+    expect(symulacjaMrozuTool.requiresConfirmation).toBe(false)
+    expect(() => validateAiToolDefinition(symulacjaMrozuTool)).not.toThrow()
+  })
+
+  it("budynek 120,25 W/K + 360 W, θi 20 °C, COP 3, −20 °C → ciepło 124,08 kWh/dobę, prąd 41,36, popyt 51,36; 3 dni po 5 kWh PV → deficyt 139,08 kWh", async () => {
+    const w = await symulacjaMrozuTool.handler({
+      produkcjaDobowaKwh: [5, 5, 5],
+      zuzycieBazoweDobaKwh: 10,
+      budynek: { wspolczynnikStratZewnetrznychWK: 120.25, stalyStrumienStratW: 360, temperaturaWewnetrznaC: 20 },
+      zrodloCiepla: "prad",
+      cop: 3,
+      scenariusze: [{ temperaturaC: -20 }],
+    })
+    expect(w.status).toBe("VALID")
+    const s = w.scenariusze[0]!
+    expect(s.cieploDobaKwh).toBeCloseTo(124.08, 9)
+    expect(s.pradOgrzewaniaDobaKwh).toBeCloseTo(41.36, 9)
+    expect(s.zapotrzebowanieDobaKwh).toBeCloseTo(51.36, 9)
+    expect(s.deficytMiesiacaKwh).toBeCloseTo(139.08, 9)
+    expect(s.dniZDeficytem).toBe(3)
+  })
+
+  it("bez danych budynku: ostrzeżenie PL o zaniżonych deficytach; bez zużycia bazowego → INCOMPLETE", async () => {
+    const w = await symulacjaMrozuTool.handler({ produkcjaDobowaKwh: [5], zuzycieBazoweDobaKwh: 10, scenariusze: [{ temperaturaC: -30 }] })
+    expect(w.status).toBe("VALID_WITH_WARNINGS")
+    expect(w.ostrzezenia).toEqual([t("pl", "SYMMR-BEZ-OGRZEWANIA-BRAK-BUDYNKU")])
+    const brak = await symulacjaMrozuTool.handler({ produkcjaDobowaKwh: [5], zuzycieBazoweDobaKwh: null, scenariusze: [{ temperaturaC: -30 }] })
+    expect(brak.status).toBe("INCOMPLETE")
   })
 })

@@ -80,6 +80,7 @@ import { strategiaZamarzanieTool } from "./tools/strategia-zamarzanie-tool"
 import { analizaSpofTool } from "./tools/analiza-spof-tool"
 import { bezRekuperacjiTool } from "./tools/bez-rekuperacji-tool"
 import { ladowanieZAgregatuTool } from "./tools/ladowanie-z-agregatu-tool"
+import { symulacjaMrozuTool } from "./tools/symulacja-mrozu-tool"
 import { preHeatTool } from "./tools/pre-heat-tool"
 import { awariaStringaZimaTool } from "./tools/awaria-stringa-zima-tool"
 import { katalogCzujnikowTool } from "./tools/katalog-czujnikow-tool"
@@ -462,6 +463,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   analizaSpofTool,
   bezRekuperacjiTool,
   ladowanieZAgregatuTool,
+  symulacjaMrozuTool,
   preHeatTool,
   awariaStringaZimaTool,
   katalogCzujnikowTool,
