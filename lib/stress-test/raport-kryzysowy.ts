@@ -1,0 +1,111 @@
+/**
+ * M7/E3 „Raport kryzysowy” (dawne 6.3, Wzorzec G): a summary of the winter screens — no inputs of its own, nothing recomputed
+ * with a second model. Each part is the result of its screen's engine from that screen's saved draft; a part whose screen is
+ * not filled in is reported as missing (never as zero). Pure functions — the page reads the drafts and renders the texts.
+ */
+import type { CalcResult } from "@/lib/core/calc-result"
+import type { DeficytyMiesieczneResult } from "@/lib/core/modules/stress-test/deficyty-miesieczne/calculator"
+import type { SymulacjaMrozuResult, WynikScenariusza } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
+import type { SkladowaId } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/constants"
+import type { WspolczynnikResult } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/calculator"
+import type { WspolczynnikInput } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/input"
+
+const uzyteczny = (status: CalcResult<unknown>["status"]) => status === "VALID" || status === "VALID_WITH_WARNINGS"
+
+export type CzescRaportu = "symulacja" | "deficyty" | "blackout" | "wspolczynnik"
+
+export type DaneRaportu = {
+  symulacja: CalcResult<SymulacjaMrozuResult> | null
+  deficyty: CalcResult<DeficytyMiesieczneResult> | null
+  /** From `zBlackoutu`: days the store lasts without sun vs. the scenario length. */
+  blackout: { autonomiaDni: number; wymaganaAutonomiaDni: number } | null
+  wspolczynnik: { wynik: CalcResult<WspolczynnikResult>; wejscie: WspolczynnikInput } | null
+}
+
+export type Raport = {
+  /** Parts with data, in the source order; the rest is in `brakujace`. */
+  dostepne: CzescRaportu[]
+  brakujace: CzescRaportu[]
+  symulacja: {
+    scenariusze: WynikScenariusza[]
+    /** The scenario with the most energy missing; `null` when no scenario has a shortfall. */
+    najgorszy: WynikScenariusza | null
+    ogrzewanieWPopycie: boolean
+  } | null
+  deficyty: { sumaDeficytKwh: number; sumaGodzin: number; sumaPaliwaL: number; sumaKosztZl: number; miesiacNajdluzszy: number | null; miesiecyZDeficytem: number } | null
+  blackout: { autonomiaDni: number; wymaganaAutonomiaDni: number; wystarcza: boolean } | null
+  wspolczynnik: {
+    wskaznikPct: number | null
+    najslabsza: { id: SkladowaId; wynikPct: number } | null
+    slabePunkty: SkladowaId[]
+    brakujaceSkladowe: SkladowaId[]
+    /** Worst-month coverage and what is missing, from the two numbers typed on Screen 12; `null` when either is missing. */
+    pokrycieNajgorszegoMiesiaca: { pokrycieProc: number; brakKwh: number; brakProc: number } | null
+  } | null
+  /** Something in the report needs a generator or another source, or reveals a weak point. */
+  wymagaUwagi: boolean
+}
+
+export function zbudujRaport(d: DaneRaportu): Raport {
+  const sym = d.symulacja && uzyteczny(d.symulacja.status) && d.symulacja.value.scenariusze.length > 0 ? d.symulacja.value : null
+  const def = d.deficyty && uzyteczny(d.deficyty.status) ? d.deficyty.value : null
+  const wsp = d.wspolczynnik && uzyteczny(d.wspolczynnik.wynik.status) ? d.wspolczynnik : null
+
+  const symulacja: Raport["symulacja"] = sym
+    ? {
+        scenariusze: sym.scenariusze,
+        najgorszy: sym.scenariusze.reduce<WynikScenariusza | null>((a, s) => (s.deficytMiesiacaKwh > (a?.deficytMiesiacaKwh ?? 0) ? s : a), null),
+        ogrzewanieWPopycie: sym.ogrzewanieWPopycie,
+      }
+    : null
+  const deficyty: Raport["deficyty"] = def
+    ? {
+        sumaDeficytKwh: def.sumaDeficytKwh,
+        sumaGodzin: def.sumaGodzin,
+        sumaPaliwaL: def.sumaPaliwaL,
+        sumaKosztZl: def.sumaKosztZl,
+        miesiacNajdluzszy: def.miesiacNajdluzszy,
+        miesiecyZDeficytem: def.miesiace.length,
+      }
+    : null
+  const blackout: Raport["blackout"] = d.blackout ? { ...d.blackout, wystarcza: d.blackout.autonomiaDni >= d.blackout.wymaganaAutonomiaDni } : null
+  const wspolczynnik: Raport["wspolczynnik"] = wsp
+    ? {
+        wskaznikPct: wsp.wynik.value.wskaznikPct,
+        najslabsza: wsp.wynik.value.najslabsza,
+        slabePunkty: wsp.wynik.value.slabePunkty,
+        brakujaceSkladowe: wsp.wynik.value.brakujace,
+        pokrycieNajgorszegoMiesiaca: pokrycie(wsp.wejscie),
+      }
+    : null
+
+  const wszystkie: [CzescRaportu, unknown][] = [
+    ["symulacja", symulacja],
+    ["deficyty", deficyty],
+    ["blackout", blackout],
+    ["wspolczynnik", wspolczynnik],
+  ]
+  const wymagaUwagi =
+    (symulacja?.najgorszy ?? null) !== null ||
+    (deficyty?.sumaDeficytKwh ?? 0) > 0 ||
+    blackout?.wystarcza === false ||
+    (wspolczynnik?.slabePunkty.length ?? 0) > 0
+
+  return {
+    dostepne: wszystkie.filter(([, v]) => v !== null).map(([k]) => k),
+    brakujace: wszystkie.filter(([, v]) => v === null).map(([k]) => k),
+    symulacja,
+    deficyty,
+    blackout,
+    wspolczynnik,
+    wymagaUwagi,
+  }
+}
+
+function pokrycie(w: WspolczynnikInput): { pokrycieProc: number; brakKwh: number; brakProc: number } | null {
+  const p = w.produkcjaNajgorszyMiesiacKwh
+  const z = w.zapotrzebowanieNajgorszyMiesiacKwh
+  if (p === null || z === null || !(z > 0) || p < 0) return null
+  const pokrycieProc = Math.min(100, (100 * p) / z)
+  return { pokrycieProc, brakKwh: Math.max(0, z - p), brakProc: 100 - pokrycieProc }
+}

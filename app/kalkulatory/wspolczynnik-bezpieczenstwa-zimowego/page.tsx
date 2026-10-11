@@ -19,6 +19,7 @@ import {
   type SeedSpof,
   type SeedStrategii,
 } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/zrodla"
+import { wagiZeStanu, wejscieWspolczynnika } from "@/lib/stress-test/wejscie-wspolczynnika"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
@@ -116,12 +117,6 @@ const ZRODLA: { id: SkladowaId; wczytuje: [string, string][]; zalezy: [string, s
   },
 ]
 
-/** The user's own weights from the form; null while „own weights” is off (the default set is used). */
-const wagiZeStanu = (stan: FormularzStan): WagiPct | null =>
-  stan.wlasneWagi
-    ? (Object.fromEntries(SKLADOWE.map((id) => [id, stan.wagi[id].trim() === "" ? 0 : Number(stan.wagi[id])])) as WagiPct)
-    : null
-
 const liczba = (s: string) => (s.trim() === "" ? null : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r0 = (x: number) => Math.round(x)
@@ -153,25 +148,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
   const wagiWlasne = wagiZeStanu(stan)
   const sumaWagWpisanych = wagiWlasne ? SKLADOWE.reduce((s, id) => s + wagiWlasne[id], 0) : 100
 
-  const result = useMemo(
-    () =>
-      calculateWspolczynnik({
-        produkcjaNajgorszyMiesiacKwh: liczba(stan.produkcja),
-        zapotrzebowanieNajgorszyMiesiacKwh: liczba(stan.zapotrzebowanie),
-        autonomiaDni: liczba(stan.autonomia),
-        wymaganaAutonomiaDni: liczba(stan.wymaganaAutonomia),
-        liczbaKomponentow: liczba(stan.komponenty),
-        liczbaSpof: liczba(stan.spof),
-        brakAgregatu: stan.brakAgregatu,
-        mocAgregatuKw: liczba(stan.mocAgregatu),
-        mocWymaganaAgregatuKw: liczba(stan.mocWymagana),
-        oknoReakcjiH: liczba(stan.okno),
-        wymaganyCzasReakcjiH: liczba(stan.wymaganyCzas),
-        wagiWlasne: wagiZeStanu(stan),
-        progSlabegoPunktuPct: liczba(stan.prog ?? ""),
-      }),
-    [stan],
-  )
+  const result = useMemo(() => calculateWspolczynnik(wejscieWspolczynnika(stan)), [stan])
   const v = result.value
   const nazwa = (id: SkladowaId) => t(`UI-M7-WSP-SK-${id.toUpperCase()}`)
   const zapotrzebowanie = liczba(stan.zapotrzebowanie)

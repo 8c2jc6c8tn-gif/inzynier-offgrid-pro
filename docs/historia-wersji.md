@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.18.0] — 11.10.2026
+
+Moduł 7, Ekran 3: „Raport kryzysowy” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 46):
+- nowy ekran zbiorczy w Stress-teście zimowym, bez pól do wypełnienia: zestawia w jednym miejscu wyniki ekranów Symulacja mrozu, Deficyty miesięczne i agregat, Blackout oraz Współczynnik Bezpieczeństwa Zimowego,
+- pokazuje Współczynnik Bezpieczeństwa Zimowego z najsłabszą składową, pokrycie zapotrzebowania w najgorszym miesiącu i brakujące kWh, dni z deficytem przy mrozie, godziny pracy agregatu, paliwo i koszt oraz to, czy magazyn wytrzyma dni bez słońca,
+- część, której ekran nie jest jeszcze wypełniony, jest oznaczona jako brak (z linkiem do ekranu) — nigdy jako zero,
+- „Drukuj lub zapisz jako PDF” przez okno drukowania przeglądarki.
+
+Wpływ na liczby: brak. Raport nie liczy własnym modelem — przelicza zapisane szkice tymi samymi silnikami co ekrany źródłowe; wspólne mapowanie formularzy wyciągnięto z ekranów (Deficyty miesięczne, Współczynnik Bezpieczeństwa Zimowego, Symulacja mrozu) do wspólnych plików bez zmiany wyników.
+
 ## [3.17.0] — 11.10.2026
 
 Moduł 7, Ekran 1: „Symulacja przy −20°C i −30°C” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 45):

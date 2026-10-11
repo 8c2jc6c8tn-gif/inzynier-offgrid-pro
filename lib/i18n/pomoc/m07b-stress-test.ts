@@ -214,6 +214,15 @@ export const pl = {
       },
     },
   },
+  "raport-kryzysowy": {
+    "migawka": {
+      "oCoChodzi": "Raport kryzysowy to protokół po próbie generalnej zimy: jedna kartka, na której widać wszystkie wyniki stress-testu obok siebie.",
+      "jakDziala": "Ekran nie ma pól do wypełnienia. Odczytuje to, co zapisałeś na ekranach Symulacja mrozu, Deficyty miesięczne i agregat, Blackout oraz Współczynnik Bezpieczeństwa Zimowego, i zestawia to w jednym miejscu. Część, której ekran nie został jeszcze wypełniony, jest oznaczona jako brak — nigdy jako zero.",
+      "poCo": "Widzisz w jednym miejscu, ile dni z deficytem daje mróz, ile pracy agregatu i paliwa to kosztuje, czy magazyn przetrwa dni bez słońca i jaka składowa bezpieczeństwa jest najsłabsza — a na końcu możesz to wydrukować lub zapisać jako PDF.",
+      "fizyka": "Raport niczego nie liczy własnym modelem: każda część to wynik silnika tego ekranu z jego zapisanego szkicu. Pokrycie najgorszego miesiąca = produkcja ÷ zapotrzebowanie (obcięte do 100%), brak = zapotrzebowanie − produkcja. Współczynnik Bezpieczeństwa Zimowego to ważona średnia pięciu składowych z Ekranu 12 (wagi wstępne, do dopracowania)."
+    },
+    "pola": {}
+  },
   "symulacja-mrozu": {
     "migawka": {
       "oCoChodzi": "Zimowa próba generalna: przez cały miesiąc ten sam mróz, co dzień inna pogoda — i sprawdzamy, ile dni system da radę bez agregatu.",
@@ -905,6 +914,15 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "raport-kryzysowy": {
+    "migawka": {
+      "oCoChodzi": "The crisis report is the protocol after the winter dress rehearsal: one sheet with all the stress-test results side by side.",
+      "jakDziala": "The screen has no fields to fill in. It reads what you saved on the Frost simulation, Monthly shortfalls and generator, Blackout and Winter Safety Coefficient screens and puts it together in one place. A part whose screen has not been filled in yet is marked as missing — never as zero.",
+      "poCo": "You see in one place how many days with a shortfall the frost causes, how much generator work and fuel that costs, whether the store survives the days without sun and which safety component is the weakest — and at the end you can print it or save it as a PDF.",
+      "fizyka": "The report calculates nothing with a model of its own: each part is the result of that screen's engine from its saved draft. Worst-month coverage = production ÷ demand (capped at 100%), shortfall = demand − production. The Winter Safety Coefficient is the weighted mean of the five components from Screen 12 (provisional weights, to be reworked)."
+    },
+    "pola": {}
+  },
   "symulacja-mrozu": {
     "migawka": {
       "oCoChodzi": "A winter dress rehearsal: the same frost all month, a different weather every day — and we check how many days the system manages without a generator.",
@@ -1595,6 +1613,15 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "От 2005 до 2023 и не раньше первого года.",
       },
     },
+  },
+  "raport-kryzysowy": {
+    "migawka": {
+      "oCoChodzi": "Кризисный отчёт — протокол после зимней генеральной репетиции: один лист, на котором рядом видны все результаты стресс-теста.",
+      "jakDziala": "На экране нет полей для заполнения. Он читает то, что вы сохранили на экранах «Симуляция мороза», «Месячные дефициты и генератор», «Блэкаут» и «Коэффициент зимней безопасности», и собирает это в одном месте. Часть, экран которой ещё не заполнен, отмечается как отсутствующая — никогда как ноль.",
+      "poCo": "Вы видите в одном месте, сколько дней с дефицитом даёт мороз, сколько работы генератора и топлива это стоит, переживёт ли накопитель дни без солнца и какая составляющая безопасности самая слабая — а в конце можно распечатать или сохранить как PDF.",
+      "fizyka": "Отчёт ничего не считает собственной моделью: каждая часть — результат движка того экрана по его сохранённому черновику. Покрытие худшего месяца = выработка ÷ потребность (не более 100%), нехватка = потребность − выработка. Коэффициент зимней безопасности — взвешенное среднее пяти составляющих из Экрана 12 (предварительные веса, требуют доработки)."
+    },
+    "pola": {}
   },
   "symulacja-mrozu": {
     "migawka": {
