@@ -60,7 +60,7 @@ export function usePersistedDraft<T>(
   kluczEkranu: string,
   poczatkowy: T,
   konwersjaKwot?: (stan: T, wspolczynnik: number) => T,
-): [T, (aktualizator: Aktualizator<T>) => void, InfoPrzeliczenia | null] {
+): [T, (aktualizator: Aktualizator<T>) => void, InfoPrzeliczenia | null, boolean] {
   const key = PREFIX + kluczEkranu
   const keyWaluty = PREFIX_WALUTY + kluczEkranu
   const [stan, setStanWewn] = useState<T>(poczatkowy)
@@ -133,7 +133,8 @@ export function usePersistedDraft<T>(
     setStanWewn((prev) => (typeof aktualizator === "function" ? (aktualizator as (p: T) => T)(prev) : aktualizator))
   }
 
-  return [stan, setStan, info]
+  // The fourth element tells whether the saved draft was already read: an edit made before that would be overwritten by the load.
+  return [stan, setStan, info, wczytano]
 }
 
 /**

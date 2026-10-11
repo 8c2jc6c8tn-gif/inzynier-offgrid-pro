@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { UdostepnianiePorownania } from "@/components/porownywarka-paneli/udostepnianie"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { KWOTY_ZESTAWOW, kolejnyId, STAN_ZESTAWOW_POCZATKOWY, type FormularzStan, type StanZestawow } from "@/lib/porownywarka-paneli/stan"
 
@@ -12,9 +13,20 @@ import { KWOTY_ZESTAWOW, kolejnyId, STAN_ZESTAWOW_POCZATKOWY, type FormularzStan
  * „Moje zestawy” (spec 12, U20): nazwane migawki całego formularza porównania (miejsca, panele, wycena, kryteria),
  * do których można wracać. Zapis w IndexedDB jak szkic ekranu; nic nie jest wczytywane bez kliknięcia.
  */
-export function ZestawyPorownan({ stan, onWczytaj }: { stan: FormularzStan; onWczytaj: (s: FormularzStan) => void }) {
+export function ZestawyPorownan({
+  stan,
+  onWczytaj,
+  kodZLinku,
+  onKodObsluzony,
+}: {
+  stan: FormularzStan
+  onWczytaj: (s: FormularzStan) => void
+  /** Code from the page address (`#udostepnij=…`), `null` when there is none. */
+  kodZLinku: string | null
+  onKodObsluzony: () => void
+}) {
   const t = useTranslate()
-  const [zapisane, setZapisane] = usePersistedDraft<StanZestawow>("porownywarka-zestawy", STAN_ZESTAWOW_POCZATKOWY, KWOTY_ZESTAWOW)
+  const [zapisane, setZapisane, , wczytano] = usePersistedDraft<StanZestawow>("porownywarka-zestawy", STAN_ZESTAWOW_POCZATKOWY, KWOTY_ZESTAWOW)
   const [nazwa, setNazwa] = useState("")
   const [doUsuniecia, setDoUsuniecia] = useState<string | null>(null)
   const teraz = () => new Date().toISOString()
@@ -30,7 +42,15 @@ export function ZestawyPorownan({ stan, onWczytaj }: { stan: FormularzStan; onWc
     setNazwa("")
   }
 
+  const dodajOtrzymany = (otrzymany: FormularzStan) => {
+    const nazwaZestawu = t("UI-PORP-UDO-NAZWA", { n: zapisane.zestawy.length + 1 })
+    setZapisane((prev) => ({ zestawy: [...prev.zestawy, { id: kolejnyId("z", prev.zestawy), nazwa: nazwaZestawu, zapisanoIso: teraz(), stan: otrzymany }] }))
+    return nazwaZestawu
+  }
+
   return (
+    <>
+      <UdostepnianiePorownania stan={stan} kodZLinku={kodZLinku} onKodObsluzony={onKodObsluzony} onDodaj={dodajOtrzymany} gotowe={wczytano} />
     <details className="rounded-lg border p-4">
       <summary className="cursor-pointer text-small font-medium">{t("UI-PORP-ZEST-TYTUL", { n: zapisane.zestawy.length })}</summary>
       <div className="mt-3 flex flex-col gap-3">
@@ -102,5 +122,6 @@ export function ZestawyPorownan({ stan, onWczytaj }: { stan: FormularzStan; onWc
         <p className="text-caption text-muted-foreground">{t("UI-PORP-ZEST-NOTA")}</p>
       </div>
     </details>
+    </>
   )
 }
