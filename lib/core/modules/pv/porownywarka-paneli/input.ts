@@ -143,6 +143,11 @@ export type BilansGodzinowyInput = {
   sprawnoscCyklu: number | null
   /** Cel: jaką część zużycia zimowego (XI–II) mają pokryć panele [%, (0–100]]; `null`/brak = bez doboru liczby paneli. */
   celZimyPct?: number | null
+  /**
+   * Profil dobowy zużycia (spec 39): 24 nieujemne wagi względne dla godzin doby 0–23 (czas urzędowy), np. udziały w % z trzech pór doby podane przez
+   * użytkownika. Wpisuje użytkownik, bez wartości domyślnej; `null`/brak = zużycie rozłożone równo na dobę (jak w spec 34).
+   */
+  profilDobowy?: number[] | null
 }
 
 export type PorownywarkaInput = {

@@ -5,6 +5,7 @@
  */
 import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import type { BosId } from "@/lib/core/dane/cennik-bos"
+import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
@@ -60,8 +61,16 @@ export type ObciazeniaSeed = {
 }
 
 /** Battery of the hourly balance (spec 34), as form texts: usable capacity [kWh] and cycle efficiency [%]; drafts saved before have no key (= both empty). */
-export type BilansSeed = { pojemnosc: string; sprawnosc: string; celZimy?: string }
-export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "", celZimy: "" }
+export type BilansSeed = {
+  pojemnosc: string
+  sprawnosc: string
+  celZimy?: string
+  /** Daily consumption profile (spec 39) as three shares [%] of the daily consumption: day 6–18, evening 18–22, night 22–6 (Polish local time). All three empty = flat; drafts saved before have no keys. */
+  profilDzien?: string
+  profilWieczor?: string
+  profilNoc?: string
+}
+export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "", celZimy: "", profilDzien: "", profilWieczor: "", profilNoc: "" }
 
 /** Hourly-balance settings from the form texts; `null` while the capacity is empty (0 is a valid answer: no battery). Efficiency empty = not given. */
 export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInput | null {
@@ -69,7 +78,8 @@ export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInp
   if (pojemnosc === undefined) return null
   const sprawnosc = liczba(b?.sprawnosc ?? "")
   const cel = liczba(b?.celZimy ?? "")
-  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100, celZimyPct: cel === undefined ? null : cel }
+  const profil = profilDobowyZPor(liczba(b?.profilDzien ?? ""), liczba(b?.profilWieczor ?? ""), liczba(b?.profilNoc ?? ""))
+  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100, celZimyPct: cel === undefined ? null : cel, profilDobowy: profil }
 }
 
 export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {

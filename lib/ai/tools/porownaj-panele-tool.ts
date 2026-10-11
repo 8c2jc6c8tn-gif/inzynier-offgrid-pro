@@ -5,6 +5,7 @@
  */
 import { z } from "zod"
 import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { DanePanelu, WarunkiObciazen } from "@/lib/core/modules/pv/porownywarka-paneli/input"
@@ -77,7 +78,21 @@ const BilansGodzinowy = z.object({
     .number()
     .optional()
     .describe("Cel: jaką część zużycia zimowego (XI–II) mają pokryć panele [%, 0–100] — tylko od usera, nie zgaduj; z nim podam, ile paneli to da (w sumie i godzina po godzinie z baterią)"),
+  profilDobowyPct: z
+    .object({
+      dzienPct: z.number().min(0).describe("Jaka część dobowego zużycia przypada na dzień 6–18 [%]"),
+      wieczorPct: z.number().min(0).describe("Jaka część dobowego zużycia przypada na wieczór 18–22 [%]"),
+      nocPct: z.number().min(0).describe("Jaka część dobowego zużycia przypada na noc 22–6 [%]"),
+    })
+    .optional()
+    .describe("Profil dobowy zużycia w trzech porach doby (czas polski) — tylko od usera, nie zgaduj; bez niego zużycie jest rozłożone równo na dobę. Udziały są przeliczane proporcjonalnie, więc nie muszą dawać 100"),
 })
+
+/** Profil z trzech pór doby; zera we wszystkich porach przechodzą do silnika jako profil niepoprawny (błąd danych), nie jako ciche „równo na dobę”. */
+function profilZWejscia(p: { dzienPct: number; wieczorPct: number; nocPct: number } | undefined): number[] | null {
+  if (!p) return null
+  return profilDobowyZPor(p.dzienPct, p.wieczorPct, p.nocPct) ?? new Array<number>(24).fill(0)
+}
 
 export const PorownajPaneleToolInput = z.object({
   szerokoscGeograficzna: z.number().min(-90).max(90).describe("[°]"),
@@ -302,7 +317,7 @@ export function utworzPorownajPaneleTool(
         liczbaPaneli: input.liczbaPaneli ?? null,
         wymiaryMiejsca: input.wymiaryMiejsca ?? null,
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
-        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null } : null,
+        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null, profilDobowy: profilZWejscia(input.bilansGodzinowy.profilDobowyPct) } : null,
         tminC: input.tminC ?? null,
         testZanizeniaMocyPct: input.testZanizeniaMocyPct ?? null,
         obciazenia: o

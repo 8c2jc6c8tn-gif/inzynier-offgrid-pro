@@ -109,6 +109,19 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(zle.status).toBe("INVALID_INPUT")
   })
 
+  it("profil dobowy z trzech pór: zużycie skupione w dzień bez baterii zwiększa pokrycie wobec płaskiego (panele dają tylko w południe); same zera to błąd danych, nie ciche „równo na dobę”", async () => {
+    const json = odpowiedzPvgis(true)
+    const dane = { ...wejscie, zuzycieMiesieczneKwh: new Array<number>(12).fill(300) }
+    const plaski = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...dane, bilansGodzinowy: { pojemnoscKwh: 0 } })
+    const wieczor = await utworzPorownajPaneleTool(fetchZ(json)).handler({
+      ...dane,
+      bilansGodzinowy: { pojemnoscKwh: 0, profilDobowyPct: { dzienPct: 90, wieczorPct: 5, nocPct: 5 } },
+    })
+    expect(wieczor.panele[0]!.bilansGodzinowy!.pokrycieRokPct!).toBeGreaterThan(plaski.panele[0]!.bilansGodzinowy!.pokrycieRokPct!)
+    const zera = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...dane, bilansGodzinowy: { pojemnoscKwh: 5, profilDobowyPct: { dzienPct: 0, wieczorPct: 0, nocPct: 0 } } })
+    expect(zera.status).toBe("INVALID_INPUT")
+  })
+
   it("dane PVGIS bez temperatury → model bez temperatury i ostrzeżenie tekstem, nie kodem", async () => {
     const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(false))).handler(wejscie)
     expect(w.uwzglednionaTemperatura).toBe(false)
