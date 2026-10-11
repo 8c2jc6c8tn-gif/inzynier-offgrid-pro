@@ -2,13 +2,14 @@
 
 import { useMemo } from "react"
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
-import type { PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
+import { OBIEKTY_MIKROINSTALACJI, type ObiektMikroinstalacji, type PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
 import {
   PRZYKLADOWE_URZADZENIA,
   znajdzPrzyklad,
 } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { dobowaWhNaMiesiac, maOdbiornikiSezonowe } from "@/lib/obiekt/zuzycie-z-odbiornikow"
+import { KLUCZ_NAZWY_OBIEKTU } from "@/lib/obiekt/profil-obiektu"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -143,6 +144,31 @@ export default function ZuzyciePerUrzadzeniePage() {
                     {t("UI-ZUZPERURZ-MIESIACE-WSZYSTKIE")}
                   </button>
                 )}
+              </fieldset>
+              <fieldset className="flex flex-col gap-2 rounded-md border p-3">
+                <legend className="flex items-center gap-2 px-1 text-small font-medium">
+                  {t("UI-ZUZPERURZ-OBIEKTY")}
+                  <PomocPola ekran="zuzycie-per-urzadzenie" pole="obiekty" />
+                </legend>
+                <p className="text-caption text-muted-foreground">{t("UI-ZUZPERURZ-OBIEKTY-OPIS")}</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {OBIEKTY_MIKROINSTALACJI.map((rodzaj) => {
+                    const biezace: readonly ObiektMikroinstalacji[] = u.obiekty && u.obiekty.length > 0 ? u.obiekty : OBIEKTY_MIKROINSTALACJI
+                    return (
+                      <PoleCheckbox
+                        key={rodzaj}
+                        id={`${u.id}-obiekt-${rodzaj}`}
+                        label={t(KLUCZ_NAZWY_OBIEKTU[rodzaj])}
+                        checked={biezace.includes(rodzaj)}
+                        onChange={(e) => {
+                          const nowe = e.target.checked ? OBIEKTY_MIKROINSTALACJI.filter((x) => x === rodzaj || biezace.includes(x)) : biezace.filter((x) => x !== rodzaj)
+                          // Unticking the last site would leave a device that belongs nowhere; that is the same as "every site", so it is stored as such.
+                          aktualizuj(u.id, { obiekty: nowe.length === 0 || nowe.length === OBIEKTY_MIKROINSTALACJI.length ? undefined : nowe })
+                        }}
+                      />
+                    )
+                  })}
+                </div>
               </fieldset>
               <button
                 type="button"

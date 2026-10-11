@@ -5,6 +5,7 @@ import { calculateLadowanieZRegulatora, type Ograniczenie } from "@/lib/core/mod
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -117,6 +118,7 @@ export default function LadowanieZRegulatoraPage() {
 
         <p className="text-small font-medium text-muted-foreground">{t("UI-LADREG-AKUMULATOR")}</p>
         <Pole label={t("UI-LADREG-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieAkumulatoraV} onChange={ustaw("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieAkumulatoraV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieAkumulatoraV: v }))} />
         <Pole label={t("UI-LADREG-LIMIT-AKUMULATORA")} unit="A" type="number" inputMode="decimal" min={0} value={stan.maksPradAkumulatoraA} onChange={ustaw("maksPradAkumulatoraA")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="limitAkumulatora" />} />
         <Pole label={t("UI-LADREG-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="pojemnosc" />} />
 

@@ -36,6 +36,12 @@ export const pl = {
         gdzie: "Zaznacz miesiące, w których faktycznie korzystasz z obiektu.",
         zakres: "Od jednego do dwunastu miesięcy; bez zaznaczenia aplikacja nie policzy zużycia mikroinstalacji.",
       },
+      napiecie: {
+        nazwa: "Napięcie układu",
+        cel: "Wybierasz je raz dla całej mikroinstalacji. Ekrany, które pytają o napięcie akumulatora albo układu, pokażą obok swojego pola przycisk z tą wartością; nie wpisują jej same.",
+        gdzie: "Z akumulatora albo z projektu instalacji (kamper i działka najczęściej 12 V albo 24 V).",
+        zakres: "12, 24 albo 48 V; bez wyboru ekrany nic nie podpowiadają.",
+      },
     },
   },
 }
@@ -71,6 +77,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Tick the months in which you actually use the site.",
         zakres: "From one to twelve months; with none ticked the app cannot calculate the micro-installation’s consumption.",
       },
+      napiecie: {
+        nazwa: "System voltage",
+        cel: "You choose it once for the whole micro-installation. Screens that ask for the battery or system voltage show a button with this value next to their own field; they never fill it in themselves.",
+        gdzie: "From the battery or the installation design (camper and garden plot most often 12 V or 24 V).",
+        zakres: "12, 24 or 48 V; with no choice the screens suggest nothing.",
+      },
     },
   },
 }
@@ -105,6 +117,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Микроустановку часто используют лишь часть года (дача с весны до осени, кемпер в сезон). Потребление в неотмеченные месяцы считается нулевым.",
         gdzie: "Отметьте месяцы, в которые вы реально пользуетесь объектом.",
         zakres: "От одного до двенадцати месяцев; без отметок приложение не посчитает потребление микроустановки.",
+      },
+      napiecie: {
+        nazwa: "Напряжение системы",
+        cel: "Вы выбираете его один раз для всей микроустановки. Экраны, где спрашивают напряжение аккумулятора или системы, показывают рядом со своим полем кнопку с этим значением; сами они его не вписывают.",
+        gdzie: "С аккумулятора или из проекта установки (кемпер и дача чаще всего 12 В или 24 В).",
+        zakres: "12, 24 или 48 В; без выбора экраны ничего не предлагают.",
       },
     },
   },

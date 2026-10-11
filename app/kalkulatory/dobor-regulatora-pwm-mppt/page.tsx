@@ -6,6 +6,7 @@ import { PROG_MOC_MPPT_OPLACALNY_W } from "@/lib/core/modules/kalkulator-mobilny
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -95,6 +96,7 @@ export default function DoborRegulatoraPwmMpptPage() {
           onChange={(e) => setNapiecieAkumulatoraV(e.target.value)}
           pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="napiecieAkumulatora" />}
         />
+        <NapiecieZProfilu aktualne={napiecieAkumulatoraV} onUzyj={setNapiecieAkumulatoraV} />
       </div>
 
       {result.status === "INVALID_INPUT" ? (

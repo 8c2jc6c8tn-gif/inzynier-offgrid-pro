@@ -10,6 +10,7 @@ import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -78,6 +79,7 @@ export default function AkumulatorKamperaPage() {
         <Pole label={t("UI-M12-AKK-ZAPOTRZEBOWANIE")} unit="Wh" {...pole("zapotrzebowanieWhDoba")} pomoc={<PomocPola ekran="akumulator-kampera" pole="zapotrzebowanie" />} />
         <Pole label={t("UI-M12-AKK-DNI")} {...pole("dniBezLadowania")} pomoc={<PomocPola ekran="akumulator-kampera" pole="dni" />} />
         <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="akumulator-kampera" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole label={t("UI-M12-AKK-ZAPAS-MASY")} unit="kg" {...pole("zapasMasyKg")} pomoc={<PomocPola ekran="akumulator-kampera" pole="zapasMasy" />} />
       </fieldset>
 
