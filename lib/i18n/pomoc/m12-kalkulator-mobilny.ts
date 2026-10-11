@@ -474,6 +474,12 @@ export const pl = {
         gdzie: "Twoje zwyczaje: np. lodówka dla kampera i altany, ładowarka narzędzi tylko dla garażu. Domyślnie urządzenie dotyczy wszystkich obiektów.",
         zakres: "Jeden, dwa albo wszystkie trzy obiekty; odznaczenie ostatniego obiektu wraca do „wszystkie”.",
       },
+      szablon: {
+        nazwa: "Szablon zestawu",
+        cel: "Daje punkt startu listy: dodaje nazwy typowych odbiorników kampera, jachtu, domku, warsztatu albo kempingu. Powtórne kliknięcie nie dubluje pozycji, które już są na liście.",
+        gdzie: "Wybierz najbliższy Twojemu obiektowi; nazwy możesz potem zmienić, usunąć albo dopisać własne.",
+        zakres: "Pięć szablonów; moc i czas pracy zawsze wpisujesz sam.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1031,6 +1037,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your own habits: e.g. a fridge for the camper and the cabin, a tool charger for the garage only. By default a device belongs to all sites.",
         zakres: "One, two or all three sites; unticking the last one goes back to “all”.",
       },
+      szablon: {
+        nazwa: "Set template",
+        cel: "Gives the list a starting point: it adds the names of typical loads of a camper, yacht, cabin, workshop or camping set. Clicking again does not duplicate items already on the list.",
+        gdzie: "Pick the one closest to your site; you can rename or remove the names afterwards, or add your own.",
+        zakres: "Five templates; you always enter power and run time yourself.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1586,6 +1598,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Список потребителей общий, но каждый тип объекта из Настроек (кемпер, дачный домик, гараж) учитывает только отмеченные здесь устройства. Это влияет на месячное потребление в сравнении панелей; суточная сумма на этом экране учитывает все устройства сразу.",
         gdzie: "Ваши привычки: например, холодильник для кемпера и домика, зарядка инструментов только для гаража. По умолчанию устройство относится ко всем объектам.",
         zakres: "Один, два или все три объекта; снятие последней отметки возвращает к «всем».",
+      },
+      szablon: {
+        nazwa: "Шаблон набора",
+        cel: "Даёт стартовую точку списка: добавляет названия типичных потребителей кемпера, яхты, домика, мастерской или кемпинга. Повторное нажатие не дублирует уже имеющиеся позиции.",
+        gdzie: "Выберите ближайший к вашему объекту; названия можно потом изменить, удалить или добавить свои.",
+        zakres: "Пять шаблонов; мощность и время работы вы всегда вводите сами.",
       },
     },
   },
