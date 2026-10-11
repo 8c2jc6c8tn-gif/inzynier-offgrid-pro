@@ -311,6 +311,18 @@ export const pl = {
         gdzie: "Karta katalogowa falownika (moc ciągła, nie szczytowa). Nie ma wartości domyślnej; puste = bez limitu.",
         zakres: "Liczba większa od 0 kW.",
       },
+      csvPlik: {
+        nazwa: "Plik CSV z panelami",
+        cel: "Wczytuje własną listę paneli (cennik dostawcy albo tabelę z kart katalogowych) do katalogu na tym urządzeniu. Każdy wiersz to jeden panel; wiersz jest przyjęty tylko wtedy, gdy przejdzie tę samą kontrolę danych co formularz panelu.",
+        gdzie: "Z hurtowni albo własnego arkusza; wzorzec z nazwami kolumn pobierzesz przyciskiem nad polem. Puste komórki oznaczają brak danych — aplikacja niczego nie dopełnia „typową” wartością, a współczynnik temperaturowy, NOCT, wymiary czy dane elektryczne podaj tylko z karty.",
+        zakres: "Plik tekstowy CSV (UTF-8), do 1 MB i 500 wierszy; wymagane kolumny: nazwa i moc.",
+      },
+      csvWybor: {
+        nazwa: "Panel z własnego katalogu",
+        cel: "Wstawia do tego panelu dane wybranego wiersza Twojego katalogu CSV (nazwę, moc, cenę i pozostałe wpisane liczby). Dane elektryczne trafiają jako wpisane ręcznie, więc ocena stringów działa tylko przy komplecie z pliku.",
+        gdzie: "Lista pojawia się po wczytaniu pliku CSV w sekcji „Własny katalog paneli z pliku CSV”.",
+        zakres: "Jeden z paneli Twojego katalogu.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -850,6 +862,18 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Inverter datasheet (continuous power, not peak). There is no default value; empty = no limit.",
         zakres: "A number greater than 0 kW.",
       },
+      csvPlik: {
+        nazwa: "CSV file with panels",
+        cel: "Loads your own list of panels (a supplier's price list or a table from datasheets) into the catalogue on this device. Each row is one panel; a row is accepted only if it passes the same data check as the panel form.",
+        gdzie: "From a wholesaler or your own spreadsheet; download the template with the column names using the button above the field. Empty cells mean no data — the app fills nothing in with a “typical” value, and the temperature coefficient, NOCT, dimensions or electrical data should be given only from the datasheet.",
+        zakres: "A plain-text CSV file (UTF-8), up to 1 MB and 500 rows; required columns: name and power.",
+      },
+      csvWybor: {
+        nazwa: "Panel from your own catalogue",
+        cel: "Puts the data of the chosen row of your CSV catalogue into this panel (name, power, price and the other numbers entered). The electrical data go in as hand-typed, so the string assessment works only with the full set from the file.",
+        gdzie: "The list appears after you load a CSV file in the “Own panel catalogue from a CSV file” section.",
+        zakres: "One of the panels of your catalogue.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1388,6 +1412,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Наибольшая мощность, которую инвертор отдаёт потребителям — от панелей и батареи вместе. Всё, что выше, баланс считает дефицитом, даже если батарея полна.",
         gdzie: "Паспорт инвертора (непрерывная мощность, не пиковая). Значения по умолчанию нет; пусто = без предела.",
         zakres: "Число больше 0 кВт.",
+      },
+      csvPlik: {
+        nazwa: "CSV-файл с панелями",
+        cel: "Загружает ваш список панелей (прайс поставщика или таблицу из паспортов) в каталог на этом устройстве. Каждая строка — одна панель; строка принимается, только если проходит ту же проверку данных, что и форма панели.",
+        gdzie: "У оптовика или из вашей таблицы; шаблон с названиями столбцов можно скачать кнопкой над полем. Пустые ячейки означают отсутствие данных — приложение ничего не подставляет «типичным» значением, а температурный коэффициент, NOCT, размеры и электрические данные указывайте только по паспорту.",
+        zakres: "Текстовый CSV-файл (UTF-8), до 1 МБ и 500 строк; обязательные столбцы: название и мощность.",
+      },
+      csvWybor: {
+        nazwa: "Панель из вашего каталога",
+        cel: "Подставляет в эту панель данные выбранной строки вашего CSV-каталога (название, мощность, цену и остальные введённые числа). Электрические данные попадают как введённые вручную, поэтому оценка строк работает только при полном наборе из файла.",
+        gdzie: "Список появляется после загрузки CSV-файла в разделе «Собственный каталог панелей из CSV-файла».",
+        zakres: "Одна из панелей вашего каталога.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

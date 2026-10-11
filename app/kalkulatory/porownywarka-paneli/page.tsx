@@ -15,6 +15,7 @@ import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { UrzadzenieIBos } from "@/components/porownywarka-paneli/urzadzenie-bos"
 import { TestZanizeniaMocy } from "@/components/porownywarka-paneli/test-zanizenia-mocy"
 import { wierszeWyniku } from "@/components/porownywarka-paneli/wiersze-wyniku"
+import { WlasnyKatalogPaneli, WyborZWlasnegoKatalogu } from "@/components/porownywarka-paneli/wlasny-katalog"
 import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
 import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
@@ -34,7 +35,7 @@ import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV, znajdzPanelKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
 import { czyMikroinstalacja, KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 import { KLUCZ_DRAFTU_ODBIORNIKOW, zuzycieMikroinstalacjiKwh, type DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
@@ -58,6 +59,8 @@ import {
   type PanelSeed,
   type RodzajWyceny,
 } from "@/lib/porownywarka-paneli/stan"
+import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porownywarka-paneli/eksport-wynikow"
+import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 
@@ -194,9 +197,11 @@ function WykresMiesiecy({ panele }: { panele: WynikPanelu[] }) {
 
 export default function PorownywarkaPaneliPage() {
   const t = useTranslate()
+  const jezyk = useLanguage()
   const waluta = useSymbolWaluty()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, KWOTY)
+  const [wlasnyKatalog, setWlasnyKatalog] = usePersistedDraft<WlasnyKatalog>("porownywarka-wlasny-katalog", WLASNY_KATALOG_PUSTY, kwotyWlasnegoKatalogu)
   const { zuzycie: zuzycieDom } = useZuzycieMiesieczne("dom")
   // Micro-installation (camper, garden cabin, garage): consumption comes from the appliance list and the months of use, not from the M14 bills.
   const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
@@ -286,6 +291,12 @@ export default function PorownywarkaPaneliPage() {
   const brakTemperaturyWDanych = dane !== null && !dane.dane.rekordy.some((r) => r.tempC !== undefined)
   const nazwaPanelu = (id: string) => v.panele.find((p) => p.id === id)?.nazwa ?? ""
   const wynikGotowy = result.status === "VALID" || result.status === "VALID_WITH_WARNINGS"
+  /** Results table as a CSV file (one row per panel); the accessory columns appear only while the accessory switch is on. */
+  const eksportujCsv = () =>
+    pobierzPlikTekstowy(
+      `porownanie-paneli-${new Date().toISOString().slice(0, 10)}.csv`,
+      wynikiDoCsv({ panele: v.panele, t, waluta, zwroty: zwrotyDziala ? zwroty : undefined, opcje: opcjeCsvDlaJezyka(jezyk) }),
+    )
 
   function wybierzPowierzchnie(id: string) {
     const p = powierzchnie.find((x) => x.id === id)
@@ -317,6 +328,12 @@ export default function PorownywarkaPaneliPage() {
   function wstawZKatalogu(idPanelu: string, idKatalogu: string) {
     const k = KATALOG_PANELI_PV.find((x) => x.id === idKatalogu)
     if (k) ustawPanel(idPanelu, seedZKatalogu(k))
+  }
+
+  /** Own catalogue (CSV) → one panel of the comparison: the typed texts replace the panel's, its form id stays. */
+  function wstawZWlasnego(idPanelu: string, wlId: string) {
+    const w = wlasnyKatalog.wpisy.find((x) => x.wlId === wlId)
+    if (w) ustawPanel(idPanelu, panelZWpisu(w))
   }
 
   /** Ranking → comparison: the chosen catalogue panels replace the panel list (a price already typed for the same panel stays). */
@@ -661,10 +678,12 @@ export default function PorownywarkaPaneliPage() {
             </Button>
           </div>
         )}
+        <WlasnyKatalogPaneli katalog={wlasnyKatalog} onKatalog={setWlasnyKatalog} />
         {stan.panele.map((p, i) => (
           <fieldset key={p.id} className="flex flex-col gap-3 rounded-lg border p-4">
             <legend className="px-1 text-small font-medium">{t("UI-PORP-PANEL-N", { n: i + 1 })}</legend>
             <WyborZKatalogu katalogId={p.katalogId} onWybierz={(id) => wstawZKatalogu(p.id, id)} />
+            <WyborZWlasnegoKatalogu katalog={wlasnyKatalog} onWybierz={(wlId) => wstawZWlasnego(p.id, wlId)} />
             {p.katalogId !== "" && (
               <ul className="-mt-1 flex flex-col gap-1 text-small">
                 {(KATALOG_PANELI_PV.find((k) => k.id === p.katalogId)?.kartaObrazy ?? []).map((obraz, n, wszystkie) => (
@@ -1199,6 +1218,14 @@ export default function PorownywarkaPaneliPage() {
                 <p className="text-caption text-muted-foreground">
                   {t(`UI-PORP-OPLACALNOSC-NOTA${v.zUzytecznoscia ? "-UZYT" : ""}${zwrotyDziala ? "-Z-OSPRZETEM" : ""}`)}
                 </p>
+                <div className="flex flex-col gap-1">
+                  <div>
+                    <Button variant="outline" className="min-h-11" onClick={eksportujCsv}>
+                      {t("UI-PORP-CSV-EKSPORT")}
+                    </Button>
+                  </div>
+                  <p className="text-caption text-muted-foreground">{t("UI-PORP-CSV-EKSPORT-OPIS")}</p>
+                </div>
                 <TestZanizeniaMocy panele={v.panele} wartosc={stan.zanizenieMocy ?? ""} onWartosc={(w) => ustaw("zanizenieMocy", w)} waluta={waluta} />
                 <div className="flex items-start gap-2">
                   <div className="flex-1">
