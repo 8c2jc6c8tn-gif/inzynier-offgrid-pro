@@ -835,7 +835,15 @@ Wersja 3.25.0. Silniki bez zmian; zmiana dotyczy zakładki „Oferta (wydruk)”
 - **Numer oferty:** wpisywany ręcznie, drukowany w nagłówku jako „Oferta nr …”. Aplikacja nie numeruje ofert sama (nie ma serwera ani rejestru ofert, a schemat numeracji to sprawa sprzedawcy).
 - **Warunki handlowe:** osobna sekcja po uwagach, wyłącznie tekst użytkownika; aplikacja nie podpowiada warunków i nie ocenia ich zgodności z prawem.
 - **Montaż z VAT** (`lib/porownywarka-paneli/montaz-vat.ts`): VAT = netto · stawka ÷ 100, brutto = netto + VAT, kwoty do grosza (zaokrąglenie jak na fakturze). Przy pustej stawce wydruk pokazuje tylko kwotę netto z informacją, że stawki nie podano. Stawka 0 % jest stawką (VAT 0, brutto = netto). Kwota ujemna, nie-liczba albo stawka poza 0–100 % nie drukuje sekcji, a ekran pisze dlaczego. **Stawki aplikacja nie zakłada** — zależy od rodzaju usługi i obiektu, ustala ją użytkownik.
-- **Decyzja:** kwota montażu NIE jest sumowana z cenami paneli i osprzętu z tabeli, bo aplikacja nie wie, czy te ceny wpisano netto czy brutto; sekcja mówi to na wydruku. Sumę „razem” można dodać po decyzji właściciela, czy ceny w porównaniu mają być netto czy brutto.
+- **Decyzja (wersja 3.25.0, uchylona w 3.26.0 — sekcja 54):** kwota montażu NIE była sumowana z cenami paneli i osprzętu, bo nie było wiadomo, czy ceny wpisano netto czy brutto. Właściciel rozstrzygnął 11.10.2026: ceny są zawsze brutto.
 - **Udostępnianie:** wszystkie cztery pola dochodzą do listy pomijanych w paczce porównania (dane sprzedawcy, jak „Dla” i „Uwagi”).
 - **Testy:** 1000 netto przy 8 % → VAT 80, brutto 1080; 1234,56 przy 23 % → VAT 283,95, brutto 1518,51; stawka pusta, 0 %, wartości niepoprawne; arkusz oferty: sekcje bez wpisu nie pojawiają się, numer, warunki i trzy linie montażu, pominięcie przy kwocie ujemnej; paczka udostępniania nie zawiera nowych pól.
+
+## 54. Oferta: suma „Razem brutto z montażem” (11.10.2026)
+
+Wersja 3.26.0. Decyzja właściciela (11.10.2026, odpowiedź na pytanie z podsumowania sekcji A): „Ceny z VAT. To znaczy zawsze brutto.” Silniki bez zmian — w kodzie ceny były już brutto (`cenaBruttoZl`, etykieta „Cena brutto za sztukę”, cennik osprzętu = ceny netto ze sklepów × 1,23, własne ceny osprzętu „wpisz brutto”), więc zmiana to tylko suma na wydruku.
+- **Reguła:** `sumaZMontazem(cenaBrutto, montaż)` = cena brutto + cena brutto montażu, do grosza; `null`, gdy brak ceny, brak montażu albo brak stawki VAT (bez stawki nie ma kwoty brutto montażu, więc nie liczymy sumy).
+- **Wydruk (sekcja „Montaż i podłączenie”, pod kwotami montażu):** dla każdej wersji oferty „Wersja X: panele i montaż — kwota” oraz, gdy wybrano urządzenie i da się wycenić osprzęt, „Wersja X: panele, urządzenie, osprzęt i montaż — od … do …” (zakres z cennika osprzętu). Jeden montaż dla całej oferty: ta sama kwota doliczana do każdej wersji.
+- **Czego nie robi:** nie przelicza cen wpisanych netto (aplikacja zakłada, że użytkownik wpisał brutto — tak mówi etykieta i „?” pola); nie zakłada stawki VAT montażu.
+- **Testy:** 12 000 + brutto montażu 1 518,51 (1 234,56 netto, 23 %) = 13 518,51; brak stawki / ceny / montażu = bez sumy; stawka 0 % = netto bez zmian; arkusz oferty drukuje sumę z wersją i nie drukuje jej bez stawki.
 

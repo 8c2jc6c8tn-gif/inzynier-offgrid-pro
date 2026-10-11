@@ -427,7 +427,7 @@ export const pl = {
       },
       ofertaMontazNetto: {
         nazwa: "Cena netto montażu i podłączenia",
-        cel: "Kwota za robociznę, którą wydruk pokaże osobno razem z VAT i ceną brutto. Nie jest dodawana do cen paneli z tabeli.",
+        cel: "Kwota za robociznę, którą wydruk pokaże osobno razem z VAT i ceną brutto. Po dodaniu VAT jest doliczana do cen paneli z tabeli (ceny w porównaniu są brutto).",
         gdzie: "Z Twojej kalkulacji; aplikacja nie zna cen robocizny.",
         zakres: "Liczba nie mniejsza niż 0 w walucie wyświetlania; puste = sekcja montażu nie pojawia się.",
       },
@@ -1020,7 +1020,7 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       ofertaMontazNetto: {
         nazwa: "Net price of installation and connection",
-        cel: "The labour amount that the printout shows separately with VAT and the gross price. It is not added to the panel prices of the table.",
+        cel: "The labour amount that the printout shows separately with VAT and the gross price. With VAT added, it is added to the panel prices of the table (prices in the comparison are gross).",
         gdzie: "From your own calculation; the app does not know labour prices.",
         zakres: "A number not below 0 in the display currency; empty = the installation section does not appear.",
       },
@@ -1613,7 +1613,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       ofertaMontazNetto: {
         nazwa: "Цена монтажа и подключения без НДС",
-        cel: "Сумма за работы, которую распечатка покажет отдельно вместе с НДС и ценой с НДС. Она не добавляется к ценам панелей из таблицы.",
+        cel: "Сумма за работы, которую распечатка покажет отдельно вместе с НДС и ценой с НДС. С НДС она прибавляется к ценам панелей из таблицы (цены в сравнении указаны с НДС).",
         gdzie: "Из вашей собственной калькуляции; приложение не знает цен на работы.",
         zakres: "Число не меньше 0 в валюте отображения; пусто = раздел монтажа не появится.",
       },
