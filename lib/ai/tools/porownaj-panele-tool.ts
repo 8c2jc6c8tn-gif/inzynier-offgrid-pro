@@ -89,6 +89,10 @@ export const PorownajPaneleToolInput = z.object({
     .number()
     .optional()
     .describe("Liczba paneli na miejscu — ta sama dla każdego porównywanego modelu; bez niej podaj wymiaryMiejsca i wymiary paneli, a policzę, ile sztuk każdego modelu się zmieści"),
+  testZanizeniaMocyPct: z
+    .number()
+    .optional()
+    .describe("Test „co, jeśli panel ma o tyle % mniej mocy, niż deklaruje karta lub naklejka” (0–100, bez 0 i 100) — tylko od usera, bez wartości domyślnej; nie zmienia głównych wyników, dokłada pole zanizenieMocy"),
   tminC: z.number().optional().describe("Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą — tylko od usera (rok typowy z PVGIS nie jest temperaturą projektową), dopytaj"),
   wymiaryMiejsca: WymiaryMiejsca.optional().describe("Wymiary miejsca montażu — tylko od usera, nie zgaduj"),
   obciazenia: Obciazenia.optional().describe("Warunki śniegu i wiatru miejsca do porównania obciążenia z nośnością paneli z karty (Eurokod) — tylko od usera"),
@@ -186,6 +190,19 @@ export const PorownajPaneleToolOutput = z.object({
         .nullable()
         .describe("Bilans godzinowy; null bez pojemności baterii albo bez zużycia. Model uproszczony — porównuje panele i baterie ze sobą, nie wymiaruje instalacji"),
       kosztZimowejKwhZl: z.number().nullable().describe("Koszt zimowej kWh w 25 latach [zł/kWh]; null bez ceny"),
+      zanizenieMocy: z
+        .object({
+          zanizeniePct: z.number(),
+          mocKwp: z.number().describe("Moc zestawu po zaniżeniu [kWp]"),
+          zimaKwh: z.number(),
+          rokKwh: z.number(),
+          cenaZaWpZl: z.number().nullable().describe("Cena za Wp rzeczywistej mocy [zł/Wp]; null bez ceny"),
+          kosztZimowejKwhZl: z.number().nullable(),
+          okresZwrotuLat: z.number().nullable(),
+          wartoscRokZl: z.number().nullable(),
+        })
+        .nullable()
+        .describe("Wynik testu zaniżenia mocy przy tej samej cenie panelu; null, gdy user nie podał testZanizeniaMocyPct"),
       gwiazdki: z.number().nullable().describe("Ocena 0–10 względna w obrębie porównywanego zestawu; null bez kryteriów albo przy jednym panelu"),
     }),
   ),
@@ -287,6 +304,7 @@ export function utworzPorownajPaneleTool(
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
         bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null } : null,
         tminC: input.tminC ?? null,
+        testZanizeniaMocyPct: input.testZanizeniaMocyPct ?? null,
         obciazenia: o
           ? {
               strefaSniegowa: (o.strefaSniegowa ?? null) as WarunkiObciazen["strefaSniegowa"],
@@ -370,6 +388,19 @@ export function utworzPorownajPaneleTool(
                         },
                 },
           kosztZimowejKwhZl: p.kosztZimowejKwhZl,
+          zanizenieMocy:
+            p.zanizenieMocy === null
+              ? null
+              : {
+                  zanizeniePct: p.zanizenieMocy.zanizeniePct,
+                  mocKwp: p.zanizenieMocy.mocKwp,
+                  zimaKwh: p.zanizenieMocy.zimaKwh,
+                  rokKwh: p.zanizenieMocy.rokKwh,
+                  cenaZaWpZl: p.zanizenieMocy.cenaZaWpZl,
+                  kosztZimowejKwhZl: p.zanizenieMocy.kosztZimowejKwhZl,
+                  okresZwrotuLat: p.zanizenieMocy.okresZwrotuLat,
+                  wartoscRokZl: p.zanizenieMocy.wartoscRokZl,
+                },
           gwiazdki: v.gwiazdki[i] ?? null,
         })),
         wykluczone: v.wykluczone.map((w) => ({ nazwa: w.nazwa, brakuje: w.brakuje })),

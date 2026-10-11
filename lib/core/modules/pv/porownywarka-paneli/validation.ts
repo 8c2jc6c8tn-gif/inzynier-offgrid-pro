@@ -38,6 +38,10 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
   if (input.tminC !== undefined && input.tminC !== null && !(Number.isFinite(input.tminC) && input.tminC >= TMIN_ZAKRES_C[0] && input.tminC <= TMIN_ZAKRES_C[1])) {
     errors.push(porpPozaZakresem("PORP-TMIN-POZA-ZAKRESEM", "tminC", input.tminC, `${TMIN_ZAKRES_C[0]}…${TMIN_ZAKRES_C[1]} °C`))
   }
+  const zan = input.testZanizeniaMocyPct
+  if (zan != null && !(Number.isFinite(zan) && zan > 0 && zan < 100)) {
+    errors.push(porpPozaZakresem("PORP-ZANIZENIE-MOCY-POZA-ZAKRESEM", "testZanizeniaMocyPct", zan, "(0–100) %"))
+  }
   const obc = input.obciazenia
   if (obc) {
     const [npmMin, npmMax] = WYSOKOSC_NPM_ZAKRES_M

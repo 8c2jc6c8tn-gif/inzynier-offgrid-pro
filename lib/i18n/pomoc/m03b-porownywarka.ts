@@ -269,6 +269,12 @@ export const pl = {
         gdzie: "Włącz po wybraniu urządzenia w zakładce „Falownik i osprzęt”. Wynik jest zakresem, bo cennik osprzętu jest zakresem cen; montaż i podłączenie nie są wliczone.",
         zakres: "Domyślnie wyłączone; bez wybranego urządzenia nie ma co doliczyć.",
       },
+      zanizenieMocy: {
+        nazwa: "Zaniżenie mocy panelu [%]",
+        cel: "Pokazuje obok głównych wyników te same liczby dla panelu, który ma o tyle procent mniej mocy, niż deklaruje karta lub naklejka (typowo panele bez znanej marki). Cena panelu zostaje ta sama, więc rośnie koszt energii i wydłuża się okres zwrotu.",
+        gdzie: "Z własnego pomiaru (np. woltomierz i amperomierz w pełnym słońcu, przeliczone na STC), z opinii o tym modelu albo z własnej ostrożnej oceny. Nie ma wartości domyślnej — wpisujesz ją Ty; puste pole = bez testu.",
+        zakres: "Liczba większa od 0 i mniejsza niż 100.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -766,6 +772,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Turn on after choosing a device in the “Inverter and accessories” tab. The result is a range because the accessory price list is a range of prices; installation and connection are not included.",
         zakres: "Off by default; without a chosen device there is nothing to add.",
       },
+      zanizenieMocy: {
+        nazwa: "Panel power shortfall [%]",
+        cel: "Shows next to the main results the same figures for a panel that has this many percent less power than the datasheet or label declares (typically unbranded panels). The panel price stays the same, so the energy cost rises and the payback gets longer.",
+        gdzie: "From your own measurement (e.g. voltmeter and ammeter in full sun, converted to STC), from reviews of this model or from your own cautious estimate. There is no default value — you type it; an empty field means no test.",
+        zakres: "A number greater than 0 and less than 100.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1262,6 +1274,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Добавляет к цене панелей выбранное устройство (если указана его цена) и ориентировочные комплектующие из вкладки «Инвертор и комплектующие», чтобы срок окупаемости и стоимость зимнего кВт·ч отражали цену всей DC-установки, а не одних панелей.",
         gdzie: "Включите после выбора устройства во вкладке «Инвертор и комплектующие». Результат — диапазон, потому что прайс-лист комплектующих задаёт диапазон цен; монтаж и подключение не включены.",
         zakres: "По умолчанию выключено; без выбранного устройства добавлять нечего.",
+      },
+      zanizenieMocy: {
+        nazwa: "Занижение мощности панели [%]",
+        cel: "Показывает рядом с основными результатами те же цифры для панели, у которой на столько процентов меньше мощности, чем заявлено в паспорте или на наклейке (обычно панели без известной марки). Цена панели остаётся прежней, поэтому стоимость энергии растёт, а срок окупаемости увеличивается.",
+        gdzie: "Из собственного измерения (например, вольтметр и амперметр при полном солнце, пересчитанные на STC), из отзывов об этой модели или из собственной осторожной оценки. Значения по умолчанию нет — вводите вы; пустое поле означает отсутствие теста.",
+        zakres: "Число больше 0 и меньше 100.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

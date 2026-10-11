@@ -113,6 +113,8 @@ export type FormularzStan = {
   uzyjZuzycia: boolean
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); puste = nie podano. Szkice sprzed A3 nie mają klucza. */
   tmin?: string
+  /** Test „panel ma o X% mniej mocy, niż deklaruje” (spec 38) [%]; puste = bez testu, bez wartości domyślnej. Szkice sprzed tego pola nie mają klucza. */
+  zanizenieMocy?: string
   /** Snow and wind conditions for the "Loads" tab (spec 32). */
   obc?: ObciazeniaSeed
   bil?: BilansSeed
@@ -207,6 +209,7 @@ export const STAN_POCZATKOWY: FormularzStan = {
   aktywneMiejsceId: "m1",
   uzyjZuzycia: true,
   tmin: "",
+  zanizenieMocy: "",
   panele: [PANEL_PUSTY("p1"), PANEL_PUSTY("p2")],
   wycena: "",
   stawka: "",
@@ -422,6 +425,7 @@ export function budujWejscie(a: {
     wymiaryMiejsca: wymiaryZMiejsca(m),
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
     tminC: liczba(stan.tmin ?? "") ?? null,
+    testZanizeniaMocyPct: liczba(stan.zanizenieMocy ?? "") ?? null,
     obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),
     bilansGodzinowy: bilansZFormularza(stan.bil),
     panele,

@@ -1183,3 +1183,7 @@ Cel: 18.15 mówi, że transfer idzie plikiem z wersjonowanym schematem, ale nie 
 6. **Bezpieczeństwo i prywatność:** limit rozmiaru, brak danych osobowych i sekretów poza tym, co użytkownik sam wpisał w projekcie, jawny dialog zgody przy imporcie z podglądem, rozszerzenie pliku wspólne (np. `.inzpro.json`).
 7. **Dane środowiskowe:** pliki transferu nie niosą danych pogodowych ani stref, tylko współrzędne i wersję paczki środowiskowej; dane pogodowe zawsze z paczki `dane-srodowiskowe` (19.13).
 Status: 🔎 nowe
+
+## [11.10.2026] Lista zadań: jeden wpis „STAN BIEŻĄCY” na moduł z długim dziennikiem, żeby sesja nie raportowała jako braków rzeczy już zrobionych
+W inzynier-offgrid-pro wpis listy zadań o module (Porównywarka paneli) rósł jako chronologiczny dziennik z dopiskami „✅ zrobione” w środku, a jego nagłówek zostawał 🔲. Sesja, która czytała tylko nagłówki, przedstawiła właścicielowi jako braki: ręczny panel, dobór falownika, wydruk, tryb prosty, Eurokod, OCR i ocenę producentów, choć wszystkie były zrobione i opisane w historii wersji. Proponowana reguła: gdy wpis listy zbiera więcej niż kilka pozycji, na samej górze listy stoi jeden wpis „STAN BIEŻĄCY” z podziałem zrobione/zostaje, a zamknięcie pozycji ze środka długiego wpisu wymaga zmiany tego wpisu i nagłówka długiego. Do tego reguła dla raportów: odpowiedź „co zostało” opiera się na rejestrze pokrycia i historii wersji, nie tylko na liście zadań, i podaje, z czego wynika. Koszt błędu: właściciel dostał nieprawdziwą listę braków i musiał to wyłapać.
+Status: 🔎 nowe

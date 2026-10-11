@@ -13,6 +13,7 @@ import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
 import { zwrotyZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { UrzadzenieIBos } from "@/components/porownywarka-paneli/urzadzenie-bos"
+import { TestZanizeniaMocy } from "@/components/porownywarka-paneli/test-zanizenia-mocy"
 import { wierszeWyniku } from "@/components/porownywarka-paneli/wiersze-wyniku"
 import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
@@ -1192,6 +1193,7 @@ export default function PorownywarkaPaneliPage() {
                 <p className="text-caption text-muted-foreground">
                   {t(`UI-PORP-OPLACALNOSC-NOTA${v.zUzytecznoscia ? "-UZYT" : ""}${zwrotyDziala ? "-Z-OSPRZETEM" : ""}`)}
                 </p>
+                <TestZanizeniaMocy panele={v.panele} wartosc={stan.zanizenieMocy ?? ""} onWartosc={(w) => ustaw("zanizenieMocy", w)} waluta={waluta} />
                 <div className="flex items-start gap-2">
                   <div className="flex-1">
                     <PoleCheckbox
