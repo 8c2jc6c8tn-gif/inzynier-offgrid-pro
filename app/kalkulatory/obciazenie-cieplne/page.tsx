@@ -21,7 +21,16 @@ import {
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { KIERUNKI_STRUMIENIA, type KierunekStrumienia } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
-import { KLUCZ_DRAFTU_OBCIAZENIA, podgladUZWarstw, wejscieObciazenia, type PrzegrodaSeed, type SeedObciazenia as Seed, type WarstwaSeed } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import {
+  KLUCZ_DRAFTU_OBCIAZENIA,
+  podgladUZWarstw,
+  wejscieObciazenia,
+  type OtworSeed,
+  type PrzegrodaSeed,
+  type SeedObciazenia as Seed,
+  type WarstwaSeed,
+  type ZrodloCieplaSeed,
+} from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 import { SekcjaRaportEfektywnosci } from "./sekcja-raport-efektywnosci"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
@@ -36,6 +45,7 @@ const nowaPrzegroda = (nazwa: string, kierunek: KierunekStrumienia | "" = ""): P
   warstwy: [],
   kierunek,
 })
+const nowyOtwor = (nazwa: string): OtworSeed => ({ nazwa, powierzchniaM2: "", uWM2K: "" })
 const nowaWarstwa = (): WarstwaSeed => ({ nazwa: "", gruboscMm: "", lambdaWmK: "", oporM2KW: "" })
 
 const KLUCZE_KIERUNKU: Record<KierunekStrumienia, string> = {
@@ -45,12 +55,19 @@ const KLUCZE_KIERUNKU: Record<KierunekStrumienia, string> = {
 }
 
 const stanPoczatkowy = (t: (k: string) => string): Seed => ({
-  przegrody: [nowaPrzegroda(t("UI-OBCCIE-SCIANY-ZEWNETRZNE"), "poziomo"), nowaPrzegroda(t("UI-OBCCIE-OKNA-DRZWI")), nowaPrzegroda(t("UI-OBCCIE-DACH-STROP"), "w-gore")],
+  przegrody: [nowaPrzegroda(t("UI-OBCCIE-SCIANY-ZEWNETRZNE"), "poziomo"), nowaPrzegroda(t("UI-OBCCIE-DACH-STROP"), "w-gore")],
+  otwory: [nowyOtwor(t("UI-OBCCIE-OTWOR-DOMYSLNA-OKNA")), nowyOtwor(t("UI-OBCCIE-OTWOR-DOMYSLNA-DRZWI"))],
   temperaturaWewnetrznaC: "",
   strefa: "",
   kubaturaM3: "",
   wymianyPowietrzaNaH: "",
   cop: "",
+  sprawnoscOdzyskuPct: "",
+  zrodlo: "",
+  paliwoJednostka: "",
+  paliwoWartoscOpalowaKwh: "",
+  paliwoSprawnoscPct: "",
+  paliwoZapas: "",
   miesiace: Array(12).fill(""),
 })
 
@@ -213,6 +230,10 @@ export default function ObciazenieCieplnePage() {
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ustawPrzegrode = (i: number, z: Partial<PrzegrodaSeed>) => setStan((s) => ({ ...s, przegrody: s.przegrody.map((p, j) => (j === i ? { ...p, ...z } : p)) }))
 
+  const otwory = stan.otwory ?? []
+  const ustawOtwor = (i: number, z: Partial<OtworSeed>) => setStan((s) => ({ ...s, otwory: (s.otwory ?? []).map((o, j) => (j === i ? { ...o, ...z } : o)) }))
+  const brakOtworow = otwory.every((o) => o.powierzchniaM2.trim() === "" && o.uWM2K.trim() === "")
+
   const wynik = useMemo(() => calculateObciazenieCieplne(wejscieObciazenia(stan)), [stan])
   const v = wynik.value
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "critical") ? "blad" : "uwaga"
@@ -268,25 +289,6 @@ export default function ObciazenieCieplnePage() {
             onChange={(e) => ustaw("kubaturaM3", e.target.value)}
             pomoc={<PomocPola ekran="obciazenie-cieplne" pole="kubatura" />}
           />
-          <Pole
-            label={t("UI-OBCCIE-WYMIANY-POWIETRZA")}
-            unit="1/h"
-            type="number"
-            inputMode="decimal"
-            min={0}
-            value={stan.wymianyPowietrzaNaH}
-            onChange={(e) => ustaw("wymianyPowietrzaNaH", e.target.value)}
-            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="wymiany" />}
-          />
-          <Pole
-            label={t("UI-OBCCIE-COP-OGRZEWANIA-OPCJONALNIE")}
-            type="number"
-            inputMode="decimal"
-            min={0}
-            value={stan.cop}
-            onChange={(e) => ustaw("cop", e.target.value)}
-            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="cop" />}
-          />
         </div>
       </section>
 
@@ -298,6 +300,138 @@ export default function ObciazenieCieplnePage() {
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, przegrody: [...s.przegrody, nowaPrzegroda("")] }))}>
           {t("UI-OBCCIE-DODAJ-PRZEGRODE")}
         </Button>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-semibold">{t("UI-OBCCIE-OTWORY")}</h2>
+        <p className="text-small text-muted-foreground">{t("UI-OBCCIE-OTWORY-OPIS")}</p>
+        {otwory.map((o, i) => (
+          <div key={i} className="flex flex-col gap-3 rounded-lg border p-3">
+            <Pole id={`otwor-${i}-nazwa`} label={t("UI-OBCCIE-NAZWA")} value={o.nazwa} onChange={(e) => ustawOtwor(i, { nazwa: e.target.value })} pomoc={<PomocPola ekran="obciazenie-cieplne" pole="nazwa" />} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Pole
+                id={`otwor-${i}-powierzchnia`}
+                label={t("UI-OBCCIE-POWIERZCHNIA")}
+                unit="m²"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={o.powierzchniaM2}
+                onChange={(e) => ustawOtwor(i, { powierzchniaM2: e.target.value })}
+                pomoc={<PomocPola ekran="obciazenie-cieplne" pole="powierzchnia" />}
+              />
+              <Pole
+                id={`otwor-${i}-u`}
+                label={t("UI-OBCCIE-WSPOLCZYNNIK")}
+                unit="W/(m²·K)"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={o.uWM2K}
+                onChange={(e) => ustawOtwor(i, { uWM2K: e.target.value })}
+                pomoc={<PomocPola ekran="obciazenie-cieplne" pole="u" />}
+              />
+            </div>
+            <Button variant="ghost" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, otwory: otwory.filter((_, j) => j !== i) }))}>
+              {t("UI-OBCCIE-USUN-OTWOR")}
+            </Button>
+          </div>
+        ))}
+        <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, otwory: [...otwory, nowyOtwor("")] }))}>
+          {t("UI-OBCCIE-DODAJ-OTWOR")}
+        </Button>
+        {brakOtworow && <p className="text-small text-muted-foreground">{t("UI-OBCCIE-OTWORY-BRAK")}</p>}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-semibold">{t("UI-OBCCIE-WENTYLACJA")}</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Pole
+            label={t("UI-OBCCIE-WYMIANY-POWIETRZA")}
+            unit="1/h"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={stan.wymianyPowietrzaNaH}
+            onChange={(e) => ustaw("wymianyPowietrzaNaH", e.target.value)}
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="wymiany" />}
+          />
+          <Pole
+            label={t("UI-OBCCIE-ODZYSK")}
+            unit="%"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            max={100}
+            value={stan.sprawnoscOdzyskuPct ?? ""}
+            onChange={(e) => ustaw("sprawnoscOdzyskuPct", e.target.value)}
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="odzysk" />}
+          />
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-semibold">{t("UI-OBCCIE-ZRODLO")}</h2>
+        <PoleSelect
+          label={t("UI-OBCCIE-ZRODLO")}
+          value={stan.zrodlo ?? ""}
+          onChange={(e) => ustaw("zrodlo", e.target.value as ZrodloCieplaSeed)}
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="zrodlo" />}
+        >
+          <option value="">{t("UI-WYBIERZ")}</option>
+          <option value="prad">{t("UI-OBCCIE-ZRODLO-PRAD")}</option>
+          <option value="paliwo">{t("UI-OBCCIE-ZRODLO-PALIWO")}</option>
+        </PoleSelect>
+        {stan.zrodlo !== "paliwo" ? (
+          <Pole
+            label={t("UI-OBCCIE-COP-OGRZEWANIA-OPCJONALNIE")}
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={stan.cop}
+            onChange={(e) => ustaw("cop", e.target.value)}
+            pomoc={<PomocPola ekran="obciazenie-cieplne" pole="cop" />}
+          />
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Pole
+              label={t("UI-OBCCIE-PALIWO-JEDNOSTKA")}
+              value={stan.paliwoJednostka ?? ""}
+              onChange={(e) => ustaw("paliwoJednostka", e.target.value)}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="paliwoJednostka" />}
+            />
+            <Pole
+              label={t("UI-OBCCIE-PALIWO-WO")}
+              unit="kWh"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={stan.paliwoWartoscOpalowaKwh ?? ""}
+              onChange={(e) => ustaw("paliwoWartoscOpalowaKwh", e.target.value)}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="paliwoWo" />}
+            />
+            <Pole
+              label={t("UI-OBCCIE-PALIWO-SPRAWNOSC")}
+              unit="%"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={100}
+              value={stan.paliwoSprawnoscPct ?? ""}
+              onChange={(e) => ustaw("paliwoSprawnoscPct", e.target.value)}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="paliwoSprawnosc" />}
+            />
+            <Pole
+              label={t("UI-OBCCIE-PALIWO-ZAPAS")}
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={stan.paliwoZapas ?? ""}
+              onChange={(e) => ustaw("paliwoZapas", e.target.value)}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="paliwoZapas" />}
+            />
+          </div>
+        )}
       </section>
 
       <section className="flex flex-col gap-3">
@@ -358,6 +492,35 @@ export default function ObciazenieCieplnePage() {
               <KartaPorownawcza kolumny={kolumnyMiesiecy} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={320} />
             </div>
           )}
+          {stan.zrodlo === "paliwo" && (
+            <div className="mt-3 flex flex-col gap-1 text-small">
+              <p className="font-medium">{t("UI-OBCCIE-PALIWO-TYTUL")}</p>
+              {v.paliwo ? (
+                <>
+                  <p>
+                    {t("UI-OBCCIE-PALIWO-DOBA", {
+                      cieplo: f0(v.paliwo.zapasCieplaKwh),
+                      doba: f1(v.paliwo.zuzycieDobaObliczeniowaJedn),
+                      jedn: v.paliwo.jednostka,
+                      dni: f0(v.paliwo.dniPrzyTemperaturzeObliczeniowej),
+                    })}
+                  </p>
+                  {v.paliwo.zuzycieRokJedn !== null && v.paliwo.pokrycieRokuPct !== null ? (
+                    <p>
+                      {t("UI-OBCCIE-PALIWO-ROK", { rok: f0(v.paliwo.zuzycieRokJedn), jedn: v.paliwo.jednostka, proc: f0(v.paliwo.pokrycieRokuPct) })}{" "}
+                      {v.paliwo.brakJedn !== null && v.paliwo.brakJedn > 0
+                        ? t("UI-OBCCIE-PALIWO-BRAK", { brak: f0(v.paliwo.brakJedn), jedn: v.paliwo.jednostka })
+                        : t("UI-OBCCIE-PALIWO-WYSTARCZY")}
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground">{t("UI-OBCCIE-PALIWO-BEZ-MIESIECY")}</p>
+                  )}
+                </>
+              ) : (
+                <p className="text-muted-foreground">{t("UI-OBCCIE-PALIWO-NIEKOMPLETNE")}</p>
+              )}
+            </div>
+          )}
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
           <p className="mt-2 text-small">
             {t("UI-OBCCIE-DALEJ")}{" "}
@@ -371,6 +534,10 @@ export default function ObciazenieCieplnePage() {
             ,{" "}
             <Link href="/kalkulatory/liczba-paneli" className="underline">
               {t("UI-OBCCIE-ILE-PANELI-ZIME")}
+            </Link>
+            ,{" "}
+            <Link href="/kalkulatory/porownywarka-paneli" className="underline">
+              {t("UI-OBCCIE-DALEJ-ZIMA-PANELE")}
             </Link>
             .
           </p>

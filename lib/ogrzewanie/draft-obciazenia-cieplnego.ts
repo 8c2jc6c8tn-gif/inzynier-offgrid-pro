@@ -24,8 +24,21 @@ export type PrzegrodaSeed = {
   warstwy?: WarstwaSeed[]
   kierunek?: string
 }
+/** Window or door: only area and U (no layers), always against outdoor air. A row with neither entered is ignored. */
+export type OtworSeed = { nazwa: string; powierzchniaM2: string; uWM2K: string }
+export type ZrodloCieplaSeed = "" | "prad" | "paliwo"
 export type SeedObciazenia = {
   przegrody: PrzegrodaSeed[]
+  /** Optional: drafts saved before the openings section existed have none (their windows are in `przegrody`). */
+  otwory?: OtworSeed[]
+  /** Optional ventilation heat recovery [%]. */
+  sprawnoscOdzyskuPct?: string
+  /** Heat source: "" = not chosen (a typed COP still counts as electric, as before), "prad" = electric/heat pump, "paliwo" = fuel with a stock. */
+  zrodlo?: ZrodloCieplaSeed
+  paliwoJednostka?: string
+  paliwoWartoscOpalowaKwh?: string
+  paliwoSprawnoscPct?: string
+  paliwoZapas?: string
   temperaturaWewnetrznaC: string
   strefa: string
   kubaturaM3: string
@@ -36,22 +49,47 @@ export type SeedObciazenia = {
 
 const n = (s: string) => liczba(s) ?? null
 
+const czyPustyOtwor = (o: OtworSeed) => o.powierzchniaM2.trim() === "" && o.uWM2K.trim() === ""
+
 export function wejscieObciazenia(stan: SeedObciazenia): ObciazenieCieplneInput {
+  const paliwo = stan.zrodlo === "paliwo"
   return {
-    przegrody: stan.przegrody.map((p) => ({
-      nazwa: p.nazwa.trim(),
-      powierzchniaM2: n(p.powierzchniaM2),
-      uWM2K: n(p.uWM2K),
-      warstwy: (p.warstwy ?? []).map((w) => ({ nazwa: w.nazwa.trim(), gruboscMm: n(w.gruboscMm), lambdaWmK: n(w.lambdaWmK), oporM2KW: n(w.oporM2KW) })),
-      kierunekStrumienia: KIERUNKI_STRUMIENIA.find((k) => k === p.kierunek) ?? null,
-      zewnetrzna: p.zewnetrzna,
-      temperaturaPoDrugiejStronieC: p.zewnetrzna ? null : n(p.temperaturaPoDrugiejStronieC),
-    })),
+    przegrody: [
+      ...stan.przegrody.map((p) => ({
+        nazwa: p.nazwa.trim(),
+        powierzchniaM2: n(p.powierzchniaM2),
+        uWM2K: n(p.uWM2K),
+        warstwy: (p.warstwy ?? []).map((w) => ({ nazwa: w.nazwa.trim(), gruboscMm: n(w.gruboscMm), lambdaWmK: n(w.lambdaWmK), oporM2KW: n(w.oporM2KW) })),
+        kierunekStrumienia: KIERUNKI_STRUMIENIA.find((k) => k === p.kierunek) ?? null,
+        zewnetrzna: p.zewnetrzna,
+        temperaturaPoDrugiejStronieC: p.zewnetrzna ? null : n(p.temperaturaPoDrugiejStronieC),
+      })),
+      ...(stan.otwory ?? [])
+        .filter((o) => !czyPustyOtwor(o))
+        .map((o) => ({
+          nazwa: o.nazwa.trim(),
+          powierzchniaM2: n(o.powierzchniaM2),
+          uWM2K: n(o.uWM2K),
+          warstwy: [],
+          kierunekStrumienia: null,
+          zewnetrzna: true,
+          temperaturaPoDrugiejStronieC: null,
+        })),
+    ],
     temperaturaWewnetrznaC: n(stan.temperaturaWewnetrznaC),
     strefaKlimatyczna: STREFY_KLIMATYCZNE.find((s) => String(s) === stan.strefa) ?? null,
     kubaturaM3: n(stan.kubaturaM3),
     wymianyPowietrzaNaH: n(stan.wymianyPowietrzaNaH),
-    cop: n(stan.cop),
+    cop: paliwo ? null : n(stan.cop),
+    sprawnoscOdzyskuPct: n(stan.sprawnoscOdzyskuPct ?? ""),
+    paliwo: paliwo
+      ? {
+          jednostka: (stan.paliwoJednostka ?? "").trim(),
+          wartoscOpalowaKwh: n(stan.paliwoWartoscOpalowaKwh ?? ""),
+          sprawnoscPct: n(stan.paliwoSprawnoscPct ?? ""),
+          zapas: n(stan.paliwoZapas ?? ""),
+        }
+      : null,
     // Drafts saved before the months section existed have no `miesiace`.
     srednieTemperaturyMiesieczneC: (stan.miesiace ?? []).map(n),
   }
@@ -85,4 +123,29 @@ export function useWynikEkranu1(): WynikEkranu1 | null {
     const w = calculateObciazenieCieplne(wejscie)
     return w.value && wejscie.temperaturaWewnetrznaC !== null ? { ...w.value, temperaturaWewnetrznaC: wejscie.temperaturaWewnetrznaC } : null
   }, [ekran1.dane])
+}
+
+/** Electric heating energy per month for the PV balance, taken from Screen 1 — or the reason why it is not available. */
+export type OgrzewanieElektryczne =
+  | { stan: "ok"; miesiaceKwh: number[]; rokKwh: number }
+  | { stan: "brak-danych" | "paliwo" | "brak-cop" | "brak-miesiecy" }
+
+/** Pure: 12 monthly values of electric energy for heating, only when every month is known (a missing month would silently lower the demand). */
+export function ogrzewanieElektryczneZSzkicu(seed: SeedObciazenia | null): OgrzewanieElektryczne {
+  if (!seed) return { stan: "brak-danych" }
+  if (seed.zrodlo === "paliwo") return { stan: "paliwo" }
+  const wejscie = wejscieObciazenia(seed)
+  const wynik = calculateObciazenieCieplne(wejscie).value
+  if (!wynik) return { stan: "brak-danych" }
+  if (wejscie.cop === null) return { stan: "brak-cop" }
+  const miesiace = Array<number | null>(12).fill(null)
+  for (const m of wynik.miesiace ?? []) miesiace[m.miesiac - 1] = m.energiaElektrycznaKwh
+  if (miesiace.some((x) => x === null)) return { stan: "brak-miesiecy" }
+  const kwh = miesiace as number[]
+  return { stan: "ok", miesiaceKwh: kwh, rokKwh: kwh.reduce((a, b) => a + b, 0) }
+}
+
+export function useOgrzewanieElektryczne(): OgrzewanieElektryczne {
+  const { dane } = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)
+  return useMemo(() => ogrzewanieElektryczneZSzkicu(dane), [dane])
 }

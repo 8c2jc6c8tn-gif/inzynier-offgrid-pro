@@ -173,3 +173,69 @@ describe("U z warstw (PN-EN ISO 6946, model prosty, bez mostków)", () => {
     }
   })
 })
+
+describe("odzysk ciepła z wentylacji i zapas paliwa (silnik 1.2.0)", () => {
+  it("odzysk 80% zmniejsza stratę wentylacyjną do 20%: H_V 50,25 → 10,05 W/K, 402 W, razem 3562 W", () => {
+    const r = calculateObciazenieCieplne({ ...DOM, sprawnoscOdzyskuPct: 80 })
+    const v = r.value!
+    expect(v.hvWK).toBeCloseTo(10.05, 9)
+    expect(v.strataWentylacjaW).toBeCloseTo(402, 9)
+    expect(v.obciazenieW).toBeCloseTo(3562, 9)
+    expect(v.odzyskWentylacjiPct).toBe(80)
+    expect(r.assumptions).toContainEqual({ kod: "OC-ZALOZENIE-ODZYSK-WENTYLACJI", params: { eta: 80 } })
+  })
+
+  it("bez wpisanego odzysku wynik jest taki jak przed dodaniem pola", () => {
+    const v = calculateObciazenieCieplne(DOM).value!
+    expect(v.hvWK).toBeCloseTo(50.25, 9)
+    expect(v.odzyskWentylacjiPct).toBe(0)
+    expect(v.paliwo).toBeNull()
+  })
+
+  it("odzysk poza 0–100% i niedodatnie dane paliwa są błędem wejścia", () => {
+    expect(calculateObciazenieCieplne({ ...DOM, sprawnoscOdzyskuPct: 120 }).status).toBe("INVALID_INPUT")
+    expect(calculateObciazenieCieplne({ ...DOM, sprawnoscOdzyskuPct: -5 }).status).toBe("INVALID_INPUT")
+    expect(calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 0, sprawnoscPct: 80, zapas: 10 } }).status).toBe("INVALID_INPUT")
+    expect(calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: 0, zapas: 10 } }).status).toBe("INVALID_INPUT")
+    expect(calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: 80, zapas: -1 } }).status).toBe("INVALID_INPUT")
+  })
+
+  const styczen = (() => {
+    const temp = [...MIESIACE_PUSTE]
+    temp[0] = -2
+    return temp
+  })()
+
+  it("zapas paliwa: 1000 kg × 5 kWh/kg × 80% = 4000 kWh; doba 124,08 kWh → 31,02 kg/dobę i ok. 32,2 dnia; rok (tu tylko styczeń 2236,092 kWh) = 559,023 kg", () => {
+    const v = calculateObciazenieCieplne({
+      ...DOM,
+      srednieTemperaturyMiesieczneC: styczen,
+      paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: 80, zapas: 1000 },
+    }).value!
+    const p = v.paliwo!
+    expect(p.zapasCieplaKwh).toBeCloseTo(4000, 9)
+    expect(p.zuzycieDobaObliczeniowaJedn).toBeCloseTo(124.08 / 4, 9)
+    expect(p.dniPrzyTemperaturzeObliczeniowej).toBeCloseTo(4000 / 124.08, 9)
+    expect(p.zuzycieRokJedn).toBeCloseTo(2236.092 / 4, 6)
+    expect(p.pokrycieRokuPct).toBe(100)
+    expect(p.brakJedn).toBe(0)
+  })
+
+  it("za mały zapas: 400 kg pokrywa 1600/2236,092 = 71,55% ciepła, brakuje 159,023 kg", () => {
+    const p = calculateObciazenieCieplne({
+      ...DOM,
+      srednieTemperaturyMiesieczneC: styczen,
+      paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: 80, zapas: 400 },
+    }).value!.paliwo!
+    expect(p.pokrycieRokuPct).toBeCloseTo((100 * 1600) / 2236.092, 6)
+    expect(p.brakJedn).toBeCloseTo(2236.092 / 4 - 400, 6)
+  })
+
+  it("bez temperatur miesięcznych jest tylko wynik dla doby obliczeniowej; niepełne dane paliwa dają brak wyniku", () => {
+    const bezMiesiecy = calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: 80, zapas: 1000 } }).value!.paliwo!
+    expect(bezMiesiecy.zuzycieRokJedn).toBeNull()
+    expect(bezMiesiecy.pokrycieRokuPct).toBeNull()
+    expect(bezMiesiecy.brakJedn).toBeNull()
+    expect(calculateObciazenieCieplne({ ...DOM, paliwo: { jednostka: "kg", wartoscOpalowaKwh: 5, sprawnoscPct: null, zapas: 1000 } }).value!.paliwo).toBeNull()
+  })
+})
