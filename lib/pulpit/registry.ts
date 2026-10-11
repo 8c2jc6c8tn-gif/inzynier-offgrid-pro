@@ -303,6 +303,7 @@ export const KAFLE: KafelEntry[] = [
     ekrany: [
       { href: "/kalkulatory/prognozy", label: "Prognozy" },
       { href: "/kalkulatory/prognoza-miesieczna", label: "Prognoza produkcji miesięcznej" },
+      { href: "/kalkulatory/prognoza-soc", label: "Prognoza stanu naładowania i oś czasu" },
       { href: "/kalkulatory/dobor-zrodel-zasilania", label: "Dobór źródła zasilania i prądu ładowania" },
       { href: "/kalkulatory/przesuwanie-zadan", label: "Przesuwanie zadań domowych na słońce" },
       { href: "/kalkulatory/wykrywanie-anomalii", label: "Wykrywanie anomalii (PV, zużycie)" },

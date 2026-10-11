@@ -233,6 +233,98 @@ export const pl = {
       },
     },
   },
+  "prognoza-soc": {
+    migawka: {
+      oCoChodzi:
+        "Wiesz, ile energii zostanie w baterii jutro rano — bez niespodzianek. Do tego oś czasu: kiedy bateria się ładuje, kiedy zasila odbiorniki i kiedy jest nadwyżka na bojler czy pralkę.",
+      jakDziala:
+        "Co godzinę aplikacja dodaje do baterii nadwyżkę produkcji paneli ponad zużycie (z uwzględnieniem sprawności i limitu mocy), a gdy zużycie jest większe, pobiera brakującą energię z baterii, ale nie poniżej Twojego minimum. Profil doby wpisujesz w 8 oknach po 3 godziny. Wynik: stan naładowania co godzinę, moment osiągnięcia minimum lub pełnej baterii, niedobór energii i nadwyżka.",
+      poCo:
+        "Żeby przed wieczorem wiedzieć, czy bateria dociągnie do rana, i żeby ustawić odbiorniki elastyczne (bojler, pranie, pompę) w godzinach nadwyżki.",
+      fizyka:
+        "E(t+1) = E(t) + η_ład · (P_PV − P_obc) · Δt dla nadwyżki oraz E(t+1) = E(t) − (P_obc − P_PV) · Δt / η_rozł dla niedoboru, w granicach E_min…E_maks (E = pojemność · SOC). To bilans energii na Twoim profilu, nie przewidywanie pogody czy temperatury.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Pojemność użyteczna baterii [kWh]",
+        cel: "Całkowita energia, którą możesz realnie z baterii pobrać; od niej zależy, jak szybko stan naładowania rośnie i maleje.",
+        gdzie: "W karcie baterii: „Usable capacity”; dla LiFePO4 12,8 V 100 Ah to ok. 1,28 kWh nominalnie — użyteczna zależy od zakresu pracy BMS. Dla banku: suma baterii.",
+        zakres: "Z karty baterii; aplikacja nie zgaduje pojemności.",
+      },
+      socStart: {
+        nazwa: "Stan naładowania na początku [%]",
+        cel: "Punkt wyjścia symulacji.",
+        gdzie: "Z wyświetlacza BMS, falownika lub wskaźnika baterii w chwili startu prognozy.",
+        zakres: "0–100 %.",
+      },
+      socMin: {
+        nazwa: "Najniższy dopuszczalny stan naładowania [%]",
+        cel: "Poniżej tej wartości aplikacja nie rozładowuje baterii; brakującą energię liczy jako niedobór. To granica ochrony baterii albo Twoja rezerwa.",
+        gdzie: "W ustawieniach BMS/falownika (próg odcięcia przy rozładowaniu) albo Twoja decyzja o rezerwie.",
+        zakres: "0–100 %, mniej niż najwyższy stan.",
+      },
+      socMaks: {
+        nazwa: "Najwyższy stan naładowania [%]",
+        cel: "Powyżej tej wartości bateria nie jest ładowana (nadwyżka liczona jako strata). Jeśli ładujesz tylko do 90–95 % dla trwałości, wpisz to tutaj.",
+        gdzie: "W ustawieniach BMS/falownika (napięcie lub SOC końca ładowania) albo Twoja decyzja.",
+        zakres: "0–100 %; puste pole = 100 %.",
+      },
+      sprawnoscLadowania: {
+        nazwa: "Sprawność ładowania [%]",
+        cel: "Jaka część energii z paneli trafia do baterii (reszta to straty regulatora, kabli i baterii).",
+        gdzie: "W karcie baterii/falownika: „Round-trip efficiency” (obie sprawności łącznie) albo sprawność ładowania; możesz rozdzielić ją po równo.",
+        zakres: "0–100 %, z karty; puste pole = 100 % (brak danych, liczone bez strat).",
+      },
+      sprawnoscRozladowania: {
+        nazwa: "Sprawność rozładowania [%]",
+        cel: "Jaka część energii z baterii dociera do odbiorników (straty falownika i baterii).",
+        gdzie: "W karcie falownika: „Efficiency”; baterii: sprawność rozładowania.",
+        zakres: "0–100 %, z karty; puste pole = 100 % (brak danych).",
+      },
+      mocLadowania: {
+        nazwa: "Maks. moc ładowania [kW]",
+        cel: "Powyżej tej mocy nadwyżka z paneli nie wejdzie do baterii. Zimą i w mrozie jest zwykle niższa niż w karcie — wpisz wartość, którą realnie masz.",
+        gdzie: "W karcie baterii: „Max. charge current” × napięcie, i falownika/regulatora; w mrozie – wg wskazań producenta.",
+        zakres: "Z karty; puste pole = bez limitu (założenie pokazane w wyniku).",
+      },
+      mocRozladowania: {
+        nazwa: "Maks. moc rozładowania [kW]",
+        cel: "Powyżej tej mocy bateria nie zasili odbiorników; reszta liczona jest jako niedobór.",
+        gdzie: "W karcie baterii: „Max. discharge current” × napięcie; falownika: moc ciągła.",
+        zakres: "Z karty; puste pole = bez limitu.",
+      },
+      godzinaStartu: {
+        nazwa: "Godzina początku prognozy [h]",
+        cel: "Od której godziny doby liczyć prognozę; profil doby jest czytany od tej godziny.",
+        gdzie: "Zwykle bieżąca godzina albo godzina zachodu słońca, gdy sprawdzasz, czy bateria dotrwa do rana.",
+        zakres: "Liczba całkowita 0–23.",
+      },
+      horyzont: {
+        nazwa: "Na jak długo",
+        cel: "Długość prognozy: 24, 48 lub 72 godziny.",
+        gdzie: "Twoja decyzja.",
+        zakres: "24, 48 albo 72 h.",
+      },
+      produkcjaOkna: {
+        nazwa: "Średnia produkcja paneli w oknie [kW]",
+        cel: "Średnia moc paneli w tym 3-godzinnym oknie doby; panele nie dają w nocy nic, więc wpisz 0.",
+        gdzie: "Z aplikacji falownika/regulatora (wykres mocy PV z podobnego dnia) albo ocena na podstawie ekranu doboru paneli.",
+        zakres: "≥ 0 kW; aplikacja nie podpowiada wartości.",
+      },
+      zuzycieOkna: {
+        nazwa: "Średnie zużycie w oknie [kW]",
+        cel: "Średnia moc odbiorników w tym oknie doby (suma wszystkich pracujących urządzeń).",
+        gdzie: "Z licznika/falownika (wykres mocy odbiorników) albo z ekranu zużycia per urządzenie (Wh ÷ godziny).",
+        zakres: "≥ 0 kW.",
+      },
+      udzialDnia: {
+        nazwa: "Udział produkcji w danej dobie prognozy [%]",
+        cel: "Jak bardzo produkcja danej doby różni się od wpisanego profilu — np. przy zachmurzeniu dużo mniej.",
+        gdzie: "Z prognozy pogody (zachmurzenie) albo z Twojego doświadczenia; ekran nie pobiera pogody sam.",
+        zakres: "≥ 0 %; puste pole = 100 % (ten sam profil).",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -464,6 +556,98 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "prognoza-soc": {
+    migawka: {
+      oCoChodzi:
+        "You know how much energy will be left in the battery tomorrow morning — no surprises. Plus a timeline: when the battery charges, when it supplies the loads and when there is a surplus for a boiler or a washing machine.",
+      jakDziala:
+        "Every hour the app adds to the battery the panel production above the consumption (with the efficiency and the power limit) and, when the consumption is higher, takes the missing energy from the battery, but not below your minimum. You enter the daily profile in 8 windows of 3 hours. The result: the state of charge every hour, the moment of reaching the minimum or a full battery, the energy shortfall and the surplus.",
+      poCo:
+        "To know before evening whether the battery will last until morning, and to schedule flexible loads (boiler, washing, pump) in the surplus hours.",
+      fizyka:
+        "E(t+1) = E(t) + η_chg · (P_PV − P_load) · Δt for a surplus and E(t+1) = E(t) − (P_load − P_PV) · Δt / η_dis for a shortfall, within E_min…E_max (E = capacity · SOC). This is an energy balance on your profile, not a prediction of weather or temperature.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Battery usable capacity [kWh]",
+        cel: "The total energy you can really take from the battery; it sets how fast the state of charge rises and falls.",
+        gdzie: "In the battery datasheet: “Usable capacity”; for LiFePO4 12.8 V 100 Ah it is about 1.28 kWh nominal — the usable one depends on the BMS working range. For a bank: the sum of the batteries.",
+        zakres: "From the battery datasheet; the app does not guess the capacity.",
+      },
+      socStart: {
+        nazwa: "State of charge at the start [%]",
+        cel: "The starting point of the simulation.",
+        gdzie: "From the BMS, inverter display or battery gauge at the moment the forecast starts.",
+        zakres: "0–100 %.",
+      },
+      socMin: {
+        nazwa: "Lowest allowed state of charge [%]",
+        cel: "Below this value the app does not discharge the battery; the missing energy is counted as a shortfall. It is the battery protection limit or your reserve.",
+        gdzie: "In the BMS/inverter settings (the discharge cut-off threshold) or your decision about the reserve.",
+        zakres: "0–100 %, below the highest state.",
+      },
+      socMaks: {
+        nazwa: "Highest state of charge [%]",
+        cel: "Above this value the battery is not charged (the surplus is counted as lost). If you charge only to 90–95 % for longevity, enter it here.",
+        gdzie: "In the BMS/inverter settings (the end-of-charge voltage or SOC) or your decision.",
+        zakres: "0–100 %; an empty field = 100 %.",
+      },
+      sprawnoscLadowania: {
+        nazwa: "Charging efficiency [%]",
+        cel: "What part of the panel energy reaches the battery (the rest is losses in the regulator, cables and battery).",
+        gdzie: "In the battery/inverter datasheet: “Round-trip efficiency” (both efficiencies together) or the charging efficiency; you may split it evenly.",
+        zakres: "0–100 %, from the datasheet; an empty field = 100 % (no data, counted lossless).",
+      },
+      sprawnoscRozladowania: {
+        nazwa: "Discharging efficiency [%]",
+        cel: "What part of the battery energy reaches the loads (inverter and battery losses).",
+        gdzie: "In the inverter datasheet: “Efficiency”; for the battery: the discharge efficiency.",
+        zakres: "0–100 %, from the datasheet; an empty field = 100 % (no data).",
+      },
+      mocLadowania: {
+        nazwa: "Max. charging power [kW]",
+        cel: "Above this power the panel surplus will not enter the battery. In winter and frost it is usually lower than in the datasheet — enter the value you really have.",
+        gdzie: "In the battery datasheet: “Max. charge current” × voltage, and of the inverter/regulator; in frost — per the manufacturer's guidance.",
+        zakres: "From the datasheet; an empty field = no limit (the assumption is shown in the result).",
+      },
+      mocRozladowania: {
+        nazwa: "Max. discharging power [kW]",
+        cel: "Above this power the battery will not supply the loads; the rest is counted as a shortfall.",
+        gdzie: "In the battery datasheet: “Max. discharge current” × voltage; for the inverter: continuous power.",
+        zakres: "From the datasheet; an empty field = no limit.",
+      },
+      godzinaStartu: {
+        nazwa: "Hour the forecast starts [h]",
+        cel: "From which hour of the day to count the forecast; the daily profile is read from that hour.",
+        gdzie: "Usually the current hour, or the sunset hour when you check whether the battery lasts until morning.",
+        zakres: "A whole number 0–23.",
+      },
+      horyzont: {
+        nazwa: "For how long",
+        cel: "The length of the forecast: 24, 48 or 72 hours.",
+        gdzie: "Your decision.",
+        zakres: "24, 48 or 72 h.",
+      },
+      produkcjaOkna: {
+        nazwa: "Average panel production in the window [kW]",
+        cel: "The average panel power in this 3-hour window of the day; the panels give nothing at night, so enter 0.",
+        gdzie: "From the inverter/regulator app (the PV power chart of a similar day) or an estimate from the panel-selection screen.",
+        zakres: "≥ 0 kW; the app suggests no value.",
+      },
+      zuzycieOkna: {
+        nazwa: "Average consumption in the window [kW]",
+        cel: "The average power of the loads in this window of the day (the sum of all running devices).",
+        gdzie: "From the meter/inverter (the load power chart) or from the per-device consumption screen (Wh ÷ hours).",
+        zakres: "≥ 0 kW.",
+      },
+      udzialDnia: {
+        nazwa: "Share of the production on the forecast day [%]",
+        cel: "How much the production of that day differs from the entered profile — e.g. much lower when overcast.",
+        gdzie: "From a weather forecast (cloud cover) or your experience; the screen does not fetch the weather by itself.",
+        zakres: "≥ 0 %; an empty field = 100 % (the same profile).",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -692,6 +876,98 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Ширина нижней и верхней границ вокруг прогноза. Это ваше допущение о том, насколько следующий год может отличаться от прошлого.",
         gdzie: "Ваш опыт прошлых лет или данные за несколько сезонов, если они есть. Приложение не подсказывает значение.",
         zakres: "От 0 до 100 %; пустое поле = без диапазона.",
+      },
+    },
+  },
+  "prognoza-soc": {
+    migawka: {
+      oCoChodzi:
+        "Вы знаете, сколько энергии останется в батарее завтра утром — без сюрпризов. Плюс временная шкала: когда батарея заряжается, когда питает потребителей и когда есть избыток для бойлера или стиральной машины.",
+      jakDziala:
+        "Каждый час приложение добавляет в батарею избыток выработки панелей над потреблением (с учётом КПД и лимита мощности), а когда потребление больше, берёт недостающую энергию из батареи, но не ниже вашего минимума. Суточный профиль вводится в 8 окнах по 3 часа. Результат: уровень заряда каждый час, момент достижения минимума или полной батареи, нехватка энергии и избыток.",
+      poCo:
+        "Чтобы до вечера знать, дотянет ли батарея до утра, и чтобы назначать гибкие нагрузки (бойлер, стирку, насос) на часы избытка.",
+      fizyka:
+        "E(t+1) = E(t) + η_зар · (P_PV − P_нагр) · Δt при избытке и E(t+1) = E(t) − (P_нагр − P_PV) · Δt / η_разр при нехватке, в пределах E_мин…E_макс (E = ёмкость · SOC). Это энергетический баланс по вашему профилю, а не предсказание погоды или температуры.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Полезная ёмкость батареи [кВт·ч]",
+        cel: "Полная энергия, которую реально можно взять из батареи; от неё зависит, как быстро растёт и падает уровень заряда.",
+        gdzie: "В карточке батареи: «Usable capacity»; для LiFePO4 12,8 В 100 А·ч это около 1,28 кВт·ч номинально — полезная зависит от рабочего диапазона BMS. Для банка: сумма батарей.",
+        zakres: "Из карточки батареи; приложение не угадывает ёмкость.",
+      },
+      socStart: {
+        nazwa: "Уровень заряда в начале [%]",
+        cel: "Начальная точка моделирования.",
+        gdzie: "С дисплея BMS, инвертора или индикатора батареи в момент начала прогноза.",
+        zakres: "0–100 %.",
+      },
+      socMin: {
+        nazwa: "Наименьший допустимый уровень заряда [%]",
+        cel: "Ниже этого значения приложение не разряжает батарею; недостающая энергия считается нехваткой. Это граница защиты батареи или ваш резерв.",
+        gdzie: "В настройках BMS/инвертора (порог отключения при разряде) или ваше решение о резерве.",
+        zakres: "0–100 %, меньше наивысшего уровня.",
+      },
+      socMaks: {
+        nazwa: "Наивысший уровень заряда [%]",
+        cel: "Выше этого значения батарея не заряжается (избыток считается потерянным). Если вы заряжаете только до 90–95 % ради долговечности, введите это здесь.",
+        gdzie: "В настройках BMS/инвертора (напряжение или SOC конца зарядки) или ваше решение.",
+        zakres: "0–100 %; пустое поле = 100 %.",
+      },
+      sprawnoscLadowania: {
+        nazwa: "КПД зарядки [%]",
+        cel: "Какая часть энергии панелей попадает в батарею (остальное — потери в контроллере, кабелях и батарее).",
+        gdzie: "В карточке батареи/инвертора: «Round-trip efficiency» (оба КПД вместе) или КПД зарядки; можно разделить поровну.",
+        zakres: "0–100 %, из карточки; пустое поле = 100 % (нет данных, считается без потерь).",
+      },
+      sprawnoscRozladowania: {
+        nazwa: "КПД разрядки [%]",
+        cel: "Какая часть энергии батареи доходит до потребителей (потери инвертора и батареи).",
+        gdzie: "В карточке инвертора: «Efficiency»; для батареи: КПД разрядки.",
+        zakres: "0–100 %, из карточки; пустое поле = 100 % (нет данных).",
+      },
+      mocLadowania: {
+        nazwa: "Макс. мощность зарядки [кВт]",
+        cel: "Выше этой мощности избыток панелей в батарею не попадёт. Зимой и в мороз она обычно ниже, чем в карточке — введите реальное значение.",
+        gdzie: "В карточке батареи: «Max. charge current» × напряжение, и инвертора/контроллера; в мороз — по указаниям производителя.",
+        zakres: "Из карточки; пустое поле = без лимита (допущение показано в результате).",
+      },
+      mocRozladowania: {
+        nazwa: "Макс. мощность разрядки [кВт]",
+        cel: "Выше этой мощности батарея не питает потребителей; остальное считается нехваткой.",
+        gdzie: "В карточке батареи: «Max. discharge current» × напряжение; для инвертора: длительная мощность.",
+        zakres: "Из карточки; пустое поле = без лимита.",
+      },
+      godzinaStartu: {
+        nazwa: "Час начала прогноза [ч]",
+        cel: "С какого часа суток считать прогноз; суточный профиль читается с этого часа.",
+        gdzie: "Обычно текущий час или час заката, когда вы проверяете, хватит ли батареи до утра.",
+        zakres: "Целое число 0–23.",
+      },
+      horyzont: {
+        nazwa: "На какой срок",
+        cel: "Длительность прогноза: 24, 48 или 72 часа.",
+        gdzie: "Ваше решение.",
+        zakres: "24, 48 или 72 ч.",
+      },
+      produkcjaOkna: {
+        nazwa: "Средняя выработка панелей в окне [кВт]",
+        cel: "Средняя мощность панелей в этом 3-часовом окне суток; ночью панели ничего не дают, поэтому введите 0.",
+        gdzie: "Из приложения инвертора/контроллера (график мощности PV похожего дня) или оценка по экрану подбора панелей.",
+        zakres: "≥ 0 кВт; приложение не подсказывает значение.",
+      },
+      zuzycieOkna: {
+        nazwa: "Среднее потребление в окне [кВт]",
+        cel: "Средняя мощность потребителей в этом окне суток (сумма всех работающих устройств).",
+        gdzie: "Со счётчика/инвертора (график мощности нагрузки) или из экрана потребления по устройствам (Вт·ч ÷ часы).",
+        zakres: "≥ 0 кВт.",
+      },
+      udzialDnia: {
+        nazwa: "Доля выработки в данные сутки прогноза [%]",
+        cel: "Насколько выработка этих суток отличается от введённого профиля — например, намного ниже при облачности.",
+        gdzie: "Из прогноза погоды (облачность) или из вашего опыта; экран не получает погоду сам.",
+        zakres: "≥ 0 %; пустое поле = 100 % (тот же профиль).",
       },
     },
   },
