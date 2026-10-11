@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
 import { OBIEKTY_MIKROINSTALACJI, type ObiektMikroinstalacji, type PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
 import {
@@ -10,7 +10,9 @@ import {
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { dobowaWhNaMiesiac, maOdbiornikiSezonowe } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import { KLUCZ_NAZWY_OBIEKTU } from "@/lib/obiekt/profil-obiektu"
-import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { pozycjeZSzablonu } from "@/lib/obiekt/szablon-do-listy"
+import { KOLEJNOSC_SZABLONOW, type SzablonZestawu } from "@/lib/core/modules/kalkulator-mobilny/szablony-zestawow/constants"
+import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -42,6 +44,7 @@ export default function ZuzyciePerUrzadzeniePage() {
   const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zuzycie-per-urzadzenie", STAN_POCZATKOWY)
   const urzadzenia = stan.urzadzenia
+  const [szablon, setSzablon] = useState<SzablonZestawu | "">("")
 
   function aktualizuj(id: string, zmiana: Partial<PozycjaZuzycia>) {
     setStan((prev) => ({ urzadzenia: prev.urzadzenia.map((u) => (u.id === id ? { ...u, ...zmiana } : u)) }))
@@ -77,6 +80,34 @@ export default function ZuzyciePerUrzadzeniePage() {
           <option key={p.nazwa} value={t(p.nazwaKey)} />
         ))}
       </datalist>
+
+      <section className="flex flex-col gap-2 rounded-md border p-3">
+        <PoleSelect
+          label={t("UI-ZUZPERURZ-SZABLON")}
+          value={szablon}
+          onChange={(e) => setSzablon(e.target.value as SzablonZestawu | "")}
+          pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="szablon" />}
+        >
+          <option value="">{t("UI-ZUZPERURZ-SZABLON-WYBIERZ")}</option>
+          {KOLEJNOSC_SZABLONOW.map((s) => (
+            <option key={s} value={s}>
+              {t(`UI-M12-SZ-S-${s.toUpperCase()}`)}
+            </option>
+          ))}
+        </PoleSelect>
+        <p className="text-caption text-muted-foreground">{t("UI-ZUZPERURZ-SZABLON-OPIS")}</p>
+        <button
+          type="button"
+          disabled={szablon === ""}
+          onClick={() => {
+            if (szablon === "") return
+            setStan((prev) => ({ urzadzenia: [...prev.urzadzenia, ...pozycjeZSzablonu(szablon, t, prev.urzadzenia, () => crypto.randomUUID())] }))
+          }}
+          className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted disabled:opacity-50"
+        >
+          {t("UI-ZUZPERURZ-SZABLON-DODAJ")}
+        </button>
+      </section>
 
       <ul className="flex flex-col gap-4">
         {urzadzenia.map((u, i) => {

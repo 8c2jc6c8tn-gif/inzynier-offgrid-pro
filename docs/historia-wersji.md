@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.28.0] — 11.10.2026
+
+Tryb mikroinstalacji O5: szablony zestawów jako punkt startu listy odbiorników (spec `docs/tryb-mikroinstalacji-specyfikacja.md`, sekcja 7):
+- ekran „Zużycie energii per urządzenie”: wybór szablonu (kamper, jacht, domek, warsztat, kemping) i przycisk „Dodaj odbiorniki z szablonu”,
+- dodawane są same nazwy typowych odbiorników; moc i czas pracy zostają puste i wpisujesz je sam (zasada: aplikacja nie zakłada mocy),
+- powtórne kliknięcie nie dubluje pozycji, które już są na liście.
+
+Wpływ na liczby: bez zmian — nowe puste pozycje nie wchodzą do sumy, dopóki nie wpiszesz mocy i czasu.
+
 ## [3.27.0] — 11.10.2026
 
 Tryb mikroinstalacji: decyzje właściciela z 11.10.2026 (spec `docs/tryb-mikroinstalacji-specyfikacja.md`, sekcja 7):
