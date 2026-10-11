@@ -8,6 +8,7 @@ import {
   znajdzPrzyklad,
 } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { dobowaWhNaMiesiac, maOdbiornikiSezonowe } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -33,6 +34,8 @@ const STAN_POCZATKOWY: FormularzStan = { urzadzenia: [] }
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const pole = (x: number) => (x === 0 ? "" : String(x))
 const LISTA_PRZYKLADOW = "zuzycie-przykladowe-urzadzenia"
+const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
+const WSZYSTKIE_MIESIACE: readonly boolean[] = Array(12).fill(true)
 
 export default function ZuzyciePerUrzadzeniePage() {
   const t = useTranslate()
@@ -44,6 +47,8 @@ export default function ZuzyciePerUrzadzeniePage() {
   }
 
   const result = useMemo(() => calculateZuzyciePerUrzadzenie({ urzadzenia }), [urzadzenia])
+  const sezonowe = useMemo(() => maOdbiornikiSezonowe({ urzadzenia }), [urzadzenia])
+  const dobowePoMiesiacach = useMemo(() => (sezonowe ? dobowaWhNaMiesiac({ urzadzenia }) : null), [sezonowe, urzadzenia])
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -55,6 +60,7 @@ export default function ZuzyciePerUrzadzeniePage() {
       <p className="rounded-md border p-3 text-small">
         {t("UI-ZUZPERURZ-WPISZ-MOC")} <strong>{t("UI-ZUZPERURZ-SWOJEGO")}</strong> {t("UI-ZUZPERURZ-URZADZENIA-TABLICZKI-ZNAMION")}
       </p>
+      <p className="text-small text-muted-foreground">{t("UI-ZUZPERURZ-SEZON-NOTA")}</p>
       <details className="text-small">
         <summary className="cursor-pointer font-medium">{t("UI-ZUZPERURZ-PRZYKLADOWE-SREDNIE-MOCE")}</summary>
         <ul className="mt-2 flex flex-col gap-1 text-muted-foreground">
@@ -112,6 +118,32 @@ export default function ZuzyciePerUrzadzeniePage() {
                   pomoc={<PomocPola ekran="zuzycie-per-urzadzenie" pole="wspolczynnik" />}
                 />
               )}
+              <fieldset className="flex flex-col gap-2 rounded-md border p-3">
+                <legend className="flex items-center gap-2 px-1 text-small font-medium">
+                  {t("UI-ZUZPERURZ-MIESIACE-PRACY")}
+                  <PomocPola ekran="zuzycie-per-urzadzenie" pole="miesiace" />
+                </legend>
+                <p className="text-caption text-muted-foreground">{t("UI-ZUZPERURZ-MIESIACE-OPIS")}</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {KLUCZE_MIESIECY.map((klucz, m) => {
+                    const biezace = u.miesiace && u.miesiace.length === 12 ? u.miesiace : WSZYSTKIE_MIESIACE
+                    return (
+                      <PoleCheckbox
+                        key={klucz}
+                        id={`${u.id}-miesiac-${m + 1}`}
+                        label={t(klucz)}
+                        checked={biezace[m] ?? true}
+                        onChange={(e) => aktualizuj(u.id, { miesiace: biezace.map((v, j) => (j === m ? e.target.checked : v)) })}
+                      />
+                    )
+                  })}
+                </div>
+                {u.miesiace && (
+                  <button type="button" onClick={() => aktualizuj(u.id, { miesiace: undefined })} className="self-start text-caption text-muted-foreground underline">
+                    {t("UI-ZUZPERURZ-MIESIACE-WSZYSTKIE")}
+                  </button>
+                )}
+              </fieldset>
               <button
                 type="button"
                 onClick={() => setStan((prev) => ({ urzadzenia: prev.urzadzenia.filter((x) => x.id !== u.id) }))}
@@ -151,6 +183,24 @@ export default function ZuzyciePerUrzadzeniePage() {
               </li>
             ))}
           </ul>
+          {dobowePoMiesiacach && (
+            <>
+              <p className="mt-2 text-small">{t("UI-ZUZPERURZ-SUMA-WSZYSTKIE")}</p>
+              <table className="mt-1 w-full text-small">
+                <caption className="text-left font-medium">{t("UI-ZUZPERURZ-TABELA-MIESIECY")}</caption>
+                <tbody>
+                  {dobowePoMiesiacach.map((wh, m) => (
+                    <tr key={KLUCZE_MIESIECY[m]}>
+                      <th scope="row" className="py-0.5 text-left font-normal">
+                        {t(KLUCZE_MIESIECY[m]!)}
+                      </th>
+                      <td className="py-0.5 text-right">{f0(wh)} Wh</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

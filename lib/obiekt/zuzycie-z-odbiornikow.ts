@@ -4,7 +4,7 @@
  */
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
 import type { PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
-import { zuzycieMiesieczneKwh, type ProfilObiektu } from "./profil-obiektu"
+import { zuzycieMiesieczneZDobowychKwh, type ProfilObiektu } from "./profil-obiektu"
 
 export const KLUCZ_DRAFTU_ODBIORNIKOW = "zuzycie-per-urzadzenie"
 
@@ -17,7 +17,29 @@ export function dobowaWhZOdbiornikow(draft: DraftOdbiornikow | null): number | n
   return wynik.status === "VALID" && wynik.value.sumaWh > 0 ? wynik.value.sumaWh : null
 }
 
+/** Does the device run in the month (0 = January)? No month list, or a malformed one, means every month. */
+export function pracujeWMiesiacu(u: PozycjaZuzycia, miesiac: number): boolean {
+  return !u.miesiace || u.miesiace.length !== 12 || u.miesiace[miesiac] !== false
+}
+
+/** Some device has its own months of operation (seasonal load). */
+export function maOdbiornikiSezonowe(draft: DraftOdbiornikow | null): boolean {
+  return !!draft && draft.urzadzenia.some((u) => !!u.miesiace && u.miesiace.length === 12 && u.miesiace.some((m) => !m))
+}
+
+/**
+ * Dobowe zużycie listy odbiorników w każdym z 12 miesięcy [Wh/dobę]: tylko urządzenia, które w tym miesiącu pracują. `null`, gdy
+ * lista jest niekompletna (jak w `dobowaWhZOdbiornikow`) — niekompletność dowolnego urządzenia unieważnia całość, nie tylko jego miesiące.
+ */
+export function dobowaWhNaMiesiac(draft: DraftOdbiornikow | null): number[] | null {
+  if (!draft || dobowaWhZOdbiornikow(draft) === null) return null
+  return Array.from({ length: 12 }, (_, m) => {
+    const wynik = calculateZuzyciePerUrzadzenie({ urzadzenia: draft.urzadzenia.filter((u) => pracujeWMiesiacu(u, m)) })
+    return wynik.status === "VALID" ? wynik.value.sumaWh : 0
+  })
+}
+
 export function zuzycieMikroinstalacjiKwh(odbiorniki: DraftOdbiornikow | null, profil: ProfilObiektu | null): number[] | null {
-  const dobowa = dobowaWhZOdbiornikow(odbiorniki)
-  return dobowa === null || !profil ? null : zuzycieMiesieczneKwh(dobowa, profil.miesiaceUzytkowania)
+  const dobowe = dobowaWhNaMiesiac(odbiorniki)
+  return dobowe === null || !profil ? null : zuzycieMiesieczneZDobowychKwh(dobowe, profil.miesiaceUzytkowania)
 }

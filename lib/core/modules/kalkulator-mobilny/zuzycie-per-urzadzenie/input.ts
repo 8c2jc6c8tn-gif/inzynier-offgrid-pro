@@ -16,6 +16,11 @@ export type PozycjaZuzycia = {
   cykliczne: boolean
   /** Współczynnik pracy (załączenia) [%] — wymagany tylko dla cyklicznych. 0 = jeszcze nie wpisano. */
   wspolczynnikPracyPct: number
+  /**
+   * Months of operation (12 flags from January; `true` = the device runs). Absent = every month of the object's use. Only the
+   * object-level monthly consumption (`lib/obiekt/`) reads it — the daily sum of this screen is a plain sum of all devices.
+   */
+  miesiace?: readonly boolean[]
 }
 
 export type ZuzyciePerUrzadzenieInput = {

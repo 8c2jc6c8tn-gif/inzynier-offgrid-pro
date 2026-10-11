@@ -38,7 +38,7 @@ Przenikania ciepła i strat budynku. Cele mikroinstalacji to: naładowanie akumu
 | Etap | Zakres | Zależności |
 |---|---|---|
 | O2 (**ładowanie akumulatora z regulatora ✅ 11.10.2026**, ekran `ladowanie-z-regulatora`, spec 47 Porównywarki; zostaje tablica 1–4 paneli w samej Porównywarce) | Tablica 1–4 paneli z regulatorem MPPT albo mikroinwerterem w Porównywarce: dopasowanie napięcia/prądu do katalogu urządzeń PV (część 1 gotowa), ładowanie akumulatora (prąd ładowania z regulatora vs pojemność). | A4 Porównywarki; katalog urządzeń; `dobor-regulatora-pwm-mppt`, `akumulator-kampera`. |
-| O3 | Cele zasilania: ładowanie akumulatora, woda latem (grzałka ze zużyciem z listy), Webasto zimą jako odbiornik z danymi z karty. | O1; `grzalka-cwu`, `bojler-cwu`. |
+| O3 (**✅ 11.10.2026 w interpretacji „odbiorniki sezonowe z miesiącami pracy”, spec 48 Porównywarki — do potwierdzenia przez właściciela**) | Cele zasilania: ładowanie akumulatora, woda latem (grzałka ze zużyciem z listy), Webasto zimą jako odbiornik z danymi z karty. | O1; `grzalka-cwu`, `bojler-cwu`. |
 | O4 | Pozostałe ekrany pełnego procesu czytają rodzaj obiektu (zapotrzebowanie, magazyn energii, okablowanie): ukrywanie pól dotyczących budynku, domyślne podpowiedzi 12/24 V. | Audyt ekran po ekranie (ok. 270 ekranów) — dzielić na partie. |
 | O5 | Szablony zestawów (kamper, kemping, jacht, domek, warsztat — M12/E3) jako punkt startu listy odbiorników. | M12/E3 `szablony-zestawow`. |
 
