@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.12.0] — 11.10.2026
+
+Porównywarka paneli PV: limity mocy baterii i falownika w bilansie godzinowym (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 40):
+- w zakładce „Bilans godzinowy” trzy opcjonalne pola z kart katalogowych: maksymalna moc ładowania baterii, maksymalna moc rozładowania baterii i moc ciągła falownika [kW]; puste pole = bez ograniczenia tej mocy (bez wartości domyślnej),
+- bilans nie zakłada już, że sprzęt przeniesie każdą moc: nadwyżka ponad moc ładowania jest odcinana, brakująca część ponad moc rozładowania i ponad moc falownika liczy się jako brak energii (sieć albo agregat); dotyczy też doboru liczby paneli na zimę,
+- narzędzie AI porównania paneli przyjmuje limity; pola mają „?” i tłumaczenia PL/EN/RU; założenie wyniku mówi, które limity wpisano.
+
+Wpływ na liczby: brak dla dotychczasowych wejść (bez wpisanych limitów bilans jest taki sam). Z limitami spada pokrycie zużycia i rośnie brak energii oraz odcięta nadwyżka, więc zmieniają się: pokrycie, cykle baterii, koszt braku i dobór paneli na zimę w zakładce „Bilans godzinowy”. Silnik porównywarki 1.7.0 → 1.8.0.
+
 ## [3.11.0] — 11.10.2026
 
 Porównywarka paneli PV: profil dobowy zużycia w bilansie godzinowym (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 39):

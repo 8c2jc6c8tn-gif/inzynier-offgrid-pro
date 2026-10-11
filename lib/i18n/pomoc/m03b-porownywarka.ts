@@ -293,6 +293,24 @@ export const pl = {
         gdzie: "Twoje oszacowanie, jak przy porze dnia. Nie ma wartości domyślnej.",
         zakres: "Zero lub więcej; wszystkie trzy pory muszą być wypełnione.",
       },
+      limLad: {
+        nazwa: "Maks. moc ładowania baterii [kW]",
+        cel: "Największa moc, z jaką bateria może przyjmować energię z paneli. Powyżej niej nadwyżka z południa nie mieści się w baterii i jest odcinana, więc wieczorem baterii zostaje mniej.",
+        gdzie: "Karta katalogowa baterii lub akumulatora (maks. prąd ładowania razy napięcie) albo ograniczenie regulatora ładowania. Nie ma wartości domyślnej; puste = bez limitu.",
+        zakres: "Liczba większa od 0 kW.",
+      },
+      limRozl: {
+        nazwa: "Maks. moc rozładowania baterii [kW]",
+        cel: "Największa moc, jaką bateria może oddać odbiorom. Gdy wieczorem pobierasz więcej, brakującą część bilans liczy jako brak energii (sieć albo agregat).",
+        gdzie: "Karta katalogowa baterii (maks. prąd rozładowania razy napięcie, często inna wartość ciągła i chwilowa — wpisz ciągłą). Nie ma wartości domyślnej; puste = bez limitu.",
+        zakres: "Liczba większa od 0 kW.",
+      },
+      limFalownik: {
+        nazwa: "Moc ciągła falownika [kW]",
+        cel: "Największa moc, jaką falownik dostarcza odbiorom — z paneli i baterii łącznie. Co przekracza ten limit, bilans liczy jako brak energii, nawet gdy bateria jest pełna.",
+        gdzie: "Karta katalogowa falownika (moc ciągła, nie szczytowa). Nie ma wartości domyślnej; puste = bez limitu.",
+        zakres: "Liczba większa od 0 kW.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -814,6 +832,24 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your own estimate, as for the day. There is no default value.",
         zakres: "Zero or more; all three parts must be filled in.",
       },
+      limLad: {
+        nazwa: "Max. battery charging power [kW]",
+        cel: "The highest power at which the battery can accept energy from the panels. Above it the midday surplus does not fit into the battery and is curtailed, so less is left for the evening.",
+        gdzie: "Battery or cell datasheet (max. charge current times voltage) or the charge controller's limit. There is no default value; empty = no limit.",
+        zakres: "A number greater than 0 kW.",
+      },
+      limRozl: {
+        nazwa: "Max. battery discharging power [kW]",
+        cel: "The highest power the battery can deliver to the loads. When you draw more in the evening, the balance counts the missing part as a shortfall (grid or generator).",
+        gdzie: "Battery datasheet (max. discharge current times voltage; continuous and peak values often differ — enter the continuous one). There is no default value; empty = no limit.",
+        zakres: "A number greater than 0 kW.",
+      },
+      limFalownik: {
+        nazwa: "Inverter continuous power [kW]",
+        cel: "The highest power the inverter delivers to the loads — panels and battery together. Whatever exceeds it the balance counts as a shortfall, even when the battery is full.",
+        gdzie: "Inverter datasheet (continuous power, not peak). There is no default value; empty = no limit.",
+        zakres: "A number greater than 0 kW.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1334,6 +1370,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Какая часть суточного потребления приходится на часы с 22 до 6 (холодильник, отопление, устройства в режиме ожидания).",
         gdzie: "Ваша собственная оценка, как для дня. Значения по умолчанию нет.",
         zakres: "Ноль или больше; должны быть заполнены все три части.",
+      },
+      limLad: {
+        nazwa: "Макс. мощность заряда батареи [кВт]",
+        cel: "Наибольшая мощность, с которой батарея может принимать энергию от панелей. Сверх неё дневной излишек не помещается в батарею и отсекается, поэтому к вечеру остаётся меньше.",
+        gdzie: "Паспорт батареи или ячейки (макс. ток заряда на напряжение) или ограничение контроллера заряда. Значения по умолчанию нет; пусто = без предела.",
+        zakres: "Число больше 0 кВт.",
+      },
+      limRozl: {
+        nazwa: "Макс. мощность разряда батареи [кВт]",
+        cel: "Наибольшая мощность, которую батарея может отдать потребителям. Если вечером вы потребляете больше, недостающую часть баланс считает дефицитом (сеть или генератор).",
+        gdzie: "Паспорт батареи (макс. ток разряда на напряжение; непрерывное и пиковое значения часто различаются — введите непрерывное). Значения по умолчанию нет; пусто = без предела.",
+        zakres: "Число больше 0 кВт.",
+      },
+      limFalownik: {
+        nazwa: "Непрерывная мощность инвертора [кВт]",
+        cel: "Наибольшая мощность, которую инвертор отдаёт потребителям — от панелей и батареи вместе. Всё, что выше, баланс считает дефицитом, даже если батарея полна.",
+        gdzie: "Паспорт инвертора (непрерывная мощность, не пиковая). Значения по умолчанию нет; пусто = без предела.",
+        zakres: "Число больше 0 кВт.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

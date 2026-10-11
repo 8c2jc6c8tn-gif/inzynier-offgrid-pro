@@ -122,6 +122,16 @@ describe("porownajPaneleTool (M3, D81)", () => {
     expect(zera.status).toBe("INVALID_INPUT")
   })
 
+  it("limity mocy: niski limit falownika obniża pokrycie wobec braku limitów; limit 0 to błąd danych", async () => {
+    const json = odpowiedzPvgis(true)
+    const dane = { ...wejscie, zuzycieMiesieczneKwh: new Array<number>(12).fill(300) }
+    const bez = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...dane, bilansGodzinowy: { pojemnoscKwh: 5 } })
+    const z = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...dane, bilansGodzinowy: { pojemnoscKwh: 5, limityMocyKw: { falownikKw: 0.05 } } })
+    expect(z.panele[0]!.bilansGodzinowy!.pokrycieRokPct!).toBeLessThan(bez.panele[0]!.bilansGodzinowy!.pokrycieRokPct!)
+    const zle = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...dane, bilansGodzinowy: { pojemnoscKwh: 5, limityMocyKw: { falownikKw: 0 } } })
+    expect(zle.status).toBe("INVALID_INPUT")
+  })
+
   it("dane PVGIS bez temperatury → model bez temperatury i ostrzeżenie tekstem, nie kodem", async () => {
     const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(false))).handler(wejscie)
     expect(w.uwzglednionaTemperatura).toBe(false)

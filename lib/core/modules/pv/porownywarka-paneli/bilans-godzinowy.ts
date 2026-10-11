@@ -7,7 +7,9 @@
  *  - zużycie miesiąca rozłożone równo na wszystkie godziny tego miesiąca, chyba że użytkownik poda profil dobowy (24 udziały godzinowe, spec 39):
  *    wtedy zużycie miesiąca dzieli się na godziny doby wg tego profilu (każdy dzień miesiąca ma ten sam profil);
  *  - bateria o pojemności użytecznej C: nadwyżka ładuje ją ze sprawnością cyklu η (jak w „Bilans miesięczny” sieci: η raz, przy
- *    ładowaniu), rozładowanie bez dalszych strat; bez ograniczeń mocy ładowania, rozładowania i falownika;
+ *    ładowaniu), rozładowanie bez dalszych strat; moc ładowania, rozładowania i falownika bez ograniczeń, chyba że użytkownik poda limity (spec 40):
+ *    limit ładowania obcina energię wchodzącą do baterii (reszta zostaje odcięta), limit rozładowania — energię z baterii, limit falownika — moc oddawaną
+ *    do odbiorów łącznie z paneli i baterii (brak = to, czego nie przeniósł falownik);
  *  - rok TMY liczony dwa razy po sobie, wynik z drugiego przebiegu — stan naładowania na początku stycznia pochodzi z końca grudnia,
  *    nie z pustej baterii;
  *  - brakująca energia = to, czego nie dały panele ani bateria; jest wyceniana jak „energia brakująca” (sieć, agregat, taryfa strefowa
@@ -18,6 +20,21 @@ import type { OknoStrefy } from "./input"
 import { wOknieStrefy } from "./uzysk"
 
 const LICZBA_MIESIECY = 12
+
+/** Power limits of the equipment [kW]; `null` = not given = unlimited. One record is one hour, so kW and kWh per record are numerically equal. */
+export type LimityMocy = {
+  /** Max power charging the battery (energy entering the battery per hour, after the converter, before the cycle efficiency is applied to the surplus). */
+  ladowanieKw: number | null
+  /** Max power taken out of the battery. */
+  rozladowanieKw: number | null
+  /** Max power the inverter delivers to the loads (panels and battery together). */
+  falownikKw: number | null
+}
+
+/** `true`, when the user gave at least one power limit (the balance then no longer assumes unlimited equipment). */
+export function limityMocyPodane(l: Partial<LimityMocy> | null | undefined): boolean {
+  return !!l && (l.ladowanieKw != null || l.rozladowanieKw != null || l.falownikKw != null)
+}
 
 export type WejscieBilansu = {
   /** Produkcja zestawu w kolejnych rekordach TMY [kWh/rekord]. */
@@ -39,6 +56,8 @@ export type WejscieBilansu = {
    * `null`/brak = zużycie rozłożone równo na całą dobę. Ten sam profil dla każdego dnia roku.
    */
   profilDobowy?: readonly number[] | null
+  /** Limity mocy baterii i falownika (spec 40); `null`/brak = bez ograniczeń. */
+  limityMocy?: LimityMocy | null
 }
 
 export type WynikBilansu = {
@@ -104,6 +123,9 @@ export function bilansGodzinowy(w: WejscieBilansu): WynikBilansu {
   const rekordyGodz = profil ? rekordyWMiesiacuIGodzinie(w.miesiac, w.godzinaLokalna) : null
   const eta = w.sprawnoscCyklu ?? 1
   const pojemnosc = Math.max(0, w.pojemnoscKwh)
+  const limLad = w.limityMocy?.ladowanieKw ?? Infinity
+  const limRozl = w.limityMocy?.rozladowanieKw ?? Infinity
+  const limFalownik = w.limityMocy?.falownikKw ?? Infinity
   const tania = new Uint8Array(24)
   for (let h = 0; h < 24; h++) tania[h] = wOknieStrefy(h, w.oknaTanie ?? []) ? 1 : 0
   const zero = () => new Array<number>(LICZBA_MIESIECY).fill(0)
@@ -120,19 +142,21 @@ export function bilansGodzinowy(w: WejscieBilansu): WynikBilansu {
         zuzycie = rekordyGodz[m]![h]! > 0 ? (w.zapotrzebowanieMiesiaceKwh[m]! * profil[h]!) / rekordyGodz[m]![h]! : 0
       } else zuzycie = rekordy[m]! > 0 ? w.zapotrzebowanieMiesiaceKwh[m]! / rekordy[m]! : 0
       const prod = w.produkcjaKwh[i]!
-      const bezposrednio = Math.min(prod, zuzycie)
+      // The inverter limit caps what can reach the loads this hour; the rest of the consumption is a shortfall whatever the panels and battery hold.
+      const obslugiwane = Math.min(zuzycie, limFalownik)
+      const bezposrednio = Math.min(prod, obslugiwane)
       const nadwyzka = prod - bezposrednio
-      const potrzeba = zuzycie - bezposrednio
+      const potrzeba = obslugiwane - bezposrednio
       let odciete = 0
       if (nadwyzka > 0) {
-        const doZapasu = Math.min(nadwyzka * eta, pojemnosc - soc)
+        const doZapasu = Math.min(nadwyzka * eta, pojemnosc - soc, limLad)
         soc += doZapasu
         // Clamped: rounding can leave a −1e−16 remainder when the battery takes everything (shown as “−0”).
         odciete = Math.max(0, nadwyzka - (eta > 0 ? doZapasu / eta : 0))
       }
-      const zBaterii = Math.min(potrzeba, soc)
+      const zBaterii = Math.min(potrzeba, soc, limRozl)
       soc -= zBaterii
-      const brak = potrzeba - zBaterii
+      const brak = zuzycie - bezposrednio - zBaterii
       wynik.bezposrednio[m]! += bezposrednio
       wynik.zBaterii[m]! += zBaterii
       wynik.brak[m]! += brak
