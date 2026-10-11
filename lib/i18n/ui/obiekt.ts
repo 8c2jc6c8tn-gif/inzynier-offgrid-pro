@@ -14,6 +14,9 @@ export const pl = {
   "UI-OBIEKT-MIKRO-NOTA": "Zużycie mikroinstalacji liczę z Twojej listy odbiorników i zaznaczonych miesięcy. Miesiące bez zaznaczenia liczą się jako zerowe zużycie.",
   "UI-OBIEKT-LINK-ODBIORNIKI": "Uzupełnij listę odbiorników →",
   "UI-OBIEKT-BRAK-MIESIECY": "Zaznacz co najmniej jeden miesiąc użytkowania, żeby policzyć zużycie.",
+  "UI-OBIEKT-NAPIECIE": "Napięcie układu (opcjonalnie)",
+  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Z profilu obiektu: napięcie układu {v} V.",
+  "UI-OBIEKT-NAPIECIE-UZYJ": "Wpisz {v} V",
 } as const
 
 type Klucz = keyof typeof pl
@@ -31,6 +34,9 @@ export const en: Record<Klucz, string> = {
   "UI-OBIEKT-MIKRO-NOTA": "I calculate a micro-installation’s consumption from your list of appliances and the months you tick. Unticked months count as zero consumption.",
   "UI-OBIEKT-LINK-ODBIORNIKI": "Fill in the list of appliances →",
   "UI-OBIEKT-BRAK-MIESIECY": "Tick at least one month of use to calculate the consumption.",
+  "UI-OBIEKT-NAPIECIE": "System voltage (optional)",
+  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "From the site profile: system voltage {v} V.",
+  "UI-OBIEKT-NAPIECIE-UZYJ": "Enter {v} V",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -46,4 +52,7 @@ export const ru: Record<Klucz, string> = {
   "UI-OBIEKT-MIKRO-NOTA": "Потребление микроустановки я считаю по вашему списку потребителей и отмеченным месяцам. Неотмеченные месяцы считаются нулевым потреблением.",
   "UI-OBIEKT-LINK-ODBIORNIKI": "Заполнить список потребителей →",
   "UI-OBIEKT-BRAK-MIESIECY": "Отметьте хотя бы один месяц использования, чтобы посчитать потребление.",
+  "UI-OBIEKT-NAPIECIE": "Напряжение системы (необязательно)",
+  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Из профиля объекта: напряжение системы {v} В.",
+  "UI-OBIEKT-NAPIECIE-UZYJ": "Ввести {v} В",
 }

@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.27.0] — 11.10.2026
+
+Tryb mikroinstalacji: decyzje właściciela z 11.10.2026 (spec `docs/tryb-mikroinstalacji-specyfikacja.md`, sekcja 7):
+- Ustawienia → „Rodzaj obiektu”: nowe pole „Napięcie układu (opcjonalnie)” — 12, 24 albo 48 V, wybierane raz dla mikroinstalacji; puste, dopóki go nie wybierzesz,
+- ekrany „Akumulator kampera”, „Ładowanie akumulatora z regulatora” i „Dobór regulatora PWM/MPPT” pokazują obok swojego pola napięcia przycisk „Wpisz 24 V” z tą wartością (nie wpisują jej same i znikają, gdy pole już ją zawiera),
+- „Zużycie energii per urządzenie”: wspólna lista odbiorników, ale każde urządzenie ma zaznaczenie „Dla jakich obiektów” (kamper, altana lub domek ROD, garaż); domyślnie dotyczy wszystkich; zużycie miesięczne mikroinstalacji w Porównywarce liczy tylko urządzenia wybrane dla rodzaju obiektu z Ustawień,
+- garaż zostaje osobnym rodzajem obiektu (bez zmian).
+
+Wpływ na liczby: bez zmian dla dotychczasowych list — urządzenia bez zaznaczonych obiektów liczą się w każdym obiekcie, jak dotąd; zmienia się tylko zużycie miesięczne mikroinstalacji, gdy zaznaczysz obiekty przy urządzeniach. Suma dobowa na ekranie zużycia nadal liczy wszystkie urządzenia.
+
 ## [3.26.0] — 11.10.2026
 
 Porównywarka paneli, zakładka „Oferta (wydruk)”: suma „Razem brutto z montażem” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 54):

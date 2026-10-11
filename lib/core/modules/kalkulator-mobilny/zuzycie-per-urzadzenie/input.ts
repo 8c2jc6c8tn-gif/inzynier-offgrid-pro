@@ -21,7 +21,15 @@ export type PozycjaZuzycia = {
    * object-level monthly consumption (`lib/obiekt/`) reads it — the daily sum of this screen is a plain sum of all devices.
    */
   miesiace?: readonly boolean[]
+  /**
+   * Micro-installation kinds this device belongs to (one shared list, chosen per site: owner decision 11.10.2026). Absent = every kind.
+   * Only the object-level monthly consumption (`lib/obiekt/`) reads it, like `miesiace`.
+   */
+  obiekty?: readonly ObiektMikroinstalacji[]
 }
+
+export const OBIEKTY_MIKROINSTALACJI = ["kamper", "altana-rod", "garaz"] as const
+export type ObiektMikroinstalacji = (typeof OBIEKTY_MIKROINSTALACJI)[number]
 
 export type ZuzyciePerUrzadzenieInput = {
   urzadzenia: PozycjaZuzycia[]

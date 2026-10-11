@@ -468,6 +468,12 @@ export const pl = {
         gdzie: "Twoje zwyczaje. Domyślnie (bez zaznaczania) urządzenie pracuje we wszystkich miesiącach użytkowania obiektu z Ustawień. Dla ogrzewania postojowego wpisz pobór elektryczny pompki i wentylatora z karty, nie moc cieplną.",
         zakres: "12 miesięcy; odznacz te, w których urządzenia nie używasz.",
       },
+      obiekty: {
+        nazwa: "Dla jakich obiektów",
+        cel: "Lista odbiorników jest wspólna, ale każdy rodzaj obiektu z Ustawień (kamper, altana lub domek ROD, garaż) liczy tylko zaznaczone tu urządzenia. Dotyczy zużycia miesięcznego w Porównywarce paneli; suma dobowa na tym ekranie liczy wszystkie urządzenia naraz.",
+        gdzie: "Twoje zwyczaje: np. lodówka dla kampera i altany, ładowarka narzędzi tylko dla garażu. Domyślnie urządzenie dotyczy wszystkich obiektów.",
+        zakres: "Jeden, dwa albo wszystkie trzy obiekty; odznaczenie ostatniego obiektu wraca do „wszystkie”.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1019,6 +1025,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your own habits. By default (nothing ticked) the device runs in every month of use of the object set in Settings. For a parking heater enter the electrical draw of its pump and fan from the datasheet, not the heat output.",
         zakres: "12 months; untick those in which you do not use the device.",
       },
+      obiekty: {
+        nazwa: "For which sites",
+        cel: "The appliance list is shared, but each site kind from Settings (camper, garden-plot cabin, garage) counts only the devices ticked here. It affects the monthly consumption in the panel comparison; the daily sum on this screen counts all devices at once.",
+        gdzie: "Your own habits: e.g. a fridge for the camper and the cabin, a tool charger for the garage only. By default a device belongs to all sites.",
+        zakres: "One, two or all three sites; unticking the last one goes back to “all”.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1568,6 +1580,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "В какие месяцы устройство работает. Позволяет учесть сезонные нагрузки: нагреватель воды летом, автономный отопитель зимой. Влияет только на месячное потребление микроустановки (Сравнение панелей); суточная сумма на этом экране считает все устройства сразу.",
         gdzie: "Ваши привычки. По умолчанию (без отметок) устройство работает во все месяцы использования объекта из Настроек. Для автономного отопителя введите электрическое потребление насоса и вентилятора из карточки, а не тепловую мощность.",
         zakres: "12 месяцев; снимите отметки с тех, в которые устройство не используется.",
+      },
+      obiekty: {
+        nazwa: "Для каких объектов",
+        cel: "Список потребителей общий, но каждый тип объекта из Настроек (кемпер, дачный домик, гараж) учитывает только отмеченные здесь устройства. Это влияет на месячное потребление в сравнении панелей; суточная сумма на этом экране учитывает все устройства сразу.",
+        gdzie: "Ваши привычки: например, холодильник для кемпера и домика, зарядка инструментов только для гаража. По умолчанию устройство относится ко всем объектам.",
+        zakres: "Один, два или все три объекта; снятие последней отметки возвращает к «всем».",
       },
     },
   },

@@ -4,7 +4,7 @@
  */
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
 import type { PozycjaZuzycia } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/input"
-import { zuzycieMiesieczneZDobowychKwh, type ProfilObiektu } from "./profil-obiektu"
+import { czyMikroinstalacja, zuzycieMiesieczneZDobowychKwh, type ProfilObiektu, type RodzajObiektu } from "./profil-obiektu"
 
 export const KLUCZ_DRAFTU_ODBIORNIKOW = "zuzycie-per-urzadzenie"
 
@@ -20,6 +20,17 @@ export function dobowaWhZOdbiornikow(draft: DraftOdbiornikow | null): number | n
 /** Does the device run in the month (0 = January)? No month list, or a malformed one, means every month. */
 export function pracujeWMiesiacu(u: PozycjaZuzycia, miesiac: number): boolean {
   return !u.miesiace || u.miesiace.length !== 12 || u.miesiace[miesiac] !== false
+}
+
+/** Does the device belong to this site kind? No list (or a non-micro kind) means yes — nothing is hidden by default. */
+export function dotyczyObiektu(u: PozycjaZuzycia, rodzaj: RodzajObiektu | ""): boolean {
+  if (!u.obiekty || u.obiekty.length === 0 || !czyMikroinstalacja(rodzaj)) return true
+  return (u.obiekty as readonly string[]).includes(rodzaj)
+}
+
+/** The list reduced to the devices of the chosen site kind. */
+export function odbiornikiObiektu(draft: DraftOdbiornikow | null, rodzaj: RodzajObiektu | ""): DraftOdbiornikow | null {
+  return draft ? { urzadzenia: draft.urzadzenia.filter((u) => dotyczyObiektu(u, rodzaj)) } : null
 }
 
 /** Some device has its own months of operation (seasonal load). */
@@ -40,6 +51,6 @@ export function dobowaWhNaMiesiac(draft: DraftOdbiornikow | null): number[] | nu
 }
 
 export function zuzycieMikroinstalacjiKwh(odbiorniki: DraftOdbiornikow | null, profil: ProfilObiektu | null): number[] | null {
-  const dobowe = dobowaWhNaMiesiac(odbiorniki)
+  const dobowe = dobowaWhNaMiesiac(profil ? odbiornikiObiektu(odbiorniki, profil.rodzaj) : odbiorniki)
   return dobowe === null || !profil ? null : zuzycieMiesieczneZDobowychKwh(dobowe, profil.miesiaceUzytkowania)
 }

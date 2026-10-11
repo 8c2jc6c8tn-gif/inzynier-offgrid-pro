@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
-import { czyMikroinstalacja, PROFIL_OBIEKTU_POCZATKOWY, zuzycieMiesieczneKwh } from "../profil-obiektu"
-import { dobowaWhNaMiesiac, dobowaWhZOdbiornikow, maOdbiornikiSezonowe, zuzycieMikroinstalacjiKwh } from "../zuzycie-z-odbiornikow"
+import { czyMikroinstalacja, napiecieUkladuDoPodpowiedzi, PROFIL_OBIEKTU_POCZATKOWY, zuzycieMiesieczneKwh } from "../profil-obiektu"
+import { dobowaWhNaMiesiac, dobowaWhZOdbiornikow, dotyczyObiektu, maOdbiornikiSezonowe, zuzycieMikroinstalacjiKwh } from "../zuzycie-z-odbiornikow"
 
 const urzadzenie = (mocW: number, godzinNaDobe: number, extra: object = {}) => ({
   id: "x", nazwa: "x", mocW, godzinNaDobe, cykliczne: false, wspolczynnikPracyPct: 0, ...extra,
@@ -93,6 +93,51 @@ describe("odbiorniki sezonowe (miesiące pracy urządzenia)", () => {
   it("zepsuta tablica miesięcy (nie 12 pozycji) = urządzenie we wszystkich miesiącach", () => {
     const d = dobowaWhNaMiesiac({ urzadzenia: [urzadzenie(10, 5, { miesiace: [true, false] })] })!
     expect(d.every((x) => x === 50)).toBe(true)
+  })
+})
+
+describe("jedna lista odbiorników, osobny wybór dla obiektu", () => {
+  const caly_rok = Array(12).fill(true)
+  const lodowka = urzadzenie(45, 24, { id: "lodowka", cykliczne: true, wspolczynnikPracyPct: 40 }) // 432 Wh, wszystkie obiekty
+  const ladowarka = urzadzenie(100, 3, { id: "ladowarka", obiekty: ["garaz"] }) // 300 Wh, tylko garaż
+  const pompa = urzadzenie(60, 1, { id: "pompa", obiekty: ["altana-rod", "kamper"] }) // 60 Wh, altana i kamper
+  const draft = { urzadzenia: [lodowka, ladowarka, pompa] }
+  const wKwh = (rodzaj: "kamper" | "altana-rod" | "garaz") => zuzycieMikroinstalacjiKwh(draft, { rodzaj, miesiaceUzytkowania: caly_rok })![0]!
+
+  it("garaż liczy lodówkę i ładowarkę (432 + 300 = 732 Wh × 31 dni = 22,692 kWh), altana lodówkę i pompę (432 + 60 = 492 Wh → 15,252 kWh)", () => {
+    expect(wKwh("garaz")).toBeCloseTo(22.692, 9)
+    expect(wKwh("altana-rod")).toBeCloseTo(15.252, 9)
+    expect(wKwh("kamper")).toBeCloseTo(15.252, 9)
+  })
+
+  it("urządzenie bez wyboru obiektów (albo z pustą listą) należy do każdego obiektu", () => {
+    expect(dotyczyObiektu(lodowka, "garaz")).toBe(true)
+    expect(dotyczyObiektu(urzadzenie(1, 1, { obiekty: [] }), "kamper")).toBe(true)
+    expect(dotyczyObiektu(ladowarka, "garaz")).toBe(true)
+    expect(dotyczyObiektu(ladowarka, "kamper")).toBe(false)
+  })
+
+  it("budynek i brak wyboru nie ukrywają niczego; obiekt bez żadnego urządzenia = brak danych (null), nie zero", () => {
+    expect(dotyczyObiektu(ladowarka, "budynek")).toBe(true)
+    expect(dotyczyObiektu(ladowarka, "")).toBe(true)
+    expect(zuzycieMikroinstalacjiKwh({ urzadzenia: [ladowarka] }, { rodzaj: "kamper", miesiaceUzytkowania: caly_rok })).toBeNull()
+  })
+})
+
+describe("napięcie układu z profilu obiektu", () => {
+  const profil = (rodzaj: "kamper" | "budynek" | "", napiecieUkladuV?: 12 | 24 | 48 | "") => ({ rodzaj, miesiaceUzytkowania: [], napiecieUkladuV })
+
+  it("podpowiada tylko dla mikroinstalacji z wybranym napięciem", () => {
+    expect(napiecieUkladuDoPodpowiedzi(profil("kamper", 24))).toBe(24)
+    expect(napiecieUkladuDoPodpowiedzi(profil("kamper", ""))).toBeNull()
+    expect(napiecieUkladuDoPodpowiedzi(profil("budynek", 24))).toBeNull()
+    expect(napiecieUkladuDoPodpowiedzi(profil("", 12))).toBeNull()
+  })
+
+  it("stary draft bez pola, brak profilu i wartość spoza listy (np. 36) nic nie podpowiadają", () => {
+    expect(napiecieUkladuDoPodpowiedzi(profil("kamper"))).toBeNull()
+    expect(napiecieUkladuDoPodpowiedzi(null)).toBeNull()
+    expect(napiecieUkladuDoPodpowiedzi({ ...profil("kamper"), napiecieUkladuV: 36 as never })).toBeNull()
   })
 })
 

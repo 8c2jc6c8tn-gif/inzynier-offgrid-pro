@@ -1,6 +1,6 @@
 # Tryb mikroinstalacji — kamper, altana lub domek ROD, garaż (specyfikacja)
 
-**Status:** etap O1 wykonany 09.10.2026; kolejne etapy czekają na decyzje (sekcja 5).
+**Status:** etap O1 wykonany 09.10.2026; pytania z sekcji 6 rozstrzygnięte 11.10.2026 (sekcja 7); kolejne etapy: O4, O5 (sekcja 5).
 **Źródło:** prośba właściciela 09.10.2026 i jego wybór na karcie decyzji: „Rodzaj obiektu” (jedna aplikacja, wybór rodzaju obiektu zmienia dane w całej aplikacji), z dopiskiem „altana lub domek ROD”.
 
 ## 1. Problem (audyt stanu z 09.10.2026)
@@ -42,8 +42,16 @@ Przenikania ciepła i strat budynku. Cele mikroinstalacji to: naładowanie akumu
 | O4 | Pozostałe ekrany pełnego procesu czytają rodzaj obiektu (zapotrzebowanie, magazyn energii, okablowanie): ukrywanie pól dotyczących budynku, domyślne podpowiedzi 12/24 V. | Audyt ekran po ekranie (ok. 270 ekranów) — dzielić na partie. |
 | O5 | Szablony zestawów (kamper, kemping, jacht, domek, warsztat — M12/E3) jako punkt startu listy odbiorników. | M12/E3 `szablony-zestawow`. |
 
-## 6. Pytania otwarte do właściciela
+## 6. Pytania do właściciela (rozstrzygnięte 11.10.2026 — patrz sekcja 7)
 
 1. Czy „altana lub domek ROD” ma mieć własny szablon odbiorników (lodówka turystyczna, oświetlenie LED, pompa wody, ładowanie narzędzi), czy wystarczy wspólna lista M12?
 2. Czy garaż to osobny rodzaj (pozostawiony), czy scalić z altaną?
 3. Napięcie systemu (12/24/48 V) jako część profilu obiektu — wybór raz dla całej mikroinstalacji?
+
+## 7. Decyzje właściciela z 11.10.2026 (odpowiedź na pytania z sekcji 6)
+
+1. **Altana lub domek ROD:** wspólna lista odbiorników Modułu 12 (bez osobnego szablonu), ale **odbiorniki wybiera się osobno dla każdego obiektu** — wersja 3.27.0: pole `obiekty` przy urządzeniu na ekranie „Zużycie energii per urządzenie” (brak = każdy obiekt). Szablony zestawów zostają w O5.
+2. **Garaż:** osobny rodzaj obiektu (bez scalania z altaną).
+3. **Napięcie systemu:** tak, wybór raz w profilu obiektu — `napiecieUkladuV` (12 / 24 / 48 V, puste do wyboru). Ekrany tylko podpowiadają wartość przyciskiem (`NapiecieZProfilu`), nie wpisują jej same. Podpięte: `akumulator-kampera`, `ladowanie-z-regulatora`, `dobor-regulatora-pwm-mppt`; pozostałe ekrany Modułu 12 z polem napięcia (ok. 30) czekają na kolejne partie — komponent jest gotowy, dodanie to jedna linia na ekran. Lista Porównywarki (`akumV`) zostaje bez podpowiedzi, bo jej wybór jest ograniczony do napięć obsługiwanych przez wybrane urządzenie.
+4. **O3 (odbiorniki sezonowe jako zwykłe odbiorniki z miesiącami pracy):** zostaje bez osobnego ekranu „celów zasilania”.
+

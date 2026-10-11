@@ -13,8 +13,10 @@ import {
   czyMikroinstalacja,
   KLUCZ_NAZWY_OBIEKTU,
   KLUCZ_PROFILU_OBIEKTU,
+  NAPIECIA_UKLADU_V,
   PROFIL_OBIEKTU_POCZATKOWY,
   RODZAJE_OBIEKTU,
+  type NapiecieUkladuV,
   type ProfilObiektu,
   type RodzajObiektu,
 } from "@/lib/obiekt/profil-obiektu"
@@ -74,6 +76,19 @@ export function ObiektSekcja() {
               {t("UI-OBIEKT-BRAK-MIESIECY")}
             </p>
           )}
+          <PoleSelect
+            label={t("UI-OBIEKT-NAPIECIE")}
+            value={String(profil.napiecieUkladuV ?? "")}
+            onChange={(e) => setProfil((prev) => ({ ...prev, napiecieUkladuV: e.target.value === "" ? "" : (Number(e.target.value) as NapiecieUkladuV) }))}
+            pomoc={<PomocPola ekran="ustawienia-obiekt" pole="napiecie" />}
+          >
+            <option value="">{t("UI-OBIEKT-WYBIERZ")}</option>
+            {NAPIECIA_UKLADU_V.map((v) => (
+              <option key={v} value={v}>
+                {v} V
+              </option>
+            ))}
+          </PoleSelect>
           <Link href="/kalkulatory/zuzycie-per-urzadzenie" className="text-small underline">
             {t("UI-OBIEKT-LINK-ODBIORNIKI")}
           </Link>
