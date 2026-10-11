@@ -35,6 +35,16 @@ export function zuzycieMiesieczneKwh(sumaWhNaDobe: number, miesiaceUzytkowania: 
   return DNI_W_MIESIACU.map((dni, i) => (miesiaceUzytkowania[i] ? (sumaWhNaDobe * dni) / 1000 : 0))
 }
 
+/**
+ * Jak `zuzycieMiesieczneKwh`, ale z osobnym dobowym zużyciem [Wh/dobę] każdego z 12 miesięcy (odbiorniki sezonowe: woda latem,
+ * ogrzewanie postojowe zimą). `null`, gdy nie ma miesięcy użytkowania albo w miesiącach użytkowania nic nie pracuje.
+ */
+export function zuzycieMiesieczneZDobowychKwh(whNaDobe: readonly number[], miesiaceUzytkowania: readonly boolean[]): number[] | null {
+  if (whNaDobe.length !== 12 || miesiaceUzytkowania.length !== 12 || !miesiaceUzytkowania.some(Boolean)) return null
+  const zuzycie = DNI_W_MIESIACU.map((dni, i) => (miesiaceUzytkowania[i] ? (whNaDobe[i]! * dni) / 1000 : 0))
+  return zuzycie.some((x) => x > 0) ? zuzycie : null
+}
+
 /** Klucze `t()` nazw rodzajów obiektu (`lib/i18n/ui/obiekt.ts`). */
 export const KLUCZ_NAZWY_OBIEKTU: Record<RodzajObiektu, string> = {
   budynek: "UI-OBIEKT-R-BUDYNEK",

@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.20.0] — 11.10.2026
+
+Tryb mikroinstalacji, etap O3: odbiorniki sezonowe na ekranie „Zużycie per urządzenie” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 48):
+- każde urządzenie na liście ma „Miesiące pracy”: domyślnie pracuje we wszystkich miesiącach użytkowania obiektu (jak dotąd), a odznaczenie miesięcy pozwala ująć grzałkę do wody tylko latem albo ogrzewanie postojowe (np. Webasto) tylko zimą,
+- zużycie miesięczne mikroinstalacji, z którego korzysta Porównywarka paneli, liczy w każdym miesiącu tylko urządzenia, które w nim pracują; ekran pokazuje też tabelę dobowego zużycia w poszczególnych miesiącach,
+- moc i pobór wpisujesz z karty urządzenia (dla ogrzewania postojowego: pobór elektryczny pompki i wentylatora, nie moc cieplna) — aplikacja nie zakłada żadnej z tych wartości; ekran mówi to wprost,
+- listy zapisane wcześniej działają bez zmian (brak miesięcy = wszystkie miesiące użytkowania).
+
+Wpływ na liczby: dla list bez zaznaczonych miesięcy zużycie miesięczne jest identyczne jak w 3.19.0. Zmienia się tylko lista, w której użytkownik odznaczył miesiące pracy urządzenia. Silnik `zuzycie-per-urzadzenie` (suma dobowa) bez zmian.
+
 ## [3.19.0] — 11.10.2026
 
 Tryb mikroinstalacji, etap O2: „Ładowanie akumulatora z regulatora” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 47):

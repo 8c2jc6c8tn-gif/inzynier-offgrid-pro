@@ -196,6 +196,12 @@ export const pl = {
   "UI-LADREG-C-RATE": "Szybkość ładowania: {c} C (prąd w amperach = {c} × pojemność w Ah).",
   "UI-LADREG-CZAS": "Ładowanie {odPct}→{doPct} % potrwa co najmniej {h} h (do akumulatora trafi {wh} Wh). Pod koniec ładowania prąd spada, więc realnie dłużej.",
   "UI-LADREG-CZAS-BRAK": "Czas ładowania pojawi się po wpisaniu pojemności i obu wartości stanu naładowania.",
+  "UI-ZUZPERURZ-MIESIACE-PRACY": "Miesiące pracy tego urządzenia",
+  "UI-ZUZPERURZ-MIESIACE-OPIS": "Bez zaznaczania urządzenie pracuje we wszystkich miesiącach użytkowania obiektu (Ustawienia). Odznacz miesiące, w których go nie używasz.",
+  "UI-ZUZPERURZ-MIESIACE-WSZYSTKIE": "Wszystkie miesiące",
+  "UI-ZUZPERURZ-SEZON-NOTA": "Odbiorniki sezonowe: grzałkę do wody (latem) albo ogrzewanie postojowe, np. Webasto (zimą), dodaj jak każde inne urządzenie i zaznacz miesiące pracy. Moc i pobór wpisz z karty urządzenia — dla ogrzewania postojowego chodzi o pobór elektryczny pompki i wentylatora, nie o moc cieplną. Aplikacja żadnej z tych wartości nie zakłada.",
+  "UI-ZUZPERURZ-SUMA-WSZYSTKIE": "Suma liczy wszystkie urządzenia naraz. Urządzenia z wybranymi miesiącami pracują tylko w nich — zużycie w poszczególnych miesiącach jest w tabeli poniżej.",
+  "UI-ZUZPERURZ-TABELA-MIESIECY": "Zużycie dobowe w poszczególnych miesiącach",
 } as const
 
 type Klucz = keyof typeof pl
@@ -395,6 +401,12 @@ export const en: Record<Klucz, string> = {
   "UI-LADREG-C-RATE": "Charging rate: {c} C (current in amps = {c} × capacity in Ah).",
   "UI-LADREG-CZAS": "Charging {odPct}→{doPct} % takes at least {h} h ({wh} Wh goes into the battery). The current falls near the end of the charge, so in reality it takes longer.",
   "UI-LADREG-CZAS-BRAK": "The charging time appears once the capacity and both charge levels are entered.",
+  "UI-ZUZPERURZ-MIESIACE-PRACY": "Months this device runs",
+  "UI-ZUZPERURZ-MIESIACE-OPIS": "If nothing is ticked, the device runs in every month the object is in use (Settings). Untick the months in which you do not use it.",
+  "UI-ZUZPERURZ-MIESIACE-WSZYSTKIE": "Every month",
+  "UI-ZUZPERURZ-SEZON-NOTA": "Seasonal loads: add a water heater (summer) or a parking heater such as Webasto (winter) like any other device and tick its months of operation. Enter the power and draw from the device datasheet — for a parking heater this is the electrical draw of the pump and fan, not the heat output. The app assumes none of these values.",
+  "UI-ZUZPERURZ-SUMA-WSZYSTKIE": "The sum counts all devices at once. Devices with chosen months run only in them — the consumption by month is in the table below.",
+  "UI-ZUZPERURZ-TABELA-MIESIECY": "Daily consumption by month",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -592,4 +604,10 @@ export const ru: Record<Klucz, string> = {
   "UI-LADREG-C-RATE": "Скорость зарядки: {c} C (ток в амперах = {c} × ёмкость в А·ч).",
   "UI-LADREG-CZAS": "Зарядка {odPct}→{doPct} % займёт не менее {h} ч (в аккумулятор поступит {wh} Вт·ч). К концу заряда ток падает, поэтому на деле дольше.",
   "UI-LADREG-CZAS-BRAK": "Время зарядки появится после ввода ёмкости и обоих значений уровня заряда.",
+  "UI-ZUZPERURZ-MIESIACE-PRACY": "Месяцы работы этого устройства",
+  "UI-ZUZPERURZ-MIESIACE-OPIS": "Без отметок устройство работает во все месяцы использования объекта (Настройки). Снимите отметки с месяцев, в которые вы его не используете.",
+  "UI-ZUZPERURZ-MIESIACE-WSZYSTKIE": "Все месяцы",
+  "UI-ZUZPERURZ-SEZON-NOTA": "Сезонные нагрузки: нагреватель воды (летом) или автономный отопитель, например Webasto (зимой), добавьте как любое другое устройство и отметьте месяцы работы. Мощность и потребление вводите из карточки устройства — для автономного отопителя это электрическое потребление насоса и вентилятора, а не тепловая мощность. Приложение не предполагает ни одного из этих значений.",
+  "UI-ZUZPERURZ-SUMA-WSZYSTKIE": "Сумма считает все устройства сразу. Устройства с выбранными месяцами работают только в них — потребление по месяцам в таблице ниже.",
+  "UI-ZUZPERURZ-TABELA-MIESIECY": "Суточное потребление по месяцам",
 }

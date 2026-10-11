@@ -462,6 +462,12 @@ export const pl = {
         gdzie: "Z pomiaru (licznik energii) albo z karty urządzenia. W upale sprężarka pracuje dłużej.",
         zakres: "0–100%. Przykład ze źródła: lodówka turystyczna ok. 40% przy 25 °C otoczenia.",
       },
+      miesiace: {
+        nazwa: "Miesiące pracy urządzenia",
+        cel: "W których miesiącach to urządzenie działa. Pozwala ująć odbiorniki sezonowe: grzałkę do wody latem, ogrzewanie postojowe zimą. Dotyczy tylko zużycia miesięcznego mikroinstalacji (Porównywarka paneli); suma dobowa na tym ekranie liczy wszystkie urządzenia naraz.",
+        gdzie: "Twoje zwyczaje. Domyślnie (bez zaznaczania) urządzenie pracuje we wszystkich miesiącach użytkowania obiektu z Ustawień. Dla ogrzewania postojowego wpisz pobór elektryczny pompki i wentylatora z karty, nie moc cieplną.",
+        zakres: "12 miesięcy; odznacz te, w których urządzenia nie używasz.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1007,6 +1013,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "From a measurement (energy meter) or the device datasheet. In hot weather the compressor runs longer.",
         zakres: "0–100%. Example from the source: a travel fridge about 40% at 25 °C ambient.",
       },
+      miesiace: {
+        nazwa: "Months the device runs",
+        cel: "In which months the device runs. It lets you include seasonal loads: a water heater in summer, a parking heater in winter. It affects only the monthly consumption of the micro-installation (Panel comparison); the daily sum on this screen counts all devices at once.",
+        gdzie: "Your own habits. By default (nothing ticked) the device runs in every month of use of the object set in Settings. For a parking heater enter the electrical draw of its pump and fan from the datasheet, not the heat output.",
+        zakres: "12 months; untick those in which you do not use the device.",
+      },
     },
   },
   "kable-bezpieczniki-male": {
@@ -1550,6 +1562,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Какую часть времени включения компрессор действительно работает. Уменьшает энергию циклических устройств.",
         gdzie: "Из измерения (счётчик энергии) или из документации устройства. В жару компрессор работает дольше.",
         zakres: "0–100%. Пример из источника: туристический холодильник около 40% при 25 °C окружающей среды.",
+      },
+      miesiace: {
+        nazwa: "Месяцы работы устройства",
+        cel: "В какие месяцы устройство работает. Позволяет учесть сезонные нагрузки: нагреватель воды летом, автономный отопитель зимой. Влияет только на месячное потребление микроустановки (Сравнение панелей); суточная сумма на этом экране считает все устройства сразу.",
+        gdzie: "Ваши привычки. По умолчанию (без отметок) устройство работает во все месяцы использования объекта из Настроек. Для автономного отопителя введите электрическое потребление насоса и вентилятора из карточки, а не тепловую мощность.",
+        zakres: "12 месяцев; снимите отметки с тех, в которые устройство не используется.",
       },
     },
   },
