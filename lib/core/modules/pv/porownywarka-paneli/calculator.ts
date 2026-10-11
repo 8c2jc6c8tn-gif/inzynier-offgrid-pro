@@ -33,7 +33,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.5.0"
+export const CALCULATOR_VERSION = "1.6.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -44,6 +44,26 @@ export type BilansGodzinowyPanelu = PodsumowanieBilansu & {
   kosztBrakuZimaZl: number | null
   /** Ile paneli pokryje cel zimowy (A5, „ile paneli pokryje zimę”); `null`, gdy użytkownik nie wpisał celu. */
   doborNaZime: DoborPanelowNaZime | null
+}
+
+/**
+ * Test „co, jeśli panel ma mniej mocy, niż deklaruje” (spec 38): te same wyniki co głównie, ale dla mocy pomniejszonej o wpisany procent.
+ * Uzysk jest liniowy względem mocy w STC (temperatura, słabe światło i G_poa od niej nie zależą), więc to skalowanie, nie drugi model.
+ */
+export type ZanizenieMocyPanelu = {
+  /** Wpisane zaniżenie mocy [%]. */
+  zanizeniePct: number
+  /** Moc N paneli po zaniżeniu [kWp]. */
+  mocKwp: number
+  zimaKwh: number
+  rokKwh: number
+  uzytecznaRokKwh: number | null
+  /** Cena za 1 Wp rzeczywistej mocy [zł/Wp]; `null` bez ceny. */
+  cenaZaWpZl: number | null
+  wartoscZimaZl: number | null
+  wartoscRokZl: number | null
+  kosztZimowejKwhZl: number | null
+  okresZwrotuLat: number | null
 }
 
 export type WynikPanelu = {
@@ -91,6 +111,8 @@ export type WynikPanelu = {
   okresZwrotuLat: number | null
   /** Moc po 25 latach wg degradacji z karty [% mocy początkowej] (górna granica); `null` bez obu liczb degradacji. */
   moc25LatPct: number | null
+  /** Scenariusz zaniżonej mocy (spec 38); `null`, gdy użytkownik nie wpisał procentu. */
+  zanizenieMocy: ZanizenieMocyPanelu | null
 }
 
 /** Scenariusz „tańszy panel = więcej paneli” (U10, spec 7.4): oszczędność z tańszego panelu przeliczona na dokupione sztuki. */
@@ -356,6 +378,24 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         doborNaZime: cel === null ? null : dobierzPaneleNaZime(jednostkowaKwh, wspolne, cel, pojemnosc?.liczba ?? null),
       }
     }
+    const zanizenie = input.testZanizeniaMocyPct ?? null
+    let zanizenieMocy: ZanizenieMocyPanelu | null = null
+    if (zanizenie !== null) {
+      const f = 1 - zanizenie / 100
+      const psZ = podsumuj(miesiaceKwh.map((e) => e * f), energia.tania.map((e) => e * n * f))
+      zanizenieMocy = {
+        zanizeniePct: zanizenie,
+        mocKwp: (n * p.pmaxW * f) / 1000,
+        zimaKwh: psZ.zimaKwh,
+        rokKwh: psZ.rokKwh,
+        uzytecznaRokKwh: psZ.uzytecznaRokKwh,
+        cenaZaWpZl: p.cenaBruttoZl === null ? null : p.cenaBruttoZl / (p.pmaxW * f),
+        wartoscZimaZl: psZ.wartoscZimaZl,
+        wartoscRokZl: psZ.wartoscRokZl,
+        kosztZimowejKwhZl: cenaRazemZl === null || psZ.zimaKwh <= 0 ? null : cenaRazemZl / (psZ.zimaKwh * sumaWspolczynnikowLat(p)),
+        okresZwrotuLat: cenaRazemZl === null || psZ.wartoscRokZl === null || psZ.wartoscRokZl <= 0 ? null : cenaRazemZl / psZ.wartoscRokZl,
+      }
+    }
     const obciazenia = obcMiejsca ? ocenPanelObciazenia(p, obcMiejsca) : null
     if (obciazenia) {
       const maks = najwyzszeWykorzystaniePct(obciazenia)
@@ -391,6 +431,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         cenaRazemZl === null || ps.zimaKwh <= 0 ? null : cenaRazemZl / (ps.zimaKwh * sumaWspolczynnikowLat(p)),
       okresZwrotuLat: cenaRazemZl === null || ps.wartoscRokZl === null || ps.wartoscRokZl <= 0 ? null : cenaRazemZl / ps.wartoscRokZl,
       moc25LatPct: moc25(p),
+      zanizenieMocy,
     }
   })
 

@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.10.0] — 11.10.2026
+
+Porównywarka paneli PV: test „co, jeśli panel ma mniej mocy, niż deklaruje” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 38):
+- w zakładce „Opłacalność” nowe pole: o ile procent mniej mocy może mieć panel niż na karcie lub naklejce (bez wartości domyślnej; puste = bez testu),
+- po wpisaniu ekran pokazuje obok siebie liczby z karty i po zaniżeniu mocy: moc, energię zimą i w roku, cenę za Wp rzeczywistej mocy, koszt zimowej kWh i okres zwrotu, przy tej samej cenie panelu,
+- narzędzie AI porównania paneli przyjmuje ten procent i zwraca scenariusz osobno dla każdego panelu; pole ma „?” i tłumaczenia PL/EN/RU.
+
+Wpływ na liczby: brak dla dotychczasowych wejść (bez wpisanego procentu żaden wynik się nie zmienia, a z procentem główne wyniki też zostają). Nowe liczby powstają tylko w osobnym scenariuszu. Silnik porównywarki 1.5.0 → 1.6.0.
+
 ## [3.9.0] — 10.10.2026
 
 Straty ciepła budynku (moduł 6, Ekran 1): U przegrody z warstw na ekranie i w narzędziu AI (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 37):

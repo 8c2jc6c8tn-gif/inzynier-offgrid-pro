@@ -162,6 +162,11 @@ export type PorownywarkaInput = {
   obciazenia?: WarunkiObciazen | null
   /** Bateria do bilansu godzinowego (A5); brak albo `null` = bilansu nie liczymy (wymaga też zapotrzebowania miesięcznego). */
   bilansGodzinowy?: BilansGodzinowyInput | null
+  /**
+   * Test „co, jeśli panel ma mniej mocy, niż deklaruje” (spec 38, ryzyko no-name): o ile % rzeczywista moc jest niższa od mocy z karty/naklejki, ∈ (0, 100).
+   * Wpisuje użytkownik, bez wartości domyślnej; brak albo `null` = bez testu. Nie zmienia głównych wyników, tylko dokłada osobny scenariusz.
+   */
+  testZanizeniaMocyPct?: number | null
   /** `null` = bez wyceny (tryb „suchy”: sama produkcja). */
   wycena: WycenaKwh | null
   kryteria: KryteriaWybor

@@ -95,6 +95,20 @@ describe("porownajPaneleTool (M3, D81)", () => {
     for (const tekst of [...w.ostrzezenia, ...w.zalozenia]) expect(tekst.startsWith("⚠")).toBe(false)
   })
 
+  it("test zaniżenia mocy: bez parametru null, z parametrem energia skalowana liniowo i droższa kWh przy tej samej cenie", async () => {
+    const json = odpowiedzPvgis(true)
+    const bez = await utworzPorownajPaneleTool(fetchZ(json)).handler(wejscie)
+    expect(bez.panele[0]!.zanizenieMocy).toBeNull()
+    const z = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...wejscie, testZanizeniaMocyPct: 20 })
+    const s = z.panele[0]!.zanizenieMocy!
+    expect(s.zanizeniePct).toBe(20)
+    expect(s.rokKwh).toBeCloseTo(bez.panele[0]!.rokKwh * 0.8, 9)
+    expect(s.kosztZimowejKwhZl!).toBeCloseTo(bez.panele[0]!.kosztZimowejKwhZl! / 0.8, 9)
+    expect(z.panele[0]!.rokKwh).toBe(bez.panele[0]!.rokKwh)
+    const zle = await utworzPorownajPaneleTool(fetchZ(json)).handler({ ...wejscie, testZanizeniaMocyPct: 100 })
+    expect(zle.status).toBe("INVALID_INPUT")
+  })
+
   it("dane PVGIS bez temperatury → model bez temperatury i ostrzeżenie tekstem, nie kodem", async () => {
     const w = await utworzPorownajPaneleTool(fetchZ(odpowiedzPvgis(false))).handler(wejscie)
     expect(w.uwzglednionaTemperatura).toBe(false)
