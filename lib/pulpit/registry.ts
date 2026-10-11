@@ -253,6 +253,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/albedo-snieg", label: "Analiza albedo i wydajność bifacjalna w śniegu" },
       { href: "/kalkulatory/szadz-na-pv", label: "Wieczna mgła i szadź" },
       { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", label: "Współczynnik Bezpieczeństwa Zimowego" },
+      { href: "/kalkulatory/raport-kryzysowy", label: "Raport kryzysowy" },
     ],
   },
   {

@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
@@ -14,18 +13,13 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { MAKS_SCENARIUSZY } from "@/lib/core/modules/stress-test/symulacja-mrozu/constants"
-import { calculateSymulacjaMrozu, type WynikScenariusza } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
-import { produkcjaDobowaMiesiaca } from "@/lib/core/modules/stress-test/symulacja-mrozu/produkcja-dobowa"
-import { profilNaslonecznienia } from "@/lib/core/modules/pv/porownywarka-paneli/uzysk"
+import type { WynikScenariusza } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { liczba } from "@/lib/lokalizacja/model-dzialki"
-import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
-import { useDaneMrozuZEkranu1 } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import { useWynikSymulacjiMrozu } from "@/lib/stress-test/use-symulacja-mrozu"
 import {
   KLUCZ_DRAFTU_SYMULACJI_MROZU,
   PUSTY_SCENARIUSZ,
   STAN_POCZATKOWY_SYMULACJI,
-  wejscieSymulacjiMrozu,
   type ScenariuszFormularza,
   type StanSymulacjiMrozu,
 } from "@/lib/stress-test/symulacja-mrozu"
@@ -57,28 +51,7 @@ const POLA_MAGAZYNU: { pole: PoleStanu; label: string; unit: string }[] = [
 export default function SymulacjaMrozuPage() {
   const t = useTranslate()
   const [stan, setStan, , wczytano] = usePersistedDraft<StanSymulacjiMrozu>(KLUCZ_DRAFTU_SYMULACJI_MROZU, STAN_POCZATKOWY_SYMULACJI)
-  const { lokalizacja, dane, tmy } = useLokalizacjaProjektu()
-  const ekran1 = useDaneMrozuZEkranu1()
-
-  const nachylenie = liczba(stan.nachylenieDeg)
-  const azymut = liczba(stan.azymutDeg)
-  const miejscePoprawne = nachylenie !== undefined && nachylenie >= 0 && nachylenie <= 90 && azymut !== undefined && azymut >= 0 && azymut <= 360
-  // The heavy step (hourly in-plane irradiance of the TMY) depends only on the location and the plane — not on kWp, PR or the month.
-  const naslonecznienie = useMemo(
-    () => (lokalizacja && dane && miejscePoprawne ? profilNaslonecznienia(lokalizacja.szerokosc, lokalizacja.dlugosc, dane.dane.rekordy, { nachylenieDeg: nachylenie!, azymutDeg: azymut! }) : null),
-    [lokalizacja, dane, miejscePoprawne, nachylenie, azymut],
-  )
-  const moc = liczba(stan.mocKwp)
-  const pr = liczba(stan.pr)
-  const miesiac = liczba(stan.miesiac)
-  const produkcja = useMemo(
-    () =>
-      naslonecznienie && dane && moc !== undefined && pr !== undefined && miesiac !== undefined
-        ? produkcjaDobowaMiesiaca(naslonecznienie, dane.dane.rekordy.map((r) => r.czasUtcMs), miesiac - 1, moc, pr)
-        : [],
-    [naslonecznienie, dane, moc, pr, miesiac],
-  )
-  const result = useMemo(() => calculateSymulacjaMrozu(wejscieSymulacjiMrozu(stan, produkcja, ekran1)), [stan, produkcja, ekran1])
+  const { lokalizacja, dane, tmy, ekran1, produkcja, result } = useWynikSymulacjiMrozu(stan)
 
   const ustaw = (z: Partial<StanSymulacjiMrozu>) => setStan((s) => ({ ...s, ...z }))
   const ustawScenariusz = (i: number, z: Partial<ScenariuszFormularza>) => setStan((s) => ({ ...s, scenariusze: s.scenariusze.map((x, j) => (j === i ? { ...x, ...z } : x)) }))

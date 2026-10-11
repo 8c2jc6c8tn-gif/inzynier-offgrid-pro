@@ -4,7 +4,6 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { calculateDeficytyMiesieczne } from "@/lib/core/modules/stress-test/deficyty-miesieczne/calculator"
 import type {
-  DeficytyMiesieczneInput,
   RodzajDanychHistorii,
   ZrodloHistorii,
 } from "@/lib/core/modules/stress-test/deficyty-miesieczne/input"
@@ -21,6 +20,7 @@ import { kluczPv, type StanPvMagazynu } from "@/components/siec/pv-magazyn"
 import { KLUCZ_BLEDU_SERIESCALC, odczytajOdpowiedzSeriescalc } from "@/lib/lokalizacja/dane-seriescalc"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wejscieDeficytow } from "@/lib/stress-test/wejscie-deficytow"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -187,50 +187,7 @@ export default function DeficytyMiesiecznePage() {
   )
   const telKanal = kanalyMocy.includes(stan.telKanal) ? stan.telKanal : kanalyMocy[0]
 
-  const result = useMemo(() => {
-    const wejscie: DeficytyMiesieczneInput = {
-      deficytyKwh: stan.deficyty.map(liczba),
-      mocAgregatuKw: liczba(stan.moc),
-      zuzyciePaliwaLH: liczba(stan.zuzycie),
-      cenaPaliwaZlL: liczba(stan.cena),
-      kosztSerwisuZlH: liczba(stan.serwis),
-      zapasPaliwaL: liczba(stan.zapas),
-    }
-    if (stan.horyzont === "miesiac") wejscie.horyzont = { rodzaj: "miesiac" }
-    else if (stan.horyzont === "wlasny") {
-      if (stan.horyzontDni !== "") wejscie.horyzont = { rodzaj: "dni", dni: liczba(stan.horyzontDni) }
-    } else if (stan.horyzont !== "") wejscie.horyzont = { rodzaj: "dni", dni: Number(stan.horyzont) }
-
-    if (wklejone.lata.length > 0) {
-      wejscie.historia = {
-        zrodlo: stan.histZrodlo,
-        rodzaj: stan.histRodzaj,
-        lata: wklejone.lata,
-        ...(stan.histRodzaj === "naswietlenie-kwh-m2"
-          ? { przeliczenie: { mocPvKwp: liczba(stan.histKwp), wspolczynnikPr: liczba(stan.histPr) } }
-          : {}),
-      }
-      if (stan.histPopytTryb === "miesiace") {
-        if (stan.histPopytMiesiace.every((x) => x !== "")) wejscie.zapotrzebowanieDobaKwh = stan.histPopytMiesiace.map(liczba)
-      } else if (stan.histPopyt !== "") wejscie.zapotrzebowanieDobaKwh = Array.from({ length: 12 }, () => liczba(stan.histPopyt))
-      wejscie.analizaHistorii = {
-        oknoDni: liczba(stan.histOkno),
-        percentylPct: liczba(stan.histPercentyl),
-        progSlabegoDniaPct: liczba(stan.histProg),
-        ...(stan.histNoc !== "" ? { udzialNocyPct: liczba(stan.histNoc) } : {}),
-        ...(liczba(stan.histMagPoj) > 0
-          ? {
-              magazyn: {
-                pojemnoscUzytecznaKwh: liczba(stan.histMagPoj),
-                sprawnoscPct: liczba(stan.histMagSpr),
-                stanPoczatkowyPct: liczba(stan.histMagStan),
-              },
-            }
-          : {}),
-      }
-    }
-    return calculateDeficytyMiesieczne(wejscie)
-  }, [stan, wklejone])
+  const result = useMemo(() => calculateDeficytyMiesieczne(wejscieDeficytow(stan, wklejone.lata)), [stan, wklejone])
   const v = result.value
   const uwaga = result.warnings.some((w) => w.level === "warning")
   const h = v.historia
