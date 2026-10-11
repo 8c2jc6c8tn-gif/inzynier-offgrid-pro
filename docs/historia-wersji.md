@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.14.0] — 11.10.2026
+
+Porównywarka paneli PV: własny katalog z pliku CSV i eksport wyników do CSV (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 42):
+- w kroku „Panele” nowa sekcja „Własny katalog paneli z pliku CSV”: pobierasz wzorzec pliku, wypełniasz go (cennik dostawcy albo własna tabela z kart katalogowych) i wczytujesz; aplikacja pokazuje, które wiersze przyjęła, a które odrzuciła i dlaczego, a dopiero potem zapisujesz je w katalogu na tym urządzeniu (dołączasz albo zastępujesz katalog),
+- wiersz jest przyjęty tylko wtedy, gdy przejdzie tę samą kontrolę danych co formularz panelu; puste komórki to brak danych, nic nie jest dopełniane „typową” wartością; separator (średnik, przecinek, tabulator) i przecinek dziesiętny są rozpoznawane automatycznie,
+- przy każdym panelu porównania pojawia się wybór „Z Twojego katalogu (CSV)”, który wstawia nazwę, moc, cenę i pozostałe wpisane liczby (dane elektryczne jako wpisane ręcznie),
+- w zakładce „Opłacalność” przycisk „Pobierz wyniki jako CSV”: jeden wiersz na panel, liczby bez formatowania, jednostka w nagłówku, kolumny z osprzętem przy włączonym przełączniku; formuły w nazwach są zabezpieczone przed wykonaniem w arkuszu.
+
+Wpływ na liczby: brak. Silnik obliczeń bez zmian (1.9.0); zmiana dotyczy wprowadzania danych i zapisu wyników.
+
 ## [3.13.0] — 11.10.2026
 
 Porównywarka paneli PV: osprzęt w scenariuszu „tańszy panel = więcej paneli” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 41):
