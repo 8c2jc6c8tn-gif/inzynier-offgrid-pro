@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.23.0] — 11.10.2026
+
+Moduł 10, ekran „Prognoza produkcji miesięcznej” (dawne 12.3; spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 51):
+- nowy ekran: wpisujesz produkcję paneli z każdego miesiąca ostatnich 12 miesięcy (z falownika, regulatora albo rachunku) i roczną degradację paneli z karty, a ekran prognozuje produkcję na 1–12 miesięcy naprzód — wykres słupkowy, tabela i zmiana względem tych samych miesięcy rok wcześniej,
+- opcjonalnie wpisujesz wahania pogody między latami, a ekran pokazuje zakres dolny i górny (to Twoje założenie, nie przedział ufności ze statystyki),
+- miesiąc bez wpisanej produkcji nie dostaje prognozy (brak danych, nie zero); brak degradacji jest liczony jako 0 %, o czym ekran ostrzega,
+- ekran nie przewiduje pogody, rozrostu zacienienia ani zabrudzenia paneli; ma pomoc „?” przy polach, tłumaczenia PL/EN/RU i narzędzie AI `policz_prognoze_miesieczna`.
+
+Wpływ na liczby: bez zmian — nowy ekran, żaden istniejący wynik się nie zmienia.
+
 ## [3.22.0] — 11.10.2026
 
 Szybki kalkulator (Moduł 12), ekran 8.58 „Planowanie rozbudowy”: nowy ekran „Miejsce na rozbudowę — ile się zmieści” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 50):

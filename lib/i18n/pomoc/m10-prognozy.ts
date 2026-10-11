@@ -189,6 +189,50 @@ export const pl = {
       },
     },
   },
+  "prognoza-miesieczna": {
+    migawka: {
+      oCoChodzi:
+        "Planujesz z wyprzedzeniem, ile energii dadzą panele w najbliższych miesiącach — na przykład przed zimą albo przed zakupem odbiornika.",
+      jakDziala:
+        "Bierzesz własną produkcję z ostatnich 12 miesięcy i dla każdego prognozowanego miesiąca przyjmujesz ten sam miesiąc kalendarzowy sprzed roku, pomniejszony o roczną degradację paneli z karty. Jeśli wpiszesz wahania pogody między latami, ekran pokazuje też zakres dolny i górny.",
+      poCo:
+        "Żeby z wyprzedzeniem wiedzieć, ile prądu z paneli możesz mieć w kolejnych miesiącach i czy ta produkcja wystarczy na plany zużycia.",
+      fizyka:
+        "E_prog(m) = E_hist(m) · (1 − d/100), gdzie d to roczna degradacja paneli. Zakres: E_prog · (1 ∓ w/100). To prosty rachunek na Twoich danych: aplikacja nie przewiduje pogody ani zacienienia, więc inna pogoda niż rok temu zmieni wynik.",
+    },
+    pola: {
+      produkcjaMiesiaca: {
+        nazwa: "Produkcja z danego miesiąca [kWh]",
+        cel: "Wynik prognozy dla tego miesiąca to właśnie ta wartość pomniejszona o degradację.",
+        gdzie: "Z aplikacji falownika lub regulatora (suma miesięczna), z licznika produkcji albo z rachunku za energię oddaną; miesiące z ostatnich 12.",
+        zakres: "Z Twoich pomiarów; puste pole = brak danych z tego miesiąca (nie zero), wtedy nie ma dla niego prognozy.",
+      },
+      degradacja: {
+        nazwa: "Roczna degradacja paneli [%/rok]",
+        cel: "O tyle procent spada produkcja paneli z roku na rok; prognoza za rok jest o tyle niższa.",
+        gdzie: "W karcie paneli: „Annual degradation”, „Linear power warranty” (spadek mocy rocznie); często podawane też jako spadek po 25 latach.",
+        zakres: "Z karty paneli; puste pole = 0 % (brak danych, nie zalecenie). Dopuszczalne 0–100 %.",
+      },
+      miesiacStartu: {
+        nazwa: "Pierwszy miesiąc prognozy",
+        cel: "Od którego miesiąca kalendarzowego ma zacząć się prognoza.",
+        gdzie: "Zwykle miesiąc następny po bieżącym.",
+        zakres: "Wybierz z listy.",
+      },
+      miesiecyNaprzod: {
+        nazwa: "Na ile miesięcy naprzód [mies.]",
+        cel: "Ile kolejnych miesięcy ma objąć prognoza. Dłuższy okres niż 12 miesięcy nie ma sensu, bo dane są z roku.",
+        gdzie: "Twoja decyzja — np. do końca sezonu zimowego.",
+        zakres: "Liczba całkowita od 1 do 12.",
+      },
+      odchylenie: {
+        nazwa: "Wahania pogody między latami [%]",
+        cel: "Szerokość zakresu dolnego i górnego wokół prognozy. To Twoje założenie, jak bardzo kolejny rok może różnić się od poprzedniego.",
+        gdzie: "Twoje doświadczenie z poprzednich lat albo dane z kilku sezonów, jeśli je masz. Aplikacja nie podpowiada wartości.",
+        zakres: "Od 0 do 100 %; puste pole = bez zakresu.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -376,6 +420,50 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "prognoza-miesieczna": {
+    migawka: {
+      oCoChodzi:
+        "You plan ahead how much energy the panels will give in the coming months — for example before winter or before buying an appliance.",
+      jakDziala:
+        "You take your own production over the last 12 months and, for each forecast month, use the same calendar month a year earlier, reduced by the yearly panel degradation from the datasheet. If you enter the weather swing between years, the screen also shows a low and a high range.",
+      poCo:
+        "To know in advance how much power from the panels you can have in the coming months and whether that production covers your consumption plans.",
+      fizyka:
+        "E_fc(m) = E_hist(m) · (1 − d/100), where d is the yearly panel degradation. Range: E_fc · (1 ∓ w/100). This is a simple calculation on your data: the app predicts neither weather nor shading, so weather different from a year ago will change the result.",
+    },
+    pola: {
+      produkcjaMiesiaca: {
+        nazwa: "Production of the month [kWh]",
+        cel: "The forecast for this month is exactly this value reduced by the degradation.",
+        gdzie: "From the inverter or regulator app (monthly total), a production meter or a feed-in bill; months of the last 12.",
+        zakres: "From your measurements; an empty field = no data for that month (not zero), so it has no forecast.",
+      },
+      degradacja: {
+        nazwa: "Yearly panel degradation [%/year]",
+        cel: "The percentage by which panel production falls from year to year; next year's forecast is lower by that much.",
+        gdzie: "In the panel datasheet: “Annual degradation”, “Linear power warranty” (power loss per year); often also given as the loss after 25 years.",
+        zakres: "From the panel datasheet; an empty field = 0 % (no data, not a recommendation). Allowed 0–100 %.",
+      },
+      miesiacStartu: {
+        nazwa: "First forecast month",
+        cel: "The calendar month from which the forecast starts.",
+        gdzie: "Usually the month after the current one.",
+        zakres: "Pick from the list.",
+      },
+      miesiecyNaprzod: {
+        nazwa: "How many months ahead [mo.]",
+        cel: "How many consecutive months the forecast covers. A period longer than 12 months makes no sense because the data is one year.",
+        gdzie: "Your decision — e.g. until the end of the winter season.",
+        zakres: "A whole number from 1 to 12.",
+      },
+      odchylenie: {
+        nazwa: "Weather swing between years [%]",
+        cel: "The width of the low and high range around the forecast. It is your assumption of how much the next year may differ from the last.",
+        gdzie: "Your experience from previous years, or data from several seasons if you have it. The app suggests no value.",
+        zakres: "From 0 to 100 %; an empty field = no range.",
+      },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -560,6 +648,50 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Четвёртый шаг: новое препятствие — выросшее дерево, здание, антенна, сосулька на краю.",
         gdzie: "Осмотр в часы спада; модуль 1, анализ затенения.",
         zakres: "да / нет / не проверено.",
+      },
+    },
+  },
+  "prognoza-miesieczna": {
+    migawka: {
+      oCoChodzi:
+        "Вы заранее планируете, сколько энергии дадут панели в ближайшие месяцы — например, перед зимой или перед покупкой прибора.",
+      jakDziala:
+        "Берётся ваша собственная выработка за последние 12 месяцев, и для каждого прогнозируемого месяца принимается тот же календарный месяц годом ранее, уменьшенный на годовую деградацию панелей из карточки. Если вы введёте колебания погоды между годами, экран покажет также нижнюю и верхнюю границы.",
+      poCo:
+        "Чтобы заранее знать, сколько электричества от панелей вы получите в ближайшие месяцы и хватит ли его для планов потребления.",
+      fizyka:
+        "E_прогн(m) = E_ист(m) · (1 − d/100), где d — годовая деградация панелей. Диапазон: E_прогн · (1 ∓ w/100). Это простой расчёт по вашим данным: приложение не предсказывает погоду и затенение, поэтому погода, отличная от прошлогодней, изменит результат.",
+    },
+    pola: {
+      produkcjaMiesiaca: {
+        nazwa: "Выработка за месяц [кВт·ч]",
+        cel: "Прогноз для этого месяца — это именно это значение, уменьшенное на деградацию.",
+        gdzie: "В приложении инвертора или контроллера (месячная сумма), по счётчику выработки или по счёту за отданную энергию; месяцы за последние 12.",
+        zakres: "По вашим измерениям; пустое поле = нет данных за этот месяц (не ноль), тогда для него нет прогноза.",
+      },
+      degradacja: {
+        nazwa: "Годовая деградация панелей [%/год]",
+        cel: "На сколько процентов выработка панелей падает из года в год; прогноз на следующий год ниже на эту величину.",
+        gdzie: "В карточке панелей: «Annual degradation», «Linear power warranty» (потеря мощности в год); часто указывают также потерю за 25 лет.",
+        zakres: "Из карточки панелей; пустое поле = 0 % (отсутствие данных, а не рекомендация). Допустимо 0–100 %.",
+      },
+      miesiacStartu: {
+        nazwa: "Первый месяц прогноза",
+        cel: "Календарный месяц, с которого начинается прогноз.",
+        gdzie: "Обычно месяц, следующий за текущим.",
+        zakres: "Выберите из списка.",
+      },
+      miesiecyNaprzod: {
+        nazwa: "На сколько месяцев вперёд [мес.]",
+        cel: "Сколько последовательных месяцев охватывает прогноз. Период длиннее 12 месяцев не имеет смысла, потому что данные за один год.",
+        gdzie: "Ваше решение — например, до конца зимнего сезона.",
+        zakres: "Целое число от 1 до 12.",
+      },
+      odchylenie: {
+        nazwa: "Колебания погоды между годами [%]",
+        cel: "Ширина нижней и верхней границ вокруг прогноза. Это ваше допущение о том, насколько следующий год может отличаться от прошлого.",
+        gdzie: "Ваш опыт прошлых лет или данные за несколько сезонов, если они есть. Приложение не подсказывает значение.",
+        zakres: "От 0 до 100 %; пустое поле = без диапазона.",
       },
     },
   },
