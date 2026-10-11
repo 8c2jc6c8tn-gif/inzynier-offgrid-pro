@@ -117,5 +117,7 @@ describe("profil dobowy z trzech pór doby (spec 39)", () => {
     expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5" })!.profilDobowy).toBeNull()
     expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5", profilDzien: "50", profilWieczor: "30", profilNoc: "20" })!.profilDobowy).toHaveLength(24)
     expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5", profilDzien: "50" })!.profilDobowy).toBeNull()
+    expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5" })!.limityMocyKw).toBeNull()
+    expect(bilansZFormularza({ ...BILANS_PUSTY, pojemnosc: "5", limRozl: "2", limFalownik: "3.6" })!.limityMocyKw).toEqual({ ladowanieKw: null, rozladowanieKw: 2, falownikKw: 3.6 })
   })
 })

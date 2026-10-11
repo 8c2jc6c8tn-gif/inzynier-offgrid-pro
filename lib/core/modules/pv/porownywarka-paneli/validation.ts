@@ -67,6 +67,12 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
   if (profil != null && !(profil.length === 24 && profil.every((x) => Number.isFinite(x) && x >= 0) && profil.some((x) => x > 0))) {
     errors.push(porpPozaZakresem("PORP-PROFIL-DOBOWY-POZA-ZAKRESEM", "profilDobowy", profil.length, "24 liczby >= 0, co najmniej jedna > 0"))
   }
+  const lim = input.bilansGodzinowy?.limityMocyKw
+  if (lim) {
+    for (const [pole, v] of [["limityMocyKw.ladowanieKw", lim.ladowanieKw], ["limityMocyKw.rozladowanieKw", lim.rozladowanieKw], ["limityMocyKw.falownikKw", lim.falownikKw]] as const) {
+      if (v !== null && !(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-LIMIT-MOCY-POZA-ZAKRESEM", pole, v, "> 0 kW"))
+    }
+  }
   const zap = input.zapotrzebowanieMiesiaceKwh
   if (zap) {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))

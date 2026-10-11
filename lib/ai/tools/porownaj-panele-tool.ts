@@ -86,12 +86,26 @@ const BilansGodzinowy = z.object({
     })
     .optional()
     .describe("Profil dobowy zużycia w trzech porach doby (czas polski) — tylko od usera, nie zgaduj; bez niego zużycie jest rozłożone równo na dobę. Udziały są przeliczane proporcjonalnie, więc nie muszą dawać 100"),
+  limityMocyKw: z
+    .object({
+      ladowanieKw: z.number().positive().optional().describe("Maks. moc ładowania baterii [kW]"),
+      rozladowanieKw: z.number().positive().optional().describe("Maks. moc rozładowania baterii [kW]"),
+      falownikKw: z.number().positive().optional().describe("Moc ciągła falownika [kW]"),
+    })
+    .optional()
+    .describe("Limity mocy sprzętu z kart katalogowych — tylko od usera, nie zgaduj; pominięty limit = bez ograniczenia tej mocy. Limity obcinają ładowanie i rozładowanie baterii oraz moc dla odbiorów w bilansie godzinowym"),
 })
 
 /** Profil z trzech pór doby; zera we wszystkich porach przechodzą do silnika jako profil niepoprawny (błąd danych), nie jako ciche „równo na dobę”. */
 function profilZWejscia(p: { dzienPct: number; wieczorPct: number; nocPct: number } | undefined): number[] | null {
   if (!p) return null
   return profilDobowyZPor(p.dzienPct, p.wieczorPct, p.nocPct) ?? new Array<number>(24).fill(0)
+}
+
+/** Power limits as the engine takes them: a limit that was not given is `null` (unlimited); no object at all when none was given. */
+function limityZWejscia(l: { ladowanieKw?: number; rozladowanieKw?: number; falownikKw?: number } | undefined) {
+  if (!l || (l.ladowanieKw === undefined && l.rozladowanieKw === undefined && l.falownikKw === undefined)) return null
+  return { ladowanieKw: l.ladowanieKw ?? null, rozladowanieKw: l.rozladowanieKw ?? null, falownikKw: l.falownikKw ?? null }
 }
 
 export const PorownajPaneleToolInput = z.object({
@@ -317,7 +331,7 @@ export function utworzPorownajPaneleTool(
         liczbaPaneli: input.liczbaPaneli ?? null,
         wymiaryMiejsca: input.wymiaryMiejsca ?? null,
         zapotrzebowanieMiesiaceKwh: input.zuzycieMiesieczneKwh ?? null,
-        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null, profilDobowy: profilZWejscia(input.bilansGodzinowy.profilDobowyPct) } : null,
+        bilansGodzinowy: input.bilansGodzinowy ? { pojemnoscKwh: input.bilansGodzinowy.pojemnoscKwh, sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu ?? null, celZimyPct: input.bilansGodzinowy.celZimyPct ?? null, profilDobowy: profilZWejscia(input.bilansGodzinowy.profilDobowyPct), limityMocyKw: limityZWejscia(input.bilansGodzinowy.limityMocyKw) } : null,
         tminC: input.tminC ?? null,
         testZanizeniaMocyPct: input.testZanizeniaMocyPct ?? null,
         obciazenia: o

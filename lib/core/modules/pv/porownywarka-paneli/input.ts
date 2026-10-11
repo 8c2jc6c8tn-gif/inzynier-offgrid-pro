@@ -148,6 +148,11 @@ export type BilansGodzinowyInput = {
    * użytkownika. Wpisuje użytkownik, bez wartości domyślnej; `null`/brak = zużycie rozłożone równo na dobę (jak w spec 34).
    */
   profilDobowy?: number[] | null
+  /**
+   * Limity mocy sprzętu [kW] (spec 40): ładowania i rozładowania baterii oraz falownika. Wpisuje użytkownik z kart katalogowych, bez wartości domyślnej;
+   * `null`/brak limitu = bez ograniczenia tej mocy (jak w spec 34).
+   */
+  limityMocyKw?: { ladowanieKw: number | null; rozladowanieKw: number | null; falownikKw: number | null } | null
 }
 
 export type PorownywarkaInput = {

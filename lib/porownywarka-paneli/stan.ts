@@ -69,8 +69,12 @@ export type BilansSeed = {
   profilDzien?: string
   profilWieczor?: string
   profilNoc?: string
+  /** Power limits (spec 40) as form texts [kW]: battery charge, battery discharge, inverter. Empty = no limit; drafts saved before have no keys. */
+  limLad?: string
+  limRozl?: string
+  limFalownik?: string
 }
-export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "", celZimy: "", profilDzien: "", profilWieczor: "", profilNoc: "" }
+export const BILANS_PUSTY: BilansSeed = { pojemnosc: "", sprawnosc: "", celZimy: "", profilDzien: "", profilWieczor: "", profilNoc: "", limLad: "", limRozl: "", limFalownik: "" }
 
 /** Hourly-balance settings from the form texts; `null` while the capacity is empty (0 is a valid answer: no battery). Efficiency empty = not given. */
 export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInput | null {
@@ -79,7 +83,11 @@ export function bilansZFormularza(b: BilansSeed | undefined): BilansGodzinowyInp
   const sprawnosc = liczba(b?.sprawnosc ?? "")
   const cel = liczba(b?.celZimy ?? "")
   const profil = profilDobowyZPor(liczba(b?.profilDzien ?? ""), liczba(b?.profilWieczor ?? ""), liczba(b?.profilNoc ?? ""))
-  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100, celZimyPct: cel === undefined ? null : cel, profilDobowy: profil }
+  const lad = liczba(b?.limLad ?? "")
+  const rozl = liczba(b?.limRozl ?? "")
+  const falownik = liczba(b?.limFalownik ?? "")
+  const limity = lad === undefined && rozl === undefined && falownik === undefined ? null : { ladowanieKw: lad ?? null, rozladowanieKw: rozl ?? null, falownikKw: falownik ?? null }
+  return { pojemnoscKwh: pojemnosc, sprawnoscCyklu: sprawnosc === undefined ? null : sprawnosc / 100, celZimyPct: cel === undefined ? null : cel, profilDobowy: profil, limityMocyKw: limity }
 }
 
 export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {

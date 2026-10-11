@@ -2,7 +2,7 @@ import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWARKI, SCIANA_AZYMUT_DEG, SCIANA_NACHYLENIE_DEG, type KryteriumId } from "./constants"
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
-import { bilansGodzinowy, dobierzPaneleNaZime, podsumujBilans, type DoborPanelowNaZime, type PodsumowanieBilansu } from "./bilans-godzinowy"
+import { bilansGodzinowy, dobierzPaneleNaZime, limityMocyPodane, podsumujBilans, type DoborPanelowNaZime, type PodsumowanieBilansu } from "./bilans-godzinowy"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
 import { najwyzszeWykorzystaniePct, obciazeniaMiejsca, ocenPanelObciazenia, type ObciazeniaMiejsca, type ObciazeniaPanelu } from "./obciazenia"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
@@ -33,7 +33,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.7.0"
+export const CALCULATOR_VERSION = "1.8.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -369,6 +369,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         sprawnoscCyklu: input.bilansGodzinowy.sprawnoscCyklu,
         oknaTanie: okna,
         profilDobowy: input.bilansGodzinowy.profilDobowy ?? null,
+        limityMocy: input.bilansGodzinowy.limityMocyKw ?? null,
       }
       const ps5 = podsumujBilans(bilansGodzinowy({ produkcjaKwh, ...wspolne }))
       const cel = input.bilansGodzinowy.celZimyPct ?? null
@@ -515,7 +516,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (bilansB) {
     assumptions.push(
       { kod: input.bilansGodzinowy?.profilDobowy ? "PORP-ZAL-BIL-PROFIL-DOBOWY" : "PORP-ZAL-BIL-PROFIL-PLASKI" },
-      { kod: "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" },
+      { kod: limityMocyPodane(input.bilansGodzinowy?.limityMocyKw) ? "PORP-ZAL-BIL-LIMITY-MOCY" : "PORP-ZAL-BIL-BEZ-LIMITOW-MOCY" },
       { kod: "PORP-ZAL-BIL-DWA-PRZEBIEGI" },
     )
     if (bilansB.doborNaZime) assumptions.push({ kod: "PORP-ZAL-DOBOR-ZIMY" })

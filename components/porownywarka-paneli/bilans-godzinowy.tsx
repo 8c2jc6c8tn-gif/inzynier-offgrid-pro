@@ -113,6 +113,30 @@ export function BilansGodzinowyPaneli(p: {
               </p>
             )}
           </fieldset>
+          <fieldset className="flex flex-col gap-2 rounded-lg border p-3">
+            <legend className="px-1 font-medium">{t("UI-PORP-BIL-LIMITY-TYTUL")}</legend>
+            <p className="text-caption text-muted-foreground">{t("UI-PORP-BIL-LIMITY-NOTA")}</p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {([
+                ["UI-PORP-BIL-LIMIT-LAD", "limLad", "limLad"],
+                ["UI-PORP-BIL-LIMIT-ROZL", "limRozl", "limRozl"],
+                ["UI-PORP-BIL-LIMIT-FALOWNIK", "limFalownik", "limFalownik"],
+              ] as const).map(([etykieta, pole, pomoc]) => (
+                <Pole
+                  key={pole}
+                  label={t(etykieta)}
+                  unit="kW"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  step="any"
+                  value={p.bil[pole] ?? ""}
+                  onChange={(e) => p.onBil({ [pole]: e.target.value })}
+                  pomoc={<PomocPola ekran="porownywarka-paneli" pole={pomoc} />}
+                />
+              ))}
+            </div>
+          </fieldset>
           {zProfilu !== undefined ? (
             <div className="flex flex-wrap items-center gap-2">
               <span>{t("UI-PORP-BIL-Z-PROFILU", { kwh: f1(zProfilu) })}</span>
