@@ -363,6 +363,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/cold-c-rate", label: "Zabezpieczenie akumulatora przed zimnem — mała instalacja" },
       // M12/E31 = simplified M2/E13 — same screen, second entry point (spatial limits not built).
       { href: "/kalkulatory/bufor-rozbudowe", label: "Planowanie rozbudowy małej instalacji" },
+      { href: "/kalkulatory/miejsce-na-rozbudowe", label: "Miejsce na rozbudowę — ile się zmieści" },
       { href: "/kalkulatory/wilgoc-male-instalacje", label: "Zabezpieczenia przeciwwilgociowe — mała instalacja (IP)" },
       { href: "/kalkulatory/uziemienie-male-instalacje", label: "Uziemienie małej instalacji (kamper, jacht)" },
       { href: "/kalkulatory/akumulator-samochodowy", label: "Czas pracy na akumulatorze samochodowym" },

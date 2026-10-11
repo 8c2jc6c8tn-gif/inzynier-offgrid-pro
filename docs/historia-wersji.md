@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.22.0] — 11.10.2026
+
+Szybki kalkulator (Moduł 12), ekran 8.58 „Planowanie rozbudowy”: nowy ekran „Miejsce na rozbudowę — ile się zmieści” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 50):
+- wpisujesz wymiary wolnego miejsca (kamper, altana, skrzynia, półka) i jednego panelu albo akumulatora; ekran liczy, ile sztuk fizycznie się zmieści w prostokątnej siatce, i sam wybiera ustawienie elementu (wzdłuż albo obrócone o 90°), które mieści więcej,
+- odstępy między elementami i od ścian wpisujesz sam (z karty urządzenia albo własna decyzja) — aplikacja nie zakłada żadnej wartości; puste pole to 0 mm, o czym ekran ostrzega,
+- opcjonalnie: piętrowanie (po wpisaniu wysokości miejsca i elementu) oraz plan „ile chcę dołożyć” — ekran mówi, czy się zmieści i ile sztuk brakuje miejsca,
+- to wyłącznie geometria: ekran nie ocenia wentylacji, dostępu serwisowego, masy ani kabli; ma pomoc „?” przy polach, tłumaczenia PL/EN/RU i narzędzie AI `policz_miejsce_na_rozbudowe`.
+
+Wpływ na liczby: bez zmian — nowy ekran, żaden istniejący wynik się nie zmienia.
+
 ## [3.21.0] — 11.10.2026
 
 Dane nasłonecznienia (INFRA-2): własne miesięczne sumy promieniowania zamiast wartości PVGIS (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 49):

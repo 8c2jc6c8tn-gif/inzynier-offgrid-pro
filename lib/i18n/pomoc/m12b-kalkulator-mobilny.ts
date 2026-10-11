@@ -1555,6 +1555,80 @@ export const pl = {
       },
     },
   },
+  "miejsce-na-rozbudowe": {
+    migawka: {
+      oCoChodzi:
+        "Zanim kupisz kolejny panel albo akumulator, warto wiedzieć, czy w ogóle zmieści się w miejscu, które masz. To pytanie o wymiary, nie o moc.",
+      jakDziala:
+        "Aplikacja układa elementy w prostokątnej siatce równoległej do ścian wolnego miejsca. Odejmuje odstęp od ścian z obu stron, dodaje odstęp między elementami i sprawdza dwa ustawienia — wzdłuż i obrócone o 90° — po czym bierze to, które mieści więcej. Jeśli wolno piętrować i znasz wysokości, liczy też warstwy.",
+      poCo:
+        "Żeby przed zakupem wiedzieć, ile sztuk fizycznie się zmieści i czy plan rozbudowy ma szansę się udać.",
+      fizyka:
+        "n = ⌊(S − 2m + g) / (e + g)⌋ na każdej osi, gdzie S to wymiar miejsca, m odstęp od ściany, g odstęp między elementami, e wymiar elementu. Liczba sztuk = n wzdłuż · n wszerz · liczba warstw. To czysta geometria: wentylacji, dostępu serwisowego, masy i kabli aplikacja nie ocenia.",
+    },
+    pola: {
+      miejsceDlugosc: {
+        nazwa: "Długość wolnego miejsca [mm]",
+        cel: "Jeden z dwóch wymiarów podłogi miejsca, w którym ułożysz elementy.",
+        gdzie: "Zmierz taśmą wolny odcinek (np. półkę, dach, skrzynię) — tylko to, co faktycznie jest wolne.",
+        zakres: "Z pomiaru; aplikacja nie zgaduje wymiarów.",
+      },
+      miejsceSzerokosc: {
+        nazwa: "Szerokość wolnego miejsca [mm]",
+        cel: "Drugi wymiar podłogi miejsca. Którą stronę nazwiesz długością, nie ma znaczenia — aplikacja sprawdza oba ustawienia elementu.",
+        gdzie: "Zmierz taśmą wolną szerokość.",
+        zakres: "Z pomiaru.",
+      },
+      miejsceWysokosc: {
+        nazwa: "Wysokość wolnego miejsca [mm]",
+        cel: "Potrzebna tylko do piętrowania i do sprawdzenia, czy element nie jest za wysoki.",
+        gdzie: "Zmierz wolną wysokość pod sufitem, klapą lub półką nad spodem.",
+        zakres: "Z pomiaru; puste pole = wysokość nie jest sprawdzana, a elementy są liczone w jednej warstwie.",
+      },
+      elementDlugosc: {
+        nazwa: "Długość elementu [mm]",
+        cel: "Dłuższy bok panelu albo akumulatora, który chcesz dołożyć.",
+        gdzie: "W karcie katalogowej: „Dimensions” (L × W × H) albo zmierz własny egzemplarz.",
+        zakres: "Z karty urządzenia.",
+      },
+      elementSzerokosc: {
+        nazwa: "Szerokość elementu [mm]",
+        cel: "Krótszy bok panelu albo akumulatora.",
+        gdzie: "W karcie katalogowej: „Dimensions”.",
+        zakres: "Z karty urządzenia.",
+      },
+      elementWysokosc: {
+        nazwa: "Wysokość (grubość) elementu [mm]",
+        cel: "Potrzebna do piętrowania; dla panelu to grubość ramy.",
+        gdzie: "W karcie katalogowej: trzeci wymiar w „Dimensions”.",
+        zakres: "Z karty urządzenia; puste pole = jedna warstwa.",
+      },
+      moznaPietrowac: {
+        nazwa: "Piętrowanie",
+        cel: "Zaznacz, jeśli elementy wolno ustawiać jeden na drugim (akumulatory zwykle tak, panele zwykle nie). Wtedy aplikacja liczy kilka warstw, o ile znasz obie wysokości.",
+        gdzie: "W karcie akumulatora: dopuszczalne ułożenie i maksymalna liczba warstw; dla paneli — zasady montażu producenta.",
+        zakres: "Decyzja zgodna z kartą urządzenia; domyślnie niezaznaczone (jedna warstwa).",
+      },
+      odstepMiedzy: {
+        nazwa: "Odstęp między elementami [mm]",
+        cel: "Luz na wentylację, dostęp i tolerancję montażu. Zmniejsza liczbę mieszczących się sztuk.",
+        gdzie: "W karcie akumulatora lub instrukcji montażu: minimalne odstępy; albo Twoja decyzja.",
+        zakres: "Z karty urządzenia lub własny; puste pole = 0 mm (to brak danych, nie zalecenie).",
+      },
+      margines: {
+        nazwa: "Odstęp od ścian miejsca [mm]",
+        cel: "Luz przy ścianach (kable, zginanie przewodów, dostęp ręką). Odejmowany z obu stron osi.",
+        gdzie: "Twoja decyzja albo wymóg z instrukcji urządzenia.",
+        zakres: "Własny; puste pole = 0 mm.",
+      },
+      planowanaLiczba: {
+        nazwa: "Ile elementów chcę dołożyć [szt.]",
+        cel: "Jeśli wpiszesz, aplikacja powie, czy plan się zmieści i ile sztuk brakuje miejsca.",
+        gdzie: "Twój plan rozbudowy.",
+        zakres: "Liczba całkowita, co najmniej 1; puste pole = pytanie tylko „ile się zmieści”.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -3099,6 +3173,80 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "The end of the range. The time assumes a constant current, so for charging to 100 % the real time is longer.",
         gdzie: "The target level, e.g. 80 % when charging gently for the battery.",
         zakres: "0–100 %, higher than the start value.",
+      },
+    },
+  },
+  "miejsce-na-rozbudowe": {
+    migawka: {
+      oCoChodzi:
+        "Before you buy another panel or battery it pays to know whether it fits in the place you have at all. This is a question of dimensions, not of power.",
+      jakDziala:
+        "The app lays the elements in a rectangular grid parallel to the walls of the free space. It subtracts the wall clearance on both sides, adds the clearance between elements and checks two orientations — lengthwise and turned by 90° — taking the one that fits more. If stacking is allowed and you know the heights, it counts the layers too.",
+      poCo:
+        "To know before buying how many pieces physically fit and whether the expansion plan has a chance.",
+      fizyka:
+        "n = ⌊(S − 2m + g) / (e + g)⌋ on each axis, where S is the dimension of the space, m the wall clearance, g the clearance between elements, e the element dimension. Number of pieces = n lengthwise · n across · number of layers. This is pure geometry: the app does not judge ventilation, service access, weight or cables.",
+    },
+    pola: {
+      miejsceDlugosc: {
+        nazwa: "Length of the free space [mm]",
+        cel: "One of the two floor dimensions of the place where you will lay the elements.",
+        gdzie: "Measure the free stretch with a tape (e.g. a shelf, a roof, a box) — only what is really free.",
+        zakres: "From a measurement; the app does not guess dimensions.",
+      },
+      miejsceSzerokosc: {
+        nazwa: "Width of the free space [mm]",
+        cel: "The second floor dimension of the space. Which side you call the length does not matter — the app checks both orientations of the element.",
+        gdzie: "Measure the free width with a tape.",
+        zakres: "From a measurement.",
+      },
+      miejsceWysokosc: {
+        nazwa: "Height of the free space [mm]",
+        cel: "Needed only for stacking and for checking that the element is not too tall.",
+        gdzie: "Measure the free height under the ceiling, lid or shelf above.",
+        zakres: "From a measurement; an empty field = the height is not checked and the elements are counted in one layer.",
+      },
+      elementDlugosc: {
+        nazwa: "Element length [mm]",
+        cel: "The longer side of the panel or battery you want to add.",
+        gdzie: "In the datasheet: “Dimensions” (L × W × H), or measure your own unit.",
+        zakres: "From the device datasheet.",
+      },
+      elementSzerokosc: {
+        nazwa: "Element width [mm]",
+        cel: "The shorter side of the panel or battery.",
+        gdzie: "In the datasheet: “Dimensions”.",
+        zakres: "From the device datasheet.",
+      },
+      elementWysokosc: {
+        nazwa: "Element height (thickness) [mm]",
+        cel: "Needed for stacking; for a panel it is the frame thickness.",
+        gdzie: "In the datasheet: the third dimension in “Dimensions”.",
+        zakres: "From the device datasheet; an empty field = one layer.",
+      },
+      moznaPietrowac: {
+        nazwa: "Stacking",
+        cel: "Tick if the elements may be stacked on top of each other (batteries usually yes, panels usually not). The app then counts several layers, provided you know both heights.",
+        gdzie: "In the battery datasheet: the permitted arrangement and maximum number of layers; for panels — the manufacturer's mounting rules.",
+        zakres: "A decision consistent with the datasheet; unticked by default (one layer).",
+      },
+      odstepMiedzy: {
+        nazwa: "Clearance between elements [mm]",
+        cel: "Slack for ventilation, access and mounting tolerance. It reduces the number of pieces that fit.",
+        gdzie: "In the battery datasheet or the installation manual: minimum clearances; or your own decision.",
+        zakres: "From the datasheet or your own; an empty field = 0 mm (that means no data, not a recommendation).",
+      },
+      margines: {
+        nazwa: "Clearance from the walls of the space [mm]",
+        cel: "Slack at the walls (cables, cable bending, room for a hand). Subtracted on both sides of each axis.",
+        gdzie: "Your decision or a requirement from the device manual.",
+        zakres: "Your own; an empty field = 0 mm.",
+      },
+      planowanaLiczba: {
+        nazwa: "How many elements I want to add [pcs]",
+        cel: "If you enter it, the app tells you whether the plan fits and for how many pieces there is no room.",
+        gdzie: "Your expansion plan.",
+        zakres: "A whole number, at least 1; an empty field = only the question “how many will fit”.",
       },
     },
   },
@@ -4653,6 +4801,80 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Конец диапазона. Время считается при постоянном токе, поэтому при зарядке до 100 % реальное время больше.",
         gdzie: "Целевой уровень, например 80 % при щадящей зарядке.",
         zakres: "0–100 %, больше значения в начале.",
+      },
+    },
+  },
+  "miejsce-na-rozbudowe": {
+    migawka: {
+      oCoChodzi:
+        "Прежде чем покупать ещё одну панель или аккумулятор, стоит узнать, поместится ли он вообще в имеющемся месте. Это вопрос размеров, а не мощности.",
+      jakDziala:
+        "Приложение укладывает элементы в прямоугольную сетку, параллельную стенам свободного места. Оно вычитает зазор от стен с обеих сторон, добавляет зазор между элементами и проверяет две ориентации — вдоль и с поворотом на 90° — выбирая ту, в которой помещается больше. Если штабелирование разрешено и известны высоты, считаются и слои.",
+      poCo:
+        "Чтобы до покупки знать, сколько штук физически поместится и есть ли у плана расширения шансы.",
+      fizyka:
+        "n = ⌊(S − 2m + g) / (e + g)⌋ по каждой оси, где S — размер места, m — зазор от стены, g — зазор между элементами, e — размер элемента. Число штук = n вдоль · n поперёк · число слоёв. Это чистая геометрия: вентиляцию, сервисный доступ, массу и кабели приложение не оценивает.",
+    },
+    pola: {
+      miejsceDlugosc: {
+        nazwa: "Длина свободного места [мм]",
+        cel: "Один из двух размеров основания места, где вы уложите элементы.",
+        gdzie: "Измерьте рулеткой свободный участок (например, полку, крышу, ящик) — только то, что действительно свободно.",
+        zakres: "По замеру; приложение не угадывает размеры.",
+      },
+      miejsceSzerokosc: {
+        nazwa: "Ширина свободного места [мм]",
+        cel: "Второй размер основания места. Какую сторону назвать длиной — неважно: приложение проверяет обе ориентации элемента.",
+        gdzie: "Измерьте рулеткой свободную ширину.",
+        zakres: "По замеру.",
+      },
+      miejsceWysokosc: {
+        nazwa: "Высота свободного места [мм]",
+        cel: "Нужна только для штабелирования и для проверки, не слишком ли высок элемент.",
+        gdzie: "Измерьте свободную высоту под потолком, крышкой или полкой сверху.",
+        zakres: "По замеру; пустое поле = высота не проверяется, элементы считаются в одном слое.",
+      },
+      elementDlugosc: {
+        nazwa: "Длина элемента [мм]",
+        cel: "Более длинная сторона панели или аккумулятора, который вы хотите добавить.",
+        gdzie: "В карточке устройства: «Dimensions» (Д × Ш × В) или измерьте свой экземпляр.",
+        zakres: "Из карточки устройства.",
+      },
+      elementSzerokosc: {
+        nazwa: "Ширина элемента [мм]",
+        cel: "Более короткая сторона панели или аккумулятора.",
+        gdzie: "В карточке устройства: «Dimensions».",
+        zakres: "Из карточки устройства.",
+      },
+      elementWysokosc: {
+        nazwa: "Высота (толщина) элемента [мм]",
+        cel: "Нужна для штабелирования; для панели — толщина рамы.",
+        gdzie: "В карточке устройства: третий размер в «Dimensions».",
+        zakres: "Из карточки устройства; пустое поле = один слой.",
+      },
+      moznaPietrowac: {
+        nazwa: "Штабелирование",
+        cel: "Отметьте, если элементы можно ставить друг на друга (аккумуляторы обычно да, панели обычно нет). Тогда приложение считает несколько слоёв, если известны обе высоты.",
+        gdzie: "В карточке аккумулятора: допустимое расположение и максимальное число слоёв; для панелей — правила монтажа производителя.",
+        zakres: "Решение в соответствии с карточкой устройства; по умолчанию не отмечено (один слой).",
+      },
+      odstepMiedzy: {
+        nazwa: "Зазор между элементами [мм]",
+        cel: "Запас на вентиляцию, доступ и монтажный допуск. Уменьшает число помещающихся штук.",
+        gdzie: "В карточке аккумулятора или инструкции по монтажу: минимальные зазоры; либо ваше решение.",
+        zakres: "Из карточки устройства или свой; пустое поле = 0 мм (это отсутствие данных, а не рекомендация).",
+      },
+      margines: {
+        nazwa: "Зазор от стен места [мм]",
+        cel: "Запас у стен (кабели, изгиб проводов, место для руки). Вычитается с обеих сторон каждой оси.",
+        gdzie: "Ваше решение или требование из инструкции устройства.",
+        zakres: "Свой; пустое поле = 0 мм.",
+      },
+      planowanaLiczba: {
+        nazwa: "Сколько элементов хочу добавить [шт.]",
+        cel: "Если ввести, приложение скажет, поместится ли план и для скольких штук не хватает места.",
+        gdzie: "Ваш план расширения.",
+        zakres: "Целое число, не меньше 1; пустое поле = только вопрос «сколько поместится».",
       },
     },
   },
