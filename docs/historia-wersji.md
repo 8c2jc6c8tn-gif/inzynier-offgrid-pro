@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.21.0] — 11.10.2026
+
+Dane nasłonecznienia (INFRA-2): własne miesięczne sumy promieniowania zamiast wartości PVGIS (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 49):
+- w sekcji „Dane nasłonecznienia” (na wszystkich ekranach liczących nasłonecznienie: Kąt i azymut, Liczba paneli, Złoty środek, Odstęp rzędów, Porównywarka paneli, Symulacja mrozu i inne) jest rozwijane „Własne miesięczne sumy promieniowania (opcjonalnie)”: dla każdego miesiąca można wpisać sumę promieniowania całkowitego na płaszczyznę poziomą [kWh/m²], pod polem widać wartość PVGIS i współczynnik skali,
+- godzinowe dane PVGIS wpisanego miesiąca są mnożone przez jeden współczynnik (wpisana ÷ PVGIS), więc kształt doby i udział promieniowania rozproszonego zostają; temperatury bez zmian; pusty miesiąc = dane PVGIS bez zmian; wartości niedodatnie są pomijane z komunikatem,
+- wpisy zapisują się lokalnie (osobno od dużego zapisu PVGIS) i dotyczą lokalizacji, dla której je wpisano; „Wróć do danych PVGIS” je czyści.
+
+Wpływ na liczby: bez zmian, dopóki użytkownik niczego nie wpisze. Po wpisaniu zmieniają się wyniki ekranów liczących nasłonecznienie w aplikacji (nie narzędzia AI, które pobiera dane PVGIS osobno).
+
 ## [3.20.0] — 11.10.2026
 
 Tryb mikroinstalacji, etap O3: odbiorniki sezonowe na ekranie „Zużycie per urządzenie” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 48):

@@ -86,6 +86,21 @@ export const pl = {
       albedo: { nazwa: "Albedo gruntu [–]", cel: "Jaka część światła odbija się od gruntu przed powierzchnią — ma znaczenie głównie dla ścian i stromych połaci.", gdzie: "Rodzaj podłoża przed powierzchnią (trawa, beton, śnieg) — wartość z literatury dla tego podłoża.", zakres: "{aMin}–{aMax}. Puste = {albedo}, jak w założeniach." },
     },
   },
+  "nasloneczenie-miesieczne": {
+    migawka: {
+      oCoChodzi: "Dane nasłonecznienia z PVGIS to typowy rok dla Twojej okolicy. Jeśli masz własne pomiary albo wiesz, że u Ciebie miesiąc zwykle wychodzi inaczej, możesz wpisać własną sumę.",
+      jakDziala: "Wpisujesz sumę promieniowania całkowitego na płaszczyznę poziomą (kWh/m²) dla wybranych miesięcy. Aplikacja mnoży godzinowe dane PVGIS tego miesiąca przez jeden współczynnik (wpisana ÷ PVGIS), więc kształt doby i udział promieniowania rozproszonego zostają, a suma się zgadza. Pusty miesiąc zostaje bez zmian.",
+      poCo: "Żeby kalkulatory liczyły na Twoich danych, gdy je masz — bez udawania, że to dane PVGIS.",
+    },
+    pola: {
+      suma: {
+        nazwa: "Suma promieniowania w miesiącu [kWh/m²]",
+        cel: "Zastępuje sumę PVGIS dla tego miesiąca we wszystkich kalkulatorach nasłonecznienia w aplikacji.",
+        gdzie: "Własne pomiary pyranometrem, miesięczne tabele z innego źródła (np. stacji pogodowej) albo wynik wcześniejszej analizy. Musi to być promieniowanie całkowite na płaszczyznę POZIOMĄ, nie na płaszczyznę paneli.",
+        zakres: "Dodatnia liczba; puste = dane PVGIS. Aplikacja nie ocenia, czy wpisana wartość jest realistyczna — porównaj ją z wartością PVGIS pokazaną pod polem.",
+      },
+    },
+  },
 }
 
 const EN_YOURS = "Your location — the app never assumes a typical value for you."
@@ -169,6 +184,21 @@ export const en: Tlumaczenie<typeof pl> = {
       albedo: { nazwa: "Ground albedo [–]", cel: "The share of light reflected from the ground in front of the surface — matters mainly for walls and steep roof planes.", gdzie: "Ground type in front of the surface (grass, concrete, snow) — a literature value for that ground.", zakres: "{aMin}–{aMax}. Empty = {albedo}, as in the assumptions." },
     },
   },
+  "nasloneczenie-miesieczne": {
+    migawka: {
+      oCoChodzi: "The PVGIS radiation data is a typical year for your area. If you have your own measurements or know that a month usually turns out differently at your site, you can enter your own total.",
+      jakDziala: "You enter the total global radiation on the horizontal plane (kWh/m²) for the chosen months. The app multiplies the hourly PVGIS data of that month by one factor (entered ÷ PVGIS), so the daily shape and the share of diffuse radiation stay and the total matches. An empty month stays unchanged.",
+      poCo: "So the calculators use your data when you have it — without pretending it is PVGIS data.",
+    },
+    pola: {
+      suma: {
+        nazwa: "Radiation total in the month [kWh/m²]",
+        cel: "Replaces the PVGIS total for this month in all radiation calculators in the app.",
+        gdzie: "Your own pyranometer measurements, monthly tables from another source (e.g. a weather station) or the result of an earlier analysis. It must be the global radiation on the HORIZONTAL plane, not on the panel plane.",
+        zakres: "A positive number; empty = PVGIS data. The app does not judge whether the entered value is realistic — compare it with the PVGIS value shown under the field.",
+      },
+    },
+  },
 }
 
 const RU_YOURS = "Ваше местоположение — приложение не принимает типовое значение за вас."
@@ -250,6 +280,21 @@ export const ru: Tlumaczenie<typeof pl> = {
       nachylenieReczne: RU_NACHYLENIE,
       azymutReczny: RU_AZYMUT,
       albedo: { nazwa: "Альбедо грунта [–]", cel: "Доля света, отражённого от грунта перед поверхностью — важна в основном для стен и крутых скатов.", gdzie: "Тип покрытия перед поверхностью (трава, бетон, снег) — литературное значение для этого покрытия.", zakres: "{aMin}–{aMax}. Пусто = {albedo}, как в допущениях." },
+    },
+  },
+  "nasloneczenie-miesieczne": {
+    migawka: {
+      oCoChodzi: "Данные PVGIS о радиации — это типичный год для вашего района. Если у вас есть собственные измерения или вы знаете, что у вас месяц обычно выходит иначе, можно ввести собственную сумму.",
+      jakDziala: "Вы вводите сумму суммарной радиации на горизонтальную плоскость (кВт·ч/м²) для выбранных месяцев. Приложение умножает почасовые данные PVGIS этого месяца на один коэффициент (введённое ÷ PVGIS), поэтому форма суток и доля рассеянной радиации сохраняются, а сумма совпадает. Пустой месяц остаётся без изменений.",
+      poCo: "Чтобы калькуляторы считали по вашим данным, когда они есть, — не выдавая их за данные PVGIS.",
+    },
+    pola: {
+      suma: {
+        nazwa: "Сумма радиации за месяц [кВт·ч/м²]",
+        cel: "Заменяет сумму PVGIS за этот месяц во всех калькуляторах радиации в приложении.",
+        gdzie: "Собственные измерения пиранометром, месячные таблицы из другого источника (например, метеостанции) или результат более раннего анализа. Это должна быть суммарная радиация на ГОРИЗОНТАЛЬНУЮ плоскость, а не на плоскость панелей.",
+        zakres: "Положительное число; пусто = данные PVGIS. Приложение не оценивает, реалистично ли введённое значение, — сравните его со значением PVGIS под полем.",
+      },
     },
   },
 }

@@ -9,7 +9,8 @@
 import { useMemo } from "react"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
-import { zapisPasuje, type ZapisTmy } from "./dane-tmy"
+import { zapisPasuje } from "./dane-tmy"
+import type { ZapisTmyZNadpisaniem } from "./nadpisanie-nasloneczenia"
 import { KLUCZ_MODELU_DZIALKI, liczba, MODEL_PUSTY, wejscieSkanera, type ModelDzialki } from "./model-dzialki"
 import { useDaneTmy } from "./use-dane-tmy"
 
@@ -32,7 +33,7 @@ export function useLokalizacjaProjektu() {
     : lat1 !== undefined && lon1 !== undefined
       ? { szerokosc: lat1, dlugosc: lon1, zrodlo: "Ekran 1 (Lokalizacja i dane klimatyczne)" }
       : null
-  const dane: ZapisTmy | null =
+  const dane: ZapisTmyZNadpisaniem | null =
     lokalizacja && zapisPasuje(tmy.zapis, lokalizacja.szerokosc, lokalizacja.dlugosc) ? tmy.zapis : null
 
   return {
