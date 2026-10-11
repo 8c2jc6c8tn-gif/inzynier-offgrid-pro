@@ -5,15 +5,18 @@
  * `/api/pvgis/tmy` (D22 — przeglądarka nie woła PVGIS bezpośrednio). Jeden zapis — ostatnio
  * pobrana lokalizacja; `zapisPasuje` decyduje, czy nadaje się do bieżącej.
  */
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
 import { KLUCZ_BLEDU_PVGIS, KLUCZ_TMY, KOMUNIKAT_PVGIS, odczytajOdpowiedzProxy, type ZapisTmy } from "./dane-tmy"
+import { KLUCZ_NADPISANIA_NASLONECZNIENIA, zastosujNadpisanie, type NadpisanieNasloneczenia } from "./nadpisanie-nasloneczenia"
 
 export function useDaneTmy() {
   const t = useTranslate()
-  const [zapis, setZapis] = useState<ZapisTmy | null>(null)
+  const [zapisSurowy, setZapis] = useState<ZapisTmy | null>(null)
+  const [nadpisanie, setNadpisanie] = useState<NadpisanieNasloneczenia | null>(null)
+  const [nadpisanieWczytano, setNadpisanieWczytano] = useState(false)
   const [wczytano, setWczytano] = useState(false)
   const [pobiera, setPobiera] = useState(false)
   const [kluczBledu, setKluczBledu] = useState<string | null>(null)
@@ -40,6 +43,56 @@ export function useDaneTmy() {
       aktywny = false
     }
   }, [])
+
+  // The user's own monthly sums live under their own small key (the TMY record is ~1.3 MB — never rewritten on a keystroke).
+  useEffect(() => {
+    let aktywny = true
+    indexedDbStorageAdapter
+      .getItem<NadpisanieNasloneczenia>(KLUCZ_NADPISANIA_NASLONECZNIENIA)
+      .then((n) => {
+        if (aktywny) setNadpisanie((biezace) => biezace ?? n)
+      })
+      .catch((err) =>
+        consoleReporter.reportError({
+          userMessage: "Nie udało się wczytać własnych miesięcznych sum nasłonecznienia.",
+          technicalDetails: `IndexedDbStorageAdapter.getItem(${KLUCZ_NADPISANIA_NASLONECZNIENIA}) nie powiódł się`,
+          source: "lib/lokalizacja/use-dane-tmy",
+          cause: err,
+        }),
+      )
+      .finally(() => {
+        if (aktywny) setNadpisanieWczytano(true)
+      })
+    return () => {
+      aktywny = false
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!nadpisanieWczytano || nadpisanie === null) return
+    const uchwyt = setTimeout(() => {
+      indexedDbStorageAdapter.setItem(KLUCZ_NADPISANIA_NASLONECZNIENIA, nadpisanie).catch((err) =>
+        consoleReporter.reportError({
+          userMessage: "Nie udało się zapisać własnych miesięcznych sum nasłonecznienia.",
+          technicalDetails: `IndexedDbStorageAdapter.setItem(${KLUCZ_NADPISANIA_NASLONECZNIENIA}) nie powiódł się`,
+          source: "lib/lokalizacja/use-dane-tmy",
+          cause: err,
+        }),
+      )
+    }, 500)
+    return () => clearTimeout(uchwyt)
+  }, [nadpisanie, nadpisanieWczytano])
+
+  /** Sets the user's monthly sums [kWh/m²] for the downloaded location (`null` = no override of that month). */
+  const ustawNadpisanie = useCallback(
+    (ghiKwhM2: (number | null)[]) => {
+      if (!zapisSurowy) return
+      setNadpisanie({ szerokosc: zapisSurowy.szerokosc, dlugosc: zapisSurowy.dlugosc, ghiKwhM2 })
+    },
+    [zapisSurowy],
+  )
+
+  const zapis = useMemo(() => (zapisSurowy ? zastosujNadpisanie(zapisSurowy, nadpisanie) : null), [zapisSurowy, nadpisanie])
 
   const pobierz = useCallback(async (szerokosc: number, dlugosc: number) => {
     setPobiera(true)
@@ -74,5 +127,5 @@ export function useDaneTmy() {
     }
   }, [])
 
-  return { zapis, wczytano, pobiera, blad: kluczBledu ? t(kluczBledu) : null, pobierz }
+  return { zapis, wczytano, pobiera, blad: kluczBledu ? t(kluczBledu) : null, pobierz, nadpisanie, nadpisanieWczytano, ustawNadpisanie }
 }

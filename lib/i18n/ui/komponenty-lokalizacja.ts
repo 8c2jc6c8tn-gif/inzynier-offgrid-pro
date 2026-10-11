@@ -45,6 +45,13 @@ export const pl = {
   "UI-WYKZAC-STRATA-PROMIENIOWANIA-KOLEJN": "Strata promieniowania w kolejnych miesiącach",
   "UI-WYKZAC-PROGNOZA": "{p} (prognoza): {p2}%",
   "UI-WYKZAC-PROFIL-HORYZONTU-PRZESZKOD-2": "Profil horyzontu przeszkód w funkcji azymutu",
+  "UI-SEKDANNAS-NADPISANIE-TYTUL": "Własne miesięczne sumy promieniowania (opcjonalnie)",
+  "UI-SEKDANNAS-NADPISANIE-OPIS": "Jeśli masz własne pomiary albo inne źródło danych, wpisz sumę promieniowania na płaszczyznę poziomą dla wybranych miesięcy. Godzinowe dane PVGIS tego miesiąca zostaną przeskalowane tak, żeby suma się zgadzała; puste pole = dane PVGIS bez zmian. Dotyczy kalkulatorów w aplikacji, nie narzędzia AI.",
+  "UI-SEKDANNAS-NADPISANIE-PVGIS": "PVGIS: {suma} kWh/m²",
+  "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Skala względem PVGIS: ×{k}",
+  "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "Wartość musi być dodatnia — pole jest pomijane.",
+  "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Wróć do danych PVGIS",
+  "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Liczone z własnych sum miesięcznych ({n} z 12 miesięcy).",
 } as const
 
 type Klucz = keyof typeof pl
@@ -93,6 +100,13 @@ export const en: Record<Klucz, string> = {
   "UI-WYKZAC-STRATA-PROMIENIOWANIA-KOLEJN": "Radiation loss in successive months",
   "UI-WYKZAC-PROGNOZA": "{p} (forecast): {p2}%",
   "UI-WYKZAC-PROFIL-HORYZONTU-PRZESZKOD-2": "Obstacle horizon profile as a function of azimuth",
+  "UI-SEKDANNAS-NADPISANIE-TYTUL": "Your own monthly radiation totals (optional)",
+  "UI-SEKDANNAS-NADPISANIE-OPIS": "If you have your own measurements or another data source, enter the radiation total on the horizontal plane for the chosen months. The hourly PVGIS data of that month is rescaled so that the total matches; an empty field = PVGIS data unchanged. It applies to the calculators in the app, not to the AI tool.",
+  "UI-SEKDANNAS-NADPISANIE-PVGIS": "PVGIS: {suma} kWh/m²",
+  "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Scale relative to PVGIS: ×{k}",
+  "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "The value must be positive — the field is ignored.",
+  "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Back to PVGIS data",
+  "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Calculated from your own monthly totals ({n} of 12 months).",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -139,4 +153,11 @@ export const ru: Record<Klucz, string> = {
   "UI-WYKZAC-STRATA-PROMIENIOWANIA-KOLEJN": "Потеря излучения по месяцам",
   "UI-WYKZAC-PROGNOZA": "{p} (прогноз): {p2}%",
   "UI-WYKZAC-PROFIL-HORYZONTU-PRZESZKOD-2": "Профиль горизонта препятствий в зависимости от азимута",
+  "UI-SEKDANNAS-NADPISANIE-TYTUL": "Собственные месячные суммы радиации (необязательно)",
+  "UI-SEKDANNAS-NADPISANIE-OPIS": "Если у вас есть собственные измерения или другой источник данных, введите сумму радиации на горизонтальную плоскость для выбранных месяцев. Почасовые данные PVGIS этого месяца масштабируются так, чтобы сумма совпала; пустое поле = данные PVGIS без изменений. Относится к калькуляторам в приложении, а не к ИИ-инструменту.",
+  "UI-SEKDANNAS-NADPISANIE-PVGIS": "PVGIS: {suma} кВт·ч/м²",
+  "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Масштаб относительно PVGIS: ×{k}",
+  "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "Значение должно быть положительным — поле игнорируется.",
+  "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Вернуться к данным PVGIS",
+  "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Расчёт по вашим месячным суммам ({n} из 12 месяцев).",
 }

@@ -1,14 +1,94 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
-import type { ZapisTmy } from "@/lib/lokalizacja/dane-tmy"
+import { czyPoprawneNadpisanie, nadpisaniePasuje, type NadpisanieNasloneczenia, type ZapisTmyZNadpisaniem } from "@/lib/lokalizacja/nadpisanie-nasloneczenia"
 import type { LokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
+const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
+
+/** Own monthly radiation totals replacing the PVGIS ones (INFRA-2). Stores strings while typing; an empty or non-positive field means "no override". */
+function NadpisanieMiesieczne({
+  dane,
+  nadpisanie,
+  ustaw,
+}: {
+  dane: ZapisTmyZNadpisaniem
+  nadpisanie: NadpisanieNasloneczenia | null
+  ustaw: (ghiKwhM2: (number | null)[]) => void
+}) {
+  const t = useTranslate()
+  // The parent remounts this component once the saved sums are read (`key`), so the initial state is the saved one.
+  const [wpisy, setWpisy] = useState<string[]>(() =>
+    nadpisaniePasuje(nadpisanie, dane.szerokosc, dane.dlugosc) ? nadpisanie.ghiKwhM2.map((v) => (v === null ? "" : String(v))) : Array(12).fill(""),
+  )
+
+  const zmien = (m: number, tekst: string) => {
+    const nowe = wpisy.map((w, i) => (i === m ? tekst : w))
+    setWpisy(nowe)
+    ustaw(nowe.map((w) => (w.trim() === "" ? null : Number(w))))
+  }
+  const aktywne = dane.wspolczynniki.filter((k) => k !== null).length
+  return (
+    <details className="text-small">
+      <summary className="cursor-pointer font-medium">{t("UI-SEKDANNAS-NADPISANIE-TYTUL")}</summary>
+      <div className="mt-2 flex flex-col gap-3">
+        <p className="flex items-start gap-2 text-muted-foreground">
+          <span className="flex-1">{t("UI-SEKDANNAS-NADPISANIE-OPIS")}</span>
+          <PomocPola ekran="nasloneczenie-miesieczne" pole="suma" />
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {KLUCZE_MIESIECY.map((klucz, m) => {
+            const wpis = wpisy[m] ?? ""
+            const niepoprawne = wpis.trim() !== "" && !czyPoprawneNadpisanie(Number(wpis))
+            const k = dane.wspolczynniki[m]
+            return (
+              <div key={klucz} className="flex flex-col gap-1">
+                <Pole
+                  label={t(klucz)}
+                  unit="kWh/m²"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={wpis}
+                  placeholder={f1(dane.bazoweGhiKwhM2[m] ?? 0)}
+                  onChange={(e) => zmien(m, e.target.value)}
+                />
+                <p className="text-caption text-muted-foreground">{t("UI-SEKDANNAS-NADPISANIE-PVGIS", { suma: f1(dane.bazoweGhiKwhM2[m] ?? 0) })}</p>
+                {k !== null && k !== undefined && <p className="text-caption">{t("UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK", { k: f2(k) })}</p>}
+                {niepoprawne && <p className="text-caption text-werdykt-blad-foreground">{t("UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE")}</p>}
+              </div>
+            )
+          })}
+        </div>
+        {aktywne > 0 && (
+          <>
+            <p className="font-medium">{t("UI-SEKDANNAS-NADPISANIE-AKTYWNE", { n: aktywne })}</p>
+            <Button
+              variant="outline"
+              className="min-h-11 self-start"
+              onClick={() => {
+                setWpisy(Array(12).fill(""))
+                ustaw(Array(12).fill(null))
+              }}
+            >
+              {t("UI-SEKDANNAS-NADPISANIE-WYCZYSC")}
+            </Button>
+          </>
+        )}
+      </div>
+    </details>
+  )
+}
 
 /**
  * Sekcja "Dane nasłonecznienia" — lokalizacja projektu i pobranie PVGIS TMY (raz online, potem
@@ -20,8 +100,15 @@ export function SekcjaDanychNaslonecznienia({
   tmy,
 }: {
   lokalizacja: LokalizacjaProjektu | null
-  dane: ZapisTmy | null
-  tmy: { pobiera: boolean; blad: string | null; pobierz: (szerokosc: number, dlugosc: number) => Promise<void> }
+  dane: ZapisTmyZNadpisaniem | null
+  tmy: {
+    pobiera: boolean
+    blad: string | null
+    pobierz: (szerokosc: number, dlugosc: number) => Promise<void>
+    nadpisanie: NadpisanieNasloneczenia | null
+    nadpisanieWczytano: boolean
+    ustawNadpisanie: (ghiKwhM2: (number | null)[]) => void
+  }
 }) {
   const t = useTranslate()
   const online = useOnline()
@@ -61,6 +148,7 @@ export function SekcjaDanychNaslonecznienia({
           >
             {tmy.pobiera ? t("UI-SEKDANNAS-POBIERAM-PVGIS") : dane ? t("UI-SEKDANNAS-POBIERZ-PONOWNIE") : t("UI-SEKDANNAS-POBIERZ-DANE-NASLONECZNIENIA")}
           </Button>
+          {dane && <NadpisanieMiesieczne key={String(tmy.nadpisanieWczytano)} dane={dane} nadpisanie={tmy.nadpisanie} ustaw={tmy.ustawNadpisanie} />}
           {!online && !dane && <p className="text-small">{t("UI-SEKDANNAS-BRAK-POLACZENIA-POBIERZ")}</p>}
           {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
         </>
