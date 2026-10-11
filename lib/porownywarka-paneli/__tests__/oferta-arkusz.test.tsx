@@ -1,8 +1,13 @@
 import { cleanup, render, screen } from "@testing-library/react"
-import { afterEach, describe, expect, it } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import { ArkuszOferty, type DaneOferty } from "@/components/porownywarka-paneli/oferta"
 import { PROFIL_FIRMY_PUSTY } from "@/lib/firma/profil-firmy"
+import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
+import type { WersjaOferty } from "../oferta"
 import { STAN_POCZATKOWY, type FormularzStan } from "../stan"
+
+// The comparison rows are not under test here; a one-field panel fixture is enough for the totals.
+vi.mock("@/components/porownywarka-paneli/wiersze-wyniku", () => ({ wierszeWyniku: () => [] }))
 
 const DANE: DaneOferty = {
   panele: [],
@@ -18,6 +23,10 @@ const DANE: DaneOferty = {
   zwroty: undefined,
 }
 const pokaz = (stan: Partial<FormularzStan>) => render(<ArkuszOferty dane={DANE} stan={{ ...STAN_POCZATKOWY, ...stan }} firma={PROFIL_FIRMY_PUSTY} wersje={[]} />)
+
+const wersjaA = { litera: "A", etykieta: "", zalecana: false, panel: { id: "p1", nazwa: "Panel 1", cenaRazemZl: 12000 } as WynikPanelu } as WersjaOferty
+const pokazZWersja = (stan: Partial<FormularzStan>) =>
+  render(<ArkuszOferty dane={DANE} stan={{ ...STAN_POCZATKOWY, ...stan }} firma={PROFIL_FIRMY_PUSTY} wersje={[wersjaA]} />)
 
 afterEach(cleanup)
 
@@ -49,5 +58,16 @@ describe("ArkuszOferty: numer, montaż z VAT i warunki handlowe (spec 53)", () =
   it("leaves the installation section out when the amount is invalid", () => {
     pokaz({ ofertaMontazNetto: "-5", ofertaMontazVat: "8" })
     expect(screen.queryByText("Montaż i podłączenie")).toBeNull()
+  })
+
+  it("adds the gross installation to the gross panel price: 12 000 + 1 518,51 = 13 518,51 (owner: prices are always gross)", () => {
+    pokazZWersja({ ofertaMontazNetto: "1234.56", ofertaMontazVat: "23" })
+    expect(screen.getByText("Razem brutto z montażem")).toBeTruthy()
+    expect(document.body.textContent ?? "").toMatch(/Wersja A: panele i montaż — 13\s?518,51\s?zł/)
+  })
+
+  it("prints no total without a VAT rate (no gross installation amount)", () => {
+    pokazZWersja({ ofertaMontazNetto: "1500" })
+    expect(screen.queryByText("Razem brutto z montażem")).toBeNull()
   })
 })

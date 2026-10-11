@@ -1,8 +1,8 @@
 /**
  * Installation line of the printed offer (spec 53): the net price of mounting and connecting, a VAT rate and the resulting VAT and
  * gross amount. Both numbers are typed by the user — the app knows neither the labour price nor the rate that applies to the job,
- * so an empty rate gives the net amount only. The amount is NOT added to the panel and accessory prices of the comparison table
- * (the app does not know whether those were typed net or gross).
+ * so an empty rate gives the net amount only. Prices in the comparison are always gross (owner decision 11.10.2026: "prices with VAT"),
+ * so the gross installation amount is added to them (`sumaZMontazem`); without a rate there is no gross amount and no sum.
  */
 export type MontazZVat = {
   nettoKwota: number
@@ -35,4 +35,10 @@ export function policzMontaz(nettoTekst: string | undefined, vatTekst: string | 
   if (vat === null) return { rodzaj: "ok", montaz: { nettoKwota, vatPct: null, vatKwota: null, bruttoKwota: null } }
   const vatKwota = grosz((nettoKwota * vat) / 100)
   return { rodzaj: "ok", montaz: { nettoKwota, vatPct: vat, vatKwota, bruttoKwota: grosz(nettoKwota + vatKwota) } }
+}
+
+/** A comparison price (gross, display currency) plus the gross installation; `null` when either is missing. */
+export function sumaZMontazem(cenaBrutto: number | null, montaz: MontazZVat | null): number | null {
+  if (cenaBrutto === null || montaz === null || montaz.bruttoKwota === null) return null
+  return grosz(cenaBrutto + montaz.bruttoKwota)
 }

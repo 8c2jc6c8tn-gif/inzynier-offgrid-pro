@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.26.0] — 11.10.2026
+
+Porównywarka paneli, zakładka „Oferta (wydruk)”: suma „Razem brutto z montażem” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 54):
+- decyzja właściciela (11.10.2026): ceny w Porównywarce są zawsze brutto (z VAT) — pole „Cena brutto za sztukę”, cennik osprzętu przeliczony o VAT 23 %, własne ceny osprzętu wpisywane brutto,
+- gdy podasz cenę netto montażu i stawkę VAT, wydruk dolicza cenę brutto montażu do ceny paneli każdej wersji oferty (oraz do zakresu „panele, urządzenie i osprzęt”, jeśli wybrano urządzenie); bez stawki VAT sum nie liczy i mówi dlaczego,
+- zmieniono opisy i pomoc „?” przy polach montażu (wcześniej mówiły, że kwota nie jest sumowana).
+
+Wpływ na liczby: bez zmian w silnikach i wynikach porównania — dochodzi tylko suma na wydruku oferty (ceny brutto paneli i osprzętu + montaż brutto, do grosza).
+
 ## [3.25.0] — 11.10.2026
 
 Porównywarka paneli, zakładka „Oferta (wydruk)”: numer oferty, warunki handlowe i montaż z VAT (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 53):

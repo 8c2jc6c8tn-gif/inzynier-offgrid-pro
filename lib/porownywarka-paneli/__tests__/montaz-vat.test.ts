@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { policzMontaz } from "../montaz-vat"
+import { policzMontaz, sumaZMontazem } from "../montaz-vat"
 
 describe("policzMontaz", () => {
   it("is empty when nothing is typed", () => {
@@ -34,5 +34,27 @@ describe("policzMontaz", () => {
     expect(policzMontaz("1000", "101")).toEqual({ rodzaj: "blad" })
     expect(policzMontaz("1000", "-1")).toEqual({ rodzaj: "blad" })
     expect(policzMontaz("", "8")).toEqual({ rodzaj: "brak" })
+  })
+})
+
+describe("sumaZMontazem", () => {
+  const montaz = (n: string, v: string) => {
+    const w = policzMontaz(n, v)
+    if (w.rodzaj !== "ok") throw new Error("expected ok")
+    return w.montaz
+  }
+
+  it("adds the gross installation to a gross price: 12 000 + 1 518,51 = 13 518,51", () => {
+    expect(sumaZMontazem(12000, montaz("1234,56", "23"))).toBe(13518.51)
+  })
+
+  it("is null without a rate (no gross amount), without a price or without an installation", () => {
+    expect(sumaZMontazem(12000, montaz("1500", ""))).toBeNull()
+    expect(sumaZMontazem(null, montaz("1000", "8"))).toBeNull()
+    expect(sumaZMontazem(12000, null)).toBeNull()
+  })
+
+  it("rate 0 % adds the net amount unchanged", () => {
+    expect(sumaZMontazem(100, montaz("500", "0"))).toBe(600)
   })
 })

@@ -13,7 +13,7 @@ import { CALCULATOR_VERSION, type WynikPanelu } from "@/lib/core/modules/pv/poro
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { linieKontaktuFirmy, PROFIL_FIRMY_PUSTY, type ProfilFirmy } from "@/lib/firma/profil-firmy"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
-import { policzMontaz } from "@/lib/porownywarka-paneli/montaz-vat"
+import { policzMontaz, sumaZMontazem } from "@/lib/porownywarka-paneli/montaz-vat"
 import { LITERY_WERSJI, slotyWersji, wersjeOferty, type WersjaOferty } from "@/lib/porownywarka-paneli/oferta"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import type { ZwrotZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
@@ -246,6 +246,16 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
         return x ? [{ w, x }] : []
       })
     : []
+  const sumyZMontazem =
+    montaz === null
+      ? []
+      : wersje.flatMap((w) => {
+          const x = podsumowanie?.panele.find((y) => y.wynik.id === w.panel.id)
+          const panele = sumaZMontazem(w.panel.cenaRazemZl, montaz)
+          const zUrzadzeniem = x ? { min: sumaZMontazem(x.razemMin, montaz), maks: sumaZMontazem(x.razemMax, montaz) } : null
+          const urzadzenie = zUrzadzeniem && zUrzadzeniem.min !== null && zUrzadzeniem.maks !== null ? { min: zUrzadzeniem.min, maks: zUrzadzeniem.maks } : null
+          return panele === null && urzadzenie === null ? [] : [{ w, panele, urzadzenie }]
+        })
   const pokazBos = podsumowanie !== null && !podsumowanie.mikro && sekcjeUrzadzenia.some(({ x }) => x.wybrany !== null)
   return (
     <table className="w-full min-w-[20rem] border-collapse bg-white text-small text-black">
@@ -356,6 +366,20 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
                     </>
                   ) : (
                     <p className="text-neutral-700">{t("UI-PORP-OF-MONTAZ-BEZ-VAT")}</p>
+                  )}
+                  {sumyZMontazem.length > 0 && (
+                    <div className="mt-1 flex flex-col gap-1">
+                      <p className="font-medium">{t("UI-PORP-OF-RAZEM-TYTUL")}</p>
+                      {sumyZMontazem.map(({ w, panele, urzadzenie }) => {
+                        const wersja = t("UI-PORP-OF-WERSJA-LITERA", { litera: w.litera })
+                        return (
+                          <div key={w.litera}>
+                            {panele !== null && <p>{t("UI-PORP-OF-RAZEM-PANELE", { wersja, kwota: kwota(panele) })}</p>}
+                            {urzadzenie && <p>{t("UI-PORP-OF-RAZEM-URZADZENIE", { wersja, min: kwota(urzadzenie.min), maks: kwota(urzadzenie.maks) })}</p>}
+                          </div>
+                        )
+                      })}
+                    </div>
                   )}
                   <p className="text-neutral-700">{t("UI-PORP-OF-MONTAZ-NOTA")}</p>
                 </section>
