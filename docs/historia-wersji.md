@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.25.0] — 11.10.2026
+
+Porównywarka paneli, zakładka „Oferta (wydruk)”: numer oferty, warunki handlowe i montaż z VAT (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 53):
+- nowe pola oferty: „Numer oferty” (drukowany u góry jako „Oferta nr …”) i „Warunki handlowe” (osobna sekcja z tekstu, który wpiszesz) — aplikacja niczego nie numeruje ani nie podpowiada,
+- sekcja „Montaż i podłączenie”: wpisujesz cenę netto montażu i stawkę VAT, a wydruk pokazuje kwotę VAT i cenę brutto (do grosza); bez stawki pokazuje samą kwotę netto i mówi, że stawki nie podano; stawki aplikacja nie zakłada,
+- kwota montażu nie jest dodawana do cen paneli i osprzętu z tabeli, bo program nie wie, czy te ceny wpisano netto czy brutto (wydruk to mówi),
+- nowe pola nie są dołączane do porównania udostępnianego linkiem lub plikiem (to dane sprzedawcy).
+
+Wpływ na liczby: bez zmian — dodatkowe sekcje wydruku, żaden wynik porównania się nie zmienia.
+
 ## [3.24.0] — 11.10.2026
 
 Moduł 10, ekran „Prognoza stanu naładowania i oś czasu” (dawne 12.4 i 12.43; spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 52):

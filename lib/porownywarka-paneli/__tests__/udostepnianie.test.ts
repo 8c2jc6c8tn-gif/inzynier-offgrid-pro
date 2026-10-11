@@ -32,6 +32,10 @@ const stanTestowy = (): FormularzStan => ({
   ofertaDla: "Jan Kowalski",
   ofertaWykonawca: "Firma X",
   ofertaUwagi: "tajne",
+  ofertaNumer: "2026/10/001",
+  ofertaWarunki: "zaliczka 30 proc.",
+  ofertaMontazNetto: "4321",
+  ofertaMontazVat: "8",
 })
 
 describe("zbudujPaczke", () => {
@@ -40,6 +44,10 @@ describe("zbudujPaczke", () => {
     expect(p.stan.ofertaDla).toBeUndefined()
     expect(p.stan.ofertaWykonawca).toBeUndefined()
     expect(p.stan.ofertaUwagi).toBeUndefined()
+    expect(p.stan.ofertaNumer).toBeUndefined()
+    expect(p.stan.ofertaWarunki).toBeUndefined()
+    expect(p.stan.ofertaMontazNetto).toBeUndefined()
+    expect(p.stan.ofertaMontazVat).toBeUndefined()
     expect(JSON.stringify(p)).not.toContain("Kowalski")
     expect(p.wersja).toBe(WERSJA_PACZKI)
   })

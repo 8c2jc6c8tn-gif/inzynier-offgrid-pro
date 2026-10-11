@@ -413,6 +413,30 @@ export const pl = {
         gdzie: "Wpisz sam; nie wpisuję tu nic z góry.",
         zakres: "Opcjonalnie; puste = sekcja „Uwagi” nie pojawia się na wydruku.",
       },
+      ofertaNumer: {
+        nazwa: "Numer oferty",
+        cel: "Numer, który pojawi się u góry wydruku („Oferta nr …”), żeby oferta dała się odnaleźć w Twojej dokumentacji.",
+        gdzie: "Przyjmij własny system numeracji (np. rok/miesiąc/kolejny numer) — aplikacja niczego nie numeruje sama.",
+        zakres: "Opcjonalnie, dowolny tekst; puste = linia nie pojawia się na wydruku.",
+      },
+      ofertaWarunki: {
+        nazwa: "Warunki handlowe",
+        cel: "Własne zdania o warunkach oferty (termin ważności, płatność, zaliczka, gwarancja, zakres prac), które trafią na wydruk w osobnej sekcji.",
+        gdzie: "Wpisz sam; aplikacja nie podpowiada żadnych warunków i nie ocenia, czy są zgodne z prawem. Zapisują się w tym porównaniu, nie są dołączane przy udostępnianiu.",
+        zakres: "Opcjonalnie; puste = sekcja „Warunki handlowe” nie pojawia się na wydruku.",
+      },
+      ofertaMontazNetto: {
+        nazwa: "Cena netto montażu i podłączenia",
+        cel: "Kwota za robociznę, którą wydruk pokaże osobno razem z VAT i ceną brutto. Nie jest dodawana do cen paneli z tabeli.",
+        gdzie: "Z Twojej kalkulacji; aplikacja nie zna cen robocizny.",
+        zakres: "Liczba nie mniejsza niż 0 w walucie wyświetlania; puste = sekcja montażu nie pojawia się.",
+      },
+      ofertaMontazVat: {
+        nazwa: "Stawka VAT montażu",
+        cel: "Procent, z którego liczony jest VAT od ceny netto montażu.",
+        gdzie: "Stawka zależy od rodzaju usługi i obiektu — ustal ją sam (np. z doradcą podatkowym); aplikacja nie zakłada żadnej.",
+        zakres: "Od 0 do 100 %; puste = wydruk pokaże tylko kwotę netto bez VAT.",
+      },
       firmaNazwa: {
         nazwa: "Nazwa firmy",
         cel: "Nazwa, która pojawi się na wydruku obok logo jako wykonawca zestawienia.",
@@ -982,6 +1006,30 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Type them yourself; nothing is filled in beforehand.",
         zakres: "Optional; empty = the “Notes” section does not appear on the printout.",
       },
+      ofertaNumer: {
+        nazwa: "Offer number",
+        cel: "The number shown at the top of the printout (“Offer no. …”) so the offer can be found in your records.",
+        gdzie: "Use your own numbering system (e.g. year/month/next number) — the app numbers nothing by itself.",
+        zakres: "Optional, any text; empty = the line does not appear on the printout.",
+      },
+      ofertaWarunki: {
+        nazwa: "Commercial terms",
+        cel: "Your own sentences about the terms of the offer (validity, payment, deposit, warranty, scope of work), printed in a separate section.",
+        gdzie: "Type them yourself; the app suggests no terms and does not judge whether they are lawful. They are saved in this comparison and are not attached when sharing.",
+        zakres: "Optional; empty = the “Commercial terms” section does not appear on the printout.",
+      },
+      ofertaMontazNetto: {
+        nazwa: "Net price of installation and connection",
+        cel: "The labour amount that the printout shows separately with VAT and the gross price. It is not added to the panel prices of the table.",
+        gdzie: "From your own calculation; the app does not know labour prices.",
+        zakres: "A number not below 0 in the display currency; empty = the installation section does not appear.",
+      },
+      ofertaMontazVat: {
+        nazwa: "VAT rate of the installation",
+        cel: "The percentage from which VAT is computed on the net installation price.",
+        gdzie: "The rate depends on the kind of service and the building — determine it yourself (e.g. with a tax adviser); the app assumes none.",
+        zakres: "From 0 to 100 %; empty = the printout shows only the net amount without VAT.",
+      },
       firmaNazwa: {
         nazwa: "Company name",
         cel: "The name printed next to the logo as the author of the summary.",
@@ -1550,6 +1598,30 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Ваши собственные предложения, которые попадут в печать под сравнением (например, срок, условия, что не входит в сводку).",
         gdzie: "Введите сами; заранее ничего не подставляется.",
         zakres: "Необязательно; пусто = раздел «Примечания» в печати не появляется.",
+      },
+      ofertaNumer: {
+        nazwa: "Номер предложения",
+        cel: "Номер, который будет показан вверху распечатки («Предложение № …»), чтобы предложение можно было найти в вашей документации.",
+        gdzie: "Используйте собственную систему нумерации (например, год/месяц/следующий номер) — приложение само ничего не нумерует.",
+        zakres: "Необязательно, любой текст; пусто = строка не появится в распечатке.",
+      },
+      ofertaWarunki: {
+        nazwa: "Коммерческие условия",
+        cel: "Ваши собственные формулировки об условиях предложения (срок действия, оплата, аванс, гарантия, объём работ), которые будут напечатаны отдельным разделом.",
+        gdzie: "Введите сами; приложение не подсказывает условий и не оценивает их законность. Они сохраняются в этом сравнении и не прикладываются при отправке.",
+        zakres: "Необязательно; пусто = раздел «Коммерческие условия» не появится в распечатке.",
+      },
+      ofertaMontazNetto: {
+        nazwa: "Цена монтажа и подключения без НДС",
+        cel: "Сумма за работы, которую распечатка покажет отдельно вместе с НДС и ценой с НДС. Она не добавляется к ценам панелей из таблицы.",
+        gdzie: "Из вашей собственной калькуляции; приложение не знает цен на работы.",
+        zakres: "Число не меньше 0 в валюте отображения; пусто = раздел монтажа не появится.",
+      },
+      ofertaMontazVat: {
+        nazwa: "Ставка НДС на монтаж",
+        cel: "Процент, по которому считается НДС от цены монтажа без НДС.",
+        gdzie: "Ставка зависит от вида услуги и объекта — определите её сами (например, с налоговым консультантом); приложение ничего не предполагает.",
+        zakres: "От 0 до 100 %; пусто = распечатка покажет только сумму без НДС.",
       },
       firmaNazwa: {
         nazwa: "Название фирмы",

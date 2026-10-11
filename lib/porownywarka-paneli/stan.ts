@@ -160,6 +160,11 @@ export type FormularzStan = {
   ofertaDla?: string
   ofertaWykonawca?: string
   ofertaUwagi?: string
+  /** Offer number and commercial terms typed by the seller (free text), and the installation net price [display currency] with its VAT rate [%] (spec 53). */
+  ofertaNumer?: string
+  ofertaWarunki?: string
+  ofertaMontazNetto?: string
+  ofertaMontazVat?: string
   /** Profitability tab: add the device and accessories (tab "Inverter and accessories") to the panel price in payback and winter-kWh cost; absent = off. */
   zwrotZOsprzetem?: boolean
   /** Offer versions A/B/C: the compared panel and a short label per slot (always three entries once edited); absent = the first three panels. */

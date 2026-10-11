@@ -828,3 +828,14 @@ Wersja 3.24.0. Nowy silnik `lib/core/modules/ai/prognoza-soc` 1.0.0 i ekran `/ka
 - **Czego nie robi:** nie przewiduje pogody ani temperatury, nie modeluje starzenia i spadku pojemności, nie zna napięciowej krzywej SOC (liniowo z energii), nie łączy się z telemetrią (Moduł 13).
 - **Testy:** doba policzona ręcznie dla baterii 10 kWh, start 50 %, minimum 10 %: 5 → 2 → 3,5 → 6,5 → 10 (pełna) → 1 kWh, nadwyżka 8,5 kWh, minimum po 24 h; oś czasu rozładowanie 0–6, ładowanie 6–13, nadwyżka 13–18, rozładowanie 18–24; druga doba bez słońca: niedobór 22,5 kWh przez 24 h; udział 50 % → produkcja 13,5 kWh; sprawność ładowania 90 % → 68 %, rozładowania 80 % → 30 %; limit mocy ładowania i rozładowania; przejście przez północ; wartości niepoprawne.
 
+## 53. Oferta: numer, warunki handlowe i montaż z VAT (11.10.2026)
+
+Wersja 3.25.0. Silniki bez zmian; zmiana dotyczy zakładki „Oferta (wydruk)”. Źródło: tablica ekranów 11.10.2026 (A: „numeracja ofert, warunki handlowe, VAT montażu”) i luki zapisane w sekcjach 28–29.
+- **Pola (opcjonalne, w szkicu autosave):** „Numer oferty” (tekst), „Warunki handlowe” (tekst wieloliniowy), „Cena netto montażu i podłączenia” [waluta wyświetlania] i „Stawka VAT montażu” [%]. Wszystkie puste na starcie; puste = element nie pojawia się na wydruku.
+- **Numer oferty:** wpisywany ręcznie, drukowany w nagłówku jako „Oferta nr …”. Aplikacja nie numeruje ofert sama (nie ma serwera ani rejestru ofert, a schemat numeracji to sprawa sprzedawcy).
+- **Warunki handlowe:** osobna sekcja po uwagach, wyłącznie tekst użytkownika; aplikacja nie podpowiada warunków i nie ocenia ich zgodności z prawem.
+- **Montaż z VAT** (`lib/porownywarka-paneli/montaz-vat.ts`): VAT = netto · stawka ÷ 100, brutto = netto + VAT, kwoty do grosza (zaokrąglenie jak na fakturze). Przy pustej stawce wydruk pokazuje tylko kwotę netto z informacją, że stawki nie podano. Stawka 0 % jest stawką (VAT 0, brutto = netto). Kwota ujemna, nie-liczba albo stawka poza 0–100 % nie drukuje sekcji, a ekran pisze dlaczego. **Stawki aplikacja nie zakłada** — zależy od rodzaju usługi i obiektu, ustala ją użytkownik.
+- **Decyzja:** kwota montażu NIE jest sumowana z cenami paneli i osprzętu z tabeli, bo aplikacja nie wie, czy te ceny wpisano netto czy brutto; sekcja mówi to na wydruku. Sumę „razem” można dodać po decyzji właściciela, czy ceny w porównaniu mają być netto czy brutto.
+- **Udostępnianie:** wszystkie cztery pola dochodzą do listy pomijanych w paczce porównania (dane sprzedawcy, jak „Dla” i „Uwagi”).
+- **Testy:** 1000 netto przy 8 % → VAT 80, brutto 1080; 1234,56 przy 23 % → VAT 283,95, brutto 1518,51; stawka pusta, 0 %, wartości niepoprawne; arkusz oferty: sekcje bez wpisu nie pojawiają się, numer, warunki i trzy linie montażu, pominięcie przy kwocie ujemnej; paczka udostępniania nie zawiera nowych pól.
+
