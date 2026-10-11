@@ -118,7 +118,7 @@ export const pl = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Dom zimą to wiadro z dziurami — ogrzewanie musi dolewać tyle, ile wycieka.",
-      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd. Pod wynikiem: raport — co traci najwięcej ciepła (ranking z wentylacją), ciepło na m² w roku i roczny koszt ogrzewania.",
+      jakDziala: "Straty przez przegrody (U × A × różnica temperatur) plus straty z wymienianym powietrzem, w najzimniejszym dniu dla Twojej strefy klimatycznej. Dla miesięcy — ze średniej temperatury miesiąca; z COP przeliczam ciepło na prąd. Pod wynikiem: raport — co traci najwięcej ciepła (ranking z wentylacją), ciepło na m² w roku i roczny koszt ogrzewania. U przegrody wpisujesz albo liczysz z jej warstw (U = 1/(Rsi + Σ grubość/λ + Rse), PN-EN ISO 6946, bez mostków cieplnych — dla ściany szkieletowej to wartość zbyt optymistyczna).",
       poCo: "To moc, którą musi dać ogrzewanie — w off-gridzie od niej zależy, ile prądu albo paliwa potrzebujesz zimą.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -133,6 +133,11 @@ export const pl = {
       kubatura: { nazwa: "Kubatura ogrzewana [m³]", cel: "Objętość powietrza, które trzeba ogrzać przy wymianie.", gdzie: "Powierzchnia × wysokość pomieszczeń.", zakres: "≥ 0. " + TWOJ },
       wymiany: { nazwa: "Wymiany powietrza [1/h]", cel: "Ile razy na godzinę wymienia się powietrze bez odzysku ciepła.", gdzie: "Nieszczelności + wentylacja bez odzysku. Wynik testu szczelności albo od projektanta.", zakres: "≥ 0. " + TWOJ },
       cop: { nazwa: "COP ogrzewania [–] (opcjonalnie)", cel: "Przelicza ciepło na prąd.", gdzie: "Grzałka, kocioł elektryczny: 1. Pompa ciepła: z karty albo z ekranu „COP pompy ciepła”.", zakres: "Puste = bez przeliczenia na prąd." },
+      kierunek: { nazwa: "Kierunek strumienia ciepła", cel: "Od niego zależą opory przejmowania ciepła przy powierzchniach (Rsi 0,10 / 0,13 / 0,17 m²·K/W, Rse 0,04) w obliczeniu U z warstw.", gdzie: "Ściana — poziomo, dach lub strop pod nieogrzewanym strychem — w górę, podłoga — w dół.", zakres: "Lista (PN-EN ISO 6946:2017, tablica 7)." },
+      warstwaNazwa: { nazwa: "Nazwa warstwy", cel: "Tylko dla Ciebie — pomaga odróżnić warstwy.", gdzie: "Np. płyta OSB, wełna, płyta gipsowo-kartonowa.", zakres: "Dowolny tekst." },
+      warstwaGrubosc: { nazwa: "Grubość warstwy [mm]", cel: "Opór warstwy to grubość podzielona przez λ.", gdzie: "Z projektu albo pomiaru. Podaj grubość samej warstwy, nie całej przegrody.", zakres: "> 0. " + TWOJ },
+      warstwaLambda: { nazwa: "Przewodność cieplna λ [W/(m·K)]", cel: "Im mniejsza λ, tym lepiej warstwa izoluje.", gdzie: "λ deklarowane z karty produktu. Aplikacja nie podpowiada wartości — nie zgaduję przewodności materiałów.", zakres: "> 0. " + TWOJ },
+      warstwaOpor: { nazwa: "Opór cieplny warstwy R [m²·K/W]", cel: "Gotowy opór zamiast grubości i λ — dla warstw, które producent opisuje oporem (np. szczelina powietrzna).", gdzie: "Z karty producenta. Jeśli podasz R, grubość i λ tej warstwy są pomijane.", zakres: "> 0. " + TWOJ },
       miesiac: { nazwa: "Średnia temperatura miesiąca [°C]", cel: "Z niej liczone są straty i prąd w danym miesiącu.", gdzie: "Z PVGIS dla Twojej lokalizacji albo wpisana ręcznie.", zakres: "Puste miesiące są pomijane." },
     },
   },
@@ -351,7 +356,7 @@ export const en: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "A house in winter is a leaky bucket — heating has to top up as much as leaks out.",
-      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity. Below the result: a report — what loses the most heat (ranking incl. ventilation), heat per m² per year and the yearly heating cost.",
+      jakDziala: "Losses through the envelope (U × A × temperature difference) plus losses with exchanged air, on the coldest day for your climate zone. For months — from the monthly mean temperature; with COP I convert heat to electricity. Below the result: a report — what loses the most heat (ranking incl. ventilation), heat per m² per year and the yearly heating cost. You type the element's U or calculate it from its layers (U = 1/(Rsi + Σ thickness/λ + Rse), EN ISO 6946, no thermal bridges — for a framed wall that is too optimistic).",
       poCo: "This is the output heating must deliver — off-grid, it decides how much electricity or fuel you need in winter.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 h;  E_el = Q / COP.",
     },
@@ -366,6 +371,11 @@ export const en: Tlumaczenie<typeof pl> = {
       kubatura: { nazwa: "Heated volume [m³]", cel: "Volume of air to heat during exchange.", gdzie: "Floor area × room height.", zakres: "≥ 0. " + EN_YOURS },
       wymiany: { nazwa: "Air changes [1/h]", cel: "How many times per hour air is exchanged without heat recovery.", gdzie: "Leakage + ventilation without recovery. Airtightness test result or from the designer.", zakres: "≥ 0. " + EN_YOURS },
       cop: { nazwa: "Heating COP [–] (optional)", cel: "Converts heat to electricity.", gdzie: "Heater, electric boiler: 1. Heat pump: from the datasheet or the “Heat pump COP” screen.", zakres: "Empty = no conversion to electricity." },
+      kierunek: { nazwa: "Direction of heat flow", cel: "It sets the surface heat-transfer resistances (Rsi 0.10 / 0.13 / 0.17 m²·K/W, Rse 0.04) used in the U-from-layers calculation.", gdzie: "Wall — horizontal, roof or ceiling under an unheated attic — upward, floor — downward.", zakres: "List (EN ISO 6946:2017, Table 7)." },
+      warstwaNazwa: { nazwa: "Layer name", cel: "Only for you — it helps tell the layers apart.", gdzie: "E.g. OSB board, wool, plasterboard.", zakres: "Any text." },
+      warstwaGrubosc: { nazwa: "Layer thickness [mm]", cel: "The layer's resistance is its thickness divided by λ.", gdzie: "From the design or measurement. Enter the thickness of the layer alone, not of the whole element.", zakres: "> 0. " + EN_YOURS },
+      warstwaLambda: { nazwa: "Thermal conductivity λ [W/(m·K)]", cel: "The lower λ, the better the layer insulates.", gdzie: "Declared λ from the product datasheet. The app suggests no value — I do not guess material conductivities.", zakres: "> 0. " + EN_YOURS },
+      warstwaOpor: { nazwa: "Layer thermal resistance R [m²·K/W]", cel: "A ready resistance instead of thickness and λ — for layers the manufacturer describes by resistance (e.g. an air gap).", gdzie: "From the manufacturer's datasheet. If you enter R, this layer's thickness and λ are ignored.", zakres: "> 0. " + EN_YOURS },
       miesiac: { nazwa: "Monthly mean temperature [°C]", cel: "Losses and electricity for that month are calculated from it.", gdzie: "From PVGIS for your location or entered by hand.", zakres: "Empty months are skipped." },
     },
   },
@@ -584,7 +594,7 @@ export const ru: Tlumaczenie<typeof pl> = {
   "obciazenie-cieplne": {
     migawka: {
       oCoChodzi: "Дом зимой — дырявое ведро: отопление должно доливать столько, сколько вытекает.",
-      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию. Под результатом: отчёт — что теряет больше всего тепла (рейтинг с вентиляцией), тепло на м² в год и годовая стоимость отопления.",
+      jakDziala: "Потери через ограждения (U × A × разница температур) плюс потери с обменным воздухом в самый холодный день для вашей климатической зоны. Для месяцев — по средней температуре месяца; с COP перевожу тепло в электроэнергию. Под результатом: отчёт — что теряет больше всего тепла (рейтинг с вентиляцией), тепло на м² в год и годовая стоимость отопления. U ограждения можно ввести или рассчитать по его слоям (U = 1/(Rsi + Σ толщина/λ + Rse), EN ISO 6946, без тепловых мостов — для каркасной стены значение слишком оптимистично).",
       poCo: "Это мощность, которую должно дать отопление — в автономной системе от неё зависит, сколько электроэнергии или топлива нужно зимой.",
       fizyka: "Φ = Σ U·A·Δθ + n·V·ρ·c_p/3600·Δθ;  Q = Φ · 24 ч;  E_эл = Q / COP.",
     },
@@ -599,6 +609,11 @@ export const ru: Tlumaczenie<typeof pl> = {
       kubatura: { nazwa: "Отапливаемый объём [м³]", cel: "Объём воздуха, который нужно нагреть при обмене.", gdzie: "Площадь × высота помещений.", zakres: "≥ 0. " + RU_YOURS },
       wymiany: { nazwa: "Кратность воздухообмена [1/ч]", cel: "Сколько раз в час меняется воздух без рекуперации тепла.", gdzie: "Неплотности + вентиляция без рекуперации. Результат теста герметичности или от проектировщика.", zakres: "≥ 0. " + RU_YOURS },
       cop: { nazwa: "COP отопления [–] (необязательно)", cel: "Переводит тепло в электроэнергию.", gdzie: "ТЭН, электрокотёл: 1. Тепловой насос: из паспорта или с экрана «COP теплового насоса».", zakres: "Пусто = без перевода в электроэнергию." },
+      kierunek: { nazwa: "Направление теплового потока", cel: "От него зависят сопротивления теплоотдачи у поверхностей (Rsi 0,10 / 0,13 / 0,17 м²·К/Вт, Rse 0,04) в расчёте U по слоям.", gdzie: "Стена — горизонтально, крыша или перекрытие под неотапливаемым чердаком — вверх, пол — вниз.", zakres: "Список (EN ISO 6946:2017, таблица 7)." },
+      warstwaNazwa: { nazwa: "Название слоя", cel: "Только для вас — помогает различать слои.", gdzie: "Например, плита OSB, вата, гипсокартон.", zakres: "Любой текст." },
+      warstwaGrubosc: { nazwa: "Толщина слоя [мм]", cel: "Сопротивление слоя — это толщина, делённая на λ.", gdzie: "Из проекта или замера. Укажите толщину самого слоя, а не всего ограждения.", zakres: "> 0. " + RU_YOURS },
+      warstwaLambda: { nazwa: "Теплопроводность λ [Вт/(м·К)]", cel: "Чем меньше λ, тем лучше слой изолирует.", gdzie: "Заявленная λ из паспорта продукта. Приложение не подсказывает значений — я не угадываю теплопроводность материалов.", zakres: "> 0. " + RU_YOURS },
+      warstwaOpor: { nazwa: "Термическое сопротивление слоя R [м²·К/Вт]", cel: "Готовое сопротивление вместо толщины и λ — для слоёв, которые производитель описывает сопротивлением (например, воздушная прослойка).", gdzie: "Из паспорта производителя. Если указать R, толщина и λ этого слоя игнорируются.", zakres: "> 0. " + RU_YOURS },
       miesiac: { nazwa: "Средняя температура месяца [°C]", cel: "По ней считаются потери и электроэнергия за месяц.", gdzie: "Из PVGIS для вашего места или вручную.", zakres: "Пустые месяцы пропускаются." },
     },
   },

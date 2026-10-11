@@ -5,14 +5,25 @@
  */
 import { useMemo } from "react"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
-import { calculateObciazenieCieplne, type ObciazenieCieplneResult } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
+import { calculateObciazenieCieplne, uPrzegrody, type ObciazenieCieplneResult } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import type { ObciazenieCieplneInput } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/input"
 import { STREFY_KLIMATYCZNE } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
+import { KIERUNKI_STRUMIENIA, uZWarstw } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 
 export const KLUCZ_DRAFTU_OBCIAZENIA = "obciazenie-cieplne"
 
-export type PrzegrodaSeed = { nazwa: string; powierzchniaM2: string; uWM2K: string; zewnetrzna: boolean; temperaturaPoDrugiejStronieC: string }
+export type WarstwaSeed = { nazwa: string; gruboscMm: string; lambdaWmK: string; oporM2KW: string }
+/** `warstwy`/`kierunek` are optional: drafts saved before the layers existed have neither. */
+export type PrzegrodaSeed = {
+  nazwa: string
+  powierzchniaM2: string
+  uWM2K: string
+  zewnetrzna: boolean
+  temperaturaPoDrugiejStronieC: string
+  warstwy?: WarstwaSeed[]
+  kierunek?: string
+}
 export type SeedObciazenia = {
   przegrody: PrzegrodaSeed[]
   temperaturaWewnetrznaC: string
@@ -31,6 +42,8 @@ export function wejscieObciazenia(stan: SeedObciazenia): ObciazenieCieplneInput 
       nazwa: p.nazwa.trim(),
       powierzchniaM2: n(p.powierzchniaM2),
       uWM2K: n(p.uWM2K),
+      warstwy: (p.warstwy ?? []).map((w) => ({ nazwa: w.nazwa.trim(), gruboscMm: n(w.gruboscMm), lambdaWmK: n(w.lambdaWmK), oporM2KW: n(w.oporM2KW) })),
+      kierunekStrumienia: KIERUNKI_STRUMIENIA.find((k) => k === p.kierunek) ?? null,
       zewnetrzna: p.zewnetrzna,
       temperaturaPoDrugiejStronieC: p.zewnetrzna ? null : n(p.temperaturaPoDrugiejStronieC),
     })),
@@ -43,6 +56,20 @@ export function wejscieObciazenia(stan: SeedObciazenia): ObciazenieCieplneInput 
     srednieTemperaturyMiesieczneC: (stan.miesiace ?? []).map(n),
   }
 }
+
+/** Effective U of a partition as a form string — the typed U, otherwise U from its layers (`""` = not known yet). */
+export function uPrzegrodySeed(p: PrzegrodaSeed): string {
+  const u = uPrzegrody(wejscieObciazenia({ ...PUSTY_SEED, przegrody: [p] }).przegrody[0]!).u
+  return u === null ? "" : String(u)
+}
+
+/** U from layers of one partition for the live preview (`null` until the direction and every layer are complete). */
+export function podgladUZWarstw(p: PrzegrodaSeed) {
+  const przegroda = wejscieObciazenia({ ...PUSTY_SEED, przegrody: [p] }).przegrody[0]!
+  return przegroda.warstwy && przegroda.warstwy.length > 0 && przegroda.kierunekStrumienia ? uZWarstw(przegroda.warstwy, przegroda.kierunekStrumienia) : null
+}
+
+const PUSTY_SEED: SeedObciazenia = { przegrody: [], temperaturaWewnetrznaC: "", strefa: "", kubaturaM3: "", wymianyPowietrzaNaH: "", cop: "", miesiace: [] }
 
 export type WynikEkranu1 = ObciazenieCieplneResult & { temperaturaWewnetrznaC: number }
 

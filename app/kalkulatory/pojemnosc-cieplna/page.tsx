@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { calculateObciazenieCieplne } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
+import { calculateObciazenieCieplne, uPrzegrody } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { calculatePojemnoscCieplna, type UdzialWarstwy } from "@/lib/core/modules/ogrzewanie/pojemnosc-cieplna/calculator"
 import type { StronaWarstwy } from "@/lib/core/modules/ogrzewanie/pojemnosc-cieplna/input"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -104,8 +104,8 @@ export default function PojemnoscCieplnaPage() {
     const zewn = wejscie.przegrody.filter((p) => p.zewnetrzna)
     const inne = wejscie.przegrody.filter((p) => !p.zewnetrzna)
     return {
-      hZewnetrzneWK: zewn.reduce((s, p) => s + p.uWM2K! * p.powierzchniaM2!, 0) + w.value.hvWK,
-      stratyDoInnychStref: inne.map((p) => ({ hWK: p.uWM2K! * p.powierzchniaM2!, temperaturaC: p.temperaturaPoDrugiejStronieC! })),
+      hZewnetrzneWK: zewn.reduce((s, p) => s + uPrzegrody(p).u! * p.powierzchniaM2!, 0) + w.value.hvWK,
+      stratyDoInnychStref: inne.map((p) => ({ hWK: uPrzegrody(p).u! * p.powierzchniaM2!, temperaturaC: p.temperaturaPoDrugiejStronieC! })),
       kubaturaM3: wejscie.kubaturaM3,
       ti: wejscie.temperaturaWewnetrznaC!,
       te: w.value.temperaturaZewnetrznaC,
