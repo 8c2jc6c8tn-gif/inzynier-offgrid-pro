@@ -286,6 +286,7 @@ import { doborMocyPompyTool } from "./tools/dobor-mocy-pompy-tool"
 import { krzywaGrzewczaTool } from "./tools/krzywa-grzewcza-tool"
 import { modelSezonowyPompyTool } from "./tools/model-sezonowy-pompy-tool"
 import { przesuwanieZadanTool } from "./tools/przesuwanie-zadan-tool"
+import { prognozaMiesiecznaTool } from "./tools/prognoza-miesieczna-tool"
 import { doborZrodelZasilaniaTool } from "./tools/dobor-zrodel-zasilania-tool"
 import { audytZimowyTool } from "./tools/audyt-zimowy-tool"
 import { wykrywanieAnomaliiTool } from "./tools/wykrywanie-anomalii-tool"
@@ -578,6 +579,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   raportEfektywnosciTool,
   planPoprawyTool,
   przesuwanieZadanTool,
+  prognozaMiesiecznaTool,
   doborZrodelZasilaniaTool,
   audytZimowyTool,
   wykrywanieAnomaliiTool,

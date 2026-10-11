@@ -266,6 +266,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/okablowanie/ochrona-przed-gryzoniami",
   "lib/core/modules/okablowanie/peszle-koryta-rurki",
   "lib/core/modules/ai/prognozy",
+  "lib/core/modules/ai/prognoza-miesieczna",
   "lib/core/modules/baterie/komunikacja-bms",
   "lib/core/modules/baterie/porownanie-technologii",
   "lib/core/modules/bezpieczenstwo/audyt-pozarowy",
