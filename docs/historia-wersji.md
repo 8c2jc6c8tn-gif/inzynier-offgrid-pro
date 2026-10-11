@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.13.0] — 11.10.2026
+
+Porównywarka paneli PV: osprzęt w scenariuszu „tańszy panel = więcej paneli” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 41):
+- w zakładce „Więcej paneli?” pod dotychczasowym wynikiem (z samych cen paneli) pojawia się wariant „Z urządzeniem i osprzętem”: ceny obu zestawów razem z wybranym urządzeniem i osprzętem z zakładki „Falownik i osprzęt”, a liczba dodatkowych paneli jest wyszukiwana, nie dzielona, bo każda dokupiona sztuka zmienia układ stringów, liczbę urządzeń i ilości osprzętu,
+- włącza go ten sam przełącznik „Wlicz urządzenie i osprzęt do ceny” z zakładki „Opłacalność”; ceny osprzętu są zakresem, więc liczba paneli jest podana dla obu końców zakresu, a energia dla ostrożniejszej liczby,
+- bez wybranego urządzenia, bez najniższej temperatury albo gdy żaden układ nie mieści się w limitach urządzenia ekran mówi, czego brakuje; nic nie jest zgadywane.
+
+Wpływ na liczby: brak dla dotychczasowych wejść i głównych wyników scenariusza (te nadal liczą się z samych cen paneli). Nowy wariant dokłada osobne liczby tylko wtedy, gdy włączono przełącznik i wybrano urządzenie. Silnik porównywarki 1.8.0 → 1.9.0.
+
 ## [3.12.0] — 11.10.2026
 
 Porównywarka paneli PV: limity mocy baterii i falownika w bilansie godzinowym (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 40):

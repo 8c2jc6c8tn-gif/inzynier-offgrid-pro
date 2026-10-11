@@ -7,6 +7,7 @@ import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { KryteriumId } from "./constants"
+import type { OsprzetScenariuszaInput } from "./osprzet-zestawu"
 
 /**
  * Dane elektryczne panelu w STC z tabeli karty (A3). Każde pole z karty; brak czytelnej wartości = `null` (bez „typowej” wartości).
@@ -177,6 +178,11 @@ export type PorownywarkaInput = {
    * Wpisuje użytkownik, bez wartości domyślnej; brak albo `null` = bez testu. Nie zmienia głównych wyników, tylko dokłada osobny scenariusz.
    */
   testZanizeniaMocyPct?: number | null
+  /**
+   * Urządzenie i osprzęt do scenariusza „tańszy panel = więcej paneli” (spec 41): gdy podane, scenariusz liczy dodatkowo, ile paneli kupisz za różnicę
+   * RAZEM z urządzeniem i osprzętem obu zestawów. Dane z zakładki „Falownik i osprzęt”; brak albo `null` = scenariusz tylko z cen paneli.
+   */
+  osprzetScenariusza?: OsprzetScenariuszaInput | null
   /** `null` = bez wyceny (tryb „suchy”: sama produkcja). */
   wycena: WycenaKwh | null
   kryteria: KryteriaWybor

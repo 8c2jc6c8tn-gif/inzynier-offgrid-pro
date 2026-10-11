@@ -42,6 +42,19 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
   if (zan != null && !(Number.isFinite(zan) && zan > 0 && zan < 100)) {
     errors.push(porpPozaZakresem("PORP-ZANIZENIE-MOCY-POZA-ZAKRESEM", "testZanizeniaMocyPct", zan, "(0–100) %"))
   }
+  const osp = input.osprzetScenariusza
+  if (osp) {
+    const pola: [string, number | null, boolean][] = [
+      ["osprzetScenariusza.kurs", osp.kurs, true],
+      ["osprzetScenariusza.cenaUrzadzeniaJednegoZl", osp.cenaUrzadzeniaJednegoZl, false],
+      ["osprzetScenariusza.trasaM", osp.trasaM, false],
+      ["osprzetScenariusza.napiecieAkumulatoraV", osp.napiecieAkumulatoraV, true],
+      ...Object.entries(osp.bosCeny).map(([id, v]): [string, number | null, boolean] => [`osprzetScenariusza.bosCeny.${id}`, v ?? null, false]),
+    ]
+    for (const [pole, v, dodatnia] of pola) {
+      if (v !== null && !(Number.isFinite(v) && (dodatnia ? v > 0 : v >= 0))) errors.push(porpPozaZakresem("PORP-OSPRZET-SCENARIUSZA-POZA-ZAKRESEM", pole, v, dodatnia ? "> 0" : ">= 0"))
+    }
+  }
   const obc = input.obciazenia
   if (obc) {
     const [npmMin, npmMax] = WYSOKOSC_NPM_ZAKRES_M

@@ -5,22 +5,21 @@
  */
 import type { BosId } from "@/lib/core/dane/cennik-bos"
 import { znajdzUrzadzeniePv, type UrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
-import { BOS_DOMYSLNIE_WYLACZONE, obliczBos, type WynikBos } from "@/lib/core/modules/pv/porownywarka-paneli/bos"
+import { BOS_DOMYSLNIE_WYLACZONE, type WynikBos } from "@/lib/core/modules/pv/porownywarka-paneli/bos"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import {
   limityZUrzadzenia,
-  ocenDopasowanie,
   type DopasowanieDoUrzadzenia,
   type LimityWejsciaPv,
   type OcenaWariantuUrzadzenia,
 } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
+import { kluczUkladu, wycenZestaw, type OsprzetScenariuszaInput, type UrzadzenieDoWyceny } from "@/lib/core/modules/pv/porownywarka-paneli/osprzet-zestawu"
 import type { OchronaWariantu } from "@/lib/core/modules/pv/porownywarka-paneli/elektryka"
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import type { FormularzStan } from "./stan"
 
-/** Klucz układu w stanie formularza i w liście wyboru: „<w szeregu>x<równolegle>”. */
-export const kluczUkladu = (w: Pick<OcenaWariantuUrzadzenia, "panelowWSzeregu" | "stringowRownolegle">) => `${w.panelowWSzeregu}x${w.stringowRownolegle}`
+export { kluczUkladu }
 
 export type PanelNaUrzadzeniu = {
   wynik: WynikPanelu
@@ -57,6 +56,24 @@ export function cenyOsprzetuZStanu(stan: Pick<FormularzStan, "bosCeny">): Partia
   return wynik
 }
 
+/**
+ * Device and accessories for the "more panels" scenario, from the form: only while the switch "add the device and accessories to the price"
+ * (Profitability tab) is on and a device is chosen; `null` otherwise. Prices stay in the display currency like the panel prices.
+ */
+export function osprzetScenariuszaZFormularza(stan: FormularzStan, kurs: number): OsprzetScenariuszaInput | null {
+  if (stan.zwrotZOsprzetem !== true || !stan.urzadzenieId) return null
+  return {
+    urzadzenieId: stan.urzadzenieId,
+    napiecieAkumulatoraV: liczba(stan.akumV ?? "") ?? null,
+    cenaUrzadzeniaJednegoZl: liczba(stan.cenaUrzadzenia ?? "") ?? null,
+    trasaM: liczba(stan.trasaM ?? "") ?? null,
+    bosWylaczone: wylaczoneBos(stan),
+    bosCeny: cenyOsprzetuZStanu(stan),
+    kurs,
+    ukladyPaneli: stan.bosUklad ?? {},
+  }
+}
+
 export function podsumujUrzadzenie(i: {
   stan: FormularzStan
   panele: WynikPanelu[]
@@ -70,32 +87,19 @@ export function podsumujUrzadzenie(i: {
   if (!urzadzenie) return null
   const limity = limityZUrzadzenia(urzadzenie, liczba(stan.akumV ?? "") ?? null)
   const mikro = urzadzenie.rodzaj === "mikroinwerter-sieciowy"
-  const cenaUrzadzenia = liczba(stan.cenaUrzadzenia ?? "") ?? null
-  const trasaM = liczba(stan.trasaM ?? "") ?? null
-  const opcje = { wylaczone: wylaczoneBos(stan), cenyNadpisane: cenyOsprzetuZStanu(stan), kurs: i.kurs }
+  const doWyceny: UrzadzenieDoWyceny = {
+    limity,
+    mikro,
+    cenaUrzadzeniaJednegoZl: liczba(stan.cenaUrzadzenia ?? "") ?? null,
+    trasaM: liczba(stan.trasaM ?? "") ?? null,
+    opcjeBos: { wylaczone: wylaczoneBos(stan), cenyNadpisane: cenyOsprzetuZStanu(stan), kurs: i.kurs },
+  }
 
   const panele = i.panele.flatMap((wynik): PanelNaUrzadzeniu[] => {
     const dane = i.dane.find((x) => x.id === wynik.id)
-    const dopasowanie = dane && wynik.elektryka ? ocenDopasowanie(dane, wynik.elektryka, wynik.liczbaPaneli, limity) : null
-    if (!dopasowanie || !wynik.elektryka) return []
-    const proponowany = dopasowanie.proponowany === null ? null : dopasowanie.warianty[dopasowanie.proponowany]!
-    const wybrany = dopasowanie.warianty.find((w) => w.liczbaUrzadzen !== null && kluczUkladu(w) === stan.bosUklad?.[wynik.id]) ?? proponowany
-    const indeks = wybrany === null ? -1 : dopasowanie.warianty.indexOf(wybrany)
-    const ochronaA3 = indeks < 0 ? null : (wynik.elektryka.warianty[indeks]?.ochrona ?? null)
-    const bos =
-      wybrany === null || mikro
-        ? null
-        : obliczBos(
-            {
-              stringow: wybrany.stringowRownolegle,
-              paneli: wynik.liczbaPaneli,
-              wejscUzytych: Math.min(wybrany.stringowRownolegle, wybrany.liczbaUrzadzen! * (limity.liczbaWejsc ?? 1)),
-              ochronaStringowWymagana: ochronaA3?.wymagana ?? false,
-              dlugoscTrasyM: trasaM,
-            },
-            opcje,
-          )
-    const kosztUrzadzen = wybrany === null || cenaUrzadzenia === null ? 0 : cenaUrzadzenia * wybrany.liczbaUrzadzen!
+    const w = dane && wynik.elektryka ? wycenZestaw(dane, wynik.elektryka, wynik.liczbaPaneli, doWyceny, stan.bosUklad?.[wynik.id]) : null
+    if (!w) return []
+    const { dopasowanie, wybrany, ochronaA3, bos, kosztUrzadzen } = w
     const maRazem = wynik.cenaRazemZl !== null && bos !== null
     return [
       {

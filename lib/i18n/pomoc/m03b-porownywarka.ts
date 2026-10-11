@@ -265,7 +265,7 @@ export const pl = {
       },
       zwrotZOsprzetem: {
         nazwa: "Wliczenie urządzenia i osprzętu",
-        cel: "Dolicza do ceny paneli wybrane urządzenie (jeśli wpisano jego cenę) i orientacyjny osprzęt z zakładki „Falownik i osprzęt”, żeby okres zwrotu i koszt zimowej kWh pokazywały cenę całej instalacji DC, a nie samych paneli.",
+        cel: "Dolicza do ceny paneli wybrane urządzenie (jeśli wpisano jego cenę) i orientacyjny osprzęt z zakładki „Falownik i osprzęt”, żeby okres zwrotu i koszt zimowej kWh pokazywały cenę całej instalacji DC, a nie samych paneli. Ten sam włącznik uwzględnia urządzenie i osprzęt w scenariuszu „tańszy panel = więcej paneli” (zakładka „Więcej paneli”).",
         gdzie: "Włącz po wybraniu urządzenia w zakładce „Falownik i osprzęt”. Wynik jest zakresem, bo cennik osprzętu jest zakresem cen; montaż i podłączenie nie są wliczone.",
         zakres: "Domyślnie wyłączone; bez wybranego urządzenia nie ma co doliczyć.",
       },
@@ -804,7 +804,7 @@ export const en: Tlumaczenie<typeof pl> = {
       },
       zwrotZOsprzetem: {
         nazwa: "Including the device and accessories",
-        cel: "Adds to the panel price the chosen device (if its price was typed) and the rough accessories from the “Inverter and accessories” tab, so the payback and the cost of a winter kWh show the price of the whole DC installation, not of the panels alone.",
+        cel: "Adds to the panel price the chosen device (if its price was typed) and the rough accessories from the “Inverter and accessories” tab, so the payback and the cost of a winter kWh show the price of the whole DC installation, not of the panels alone. The same switch counts the device and accessories in the “cheaper panel = more panels” scenario (the “More panels” tab).",
         gdzie: "Turn on after choosing a device in the “Inverter and accessories” tab. The result is a range because the accessory price list is a range of prices; installation and connection are not included.",
         zakres: "Off by default; without a chosen device there is nothing to add.",
       },
@@ -1343,7 +1343,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       },
       zwrotZOsprzetem: {
         nazwa: "Учёт устройства и комплектующих",
-        cel: "Добавляет к цене панелей выбранное устройство (если указана его цена) и ориентировочные комплектующие из вкладки «Инвертор и комплектующие», чтобы срок окупаемости и стоимость зимнего кВт·ч отражали цену всей DC-установки, а не одних панелей.",
+        cel: "Добавляет к цене панелей выбранное устройство (если указана его цена) и ориентировочные комплектующие из вкладки «Инвертор и комплектующие», чтобы срок окупаемости и стоимость зимнего кВт·ч отражали цену всей DC-установки, а не одних панелей. Тот же переключатель учитывает устройство и комплектующие в сценарии «дешевле панель = больше панелей» (вкладка «Больше панелей»).",
         gdzie: "Включите после выбора устройства во вкладке «Инвертор и комплектующие». Результат — диапазон, потому что прайс-лист комплектующих задаёт диапазон цен; монтаж и подключение не включены.",
         zakres: "По умолчанию выключено; без выбранного устройства добавлять нечего.",
       },

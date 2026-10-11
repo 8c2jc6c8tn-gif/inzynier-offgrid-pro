@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { bilansGodzinowy, dobierzPaneleNaZime, limityMocyPodane, type LimityMocy, type WejscieBilansu } from "../bilans-godzinowy"
-import { calculatePorownywarkaPaneli } from "../calculator"
+import { calculatePorownywarkaPaneli, CALCULATOR_VERSION } from "../calculator"
 import { domyslnyWyborKryteriow } from "../kryteria"
 import type { DanePanelu, PorownywarkaInput } from "../input"
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
@@ -123,7 +123,7 @@ describe("limity mocy w Porównywarce (spec 40)", () => {
     expect(kody(bez)).not.toContain("PORP-ZAL-BIL-LIMITY-MOCY")
     expect(kody(z)).toContain("PORP-ZAL-BIL-LIMITY-MOCY")
     expect(kody(z)).not.toContain("PORP-ZAL-BIL-BEZ-LIMITOW-MOCY")
-    expect(z.calculatorVersion).toBe("1.8.0")
+    expect(z.calculatorVersion).toBe(CALCULATOR_VERSION)
   })
 
   it("limity wszystkie puste (null) nie zmieniają ani wyniku, ani założeń", () => {
