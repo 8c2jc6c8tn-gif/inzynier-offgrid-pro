@@ -323,6 +323,18 @@ export const pl = {
         gdzie: "Lista pojawia się po wczytaniu pliku CSV w sekcji „Własny katalog paneli z pliku CSV”.",
         zakres: "Jeden z paneli Twojego katalogu.",
       },
+      udostepnijKod: {
+        nazwa: "Link lub kod porównania",
+        cel: "Wczytuje porównanie przysłane przez kogoś innego jako NOWY zestaw w „Moich zestawach”; to, nad czym teraz pracujesz, nie jest nadpisywane, a zestaw wczytasz dopiero przyciskiem.",
+        gdzie: "Wklej cały link („…#udostepnij=…”) albo sam kod od osoby, która kliknęła „Skopiuj link”. Link nie przechodzi przez żaden serwer — porównanie jest zapisane w samym adresie.",
+        zakres: "Link lub kod z tej aplikacji, do ok. 8000 znaków. Zawiera miejsca, panele, ceny i ustawienia; bez danych pogodowych, lokalizacji projektu, profilu firmy i danych klienta z oferty.",
+      },
+      udostepnijPlik: {
+        nazwa: "Plik porównania (.json)",
+        cel: "Wczytuje porównanie zapisane wcześniej przyciskiem „Pobierz plik”. Działa jak link: powstaje nowy zestaw w „Moich zestawach”.",
+        gdzie: "Plik pobrany z tej aplikacji (od siebie albo od kogoś, kto Ci go przesłał).",
+        zakres: "Plik .json z tej aplikacji, do 200 kB. Plik z innego źródła zostanie odrzucony z komunikatem.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -874,6 +886,18 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "The list appears after you load a CSV file in the “Own panel catalogue from a CSV file” section.",
         zakres: "One of the panels of your catalogue.",
       },
+      udostepnijKod: {
+        nazwa: "Link or code of a comparison",
+        cel: "Loads a comparison sent by someone else as a NEW set in “My sets”; what you are working on now is not overwritten, and you load the set only with its button.",
+        gdzie: "Paste the whole link (“…#udostepnij=…”) or just the code from the person who clicked “Copy link”. The link goes through no server — the comparison is stored in the address itself.",
+        zakres: "A link or code from this app, up to about 8000 characters. It holds the places, panels, prices and settings; no weather data, project location, company profile or the client's data from the offer.",
+      },
+      udostepnijPlik: {
+        nazwa: "Comparison file (.json)",
+        cel: "Loads a comparison saved earlier with the “Download file” button. It works like a link: a new set appears in “My sets”.",
+        gdzie: "A file downloaded from this app (by you or by someone who sent it to you).",
+        zakres: "A .json file from this app, up to 200 kB. A file from another source is rejected with a message.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1424,6 +1448,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Подставляет в эту панель данные выбранной строки вашего CSV-каталога (название, мощность, цену и остальные введённые числа). Электрические данные попадают как введённые вручную, поэтому оценка строк работает только при полном наборе из файла.",
         gdzie: "Список появляется после загрузки CSV-файла в разделе «Собственный каталог панелей из CSV-файла».",
         zakres: "Одна из панелей вашего каталога.",
+      },
+      udostepnijKod: {
+        nazwa: "Ссылка или код сравнения",
+        cel: "Загружает сравнение, присланное другим человеком, как НОВЫЙ набор в «Моих наборах»; то, над чем вы работаете сейчас, не перезаписывается, а сам набор вы загружаете отдельной кнопкой.",
+        gdzie: "Вставьте всю ссылку («…#udostepnij=…») или только код от человека, нажавшего «Скопировать ссылку». Ссылка не проходит через сервер — сравнение записано в самом адресе.",
+        zakres: "Ссылка или код из этого приложения, до примерно 8000 символов. Содержит места, панели, цены и настройки; без погодных данных, местоположения проекта, профиля компании и данных клиента из предложения.",
+      },
+      udostepnijPlik: {
+        nazwa: "Файл сравнения (.json)",
+        cel: "Загружает сравнение, ранее сохранённое кнопкой «Скачать файл». Работает как ссылка: в «Моих наборах» появляется новый набор.",
+        gdzie: "Файл, скачанный из этого приложения (вами или тем, кто вам его прислал).",
+        zakres: "Файл .json из этого приложения, до 200 КБ. Файл из другого источника отклоняется с сообщением.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
 import { BilansGodzinowyPaneli } from "@/components/porownywarka-paneli/bilans-godzinowy"
 import { OpisyProducentow } from "@/components/porownywarka-paneli/producenci"
@@ -59,6 +59,7 @@ import {
   type PanelSeed,
   type RodzajWyceny,
 } from "@/lib/porownywarka-paneli/stan"
+import { kodZFragmentu } from "@/lib/porownywarka-paneli/udostepnianie"
 import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porownywarka-paneli/eksport-wynikow"
 import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
@@ -195,6 +196,11 @@ function WykresMiesiecy({ panele }: { panele: WynikPanelu[] }) {
   )
 }
 
+const subskrybujHash = (callback: () => void) => {
+  window.addEventListener("hashchange", callback)
+  return () => window.removeEventListener("hashchange", callback)
+}
+
 export default function PorownywarkaPaneliPage() {
   const t = useTranslate()
   const jezyk = useLanguage()
@@ -212,6 +218,16 @@ export default function PorownywarkaPaneliPage() {
     [mikro, odbiorniki, profilObiektu, zuzycieDom],
   )
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
+  // A comparison shared by link (`#udostepnij=…`): the code is read from the address, then the fragment is removed from it.
+  const hashAdresu = useSyncExternalStore(subskrybujHash, () => window.location.hash, () => "")
+  const kodZAdresu = kodZFragmentu(hashAdresu)
+  const [obsluzonyKod, setObsluzonyKod] = useState<string | null>(null)
+  const kodZLinku = kodZAdresu !== null && kodZAdresu !== obsluzonyKod ? kodZAdresu : null
+  const otwartoZLinku = kodZAdresu !== null || obsluzonyKod !== null
+  const kodObsluzony = useCallback(() => {
+    setObsluzonyKod(kodZAdresu)
+    window.history.replaceState(null, "", window.location.pathname + window.location.search)
+  }, [kodZAdresu])
   const prosty = efektywnyTryb(stan) === "prosty"
   const { profil, zapiszPanel } = useProfilSprzetu()
   /** U14: saving the primary panel is always asked first, never automatic. */
@@ -430,6 +446,8 @@ export default function PorownywarkaPaneliPage() {
 
       <PrzelacznikTrybu tryb={prosty ? "prosty" : "pelny"} onZmien={(k) => ustaw("tryb", k)} />
 
+      {prosty && otwartoZLinku && <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />}
+
       {prosty ? (
         <PytaniaProste
           stan={stan}
@@ -448,7 +466,7 @@ export default function PorownywarkaPaneliPage() {
         />
       ) : (
         <>
-      <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} />
+      <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />
 
       <section className="flex flex-col gap-4">
         <h2 className="font-semibold">{t("UI-PORP-KROK-MIEJSCE")}</h2>

@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.15.0] — 11.10.2026
+
+Porównywarka paneli PV: udostępnianie porównania linkiem lub plikiem (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 43):
+- w bloku „Moje zestawy” nowa sekcja „Udostępnij porównanie”: „Skopiuj link” (porównanie jest zapisane w samym adresie, bez konta i serwera) albo „Pobierz plik .json”; bez danych pogodowych, lokalizacji projektu, profilu firmy i danych klienta z oferty,
+- odbiorca otwiera link, wkleja link lub kod albo wczytuje plik; widzi, co przyszło, i dopiero po kliknięciu „Dodaj do moich zestawów” dostaje to jako nowy zestaw — formularz, nad którym pracuje, zostaje bez zmian; kwoty są przeliczone na jego walutę,
+- dane z zewnątrz są sprawdzane: limit rozmiaru (także po rozpakowaniu), przepisanie tylko znanych pól, kontrola wyliczeń i identyfikatorów katalogów, czytelny komunikat przy uszkodzonym lub obcym pliku.
+
+Wpływ na liczby: brak. Silnik obliczeń bez zmian (1.9.0); zmiana dotyczy zapisu i wymiany danych wejściowych.
+
 ## [3.14.0] — 11.10.2026
 
 Porównywarka paneli PV: własny katalog z pliku CSV i eksport wyników do CSV (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 42):
