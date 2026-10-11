@@ -40,7 +40,7 @@ const jeden = <T extends string>(v: unknown, dozwolone: readonly T[], domyslny: 
 const BEZPIECZNY_ID = /^[A-Za-z0-9_-]{1,20}$/
 
 /** The pieces of the form that are about the person or the printed offer and so are never shared. */
-const POMIJANE_W_UDOSTEPNIANIU = ["ofertaDla", "ofertaWykonawca", "ofertaUwagi", "ofertaWersje", "ofertaZalecana"] as const
+const POMIJANE_W_UDOSTEPNIANIU = ["ofertaDla", "ofertaWykonawca", "ofertaUwagi", "ofertaNumer", "ofertaWarunki", "ofertaMontazNetto", "ofertaMontazVat", "ofertaWersje", "ofertaZalecana"] as const
 
 export function zbudujPaczke(stan: FormularzStan, waluta: { kod: string; kurs: number }): PaczkaPorownania {
   const kopia: Record<string, unknown> = { ...stan }

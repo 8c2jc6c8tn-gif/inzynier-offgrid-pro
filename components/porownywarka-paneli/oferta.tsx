@@ -13,6 +13,7 @@ import { CALCULATOR_VERSION, type WynikPanelu } from "@/lib/core/modules/pv/poro
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { linieKontaktuFirmy, PROFIL_FIRMY_PUSTY, type ProfilFirmy } from "@/lib/firma/profil-firmy"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { policzMontaz } from "@/lib/porownywarka-paneli/montaz-vat"
 import { LITERY_WERSJI, slotyWersji, wersjeOferty, type WersjaOferty } from "@/lib/porownywarka-paneli/oferta"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import type { ZwrotZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
@@ -149,6 +150,13 @@ export function OfertaPaneli(p: {
           onChange={(e) => p.ustaw("ofertaWykonawca", e.target.value)}
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaWykonawca" />}
         />
+        <Pole
+          label={t("UI-PORP-OF-NUMER")}
+          type="text"
+          value={p.stan.ofertaNumer ?? ""}
+          onChange={(e) => p.ustaw("ofertaNumer", e.target.value)}
+          pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaNumer" />}
+        />
         <PoleTekst
           label={t("UI-PORP-OF-UWAGI")}
           rows={3}
@@ -156,6 +164,41 @@ export function OfertaPaneli(p: {
           onChange={(e) => p.ustaw("ofertaUwagi", e.target.value)}
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaUwagi" />}
         />
+        <PoleTekst
+          label={t("UI-PORP-OF-WARUNKI")}
+          rows={4}
+          value={p.stan.ofertaWarunki ?? ""}
+          onChange={(e) => p.ustaw("ofertaWarunki", e.target.value)}
+          pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaWarunki" />}
+        />
+        <fieldset className="flex flex-col gap-3">
+          <legend className="text-small font-medium">{t("UI-PORP-OF-MONTAZ-TYTUL")}</legend>
+          <p className="text-caption text-muted-foreground">{t("UI-PORP-OF-MONTAZ-OPIS")}</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Pole
+              label={t("UI-PORP-OF-MONTAZ-NETTO")}
+              unit={p.dane.waluta}
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={p.stan.ofertaMontazNetto ?? ""}
+              onChange={(e) => p.ustaw("ofertaMontazNetto", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaMontazNetto" />}
+            />
+            <Pole
+              label={t("UI-PORP-OF-MONTAZ-VAT")}
+              unit="%"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={100}
+              value={p.stan.ofertaMontazVat ?? ""}
+              onChange={(e) => p.ustaw("ofertaMontazVat", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="ofertaMontazVat" />}
+            />
+          </div>
+          {policzMontaz(p.stan.ofertaMontazNetto, p.stan.ofertaMontazVat).rodzaj === "blad" && <p className="text-small text-werdykt-blad">{t("UI-PORP-OF-MONTAZ-BLAD")}</p>}
+        </fieldset>
         <Button type="button" className="min-h-11 w-fit" disabled={wersje.length === 0} onClick={() => window.print()}>
           {t("UI-PORP-OF-DRUKUJ")}
         </Button>
@@ -176,7 +219,7 @@ export function OfertaPaneli(p: {
 
 type PropsArkusza = { dane: DaneOferty; stan: FormularzStan; firma: ProfilFirmy; wersje: WersjaOferty[] }
 
-function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
+export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
   const t = useTranslate()
   const jezyk = useLanguage()
   const panele = wersje.map((w) => w.panel)
@@ -184,6 +227,11 @@ function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
   const dla = (stan.ofertaDla ?? "").trim()
   const wykonawca = (stan.ofertaWykonawca ?? "").trim()
   const uwagi = (stan.ofertaUwagi ?? "").trim()
+  const numer = (stan.ofertaNumer ?? "").trim()
+  const warunki = (stan.ofertaWarunki ?? "").trim()
+  const montazWynik = policzMontaz(stan.ofertaMontazNetto, stan.ofertaMontazVat)
+  const montaz = montazWynik.rodzaj === "ok" ? montazWynik.montaz : null
+  const kwota = (x: number) => `${x.toLocaleString(jezyk, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${dane.waluta}`
   const podsumowanie = dane.podsumowanie
   const data = new Date().toLocaleDateString(jezyk)
   const liniaFirmy = linieKontaktuFirmy(firma, t("UI-FIRMA-NIP"))
@@ -222,6 +270,7 @@ function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
                   </div>
                 )}
                 <h2 className="text-lg font-semibold">{t("UI-PORP-OF-TYTUL")}</h2>
+                {numer !== "" && <p className="font-medium">{t("UI-PORP-OF-NUMER-LINIA", { numer })}</p>}
                 <p>{t("UI-PORP-OF-DATA", { data })}</p>
                 {dla !== "" && <p>{t("UI-PORP-OF-DLA-LINIA", { nazwa: dla })}</p>}
                 {wykonawca !== "" && <p>{t("UI-PORP-OF-WYKONAWCA-LINIA", { nazwa: wykonawca })}</p>}
@@ -296,10 +345,33 @@ function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
                 </section>
               )}
 
+              {montaz && (
+                <section className="flex break-inside-avoid flex-col gap-1">
+                  <h3 className="font-semibold">{t("UI-PORP-OF-MONTAZ-TYTUL")}</h3>
+                  <p>{t("UI-PORP-OF-MONTAZ-NETTO-LINIA", { kwota: kwota(montaz.nettoKwota) })}</p>
+                  {montaz.vatPct !== null && montaz.vatKwota !== null && montaz.bruttoKwota !== null ? (
+                    <>
+                      <p>{t("UI-PORP-OF-MONTAZ-VAT-LINIA", { stawka: montaz.vatPct.toLocaleString(jezyk), kwota: kwota(montaz.vatKwota) })}</p>
+                      <p className="font-medium">{t("UI-PORP-OF-MONTAZ-BRUTTO-LINIA", { kwota: kwota(montaz.bruttoKwota) })}</p>
+                    </>
+                  ) : (
+                    <p className="text-neutral-700">{t("UI-PORP-OF-MONTAZ-BEZ-VAT")}</p>
+                  )}
+                  <p className="text-neutral-700">{t("UI-PORP-OF-MONTAZ-NOTA")}</p>
+                </section>
+              )}
+
               {uwagi !== "" && (
                 <section className="flex flex-col gap-1">
                   <h3 className="font-semibold">{t("UI-PORP-OF-UWAGI-TYTUL")}</h3>
                   <p className="whitespace-pre-wrap">{uwagi}</p>
+                </section>
+              )}
+
+              {warunki !== "" && (
+                <section className="flex flex-col gap-1">
+                  <h3 className="font-semibold">{t("UI-PORP-OF-WARUNKI-TYTUL")}</h3>
+                  <p className="whitespace-pre-wrap">{warunki}</p>
                 </section>
               )}
 
