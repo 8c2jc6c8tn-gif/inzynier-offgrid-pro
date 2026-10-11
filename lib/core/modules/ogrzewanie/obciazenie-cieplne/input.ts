@@ -29,6 +29,22 @@ export type Przegroda = {
   temperaturaPoDrugiejStronieC: number | null
 }
 
+/**
+ * Optional fuel heat source (wood, coal, gas, oil…): the user's own numbers from the fuel supplier / boiler card — the app
+ * has no default calorific value or efficiency. The stock turns into usable heat as `zapas · wartoscOpalowaKwh · sprawnoscPct/100`.
+ * `null` = not entered.
+ */
+export type PaliwoInput = {
+  /** Unit of the fuel for the result text only (kg, l, m³, mp…). */
+  jednostka: string
+  /** Calorific value [kWh per unit] — from the supplier or fuel card. */
+  wartoscOpalowaKwh: number | null
+  /** Efficiency of the boiler/stove [%]. */
+  sprawnoscPct: number | null
+  /** Fuel in stock [units]. */
+  zapas: number | null
+}
+
 export type ObciazenieCieplneInput = {
   przegrody: Przegroda[]
   temperaturaWewnetrznaC: number | null
@@ -38,6 +54,14 @@ export type ObciazenieCieplneInput = {
   wymianyPowietrzaNaH: number | null
   /** Optional: COP of the heat source (electric heater = 1) — electric energy per day at θe. */
   cop: number | null
+  /**
+   * Optional: efficiency of the ventilation heat recovery [%] — H_V is multiplied by (1 − η/100), as in
+   * `inzynier-szkieletowy-pro` (`Qve = V·0,34·n·(1 − ηrek)`); applied to the whole `wymianyPowietrzaNaH`, i.e. it assumes that
+   * the entered air change rate goes through the recuperator. `null` = no recovery.
+   */
+  sprawnoscOdzyskuPct?: number | null
+  /** Optional: fuel source with a stock — how long the stock lasts. */
+  paliwo?: PaliwoInput | null
   /** Optional: 12 monthly mean outdoor temperatures [°C], January first; `null` = month skipped. */
   srednieTemperaturyMiesieczneC: (number | null)[]
 }

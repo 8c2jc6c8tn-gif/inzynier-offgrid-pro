@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.16.0] — 11.10.2026
+
+Zima z ociepleniem budynku: okna i drzwi, odzysk z wentylacji, źródło ciepła i spięcie z bilansem zimy na panelach (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 44):
+- ekran „Straty ciepła budynku” ma osobne sekcje: „Okna i drzwi” (powierzchnia i U każdego otworu), „Wentylacja” (wymiany powietrza i nowe pole „odzysk ciepła z wentylacji”) oraz „Źródło ciepła” (prąd z COP albo paliwo z wartością opałową, sprawnością i zapasem),
+- dla paliwa ekran liczy, na ile dni starczy zapasu przy mrozie obliczeniowym, a po wpisaniu temperatur miesięcy — zużycie roczne, jaką część ciepła pokrywa zapas i ile paliwa brakuje; wartości opałowej ani sprawności aplikacja nie zgaduje,
+- w Porównywarce paneli nowe pole „Dolicz ogrzewanie elektryczne”: dodaje do miesięcznego zużycia prąd na ogrzewanie z tego ekranu (ciepło ÷ COP), tylko gdy komplet danych jest znany; ekran mówi, kiedy i dlaczego nic nie doliczył, i ostrzega przed podwójnym liczeniem, gdy rachunki już zawierają ogrzewanie elektryczne,
+- narzędzie AI „policz straty ciepła budynku” przyjmuje odzysk z wentylacji i zapas paliwa.
+
+Wpływ na liczby: dotychczasowe wejścia dają te same wyniki (bez wpisanego odzysku strata wentylacyjna jak dotąd). Nowe liczby powstają tylko po wpisaniu odzysku, paliwa albo włączeniu doliczania ogrzewania w Porównywarce. Silnik obciążenia cieplnego 1.1.0 → 1.2.0; silnik porównywarki bez zmian (1.9.0).
+
 ## [3.15.0] — 11.10.2026
 
 Porównywarka paneli PV: udostępnianie porównania linkiem lub plikiem (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 43):

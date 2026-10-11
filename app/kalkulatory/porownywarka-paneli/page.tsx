@@ -59,6 +59,7 @@ import {
   type PanelSeed,
   type RodzajWyceny,
 } from "@/lib/porownywarka-paneli/stan"
+import { useOgrzewanieElektryczne } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 import { kodZFragmentu } from "@/lib/porownywarka-paneli/udostepnianie"
 import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porownywarka-paneli/eksport-wynikow"
 import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
@@ -213,9 +214,16 @@ export default function PorownywarkaPaneliPage() {
   const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
   const { dane: odbiorniki } = useOdczytDraftu<DraftOdbiornikow>(KLUCZ_DRAFTU_ODBIORNIKOW)
   const mikro = czyMikroinstalacja(profilObiektu?.rodzaj)
-  const zuzycie = useMemo(
+  const zuzycieBazowe = useMemo(
     () => (mikro ? zuzycieMikroinstalacjiKwh(odbiorniki, profilObiektu) : zuzycieDom),
     [mikro, odbiorniki, profilObiektu, zuzycieDom],
+  )
+  // Electric heating from the "Straty ciepła budynku" screen, added on top of the base consumption only on request and only when all 12 months are known.
+  const ogrzewanie = useOgrzewanieElektryczne()
+  const doliczone = stan.doliczOgrzewanie === true && ogrzewanie.stan === "ok" && zuzycieBazowe !== null
+  const zuzycie = useMemo(
+    () => (doliczone && ogrzewanie.stan === "ok" && zuzycieBazowe ? zuzycieBazowe.map((x, i) => x + ogrzewanie.miesiaceKwh[i]!) : zuzycieBazowe),
+    [doliczone, ogrzewanie, zuzycieBazowe],
   )
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
   // A comparison shared by link (`#udostepnij=…`): the code is read from the address, then the fragment is removed from it.
@@ -427,6 +435,36 @@ export default function PorownywarkaPaneliPage() {
                 </Link>
               </p>
             ))}
+      {stan.uzyjZuzycia && (
+        <div className="flex flex-col gap-1">
+          <div className="flex items-start gap-2">
+            <div className="flex-1">
+              <PoleCheckbox
+                id="dolicz-ogrzewanie"
+                label={t("UI-PORP-OGRZ-DOLICZ")}
+                checked={stan.doliczOgrzewanie === true}
+                onChange={(e) => ustaw("doliczOgrzewanie", e.target.checked)}
+              />
+            </div>
+            <PomocPola ekran="porownywarka-paneli" pole="doliczOgrzewanie" />
+          </div>
+          {stan.doliczOgrzewanie === true && (
+            <p className="text-caption text-muted-foreground" role="status">
+              {ogrzewanie.stan === "ok" && zuzycieBazowe === null
+                ? t("UI-PORP-OGRZ-BRAK-ZUZYCIA")
+                : ogrzewanie.stan === "ok"
+                  ? t("UI-PORP-OGRZ-DOLICZONO", { kwh: f0(ogrzewanie.rokKwh) })
+                  : t(`UI-PORP-OGRZ-${ogrzewanie.stan}`)}{" "}
+              {ogrzewanie.stan !== "ok" && (
+                <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
+                  {t("UI-PORP-OGRZ-LINK")}
+                </Link>
+              )}
+            </p>
+          )}
+          <p className="text-caption text-muted-foreground">{t("UI-PORP-OGRZ-PODWOJNIE")}</p>
+        </div>
+      )}
     </>
   )
 

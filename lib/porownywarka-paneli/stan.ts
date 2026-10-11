@@ -130,6 +130,8 @@ export type FormularzStan = {
   miejsca: MiejsceSeed[]
   aktywneMiejsceId: string
   uzyjZuzycia: boolean
+  /** Adds the electric heating from the "Straty ciepła budynku" screen to the monthly consumption (spec 44); absent/false = off. Never shared. */
+  doliczOgrzewanie?: boolean
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); puste = nie podano. Szkice sprzed A3 nie mają klucza. */
   tmin?: string
   /** Test „panel ma o X% mniej mocy, niż deklaruje” (spec 38) [%]; puste = bez testu, bez wartości domyślnej. Szkice sprzed tego pola nie mają klucza. */

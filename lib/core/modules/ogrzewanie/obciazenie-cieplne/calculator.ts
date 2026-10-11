@@ -6,7 +6,7 @@ import { uZWarstw } from "./u-z-warstw"
 import { validateInput } from "./validation"
 import { bezMostkowIZyskow, miesiaceZeSrednich, temperaturaWewnetrznaNieWyzsza } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 /** U of a partition: the entered value, otherwise from layers (needs a flow direction); `null` = not known yet. */
 export function uPrzegrody(p: ObciazenieCieplneInput["przegrody"][number]): { u: number | null; zWarstw: boolean } {
@@ -33,12 +33,31 @@ export type MiesiacCiepla = {
   energiaElektrycznaKwh: number | null
 }
 
+/** How long a fuel stock lasts against the computed heat demand (user's own calorific value, efficiency and stock). */
+export type ZapasPaliwa = {
+  jednostka: string
+  /** Usable heat in the stock: zapas · WO · η [kWh]. */
+  zapasCieplaKwh: number
+  /** Fuel burnt on the design day [units/day]. */
+  zuzycieDobaObliczeniowaJedn: number
+  /** Days the stock lasts when every day is like the design day (θe of the climate zone) — the cautious lower bound. */
+  dniPrzyTemperaturzeObliczeniowej: number
+  /** Fuel for the whole year from the monthly heat [units]; `null` without monthly temperatures. */
+  zuzycieRokJedn: number | null
+  /** Share of the yearly heat the stock covers [%], at most 100; `null` without monthly temperatures. */
+  pokrycieRokuPct: number | null
+  /** Fuel missing for the year [units], 0 when the stock is enough; `null` without monthly temperatures. */
+  brakJedn: number | null
+}
+
 export type ObciazenieCieplneResult = {
   temperaturaZewnetrznaC: number
   przegrody: StrataPrzegrody[]
   strataPrzenikanieW: number
-  /** H_V = n·V·ρ·cp/3600 [W/K]. */
+  /** H_V = n·V·ρ·cp/3600 [W/K], after the heat recovery when one is entered. */
   hvWK: number
+  /** Heat recovery of the ventilation taken into H_V [%]; 0 = none. */
+  odzyskWentylacjiPct: number
   strataWentylacjaW: number
   /** Φ = Φ_T + Φ_V at θe [W]. */
   obciazenieW: number
@@ -49,6 +68,8 @@ export type ObciazenieCieplneResult = {
   /** `null` when no monthly temperature was entered. */
   miesiace: MiesiacCiepla[] | null
   cieploSumaMiesiecyKwh: number | null
+  /** `null` when no fuel source was entered or its numbers are not complete. */
+  paliwo: ZapasPaliwa | null
 }
 
 const FORMULA =
@@ -118,7 +139,8 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
     return { nazwa: p.nazwa || `Przegroda ${i + 1}`, htWK, tDruga, zewnetrzna: p.zewnetrzna, strataW: htWK * (ti - tDruga) }
   })
   const strataPrzenikanieW = surowe.reduce((a, p) => a + p.strataW, 0)
-  const hvWK = wspolczynnikStratWentylacyjnychWK(wymianyPowietrzaNaH, kubaturaM3)
+  const odzyskPct = input.sprawnoscOdzyskuPct ?? 0
+  const hvWK = wspolczynnikStratWentylacyjnychWK(wymianyPowietrzaNaH, kubaturaM3) * (1 - odzyskPct / 100)
   const strataWentylacjaW = hvWK * (ti - te)
   const obciazenieW = strataPrzenikanieW + strataWentylacjaW
   const cieploDobaObliczeniowaKwh = (obciazenieW * GODZIN_NA_DOBE) / W_NA_KW
@@ -135,6 +157,24 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
     miesiace.push({ miesiac: i + 1, temperaturaSredniaC: tm, cieploKwh, energiaElektrycznaKwh: cop === null ? null : cieploKwh / cop })
   })
 
+  const cieploSumaMiesiecyKwh = miesiace.length > 0 ? miesiace.reduce((a, m) => a + m.cieploKwh, 0) : null
+  const pal = input.paliwo
+  let paliwo: ZapasPaliwa | null = null
+  if (pal && pal.wartoscOpalowaKwh !== null && pal.sprawnoscPct !== null && pal.zapas !== null) {
+    const cieploNaJednostke = pal.wartoscOpalowaKwh * (pal.sprawnoscPct / 100)
+    const zapasCieplaKwh = pal.zapas * cieploNaJednostke
+    const zuzycieRokJedn = cieploSumaMiesiecyKwh === null ? null : cieploSumaMiesiecyKwh / cieploNaJednostke
+    paliwo = {
+      jednostka: pal.jednostka,
+      zapasCieplaKwh,
+      zuzycieDobaObliczeniowaJedn: cieploDobaObliczeniowaKwh / cieploNaJednostke,
+      dniPrzyTemperaturzeObliczeniowej: zapasCieplaKwh / cieploDobaObliczeniowaKwh,
+      zuzycieRokJedn,
+      pokrycieRokuPct: cieploSumaMiesiecyKwh === null || cieploSumaMiesiecyKwh === 0 ? null : Math.min(100, (100 * zapasCieplaKwh) / cieploSumaMiesiecyKwh),
+      brakJedn: zuzycieRokJedn === null ? null : Math.max(0, zuzycieRokJedn - pal.zapas),
+    }
+  }
+
   const warnings: Warning[] = [bezMostkowIZyskow()]
   if (miesiace.length > 0) warnings.push(miesiaceZeSrednich())
 
@@ -146,6 +186,8 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
   if (surowe.some((p) => !p.zewnetrzna)) assumptions.push({ kod: "OC-ZALOZENIE-STALA-TEMP-PRZYLEGLYCH" })
   if (input.przegrody.some((p) => uPrzegrody(p).zWarstw)) assumptions.push({ kod: "OC-ZALOZENIE-U-Z-WARSTW" })
   if (cop !== null) assumptions.push({ kod: "OC-ZALOZENIE-COP", params: { cop } })
+  if (odzyskPct > 0) assumptions.push({ kod: "OC-ZALOZENIE-ODZYSK-WENTYLACJI", params: { eta: odzyskPct } })
+  if (paliwo) assumptions.push({ kod: "OC-ZALOZENIE-PALIWO-ZAPAS", params: { wo: pal!.wartoscOpalowaKwh!, eta: pal!.sprawnoscPct! } })
 
   return wynik(
     "VALID_WITH_WARNINGS",
@@ -160,12 +202,14 @@ export function calculateObciazenieCieplne(input: ObciazenieCieplneInput): CalcR
       })),
       strataPrzenikanieW,
       hvWK,
+      odzyskWentylacjiPct: odzyskPct,
       strataWentylacjaW,
       obciazenieW,
       cieploDobaObliczeniowaKwh,
       energiaElektrycznaDobaKwh: cop === null ? null : cieploDobaObliczeniowaKwh / cop,
       miesiace: miesiace.length > 0 ? miesiace : null,
-      cieploSumaMiesiecyKwh: miesiace.length > 0 ? miesiace.reduce((a, m) => a + m.cieploKwh, 0) : null,
+      cieploSumaMiesiecyKwh,
+      paliwo,
     },
     warnings,
     assumptions,

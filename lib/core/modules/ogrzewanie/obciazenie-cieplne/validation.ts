@@ -27,5 +27,15 @@ export function validateInput(input: ObciazenieCieplneInput): Warning[] {
     e.push(wartoscPozaZakresem("wymianyPowietrzaNaH", "POLE-WYMIANY-POWIETRZA", n, 0, WYMIANY_SANITY_MAX))
   }
   if (input.cop !== null && input.cop <= 0) e.push(wartoscNiedodatnia("cop", "POLE-COP", input.cop))
+  const odzysk = input.sprawnoscOdzyskuPct ?? null
+  if (odzysk !== null && (odzysk < 0 || odzysk > 100)) e.push(wartoscPozaZakresem("sprawnoscOdzyskuPct", "POLE-ODZYSK-WENTYLACJI", odzysk, 0, 100))
+  const p = input.paliwo
+  if (p) {
+    if (p.wartoscOpalowaKwh !== null && p.wartoscOpalowaKwh <= 0) e.push(wartoscNiedodatnia("paliwo.wartoscOpalowaKwh", "POLE-PALIWO-WARTOSC-OPALOWA", p.wartoscOpalowaKwh))
+    if (p.sprawnoscPct !== null && (p.sprawnoscPct <= 0 || p.sprawnoscPct > 100)) {
+      e.push(wartoscPozaZakresem("paliwo.sprawnoscPct", "POLE-PALIWO-SPRAWNOSC", p.sprawnoscPct, 0, 100))
+    }
+    if (p.zapas !== null && p.zapas < 0) e.push(wartoscUjemna("paliwo.zapas", "POLE-PALIWO-ZAPAS", p.zapas))
+  }
   return e
 }

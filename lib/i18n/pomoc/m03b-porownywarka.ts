@@ -335,6 +335,12 @@ export const pl = {
         gdzie: "Plik pobrany z tej aplikacji (od siebie albo od kogoś, kto Ci go przesłał).",
         zakres: "Plik .json z tej aplikacji, do 200 kB. Plik z innego źródła zostanie odrzucony z komunikatem.",
       },
+      doliczOgrzewanie: {
+        nazwa: "Dolicz ogrzewanie elektryczne",
+        cel: "Dodaje do miesięcznego zużycia prąd na ogrzewanie policzony na ekranie „Straty ciepła budynku” (ciepło ÷ COP), żeby bilans zimy na panelach uwzględniał dom ogrzewany prądem.",
+        gdzie: "Działa tylko, gdy tamten ekran ma komplet danych, wybrane źródło ciepła na prąd, COP i średnie temperatury wszystkich 12 miesięcy. Jeśli rachunki z ekranu „Zużycie miesięczne” już zawierają ogrzewanie elektryczne, nie włączaj — policzysz je dwa razy.",
+        zakres: "Pole wyboru. Domyślnie wyłączone. Ogrzewanie dochodzi do zużycia w proporcji tego samego profilu dobowego co reszta prądu.",
+      },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
         cel: "Wybierasz kierunek zamiast wpisywać azymut w stopniach; aplikacja zamienia go na azymut (północ 0°, wschód 90°, południe 180°, zachód 270°). Południe daje najwięcej energii zimą.",
@@ -898,6 +904,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "A file downloaded from this app (by you or by someone who sent it to you).",
         zakres: "A .json file from this app, up to 200 kB. A file from another source is rejected with a message.",
       },
+      doliczOgrzewanie: {
+        nazwa: "Add electric heating",
+        cel: "Adds to the monthly consumption the electricity for heating computed on the “Building heat loss” screen (heat ÷ COP), so that the winter balance on panels includes a house heated with electricity.",
+        gdzie: "Works only when that screen has complete data, an electric heat source, the COP and the mean temperatures of all 12 months. If the bills from the “Monthly consumption” screen already include electric heating, do not switch it on — you would count it twice.",
+        zakres: "A checkbox. Off by default. The heating is added with the same daily profile as the rest of the electricity.",
+      },
       stronaSwiata: {
         nazwa: "The direction the panels face",
         cel: "You pick a direction instead of typing an azimuth in degrees; the app converts it to an azimuth (north 0°, east 90°, south 180°, west 270°). South gives the most energy in winter.",
@@ -1460,6 +1472,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Загружает сравнение, ранее сохранённое кнопкой «Скачать файл». Работает как ссылка: в «Моих наборах» появляется новый набор.",
         gdzie: "Файл, скачанный из этого приложения (вами или тем, кто вам его прислал).",
         zakres: "Файл .json из этого приложения, до 200 КБ. Файл из другого источника отклоняется с сообщением.",
+      },
+      doliczOgrzewanie: {
+        nazwa: "Добавить электроотопление",
+        cel: "Добавляет к месячному потреблению электроэнергию на отопление, рассчитанную на экране «Теплопотери здания» (тепло ÷ COP), чтобы зимний баланс на панелях учитывал дом с электроотоплением.",
+        gdzie: "Работает только при полных данных на том экране, электрическом источнике тепла, COP и среднемесячных температурах всех 12 месяцев. Если счета с экрана «Месячное потребление» уже включают электроотопление, не включайте — оно будет посчитано дважды.",
+        zakres: "Флажок. По умолчанию выключен. Отопление добавляется с тем же суточным профилем, что и остальная электроэнергия.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",
