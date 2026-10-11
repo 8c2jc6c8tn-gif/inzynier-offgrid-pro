@@ -9,7 +9,7 @@ import { ObciazeniaPaneli } from "@/components/porownywarka-paneli/obciazenia"
 import { OdczytKarty } from "@/components/porownywarka-paneli/odczyt-karty"
 import { OfertaPaneli } from "@/components/porownywarka-paneli/oferta"
 import { PrzelacznikTrybu, PytaniaProste, WerdyktProstyKarta } from "@/components/porownywarka-paneli/tryb-prosty"
-import { podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
+import { osprzetScenariuszaZFormularza, podsumujUrzadzenie } from "@/lib/porownywarka-paneli/urzadzenie"
 import { zwrotyZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { UrzadzenieIBos } from "@/components/porownywarka-paneli/urzadzenie-bos"
@@ -63,6 +63,8 @@ import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projek
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
+/** One figure when both ends of a price range round to the same number, otherwise "min–max". */
+const zakresTekst = (min: number, max: number) => (f0(min) === f0(max) ? f0(min) : `${f0(min)}–${f0(max)}`)
 const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "bilans" | "miejsca" | "producenci" | "gwiazdki" | "zalozenia"
@@ -242,7 +244,12 @@ export default function PorownywarkaPaneliPage() {
   const miejsce = aktywneMiejsce(stan)
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
 
-  const wejscie = useMemo(() => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, t }), [stan, lokalizacja, dane, zuzycie, t])
+  const { kurs } = useDenominacja()
+  const osprzetScenariusza = useMemo(() => osprzetScenariuszaZFormularza(stan, kurs), [stan, kurs])
+  const wejscie = useMemo(
+    () => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, t, osprzetScenariusza }),
+    [stan, lokalizacja, dane, zuzycie, t, osprzetScenariusza],
+  )
 
   /** The same panels in every saved place (U18) — computed only while that tab is open. */
   const wynikiMiejsc = useMemo(
@@ -254,7 +261,6 @@ export default function PorownywarkaPaneliPage() {
   )
 
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
-  const { kurs } = useDenominacja()
   /** The device and accessories summary goes onto the printed offer, so it is computed only while that tab is open. */
   const zwrotZOsprzetem = stan.zwrotZOsprzetem === true
   const podsumowanie = useMemo(
@@ -1302,6 +1308,43 @@ export default function PorownywarkaPaneliPage() {
                                     : t("UI-PORP-SC-MIEJSCE-OK")}
                             </p>
                           </>
+                        )}
+                        {sc.zOsprzetem ? (
+                          <div className="mt-2 flex flex-col gap-1 border-t pt-2">
+                            <p className="font-medium">{t("UI-PORP-SC-OSP-TYTUL")}</p>
+                            <p>
+                              {t("UI-PORP-SC-OSP-RAZEM", {
+                                drozszy,
+                                tanszy,
+                                dr: zakresTekst(sc.zOsprzetem.drozszyRazemMinZl, sc.zOsprzetem.drozszyRazemMaxZl),
+                                tn: zakresTekst(sc.zOsprzetem.tanszyRazemMinZl, sc.zOsprzetem.tanszyRazemMaxZl),
+                                waluta,
+                              })}
+                            </p>
+                            <p>
+                              {sc.zOsprzetem.dodatkowePaneleMax === 0
+                                ? t("UI-PORP-SC-OSP-ZERO", { tanszy })
+                                : sc.zOsprzetem.dodatkowePaneleMin === sc.zOsprzetem.dodatkowePaneleMax
+                                  ? t("UI-PORP-SC-OSP-ILE", { tanszy, x: sc.zOsprzetem.dodatkowePaneleMin, bez: sc.dodatkowePanele })
+                                  : t("UI-PORP-SC-OSP-ILE-ZAKRES", { tanszy, min: sc.zOsprzetem.dodatkowePaneleMin, max: sc.zOsprzetem.dodatkowePaneleMax, bez: sc.dodatkowePanele })}
+                            </p>
+                            {sc.zOsprzetem.dodatkowePaneleMin > 0 && (
+                              <>
+                                <p>{t("UI-PORP-SC-ENERGIA", { rok: f0(sc.zOsprzetem.dodatkoweRokKwh), zima: f0(sc.zOsprzetem.dodatkoweZimaKwh) })}</p>
+                                <p>
+                                  {t("UI-PORP-SC-POROWNANIE", {
+                                    tanszy,
+                                    drozszy,
+                                    rok: roznicaKwhTekst(sc.zOsprzetem.przewagaRokKwh),
+                                    zima: roznicaKwhTekst(sc.zOsprzetem.przewagaZimaKwh),
+                                  })}
+                                </p>
+                              </>
+                            )}
+                            {sc.zOsprzetem.niepelny && <p className="text-muted-foreground">{t("UI-PORP-SC-OSP-NIEPELNY")}</p>}
+                          </div>
+                        ) : (
+                          <p className="mt-2 border-t pt-2 text-muted-foreground">{t(zwrotZOsprzetem ? "UI-PORP-SC-OSP-BRAK" : "UI-PORP-SC-OSP-WYLACZONE")}</p>
                         )}
                       </div>
                     )

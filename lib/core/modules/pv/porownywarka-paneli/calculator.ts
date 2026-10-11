@@ -4,6 +4,7 @@ import { ELEKTRYKA_ZGODNOSC_VMP_IMP_TOL, HORYZONT_LAT, MIESIACE_ZIMOWE_POROWNYWA
 import type { DanePanelu, PorownywarkaInput, WycenaKwh } from "./input"
 import { bilansGodzinowy, dobierzPaneleNaZime, limityMocyPodane, podsumujBilans, type DoborPanelowNaZime, type PodsumowanieBilansu } from "./bilans-godzinowy"
 import { ocenElektryke, type WynikElektryki } from "./elektryka"
+import { kosztZestawuZOsprzetem, urzadzenieZWejsciaScenariusza, type UrzadzenieDoWyceny } from "./osprzet-zestawu"
 import { najwyzszeWykorzystaniePct, obciazeniaMiejsca, ocenPanelObciazenia, type ObciazeniaMiejsca, type ObciazeniaPanelu } from "./obciazenia"
 import { ocenKryteria, type KryteriumWynik } from "./kryteria"
 import { oknoMiejsca, pojemnoscMiejsca, pojemnoscPochylona, wspolczynnikOknaMiejsca, wymiaryUzytkowe, type Pojemnosc, type RozmieszczeniePochylone } from "./pakowanie"
@@ -33,7 +34,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.8.0"
+export const CALCULATOR_VERSION = "1.9.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -135,6 +136,37 @@ export type ScenariuszWiecejPaneli = {
   przewagaRokKwh: number
   przewagaZimaKwh: number
   /** To samo wartościowo wg wyceny kWh (po ocenie użyteczności, gdy znane zapotrzebowanie); `null` bez ceny kWh. */
+  przewagaRokZl: number | null
+  przewagaZimaZl: number | null
+  /**
+   * Ten sam scenariusz, gdy za różnicę kupujemy dodatkowe panele RAZEM z urządzeniem i osprzętem obu zestawów (spec 41); `null` = nie podano
+   * urządzenia albo nie da się wycenić któregoś z zestawów (brak Tmin, danych elektrycznych, układu mieszczącego się w limitach urządzenia).
+   */
+  zOsprzetem: ScenariuszZOsprzetem | null
+}
+
+export type ScenariuszZOsprzetem = {
+  /** Cena zestawu droższego i tańszego (k = 0 dodatkowych) z urządzeniem i osprzętem: zakres min–max z cennika. */
+  drozszyRazemMinZl: number
+  drozszyRazemMaxZl: number
+  tanszyRazemMinZl: number
+  tanszyRazemMaxZl: number
+  /** Różnica zestawów po cenach na tych samych końcach zakresu (min z min, max z max) [zł]; może być ujemna, gdy tańszy panel wymaga droższego osprzętu. */
+  oszczednoscMinZl: number
+  oszczednoscMaxZl: number
+  /** Ile paneli tańszego typu da się dokupić tak, by zestaw nie przekroczył ceny droższego — przy cenach osprzętu z dołu zakresu i z góry zakresu. */
+  dodatkowePaneleMax: number
+  dodatkowePaneleMin: number
+  /** Któryś z zestawów ma pozycję osprzętu bez ilości (np. nie wpisano trasy kabla), więc jego cena jest zaniżona. */
+  niepelny: boolean
+  /** Dalsze liczby dla OSTROŻNEJ liczby dodatkowych paneli (`dodatkowePaneleMin`). */
+  wTymSamymMiejscu: number
+  naScianie: number
+  miejsceSprawdzone: boolean
+  dodatkoweRokKwh: number
+  dodatkoweZimaKwh: number
+  przewagaRokKwh: number
+  przewagaZimaKwh: number
   przewagaRokZl: number | null
   przewagaZimaZl: number | null
 }
@@ -508,6 +540,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (strefy) assumptions.push({ kod: "PORP-ZAL-STREFY-CZAS-PL" })
   if (scenariusze.length > 0) {
     assumptions.push({ kod: "PORP-ZAL-SCENARIUSZ-BEZ-BOS" })
+    if (scenariusze.some((sc) => sc.zOsprzetem !== null)) assumptions.push({ kod: "PORP-ZAL-SCENARIUSZ-Z-OSPRZETEM" })
     if (scenariusze.some((sc) => !sc.miejsceSprawdzone)) assumptions.push({ kod: "PORP-ZAL-SCENARIUSZ-MIEJSCE-NIEZNANE" })
     if (scenariusze.some((sc) => sc.naScianie > 0)) assumptions.push({ kod: "PORP-ZAL-SCIANA-POLUDNIOWA" })
   }
@@ -571,6 +604,7 @@ function policzScenariusze(a: {
   const wynik: ScenariuszWiecejPaneli[] = []
   let sciana: ((p: DanePanelu) => { wszystkie: number[]; tania: number[] }) | null = null
   const drogi = a.podsumuj(najdrozszy.miesiaceKwh, a.energiaJednego.get(najdrozszy.id)!.tania.map((e) => e * najdrozszy.liczbaPaneli))
+  const urzadzenie = a.wejscie.osprzetScenariusza ? urzadzenieZWejsciaScenariusza(a.wejscie.osprzetScenariusza) : null
   for (const b of zCena) {
     if (b.cenaRazemZl! >= najdrozszy.cenaRazemZl!) continue
     const panelB = a.wejscie.panele.find((p) => p.id === b.id)!
@@ -579,34 +613,94 @@ function policzScenariusze(a: {
     const dodatkowe = Math.floor(oszczednosc / cena)
     const pojemnosc = a.pojemnosci.get(b.id) ?? null
     const wolne = pojemnosc === null ? null : Math.max(0, pojemnosc.liczba - b.liczbaPaneli)
-    const wMiejscu = wolne === null ? dodatkowe : Math.min(dodatkowe, wolne)
-    const naScianie = dodatkowe - wMiejscu
     const jeden = a.energiaJednego.get(b.id)!
-    let scianaJeden = { wszystkie: new Array<number>(12).fill(0), tania: new Array<number>(12).fill(0) }
-    if (naScianie > 0) {
-      sciana ??= a.energiaSciany()
-      scianaJeden = sciana(panelB)
+    let scianaJeden: { wszystkie: number[]; tania: number[] } | null = null
+    /** Energy and advantage over the dearer set when `k` extra panels of the cheaper type are bought: first in the free space, the rest on the south wall. */
+    const przelicz = (k: number) => {
+      const wMiejscu = wolne === null ? k : Math.min(k, wolne)
+      const naScianie = k - wMiejscu
+      if (naScianie > 0) {
+        sciana ??= a.energiaSciany()
+        scianaJeden ??= sciana(panelB)
+      }
+      const scianaE = scianaJeden ?? { wszystkie: new Array<number>(12).fill(0), tania: new Array<number>(12).fill(0) }
+      const mies = b.miesiaceKwh.map((e, m) => e + wMiejscu * jeden.wszystkie[m]! + naScianie * scianaE.wszystkie[m]!)
+      const tania = jeden.tania.map((e, m) => e * b.liczbaPaneli + wMiejscu * e + naScianie * scianaE.tania[m]!)
+      const razem = a.podsumuj(mies, tania)
+      const dodatkoweMies = mies.map((e, m) => e - b.miesiaceKwh[m]!)
+      return {
+        wTymSamymMiejscu: wMiejscu,
+        naScianie,
+        miejsceSprawdzone: wolne !== null,
+        dodatkoweRokKwh: suma(dodatkoweMies),
+        dodatkoweZimaKwh: suma(MIESIACE_ZIMOWE_POROWNYWARKI.map((m) => dodatkoweMies[m]!)),
+        przewagaRokKwh: razem.rokKwh - drogi.rokKwh,
+        przewagaZimaKwh: razem.zimaKwh - drogi.zimaKwh,
+        przewagaRokZl: razem.wartoscRokZl === null || drogi.wartoscRokZl === null ? null : razem.wartoscRokZl - drogi.wartoscRokZl,
+        przewagaZimaZl: razem.wartoscZimaZl === null || drogi.wartoscZimaZl === null ? null : razem.wartoscZimaZl - drogi.wartoscZimaZl,
+      }
     }
-    const mies = b.miesiaceKwh.map((e, m) => e + wMiejscu * jeden.wszystkie[m]! + naScianie * scianaJeden.wszystkie[m]!)
-    const tania = jeden.tania.map((e, m) => (e * b.liczbaPaneli) + wMiejscu * e + naScianie * scianaJeden.tania[m]!)
-    const razem = a.podsumuj(mies, tania)
-    const dodatkoweMies = mies.map((e, m) => e - b.miesiaceKwh[m]!)
     wynik.push({
       drozszyId: najdrozszy.id,
       tanszyId: b.id,
       oszczednoscZl: oszczednosc,
       cenaSztukiTanszegoZl: cena,
       dodatkowePanele: dodatkowe,
-      wTymSamymMiejscu: wMiejscu,
-      naScianie,
-      miejsceSprawdzone: wolne !== null,
-      dodatkoweRokKwh: suma(dodatkoweMies),
-      dodatkoweZimaKwh: suma(MIESIACE_ZIMOWE_POROWNYWARKI.map((m) => dodatkoweMies[m]!)),
-      przewagaRokKwh: razem.rokKwh - drogi.rokKwh,
-      przewagaZimaKwh: razem.zimaKwh - drogi.zimaKwh,
-      przewagaRokZl: razem.wartoscRokZl === null || drogi.wartoscRokZl === null ? null : razem.wartoscRokZl - drogi.wartoscRokZl,
-      przewagaZimaZl: razem.wartoscZimaZl === null || drogi.wartoscZimaZl === null ? null : razem.wartoscZimaZl - drogi.wartoscZimaZl,
+      ...przelicz(dodatkowe),
+      zOsprzetem: urzadzenie ? scenariuszZOsprzetem({ a, urzadzenie, najdrozszy, b, cena, przelicz }) : null,
     })
   }
   return wynik
+}
+
+/** Most extra panels the loop looks at; a price list that makes the cheaper panel almost free would otherwise scan without end. */
+const MAKS_DODATKOWYCH_W_PRZESZUKANIU = 1000
+
+/**
+ * Scenario 7.4 with the device and accessories of both sets (spec 41). Both sets are priced with the same function as the "Inverter and accessories"
+ * tab; the extra panels change the string layout, the number of devices and the accessory quantities, so the count is searched for, not divided.
+ * The accessory prices are a range, so the count is given for both ends: the cautious one (all prices at the top of the range) and the optimistic one.
+ */
+function scenariuszZOsprzetem(i: {
+  a: Parameters<typeof policzScenariusze>[0]
+  urzadzenie: UrzadzenieDoWyceny
+  najdrozszy: WynikPanelu
+  b: WynikPanelu
+  cena: number
+  przelicz: (k: number) => Omit<ScenariuszZOsprzetem, "drozszyRazemMinZl" | "drozszyRazemMaxZl" | "tanszyRazemMinZl" | "tanszyRazemMaxZl" | "oszczednoscMinZl" | "oszczednoscMaxZl" | "dodatkowePaneleMax" | "dodatkowePaneleMin" | "niepelny">
+}): ScenariuszZOsprzetem | null {
+  const { a, urzadzenie, najdrozszy, b, cena } = i
+  const tminC = a.wejscie.tminC
+  const uklady = a.wejscie.osprzetScenariusza?.ukladyPaneli ?? {}
+  const panelA = a.wejscie.panele.find((p) => p.id === najdrozszy.id)!
+  const panelB = a.wejscie.panele.find((p) => p.id === b.id)!
+  const cenaA = najdrozszy.cenaRazemZl!
+  const koszt = (panel: DanePanelu, cenaPaneli: number, n: number) => kosztZestawuZOsprzetem(panel, cenaPaneli, n, tminC, urzadzenie, uklady[panel.id])
+  const drogi = koszt(panelA, cenaA, najdrozszy.liczbaPaneli)
+  const tani = koszt(panelB, b.cenaRazemZl!, b.liczbaPaneli)
+  if (!drogi || !tani) return null
+  // Largest k whose set stays within the dearer set's price, per end of the range; counts with no layout fitting the device cannot be priced and are skipped.
+  const gora = Math.min(MAKS_DODATKOWYCH_W_PRZESZUKANIU, Math.max(0, Math.floor((drogi.maxZl - b.cenaRazemZl!) / cena)))
+  let kMin = 0
+  let kMax = 0
+  for (let k = 1; k <= gora; k++) {
+    const x = koszt(panelB, b.cenaRazemZl! + k * cena, b.liczbaPaneli + k)
+    if (!x) continue
+    if (x.maxZl <= drogi.maxZl + 1e-9) kMin = k
+    if (x.minZl <= drogi.minZl + 1e-9) kMax = k
+  }
+  const dodatkowePaneleMin = Math.min(kMin, kMax)
+  const dodatkowePaneleMax = Math.max(kMin, kMax)
+  return {
+    drozszyRazemMinZl: drogi.minZl,
+    drozszyRazemMaxZl: drogi.maxZl,
+    tanszyRazemMinZl: tani.minZl,
+    tanszyRazemMaxZl: tani.maxZl,
+    oszczednoscMinZl: drogi.minZl - tani.minZl,
+    oszczednoscMaxZl: drogi.maxZl - tani.maxZl,
+    dodatkowePaneleMin,
+    dodatkowePaneleMax,
+    niepelny: drogi.niepelny || tani.niepelny,
+    ...i.przelicz(dodatkowePaneleMin),
+  }
 }

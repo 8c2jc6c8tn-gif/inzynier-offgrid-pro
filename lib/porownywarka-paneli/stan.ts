@@ -6,6 +6,7 @@
 import { znajdzPanelKatalogu, type PozycjaKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import type { BosId } from "@/lib/core/dane/cennik-bos"
 import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
+import type { OsprzetScenariuszaInput } from "@/lib/core/modules/pv/porownywarka-paneli/osprzet-zestawu"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
@@ -406,6 +407,8 @@ export function budujWejscie(a: {
   dane: ZapisTmy | null
   zuzycie: number[] | null
   t: (klucz: string, parametry?: Record<string, string | number>) => string
+  /** Device and accessories for the "more panels" scenario (spec 41); see `osprzetScenariuszaZFormularza`. */
+  osprzetScenariusza?: OsprzetScenariuszaInput | null
 }): PorownywarkaInput {
   const { stan, miejsce: m, lokalizacja, dane, zuzycie, t } = a
   const nachylenie = liczba(m.nachylenie)
@@ -446,6 +449,7 @@ export function budujWejscie(a: {
     testZanizeniaMocyPct: liczba(stan.zanizenieMocy ?? "") ?? null,
     obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),
     bilansGodzinowy: bilansZFormularza(stan.bil),
+    osprzetScenariusza: a.osprzetScenariusza ?? null,
     panele,
     wycena,
     kryteria: stan.kryteria,
