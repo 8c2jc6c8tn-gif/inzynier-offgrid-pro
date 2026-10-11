@@ -185,6 +185,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/kalkulator-mobilny/bezpieczenstwo-kamper",
   "lib/core/modules/kalkulator-mobilny/ladowanie-w-garazu",
   "lib/core/modules/kalkulator-mobilny/ladowanie-z-regulatora",
+  "lib/core/modules/kalkulator-mobilny/miejsce-na-rozbudowe",
   "lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male",
   "lib/core/modules/kalkulator-mobilny/akumulator-samochodowy",
   "lib/core/modules/kalkulator-mobilny/mam-akumulator",
