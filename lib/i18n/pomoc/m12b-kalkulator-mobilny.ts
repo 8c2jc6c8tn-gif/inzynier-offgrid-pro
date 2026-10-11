@@ -1487,6 +1487,74 @@ export const pl = {
       },
     },
   },
+  "ladowanie-z-regulatora": {
+    migawka: {
+      oCoChodzi:
+        "Regulator MPPT to nie jest „magiczny” kran: prąd do akumulatora zależy od mocy paneli, napięcia akumulatora i trzech limitów — regulatora, jego wejścia PV i samego akumulatora.",
+      jakDziala:
+        "Aplikacja dzieli moc paneli (do limitu wejścia PV regulatora) przez napięcie akumulatora, a potem obcina wynik kolejno do limitu prądu regulatora i prądu ładowania akumulatora. Mówi, który z nich faktycznie ogranicza. Jeśli podasz pojemność i zakres stanu naładowania, policzy też szybkość ładowania (C) i czas przy stałym prądzie.",
+      poCo:
+        "Żeby wiedzieć, ile prądu realnie wpłynie do akumulatora, czy regulator nie jest za mały dla paneli i czy trzeba ustawić limit prądu ładowania, zanim akumulator dostanie więcej, niż zaleca producent.",
+      fizyka:
+        "I = (P · η) / U. Moc paneli z tabliczki to warunki STC, więc to GÓRNA granica prądu — zimą i pod chmurami jest niższy. Czas t = (C · ΔSOC/100) / I jest DOLNĄ granicą, bo pod koniec ładowania prąd spada.",
+    },
+    pola: {
+      mocPaneli: {
+        nazwa: "Łączna moc paneli [W]",
+        cel: "Z niej liczony jest prąd, jaki panele mogą dać. Przy kilku panelach wpisz sumę mocy wszystkich, które trafiają do tego regulatora.",
+        gdzie: "Na tabliczce lub w karcie każdego panelu (moc w STC, „Pmax”).",
+        zakres: "Z karty paneli — aplikacja nie zgaduje mocy.",
+      },
+      pradRegulatora: {
+        nazwa: "Maks. prąd ładowania regulatora [A]",
+        cel: "Regulator nie odda do akumulatora więcej niż ten prąd, nawet jeśli panele mogłyby dać więcej.",
+        gdzie: "W karcie regulatora: „Maximum charge current”, „Nominal charge current”. Wybór modelu z katalogu wstawia tę wartość.",
+        zakres: "Z karty regulatora; puste pole = limit nieznany, wtedy nie jest liczony.",
+      },
+      mocRegulatora: {
+        nazwa: "Maks. moc wejścia PV regulatora [W]",
+        cel: "Powyżej tej mocy nadmiar paneli jest obcinany, więc nie zwiększa prądu ładowania. Dla niektórych regulatorów moc zależy od napięcia akumulatora.",
+        gdzie: "W karcie regulatora: „Maximum PV power”, „Max. PV array power” (przy 12/24/48 V).",
+        zakres: "Z karty regulatora; puste pole = limit nieznany.",
+      },
+      sprawnosc: {
+        nazwa: "Sprawność regulatora [%]",
+        cel: "Straty w regulatorze zmniejszają moc docierającą do akumulatora. Bez wpisu aplikacja liczy bez strat (górna granica).",
+        gdzie: "W karcie regulatora: „Peak efficiency”, „Sprawność szczytowa”. Sprawność szczytowa jest zwykle wyższa niż przeciętna w pracy.",
+        zakres: "Od 0 do 100 %, z karty urządzenia; puste pole = bez strat.",
+      },
+      napiecie: {
+        nazwa: "Napięcie akumulatora [V]",
+        cel: "Prąd = moc ÷ napięcie, więc ten sam panel daje większy prąd przy 12 V niż przy 24 V.",
+        gdzie: "Napięcie znamionowe akumulatora lub banku (12, 24, 48 V…).",
+        zakres: "Z karty akumulatora.",
+      },
+      limitAkumulatora: {
+        nazwa: "Maks. prąd ładowania akumulatora [A]",
+        cel: "Powyżej tego prądu ładowanie skraca życie akumulatora lub grozi uszkodzeniem. Jeśli możliwy prąd jest większy, limit trzeba ustawić w regulatorze.",
+        gdzie: "W karcie akumulatora: „Max. charge current”, często podawany jako ułamek pojemności (np. 0,3 C).",
+        zakres: "Z karty akumulatora; puste pole = limit nieznany, wtedy brak oceny.",
+      },
+      pojemnosc: {
+        nazwa: "Pojemność akumulatora [Ah]",
+        cel: "Potrzebna do szybkości ładowania (prąd ÷ pojemność) i czasu ładowania.",
+        gdzie: "Na naklejce akumulatora. Dla banku: suma pojemności połączeń równoległych.",
+        zakres: "Z karty akumulatora; puste pole = bez czasu i C.",
+      },
+      socOd: {
+        nazwa: "Stan naładowania na początku [%]",
+        cel: "Początek zakresu, dla którego liczony jest czas ładowania.",
+        gdzie: "Z woltomierza, BMS lub wskaźnika akumulatora.",
+        zakres: "0–100 %, mniej niż stan na końcu.",
+      },
+      socDo: {
+        nazwa: "Stan naładowania na końcu [%]",
+        cel: "Koniec zakresu. Czas liczony jest przy stałym prądzie, więc dla ładowania do 100 % rzeczywisty czas jest dłuższy.",
+        gdzie: "Docelowy stan, np. 80 % przy ładowaniu w trybie oszczędzającym akumulator.",
+        zakres: "0–100 %, więcej niż stan na początku.",
+      },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -2963,6 +3031,74 @@ export const en: Tlumaczenie<typeof pl> = {
         cel: "A loose contact heats up — a common fire cause.",
         gdzie: "All lugs and terminals.",
         zakres: "OK / Fault.",
+      },
+    },
+  },
+  "ladowanie-z-regulatora": {
+    migawka: {
+      oCoChodzi:
+        "An MPPT regulator is not a magic tap: the current into the battery depends on the panel power, the battery voltage and three limits — the regulator's, its PV input and the battery's own.",
+      jakDziala:
+        "The app divides the panel power (up to the regulator's PV input limit) by the battery voltage, then caps the result by the regulator current limit and the battery charging current. It tells which of them actually limits. If you enter the capacity and a state-of-charge range, it also gives the charging rate (C) and the time at a constant current.",
+      poCo:
+        "To know how much current will really flow into the battery, whether the regulator is too small for the panels and whether a charging current limit must be set before the battery gets more than the manufacturer recommends.",
+      fizyka:
+        "I = (P · η) / U. The panel power from the plate is STC, so this is an UPPER bound of the current — lower in winter and under cloud. The time t = (C · ΔSOC/100) / I is a LOWER bound because the current falls near the end of the charge.",
+    },
+    pola: {
+      mocPaneli: {
+        nazwa: "Total panel power [W]",
+        cel: "The current the panels can give is calculated from it. With several panels enter the sum of all that feed this regulator.",
+        gdzie: "On the plate or in the datasheet of each panel (STC power, “Pmax”).",
+        zakres: "From the panel datasheet — the app does not guess the power.",
+      },
+      pradRegulatora: {
+        nazwa: "Regulator max. charging current [A]",
+        cel: "The regulator will not give the battery more than this current even if the panels could deliver more.",
+        gdzie: "In the regulator datasheet: “Maximum charge current”, “Nominal charge current”. Picking the model from the catalogue fills it in.",
+        zakres: "From the regulator datasheet; empty = limit unknown, then it is not counted.",
+      },
+      mocRegulatora: {
+        nazwa: "Regulator max. PV input power [W]",
+        cel: "Above this power the panel surplus is cut off, so it does not raise the charging current. For some regulators the power depends on the battery voltage.",
+        gdzie: "In the regulator datasheet: “Maximum PV power”, “Max. PV array power” (at 12/24/48 V).",
+        zakres: "From the regulator datasheet; empty = limit unknown.",
+      },
+      sprawnosc: {
+        nazwa: "Regulator efficiency [%]",
+        cel: "Losses in the regulator lower the power reaching the battery. Without an entry the app counts without losses (an upper bound).",
+        gdzie: "In the regulator datasheet: “Peak efficiency”. The peak efficiency is usually higher than the average in operation.",
+        zakres: "0 to 100 %, from the device datasheet; empty = no losses.",
+      },
+      napiecie: {
+        nazwa: "Battery voltage [V]",
+        cel: "Current = power ÷ voltage, so the same panel gives more current at 12 V than at 24 V.",
+        gdzie: "The nominal voltage of the battery or bank (12, 24, 48 V…).",
+        zakres: "From the battery datasheet.",
+      },
+      limitAkumulatora: {
+        nazwa: "Battery max. charging current [A]",
+        cel: "Above this current charging shortens the battery's life or risks damage. If the possible current is higher, the limit has to be set in the regulator.",
+        gdzie: "In the battery datasheet: “Max. charge current”, often given as a fraction of the capacity (e.g. 0.3 C).",
+        zakres: "From the battery datasheet; empty = limit unknown, then no check.",
+      },
+      pojemnosc: {
+        nazwa: "Battery capacity [Ah]",
+        cel: "Needed for the charging rate (current ÷ capacity) and the charging time.",
+        gdzie: "On the battery label. For a bank: the sum of the parallel capacities.",
+        zakres: "From the battery datasheet; empty = no time and no C.",
+      },
+      socOd: {
+        nazwa: "State of charge at the start [%]",
+        cel: "The start of the range for which the charging time is calculated.",
+        gdzie: "From a voltmeter, the BMS or the battery gauge.",
+        zakres: "0–100 %, lower than the end value.",
+      },
+      socDo: {
+        nazwa: "State of charge at the end [%]",
+        cel: "The end of the range. The time assumes a constant current, so for charging to 100 % the real time is longer.",
+        gdzie: "The target level, e.g. 80 % when charging gently for the battery.",
+        zakres: "0–100 %, higher than the start value.",
       },
     },
   },
@@ -4449,6 +4585,74 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Слабый контакт греется — частая причина пожара.",
         gdzie: "Все наконечники и клеммы.",
         zakres: "OK / Ошибка.",
+      },
+    },
+  },
+  "ladowanie-z-regulatora": {
+    migawka: {
+      oCoChodzi:
+        "MPPT-контроллер — не волшебный кран: ток в аккумулятор зависит от мощности панелей, напряжения аккумулятора и трёх лимитов — контроллера, его PV-входа и самого аккумулятора.",
+      jakDziala:
+        "Приложение делит мощность панелей (до лимита PV-входа контроллера) на напряжение аккумулятора, затем ограничивает результат лимитом тока контроллера и током зарядки аккумулятора. Оно показывает, что именно ограничивает. Если указать ёмкость и диапазон уровня заряда, будут рассчитаны также скорость зарядки (C) и время при постоянном токе.",
+      poCo:
+        "Чтобы знать, какой ток реально потечёт в аккумулятор, не мал ли контроллер для панелей и нужно ли задать лимит тока зарядки, пока аккумулятор не получил больше, чем рекомендует производитель.",
+      fizyka:
+        "I = (P · η) / U. Мощность панелей с шильдика — это STC, поэтому ток — ВЕРХНЯЯ граница: зимой и в облачность он ниже. Время t = (C · ΔSOC/100) / I — НИЖНЯЯ граница, потому что к концу зарядки ток падает.",
+    },
+    pola: {
+      mocPaneli: {
+        nazwa: "Суммарная мощность панелей [Вт]",
+        cel: "По ней считается ток, который могут дать панели. При нескольких панелях введите сумму всех, подключённых к этому контроллеру.",
+        gdzie: "На шильдике или в карточке каждой панели (мощность в STC, «Pmax»).",
+        zakres: "Из карточки панелей — приложение не угадывает мощность.",
+      },
+      pradRegulatora: {
+        nazwa: "Макс. ток зарядки контроллера [А]",
+        cel: "Контроллер не отдаст аккумулятору больше этого тока, даже если панели могли бы дать больше.",
+        gdzie: "В карточке контроллера: «Maximum charge current», «Nominal charge current». Выбор модели из каталога подставляет это значение.",
+        zakres: "Из карточки контроллера; пустое поле = лимит неизвестен, тогда он не учитывается.",
+      },
+      mocRegulatora: {
+        nazwa: "Макс. мощность PV-входа контроллера [Вт]",
+        cel: "Выше этой мощности избыток панелей срезается и не увеличивает ток зарядки. У некоторых контроллеров мощность зависит от напряжения аккумулятора.",
+        gdzie: "В карточке контроллера: «Maximum PV power», «Max. PV array power» (при 12/24/48 В).",
+        zakres: "Из карточки контроллера; пустое поле = лимит неизвестен.",
+      },
+      sprawnosc: {
+        nazwa: "КПД контроллера [%]",
+        cel: "Потери в контроллере уменьшают мощность, доходящую до аккумулятора. Без ввода приложение считает без потерь (верхняя граница).",
+        gdzie: "В карточке контроллера: «Peak efficiency». Пиковый КПД обычно выше среднего в работе.",
+        zakres: "От 0 до 100 %, из карточки устройства; пустое поле = без потерь.",
+      },
+      napiecie: {
+        nazwa: "Напряжение аккумулятора [В]",
+        cel: "Ток = мощность ÷ напряжение, поэтому одна и та же панель даёт больший ток при 12 В, чем при 24 В.",
+        gdzie: "Номинальное напряжение аккумулятора или батареи (12, 24, 48 В…).",
+        zakres: "Из карточки аккумулятора.",
+      },
+      limitAkumulatora: {
+        nazwa: "Макс. ток зарядки аккумулятора [А]",
+        cel: "Выше этого тока зарядка сокращает срок службы аккумулятора или грозит повреждением. Если возможный ток больше, лимит нужно задать в контроллере.",
+        gdzie: "В карточке аккумулятора: «Max. charge current», часто в долях ёмкости (например, 0,3 C).",
+        zakres: "Из карточки аккумулятора; пустое поле = лимит неизвестен, оценки нет.",
+      },
+      pojemnosc: {
+        nazwa: "Ёмкость аккумулятора [А·ч]",
+        cel: "Нужна для скорости зарядки (ток ÷ ёмкость) и времени зарядки.",
+        gdzie: "На этикетке аккумулятора. Для батареи: сумма ёмкостей параллельных ветвей.",
+        zakres: "Из карточки аккумулятора; пустое поле = без времени и C.",
+      },
+      socOd: {
+        nazwa: "Уровень заряда в начале [%]",
+        cel: "Начало диапазона, для которого считается время зарядки.",
+        gdzie: "По вольтметру, BMS или индикатору аккумулятора.",
+        zakres: "0–100 %, меньше значения в конце.",
+      },
+      socDo: {
+        nazwa: "Уровень заряда в конце [%]",
+        cel: "Конец диапазона. Время считается при постоянном токе, поэтому при зарядке до 100 % реальное время больше.",
+        gdzie: "Целевой уровень, например 80 % при щадящей зарядке.",
+        zakres: "0–100 %, больше значения в начале.",
       },
     },
   },

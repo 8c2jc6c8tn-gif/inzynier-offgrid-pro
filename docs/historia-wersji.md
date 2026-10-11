@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.19.0] — 11.10.2026
+
+Tryb mikroinstalacji, etap O2: „Ładowanie akumulatora z regulatora” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 47):
+- nowy ekran w szybkim kalkulatorze (Moduł 12): wpisujesz moc paneli, napięcie akumulatora i limity z kart (prąd regulatora, moc wejścia PV regulatora, prąd ładowania akumulatora), a ekran liczy, jaki prąd realnie popłynie do akumulatora i co go ogranicza — panele, regulator czy akumulator,
+- model regulatora i falownika hybrydowego można wybrać z katalogu urządzeń PV: ekran wstawia jego limity z karty producenta (do poprawienia ręcznie); pole puste znaczy „limit nieznany” i nie jest liczone, a ekran mówi, których limitów brakuje,
+- gdy możliwy prąd jest większy, niż akumulator przyjmie, ekran ostrzega, że limit prądu trzeba ustawić w regulatorze; nadmiar mocy paneli ponad wejście PV regulatora jest pokazany osobno,
+- z pojemnością i zakresem stanu naładowania ekran podaje szybkość ładowania (C), energię i czas przy stałym prądzie; prąd jest górną granicą (moc w STC), a czas dolną (pod koniec ładowania prąd spada),
+- narzędzie AI „policz ładowanie z regulatora”.
+
+Wpływ na liczby: brak zmian w istniejących wynikach. Nowe liczby pojawiają się wyłącznie na nowym ekranie (silnik `ladowanie-z-regulatora` 1.0.0).
+
 ## [3.18.0] — 11.10.2026
 
 Moduł 7, Ekran 3: „Raport kryzysowy” (spec `docs/porownywarka-paneli-pv-specyfikacja.md`, sekcja 46):
