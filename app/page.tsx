@@ -11,7 +11,7 @@ import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel, type KafelEntry } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { NazwaKafla, OpisKafla } from "@/components/tekst-rejestru"
+import { NazwaKafla } from "@/components/tekst-rejestru"
 
 /** Kafel 14 (Ustawienia): zawsze widoczny jako ostatni w siatce, poza kolejnością i ukrywaniem (D85). */
 const USTAWIENIA_WPIS: KafelEntry = {
@@ -22,6 +22,8 @@ const USTAWIENIA_WPIS: KafelEntry = {
   ekrany: [],
 }
 
+const KAFLE_SIECI = [15, 16]
+
 export default function PulpitPage() {
   const t = useTranslate()
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
@@ -30,6 +32,49 @@ export default function PulpitPage() {
     .filter((id) => !stan.hiddenIds.includes(id))
     .map((id) => znajdzKafel(id))
     .filter((k): k is NonNullable<typeof k> => k !== undefined)
+  // Tiles 15/16 (Dom – sieć, Firma – sieć) form their own group below a separator; Settings closes the main group (D85, D86).
+  const kafleSieci = widoczneKafle.filter((k) => KAFLE_SIECI.includes(k.id))
+  const kafleGlowne = [...widoczneKafle.filter((k) => !KAFLE_SIECI.includes(k.id)), USTAWIENIA_WPIS]
+
+  const renderKafel = (kafel: KafelEntry) => (
+    <li key={kafel.id}>
+      <Link
+        href={kafel.id === USTAWIENIA_KAFEL.id ? USTAWIENIA_KAFEL.href : `/moduly/${kafel.id}`}
+        data-karta
+        className="flex h-full min-h-28 flex-col items-center justify-start gap-1.5 rounded-lg border p-2.5 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+      >
+        {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
+          <span className="block aspect-square w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+            <img
+              src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
+              alt=""
+              className="h-full w-full object-cover object-top"
+            />
+          </span>
+        ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
+          <span className="block w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+            <KafelIkonaSvg kafelId={kafel.id} />
+          </span>
+        ) : (
+          <span className="text-2xl" aria-hidden="true">
+            {kafel.ikona}
+          </span>
+        )}
+        {/* Stałe pole na dwie linie: ikony w rzędzie zawsze na jednej wysokości, krótka nazwa centruje się w polu (D83). */}
+        <span className="flex min-h-[2.5em] items-center justify-center text-small font-medium leading-tight">
+          {kafel.id === USTAWIENIA_KAFEL.id ? t("UI-PUL-USTAWIENIA-KAFEL") : <NazwaKafla kafel={kafel} />}
+        </span>
+        {tierKafla(kafel.id) === "PRO" ? (
+          <span
+            className="rounded border px-1.5 text-caption font-medium text-muted-foreground"
+            title={t("UI-PUL-PLAKIETKA-PRO-OPIS")}
+          >
+            {t("UI-PUL-PLAKIETKA-PRO")}
+          </span>
+        ) : null}
+      </Link>
+    </li>
+  )
 
   return (
     // data-pulpit: the only screen where an appearance style's background may move (D67, Płynny gradient).
@@ -87,48 +132,15 @@ export default function PulpitPage() {
             </Link>
           </StanPusty>
         ) : (
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {[...widoczneKafle, USTAWIENIA_WPIS].map((kafel) => (
-              <li key={kafel.id} className={kafel.duzy ? "col-span-2" : undefined}>
-                <Link
-                  href={kafel.id === USTAWIENIA_KAFEL.id ? USTAWIENIA_KAFEL.href : `/moduly/${kafel.id}`}
-                  data-karta
-                  className="flex h-full min-h-28 flex-col items-center justify-start gap-1.5 rounded-lg border p-2.5 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
-                >
-                  {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
-                    <span className="block aspect-square w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
-                      <img
-                        src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
-                        alt=""
-                        className="h-full w-full object-cover object-top"
-                      />
-                    </span>
-                  ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
-                    <span className="block w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
-                      <KafelIkonaSvg kafelId={kafel.id} />
-                    </span>
-                  ) : (
-                    <span className="text-2xl" aria-hidden="true">
-                      {kafel.ikona}
-                    </span>
-                  )}
-                  {/* Stałe pole na dwie linie: ikony w rzędzie zawsze na jednej wysokości, krótka nazwa centruje się w polu (D83). */}
-                  <span className="flex min-h-[2.5em] items-center justify-center text-small font-medium leading-tight">
-                    {kafel.id === USTAWIENIA_KAFEL.id ? t("UI-PUL-USTAWIENIA-KAFEL") : <NazwaKafla kafel={kafel} />}
-                  </span>
-                  {tierKafla(kafel.id) === "PRO" ? (
-                    <span
-                      className="rounded border px-1.5 text-caption font-medium text-muted-foreground"
-                      title={t("UI-PUL-PLAKIETKA-PRO-OPIS")}
-                    >
-                      {t("UI-PUL-PLAKIETKA-PRO")}
-                    </span>
-                  ) : null}
-                  {kafel.duzy ? <span className="text-caption text-muted-foreground"><OpisKafla kafel={kafel} /></span> : null}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">{kafleGlowne.map(renderKafel)}</ul>
+            {kafleSieci.length > 0 ? (
+              <>
+                <div className="pulpit-separator" role="separator" />
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">{kafleSieci.map(renderKafel)}</ul>
+              </>
+            ) : null}
+          </>
         )}
       </main>
     </div>

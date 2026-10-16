@@ -2095,7 +2095,7 @@ Tryb Audyt (czapka rewidenta). Warstwa „w pełni na końcu” z N.2 — wszyst
 
 ## Duże kafle M14 + presety pulpitu (30.09.2026)
 
-- **Duży kafel** = `duzy: true` w `KafelEntry` (`lib/pulpit/registry.ts`): `col-span-2` w siatce pulpitu + opis pod nazwą.
+- **[Zastąpione 16.10.2026, D86: pole `duzy` usunięte, kafle 15/16 są zwykłe]** Duży kafel = `duzy: true` w `KafelEntry` (`lib/pulpit/registry.ts`): `col-span-2` w siatce pulpitu + opis pod nazwą.
   Tylko kafle M14 (id 15/16, D35). Siatka ma min. 2 kolumny, więc duży kafel nigdy nie wychodzi poza ekran telefonu.
 - **Presety** (`lib/pulpit/presety.ts`) — dane 1:1 z tabeli §3 `docs/pulpit-i-nawigacja.md` + `[15, 16]` na końcu (D53/D54).
   `stanZPresetow(ids)` zwraca zwykły `PulpitState` — nie ma nowego klucza `localStorage` ani migracji. Kilka presetów =

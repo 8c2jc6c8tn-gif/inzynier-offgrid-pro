@@ -85,7 +85,7 @@ Przy każdej kategorii krótkie zdanie, co ona włącza/wyłącza. Po wyborze: p
 
 Kafel 1 (Lokalizacja) jest widoczny w każdym presecie — to fundament danych dla każdej ścieżki
 projektowej, niezależnie od tego, nad czym user akurat pracuje. Kafel 14 (Ustawienia) nie jest
-wymieniony w tabeli — jest dostępny zawsze przez pasek górny, niezależnie od presetu (sekcja 1). **[16.10.2026, D85]** Kafel 14 jest też widoczny jako ostatni kafel siatki pulpitu (zawsze, poza kolejnością i ukrywaniem); wcześniejsze zdania zostają jako historia decyzji, pasek górny nadal działa jako skrót.
+wymieniony w tabeli — jest dostępny zawsze przez pasek górny, niezależnie od presetu (sekcja 1). **[16.10.2026, D85]** Kafel 14 jest też widoczny jako ostatni kafel siatki pulpitu (zawsze, poza kolejnością i ukrywaniem); **[16.10.2026, D86]** Ustawienia stoją zaraz po kaflu 13, a kafle 15 i 16 są zwykłymi kaflami na końcu, pod czerwonym separatorem; wcześniejsze zdania zostają jako historia decyzji, pasek górny nadal działa jako skrót.
 
 **Wybór wielu kategorii naraz** = suma zbiorów widocznych kafli (unia), przeliczana na żywo —
 zaznaczenie kilku kategorii w "Trybie pracy" (sekcja 4) nie wymaga zapamiętywania osobnego układu
