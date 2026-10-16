@@ -77,6 +77,18 @@
   --text-caption--line-height: 1.4;
 }
 
+/* Skala rozmiarów ikon (D83, docs/ikony-rozmiary.md). Wyłącznie wielokrotności 4 px; komponenty
+   biorą rozmiar z tych zmiennych, nie z liczby wpisanej w kodzie. Kafel pulpitu: górny limit
+   ilustracji, która wypełnia szerokość kafla (próg jak sm Tailwinda), ikona interfejsu 16/20/24 px dostanie tokeny razem z wdrożeniem ikon liniowych (docs/ikony-rozmiary.md). */
+:root {
+  --ikona-kafel: 112px;
+}
+@media (min-width: 640px) {
+  :root {
+    --ikona-kafel: 128px;
+  }
+}
+
 :root {
   color-scheme: light;
   --font-sans-user: var(--font-inter);
@@ -285,4 +297,14 @@
   body.druk-oferty {
     background: white;
   }
+}
+
+/* Separator between the main dashboard tiles and the grid tiles (15/16, D86): a thin red line that
+   tapers to nothing and fades out 1 cm before the screen edge. Decorative, not a verdict colour. */
+.pulpit-separator {
+  height: 2px;
+  width: calc(100vw - 2cm);
+  margin: 1.25rem 0 1.25rem calc(50% - 50vw + 1cm);
+  background: linear-gradient(to right, transparent, oklch(0.58 0.24 27) 12%, oklch(0.58 0.24 27) 88%, transparent);
+  clip-path: polygon(0 50%, 12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%);
 }

@@ -8,6 +8,15 @@
  * tu jego animacje i symbol w definicje-symboli.tsx.
  */
 
+/* Ilustracja wypełnia szerokość kafla (układ C, D83); górny limit daje token --ikona-kafel na
+   opakowaniu w app/page.tsx (max-w-(--ikona-kafel)). */
+.kafel-ikona-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kafel-ikona-svg * {
     animation-play-state: paused !important;

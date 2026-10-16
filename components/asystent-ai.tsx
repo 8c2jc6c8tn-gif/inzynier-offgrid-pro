@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
+import { BobStanu } from "@/components/ui/bob-stanu"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
@@ -59,7 +60,8 @@ export function AsystentAi() {
       {otwarty && (
         <section className="flex w-[min(92vw,22rem)] flex-col gap-3 rounded-lg border bg-card p-4 shadow-lg">
           <div className="flex items-start justify-between gap-2">
-            <div>
+            <BobStanu stan="asystent" className="size-10 shrink-0 rounded-full bg-primary object-cover object-top" />
+            <div className="mr-auto">
               <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">
                 {t("UI-ASYAI-ZAPYTAJ-ASYSTENTA")}
               </h2>
@@ -103,12 +105,12 @@ export function AsystentAi() {
       <Button
         type="button"
         size="icon-lg"
-        className="rounded-full shadow-lg"
+        className="size-14 rounded-full p-0 shadow-lg"
         aria-label={otwarty ? t("UI-ASYAI-ZWIN-ASYSTENTA") : t("UI-ASYAI-OTWORZ-ASYSTENTA")}
         aria-expanded={otwarty}
         onClick={() => setOtwarty((v) => !v)}
       >
-        {otwarty ? "✕" : "AI"}
+        {otwarty ? "✕" : <BobStanu stan="asystent" className="size-full rounded-full object-cover object-top" />}
       </Button>
     </div>
   )

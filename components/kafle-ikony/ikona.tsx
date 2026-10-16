@@ -24,23 +24,15 @@ const SYMBOL_PO_ID_KAFLA: Record<number, string> = {
  * między <KafelIkonaSvg> a emoji z rejestru. */
 export const KAFLE_ZE_ZBUDOWANA_IKONA = Object.keys(SYMBOL_PO_ID_KAFLA).map(Number)
 
-export function KafelIkonaSvg({
-  kafelId,
-  className,
-  size = 44,
-}: {
-  kafelId: number
-  className?: string
-  size?: number
-}) {
+/** Rozmiar ikony kafla nie jest propsem: bierze go z tokenu --ikona-kafel (app/globals.css, D83),
+ * który zależy od szerokości ekranu. Dzięki temu jest jedna skala dla całej aplikacji. */
+export function KafelIkonaSvg({ kafelId, className }: { kafelId: number; className?: string }) {
   const symbolId = SYMBOL_PO_ID_KAFLA[kafelId]
   if (!symbolId) return null
 
   return (
     <svg
       className={["kafel-ikona-svg", className].filter(Boolean).join(" ")}
-      width={size}
-      height={size}
       viewBox="0 0 256 256"
       role="img"
       aria-hidden="true"

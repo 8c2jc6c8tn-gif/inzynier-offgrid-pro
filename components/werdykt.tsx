@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import type { Status } from "@/lib/core/calc-result"
 import { cn } from "@/lib/utils"
 import { TekstUi } from "@/components/ui/tekst-ui"
+import { BobStanu } from "@/components/ui/bob-stanu"
 
 /**
  * Werdykt trójstopniowy 🟢🟡🔴 (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1) jako jeden
@@ -47,7 +48,8 @@ export function WerdyktPanel({
   className?: string
 }) {
   return (
-    <div role="status" className={cn("rounded-lg border-2 p-4", STYL[poziom], className)}>
+    <div role="status" className={cn("flow-root rounded-lg border-2 p-4", STYL[poziom], className)}>
+      <BobStanu stan={poziom} className="float-right ml-3 size-14" />
       <p className="flex items-center gap-2 font-medium">
         <span aria-hidden="true">{WERDYKT_IKONA[poziom]}</span>
         <span>{etykieta ?? <TekstUi kod={DOMYSLNA_ETYKIETA[poziom]} />}</span>

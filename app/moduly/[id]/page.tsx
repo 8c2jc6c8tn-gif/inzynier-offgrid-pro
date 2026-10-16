@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
+import { BANER_MODULU_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
 import { TekstUi } from "@/components/ui/tekst-ui"
 import { EtykietaEkranu, OpisKafla, TytulModulu } from "@/components/tekst-rejestru"
@@ -15,7 +15,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
 
   if (!kafel) notFound()
 
-  const maskotka = MASKOTKA_PO_ID_KAFLA[kafel.id]
+  const maskotka = BANER_MODULU_PO_ID_KAFLA[kafel.id] ?? MASKOTKA_PO_ID_KAFLA[kafel.id]
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

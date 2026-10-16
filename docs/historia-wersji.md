@@ -2,6 +2,22 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.28.1] — 16.10.2026
+
+Skala rozmiarów ikon (D83, `docs/ikony-rozmiary.md`):
+- ilustracje kafli pulpitu wypełniają szerokość kafla (układ C wybrany przez właściciela), do limitu 112 px na telefonie i 128 px od 640 px szerokości (wcześniej 44 px, przez co kreski i napisy były rozmyte); maskotki na kaflach używają tego samego rozmiaru,
+- kafle pulpitu mają ikonę, nazwę i plakietkę PRO wycentrowane w poziomie, kafle w jednym rzędzie tę samą wysokość, a ikony leżą na jednej linii: pod ikoną jest stałe pole na dwie linie nazwy, w którym krótka nazwa centruje się w pionie (wcześniej wszystko było przy lewej krawędzi, a kafle z dłuższą nazwą były wyższe i przesuwały ikony),
+- kafel Ustawienia (14) jest widoczny jako ostatni kafel siatki pulpitu, z klucza `UI-PUL-USTAWIENIA-KAFEL` (PL/EN/RU),
+- kafel 7 (Stress-test zimowy) ma nową ilustrację z wyciętym tłem, a dotychczasowa scena z domem jest banerem strony modułu 7 (`modul-07-baner.webp`),
+- maskotka Bob na kaflach 1 (Lokalizacja i teren), 2 (Zapotrzebowanie), 4 (Magazyn energii), 3 (nowy obraz z wyciętym tłem), 10 (AI i prognozy), 8 (Bezpieczeństwo), 12 (Szybki kalkulator) oraz 13 (Tryb Live), 15 (Dom – sieć) i 16 (Firma – sieć) na pulpicie i stronach modułów oraz na stronie Ustawień (kafel 14 nie ma miejsca w siatce pulpitu); dwa nowe pliki WebP w `public/maskotki-bob/`, wygenerowane z promptów D84,
+- dokument z 19 promptami do ilustracji maskotki Bob (`docs/maskotka-bob-prompty.md`, D84), bez zmian w kodzie,
+- układ pulpitu (D86): Ustawienia stoją zaraz po Trybie Live, a „Dom – sieć” i „Firma – sieć” są zwykłymi kaflami na samym końcu, oddzielone cienką czerwoną linią, która zwęża się i zanika 1 cm od krawędzi ekranu,
+- Bob w stanach interfejsu (D88, seria C): awatar asystenta AI na przycisku i w nagłówku okna, miny werdyktu 🟢🟡🔴 obok etykiety w `WerdyktPanel`, Bob z kartonem w `StanPusty`, Bob z wtyczką na stronie 404 (wyśrodkowany w pionie i w poziomie, 224 px); wszystkie obrazy są tylko dekoracją (`alt=""`), a kolory i teksty werdyktu bez zmian,
+- ikona aplikacji (PWA: `icon-192.png`, `icon-512.png`, `apple-icon.png`) to głowa Boba na tle koloru głównego, w manifeście także jako ikona maskable,
+- rozmiar bierze się z tokenów `--ikona-*` w `app/globals.css`, a nie z liczby w komponencie; dodany test pilnujący skali.
+
+Wpływ na liczby: brak — zmiana wyglądu pulpitu.
+
 ## [3.28.0] — 11.10.2026
 
 Tryb mikroinstalacji O5: szablony zestawów jako punkt startu listy odbiorników (spec `docs/tryb-mikroinstalacji-specyfikacja.md`, sekcja 7):
