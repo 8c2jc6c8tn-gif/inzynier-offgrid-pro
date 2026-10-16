@@ -83,6 +83,7 @@ import { ladowanieZAgregatuTool } from "./tools/ladowanie-z-agregatu-tool"
 import { symulacjaMrozuTool } from "./tools/symulacja-mrozu-tool"
 import { ladowanieZRegulatoraTool } from "./tools/ladowanie-z-regulatora-tool"
 import { malyObiektCieplaTool } from "./tools/maly-obiekt-ciepla-tool"
+import { trybOgraniczonegoZuzyciaTool } from "./tools/tryb-ograniczonego-zuzycia-tool"
 import { miejsceNaRozbudoweTool } from "./tools/miejsce-na-rozbudowe-tool"
 import { preHeatTool } from "./tools/pre-heat-tool"
 import { awariaStringaZimaTool } from "./tools/awaria-stringa-zima-tool"
@@ -471,6 +472,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   symulacjaMrozuTool,
   ladowanieZRegulatoraTool,
   malyObiektCieplaTool,
+  trybOgraniczonegoZuzyciaTool,
   miejsceNaRozbudoweTool,
   preHeatTool,
   awariaStringaZimaTool,

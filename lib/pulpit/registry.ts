@@ -354,6 +354,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/urzadzenie-12v-bezposrednio", label: "Czy mogę podłączyć urządzenie 12 V bezpośrednio?" },
       { href: "/kalkulatory/panel-do-stacji-zasilania", label: "Łączenie paneli ze stacją zasilania / powerbankiem" },
       { href: "/kalkulatory/zuzycie-per-urzadzenie", label: "Zużycie energii per urządzenie (z cyklem pracy sprężarki)" },
+      { href: "/kalkulatory/tryb-ograniczonego-zuzycia", label: "Tryb wyjazdu i tryb nocny (zużycie ograniczone)" },
       { href: "/kalkulatory/gniazdo-zapalniczki", label: "Gniazdo zapalniczki — co można podłączyć" },
       { href: "/kalkulatory/ratowanie-akumulatora-maly", label: "Ratowanie rozładowanego akumulatora — mała instalacja" },
       { href: "/kalkulatory/bezpieczenstwo-kamper", label: "Bezpieczeństwo akumulatora w kamperze (lista kontrolna)" },
