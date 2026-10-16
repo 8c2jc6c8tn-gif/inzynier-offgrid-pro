@@ -41,6 +41,10 @@ import * as m13Podsumowanie from "./m13-podsumowanie"
 import * as m06cOgrzewanie from "./m06c-ogrzewanie"
 import * as m06dDokladki from "./m06d-dokladki"
 import * as m06eNagrzewnica from "./m06e-nagrzewnica"
+import * as m06fMaterialy from "./m06f-materialy-przegrod"
+import * as m06gMalyObiekt from "./m06g-maly-obiekt"
+import * as m13bTrybOgraniczony from "./m13b-tryb-ograniczony"
+import * as m08bTerminarz from "./m08b-terminarz-przegladow"
 import * as m10Ai from "./m10-ai"
 import * as m09Ekrany from "./m09-ekrany"
 import * as ekranyRozne from "./ekrany-rozne"
@@ -68,7 +72,7 @@ import * as waluta from "./waluta"
 import * as meta from "./meta"
 import * as obiekt from "./obiekt"
 
-export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m07cZima, m03Porownywarka, m03OdstepRzedow, m13Telemetria, m13Pomiary, m13Historia, m13Podsumowanie, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, bledyHookow, appStrony, appWzornik, staleBaterie, staleRozne, staleZapotrzebowanie, pulpitRejestr, waluta, meta, obiekt, formuly] as const
+export const czesciUi = [wspolne, dopiskiStarychEkranow, m09Esp32, m12Ekrany, m12Uziemienie, m14Agregat, m14Bess, m14Ekrany, m14Faq, m14Przejscie, m14PrzejscieEkrany, m14Przelacznik, m14Pv, m14Scenariusze, m14Sciezka, m14Zima, m11MontazBaterii, m08Bezpieczenstwo, m12Mobilny, m04Baterie, pulpit, m05Elektryka, m02Zapotrzebowanie, m07Zima, m09Ekrany, ekranyRozne, m15M16Siec, pwa, wyglad, m06Ogrzewanie, m06StareEkrany, m03PvA, m03TypMontazu, m03PvB, m07bZima, m07cZima, m03Porownywarka, m03OdstepRzedow, m13Telemetria, m13Pomiary, m13Historia, m13Podsumowanie, m06cOgrzewanie, m06dDokladki, m06eNagrzewnica, m06fMaterialy, m06gMalyObiekt, m13bTrybOgraniczony, m08bTerminarz, m10Ai, m01Lokalizacja, komponentyLokalizacja, komponentySiec, komponentyWspolne, komponentyWzorce, bledyHookow, appStrony, appWzornik, staleBaterie, staleRozne, staleZapotrzebowanie, pulpitRejestr, waluta, meta, obiekt, formuly] as const
 
 export const uiPl = Object.assign({}, ...czesciUi.map((c) => c.pl)) as Record<string, string>
 export const uiEn = Object.assign({}, ...czesciUi.map((c) => c.en)) as Record<string, string>

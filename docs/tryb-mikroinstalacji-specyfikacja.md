@@ -56,3 +56,11 @@ Przenikania ciepła i strat budynku. Cele mikroinstalacji to: naładowanie akumu
 4. **O3 (odbiorniki sezonowe jako zwykłe odbiorniki z miesiącami pracy):** zostaje bez osobnego ekranu „celów zasilania”.
 5. **O5 — szablony zestawów (wersja 3.28.0):** pierwotnie zapisane jako „wymaga prawdziwych danych”, ale szablony M12/E3 niosą same nazwy odbiorników (D33: moc wpisuje użytkownik), więc dane nie są potrzebne. Ekran „Zużycie energii per urządzenie” ma wybór szablonu i przycisk dodający nazwy do listy (`lib/obiekt/szablon-do-listy.ts`); moc i czas zostają puste. Lista należy do tego ekranu (jeden właściciel zapisu), więc szablon jest oferowany tu, a nie zapisywany z ekranu szablonów. Aplikacja Szkieletowy nie ma bazy odbiorników (to aplikacja o konstrukcji budynku; jej moduł fotowoltaiki liczy tylko uzysk PVGIS).
 
+## 8. Aktualizacja 16.10.2026 (wersja 3.29.0)
+
+- **O2 domknięte w zakresie „tablica paneli z regulatorem”:** w zakładce „Falownik i osprzęt” Porównywarki ładowanie akumulatora z wybranego regulatora dla każdego zestawu paneli (spec 56 Porównywarki).
+- **O4 (partia):** przycisk napięcia układu (`NapiecieZProfilu`) dopisany na 12 kolejnych ekranach M12 (lista w `docs/rejestr-pokrycia.md`, wiersz `OBIEKT-O4b`); zostają ekrany z wyborem z listy napięć.
+- **O5:** pozycje dodane z szablonu zestawu przypisują się do wybranego rodzaju obiektu (kamper, altana lub domek ROD, garaż).
+- **Bilans ciepła obiektu (decyzja z 10.10.2026: „oba” — własny ekran i wejście do bilansu zimy PV):** ekran „Bilans ciepła małego obiektu” (kafel 12) i doliczanie ogrzewania w Porównywarce paneli dla mikroinstalacji (spec 58 Porównywarki). To zmienia zapis z sekcji 4 („mikroinstalacja nie liczy przenikania ciepła”): zapis dotyczył pierwotnej prośby (cele: akumulator, woda latem, Webasto), a późniejsze ustalenie właściciela z 10.10.2026 dodaje opcjonalny bilans ciepła obiektu — ekran jest opcjonalny, bez niego mikroinstalacja liczy jak dotąd z listy odbiorników.
+- **Nowe ekrany użyteczne w mikroinstalacji:** „Tryb wyjazdu i tryb nocny” (czyta tę samą listę odbiorników i filtruje po obiekcie), „Terminarz przeglądów i serwisu”.
+

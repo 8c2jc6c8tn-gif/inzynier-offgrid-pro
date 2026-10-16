@@ -10,6 +10,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -68,7 +69,7 @@ export default function ProceduraBlackStartPage() {
 
       <ul className="flex flex-col gap-1 text-caption text-muted-foreground">
         {OSTRZEZENIA_STALE.map((w) => (
-          <li key={w}>🔴 {w}</li>
+          <li key={w}><ZnakStanu poziom="blad" />{w}</li>
         ))}
       </ul>
 

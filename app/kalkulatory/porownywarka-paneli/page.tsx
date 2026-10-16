@@ -60,6 +60,7 @@ import {
   type RodzajWyceny,
 } from "@/lib/porownywarka-paneli/stan"
 import { useOgrzewanieElektryczne } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
+import { useOgrzewanieMalegoObiektu } from "@/lib/obiekt/maly-obiekt-ciepla-draft"
 import { kodZFragmentu } from "@/lib/porownywarka-paneli/udostepnianie"
 import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porownywarka-paneli/eksport-wynikow"
 import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
@@ -218,8 +219,11 @@ export default function PorownywarkaPaneliPage() {
     () => (mikro ? zuzycieMikroinstalacjiKwh(odbiorniki, profilObiektu) : zuzycieDom),
     [mikro, odbiorniki, profilObiektu, zuzycieDom],
   )
-  // Electric heating from the "Straty ciepła budynku" screen, added on top of the base consumption only on request and only when all 12 months are known.
-  const ogrzewanie = useOgrzewanieElektryczne()
+  // Electric heating from the "Straty ciepła budynku" screen (micro-installation: "Bilans ciepła małego obiektu", months of use only), added
+  // on top of the base consumption only on request and only when all 12 months are known.
+  const ogrzewanieBudynku = useOgrzewanieElektryczne()
+  const ogrzewanieMalegoObiektu = useOgrzewanieMalegoObiektu()
+  const ogrzewanie = mikro ? ogrzewanieMalegoObiektu : ogrzewanieBudynku
   const doliczone = stan.doliczOgrzewanie === true && ogrzewanie.stan === "ok" && zuzycieBazowe !== null
   const zuzycie = useMemo(
     () => (doliczone && ogrzewanie.stan === "ok" && zuzycieBazowe ? zuzycieBazowe.map((x, i) => x + ogrzewanie.miesiaceKwh[i]!) : zuzycieBazowe),
@@ -441,7 +445,7 @@ export default function PorownywarkaPaneliPage() {
             <div className="flex-1">
               <PoleCheckbox
                 id="dolicz-ogrzewanie"
-                label={t("UI-PORP-OGRZ-DOLICZ")}
+                label={t(mikro ? "UI-PORP-OGRZ-MIKRO-DOLICZ" : "UI-PORP-OGRZ-DOLICZ")}
                 checked={stan.doliczOgrzewanie === true}
                 onChange={(e) => ustaw("doliczOgrzewanie", e.target.checked)}
               />
@@ -454,10 +458,10 @@ export default function PorownywarkaPaneliPage() {
                 ? t("UI-PORP-OGRZ-BRAK-ZUZYCIA")
                 : ogrzewanie.stan === "ok"
                   ? t("UI-PORP-OGRZ-DOLICZONO", { kwh: f0(ogrzewanie.rokKwh) })
-                  : t(`UI-PORP-OGRZ-${ogrzewanie.stan}`)}{" "}
+                  : t(mikro && ogrzewanie.stan === "brak-danych" ? "UI-PORP-OGRZ-MIKRO-BRAK-DANYCH" : `UI-PORP-OGRZ-${ogrzewanie.stan}`)}{" "}
               {ogrzewanie.stan !== "ok" && (
-                <Link href="/kalkulatory/obciazenie-cieplne" className="underline">
-                  {t("UI-PORP-OGRZ-LINK")}
+                <Link href={mikro ? "/kalkulatory/bilans-ciepla-malego-obiektu" : "/kalkulatory/obciazenie-cieplne"} className="underline">
+                  {t(mikro ? "UI-PORP-OGRZ-MIKRO-LINK" : "UI-PORP-OGRZ-LINK")}
                 </Link>
               )}
             </p>

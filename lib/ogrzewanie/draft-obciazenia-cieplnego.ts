@@ -14,7 +14,8 @@ import { liczba } from "@/lib/lokalizacja/model-dzialki"
 
 export const KLUCZ_DRAFTU_OBCIAZENIA = "obciazenie-cieplne"
 
-export type WarstwaSeed = { nazwa: string; gruboscMm: string; lambdaWmK: string; oporM2KW: string }
+/** `materialId`: optional library pick (lib/core/dane/materialy-przegrod) — shows the status of its λ; typing λ by hand clears it. */
+export type WarstwaSeed = { nazwa: string; gruboscMm: string; lambdaWmK: string; oporM2KW: string; materialId?: string }
 /** `warstwy`/`kierunek` are optional: drafts saved before the layers existed have neither. */
 export type PrzegrodaSeed = {
   nazwa: string

@@ -107,3 +107,32 @@ export function obciazeniePrzekraczaNosnoscPorp(nazwa: string, wykorzystaniePct:
 export function obciazenieBrakNosnosciPorp(nazwa: string): Warning {
   return ostrzezenie("PORP-OBC-BRAK-NOSNOSCI", "info", `panel „${nazwa}” bez nośności mechanicznej z karty — obciążenie pokazane bez porównania`, { nazwa }, "obciazenie")
 }
+
+/**
+ * Offer trap “STC power vs winter”: the panel with the highest rated power (Wp per panel, from the datasheet) is not the one that
+ * gives the most winter energy per installed kWp. Both numbers come from the engine, nothing is assumed; the difference is the
+ * winter yield per kWp of the winter leader over that of the strongest panel, in whole percent.
+ */
+export function pulapkaMocStcZimaPorp(nazwaMoc: string, nazwaZima: string, roznicaPct: number): Warning {
+  return ostrzezenie(
+    "PORP-PULAPKA-MOC-STC-ZIMA",
+    "info",
+    `najwyższą moc z karty ma „${nazwaMoc}”, ale zimą z 1 kWp najwięcej daje „${nazwaZima}” (o ${roznicaPct}% więcej)`,
+    { nazwaMoc, nazwaZima, roznica: roznicaPct },
+    "panele",
+  )
+}
+
+/**
+ * Offer trap “cheap per Wp vs dear per winter kWh”: the panel with the lowest price per Wp is not the one with the lowest
+ * winter-kWh cost over the horizon. Difference = winter-kWh cost of the cheapest-per-Wp panel over the best one, in whole percent.
+ */
+export function pulapkaCenaWpZimaPorp(nazwaTanszaWp: string, nazwaTanszaKwh: string, roznicaPct: number): Warning {
+  return ostrzezenie(
+    "PORP-PULAPKA-CENA-WP-ZIMA",
+    "info",
+    `najtańszy za 1 Wp jest „${nazwaTanszaWp}”, ale najtańszą zimową kWh ma „${nazwaTanszaKwh}” (tamta o ${roznicaPct}% droższa)`,
+    { nazwaTanszaWp, nazwaTanszaKwh, roznica: roznicaPct },
+    "panele",
+  )
+}

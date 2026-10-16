@@ -17,6 +17,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ZAPAS_RURY_WODNEJ_POD_STREFA_CM } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   glebokoscPrzemarzaniaCm: string
@@ -175,7 +176,7 @@ export default function RyzykoZamarznieciaPage() {
               <ul className="mt-2 flex flex-col gap-1 text-small">
                 {result.value.oceny.map((o) => (
                   <li key={o.id}>
-                    {o.zapasCm === null ? "ℹ️" : o.wStrefiePrzemarzania ? "🔴" : o.zapasCm < 0 ? "🟡" : "✅"} {o.nazwa}
+                    <ZnakStanu poziom={o.zapasCm === null ? "info" : o.wStrefiePrzemarzania ? "blad" : o.zapasCm < 0 ? "uwaga" : "ok"} />{o.nazwa}
                     {o.zapasCm === null ? ` ${t("UI-RYZZAM-BRAK-GLEBOKOSCI")}` : ` ${t("UI-RYZZAM-WYMAGANE-ZAPAS", { wymaganaCm: f0(o.wymaganaCm), zapasCm: f0(o.zapasCm) })}`}
                   </li>
                 ))}

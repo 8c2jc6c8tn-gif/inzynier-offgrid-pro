@@ -7,10 +7,10 @@ import {
   PRZYKLADOWE_URZADZENIA,
   znajdzPrzyklad,
 } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/przykladowe-urzadzenia"
-import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { usePersistedDraft, useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { dobowaWhNaMiesiac, maOdbiornikiSezonowe } from "@/lib/obiekt/zuzycie-z-odbiornikow"
-import { KLUCZ_NAZWY_OBIEKTU } from "@/lib/obiekt/profil-obiektu"
-import { pozycjeZSzablonu } from "@/lib/obiekt/szablon-do-listy"
+import { KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
+import { obiektMikroinstalacji, pozycjeZSzablonu } from "@/lib/obiekt/szablon-do-listy"
 import { KOLEJNOSC_SZABLONOW, type SzablonZestawu } from "@/lib/core/modules/kalkulator-mobilny/szablony-zestawow/constants"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -43,6 +43,7 @@ const WSZYSTKIE_MIESIACE: readonly boolean[] = Array(12).fill(true)
 export default function ZuzyciePerUrzadzeniePage() {
   const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zuzycie-per-urzadzenie", STAN_POCZATKOWY)
+  const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
   const urzadzenia = stan.urzadzenia
   const [szablon, setSzablon] = useState<SzablonZestawu | "">("")
 
@@ -101,7 +102,7 @@ export default function ZuzyciePerUrzadzeniePage() {
           disabled={szablon === ""}
           onClick={() => {
             if (szablon === "") return
-            setStan((prev) => ({ urzadzenia: [...prev.urzadzenia, ...pozycjeZSzablonu(szablon, t, prev.urzadzenia, () => crypto.randomUUID())] }))
+            setStan((prev) => ({ urzadzenia: [...prev.urzadzenia, ...pozycjeZSzablonu(szablon, t, prev.urzadzenia, () => crypto.randomUUID(), obiektMikroinstalacji(profilObiektu?.rodzaj))] }))
           }}
           className="min-h-11 self-start rounded-md border px-4 text-small font-medium hover:bg-muted disabled:opacity-50"
         >

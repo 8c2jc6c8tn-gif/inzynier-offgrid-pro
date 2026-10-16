@@ -8,6 +8,7 @@ import { Ikona, IKONA } from "@/components/ui/ikona"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
 import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
 import { tierKafla } from "@/lib/dostep/tier"
+import { IlustracjaKafla } from "@/components/ilustracja-kafla"
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel, type KafelEntry } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
@@ -45,13 +46,7 @@ export default function PulpitPage() {
         className="flex h-full min-h-28 flex-col items-center justify-start gap-1.5 rounded-lg border p-2.5 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
-          <span className="block aspect-square w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
-            <img
-              src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
-              alt=""
-              className="h-full w-full object-cover object-top"
-            />
-          </span>
+          <IlustracjaKafla kafelId={kafel.id} wariant="kafel" />
         ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
           <span className="block w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
             <KafelIkonaSvg kafelId={kafel.id} />

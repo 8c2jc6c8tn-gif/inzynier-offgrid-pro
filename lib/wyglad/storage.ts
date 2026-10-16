@@ -15,6 +15,7 @@
 
 import { consoleReporter } from "@/lib/core/reporter"
 import { getSnapshot as trybMotywu, zastosujTryb } from "@/lib/theme/storage"
+import type { IkonyKafli } from "@/lib/pulpit/maskotki"
 import { jestHeksem, luminancja } from "./kolor"
 import { jestStylem, znajdzStyl, type StylId } from "./style"
 
@@ -59,6 +60,8 @@ export type WygladState = {
   styl: StylId | null
   /** Show the „Ukryte i sezonowe” group in the style picker (D67, open question — ✅🤖 toggle). */
   pokazUkryteStyle: boolean
+  /** Tile illustrations: the Bob mascot (default) or the 3D icon set (D87). */
+  ikonyKafli: IkonyKafli
 }
 
 const STORAGE_KEY = "offgrid.wyglad.v1"
@@ -70,6 +73,7 @@ const DOMYSLNY_STAN: WygladState = {
   waga: "normalna",
   styl: null,
   pokazUkryteStyle: false,
+  ikonyKafli: "bob",
 }
 
 function jestCzcionka(value: unknown): value is CzcionkaId {
@@ -94,6 +98,7 @@ function parsujStan(raw: string | null): WygladState {
       // An id no longer in the table (renamed/removed style) falls back to the default look.
       styl: jestStylem(parsed.styl) ? parsed.styl : null,
       pokazUkryteStyle: parsed.pokazUkryteStyle === true,
+      ikonyKafli: parsed.ikonyKafli === "3d" ? "3d" : "bob",
     }
   } catch (err) {
     consoleReporter.reportError({
@@ -236,4 +241,8 @@ export function ustawStyl(styl: StylId | null): void {
 
 export function ustawPokazUkryteStyle(pokaz: boolean): void {
   zapisz({ ...getSnapshot(), pokazUkryteStyle: pokaz })
+}
+
+export function ustawIkonyKafli(ikonyKafli: IkonyKafli): void {
+  zapisz({ ...getSnapshot(), ikonyKafli })
 }

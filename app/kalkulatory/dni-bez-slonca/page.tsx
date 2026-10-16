@@ -16,6 +16,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type FormularzStan = {
   pojemnoscAh: string
@@ -83,6 +84,7 @@ export default function DniBezSloncaPage() {
           onChange={ustaw("napiecieV")}
           pomoc={<PomocPola ekran="dni-bez-slonca" pole="napiecie" />}
         />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole
           label={t("UI-DNIBEZSLO-DOPUSZCZALNE-ROZLADOWANIE-DO")}
           unit="%"

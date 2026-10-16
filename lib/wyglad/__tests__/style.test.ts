@@ -395,8 +395,9 @@ describe("conditions of D65–D67", () => {
         renderToStaticMarkup(createElement(WerdyktPanel, { poziom })),
         renderToStaticMarkup(createElement(WerdyktBadge, { poziom })),
       ]) {
-        expect(h).toMatch(/🟢|🟡|🔴/u)
-        expect(h.replace(/<[^>]+>|🟢|🟡|🔴/gu, "").trim().length).toBeGreaterThan(0)
+        // The verdict is an SVG sign (tick / triangle / cross: shape, not colour alone) plus a text label.
+        expect(h).toMatch(/<svg[^>]*aria-hidden="true"/)
+        expect(h.replace(/<[^>]+>/gu, "").trim().length).toBeGreaterThan(0)
       }
     }
     const p = styl("pomarancz-sygnalowy")

@@ -1,4 +1,4 @@
-import type { CalcResult } from "@/lib/core/calc-result"
+import type { CalcResult, Warning } from "@/lib/core/calc-result"
 import type { GodzinaPrognozy } from "./input"
 
 // 🔎 TD7 (dlug-techniczny.md): liczy tylko bilans 24h i godzinę szczytu (12.1, 12.2, 12.5).
@@ -6,7 +6,9 @@ import type { GodzinaPrognozy } from "./input"
 // NIE zbudowane, mimo że rejestr pokrycia wcześniej wymieniał je razem jako pokryte.
 // 1.1.0 (29.09.2026, decyzja właściciela — wariant A): każdy punkt to średnia moc [kW] w swoim oknie
 // próbkowania, więc energia = Σ P × Δt. Wersja 1.0.0 sumowała same kW (energia zaniżona ×3).
-export const CALCULATOR_VERSION = "1.1.0"
+// 1.2.0 (16.10.2026): ekran liczy z punktów wpisanych przez użytkownika (`zrodlo: "wpisane"`) — wartości ujemne albo nieskończone to błąd danych;
+// dane demonstracyjne tylko na wyraźne życzenie (przycisk „Wstaw przykład”), nie jako domyślne wejście ekranu.
+export const CALCULATOR_VERSION = "1.2.0"
 
 /** Sampling step of the forecast points [h] — screen shows one point every 3 h (0, 3, …, 21). */
 export const KROK_PROBKOWANIA_H = 3
@@ -27,7 +29,15 @@ export type PrognozyResult = {
  *
  * Each point is the average power [kW] over its 3 h sampling window, so energy [kWh] = Σ P × 3 h.
  */
-export function calculatePrognozy(punkty: GodzinaPrognozy[]): CalcResult<PrognozyResult> {
+export function calculatePrognozy(punkty: GodzinaPrognozy[], zrodlo: "demo" | "wpisane" = "demo"): CalcResult<PrognozyResult> {
+  const bledy: Warning[] = punkty.flatMap((p, i) =>
+    [p.produkcjaKw, p.zuzycieKw].some((x) => !Number.isFinite(x) || x < 0)
+      ? [{ code: "PROGNOZY-WARTOSC-UJEMNA", level: "critical" as const, i18nKey: "PROGNOZY-WARTOSC-UJEMNA", technicalMessage: `punkt ${i + 1}: moc produkcji i zużycia musi być liczbą >= 0`, params: { godzina: p.godzina }, field: `punkty.${i}` }]
+      : [],
+  )
+  if (bledy.length > 0) {
+    return { value: { produkcjaLacznaKwh: 0, zuzycieLaczneKwh: 0, bilansKwh: 0, godzinaSzczytuZuzycia: 0 }, unit: "kWh", status: "INVALID_INPUT", formula: "", inputs: { liczbaPunktow: punkty.length }, assumptions: [], warnings: bledy, calculatorVersion: CALCULATOR_VERSION }
+  }
   if (punkty.length === 0) {
     return {
       value: { produkcjaLacznaKwh: 0, zuzycieLaczneKwh: 0, bilansKwh: 0, godzinaSzczytuZuzycia: 0 },
@@ -57,7 +67,7 @@ export function calculatePrognozy(punkty: GodzinaPrognozy[]): CalcResult<Prognoz
     formula: FORMULA, formulaKey: "UI-FORMULA-AI-PROGNOZY",
     inputs: { liczbaPunktow: punkty.length, krokProbkowaniaH: KROK_PROBKOWANIA_H },
     assumptions: [
-      { kod: "PROGNOZY-ZALOZENIE-DANE-DEMO" },
+      { kod: zrodlo === "demo" ? "PROGNOZY-ZALOZENIE-DANE-DEMO" : "PROGNOZY-ZALOZENIE-DANE-WPISANE" },
       { kod: "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H" },
     ],
     warnings: [],

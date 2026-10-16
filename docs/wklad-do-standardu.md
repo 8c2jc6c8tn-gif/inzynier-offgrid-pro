@@ -1192,3 +1192,9 @@ Status: 🔎 nowe
 W inzynier-offgrid-pro ilustracje 256×256 z cienką kreską pokazywano w 44 px i wyglądały na rozjechane, a każda próba „zmniejszenia” pogarszała efekt. Naprawa: jedna skala w wielokrotnościach 4 px, tokeny `--ikona-*` zależne od szerokości ekranu, komponent bez propsa `size`, test pilnujący skali. SVG skaluje się z gęstością pikseli sam, więc osobne pakiety rozdzielczości są zbędne (raster tylko dla PWA i favicon).
 Dlaczego warto zgłosić do new-app-standards: każda aplikacja rodziny z ilustrowanymi lub animowanymi ikonami trafi na ten sam problem; reguła „rozmiar ikony z tokenu, minimum czytelności ilustracji ustalone wprost” oszczędza iteracji po obrazkach.
 Status: 🔎 nowe
+
+## 16.10.2026 — dwie rekomendacje z pracy nad wersją 3.29.0 (do decyzji sesji nad `new-app-standards`)
+
+1. **Werdykt czytelny kształtem, nie tylko kolorem.** Panel werdyktu pokazywał poziom emoji kolorowych kółek (🟢🟡🔴). Zamiana na liniowe znaki SVG o różnym kształcie (✓ / ▲ / ✕), malowane kolorem tekstu, daje czytelność dla osób nierozróżniających barw i spójność ze stylem aplikacji (emoji renderują się inaczej w każdym systemie). Propozycja reguły do rozdziału o UI (8.x): „poziom werdyktu zawsze ma znak o odrębnym kształcie obok koloru; emoji nie są nośnikiem znaczenia”. Test regresji: panel renderuje `<svg aria-hidden>` plus etykietę tekstową.
+2. **Strażnik zgodności tekstu wzoru z jego tłumaczeniem kosztował pół godziny przy pierwszym użyciu.** W projekcie test dryfu wymaga, by literał `FORMULA` w module był identyczny z polskim wpisem w słowniku wzorów, a osobny test wyłapuje pojedynczy backslash (`\;` zamiast `\\;`). Wartość: błąd zaszyty w stringu nie wychodzi dopiero w przeglądarce. Propozycja: opisać w rozdziale o i18n jednoznaczną kolejność pracy (najpierw literał w module, potem kopia do słownika przez skrypt, nie ręcznie) i dodać do szablonu generator, który robi to jednym poleceniem.
+

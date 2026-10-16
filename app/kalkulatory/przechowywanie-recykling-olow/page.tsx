@@ -10,6 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 function ListaFaktow({ fakty }: { fakty: FaktStopka[] }) {
   return (
@@ -19,7 +20,7 @@ function ListaFaktow({ fakty }: { fakty: FaktStopka[] }) {
           key={fakt.id}
           className={fakt.hardStop ? "text-small text-werdykt-blad" : "text-small text-muted-foreground"}
         >
-          {fakt.hardStop && "🔴 "}
+          {fakt.hardStop && <ZnakStanu poziom="blad" />}
           {fakt.tekst}
         </li>
       ))}

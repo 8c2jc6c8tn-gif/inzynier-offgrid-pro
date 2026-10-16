@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { Ikona } from "@/components/ui/ikona"
 import { WERDYKT_IKONA, type WerdyktPoziom } from "@/components/werdykt"
 
 export type PozycjaOdczytowa = {
@@ -19,7 +20,7 @@ export function ListaOdczytowa({ pozycje }: { pozycje: PozycjaOdczytowa[] }) {
     <ul className="flex flex-col gap-2">
       {pozycje.map((p) => (
         <li key={p.id} className="flex items-start gap-3 rounded-md border p-3 text-small">
-          <span aria-hidden="true">{WERDYKT_IKONA[p.poziom]}</span>
+          <Ikona nazwa={WERDYKT_IKONA[p.poziom]} className="size-4" />
           <div>
             <span className="block font-medium">{p.tytul}</span>
             {p.opis && <span className="block text-muted-foreground">{p.opis}</span>}

@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 import { zapiszTryb } from "@/lib/theme/storage"
-import { getSnapshot, ustawKolor, ustawPokazUkryteStyle, ustawStyl } from "../storage"
+import { existsSync } from "node:fs"
+import { join } from "node:path"
+import { IKONA_3D_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
+import { getSnapshot, ustawIkonyKafli, ustawKolor, ustawPokazUkryteStyle, ustawStyl } from "../storage"
 
 const KLUCZ = "offgrid.wyglad.v1"
 
@@ -60,5 +63,32 @@ describe("appearance style in the saved look (lib/wyglad/storage)", () => {
     ustawPokazUkryteStyle(true)
     expect(getSnapshot().pokazUkryteStyle).toBe(true)
     expect(JSON.parse(window.localStorage.getItem(KLUCZ)!).pokazUkryteStyle).toBe(true)
+  })
+})
+
+describe("tile illustrations: Bob or 3D icons (D87)", () => {
+  beforeEach(wyczysc)
+  afterEach(wyczysc)
+
+  it("defaults to Bob, also for an old saved state without the field", () => {
+    expect(getSnapshot().ikonyKafli).toBe("bob")
+    window.localStorage.setItem(KLUCZ, JSON.stringify({ kolory: {}, czcionka: "inter", waga: "normalna" }))
+    expect(getSnapshot().ikonyKafli).toBe("bob")
+  })
+
+  it("saves the choice and reads it back; an unknown value falls back to Bob", () => {
+    ustawIkonyKafli("3d")
+    expect(JSON.parse(window.localStorage.getItem(KLUCZ)!).ikonyKafli).toBe("3d")
+    expect(getSnapshot().ikonyKafli).toBe("3d")
+    window.localStorage.setItem(KLUCZ, JSON.stringify({ ikonyKafli: "komiks" }))
+    expect(getSnapshot().ikonyKafli).toBe("bob")
+  })
+
+  it("every tile that has a Bob has a 3D icon and the file exists in public/", () => {
+    for (const id of Object.keys(MASKOTKA_PO_ID_KAFLA).map(Number)) {
+      const src = IKONA_3D_PO_ID_KAFLA[id]
+      expect(src, `tile ${id}`).toBeTruthy()
+      expect(existsSync(join(process.cwd(), "public", src)), src).toBe(true)
+    }
   })
 })

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 
 /**
  * Krok poradnika z opcjonalnym zdjęciem/nagraniem (na wyraźną prośbę właściciela projektu,
@@ -50,7 +51,7 @@ export function KrokZMedia({
           aria-label={t("UI-KROZMED-BRAK-ZDJECIA-NAGRANIA", { p: typeof tytul === "string" ? tytul : numer })}
           className="flex items-center justify-center gap-2 rounded-md border-2 border-dashed border-muted-foreground/30 bg-muted/40 p-4 text-caption text-muted-foreground"
         >
-          <span aria-hidden="true">📷</span>
+          <Ikona nazwa={IKONA.camera} />
           {t("UI-KROZMED-MIEJSCE-ZDJECIE-NAGRANIE")}
         </div>
       )}

@@ -15,6 +15,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MAX_ZALECANE_NAPIECIE_OGNIWA_V } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 /** Schemat: ten sam szereg co przy montażu, rozpinany od końca o najwyższym potencjale. */
 function DemontazIlustracja() {
@@ -192,7 +193,7 @@ export default function DemontazPakietuPage() {
 
       <ul className="flex flex-col gap-1 text-caption text-muted-foreground">
         {OSTRZEZENIA_STALE.map((w) => (
-          <li key={w}>🔴 {w}</li>
+          <li key={w}><ZnakStanu poziom="blad" />{w}</li>
         ))}
       </ul>
 

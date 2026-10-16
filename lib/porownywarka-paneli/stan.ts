@@ -146,6 +146,9 @@ export type FormularzStan = {
   urzadzenieId?: string
   /** Battery voltage [V] choosing the row of the controller's nominal PV power table. */
   akumV?: string
+  /** Optional battery capacity [Ah] and its maximum charging current [A] (from the battery datasheet) for the "Battery charging" block of A4. */
+  akumPojemnoscAh?: string
+  akumMaksPradA?: string
   /** One-way length of the DC cable run from panels to the device [m]. */
   trasaM?: string
   /** Optional price of one device (the catalogue has no prices), typed in the display currency. */

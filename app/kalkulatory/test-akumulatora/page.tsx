@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type PolaLiczbowe = "napiecieZnamionoweV" | "napiecieSpoczynkoweV" | "mocObciazeniaW" | "napiecieObciazenieV" | "rezystancjaKartaMOhm"
 
@@ -79,6 +80,7 @@ export default function TestAkumulatoraPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-TA-KROK1", { h: CZAS_SPOCZYNKU_H })}</legend>
         <Pole label={t("UI-M12-TA-ZNAMIONOWE")} unit="V" {...pole("napiecieZnamionoweV")} pomoc={<PomocPola ekran="test-akumulatora" pole="znamionowe" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieZnamionoweV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieZnamionoweV: v }))} />
         <Pole label={t("UI-M12-TA-SPOCZYNKOWE")} unit="V" {...pole("napiecieSpoczynkoweV")} pomoc={<PomocPola ekran="test-akumulatora" pole="spoczynkowe" params={{ h: CZAS_SPOCZYNKU_H }} />} />
       </fieldset>
 

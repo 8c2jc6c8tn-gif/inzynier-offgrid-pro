@@ -847,3 +847,39 @@ Wersja 3.26.0. Decyzja właściciela (11.10.2026, odpowiedź na pytanie z podsum
 - **Czego nie robi:** nie przelicza cen wpisanych netto (aplikacja zakłada, że użytkownik wpisał brutto — tak mówi etykieta i „?” pola); nie zakłada stawki VAT montażu.
 - **Testy:** 12 000 + brutto montażu 1 518,51 (1 234,56 netto, 23 %) = 13 518,51; brak stawki / ceny / montażu = bez sumy; stawka 0 % = netto bez zmian; arkusz oferty drukuje sumę z wersją i nie drukuje jej bez stawki.
 
+## 55. Ostrzeżenia o pułapkach ofert (16.10.2026)
+
+Wersja 3.29.0, silnik porównywarki 1.9.0 → 1.9.1. Dwa ostrzeżenia 🔵 (info, nie zmieniają statusu wyniku) liczone wyłącznie z liczb, które silnik już ma — bez nowych założeń i progów:
+- `PORP-PULAPKA-MOC-STC-ZIMA`: panel z najwyższą mocą z karty (Wp jednej sztuki) nie jest tym, który zimą daje najwięcej energii z 1 kWp (zima XI–II ÷ moc zestawu). Pokazuje o ile % więcej daje „zimowy lider”.
+- `PORP-PULAPKA-CENA-WP-ZIMA`: panel najtańszy za 1 Wp nie jest tym z najtańszą zimową kWh (koszt w horyzoncie 25 lat); pokazuje, o ile % jego zimowa kWh jest droższa.
+- **Próg:** ostrzeżenie pojawia się, gdy pokazywana różnica po zaokrągleniu do pełnych procentów wynosi co najmniej 1% — to granica czytelności liczby, nie norma ani „próg bezpieczeństwa”.
+- **Czego nie robi:** nie ocenia producentów ani uczciwości ofert; pułapki wymagające danych spoza silnika (certyfikaty, serwis w Polsce, rzeczywista moc) zostają w liście zadań.
+- **Gdzie widać:** wszędzie, gdzie jest lista ostrzeżeń wyniku (tryb pełny i prosty). Teksty PL/EN/RU w słownikach ostrzeżeń.
+
+## 56. Ładowanie akumulatora z wybranego regulatora w zakładce „Falownik i osprzęt” (16.10.2026)
+
+Wersja 3.29.0, tryb mikroinstalacji O2 (część „tablica 1–4 paneli z regulatorem”). Pod listą układów, gdy wybrano regulator MPPT albo falownik hybrydowy i znane jest napięcie akumulatora (wybrane albo jedyne na karcie), dla każdego zestawu paneli pokazuję: prąd ładowania po limitach (panele, wejście PV i prąd regulatora z karty, limit akumulatora), co ogranicza, nadmiar mocy ponad wejście PV, szybkość C. Dwa nowe pola (opcjonalne): pojemność akumulatora [Ah] i maksymalny prąd ładowania [A] — z karty akumulatora.
+- **Silnik:** ten sam co ekran „Ładowanie akumulatora z regulatora” (`calculateLadowanieZRegulatora`), wywołany z `lib/porownywarka-paneli/ladowanie-akumulatora.ts`. Prąd z paneli to GÓRNA granica (moc STC).
+- **Zestaw wymagający kilku urządzeń (A4):** zakładam, że ładują ten sam akumulator równolegle, więc limity prądu i mocy wejścia PV sumują się (założenie widoczne w nocie).
+- **Brak limitu na karcie** = limit nieznany i nie obcina prądu (nic nie jest zgadywane). Mikroinwerter i urządzenia bez wejścia PV — blok się nie pokazuje.
+- **Stan formularza i udostępnianie:** nowe pola `akumPojemnoscAh`, `akumMaksPradA` w `FormularzStan` i w oczyszczaniu paczki udostępniania.
+
+## 57. Biblioteka materiałów i szablony przegród (16.10.2026)
+
+Realizacja punktu „biblioteka materiałów i ścian” z sekcji 37.7 (decyzja właściciela z 10.10.2026: materiały i metodę bierzemy ze Szkieletowego). Wersja 3.29.0.
+- **Dane:** `lib/core/dane/materialy-przegrod/` — 20 materiałów (izolacje, OSB, płyta GK, okładziny, pokrycia) i 3 szablony przegród szkieletowych (ściana 45×145, dach 45×145, podłoga 45×195) z odczytu `lib/warstwy-przegrod.ts` w repo Szkieletowego. Membrany, folie i szczeliny pominięte (źródło nie daje dla nich λ i nie wlicza ich do sumy oporów).
+- **Status λ jest częścią danych i jest widoczny na ekranie:** `karta-producenta` (Knauf Unifit 032/033/035/037 — karty producenta z 2021 wg Szkieletowego), `norma` (EPDM — ISO 10456:2007 Tabl. 3 wg Szkieletowego), `orientacyjne` (cała reszta: „przykładowe, do weryfikacji z kartą produktu” — tak je oznacza źródło). Test pilnuje, że tylko te pozycje mają status inny niż orientacyjny. Własna λ użytkownika zawsze wygrywa (wpisanie λ odłącza materiał od biblioteki).
+- **UI („Straty ciepła budynku”, sekcja „U z warstw”):** lista „Gotowa przegroda (szablon warstw)” — wypełnia warstwy i kierunek strumienia (podmienia dotychczasowe warstwy tej przegrody); w każdej warstwie lista „Materiał z biblioteki” — wstawia nazwę, λ i (przy pustym polu) typową grubość. Szkic zapisany przed zmianą działa bez zmian (`materialId` opcjonalne).
+- **Test krzyżowy z ręcznym obliczeniem:** ściana szkieletowa: R = 0,012/0,13 + 0,145/0,038 + 0,0125/0,25 = 3,9581 m²K/W; U = 1/(0,13 + 3,9581 + 0,04) = 0,2423 W/(m²K) (mostki cieplne nie są liczone, więc U jest optymistyczne — ostrzeżenie na ekranie bez zmian).
+- **Zostaje:** import migawki sum ze Szkieletowego (czeka na eksport po tamtej stronie), integracja z paczką `dane-srodowiskowe`.
+
+## 58. Bilans ciepła małego obiektu i doliczanie ogrzewania w mikroinstalacji (16.10.2026)
+
+Realizacja ustalenia z sekcji 37.7 pkt 3 („kamper/garaż mają własny ekran bilansu ciepła obiektu i wejście do bilansu zimy PV”). Wersja 3.29.0; silnik `ogrzewanie/maly-obiekt-bilans-ciepla` 1.0.0.
+- **Model:** prostopadłościan długość × szerokość × wysokość: ściany = 2(L+W)H − okna i drzwi, dach i podłoga = L × W, okna i drzwi razem z własnym U. Silnik zamienia to na przegrody M6/E1 i woła `calculateObciazenieCieplne` (fizyka zapisana raz). Wejście od użytkownika bez wartości domyślnych: wymiary, U ścian/dachu/podłogi/otworów, co jest pod podłogą (powietrze zewnętrzne albo grunt/nieogrzewane pomieszczenie z temperaturą), strefa klimatyczna, temperatura w środku, wymiany powietrza, odzysk, źródło ciepła (prąd z COP albo paliwo z zapasem), 12 temperatur miesięcznych.
+- **Wynik:** moc grzania w mrozie obliczeniowym strefy, straty przez przegrody i z powietrzem, ciepło na dobę, ciepło miesięczne i — z COP — prąd na ogrzewanie **tylko w miesiącach użytkowania z profilu obiektu** (poza nimi 0). Ze źródłem na paliwo (np. nagrzewnica typu Webasto): na ile dni starczy zapasu (silnik M6/E1).
+- **Założenia widoczne w wyniku:** prostopadłościan, płaski dach (spadzisty ma większe pole — wpisać większe wymiary), brak mostków i zysków (ostrzeżenie `OC-BEZ-PN-EN-12831` z silnika M6/E1).
+- **Porównywarka paneli:** w trybie mikroinstalacji pole „Dolicz ogrzewanie elektryczne” czyta ten ekran (`useOgrzewanieMalegoObiektu`) zamiast „Strat ciepła budynku”; powody braku doliczenia (brak danych, paliwo, brak COP, brak 12 temperatur, brak miesięcy użytkowania) są wypisane.
+- **Czego nie robi:** profilu godzinowego pracy ogrzewania (wchodzi w ten sam profil dobowy co reszta prądu), mostków, zysków słonecznych, doboru źródła ciepła.
+- **Ekran:** `/kalkulatory/bilans-ciepla-malego-obiektu` (kafel 12), pomoc „?” przy każdym polu i „i” przy tytule PL/EN/RU, narzędzie AI `policz_bilans_ciepla_malego_obiektu`.
+

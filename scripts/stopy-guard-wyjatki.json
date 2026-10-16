@@ -2,6 +2,15 @@
   "_opis": "Stopy 🔴, które NIE są faktem inżynierskim o instalacji — nie trafiają do docs/rejestr-twardych-stopow.md (sekcja „Walidacja danych wejściowych”). Klasyfikacja 29.09.2026 po technicalMessage każdego kodu. Wzorce z * pochodzą z kodów budowanych z nazwy pola (`${field}-NIEDODATNI`). zrodlaDynamiczne: funkcje, które dostają kod parametrem — lista kodów, które mogą dostać.",
   "walidacja": {
     "walidacja-danych": [
+      "MOBIEKT-OTWORY-WIEKSZE-NIZ-SCIANY",
+      "MOBIEKT-WARTOSC-UJEMNA",
+      "MOBIEKT-WYMIAR-NIEDODATNI",
+      "PROGNOZY-WARTOSC-UJEMNA",
+      "TOGR-GODZINY-POZA-ZAKRESEM",
+      "TOGR-WARTOSC-NIEDODATNIA",
+      "TPRZ-DATA-NIEPOPRAWNA",
+      "TPRZ-INTERWAL-NIEPOPRAWNY",
+      "TOGR-ZUZYCIE-UJEMNE",
       "*-NIE-CALKOWITA",
       "*-NIECALKOWITA",
       "*-NIEDODATNI",

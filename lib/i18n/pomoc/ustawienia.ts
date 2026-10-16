@@ -14,6 +14,12 @@ export const pl = {
         gdzie: "Wybierz styl z listy; zmiana działa od razu i zapisuje się w tej przeglądarce. Kolory ustawione niżej w sekcji kolorów mają pierwszeństwo przed stylem — przycisk przywracający domyślne kolory odsłania czysty styl.",
         zakres: "„Domyślny” albo jeden styl z grup Premium, Jasne, Eksperymentalne lub Ukryte i sezonowe. Styl ciemny jest zawsze ciemny, jasny zawsze jasny.",
       },
+      ikony: {
+        nazwa: "Ilustracje modułów",
+        cel: "Wybierasz, czy na kafelkach pulpitu i na górze stron modułów ma być maskotka Bob, czy ikony 3D bez maskotki. Nie zmienia żadnych obliczeń ani rozmieszczenia kafli.",
+        gdzie: "Wybierz jedną z dwóch opcji; zmiana działa od razu i zapisuje się w tej przeglądarce.",
+        zakres: "Maskotka Bob (domyślnie) albo Ikony 3D. Bob w komunikatach (werdykty, pusty ekran, asystent AI) zostaje bez zmian.",
+      },
       ukryte: {
         nazwa: "Style ukryte i sezonowe",
         cel: "Pokazuje na liście dodatkową grupę stylów „dla zabawy” (np. retro albo sezonowe), które domyślnie są schowane, żeby nie zaśmiecały wyboru.",
@@ -55,6 +61,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Pick a style from the list; the change applies at once and is saved in this browser. Colours set below in the colours section take precedence over the style — the button that restores the default colours reveals the pure style.",
         zakres: "“Default” or one style from the Premium, Light, Experimental or Hidden and seasonal groups. A dark style is always dark, a light one always light.",
       },
+      ikony: {
+        nazwa: "Module illustrations",
+        cel: "Choose whether the dashboard tiles and the top of the module pages show the Bob mascot or 3D icons without a mascot. It changes no calculation and no tile layout.",
+        gdzie: "Pick one of the two options; the change applies at once and is saved in this browser.",
+        zakres: "Bob the mascot (default) or 3D icons. Bob in messages (verdicts, empty screen, AI assistant) stays as it is.",
+      },
       ukryte: {
         nazwa: "Hidden and seasonal styles",
         cel: "Shows an extra group of “just for fun” styles (e.g. retro or seasonal) on the list; it is hidden by default so it does not clutter the choice.",
@@ -95,6 +107,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Меняет сразу во всём приложении цвета фона, карточек и акцента, шрифт заголовков и чисел, а также скругления. Не меняет никаких расчётов. Каждый стиль проходит автоматическую проверку контраста вердиктов 🟢🟡🔴 (WCAG), а жёсткий стоп 🔴 всегда остаётся видимым.",
         gdzie: "Выберите стиль из списка; изменение действует сразу и сохраняется в этом браузере. Цвета, заданные ниже в разделе цветов, имеют приоритет над стилем — кнопка восстановления цветов по умолчанию показывает чистый стиль.",
         zakres: "«По умолчанию» или один стиль из групп Премиум, Светлые, Экспериментальные или Скрытые и сезонные. Тёмный стиль всегда тёмный, светлый всегда светлый.",
+      },
+      ikony: {
+        nazwa: "Иллюстрации модулей",
+        cel: "Вы выбираете, что показывать на плитках рабочего стола и вверху страниц модулей: талисман Боб или 3D-иконки без талисмана. Не меняет ни расчётов, ни расположения плиток.",
+        gdzie: "Выберите один из двух вариантов; изменение сразу применяется и сохраняется в этом браузере.",
+        zakres: "Талисман Боб (по умолчанию) или 3D-иконки. Боб в сообщениях (вердикты, пустой экран, ИИ-ассистент) остаётся без изменений.",
       },
       ukryte: {
         nazwa: "Скрытые и сезонные стили",

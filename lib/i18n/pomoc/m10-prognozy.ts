@@ -8,10 +8,14 @@ export const pl = {
   prognozy: {
     migawka: {
       oCoChodzi: "To jest „pogoda” Twojego systemu energetycznego — nie tylko atmosferyczna, ale cała: ile będziesz mieć prądu, ile zużyjesz i kiedy będzie ciasno.",
-      jakDziala: "Sumuję produkcję i zużycie z punktów prognozy (co 3 godziny), liczę bilans doby i wskazuję godzinę największego zużycia. Na razie ekran pokazuje dane demonstracyjne — docelowo weźmie je z symulacji rocznej i prognozy pogody.",
+      jakDziala: "Sumuję produkcję i zużycie z punktów prognozy (co 3 godziny), liczę bilans doby i wskazuję godzinę największego zużycia. Punkty wpisujesz sam (przycisk „Wstaw przykład” daje wyłącznie dane demonstracyjne) — docelowo ekran weźmie je z symulacji rocznej i prognozy pogody.",
       poCo: "Widzisz z wyprzedzeniem, czy doba zamknie się nadwyżką czy deficytem i kiedy przypada szczyt — żeby przesunąć duże odbiorniki na godziny ze słońcem.",
+      fizyka: "E = Σ P_i · 3 h; bilans = E_produkcja − E_zużycie.",
     },
-    pola: {},
+    pola: {
+      produkcja: { nazwa: "Produkcja PV w oknie 3 h [kW]", cel: "Średnia moc paneli w tym oknie — razem z zużyciem daje bilans doby.", gdzie: "Prognoza z falownika albo serwisu pogodowego, własne pomiary, wynik symulacji z Porównywarki paneli.", zakres: "≥ 0. Nie wyżej niż moc szczytowa Twoich paneli." },
+      zuzycie: { nazwa: "Zużycie w oknie 3 h [kW]", cel: "Średnia moc, którą pobierają odbiorniki w tym oknie.", gdzie: "Z licznika, z listy odbiorników albo z własnych pomiarów.", zakres: "≥ 0. Twoja instalacja — aplikacja nie przyjmuje typowej wartości." },
+    },
   },
   "przesuwanie-zadan": {
     migawka: {
@@ -331,10 +335,14 @@ export const en: Tlumaczenie<typeof pl> = {
   prognozy: {
     migawka: {
       oCoChodzi: "This is the “weather” of your energy system — not just the atmosphere but everything: how much power you'll have, how much you'll use and when it gets tight.",
-      jakDziala: "I sum production and consumption from the forecast points (every 3 hours), compute the daily balance and show the hour of peak consumption. For now the screen shows demonstration data — eventually it will take them from the annual simulation and the weather forecast.",
+      jakDziala: "I sum production and consumption from the forecast points (every 3 hours), compute the daily balance and show the hour of peak consumption. You type the points yourself (the “Insert an example” button gives demonstration data only) — eventually the screen will take them from the annual simulation and the weather forecast.",
       poCo: "You see ahead whether the day ends in surplus or deficit and when the peak falls — so you can move big loads to sunny hours.",
+      fizyka: "E = Σ P_i · 3 h; balance = E_production − E_consumption.",
     },
-    pola: {},
+    pola: {
+      produkcja: { nazwa: "PV production in the 3 h window [kW]", cel: "Mean panel power in this window — together with consumption it gives the daily balance.", gdzie: "Inverter or weather-service forecast, your own measurements, a simulation result from the panel comparison.", zakres: "≥ 0. Not above the peak power of your panels." },
+      zuzycie: { nazwa: "Consumption in the 3 h window [kW]", cel: "Mean power drawn by the loads in this window.", gdzie: "From the meter, the appliance list or your own measurements.", zakres: "≥ 0. Your installation — the app does not assume a typical value." },
+    },
   },
   "przesuwanie-zadan": {
     migawka: {
@@ -654,10 +662,14 @@ export const ru: Tlumaczenie<typeof pl> = {
   prognozy: {
     migawka: {
       oCoChodzi: "Это «погода» вашей энергосистемы — не только атмосферная, а вся: сколько будет электричества, сколько вы потратите и когда станет туго.",
-      jakDziala: "Суммирую выработку и потребление по точкам прогноза (каждые 3 часа), считаю баланс суток и показываю час наибольшего потребления. Пока экран показывает демонстрационные данные — в дальнейшем они будут браться из годовой симуляции и прогноза погоды.",
+      jakDziala: "Суммирую выработку и потребление по точкам прогноза (каждые 3 часа), считаю баланс суток и показываю час наибольшего потребления. Точки вы вводите сами (кнопка «Вставить пример» даёт только демо-данные) — в дальнейшем экран будет брать их из годовой симуляции и прогноза погоды.",
       poCo: "Вы заранее видите, закончатся ли сутки избытком или дефицитом и когда пик, — чтобы перенести крупные нагрузки на солнечные часы.",
+      fizyka: "E = Σ P_i · 3 ч; баланс = E_выработка − E_потребление.",
     },
-    pola: {},
+    pola: {
+      produkcja: { nazwa: "Выработка PV в окне 3 ч [кВт]", cel: "Средняя мощность панелей в этом окне — вместе с потреблением даёт баланс суток.", gdzie: "Прогноз инвертора или метеосервиса, ваши измерения, результат симуляции из сравнения панелей.", zakres: "≥ 0. Не выше пиковой мощности ваших панелей." },
+      zuzycie: { nazwa: "Потребление в окне 3 ч [кВт]", cel: "Средняя мощность, потребляемая нагрузками в этом окне.", gdzie: "Со счётчика, из списка приборов или ваших измерений.", zakres: "≥ 0. Ваша установка — приложение не подставляет типичное значение." },
+    },
   },
   "przesuwanie-zadan": {
     migawka: {

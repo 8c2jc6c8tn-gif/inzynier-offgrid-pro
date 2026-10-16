@@ -13,6 +13,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MIN_TEMPERATURA_MATERIALU_C } from "@/lib/core/modules/stress-test/sztywnienie-izolacji/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   materialy: MaterialMrozu[]
@@ -99,7 +100,7 @@ export default function SztywnienieIzolacjiPage() {
           <ul className="mt-2 flex flex-col gap-1 text-small">
             {result.value.oceny.map((o) => (
               <li key={o.material}>
-                {o.zapasK === null ? "ℹ️" : o.zapasK < 0 ? (o.material === "PVC" ? "🔴" : "🟡") : "✅"} {o.material}
+                <ZnakStanu poziom={o.zapasK === null ? "info" : o.zapasK < 0 ? (o.material === "PVC" ? "blad" : "uwaga") : "ok"} />{o.material}
                 {o.progC === null
                   ? ` ${t("UI-SZTIZO-ZRODLO-PODAJE-PROGU")}`
                   : ` ${t("UI-SZTIZO-PROG-ZAPAS", { progC: f0(o.progC), p: f0(o.zapasK!) })}`}

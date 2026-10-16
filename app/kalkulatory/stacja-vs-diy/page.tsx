@@ -15,6 +15,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type FormularzStan = Record<keyof StacjaVsDiyInput, string>
 
@@ -78,6 +79,7 @@ export default function StacjaVsDiyPage() {
         <Pole label={t("UI-M12-SD-CENA-DIY")} unit={t("UI-M12-J-ZL")} {...pole("cenaDiyZl")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="cenaDiy" />} />
         <Pole label={t("UI-M12-SD-POJEMNOSC-AH")} unit="Ah" {...pole("pojemnoscDiyAh")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="pojemnoscDiy" />} />
         <Pole label={t("UI-M12-SD-NAPIECIE")} unit="V" {...pole("napiecieDiyV")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="napiecieDiy" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieDiyV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieDiyV: v }))} />
         <Pole
           label={t("UI-M12-SD-DOD")}
           unit="%"

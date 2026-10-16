@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
-import { czyPoprawneNadpisanie, nadpisaniePasuje, type NadpisanieNasloneczenia, type ZapisTmyZNadpisaniem } from "@/lib/lokalizacja/nadpisanie-nasloneczenia"
+import { czyPoprawnaTemperatura, czyPoprawneNadpisanie, nadpisaniePasuje, type NadpisanieNasloneczenia, type ZapisTmyZNadpisaniem } from "@/lib/lokalizacja/nadpisanie-nasloneczenia"
 import type { LokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -90,6 +90,80 @@ function NadpisanieMiesieczne({
   )
 }
 
+/** Own monthly mean temperatures replacing the PVGIS ones: the hourly temperatures of the month are shifted so the mean equals the typed value. */
+function NadpisanieTemperatur({
+  dane,
+  nadpisanie,
+  ustaw,
+}: {
+  dane: ZapisTmyZNadpisaniem
+  nadpisanie: NadpisanieNasloneczenia | null
+  ustaw: (tempSrednieC: (number | null)[]) => void
+}) {
+  const t = useTranslate()
+  const [wpisy, setWpisy] = useState<string[]>(() =>
+    nadpisaniePasuje(nadpisanie, dane.szerokosc, dane.dlugosc) && nadpisanie.tempSrednieC
+      ? nadpisanie.tempSrednieC.map((v) => (v === null ? "" : String(v)))
+      : Array(12).fill(""),
+  )
+  const zmien = (m: number, tekst: string) => {
+    const nowe = wpisy.map((w, i) => (i === m ? tekst : w))
+    setWpisy(nowe)
+    ustaw(nowe.map((w) => (w.trim() === "" ? null : Number(w))))
+  }
+  const aktywne = dane.przesunieciaTempK.filter((d) => d !== null).length
+  return (
+    <details className="text-small">
+      <summary className="cursor-pointer font-medium">{t("UI-SEKDANNAS-TEMP-TYTUL")}</summary>
+      <div className="mt-2 flex flex-col gap-3">
+        <p className="flex items-start gap-2 text-muted-foreground">
+          <span className="flex-1">{t("UI-SEKDANNAS-TEMP-OPIS")}</span>
+          <PomocPola ekran="nasloneczenie-miesieczne" pole="temperatura" />
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {KLUCZE_MIESIECY.map((klucz, m) => {
+            const wpis = wpisy[m] ?? ""
+            const niepoprawne = wpis.trim() !== "" && !czyPoprawnaTemperatura(Number(wpis))
+            const baza = dane.bazoweTempC[m] ?? null
+            const dT = dane.przesunieciaTempK[m]
+            return (
+              <div key={klucz} className="flex flex-col gap-1">
+                <Pole
+                  label={t(klucz)}
+                  unit="°C"
+                  type="number"
+                  inputMode="decimal"
+                  value={wpis}
+                  placeholder={baza === null ? "" : f1(baza)}
+                  onChange={(e) => zmien(m, e.target.value)}
+                />
+                {baza !== null && <p className="text-caption text-muted-foreground">{t("UI-SEKDANNAS-TEMP-PVGIS", { temp: f1(baza) })}</p>}
+                {dT !== null && dT !== undefined && <p className="text-caption">{t("UI-SEKDANNAS-TEMP-PRZESUNIECIE", { dt: f1(dT) })}</p>}
+                {niepoprawne && <p className="text-caption text-werdykt-blad-foreground">{t("UI-SEKDANNAS-TEMP-NIEPOPRAWNE")}</p>}
+              </div>
+            )
+          })}
+        </div>
+        {aktywne > 0 && (
+          <>
+            <p className="font-medium">{t("UI-SEKDANNAS-TEMP-AKTYWNE", { n: aktywne })}</p>
+            <Button
+              variant="outline"
+              className="min-h-11 self-start"
+              onClick={() => {
+                setWpisy(Array(12).fill(""))
+                ustaw(Array(12).fill(null))
+              }}
+            >
+              {t("UI-SEKDANNAS-NADPISANIE-WYCZYSC")}
+            </Button>
+          </>
+        )}
+      </div>
+    </details>
+  )
+}
+
 /**
  * Sekcja "Dane nasłonecznienia" — lokalizacja projektu i pobranie PVGIS TMY (raz online, potem
  * offline). Wydzielona z Ekranu 4 M1; ta sama treść na każdym ekranie, który jej potrzebuje.
@@ -108,6 +182,7 @@ export function SekcjaDanychNaslonecznienia({
     nadpisanie: NadpisanieNasloneczenia | null
     nadpisanieWczytano: boolean
     ustawNadpisanie: (ghiKwhM2: (number | null)[]) => void
+    ustawNadpisanieTemperatur: (tempSrednieC: (number | null)[]) => void
   }
 }) {
   const t = useTranslate()
@@ -149,6 +224,7 @@ export function SekcjaDanychNaslonecznienia({
             {tmy.pobiera ? t("UI-SEKDANNAS-POBIERAM-PVGIS") : dane ? t("UI-SEKDANNAS-POBIERZ-PONOWNIE") : t("UI-SEKDANNAS-POBIERZ-DANE-NASLONECZNIENIA")}
           </Button>
           {dane && <NadpisanieMiesieczne key={String(tmy.nadpisanieWczytano)} dane={dane} nadpisanie={tmy.nadpisanie} ustaw={tmy.ustawNadpisanie} />}
+          {dane && <NadpisanieTemperatur key={`t-${String(tmy.nadpisanieWczytano)}`} dane={dane} nadpisanie={tmy.nadpisanie} ustaw={tmy.ustawNadpisanieTemperatur} />}
           {!online && !dane && <p className="text-small">{t("UI-SEKDANNAS-BRAK-POLACZENIA-POBIERZ")}</p>}
           {tmy.blad && <p className="text-small text-werdykt-blad-foreground">{tmy.blad}</p>}
         </>

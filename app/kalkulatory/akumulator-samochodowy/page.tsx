@@ -16,6 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type FormularzStan = {
   typ: TypAkumulatoraSamochodowego | ""
@@ -77,6 +78,7 @@ export default function AkumulatorSamochodowyPage() {
         </PoleSelect>
         <Pole label={t("UI-M12-AS-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="akumulator-samochodowy" pole="pojemnosc" />} />
         <Pole label={t("UI-M12-AS-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieV} onChange={ustaw("napiecieV")} pomoc={<PomocPola ekran="akumulator-samochodowy" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole
           label={t("UI-M12-AS-UZYTECZNA")}
           unit="%"

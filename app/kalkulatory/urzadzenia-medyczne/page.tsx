@@ -13,6 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type PolaLiczbowe = "mocW" | "godzinNaDobe" | "napiecieV" | "uzytecznaPct" | "sprawnoscFalownikaPct" | "posiadanyAh"
 type TakNie = "" | "tak" | "nie"
@@ -92,6 +93,7 @@ export default function UrzadzeniaMedycznePage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-MED-ZASILANIE")}</legend>
         <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="urzadzenia-medyczne" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("uzytecznaPct")} pomoc={<PomocPola ekran="urzadzenia-medyczne" pole="uzyteczna" />} />
         <PoleSelect label={t("UI-M12-KZ-FALOWNIK")} value={stan.przezFalownik} onChange={ustaw("przezFalownik")} pomoc={<PomocPola ekran="urzadzenia-medyczne" pole="falownik" />}>
           {takNieOpcje}

@@ -21,10 +21,14 @@ export const pl = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Bilans dobowy: {bilansKwh} kWh",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Produkcja {produkcjaLacznaKwh} kWh, zużycie {zuzycieLaczneKwh} kWh. Szczyt zużycia o godz. {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Godzina",
   "UI-PRO-PRODUKCJA": "Produkcja [kW]",
   "UI-PRO-ZUZYCIE": "Zużycie [kW]",
   "UI-PRO-PROGNOZY": "Prognozy",
+  "UI-PRO-WPISZ": "Wpisz średnią moc produkcji PV i zużycia w każdym oknie 3-godzinnym (np. z prognozy falownika, serwisu pogodowego albo własnych pomiarów). Policzę bilans doby i godzinę szczytu zużycia.",
+  "UI-PRO-WSTAW-PRZYKLAD": "Wstaw przykład (dane demonstracyjne)",
+  "UI-PRO-WYCZYSC": "Wyczyść pola",
+  "UI-PRO-UZUPELNIJ": "Uzupełnij produkcję i zużycie we wszystkich ośmiu oknach, żeby zobaczyć bilans doby.",
+  "UI-PRO-SPRAWDZ": "Sprawdź dane",
   "UI-OCHPRZROZ-DOZOWNIK-NAPIECIA-LVD":
     "Dozownik napięcia (LVD) odłącza odbiornik, zanim rozładuje akumulator za głęboko. Moduł 12.",
   "UI-OCHPRZROZ-KWASOWY-ZALEWOWY": "Kwasowy (zalewowy)",
@@ -91,10 +95,14 @@ export const en: Record<Klucz, string> = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Daily balance: {bilansKwh} kWh",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Production {produkcjaLacznaKwh} kWh, consumption {zuzycieLaczneKwh} kWh. Consumption peak at {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Hour",
   "UI-PRO-PRODUKCJA": "Production [kW]",
   "UI-PRO-ZUZYCIE": "Consumption [kW]",
   "UI-PRO-PROGNOZY": "Forecasts",
+  "UI-PRO-WPISZ": "Enter the mean PV production and consumption power in each 3-hour window (e.g. from the inverter forecast, a weather service or your own measurements). I calculate the daily balance and the consumption peak hour.",
+  "UI-PRO-WSTAW-PRZYKLAD": "Insert an example (demo data)",
+  "UI-PRO-WYCZYSC": "Clear the fields",
+  "UI-PRO-UZUPELNIJ": "Fill in production and consumption in all eight windows to see the daily balance.",
+  "UI-PRO-SPRAWDZ": "Check the data",
   "UI-OCHPRZROZ-DOZOWNIK-NAPIECIA-LVD":
     "A low-voltage disconnect (LVD) cuts off the load before it discharges the battery too deeply. Module 12.",
   "UI-OCHPRZROZ-KWASOWY-ZALEWOWY": "Lead-acid (flooded)",
@@ -159,10 +167,14 @@ export const ru: Record<Klucz, string> = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Суточный баланс: {bilansKwh} кВт·ч",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Выработка {produkcjaLacznaKwh} кВт·ч, потребление {zuzycieLaczneKwh} кВт·ч. Пик потребления в {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Час",
   "UI-PRO-PRODUKCJA": "Выработка [кВт]",
   "UI-PRO-ZUZYCIE": "Потребление [кВт]",
   "UI-PRO-PROGNOZY": "Прогнозы",
+  "UI-PRO-WPISZ": "Введите среднюю мощность выработки PV и потребления в каждом 3-часовом окне (например, из прогноза инвертора, метеосервиса или ваших измерений). Я рассчитаю суточный баланс и час пика потребления.",
+  "UI-PRO-WSTAW-PRZYKLAD": "Вставить пример (демо-данные)",
+  "UI-PRO-WYCZYSC": "Очистить поля",
+  "UI-PRO-UZUPELNIJ": "Заполните выработку и потребление во всех восьми окнах, чтобы увидеть суточный баланс.",
+  "UI-PRO-SPRAWDZ": "Проверьте данные",
   "UI-OCHPRZROZ-DOZOWNIK-NAPIECIA-LVD":
     "Отключатель по низкому напряжению (LVD) отключает потребитель, прежде чем тот разрядит аккумулятор слишком глубоко. Модуль 12.",
   "UI-OCHPRZROZ-KWASOWY-ZALEWOWY": "Свинцово-кислотный (заливной)",
