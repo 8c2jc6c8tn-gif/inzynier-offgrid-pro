@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.55 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 16.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.56 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 16.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -381,6 +381,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 
 **D83 (16.10.2026) — Skala rozmiarów ikon i rozmiar ilustracji kafla zależny od szerokości ekranu.** Koszt cofnięcia: tani (tokeny CSS i jeden komponent). Na polecenie właściciela („ustalić standard ikonek dla różnych wielkości ekranów”, „spisz decyzję i wdrażaj”): jedna skala w wielokrotnościach 4 px (16/20/24/32/48/64/80/96/112/128), tokeny `--ikona-xs/s/ui/kafel` w `app/globals.css`; ikona interfejsu 24 px na każdym ekranie; ilustracja kafla pulpitu wypełnia szerokość kafla (układ C, wybrany przez właściciela 16.10.2026 spośród A/B/C) do limitu `--ikona-kafel` = 112 px (telefon) / 128 px (≥640 px); ikona zawsze przy górze kafla, pod nią stałe pole na dwie linie nazwy z centrowaniem w pionie; bez osobnych pakietów rozdzielczości (SVG skaluje się sam, raster tylko dla PWA i favicon). **Odstępstwo od propozycji z rozmowy:** ilustracja nie schodzi do 64 px, bo uproszczony wariant średni (M) nie jest jeszcze narysowany; 80 px to dolna granica czytelności obecnych ilustracji. Pełne zasady: `docs/ikony-rozmiary.md`. **Status:** propozycja Claude, skalę i kierunek („jeden zestaw SVG + tokeny zależne od ekranu”) potwierdził właściciel poleceniem wdrożenia; układ C wybrał właściciel po obejrzeniu podglądu.
 
+**D84 (16.10.2026) — Maskotka Bob na każdym kaflu pulpitu, wycięte tło, zestaw 19 promptów.** Koszt cofnięcia: tani (dokument z promptami, zmiany w kodzie dopiero po dostarczeniu obrazów). Decyzja właściciela po przeglądzie braków: Bob jest na ilustracji każdego kafla modułu (16 kafli: 6 gotowych, 10 nowych) i pasuje do rozdziału, tło wycięte (przezroczyste) jak w kaflach 5, 6, 9 i 11; do przeróbki kafel 3 (miękki owal zamiast wycięcia) i kafel 7 (pełne tło); do tego pozycje dodatkowe: awatar asystenta AI, trzy miny werdyktów (gest i mina, bez kolorów, bo kolory 🟢🟡🔴 są nietykalne), pusty stan, strona błędu, ikona aplikacji. Małe ikony interfejsu (24 px) bez Boba. Prompty, niezmienny opis Boba i zasady formatu: `docs/maskotka-bob-prompty.md`. **Status:** zatwierdzone przez właściciela („zatwierdzam plus pozycja C”).
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -451,3 +453,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 08.10.2026 | Dodano D81 (Porównywarka paneli PV: ustalenia U1–U24, specyfikacja w osobnym dokumencie, otwarte pkt A–F) — decyzja właściciela projektu. Wersja 1.52→1.53. |
 | 09.10.2026 | Dodano D82 (numeracja wersji programu od 3.1.0, zasady podbijania cyfr; zasady potwierdzone) — decyzja właściciela projektu. Wersja 1.53→1.54. |
 | 16.10.2026 | Dodano D83 (skala rozmiarów ikon, ilustracja kafla 80/96/112 px zależna od ekranu, tokeny `--ikona-*`) — decyzja właściciela projektu. Wersja 1.54→1.55. |
+| 16.10.2026 | Dodano D84 (Bob na każdym kaflu, wycięte tło, zestaw 19 promptów w `docs/maskotka-bob-prompty.md`) — decyzja właściciela projektu. Wersja 1.55→1.56. |
