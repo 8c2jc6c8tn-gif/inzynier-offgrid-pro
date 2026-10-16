@@ -8,6 +8,15 @@
  * do maks. 900px na dłuższym boku i przekonwertowane do WebP (~90-180 KB każdy) — bez tego
  * kroku obrazy ważyłyby łącznie ~14 MB i ładowałyby się przy każdym wejściu na pulpit.
  */
+/**
+ * Baner na stronie modułu, gdy ma być inny niż obraz na kaflu pulpitu: kafel pokazuje prostą
+ * ilustrację z wyciętym tłem, a baner pełną scenę, która opowiada cały rozdział (D84).
+ * Brak wpisu = baner używa obrazu z kafla.
+ */
+export const BANER_MODULU_PO_ID_KAFLA: Record<number, string> = {
+  7: "/maskotki-bob/modul-07-baner.webp",
+}
+
 export const MASKOTKA_PO_ID_KAFLA: Record<number, string> = {
   3: "/maskotki-bob/modul-03.webp",
   5: "/maskotki-bob/modul-05.webp",

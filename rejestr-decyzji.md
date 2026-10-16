@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.56 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 16.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.57 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 16.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -383,6 +383,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 
 **D84 (16.10.2026) — Maskotka Bob na każdym kaflu pulpitu, wycięte tło, zestaw 19 promptów.** Koszt cofnięcia: tani (dokument z promptami, zmiany w kodzie dopiero po dostarczeniu obrazów). Decyzja właściciela po przeglądzie braków: Bob jest na ilustracji każdego kafla modułu (16 kafli: 6 gotowych, 10 nowych) i pasuje do rozdziału, tło wycięte (przezroczyste) jak w kaflach 5, 6, 9 i 11; do przeróbki kafel 3 (miękki owal zamiast wycięcia) i kafel 7 (pełne tło); do tego pozycje dodatkowe: awatar asystenta AI, trzy miny werdyktów (gest i mina, bez kolorów, bo kolory 🟢🟡🔴 są nietykalne), pusty stan, strona błędu, ikona aplikacji. Małe ikony interfejsu (24 px) bez Boba. Prompty, niezmienny opis Boba i zasady formatu: `docs/maskotka-bob-prompty.md`. **Status:** zatwierdzone przez właściciela („zatwierdzam plus pozycja C”).
 
+**D85 (16.10.2026) — Kafel Ustawienia widoczny w siatce pulpitu; baner modułu 7 z pełną sceną, kafel z wyciętą ilustracją.** Koszt cofnięcia: tani (jeden element siatki i jedna mapa banerów). Decyzja właściciela: kafel Ustawienia (kafel 14, ma własną ilustrację) ma być widoczny na pulpicie („po coś robiliśmy go”), a nie tylko jako link w pasku górnym. Wdrożone jako ostatni element siatki, zawsze widoczny, poza kolejnością i ukrywaniem; pasek górny zostaje skrótem. Sprzeczność w dokumentacji: `docs/pulpit-i-nawigacja.md` sekcja 1 (30.08.2026) mówi, że Kafel 14 można ukryć i przenieść jak inne, a sekcja o presetach, że jest dostępny tylko przez pasek górny; wdrożono najprostszą wersję zgodną z poleceniem, ukrywanie i przenoszenie kafla 14 zostaje do osobnej decyzji. Drugie ustalenie: kafel 7 (Stress-test zimowy) ma prostą ilustrację z wyciętym tłem (Bob, szafa z baterią, śnieg), a dotychczasowa scena z domem (−20°C na zewnątrz, +20°C i ogrzewanie podłogowe w środku) trafia jako baner na stronie modułu 7, bo opowiada cały rozdział. **Status:** decyzja właściciela (pierwsza część: „niech będzie kafel widoczny”); podział kafel/baner zaproponowany przez Claude w odpowiedzi na pytanie właściciela, do potwierdzenia po obejrzeniu.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -454,3 +456,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 09.10.2026 | Dodano D82 (numeracja wersji programu od 3.1.0, zasady podbijania cyfr; zasady potwierdzone) — decyzja właściciela projektu. Wersja 1.53→1.54. |
 | 16.10.2026 | Dodano D83 (skala rozmiarów ikon, ilustracja kafla 80/96/112 px zależna od ekranu, tokeny `--ikona-*`) — decyzja właściciela projektu. Wersja 1.54→1.55. |
 | 16.10.2026 | Dodano D84 (Bob na każdym kaflu, wycięte tło, zestaw 19 promptów w `docs/maskotka-bob-prompty.md`) — decyzja właściciela projektu. Wersja 1.55→1.56. |
+| 16.10.2026 | Dodano D85 (kafel Ustawienia widoczny w siatce pulpitu; baner modułu 7 z pełną sceną) — decyzja właściciela projektu. Wersja 1.56→1.57. |

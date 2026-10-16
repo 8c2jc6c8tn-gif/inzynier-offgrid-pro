@@ -8,10 +8,19 @@ import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
 import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
 import { tierKafla } from "@/lib/dostep/tier"
 import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
-import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
+import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel, type KafelEntry } from "@/lib/pulpit/registry"
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla, OpisKafla } from "@/components/tekst-rejestru"
+
+/** Kafel 14 (Ustawienia): zawsze widoczny jako ostatni w siatce, poza kolejnością i ukrywaniem (D85). */
+const USTAWIENIA_WPIS: KafelEntry = {
+  id: USTAWIENIA_KAFEL.id,
+  nazwa: USTAWIENIA_KAFEL.nazwa,
+  opis: "",
+  ikona: USTAWIENIA_KAFEL.ikona,
+  ekrany: [],
+}
 
 export default function PulpitPage() {
   const t = useTranslate()
@@ -79,10 +88,10 @@ export default function PulpitPage() {
           </StanPusty>
         ) : (
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {widoczneKafle.map((kafel) => (
+            {[...widoczneKafle, USTAWIENIA_WPIS].map((kafel) => (
               <li key={kafel.id} className={kafel.duzy ? "col-span-2" : undefined}>
                 <Link
-                  href={`/moduly/${kafel.id}`}
+                  href={kafel.id === USTAWIENIA_KAFEL.id ? USTAWIENIA_KAFEL.href : `/moduly/${kafel.id}`}
                   data-karta
                   className="flex h-full min-h-28 flex-col items-center justify-start gap-1.5 rounded-lg border p-2.5 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
@@ -105,7 +114,7 @@ export default function PulpitPage() {
                   )}
                   {/* Stałe pole na dwie linie: ikony w rzędzie zawsze na jednej wysokości, krótka nazwa centruje się w polu (D83). */}
                   <span className="flex min-h-[2.5em] items-center justify-center text-small font-medium leading-tight">
-                    <NazwaKafla kafel={kafel} />
+                    {kafel.id === USTAWIENIA_KAFEL.id ? t("UI-PUL-USTAWIENIA-KAFEL") : <NazwaKafla kafel={kafel} />}
                   </span>
                   {tierKafla(kafel.id) === "PRO" ? (
                     <span
