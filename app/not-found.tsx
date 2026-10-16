@@ -12,8 +12,8 @@ import { BobStanu } from '@/components/ui/bob-stanu'
 export default function NieZnaleziono() {
   const t = useTranslate()
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-4 p-6">
-      <BobStanu stan="bladStrony" className="mx-auto h-40 w-auto" />
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
+      <BobStanu stan="bladStrony" className="h-56 w-auto" />
       <h1 className="text-h1 font-semibold">{t('UI-PWA-404-TYTUL')}</h1>
       <p className="text-muted-foreground">{t('UI-PWA-404-OPIS')}</p>
       <Link
