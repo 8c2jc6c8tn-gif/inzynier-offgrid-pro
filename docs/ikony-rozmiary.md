@@ -26,7 +26,8 @@ Cel dotykowy przycisku z ikoną ma co najmniej 44×44 px; sama ikona 24 px leży
 3. Rozmiar ilustracji kafla rośnie z szerokością ekranu, rozmiar ikony interfejsu nie.
 4. Minimum czytelności ilustracji kafla to 80 px. Poniżej tego potrzebny jest osobny, uproszczony wariant (bez napisów i cienkich konturów), nie samo zmniejszenie.
 5. Grubość kreski liczymy względem rozmiaru wyświetlania. Ikona rysowana pod 24 px ma kreskę 1,5–2 px.
-6. Ikona, nazwa i plakietka w kaflu są wycentrowane w poziomie i w pionie (`items-center`, `text-center`); kafle w jednym rzędzie mają tę samą wysokość (`h-full`).
+6. Ikona, nazwa i plakietka w kaflu są wycentrowane w poziomie; kafle w jednym rzędzie mają tę samą wysokość (`h-full`).
+7. Wspólna linia: ikona zawsze przy górze kafla, więc w rzędzie wszystkie leżą na jednej wysokości. Pod nią stałe pole na dwie linie nazwy (`min-h-[2.5em]`); nazwa jednoliniowa centruje się w tym polu w pionie.
 
 ## Czego jeszcze nie ma
 

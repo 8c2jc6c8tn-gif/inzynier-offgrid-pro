@@ -84,7 +84,7 @@ export default function PulpitPage() {
                 <Link
                   href={`/moduly/${kafel.id}`}
                   data-karta
-                  className="flex h-full min-h-28 flex-col items-center justify-center gap-2 rounded-lg border p-4 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+                  className="flex h-full min-h-28 flex-col items-center justify-start gap-2 rounded-lg border p-4 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
                   {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
                     <span className="block size-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
@@ -103,7 +103,10 @@ export default function PulpitPage() {
                       {kafel.ikona}
                     </span>
                   )}
-                  <span className="text-small font-medium leading-tight"><NazwaKafla kafel={kafel} /></span>
+                  {/* Stałe pole na dwie linie: ikony w rzędzie zawsze na jednej wysokości, krótka nazwa centruje się w polu (D83). */}
+                  <span className="flex min-h-[2.5em] items-center justify-center text-small font-medium leading-tight">
+                    <NazwaKafla kafel={kafel} />
+                  </span>
                   {tierKafla(kafel.id) === "PRO" ? (
                     <span
                       className="rounded border px-1.5 text-caption font-medium text-muted-foreground"
