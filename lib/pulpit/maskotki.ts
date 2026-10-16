@@ -29,5 +29,6 @@ export const MASKOTKA_PO_ID_KAFLA: Record<number, string> = {
   12: "/maskotki-bob/modul-12.webp",
   13: "/maskotki-bob/modul-13.webp",
   14: "/maskotki-bob/modul-14.webp",
+  15: "/maskotki-bob/modul-15.webp",
   16: "/maskotki-bob/modul-16.webp",
 }
