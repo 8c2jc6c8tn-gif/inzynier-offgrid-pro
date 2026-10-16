@@ -20,6 +20,19 @@ export const pl = {
       zostaje: { nazwa: "Odbiornik zostaje włączony", cel: "Zaznaczone odbiorniki liczą się do zużycia w trybie ograniczonym, niezaznaczone są wyłączone.", gdzie: "Zaznacz to, co musi pracować (np. lodówka, router, alarm). Aplikacja nie ocenia, co jest ważne.", zakres: "Tak / nie. Twoja decyzja." },
     },
   },
+  "terminarz-przegladow": {
+    migawka: {
+      oCoChodzi: "Instalacja off-grid wymaga okresowych przeglądów — złącza się poluzowują, akumulatory starzeją, gaśnice mają termin. Tu masz jedną listę z terminami.",
+      jakDziala: "Dla każdej pozycji wpisujesz datę ostatniego przeglądu i odstęp w miesiącach. Dodaję odstęp do daty (miesiące kalendarzowe) i liczę, ile dni zostało do terminu albo ile minęło po terminie. Pozycje są posortowane od najpilniejszej.",
+      poCo: "Nie zapominasz o przeglądach, które decydują o bezpieczeństwie instalacji. Interwały bierzesz z instrukcji swoich urządzeń — aplikacja nie zna zaleceń producentów i nie ocenia, jak często coś trzeba sprawdzać.",
+      fizyka: "Termin = data ostatniego przeglądu + interwał (miesiące kalendarzowe); dni do terminu = termin − dziś.",
+    },
+    pola: {
+      nazwa: { nazwa: "Co przeglądasz", cel: "Tylko opis pozycji — pomaga rozpoznać ją na liście.", gdzie: "Np. dokręcenie złączy DC, kontrola akumulatorów, przegląd gaśnicy, czyszczenie paneli.", zakres: "Dowolny tekst." },
+      ostatni: { nazwa: "Data ostatniego przeglądu", cel: "Od niej liczę następny termin.", gdzie: "Z Twojego dziennika, protokołu przeglądu albo faktury za serwis.", zakres: "Istniejąca data. Puste = termin nie jest liczony." },
+      interwal: { nazwa: "Odstęp między przeglądami [miesiące]", cel: "Dodaję go do daty ostatniego przeglądu.", gdzie: "Z instrukcji urządzenia, zaleceń producenta albo wymagań ubezpieczyciela — aplikacja nie podaje wartości domyślnej.", zakres: "Liczba całkowita ≥ 1. Twoja instalacja." },
+    },
+  },
 }
 
 export const en: Tlumaczenie<typeof pl> = {
@@ -38,6 +51,19 @@ export const en: Tlumaczenie<typeof pl> = {
       zostaje: { nazwa: "The appliance stays on", cel: "Ticked appliances count in the limited-mode consumption, unticked ones are switched off.", gdzie: "Tick what must keep running (e.g. fridge, router, alarm). The app does not judge what is important.", zakres: "Yes / no. Your decision." },
     },
   },
+  "terminarz-przegladow": {
+    migawka: {
+      oCoChodzi: "An off-grid installation needs periodic inspections — connectors loosen, batteries age, extinguishers have an expiry date. Here is one list with the dates.",
+      jakDziala: "For each item you enter the date of the last inspection and the interval in months. I add the interval to the date (calendar months) and count how many days are left or how long ago it passed. Items are sorted from the most urgent.",
+      poCo: "You do not forget inspections that decide the safety of the installation. You take the intervals from your devices’ manuals — the app does not know manufacturers’ recommendations and does not judge how often something must be checked.",
+      fizyka: "Date = last inspection + interval (calendar months); days left = date − today.",
+    },
+    pola: {
+      nazwa: { nazwa: "What you inspect", cel: "Only a label of the item — it helps recognise it on the list.", gdzie: "E.g. tightening DC connectors, checking batteries, extinguisher service, cleaning panels.", zakres: "Any text." },
+      ostatni: { nazwa: "Date of the last inspection", cel: "I count the next date from it.", gdzie: "From your logbook, the inspection report or the service invoice.", zakres: "An existing date. Empty = the date is not calculated." },
+      interwal: { nazwa: "Interval between inspections [months]", cel: "I add it to the date of the last inspection.", gdzie: "From the device manual, the manufacturer’s recommendations or your insurer’s requirements — the app gives no default.", zakres: "A whole number ≥ 1. Your installation." },
+    },
+  },
 }
 
 export const ru: Tlumaczenie<typeof pl> = {
@@ -54,6 +80,19 @@ export const ru: Tlumaczenie<typeof pl> = {
       godziny: { nazwa: "Длительность ночного окна [ч]", cel: "Столько часов суток считаю в ночном режиме (потребление × h/24).", gdzie: "Например, от выключения света до утра.", zakres: "Больше 0, не более 24. Ваш план." },
       pojemnosc: { nazwa: "Полезная энергия батареи [кВт·ч]", cel: "По ней считаю, на сколько суток (отъезд) или ночей (ночь) хватит без зарядки от панелей.", gdzie: "Номинальная ёмкость × допустимая глубина разряда, из паспорта батареи.", zakres: "> 0. Пусто = без этого результата. Ваша батарея." },
       zostaje: { nazwa: "Прибор остаётся включённым", cel: "Отмеченные приборы учитываются в потреблении ограниченного режима, неотмеченные выключены.", gdzie: "Отметьте то, что должно работать (например, холодильник, роутер, сигнализация). Приложение не оценивает, что важно.", zakres: "Да / нет. Ваше решение." },
+    },
+  },
+  "terminarz-przegladow": {
+    migawka: {
+      oCoChodzi: "Установке off-grid нужны периодические осмотры: соединения ослабевают, аккумуляторы стареют, у огнетушителей есть срок. Здесь один список со сроками.",
+      jakDziala: "Для каждой позиции вы вводите дату последнего осмотра и интервал в месяцах. Я прибавляю интервал к дате (календарные месяцы) и считаю, сколько дней осталось или сколько прошло после срока. Позиции отсортированы от самой срочной.",
+      poCo: "Вы не забываете об осмотрах, от которых зависит безопасность установки. Интервалы берёте из инструкций ваших устройств — приложение не знает рекомендаций производителей и не оценивает, как часто что-то нужно проверять.",
+      fizyka: "Срок = дата последнего осмотра + интервал (календарные месяцы); дней до срока = срок − сегодня.",
+    },
+    pola: {
+      nazwa: { nazwa: "Что осматриваете", cel: "Только подпись позиции — помогает узнать её в списке.", gdzie: "Например, подтяжка DC-соединений, проверка аккумуляторов, обслуживание огнетушителя, чистка панелей.", zakres: "Любой текст." },
+      ostatni: { nazwa: "Дата последнего осмотра", cel: "От неё считаю следующий срок.", gdzie: "Из вашего журнала, протокола осмотра или счёта за обслуживание.", zakres: "Существующая дата. Пусто = срок не рассчитывается." },
+      interwal: { nazwa: "Интервал между осмотрами [месяцы]", cel: "Прибавляю его к дате последнего осмотра.", gdzie: "Из инструкции устройства, рекомендаций производителя или требований страховщика — значения по умолчанию в приложении нет.", zakres: "Целое число ≥ 1. Ваша установка." },
     },
   },
 }

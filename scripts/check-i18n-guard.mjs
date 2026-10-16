@@ -107,6 +107,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ogrzewanie/obciazenie-cieplne",
   "lib/core/modules/ogrzewanie/maly-obiekt-bilans-ciepla",
   "lib/core/modules/zapotrzebowanie/tryb-ograniczonego-zuzycia",
+  "lib/core/modules/bezpieczenstwo/terminarz-przegladow",
   "lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu",
   "lib/core/modules/ogrzewanie/mostki-termiczne",
   "lib/core/modules/ogrzewanie/optymalizacja-izolacji",
