@@ -13,11 +13,23 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
-import { BobStanu } from "@/components/ui/bob-stanu"
+import { BobStanu, useBezBoba } from "@/components/ui/bob-stanu"
 import { Ikona, IKONA } from "@/components/ui/ikona"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+
+/** Assistant avatar: Bob, or a line „ai” icon when the 3D icons are chosen instead of the mascot (D87). */
+function AwatarAsystenta({ className, ikona }: { className: string; ikona: string }) {
+  if (useBezBoba()) {
+    return (
+      <span className={`${className} grid place-items-center bg-primary text-primary-foreground`} aria-hidden="true">
+        <Ikona nazwa={IKONA.ai} className={ikona} />
+      </span>
+    )
+  }
+  return <BobStanu stan="asystent" className={`${className} object-cover object-top`} />
+}
 
 export function AsystentAi() {
   const t = useTranslate()
@@ -61,7 +73,7 @@ export function AsystentAi() {
       {otwarty && (
         <section className="flex w-[min(92vw,22rem)] flex-col gap-3 rounded-lg border bg-card p-4 shadow-lg">
           <div className="flex items-start justify-between gap-2">
-            <BobStanu stan="asystent" className="size-10 shrink-0 rounded-full bg-primary object-cover object-top" />
+            <AwatarAsystenta className="size-10 shrink-0 rounded-full bg-primary" ikona="size-6" />
             <div className="mr-auto">
               <h2 className="text-small font-semibold uppercase tracking-wide text-muted-foreground">
                 {t("UI-ASYAI-ZAPYTAJ-ASYSTENTA")}
@@ -111,7 +123,7 @@ export function AsystentAi() {
         aria-expanded={otwarty}
         onClick={() => setOtwarty((v) => !v)}
       >
-        {otwarty ? <Ikona nazwa={IKONA.x} className="size-6" /> : <BobStanu stan="asystent" className="size-full rounded-full object-cover object-top" />}
+        {otwarty ? <Ikona nazwa={IKONA.x} className="size-6" /> : <AwatarAsystenta className="size-full rounded-full" ikona="size-7" />}
       </Button>
     </div>
   )

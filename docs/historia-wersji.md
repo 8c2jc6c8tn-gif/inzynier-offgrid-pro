@@ -2,6 +2,14 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.30.1] — 16.10.2026
+
+Bob w komunikatach przy wyborze „Ikony 3D” (D87):
+- gdy w Ustawieniach wybrano ikony 3D, maskotka znika też ze stanów interfejsu: panel werdyktu (zostaje znak ✓ / ▲ / ✕), pusty stan, strona 404; awatar asystenta AI (przycisk i nagłówek okna) pokazuje liniową ikonę „AI” zamiast Boba,
+- wybór „Maskotka Bob” działa jak dotąd.
+
+Wpływ na liczby: brak — zmiana wyglądu.
+
 ## [3.30.0] — 16.10.2026
 
 Zestaw ikon 3D „zamiast Boba” (D87):
