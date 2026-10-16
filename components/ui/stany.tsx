@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { BobStanu } from "@/components/ui/bob-stanu"
 
 /**
  * Trzy stany brzegowe, których brakowało jako nazwanych komponentów (docs/brief-dla-v0.md,
@@ -27,10 +28,11 @@ export function StanPusty({
     <div
       role="status"
       className={cn(
-        "rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/50 p-4 text-small text-muted-foreground",
+        "flow-root rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/50 p-4 text-small text-muted-foreground",
         className,
       )}
     >
+      <BobStanu stan="pusty" className="float-right ml-3 size-14" />
       <p className="font-medium text-foreground">{tytul}</p>
       {children && <div className="mt-1">{children}</div>}
     </div>

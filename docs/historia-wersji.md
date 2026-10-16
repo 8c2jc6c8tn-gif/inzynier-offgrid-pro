@@ -12,6 +12,8 @@ Skala rozmiarów ikon (D83, `docs/ikony-rozmiary.md`):
 - maskotka Bob na kaflach 1 (Lokalizacja i teren), 2 (Zapotrzebowanie), 4 (Magazyn energii), 3 (nowy obraz z wyciętym tłem), 10 (AI i prognozy), 8 (Bezpieczeństwo), 12 (Szybki kalkulator) oraz 13 (Tryb Live), 15 (Dom – sieć) i 16 (Firma – sieć) na pulpicie i stronach modułów oraz na stronie Ustawień (kafel 14 nie ma miejsca w siatce pulpitu); dwa nowe pliki WebP w `public/maskotki-bob/`, wygenerowane z promptów D84,
 - dokument z 19 promptami do ilustracji maskotki Bob (`docs/maskotka-bob-prompty.md`, D84), bez zmian w kodzie,
 - układ pulpitu (D86): Ustawienia stoją zaraz po Trybie Live, a „Dom – sieć” i „Firma – sieć” są zwykłymi kaflami na samym końcu, oddzielone cienką czerwoną linią, która zwęża się i zanika 1 cm od krawędzi ekranu,
+- Bob w stanach interfejsu (D88, seria C): awatar asystenta AI na przycisku i w nagłówku okna, miny werdyktu 🟢🟡🔴 obok etykiety w `WerdyktPanel`, Bob z kartonem w `StanPusty`, Bob z wtyczką na stronie 404; wszystkie obrazy są tylko dekoracją (`alt=""`), a kolory i teksty werdyktu bez zmian,
+- ikona aplikacji (PWA: `icon-192.png`, `icon-512.png`, `apple-icon.png`) to głowa Boba na tle koloru głównego, w manifeście także jako ikona maskable,
 - rozmiar bierze się z tokenów `--ikona-*` w `app/globals.css`, a nie z liczby w komponencie; dodany test pilnujący skali.
 
 Wpływ na liczby: brak — zmiana wyglądu pulpitu.

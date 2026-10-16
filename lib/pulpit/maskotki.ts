@@ -35,3 +35,20 @@ export const MASKOTKA_PO_ID_KAFLA: Record<number, string> = {
   15: "/maskotki-bob/modul-15.webp",
   16: "/maskotki-bob/modul-16.webp",
 }
+
+/**
+ * Bob w stanach interfejsu (D88): awatar asystenta AI, werdykt 🟢🟡🔴, pusty stan, błąd strony.
+ * Pliki to małe WebP z przezroczystym tłem, przycięte do postaci — rozmiar dobrany do miejsca,
+ * w którym się pokazują (zob. docs/maskotka-bob-prompty.md, pozycje C1–C6). Ikona aplikacji (C7)
+ * to PNG w `public/` (`icon-192.png`, `icon-512.png`, `apple-icon.png`), nie wpis tutaj.
+ */
+export const BOB_STANY = {
+  asystent: "/maskotki-bob/bob-asystent.webp",
+  ok: "/maskotki-bob/bob-werdykt-ok.webp",
+  uwaga: "/maskotki-bob/bob-werdykt-uwaga.webp",
+  blad: "/maskotki-bob/bob-werdykt-blad.webp",
+  pusty: "/maskotki-bob/bob-pusty-stan.webp",
+  bladStrony: "/maskotki-bob/bob-blad-strony.webp",
+} as const
+
+export type BobStan = keyof typeof BOB_STANY

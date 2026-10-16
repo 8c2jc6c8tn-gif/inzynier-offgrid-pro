@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useTranslate } from '@/lib/i18n/language-context'
+import { BobStanu } from '@/components/ui/bob-stanu'
 
 /**
  * 404 page for unknown URLs. The service worker precaches it as `/_not-found` and serves it to an
@@ -12,6 +13,7 @@ export default function NieZnaleziono() {
   const t = useTranslate()
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4 p-6">
+      <BobStanu stan="bladStrony" className="mx-auto h-40 w-auto" />
       <h1 className="text-h1 font-semibold">{t('UI-PWA-404-TYTUL')}</h1>
       <p className="text-muted-foreground">{t('UI-PWA-404-OPIS')}</p>
       <Link
