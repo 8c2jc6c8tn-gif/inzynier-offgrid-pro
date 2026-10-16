@@ -21,7 +21,6 @@ export const pl = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Bilans dobowy: {bilansKwh} kWh",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Produkcja {produkcjaLacznaKwh} kWh, zużycie {zuzycieLaczneKwh} kWh. Szczyt zużycia o godz. {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Godzina",
   "UI-PRO-PRODUKCJA": "Produkcja [kW]",
   "UI-PRO-ZUZYCIE": "Zużycie [kW]",
   "UI-PRO-PROGNOZY": "Prognozy",
@@ -96,7 +95,6 @@ export const en: Record<Klucz, string> = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Daily balance: {bilansKwh} kWh",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Production {produkcjaLacznaKwh} kWh, consumption {zuzycieLaczneKwh} kWh. Consumption peak at {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Hour",
   "UI-PRO-PRODUKCJA": "Production [kW]",
   "UI-PRO-ZUZYCIE": "Consumption [kW]",
   "UI-PRO-PROGNOZY": "Forecasts",
@@ -169,7 +167,6 @@ export const ru: Record<Klucz, string> = {
   "UI-PRO-BILANS-DOBOWY-KWH": "Суточный баланс: {bilansKwh} кВт·ч",
   "UI-PRO-PRODUKCJA-KWH-ZUZYCIE":
     "Выработка {produkcjaLacznaKwh} кВт·ч, потребление {zuzycieLaczneKwh} кВт·ч. Пик потребления в {godzinaSzczytuZuzycia}:00.",
-  "UI-PRO-GODZINA": "Час",
   "UI-PRO-PRODUKCJA": "Выработка [кВт]",
   "UI-PRO-ZUZYCIE": "Потребление [кВт]",
   "UI-PRO-PROGNOZY": "Прогнозы",
