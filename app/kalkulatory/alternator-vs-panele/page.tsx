@@ -13,6 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type PolaLiczbowe = Exclude<keyof AlternatorVsPaneleInput, "typAkumulatora" | "maDcDc">
 
@@ -83,6 +84,7 @@ export default function AlternatorVsPanelePage() {
       </NaglowekEkranu>
 
       <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="napiecie" />} />
+      <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AL-ALTERNATOR")}</legend>

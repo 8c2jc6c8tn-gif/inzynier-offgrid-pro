@@ -12,6 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; godzinNaDobe: string; krotnoscRozruchu: string }
 
@@ -143,6 +144,7 @@ export default function KreatorMalegoOdbiornikaPage() {
         <legend className="mb-2 text-small font-medium">{t("UI-M12-KZ-ZESTAW")}</legend>
         <Pole label={t("UI-M12-KZ-CZAS")} unit="h" {...pole("czasPodtrzymaniaH")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="czas" />} />
         <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("uzytecznaPct")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="uzyteczna" />} />
         <PoleSelect label={t("UI-M12-KZ-FALOWNIK")} value={stan.przezFalownik} onChange={ustaw("przezFalownik")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="falownik" />}>
           <option value="">{t("UI-WYBIERZ")}</option>

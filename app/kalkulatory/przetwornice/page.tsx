@@ -13,6 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; krotnoscRozruchu: string }
 
@@ -106,6 +107,7 @@ export default function PrzetwornicePage() {
 
       <div role="tabpanel" className="flex flex-col gap-4">
         <Pole label={t("UI-M12-PRZ-NAPIECIE-AKUMULATORA")} unit="V" {...pole("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="przetwornice" pole="napiecieAkumulatora" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieAkumulatoraV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieAkumulatoraV: v }))} />
         <Pole label={t("UI-M12-PRZ-SPRAWNOSC")} unit="%" max={100} {...pole("sprawnoscPct")} pomoc={<PomocPola ekran="przetwornice" pole="sprawnosc" />} />
 
         {!falownik && (

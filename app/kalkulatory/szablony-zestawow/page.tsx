@@ -14,6 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; godzinNaDobe: string; naOsobe: boolean }
 
@@ -129,6 +130,7 @@ export default function SzablonyZestawowPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-SZ-ZESTAW")}</legend>
         <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="szablony-zestawow" pole="napiecie" />} />
+        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("dodPct")} pomoc={<PomocPola ekran="szablony-zestawow" pole="dod" />} />
         <Pole label={t("UI-M12-WK-GODZIN-SLONCA")} unit={t("UI-M12-J-H-DOBE")} max={24} {...pole("godzinSlonca")} pomoc={<PomocPola ekran="szablony-zestawow" pole="godzinSlonca" />} />
         <Pole label={t("UI-M12-WK-SPRAWNOSC")} unit="%" max={100} {...pole("sprawnoscToruPct")} pomoc={<PomocPola ekran="szablony-zestawow" pole="sprawnosc" />} />
