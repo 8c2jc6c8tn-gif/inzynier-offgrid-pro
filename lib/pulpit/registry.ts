@@ -348,6 +348,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/tryb-uproszczony", label: "Tryb uproszczony — dobór akumulatora" },
       { href: "/kalkulatory/dobor-regulatora-pwm-mppt", label: "Dobór regulatora PWM vs MPPT" },
       { href: "/kalkulatory/ladowanie-z-regulatora", label: "Ładowanie akumulatora z regulatora (prąd, ograniczenia, czas)" },
+      { href: "/kalkulatory/bilans-ciepla-malego-obiektu", label: "Bilans ciepła małego obiektu (kamper, altana, garaż)" },
       { href: "/kalkulatory/dni-bez-slonca", label: "Ile dni pracy bez słońca — mały zestaw" },
       { href: "/kalkulatory/ochrona-przed-rozladowaniem", label: "Ochrona przed rozładowaniem (dozownik LVD)" },
       { href: "/kalkulatory/urzadzenie-12v-bezposrednio", label: "Czy mogę podłączyć urządzenie 12 V bezpośrednio?" },
