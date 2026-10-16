@@ -87,7 +87,7 @@ export default function PulpitPage() {
                   className="flex min-h-28 flex-col justify-between gap-2 rounded-lg border p-4 transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
                   {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
-                    <span className="block h-16 w-16 overflow-hidden rounded-md" aria-hidden="true">
+                    <span className="block size-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
                       <img
                         src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
                         alt=""

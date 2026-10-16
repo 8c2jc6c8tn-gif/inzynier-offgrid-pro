@@ -8,6 +8,13 @@
  * tu jego animacje i symbol w definicje-symboli.tsx.
  */
 
+/* Rozmiar z tokenu skali ikon (app/globals.css, D83). */
+.kafel-ikona-svg {
+  display: block;
+  width: var(--ikona-kafel);
+  height: var(--ikona-kafel);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kafel-ikona-svg * {
     animation-play-state: paused !important;

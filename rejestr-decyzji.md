@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.54 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 09.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.55 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 16.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -379,6 +379,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 
 **D82 (09.10.2026) — Numeracja wersji programu od 3.1.0 i zasady podbijania cyfr.** Koszt cofnięcia: tani (zmiana numeru i dokumentu). Na prośbę właściciela („numer builda się nie zmienia, zacznijmy od 3.1.0 i napiszmy, w jakich przypadkach podbijamy pierwszą, drugą i trzecią cyfrę”): `package.json` `version` = 3.1.0; pierwsza cyfra = zmiana zasad obliczeń albo formatu danych użytkownika, druga = nowa funkcja lub nowe dane albo poprawka błędu zmieniającego wynik, trzecia = bez wpływu na liczby; jedno podbicie na pakiet zmian, wpis w `docs/historia-wersji.md` z linią „Wpływ na liczby”, test spójności. Pełne zasady: `docs/wersjonowanie.md`. **Status:** zasady spisane przez Claude i potwierdzone przez właściciela (09.10.2026, „pasuje”); numer startowy 3.1.0 jest jego decyzją.
 
+**D83 (16.10.2026) — Skala rozmiarów ikon i rozmiar ilustracji kafla zależny od szerokości ekranu.** Koszt cofnięcia: tani (tokeny CSS i jeden komponent). Na polecenie właściciela („ustalić standard ikonek dla różnych wielkości ekranów”, „spisz decyzję i wdrażaj”): jedna skala w wielokrotnościach 4 px (16/20/24/32/48/64/80/96/112/128), tokeny `--ikona-xs/s/ui/kafel` w `app/globals.css`; ikona interfejsu 24 px na każdym ekranie; ilustracja kafla pulpitu 80 px (telefon) / 96 px (≥640 px) / 112 px (≥1024 px), bez osobnych pakietów rozdzielczości (SVG skaluje się sam, raster tylko dla PWA i favicon). **Odstępstwo od propozycji z rozmowy:** na telefonie 80 px, nie 64 px, bo uproszczony wariant średni (M) nie jest jeszcze narysowany, a 80 px to dolna granica czytelności obecnych ilustracji; wariant M dochodzi tylko tam, gdzie 80 px wygląda źle. Pełne zasady: `docs/ikony-rozmiary.md`. **Status:** propozycja Claude, skalę i kierunek („jeden zestaw SVG + tokeny zależne od ekranu”) potwierdził właściciel poleceniem wdrożenia; wartość 80 px dla telefonu do potwierdzenia po obejrzeniu podglądu.
+
 ## Założenia robocze (F.7 GOD BOOK)
 
 **Z1 (04.09.2026) — przyjęto:** ID modułów (H.2 GOD BOOK, M#) odpowiadają wprost numeracji "Moduł N" już używanej w całym projekcie (1–13), nie nowej, niezależnej numeracji. **Powód:** ta numeracja jest już stabilna, używana w kodzie, dokumentacji i UI od 29.08.2026 — wprowadzenie równoległej numeracji M# byłoby duplikatem, nie nowym bytem. **Na czym się opiera:** cała struktura `docs/rejestr-pokrycia.md`, `lib/pulpit/registry.ts`, `docs/pulpit-i-nawigacja.md`.
@@ -448,3 +450,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 05.10.2026 | Dodano D80 (bilans mapy wdrożenia: widżety M13 pojedynczo, mianownik 312) — decyzja właściciela projektu. Wersja 1.51→1.52. |
 | 08.10.2026 | Dodano D81 (Porównywarka paneli PV: ustalenia U1–U24, specyfikacja w osobnym dokumencie, otwarte pkt A–F) — decyzja właściciela projektu. Wersja 1.52→1.53. |
 | 09.10.2026 | Dodano D82 (numeracja wersji programu od 3.1.0, zasady podbijania cyfr; zasady potwierdzone) — decyzja właściciela projektu. Wersja 1.53→1.54. |
+| 16.10.2026 | Dodano D83 (skala rozmiarów ikon, ilustracja kafla 80/96/112 px zależna od ekranu, tokeny `--ikona-*`) — decyzja właściciela projektu. Wersja 1.54→1.55. |

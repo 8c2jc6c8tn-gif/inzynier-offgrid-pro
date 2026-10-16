@@ -2,6 +2,14 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.28.1] — 16.10.2026
+
+Skala rozmiarów ikon (D83, `docs/ikony-rozmiary.md`):
+- ilustracje kafli pulpitu mają jeden rozmiar zależny od ekranu: 80 px na telefonie, 96 px od 640 px szerokości, 112 px od 1024 px (wcześniej 44 px, przez co kreski i napisy były rozmyte); maskotki na kaflach używają tego samego rozmiaru,
+- rozmiar bierze się z tokenów `--ikona-*` w `app/globals.css`, a nie z liczby w komponencie; dodany test pilnujący skali.
+
+Wpływ na liczby: brak — zmiana wyglądu pulpitu.
+
 ## [3.28.0] — 11.10.2026
 
 Tryb mikroinstalacji O5: szablony zestawów jako punkt startu listy odbiorników (spec `docs/tryb-mikroinstalacji-specyfikacja.md`, sekcja 7):
