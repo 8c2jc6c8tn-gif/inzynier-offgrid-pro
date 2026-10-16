@@ -113,3 +113,29 @@ Tło zrobimy u nas (kolor z wyglądu aplikacji), potrzebna jest sama głowa z du
 ## Kolejność generowania
 
 Najpierw A7 (kafel 13), A8 (14), A9 (15), A10 (16), bo to cztery kafle bez Boba na pulpicie. Potem A1–A6, B1, B2, na końcu C. Pierwszy wygenerowany obraz wyślij mi do oceny: jeśli twarz lub strój odbiegają od referencji, poprawię blok „BOB” zanim wygenerujesz resztę.
+
+## D. Zestaw ikon 3D „zamiast Boba” (D87)
+
+Zestaw dla osób, które nie chcą widzieć maskotki. Wzorcem stylu jest arkusz 16 ikon właściciela z 16.10.2026 (4x4, miękkie 3D, wyraźny jeden motyw, ciepłe światło). Używaj **jako referencji tego arkusza**, nie obrazu Boba.
+
+### Blok „Format i tło” dla ikon (dopisz do każdego promptu)
+
+> Format: square 1:1, 1024x1024 px, PNG with real alpha channel. Transparent background, no tile, no rounded square, no frame, no shadow plate, no glow halo and no light bloom outside the icon edges. One single icon centered, filling about 80% of the canvas. Soft 3D style, clean edges, same lighting direction (from upper left), same level of detail and same outline weight as the attached reference sheet. No text, no letters, no numbers.
+
+### Co dostarczyć
+
+1. **Cały istniejący arkusz** ponownie, jako 16 osobnych plików z powyższym formatem i tłem (bez kafla i poświaty). Nazwy: `ikona-01.png` … `ikona-16.png` wg mapy niżej.
+2. **Trzy brakujące ikony** (prompty niżej).
+
+Mapa arkusza na kafle: 1 pinezka na mapie, 2 błyskawica ze słupkami, 3 panel ze słońcem, 4 bateria, 5 wtyczka z kablem, 6 dom z ogrzewaniem, 7 dom z płatkiem śniegu, 9 układ ESP32 z falą wifi, 10 robot ze słupkami, 11 klucz i śrubokręt, 13 antena satelitarna, 14 koło zębate, 15 dom z siecią. Dwie ikony arkusza nie mają kafla (słońce z chmurą, bojler z kroplą) i przydadzą się jako ikony ekranów w modułach, więc też je zapisz jako `ikona-dodatkowa-pogoda.png` i `ikona-dodatkowa-bojler.png`.
+
+### D1. Kafel 8, Bezpieczeństwo i awarie — plik `ikona-08.png`
+Dotychczasowa tarcza z haczykiem znaczy „zweryfikowane”, a rozdział dotyczy pożaru i ewakuacji.
+> Icon: a red fire extinguisher with a black hose and a small round pressure gauge, standing upright, with a small orange flame icon above it. Warm red and orange accents, silver metal parts.
+
+### D2. Kafel 12, Szybki kalkulator / tryb mobilny — plik `ikona-12.png`
+> Icon: a compact handheld calculator with a bright display showing a small bar graphic, tilted slightly, with a tiny camper van silhouette and a small solar panel on top of the calculator body. Blue, silver and yellow accents.
+
+### D3. Kafel 16, Firma – sieć — plik `ikona-16.png`
+Parowana z ikoną kafla 15 (dom z siecią).
+> Icon: a small industrial building with a sawtooth roof and one chimney, with a cable and a plug on the left and three small glowing nodes connected by thin lines above it, same composition as the house-with-network icon of the reference sheet, but with a factory instead of a house. Grey, blue and orange accents.
