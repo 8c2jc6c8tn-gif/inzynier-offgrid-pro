@@ -2774,3 +2774,22 @@ PR #315 scalony do `main` po zielonym CI. Pułapka: job E2E Service Worker raz z
 ## 16.10.2026 — pomiar precache po D83–D88 (D61)
 
 793 wpisy, 54,1 MiB surowo, 18,8 MiB gzip, 15,3 MiB brotli (D61: 540 wpisów, 20,85 MB, 6,8 MB gzip). Obrazy Boba (WebP, 8,5 MB) to ok. 55% transferu brotli; strony HTML 313 szt. 3,0 MB, JS 3,0 MB. Decyzja o budżecie czeka na właściciela, wariant A bez zmian. **Pułapki środowiska (sandbox chmurowy, nie repo):** (1) `next build` na Turbopacku pada na `next/font/google` (pobieranie czcionek omija proxy) — działa `next build --webpack` z `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt`; ten wariant daje jednak fałszywe błędy w E2E (ChunkLoadError na `/moduly/[id]` — nawiasy w nazwie chunku — oraz test kill-switch), więc E2E wiążące jest tylko na CI z Turbopackiem; (2) pakiet `playwright` szuka chromium 1243, a obraz ma 1194 — dowiązanie w osobnym `PLAYWRIGHT_BROWSERS_PATH`.
+
+## 16.10.2026 — praca bez telemetrii (wersja 3.29.0)
+
+Na polecenie właściciela („podbij next, napraw e2e, pomiar, 3–8 możesz robić”): (1) `next` 16.3.8 i poprawka E2E były już na `main` po scaleniu PR #315 (CI zielone); (2) pomiar precache — wpis wyżej; (3)–(8) zrobione w gałęzi `claude/prace-po-d83`, szczegóły: `docs/historia-wersji.md` 3.29.0, `docs/rejestr-pokrycia.md` „Partia 16.10.2026”, spec Porównywarki 55–58, `docs/tryb-mikroinstalacji-specyfikacja.md` sekcja 8.
+
+**Decyzje wykonawcze:**
+- **Biblioteka materiałów (spec 57):** λ ze Szkieletowego z jawnym statusem; tylko Knauf (karta) i EPDM (ISO 10456) mają status lepszy niż „orientacyjna”. Repo Szkieletowego dołączone tylko do odczytu (`add_repo`), nic tam nie zapisano.
+- **Bilans ciepła małego obiektu (spec 58):** silnik opakowuje `calculateObciazenieCieplne` (fizyka raz); prąd na ogrzewanie tylko w miesiącach użytkowania z profilu obiektu; Porównywarka w mikroinstalacji czyta ten ekran. Sprzeczność z zapisem „mikroinstalacja nie liczy strat ciepła” (spec trybu, sekcja 4) rozwiązana wprost ustaleniem właściciela z 10.10.2026 (pkt 3 sekcji 37.7: „oba”) — odnotowane w sekcji 8 specyfikacji trybu; jeśli właściciel woli inaczej, wystarczy usunąć kafel ekranu.
+- **Pułapki ofert (spec 55):** tylko z liczb silnika; jedyny próg to 1% pokazywanej różnicy (czytelność, nie norma).
+- **Tryb wyjazdu/nocny:** aplikacja nie ocenia, co jest krytyczne dla bezpieczeństwa — wybór użytkownika; w trybie nocnym założone równomierne zużycie w ciągu doby (lista M12 nie niesie pór pracy), założenie widoczne w wyniku.
+- **Terminarz przeglądów:** własne interwały użytkownika, bez „wkrótce” (nie ma progu w źródle); miesiące kalendarzowe z przycięciem dnia (31 stycznia + 1 mies. = 28/29 lutego).
+- **Ikony:** werdykt pokazuje poziom kształtem (✓ / ▲ / ✕) obok koloru. Emoji kafli pulpitu i presetów zostają (dane używane też w parametrach tłumaczeń).
+
+**Pułapki (nowe):**
+- `pkill -f` zabija własną powłokę (exit 144) — zamykać serwer po PID z `ps`; powtórzenie błędu z 29.09.2026.
+- Formuły LaTeX w stringach TS: pojedynczy `\;` (zamiast `\\;`) zamienia się w gołe `;`; test `formula-escapes` to łapie. Przy generowaniu kodu skryptem Pythona `re.sub` z backslashem w zamienniku wymaga `lambda`. Dodatkowo test dryfu (`formuly.test.ts`) wymaga, by literał `FORMULA` w module był identyczny z polskim wpisem `UI-FORMULA-*`.
+- Każdy nowy kod 🔴 w `warnings.ts` wymaga wpisu w `docs/rejestr-twardych-stopow.md` albo (walidacja danych) w `scripts/stopy-guard-wyjatki.json`; każdy nowy moduł domenowy — wpisu w liście `check-i18n-guard.mjs`.
+- Build lokalny w chmurze: `next build` na Turbopacku pada na `next/font/google` (patrz wpis o pomiarze precache); E2E wiążące jest tylko na CI.
+

@@ -2,6 +2,21 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.29.0] — 16.10.2026
+
+Prace bez telemetrii z listy „co zostało”:
+- Porównywarka paneli (silnik 1.9.1): ostrzeżenia o pułapkach ofert — moc z karty a zima oraz cena za Wp a zimowa kWh (spec 55); w zakładce „Falownik i osprzęt” ładowanie akumulatora z wybranego regulatora dla każdego zestawu paneli, z opcjonalną pojemnością i limitem prądu akumulatora (spec 56),
+- „Straty ciepła budynku”: biblioteka 20 materiałów i 3 szablony przegród szkieletowych z jawnym statusem λ (karta producenta, norma, orientacyjna; dane ze Szkieletowego, spec 57),
+- nowy ekran „Bilans ciepła małego obiektu” (kamper, altana lub domek ROD, garaż): straty, moc grzania w mrozie, prąd na ogrzewanie w miesiącach użytkowania, zapas paliwa; w trybie mikroinstalacji Porównywarka dolicza to ogrzewanie do bilansu zimy (spec 58),
+- tryb mikroinstalacji: przycisk napięcia układu na kolejnych 12 ekranach modułu 12; pozycje dodane z szablonu zestawu przypisują się do wybranego obiektu,
+- własne średnie temperatury miesięczne zamiast PVGIS TMY (temperatury godzinowe miesiąca przesunięte tak, by średnia równała się wpisanej),
+- ekran „Prognozy” liczy z punktów wpisanych przez użytkownika (kalkulator 1.2.0); dane demonstracyjne tylko na przycisk „Wstaw przykład”,
+- nowe ekrany: „Tryb wyjazdu i tryb nocny” (zużycie ograniczone z listy odbiorników; M13 7.27 i 7.49 bez telemetrii) i „Terminarz przeglądów i serwisu” (własne interwały użytkownika; M13 7.32), z narzędziami AI,
+- ikony interfejsu: liniowe SVG zamiast emoji w werdykcie (znak ✓ / ▲ / ✕ zamiast kolorowych kółek — poziom widać po kształcie, nie tylko po kolorze), przełączniku motywu, Ustawieniach, stanach i ostrzeżeniach na ekranach kalkulatorów,
+- pomiar precache (D61): 793 wpisy, 54,1 MiB surowo, 18,8 MiB gzip, 15,3 MiB brotli (wpis w `docs/memory.md`).
+
+Wpływ na liczby: wyniki istniejących ekranów nie zmieniają się dla tych samych danych, z czterema wyjątkami: (1) ekran „Prognozy” nie ma już domyślnych danych demonstracyjnych — liczy z wpisanych punktów; (2) przy wpisaniu własnych średnich temperatur miesięcznych zmieniają się wyniki wszystkich ekranów liczących z temperatury godzinowej (uzysk paneli, Porównywarka, M7) w tej lokalizacji; (3) Porównywarka w trybie mikroinstalacji z włączonym doliczaniem ogrzewania bierze je z nowego ekranu „Bilans ciepła małego obiektu”, nie ze „Strat ciepła budynku”; (4) wybór materiału lub szablonu w „Stratach ciepła budynku” wstawia λ z biblioteki (orientacyjne, do weryfikacji) — U z warstw zależy od tego, co wpisano.
+
 ## [3.28.2] — 16.10.2026
 
 Ikony liniowe i napisy BOB na kaflach:
