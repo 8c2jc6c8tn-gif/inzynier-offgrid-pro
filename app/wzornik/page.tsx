@@ -8,6 +8,7 @@ import { StanBledu, StanLadowania, StanPusty } from "@/components/ui/stany"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { WerdyktBadge, WerdyktPanel } from "@/components/werdykt"
 import { KAFLE, USTAWIENIA_KAFEL } from "@/lib/pulpit/registry"
@@ -43,7 +44,7 @@ function Sekcja({ tytul, opis, children }: { tytul: string; opis?: string; child
 export default function WzornikPage() {
   const t = useTranslate()
   const { nazwaKafla } = useTekstyRejestru()
-  const ikonyNawigacji = ["☰", "📍", "📡", "⚙️", "🔔", "☀️", "🌙", "🖥️"]
+  const ikonyNawigacji = [IKONA.menu, IKONA.pin, IKONA.live, IKONA.sliders, IKONA.bell, IKONA.sun, IKONA.moon, IKONA.monitor]
   const ikonyModulow = KAFLE.map((k) => ({ ikona: k.ikona, nazwa: nazwaKafla(k) }))
 
   return (
@@ -236,9 +237,9 @@ export default function WzornikPage() {
             {ikonyNawigacji.map((ikona) => (
               <li
                 key={ikona}
-                className="flex h-10 w-10 items-center justify-center rounded-md border text-lg"
+                className="flex h-10 w-10 items-center justify-center rounded-md border"
               >
-                {ikona}
+                <Ikona nazwa={ikona} />
               </li>
             ))}
           </ul>

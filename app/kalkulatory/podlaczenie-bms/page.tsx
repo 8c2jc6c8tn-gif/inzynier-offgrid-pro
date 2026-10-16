@@ -13,6 +13,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 /** Schemat: kolejność podłączania BMS — wtyczka balansująca, potem B−, potem pre-charge do P−. */
 function PodlaczenieBmsIlustracja() {
@@ -213,7 +214,7 @@ export default function PodlaczenieBmsPage() {
 
       <ul className="flex flex-col gap-1 text-caption text-muted-foreground">
         {OSTRZEZENIA_STALE.map((w) => (
-          <li key={w}>🔴 {w}</li>
+          <li key={w}><ZnakStanu poziom="blad" />{w}</li>
         ))}
       </ul>
 

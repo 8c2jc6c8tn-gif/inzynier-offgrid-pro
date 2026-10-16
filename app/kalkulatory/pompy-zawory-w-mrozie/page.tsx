@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   temperaturaMiejscaC: string
@@ -177,7 +178,7 @@ export default function PompyZaworyWMroziePage() {
               <ul className="mt-2 flex flex-col gap-1 text-small">
                 {result.value.oceny.map((o) => (
                   <li key={o.id}>
-                    {o.zapasK === null ? "ℹ️" : o.zapasK < 0 ? "🟡" : "✅"} {o.nazwa}
+                    <ZnakStanu poziom={o.zapasK === null ? "info" : o.zapasK < 0 ? "uwaga" : "ok"} />{o.nazwa}
                     {o.zapasK === null ? ` ${t("UI-POMZAWWMRO-BRAK-DANYCH-KARTY")}` : ` ${t("UI-POMZAWWMRO-ZAPAS", { zapasK: f0(o.zapasK) })}`}
                   </li>
                 ))}

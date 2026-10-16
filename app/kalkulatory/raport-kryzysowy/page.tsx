@@ -17,6 +17,7 @@ import { KLUCZ_DRAFTU_SYMULACJI_MROZU, STAN_POCZATKOWY_SYMULACJI, type StanSymul
 import { useWynikSymulacjiMrozu } from "@/lib/stress-test/use-symulacja-mrozu"
 import { wynikDeficytowZeSzkicu, type PolaDeficytow } from "@/lib/stress-test/wejscie-deficytow"
 import { wejscieWspolczynnika, wynikWspolczynnikaZeSzkicu, type PolaWspolczynnika } from "@/lib/stress-test/wejscie-wspolczynnika"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
@@ -144,7 +145,7 @@ function Sekcja({ czesc, gotowa, children }: { czesc: CzescRaportu; gotowa: bool
   return (
     <section className="flex flex-col gap-1 rounded-lg border p-4 text-small">
       <h2 className="font-semibold">
-        {gotowa ? "✓" : "○"} {t(e.tytul)}
+        {gotowa ? <ZnakStanu poziom="ok" /> : "○ "}{t(e.tytul)}
       </h2>
       {gotowa ? children : <p className="text-muted-foreground">{t("UI-M7-RAPORT-BRAK")}</p>}
       <Link href={e.href} className="mt-1 w-fit underline print:hidden">

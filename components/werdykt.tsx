@@ -3,9 +3,10 @@ import type { Status } from "@/lib/core/calc-result"
 import { cn } from "@/lib/utils"
 import { TekstUi } from "@/components/ui/tekst-ui"
 import { BobStanu } from "@/components/ui/bob-stanu"
+import { Ikona, IKONA, type NazwaIkony } from "@/components/ui/ikona"
 
 /**
- * Werdykt trójstopniowy 🟢🟡🔴 (docs/standards/04-walidacja-i-twarde-stopy.md, 4.1) jako jeden
+ * Werdykt trójstopniowy (zielony / żółty / czerwony; docs/standards/04-walidacja-i-twarde-stopy.md, 4.1) jako jeden
  * reużywalny komponent zamiast kopiowanych klas Tailwind per ekran. Kolory idą przez tokeny CSS
  * (`--werdykt-*`, app/globals.css) — edytowalne w Ustawieniach/`/wzornik` (lib/wyglad/storage.ts)
  * i propagują się na każde miejsce w apce, które używa tego komponentu.
@@ -19,7 +20,8 @@ const STYL: Record<WerdyktPoziom, string> = {
   blad: "border-werdykt-blad-border bg-werdykt-blad-bg text-werdykt-blad-foreground",
 }
 
-export const WERDYKT_IKONA: Record<WerdyktPoziom, string> = { ok: "🟢", uwaga: "🟡", blad: "🔴" }
+/** Verdict shown by SHAPE as well as colour (tick / triangle / cross) — a colour-blind reader tells the levels apart. */
+export const WERDYKT_IKONA: Record<WerdyktPoziom, NazwaIkony> = { ok: IKONA.ok, uwaga: IKONA.warn, blad: IKONA.err }
 
 /** Default labels — `UI-WERDYKT-*` keys, rendered through `TekstUi` (this module stays server-safe). */
 const DOMYSLNA_ETYKIETA: Record<WerdyktPoziom, string> = {
@@ -51,7 +53,7 @@ export function WerdyktPanel({
     <div role="status" className={cn("flow-root rounded-lg border-2 p-4", STYL[poziom], className)}>
       <BobStanu stan={poziom} className="float-right ml-3 size-14" />
       <p className="flex items-center gap-2 font-medium">
-        <span aria-hidden="true">{WERDYKT_IKONA[poziom]}</span>
+        <Ikona nazwa={WERDYKT_IKONA[poziom]} />
         <span>{etykieta ?? <TekstUi kod={DOMYSLNA_ETYKIETA[poziom]} />}</span>
       </p>
       {children}
@@ -68,7 +70,7 @@ export function WerdyktBadge({ poziom, etykieta }: { poziom: WerdyktPoziom; etyk
         STYL[poziom],
       )}
     >
-      <span aria-hidden="true">{WERDYKT_IKONA[poziom]}</span>
+      <Ikona nazwa={WERDYKT_IKONA[poziom]} className="size-4" />
       {etykieta ?? <TekstUi kod={DOMYSLNA_ETYKIETA[poziom]} />}
     </span>
   )

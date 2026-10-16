@@ -10,6 +10,7 @@ import { WalutaWybor } from "@/components/waluta-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla } from "@/components/tekst-rejestru"
@@ -84,7 +85,7 @@ export default function UstawieniaPage() {
           className="mt-3 h-48 w-full rounded-lg object-cover object-top"
         />
         <h1 className="mt-2 text-h1 font-semibold">
-          <span aria-hidden="true">⚙️</span> {t("UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI")}
+          <Ikona nazwa={IKONA.sliders} className="mr-1 inline size-6 align-text-bottom" /> {t("UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI")}
         </h1>
         <p className="mt-1 text-small text-muted-foreground">
           {t("UI-UST-POKAZ-UKRYJ-MODUL")}

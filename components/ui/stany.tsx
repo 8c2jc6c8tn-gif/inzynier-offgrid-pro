@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { BobStanu } from "@/components/ui/bob-stanu"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 
 /**
  * Trzy stany brzegowe, których brakowało jako nazwanych komponentów (docs/brief-dla-v0.md,
@@ -60,7 +61,7 @@ export function StanBledu({
       )}
     >
       <p className="flex items-center gap-2 font-medium">
-        <span aria-hidden="true">🔴</span>
+        <Ikona nazwa={IKONA.err} />
         {tytul}
       </p>
       {children && <div className="mt-1">{children}</div>}

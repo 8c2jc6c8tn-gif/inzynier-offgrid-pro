@@ -15,6 +15,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   pojemnoscFalownikaUf: string
@@ -95,7 +96,7 @@ export default function ObwodPrechargePage() {
         </WerdyktPanel>
       )}
 
-      <p className="text-small text-werdykt-blad">🔴 {OSTRZEZENIE_BRAK_PRECHARGE}</p>
+      <p className="text-small text-werdykt-blad"><ZnakStanu poziom="blad" />{OSTRZEZENIE_BRAK_PRECHARGE}</p>
     </main>
   )
 }

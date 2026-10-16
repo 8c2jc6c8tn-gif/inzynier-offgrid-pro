@@ -10,6 +10,7 @@ import { KrokZMedia } from "@/components/wzorce/krok-z-media"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU, PrzelacznikSegmentu } from "@/components/siec/wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type Odnosnik = { href: string; label: string }
 /** `tytul`, `opis` and `label` are translation keys (`t()`). */
@@ -167,7 +168,7 @@ export default function SciezkaPrzejsciaPage() {
         <ul className="mt-2 flex flex-col gap-1 text-small">
           {KROKI.map((k) => (
             <li key={k.id}>
-              {stan.zrobione.includes(k.id) ? "✓" : "○"} {t(k.tytul)}
+              {stan.zrobione.includes(k.id) ? <ZnakStanu poziom="ok" /> : "○ "}{t(k.tytul)}
             </li>
           ))}
         </ul>

@@ -19,6 +19,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
 import { StanPusty } from "@/components/ui/stany"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
   potwierdzoneIds: string[]
@@ -92,7 +93,7 @@ export default function MomentDokrecaniaSrubPage() {
       </PoleSelect>
 
       {czyInne && (
-        <p className="text-small text-muted-foreground">⚠️ {OSTRZEZENIE_INNE_OGNIWO}</p>
+        <p className="text-small text-muted-foreground"><ZnakStanu poziom="uwaga" />{OSTRZEZENIE_INNE_OGNIWO}</p>
       )}
 
       <ListaChecklist
@@ -112,7 +113,7 @@ export default function MomentDokrecaniaSrubPage() {
 
       <ul className="flex flex-col gap-1 text-caption text-muted-foreground">
         {OSTRZEZENIA_STALE.map((w) => (
-          <li key={w}>⚠️ {w}</li>
+          <li key={w}><ZnakStanu poziom="uwaga" />{w}</li>
         ))}
       </ul>
 
