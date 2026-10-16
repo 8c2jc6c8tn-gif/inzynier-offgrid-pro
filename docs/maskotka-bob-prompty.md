@@ -2,6 +2,8 @@
 
 **Status:** zatwierdzone przez właściciela 16.10.2026 (decyzja D84 w `rejestr-decyzji.md`). Zakres: 12 ilustracji kafli (10 nowych, 2 przeróbki) i 7 dodatkowych (pozycje C), razem **19 promptów**. Obrazy generuje właściciel w narzędziu graficznym (GPT), Claude przycina, wycina tło, konwertuje i podpina.
 
+**Uzupełnienie 16.10.2026 (właściciel):** napis „BOB” (imię maskotki) jest stałym elementem postaci na kasku i na kamizelce, na każdym obrazie serii; wszystkie obrazy mają być przerobione tak, by go miały. Pozostałe napisy i liczby w obrazach nadal zakazane.
+
 ## Jak używać
 
 1. Do **każdego** generowania wklej najpierw blok „BOB — niezmienny opis” (niżej), a po nim prompt sceny.
@@ -12,11 +14,11 @@
 
 ## Blok „BOB — niezmienny opis” (wklejaj dosłownie, po angielsku)
 
-> BOB is a recurring friendly mascot character, an electrician and solar-installation engineer. A man in his early 30s, short dark brown hair, full well-groomed dark brown beard, warm confident smile, expressive eyes. He always wears: a bright yellow safety hard hat with a small white house-shaped logo on the front; a black hooded work sweatshirt; an orange hi-vis safety vest with silver reflective stripes and a small "BOB" name patch on the chest; black work gloves; brown work boots; a tool belt with pliers and screwdrivers. Style: semi-realistic 3D-animated cartoon, soft studio lighting, clean edges, natural vivid colours, exactly matching the attached reference image of Bob. Keep the face, proportions and outfit identical to the reference.
+> BOB is a recurring friendly mascot character, an electrician and solar-installation engineer. A man in his early 30s, short dark brown hair, full well-groomed dark brown beard, warm confident smile, expressive eyes. He always wears: a bright yellow safety hard hat with a small black house-shaped logo and a small black "BOB" name label below it on the front; a black hooded work sweatshirt; an orange hi-vis safety vest with silver reflective stripes and a small "BOB" name patch on the chest; black work gloves; brown work boots; a tool belt with pliers and screwdrivers. Style: semi-realistic 3D-animated cartoon, soft studio lighting, clean edges, natural vivid colours, exactly matching the attached reference image of Bob. Keep the face, proportions and outfit identical to the reference.
 
 ## Blok „Format i tło” (dopisuj do każdego promptu, po angielsku)
 
-> Format: portrait 2:3, 1024x1536 px. Transparent background (PNG with alpha), only the character and his props, no sky, no room, no floor except a small ground patch under the feet if the scene needs it, no frame, no border. Framing: from the knees up, face in the upper third of the image, character fills about 80% of the height. One large hero prop that reads clearly at 112 px, at most two small secondary props. No text anywhere except "BOB" on the vest patch; screens and displays show only graphics (bars, curves, icons), never words or numbers.
+> Format: portrait 2:3, 1024x1536 px. Transparent background (PNG with alpha), only the character and his props, no sky, no room, no floor except a small ground patch under the feet if the scene needs it, no frame, no border. Framing: from the knees up, face in the upper third of the image, character fills about 80% of the height. One large hero prop that reads clearly at 112 px, at most two small secondary props. No text anywhere except the small "BOB" labels on the hard hat and on the vest patch; screens and displays show only graphics (bars, curves, icons), never words or numbers.
 
 ## Mapa istniejących plików
 
