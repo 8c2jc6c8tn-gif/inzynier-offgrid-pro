@@ -99,6 +99,12 @@ export const pl = {
         gdzie: "Własne pomiary pyranometrem, miesięczne tabele z innego źródła (np. stacji pogodowej) albo wynik wcześniejszej analizy. Musi to być promieniowanie całkowite na płaszczyznę POZIOMĄ, nie na płaszczyznę paneli.",
         zakres: "Dodatnia liczba; puste = dane PVGIS. Aplikacja nie ocenia, czy wpisana wartość jest realistyczna — porównaj ją z wartością PVGIS pokazaną pod polem.",
       },
+      temperatura: {
+        nazwa: "Średnia temperatura powietrza w miesiącu [°C]",
+        cel: "Zastępuje średnią z PVGIS dla tego miesiąca: wszystkie temperatury godzinowe miesiąca przesuwam o tę samą różnicę, więc przebieg dobowy zostaje, a średnia równa się wpisanej.",
+        gdzie: "Własne pomiary termometrem, tabele z lokalnej stacji pogodowej albo inne źródło dla Twojego miejsca (np. wyższe lub niższe położenie niż punkt PVGIS).",
+        zakres: "Od −60 do 60 °C (granica odrzucająca pomyłki, nie wartość normowa); puste = dane PVGIS. Porównaj ze średnią PVGIS pokazaną pod polem.",
+      },
     },
   },
 }
@@ -197,6 +203,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Your own pyranometer measurements, monthly tables from another source (e.g. a weather station) or the result of an earlier analysis. It must be the global radiation on the HORIZONTAL plane, not on the panel plane.",
         zakres: "A positive number; empty = PVGIS data. The app does not judge whether the entered value is realistic — compare it with the PVGIS value shown under the field.",
       },
+      temperatura: {
+        nazwa: "Monthly mean air temperature [°C]",
+        cel: "Replaces the PVGIS mean for that month: all hourly temperatures of the month are shifted by the same difference, so the daily shape stays and the mean equals the typed value.",
+        gdzie: "Your own thermometer readings, tables from a local weather station or another source for your place (e.g. higher or lower than the PVGIS point).",
+        zakres: "−60 to 60 °C (a bound that rejects mistakes, not a norm value); empty = PVGIS data. Compare with the PVGIS mean shown under the field.",
+      },
     },
   },
 }
@@ -294,6 +306,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Заменяет сумму PVGIS за этот месяц во всех калькуляторах радиации в приложении.",
         gdzie: "Собственные измерения пиранометром, месячные таблицы из другого источника (например, метеостанции) или результат более раннего анализа. Это должна быть суммарная радиация на ГОРИЗОНТАЛЬНУЮ плоскость, а не на плоскость панелей.",
         zakres: "Положительное число; пусто = данные PVGIS. Приложение не оценивает, реалистично ли введённое значение, — сравните его со значением PVGIS под полем.",
+      },
+      temperatura: {
+        nazwa: "Средняя температура воздуха за месяц [°C]",
+        cel: "Заменяет среднюю из PVGIS за этот месяц: все часовые температуры месяца сдвигаются на одну и ту же разность, поэтому суточный ход сохраняется, а среднее равно введённому.",
+        gdzie: "Ваши измерения термометром, таблицы местной метеостанции или другой источник для вашего места (например, выше или ниже точки PVGIS).",
+        zakres: "От −60 до 60 °C (граница отсева ошибок, а не нормативное значение); пусто = данные PVGIS. Сравните со средней PVGIS под полем.",
       },
     },
   },

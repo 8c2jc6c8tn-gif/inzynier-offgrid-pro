@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import type { ZapisTmy } from "../dane-tmy"
-import { nadpisaniePasuje, sumyMiesieczneGhiKwhM2, zastosujNadpisanie, type NadpisanieNasloneczenia } from "../nadpisanie-nasloneczenia"
+import { czyPoprawnaTemperatura, nadpisaniePasuje, sredniaTempMiesieczneC, sumyMiesieczneGhiKwhM2, zastosujNadpisanie, type NadpisanieNasloneczenia } from "../nadpisanie-nasloneczenia"
 
 const rekord = (m: number, d: number, h: number, ghi: number, dni: number, dhi: number, tempC?: number) => ({
   czasUtcMs: Date.UTC(2010, m, d, h, 30),
@@ -69,5 +69,53 @@ describe("zastosujNadpisanie", () => {
     expect(nadpisaniePasuje(obce, 52, 21)).toBe(false)
     expect(zastosujNadpisanie(zapis, obce).dane.rekordy).toBe(zapis.dane.rekordy)
     expect(nadpisaniePasuje(wpis(puste), 52.005, 21.005)).toBe(true)
+  })
+})
+
+const wpisTemp = (tempSrednieC: (number | null)[], ghiKwhM2: (number | null)[] = puste): NadpisanieNasloneczenia => ({ szerokosc: 52, dlugosc: 21, ghiKwhM2, tempSrednieC })
+
+describe("temperatury miesięczne", () => {
+  it("średnie TMY: styczeń (−3 + −2) / 2 = −2,5, luty 0, miesiące bez rekordów null", () => {
+    const s = sredniaTempMiesieczneC(zapis.dane.rekordy)
+    expect(s[0]).toBeCloseTo(-2.5, 12)
+    expect(s[1]).toBeCloseTo(0, 12)
+    expect(s.slice(2).every((x) => x === null)).toBe(true)
+  })
+
+  it("styczeń −5 zamiast −2,5: przesunięcie −2,5 K, temperatury −5,5 i −4,5, średnia −5; promieniowanie i luty bez zmian", () => {
+    const w = zastosujNadpisanie(zapis, wpisTemp([-5, ...Array(11).fill(null)]))
+    expect(w.przesunieciaTempK[0]).toBeCloseTo(-2.5, 12)
+    expect(w.dane.rekordy[0]).toMatchObject({ tempC: -5.5, ghi: 500, dni: 600, dhi: 100 })
+    expect(w.dane.rekordy[1]).toMatchObject({ tempC: -4.5, ghi: 300 })
+    expect(w.dane.rekordy[2]).toEqual(zapis.dane.rekordy[2])
+    expect(sredniaTempMiesieczneC(w.dane.rekordy)[0]).toBeCloseTo(-5, 12)
+    expect(zapis.dane.rekordy[0]!.tempC).toBe(-3) // zapis wejściowy nie jest zmieniany
+  })
+
+  it("promieniowanie i temperatura naraz w tym samym miesiącu", () => {
+    const w = zastosujNadpisanie(zapis, wpisTemp([-5, ...Array(11).fill(null)], [1.6, ...Array(11).fill(null)]))
+    expect(w.dane.rekordy[0]).toMatchObject({ tempC: -5.5, ghi: 1000, dni: 1200, dhi: 200 })
+  })
+
+  it("miesiąc bez rekordów z temperaturą, wartość poza −60…60 °C i NaN są pomijane", () => {
+    const w = zastosujNadpisanie(zapis, wpisTemp([61, 0.5, 10, -61, Number.NaN, ...Array(7).fill(null)]))
+    expect(w.przesunieciaTempK[0]).toBeNull()
+    expect(w.przesunieciaTempK[1]).toBeCloseTo(0.5, 12)
+    expect(w.przesunieciaTempK[2]).toBeNull() // marzec: brak temperatur w TMY
+    expect(w.przesunieciaTempK[3]).toBeNull()
+    expect(w.dane.rekordy[0]).toEqual(zapis.dane.rekordy[0])
+  })
+
+  it("zapis sprzed zmiany (bez tempSrednieC) działa jak dotąd; temperatury z innej lokalizacji nie są stosowane", () => {
+    const stary = zastosujNadpisanie(zapis, wpis([1.6, ...Array(11).fill(null)]))
+    expect(stary.przesunieciaTempK.every((d) => d === null)).toBe(true)
+    expect(stary.dane.rekordy[0]).toMatchObject({ tempC: -3 })
+    const obce: NadpisanieNasloneczenia = { szerokosc: 40, dlugosc: 10, ghiKwhM2: Array(12).fill(null), tempSrednieC: [-5, ...Array(11).fill(null)] }
+    expect(zastosujNadpisanie(zapis, obce).dane.rekordy).toBe(zapis.dane.rekordy)
+  })
+
+  it("czyPoprawnaTemperatura: granice −60 i 60 włącznie, zero poprawne", () => {
+    expect([-60, 0, 60, 20.5].every(czyPoprawnaTemperatura)).toBe(true)
+    expect([-60.1, 60.1, Number.NaN, Number.POSITIVE_INFINITY, null, undefined].some(czyPoprawnaTemperatura)).toBe(false)
   })
 })

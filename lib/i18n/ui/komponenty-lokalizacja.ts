@@ -51,6 +51,12 @@ export const pl = {
   "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Skala względem PVGIS: ×{k}",
   "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "Wartość musi być dodatnia — pole jest pomijane.",
   "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Wróć do danych PVGIS",
+  "UI-SEKDANNAS-TEMP-TYTUL": "Własne średnie temperatury miesięczne",
+  "UI-SEKDANNAS-TEMP-OPIS": "Wpisz średnią temperaturę powietrza wybranych miesięcy (°C), jeśli Twoje miejsce jest cieplejsze albo zimniejsze niż punkt PVGIS. Temperatury godzinowe tego miesiąca przesuwam o tę samą różnicę — przebieg dobowy zostaje, średnia równa się wpisanej. Puste pole = dane PVGIS.",
+  "UI-SEKDANNAS-TEMP-PVGIS": "PVGIS: {temp} °C",
+  "UI-SEKDANNAS-TEMP-PRZESUNIECIE": "Przesunięcie: {dt} K",
+  "UI-SEKDANNAS-TEMP-NIEPOPRAWNE": "Wpisz temperaturę od −60 do 60 °C albo zostaw puste.",
+  "UI-SEKDANNAS-TEMP-AKTYWNE": "Własne temperatury: {n} mies.",
   "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Liczone z własnych sum miesięcznych ({n} z 12 miesięcy).",
 } as const
 
@@ -106,6 +112,12 @@ export const en: Record<Klucz, string> = {
   "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Scale relative to PVGIS: ×{k}",
   "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "The value must be positive — the field is ignored.",
   "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Back to PVGIS data",
+  "UI-SEKDANNAS-TEMP-TYTUL": "Own monthly mean temperatures",
+  "UI-SEKDANNAS-TEMP-OPIS": "Enter the mean air temperature of selected months (°C) if your place is warmer or colder than the PVGIS point. I shift the hourly temperatures of that month by the same difference — the daily shape stays, the mean equals the typed value. An empty field = PVGIS data.",
+  "UI-SEKDANNAS-TEMP-PVGIS": "PVGIS: {temp} °C",
+  "UI-SEKDANNAS-TEMP-PRZESUNIECIE": "Shift: {dt} K",
+  "UI-SEKDANNAS-TEMP-NIEPOPRAWNE": "Enter a temperature from −60 to 60 °C or leave it empty.",
+  "UI-SEKDANNAS-TEMP-AKTYWNE": "Own temperatures: {n} mo.",
   "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Calculated from your own monthly totals ({n} of 12 months).",
 }
 
@@ -159,5 +171,11 @@ export const ru: Record<Klucz, string> = {
   "UI-SEKDANNAS-NADPISANIE-WSPOLCZYNNIK": "Масштаб относительно PVGIS: ×{k}",
   "UI-SEKDANNAS-NADPISANIE-NIEPOPRAWNE": "Значение должно быть положительным — поле игнорируется.",
   "UI-SEKDANNAS-NADPISANIE-WYCZYSC": "Вернуться к данным PVGIS",
+  "UI-SEKDANNAS-TEMP-TYTUL": "Собственные средние месячные температуры",
+  "UI-SEKDANNAS-TEMP-OPIS": "Введите среднюю температуру воздуха выбранных месяцев (°C), если ваше место теплее или холоднее точки PVGIS. Часовые температуры этого месяца сдвигаю на одну и ту же разность — суточный ход сохраняется, среднее равно введённому. Пустое поле = данные PVGIS.",
+  "UI-SEKDANNAS-TEMP-PVGIS": "PVGIS: {temp} °C",
+  "UI-SEKDANNAS-TEMP-PRZESUNIECIE": "Сдвиг: {dt} К",
+  "UI-SEKDANNAS-TEMP-NIEPOPRAWNE": "Введите температуру от −60 до 60 °C или оставьте пустым.",
+  "UI-SEKDANNAS-TEMP-AKTYWNE": "Свои температуры: {n} мес.",
   "UI-SEKDANNAS-NADPISANIE-AKTYWNE": "Расчёт по вашим месячным суммам ({n} из 12 месяцев).",
 }

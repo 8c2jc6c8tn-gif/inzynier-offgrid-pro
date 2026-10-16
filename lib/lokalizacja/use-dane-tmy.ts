@@ -10,7 +10,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
 import { KLUCZ_BLEDU_PVGIS, KLUCZ_TMY, KOMUNIKAT_PVGIS, odczytajOdpowiedzProxy, type ZapisTmy } from "./dane-tmy"
-import { KLUCZ_NADPISANIA_NASLONECZNIENIA, zastosujNadpisanie, type NadpisanieNasloneczenia } from "./nadpisanie-nasloneczenia"
+import { KLUCZ_NADPISANIA_NASLONECZNIENIA, nadpisaniePasuje, zastosujNadpisanie, type NadpisanieNasloneczenia } from "./nadpisanie-nasloneczenia"
 
 export function useDaneTmy() {
   const t = useTranslate()
@@ -83,11 +83,30 @@ export function useDaneTmy() {
     return () => clearTimeout(uchwyt)
   }, [nadpisanie, nadpisanieWczytano])
 
-  /** Sets the user's monthly sums [kWh/m²] for the downloaded location (`null` = no override of that month). */
+  /** Sets the user's monthly sums [kWh/m²] for the downloaded location (`null` = no override of that month); keeps the typed temperatures. */
   const ustawNadpisanie = useCallback(
     (ghiKwhM2: (number | null)[]) => {
       if (!zapisSurowy) return
-      setNadpisanie({ szerokosc: zapisSurowy.szerokosc, dlugosc: zapisSurowy.dlugosc, ghiKwhM2 })
+      setNadpisanie((biezace) => ({
+        szerokosc: zapisSurowy.szerokosc,
+        dlugosc: zapisSurowy.dlugosc,
+        ghiKwhM2,
+        ...(nadpisaniePasuje(biezace, zapisSurowy.szerokosc, zapisSurowy.dlugosc) && biezace.tempSrednieC ? { tempSrednieC: biezace.tempSrednieC } : {}),
+      }))
+    },
+    [zapisSurowy],
+  )
+
+  /** Sets the user's monthly mean temperatures [°C] for the downloaded location (`null` = no override of that month); keeps the typed sums. */
+  const ustawNadpisanieTemperatur = useCallback(
+    (tempSrednieC: (number | null)[]) => {
+      if (!zapisSurowy) return
+      setNadpisanie((biezace) => ({
+        szerokosc: zapisSurowy.szerokosc,
+        dlugosc: zapisSurowy.dlugosc,
+        ghiKwhM2: nadpisaniePasuje(biezace, zapisSurowy.szerokosc, zapisSurowy.dlugosc) ? biezace.ghiKwhM2 : Array(12).fill(null),
+        tempSrednieC,
+      }))
     },
     [zapisSurowy],
   )
@@ -127,5 +146,5 @@ export function useDaneTmy() {
     }
   }, [])
 
-  return { zapis, wczytano, pobiera, blad: kluczBledu ? t(kluczBledu) : null, pobierz, nadpisanie, nadpisanieWczytano, ustawNadpisanie }
+  return { zapis, wczytano, pobiera, blad: kluczBledu ? t(kluczBledu) : null, pobierz, nadpisanie, nadpisanieWczytano, ustawNadpisanie, ustawNadpisanieTemperatur }
 }
