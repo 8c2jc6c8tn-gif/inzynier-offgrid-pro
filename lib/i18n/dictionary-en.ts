@@ -2151,6 +2151,8 @@ export const dictionaryEn = {
   "ODCZYT-SPRAWNOSC-NIEPRAWDOPODOBNA": "The power and dimensions give a module efficiency of {sprawnosc}%, which is unlikely. Check the power, length and width.",
   "ODCZYT-WSPOLCZYNNIK-DODATNI": "The temperature coefficient of voltage or power ({wartosc} %/°C) is normally negative. Check the sign.",
   "PORP-OBC-BRAK-NOSNOSCI": "Panel “{nazwa}” has no mechanical load rating on its datasheet (or none was entered), so I show the Eurocode load without a comparison.",
+  "PORP-PULAPKA-MOC-STC-ZIMA": "The highest datasheet (STC) power belongs to “{nazwaMoc}”, but in winter “{nazwaZima}” gives the most energy per installed kWp ({roznica}% more). The sticker power does not tell how much a panel gives in December — see the “Winter Nov–Feb” row.",
+  "PORP-PULAPKA-CENA-WP-ZIMA": "“{nazwaTanszaWp}” is the cheapest per Wp, but “{nazwaTanszaKwh}” has the cheapest winter kWh (the first one’s kWh is {roznica}% dearer). Price per Wp ignores how much a panel produces in winter.",
   "PORP-WYSOKOSC-NPM-POZA-ZAKRESEM": "Site altitude: a number from −50 to 2500 m.",
   "PORP-WYSOKOSC-KONSTRUKCJI-POZA-ZAKRESEM": "Height of the top edge of the panels above the ground: a number from 0.1 to 200 m.",
   "PORP-OBCIAZENIE-PANELU-POZA-ZAKRESEM": "Panel mechanical load: a number greater than zero [Pa].",

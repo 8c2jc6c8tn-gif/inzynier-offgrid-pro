@@ -28,13 +28,15 @@ import {
   liczbaPrzekraczaMiejscePorp,
   modelUproszczonyPorp,
   obciazenieBrakNosnosciPorp,
+  pulapkaCenaWpZimaPorp,
+  pulapkaMocStcZimaPorp,
   obciazeniePrzekraczaNosnoscPorp,
   oknoOdstepuBezSloncaPorp,
   panelSieNieMiesciPorp,
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.9.0"
+export const CALCULATOR_VERSION = "1.9.1"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -511,6 +513,8 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         }
       : null
 
+  warnings.push(...pulapkiOfert(panele))
+
   const uzyt = wymiary !== null ? wymiaryUzytkowe(wymiary) : null
   const assumptions: Assumption[] = [
     { kod: "PORP-ZAL-MODEL-NASLONECZNIENIA" },
@@ -703,4 +707,44 @@ function scenariuszZOsprzetem(i: {
     niepelny: drogi.niepelny || tani.niepelny,
     ...i.przelicz(dodatkowePaneleMin),
   }
+}
+
+/** Offer traps visible in the engine's own numbers (spec 55): two comparisons, no thresholds beyond a 1% difference in the shown number. */
+export function pulapkiOfert(panele: WynikPanelu[]): Warning[] {
+  const wynik: Warning[] = []
+  if (panele.length < 2) return wynik
+  const najlepszy = <T,>(lista: T[], klucz: (x: T) => number | null, wiekszeLepsze: boolean): T | null => {
+    let best: T | null = null
+    let bestV = 0
+    for (const x of lista) {
+      const v = klucz(x)
+      if (v === null || !Number.isFinite(v)) continue
+      if (best === null || (wiekszeLepsze ? v > bestV : v < bestV)) {
+        best = x
+        bestV = v
+      }
+    }
+    return best
+  }
+  const mocPaneluWp = (p: WynikPanelu) => (p.liczbaPaneli > 0 ? (p.mocKwp * 1000) / p.liczbaPaneli : null)
+  const zimaNaKwp = (p: WynikPanelu) => (p.mocKwp > 0 ? p.zimaKwh / p.mocKwp : null)
+  const moc = najlepszy(panele, mocPaneluWp, true)
+  const zima = najlepszy(panele, zimaNaKwp, true)
+  if (moc && zima && moc.id !== zima.id) {
+    const a = zimaNaKwp(moc)!
+    const b = zimaNaKwp(zima)!
+    const pct = a > 0 ? Math.round(((b - a) / a) * 100) : 0
+    if (pct >= 1) wynik.push(pulapkaMocStcZimaPorp(moc.nazwa, zima.nazwa, pct))
+  }
+  const tanszaWp = najlepszy(panele, (p) => p.cenaZaWpZl, false)
+  const tanszaKwh = najlepszy(panele, (p) => p.kosztZimowejKwhZl, false)
+  if (tanszaWp && tanszaKwh && tanszaWp.id !== tanszaKwh.id) {
+    const a = tanszaWp.kosztZimowejKwhZl
+    const b = tanszaKwh.kosztZimowejKwhZl
+    if (a !== null && b !== null && b > 0) {
+      const pct = Math.round(((a - b) / b) * 100)
+      if (pct >= 1) wynik.push(pulapkaCenaWpZimaPorp(tanszaWp.nazwa, tanszaKwh.nazwa, pct))
+    }
+  }
+  return wynik
 }

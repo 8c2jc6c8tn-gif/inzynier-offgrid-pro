@@ -2163,6 +2163,8 @@ export const dictionaryPl = {
   "ODCZYT-SPRAWNOSC-NIEPRAWDOPODOBNA": "Z mocy i wymiarów wychodzi sprawność modułu {sprawnosc}%, co jest mało prawdopodobne. Sprawdź moc, długość i szerokość.",
   "ODCZYT-WSPOLCZYNNIK-DODATNI": "Współczynnik temperaturowy napięcia lub mocy ({wartosc} %/°C) jest zwykle ujemny. Sprawdź znak.",
   "PORP-OBC-BRAK-NOSNOSCI": "Panel „{nazwa}” nie ma na karcie obciążenia mechanicznego (albo go nie wpisano), więc obciążenie z Eurokodu pokazuję bez porównania.",
+  "PORP-PULAPKA-MOC-STC-ZIMA": "Najwyższą moc z karty (STC) ma „{nazwaMoc}”, ale zimą z każdego zainstalowanego kWp najwięcej energii daje „{nazwaZima}” (o {roznica}% więcej). Moc z naklejki nie mówi, ile panel da w grudniu — patrz wiersz „Zima XI–II”.",
+  "PORP-PULAPKA-CENA-WP-ZIMA": "Najtańszy za 1 Wp jest „{nazwaTanszaWp}”, ale najtańszą zimową kWh ma „{nazwaTanszaKwh}” (kWh z pierwszego jest o {roznica}% droższa). Cena za Wp nie uwzględnia tego, ile panel produkuje zimą.",
   "PORP-WYSOKOSC-NPM-POZA-ZAKRESEM": "Wysokość miejsca n.p.m.: liczba od −50 do 2500 m.",
   "PORP-WYSOKOSC-KONSTRUKCJI-POZA-ZAKRESEM": "Wysokość górnej krawędzi paneli nad gruntem: liczba od 0,1 do 200 m.",
   "PORP-OBCIAZENIE-PANELU-POZA-ZAKRESEM": "Obciążenie mechaniczne panelu: liczba większa od zera [Pa].",
