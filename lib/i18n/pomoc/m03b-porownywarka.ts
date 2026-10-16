@@ -221,6 +221,8 @@ export const pl = {
         gdzie: "Karta katalogowa, wiersz „maximum series fuse rating”.",
         zakres: "Opcjonalnie. Gdy karta go nie podaje, zostaw puste — przedziału bezpiecznika nie wyznaczę.",
       },
+      urzAkumPojemnosc: { nazwa: "Pojemność akumulatora [Ah]", cel: "Z niej liczę szybkość ładowania (C = prąd ÷ pojemność).", gdzie: "Z karty akumulatora; puste = pojemność nieznana (bez szybkości ładowania C).", zakres: "> 0. Twój akumulator." },
+      urzAkumMaksPrad: { nazwa: "Maks. prąd ładowania akumulatora [A]", cel: "Ogranicza prąd ładowania poniżej tego, co dałyby panele i regulator.", gdzie: "Z karty akumulatora (maksymalny prąd ładowania); puste = limit nieznany, nie zgaduję.", zakres: "> 0. Twój akumulator." },
       urzAkumulator: {
         nazwa: "Napięcie akumulatora [V]",
         cel: "Regulator MPPT ma w karcie osobną nominalną moc PV dla każdego napięcia akumulatora (12, 24, 48 V). Wybrane napięcie wskazuje wiersz tabeli, z którym porównuję moc paneli.",
@@ -814,6 +816,8 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "Datasheet, the “maximum series fuse rating” row.",
         zakres: "Optional. If the datasheet does not give it, leave it empty — I will not determine the fuse range.",
       },
+      urzAkumPojemnosc: { nazwa: "Battery capacity [Ah]", cel: "I use it for the charging rate (C = current ÷ capacity).", gdzie: "From the battery datasheet; empty = capacity unknown (no charging rate C).", zakres: "> 0. Your battery." },
+      urzAkumMaksPrad: { nazwa: "Maximum battery charging current [A]", cel: "Limits the charging current below what the panels and the regulator would give.", gdzie: "From the battery datasheet (maximum charging current); empty = limit unknown, I do not guess.", zakres: "> 0. Your battery." },
       urzAkumulator: {
         nazwa: "Battery voltage [V]",
         cel: "The MPPT controller datasheet gives a separate nominal PV power for each battery voltage (12, 24, 48 V). The chosen voltage selects the table row I compare the panel power with.",
@@ -1407,6 +1411,8 @@ export const ru: Tlumaczenie<typeof pl> = {
         gdzie: "Паспорт, строка «maximum series fuse rating».",
         zakres: "Необязательно. Если паспорт его не указывает, оставьте пустым — диапазон предохранителя не определю.",
       },
+      urzAkumPojemnosc: { nazwa: "Ёмкость аккумулятора [А·ч]", cel: "По ней считаю скорость зарядки (C = ток ÷ ёмкость).", gdzie: "Из паспорта аккумулятора; пусто = ёмкость неизвестна (без скорости зарядки C).", zakres: "> 0. Ваш аккумулятор." },
+      urzAkumMaksPrad: { nazwa: "Макс. ток зарядки аккумулятора [А]", cel: "Ограничивает ток зарядки ниже того, что дали бы панели и контроллер.", gdzie: "Из паспорта аккумулятора (максимальный ток зарядки); пусто = лимит неизвестен, не угадываю.", zakres: "> 0. Ваш аккумулятор." },
       urzAkumulator: {
         nazwa: "Напряжение аккумулятора [В]",
         cel: "В паспорте контроллера MPPT для каждого напряжения аккумулятора (12, 24, 48 В) указана своя номинальная мощность PV. Выбранное напряжение определяет строку таблицы, с которой я сравниваю мощность панелей.",

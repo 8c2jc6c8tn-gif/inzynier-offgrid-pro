@@ -120,6 +120,8 @@ export function oczyscStan(surowy: unknown): FormularzStan | null {
     bil: Object.fromEntries(Object.entries(BILANS_PUSTY).map(([kl, domyslny]) => [kl, tekst(b?.[kl], domyslny)])) as unknown as FormularzStan["bil"],
     urzadzenieId: znajdzUrzadzeniePv(urzadzenieId) ? urzadzenieId : "",
     akumV: tekst(s.akumV, ""),
+    akumPojemnoscAh: tekst(s.akumPojemnoscAh, ""),
+    akumMaksPradA: tekst(s.akumMaksPradA, ""),
     trasaM: tekst(s.trasaM, ""),
     cenaUrzadzenia: tekst(s.cenaUrzadzenia, ""),
     ...(bosWylaczone ? { bosWylaczone } : {}),

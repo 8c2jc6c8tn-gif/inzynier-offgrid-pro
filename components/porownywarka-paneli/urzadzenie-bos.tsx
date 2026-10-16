@@ -11,6 +11,7 @@ import type { LimityWejsciaPv, OcenaWariantuUrzadzenia } from "@/lib/core/module
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { useTranslate, useSymbolWaluty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
+import { ladowanieAkumulatoraPaneli } from "@/lib/porownywarka-paneli/ladowanie-akumulatora"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import { kluczUkladu, podsumujUrzadzenie, wylaczoneBos, type PanelNaUrzadzeniu } from "@/lib/porownywarka-paneli/urzadzenie"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
@@ -34,6 +35,12 @@ const KLUCZ_JEDNOSTKI = {
   zestaw: "UI-PORP-URZ-J-ZESTAW",
   szt: "UI-PORP-URZ-J-SZT",
   panel: "UI-PORP-URZ-J-PANEL",
+} as const
+
+const KLUCZ_OGRANICZENIA_LADOWANIA = {
+  panele: "UI-LADREG-OGRANICZA-PANELE",
+  regulator: "UI-LADREG-OGRANICZA-REGULATOR",
+  akumulator: "UI-LADREG-OGRANICZA-AKUMULATOR",
 } as const
 
 type Tlumacz = ReturnType<typeof useTranslate>
@@ -71,6 +78,25 @@ export function UrzadzenieIBos(p: {
   const wylaczone = wylaczoneBos(stan)
   const akumV = liczba(stan.akumV ?? "") ?? null
   const wymagaAkumulatora = urzadzenie !== undefined && (urzadzenie.napieciaAkumulatoraV?.length ?? 0) > 1 && urzadzenie.mocPvNominalna !== null
+
+  const ladowanie = useMemo(
+    () =>
+      ladowanieAkumulatoraPaneli({
+        urzadzenie,
+        limity,
+        akumV,
+        pojemnoscAh: liczba(stan.akumPojemnoscAh ?? "") ?? null,
+        maksPradAkumulatoraA: liczba(stan.akumMaksPradA ?? "") ?? null,
+        panele: (podsumowanie?.panele ?? []).map((x) => ({
+          id: x.wynik.id,
+          nazwa: x.wynik.nazwa,
+          liczbaPaneli: x.wynik.liczbaPaneli,
+          mocKwp: x.wynik.mocKwp,
+          liczbaUrzadzen: x.dopasowanie.proponowany === null ? null : x.dopasowanie.warianty[x.dopasowanie.proponowany]!.liczbaUrzadzen,
+        })),
+      }),
+    [urzadzenie, limity, akumV, stan.akumPojemnoscAh, stan.akumMaksPradA, podsumowanie],
+  )
 
   const maDaneElektryczne = p.dane.some((x) => x.elektryka)
   // Results carry the electrics only when the lowest temperature is typed, so "no results at all" means that temperature is missing.
@@ -154,6 +180,52 @@ export function UrzadzenieIBos(p: {
           waluta={waluta}
         />
       ))}
+
+      {urzadzenie && ladowanie && (
+        <section className="flex flex-col gap-3 rounded-lg border p-3">
+          <h3 className="text-small font-medium">{t("UI-PORP-URZ-LAD-TYTUL", { v: ladowanie.napiecieV })}</h3>
+          <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-LAD-OPIS")}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Pole
+              label={t("UI-PORP-URZ-LAD-POJEMNOSC")}
+              unit="Ah"
+              type="number"
+              inputMode="decimal"
+              step="any"
+              min="0"
+              value={stan.akumPojemnoscAh ?? ""}
+              onChange={(e) => ustaw("akumPojemnoscAh", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="urzAkumPojemnosc" />}
+            />
+            <Pole
+              label={t("UI-PORP-URZ-LAD-MAKS-PRAD")}
+              unit="A"
+              type="number"
+              inputMode="decimal"
+              step="any"
+              min="0"
+              value={stan.akumMaksPradA ?? ""}
+              onChange={(e) => ustaw("akumMaksPradA", e.target.value)}
+              pomoc={<PomocPola ekran="porownywarka-paneli" pole="urzAkumMaksPrad" />}
+            />
+          </div>
+          <ul className="flex flex-col gap-2 text-small">
+            {ladowanie.wiersze.map((w) => (
+              <li key={w.panel.id} className="rounded-md border p-2">
+                <p className="font-medium">{t("UI-PORP-ELE-PANEL", { nazwa: w.panel.nazwa, n: w.panel.liczbaPaneli })}</p>
+                <p>
+                  {t("UI-PORP-URZ-LAD-WYNIK", { prad: f1(w.wynik.pradLadowaniaA), moc: f0(w.wynik.mocLadowaniaW) })}{" "}
+                  {t(KLUCZ_OGRANICZENIA_LADOWANIA[w.wynik.ograniczenie])}
+                </p>
+                {w.wynik.nadmiarMocyW > 0 && <p className="text-muted-foreground">{t("UI-PORP-URZ-LAD-NADMIAR", { n: f0(w.wynik.nadmiarMocyW) })}</p>}
+                {w.wynik.wymagaLimituWRegulatorze && <p className="text-muted-foreground">{t("UI-PORP-URZ-LAD-LIMIT-REGULATOR")}</p>}
+                {w.wynik.cRate !== null && <p className="text-muted-foreground">{t("UI-PORP-URZ-LAD-C", { c: f2(w.wynik.cRate) })}</p>}
+              </li>
+            ))}
+          </ul>
+          <p className="text-caption text-muted-foreground">{t("UI-PORP-URZ-LAD-NOTA")}</p>
+        </section>
+      )}
 
       {urzadzenie && !mikro && (
         <details className="rounded-lg border p-3">
