@@ -1196,6 +1196,8 @@ export const dictionaryEn = {
   "NP-ZALOZENIE-PRACA-CIAGLA": "Running hours = heat ÷ heat output at the entered setting (continuous running at that output). With a lower output or thermostat cycling, hours, fuel and auxiliary electricity will differ — enter the data of the setting it really runs at.",
   "NP-ZALOZENIE-COP-OPOROWE": "Electric heating is calculated as resistive heating (element, boiler, panel): COP = {cop}, as in the heating cost comparison. For a heat pump enter its COP.",
   "PROGNOZY-ZALOZENIE-DANE-DEMO": "Demonstration data — eventually the screen will draw on the annual simulation engine and a live weather forecast.",
+  "PROGNOZY-WARTOSC-UJEMNA": "The production and consumption power in the window starting at {godzina}:00 must be a number not less than 0.",
+  "PROGNOZY-ZALOZENIE-DANE-WPISANE": "You typed the forecast points (mean power in a 3 h window) yourself — the app does not judge whether they are realistic; eventually the screen will be able to take them from the annual simulation and the weather forecast.",
   "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Each point is the average power over its 3-hour window — energy = power × 3 h, summed over the points. This is 3-hour sampling, not the full hourly curve — indicative, not a detailed design.",
   "AUDYT-POZYCJA": "{kategoria} — {element}: {opis}",
   "PROTOKOLY-NIEZGODNE": "The BMS speaks {bms} and the inverter speaks {falownik} — the inverter cannot read SoC directly. A protocol converter between them is needed.",

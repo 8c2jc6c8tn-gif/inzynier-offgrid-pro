@@ -1208,6 +1208,8 @@ export const dictionaryPl = {
   "NP-ZALOZENIE-PRACA-CIAGLA": "Godziny pracy = ciepło ÷ moc cieplna przy wpisanym ustawieniu (praca ciągła na tej mocy). Przy pracy na niższej mocy lub taktowaniu termostatem godzin, paliwa i prądu pomocniczego będzie inaczej — wpisz dane dla ustawienia, na którym naprawdę pracuje.",
   "NP-ZALOZENIE-COP-OPOROWE": "Ogrzewanie elektryczne policzone jak grzanie oporowe (grzałka, kocioł, promiennik): COP = {cop}, jak w porównaniu kosztów ogrzewania. Dla pompy ciepła wpisz jej COP.",
   "PROGNOZY-ZALOZENIE-DANE-DEMO": "Dane demonstracyjne — docelowo ekran czerpie z silnika symulacji rocznej i prognozy pogody live.",
+  "PROGNOZY-WARTOSC-UJEMNA": "Moc produkcji i zużycia w oknie od godziny {godzina}:00 musi być liczbą nie mniejszą niż 0.",
+  "PROGNOZY-ZALOZENIE-DANE-WPISANE": "Punkty prognozy (średnia moc w oknie 3 h) wpisałeś sam — aplikacja nie ocenia, czy są realistyczne; docelowo ekran będzie mógł czerpać je z symulacji rocznej i prognozy pogody.",
   "PROGNOZY-ZALOZENIE-PROBKOWANIE-3H": "Każdy punkt to średnia moc w swoim 3-godzinnym oknie — energia = moc × 3 h, zsumowana po punktach. To próbkowanie co 3 h, nie pełna krzywa godzinowa — orientacyjnie, nie jako projekt wykonawczy.",
   "AUDYT-POZYCJA": "{kategoria} — {element}: {opis}",
   "PROTOKOLY-NIEZGODNE": "BMS mówi {bms}, a falownik {falownik} — falownik nie odczyta SoC bezpośrednio. Potrzebny konwerter protokołu między nimi.",

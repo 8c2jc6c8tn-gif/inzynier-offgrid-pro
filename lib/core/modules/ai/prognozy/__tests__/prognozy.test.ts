@@ -39,4 +39,18 @@ describe("calculatePrognozy", () => {
     expect(result.value.zuzycieLaczneKwh).toBeCloseTo(26.1, 6)
     expect(result.value.bilansKwh).toBeCloseTo(1.2, 6)
   })
+
+  it("wersja 1.2.0: dane wpisane przez użytkownika mają założenie „wpisane”, a demo — „demo”", () => {
+    const punkty = [{ godzina: 0, produkcjaKw: 1, zuzycieKw: 2 }]
+    expect(calculatePrognozy(punkty, "wpisane").assumptions).toContainEqual({ kod: "PROGNOZY-ZALOZENIE-DANE-WPISANE" })
+    expect(calculatePrognozy(punkty, "wpisane").assumptions).not.toContainEqual({ kod: "PROGNOZY-ZALOZENIE-DANE-DEMO" })
+    expect(calculatePrognozy(punkty).assumptions).toContainEqual({ kod: "PROGNOZY-ZALOZENIE-DANE-DEMO" })
+  })
+
+  it("moc ujemna albo nieskończona → INVALID_INPUT z godziną okna", () => {
+    const r = calculatePrognozy([{ godzina: 0, produkcjaKw: 1, zuzycieKw: 1 }, { godzina: 3, produkcjaKw: -0.1, zuzycieKw: 1 }], "wpisane")
+    expect(r.status).toBe("INVALID_INPUT")
+    expect(r.warnings[0]).toMatchObject({ code: "PROGNOZY-WARTOSC-UJEMNA", params: { godzina: 3 } })
+    expect(calculatePrognozy([{ godzina: 0, produkcjaKw: Number.POSITIVE_INFINITY, zuzycieKw: 1 }], "wpisane").status).toBe("INVALID_INPUT")
+  })
 })
