@@ -84,10 +84,10 @@ export default function PulpitPage() {
                 <Link
                   href={`/moduly/${kafel.id}`}
                   data-karta
-                  className="flex h-full min-h-28 flex-col items-center justify-start gap-2 rounded-lg border p-4 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+                  className="flex h-full min-h-28 flex-col items-center justify-start gap-1.5 rounded-lg border p-2.5 text-center transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
                   {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
-                    <span className="block size-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+                    <span className="block aspect-square w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
                       <img
                         src={MASKOTKA_PO_ID_KAFLA[kafel.id]}
                         alt=""
@@ -95,7 +95,7 @@ export default function PulpitPage() {
                       />
                     </span>
                   ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
-                    <span className="block overflow-hidden rounded-md" aria-hidden="true">
+                    <span className="block w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
                       <KafelIkonaSvg kafelId={kafel.id} />
                     </span>
                   ) : (

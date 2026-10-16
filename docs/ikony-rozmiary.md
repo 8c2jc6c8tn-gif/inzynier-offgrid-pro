@@ -1,6 +1,6 @@
 # Rozmiary ikon — skala i zasady
 
-**Status:** obowiązuje od 16.10.2026, decyzja D83 w `rejestr-decyzji.md` (na polecenie właściciela: „ustalić standard ikonek dla różnych wielkości ekranów”).
+**Status:** obowiązuje od 16.10.2026 (układ kafla C wybrany przez właściciela tego samego dnia), decyzja D83 w `rejestr-decyzji.md` (na polecenie właściciela: „ustalić standard ikonek dla różnych wielkości ekranów”).
 
 ## Dlaczego
 
@@ -15,7 +15,7 @@ Wyłącznie wielokrotności 4 px: 16 · 20 · 24 · 32 · 48 · 64 · 80 · 96 �
 | `--ikona-xs` | 16 px | drobne znaczniki w tekście |
 | `--ikona-s` | 20 px | gęste tabele, kompaktowe wiersze |
 | `--ikona-ui` | 24 px | ikony interfejsu (przyciski, menu, „?”, „i”), na każdym ekranie |
-| `--ikona-kafel` | 80 / 96 / 112 px | ilustracja kafla pulpitu: telefon (<640 px) / tablet (≥640 px) / desktop (≥1024 px) |
+| `--ikona-kafel` | 112 / 128 px | górny limit ilustracji kafla pulpitu: telefon (<640 px) / od 640 px. Ilustracja wypełnia szerokość kafla (układ C) i nie przekracza limitu |
 
 Cel dotykowy przycisku z ikoną ma co najmniej 44×44 px; sama ikona 24 px leży w jego środku.
 
@@ -23,8 +23,8 @@ Cel dotykowy przycisku z ikoną ma co najmniej 44×44 px; sama ikona 24 px leży
 
 1. Rozmiar bierzemy z tokenu. Liczba wpisana w komponencie (`size={44}`, `h-16 w-16`) jest błędem.
 2. SVG jest wektorowy, więc gęstość pikseli ekranu (1×, 2×, 3×) nie wymaga osobnych plików. Raster zostaje tylko tam, gdzie system tego wymaga: ikony PWA (192, 512, maskable), `apple-icon` 180, favicon 32.
-3. Rozmiar ilustracji kafla rośnie z szerokością ekranu, rozmiar ikony interfejsu nie.
-4. Minimum czytelności ilustracji kafla to 80 px. Poniżej tego potrzebny jest osobny, uproszczony wariant (bez napisów i cienkich konturów), nie samo zmniejszenie.
+3. Ilustracja kafla wypełnia jego szerokość do limitu z tokenu (układ C, wybrany przez właściciela 16.10.2026), rozmiar ikony interfejsu stały 24 px.
+4. Minimum czytelności ilustracji kafla to 80 px (na bardzo wąskich ekranach ilustracja kurczy się razem z kaflem, ale nie poniżej ok. 100 px dzięki ciasnemu paddingu kafla). Poniżej tego potrzebny jest osobny, uproszczony wariant (bez napisów i cienkich konturów), nie samo zmniejszenie.
 5. Grubość kreski liczymy względem rozmiaru wyświetlania. Ikona rysowana pod 24 px ma kreskę 1,5–2 px.
 6. Ikona, nazwa i plakietka w kaflu są wycentrowane w poziomie; kafle w jednym rzędzie mają tę samą wysokość (`h-full`).
 7. Wspólna linia: ikona zawsze przy górze kafla, więc w rzędzie wszystkie leżą na jednej wysokości. Pod nią stałe pole na dwie linie nazwy (`min-h-[2.5em]`); nazwa jednoliniowa centruje się w tym polu w pionie.

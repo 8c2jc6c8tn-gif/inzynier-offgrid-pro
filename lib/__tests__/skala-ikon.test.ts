@@ -18,17 +18,16 @@ describe("skala rozmiarów ikon (D83)", () => {
     for (const px of wartosci) expect(SKALA_PX).toContain(px)
   })
 
-  it("the tile icon grows with the screen: phone < tablet < desktop", () => {
-    const [telefon, tablet, desktop] = wartosciTokenu("ikona-kafel")
+  it("the tile icon cap does not shrink with the screen: phone < tablet", () => {
+    const [telefon, tablet] = wartosciTokenu("ikona-kafel")
     expect(telefon).toBeGreaterThanOrEqual(80)
     expect(tablet).toBeGreaterThan(telefon)
-    expect(desktop).toBeGreaterThan(tablet)
   })
 
-  it("the tile icon component takes its size from the token, not from a number in code", () => {
+  it("the tile icon takes its size from the token (CSS cap), not from a number in code", () => {
     const komponent = readFileSync(path.join(korzen, "components/kafle-ikony/ikona.tsx"), "utf8")
     expect(komponent).not.toMatch(/width=|height=|size\s*=\s*\d/)
-    const css = readFileSync(path.join(korzen, "components/kafle-ikony/kafle-ikony.css"), "utf8")
-    expect(css).toContain("var(--ikona-kafel)")
+    const pulpit = readFileSync(path.join(korzen, "app/page.tsx"), "utf8")
+    expect(pulpit).toContain("max-w-(--ikona-kafel)")
   })
 })

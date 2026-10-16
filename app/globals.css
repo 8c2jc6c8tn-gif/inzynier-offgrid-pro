@@ -78,22 +78,17 @@
 }
 
 /* Skala rozmiarów ikon (D83, docs/ikony-rozmiary.md). Wyłącznie wielokrotności 4 px; komponenty
-   biorą rozmiar z tych zmiennych, nie z liczby wpisanej w kodzie. Kafel pulpitu rośnie z szerokością
-   ekranu (progi jak sm/lg Tailwinda), ikona interfejsu zostaje 24 px na każdym ekranie. */
+   biorą rozmiar z tych zmiennych, nie z liczby wpisanej w kodzie. Kafel pulpitu: górny limit
+   ilustracji, która wypełnia szerokość kafla (próg jak sm Tailwinda), ikona interfejsu zostaje 24 px na każdym ekranie. */
 :root {
   --ikona-xs: 16px;
   --ikona-s: 20px;
   --ikona-ui: 24px;
-  --ikona-kafel: 80px;
+  --ikona-kafel: 112px;
 }
 @media (min-width: 640px) {
   :root {
-    --ikona-kafel: 96px;
-  }
-}
-@media (min-width: 1024px) {
-  :root {
-    --ikona-kafel: 112px;
+    --ikona-kafel: 128px;
   }
 }
 
