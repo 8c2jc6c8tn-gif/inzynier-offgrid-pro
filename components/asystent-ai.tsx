@@ -14,6 +14,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { BobStanu } from "@/components/ui/bob-stanu"
+import { Ikona } from "@/components/ui/ikona"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
@@ -76,7 +77,7 @@ export function AsystentAi() {
               aria-label={t("UI-ASYAI-ZAMKNIJ-ASYSTENTA")}
               onClick={() => setOtwarty(false)}
             >
-              ✕
+              <Ikona nazwa="x" />
             </Button>
           </div>
           <Pole
@@ -110,7 +111,7 @@ export function AsystentAi() {
         aria-expanded={otwarty}
         onClick={() => setOtwarty((v) => !v)}
       >
-        {otwarty ? "✕" : <BobStanu stan="asystent" className="size-full rounded-full object-cover object-top" />}
+        {otwarty ? <Ikona nazwa="x" className="size-6" /> : <BobStanu stan="asystent" className="size-full rounded-full object-cover object-top" />}
       </Button>
     </div>
   )
