@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { SZABLONY } from "@/lib/core/modules/kalkulator-mobilny/szablony-zestawow/constants"
-import { pozycjeZSzablonu } from "../szablon-do-listy"
+import { obiektMikroinstalacji, pozycjeZSzablonu } from "../szablon-do-listy"
 
 const nazwa = (klucz: string) => `PL:${klucz}`
 let n = 0
@@ -25,5 +25,21 @@ describe("pozycjeZSzablonu", () => {
   it("does not add the same name twice within one template", () => {
     const wiersze = pozycjeZSzablonu("jacht", () => "to samo", [], id)
     expect(wiersze).toHaveLength(1)
+  })
+
+  it("with a micro-installation kind every new row belongs to that site only; without it the rows belong to every site", () => {
+    const dla = pozycjeZSzablonu("kamper", nazwa, [], id, "kamper")
+    expect(dla.every((w) => w.obiekty?.length === 1 && w.obiekty[0] === "kamper")).toBe(true)
+    const bez = pozycjeZSzablonu("kamper", nazwa, [], id)
+    expect(bez.every((w) => w.obiekty === undefined)).toBe(true)
+  })
+
+  it("obiektMikroinstalacji: kamper, altana i garaż tak; budynek i brak wyboru nie", () => {
+    expect(obiektMikroinstalacji("kamper")).toBe("kamper")
+    expect(obiektMikroinstalacji("altana-rod")).toBe("altana-rod")
+    expect(obiektMikroinstalacji("garaz")).toBe("garaz")
+    expect(obiektMikroinstalacji("budynek")).toBeNull()
+    expect(obiektMikroinstalacji("")).toBeNull()
+    expect(obiektMikroinstalacji(undefined)).toBeNull()
   })
 })
