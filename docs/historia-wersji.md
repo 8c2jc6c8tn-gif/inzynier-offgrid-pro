@@ -7,7 +7,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 Ikony liniowe i napisy BOB na kaflach:
 - komponent `Ikona` (`components/ui/ikona.tsx`) z 26 ikonami liniowymi na siatce 24 px, rysowanymi kolorem tekstu (`currentColor`), więc zmieniają kolor razem ze stylem aplikacji; nazwy ikon w stałych `IKONA`, żeby komponenty nie przekazywały gołych tekstów (strażnik i18n 17.1a),
 - w interfejsie emoji zastąpiły ikony: 🔔 w nagłówku pulpitu, ✕ w oknie i na przycisku asystenta AI oraz przy punktach lokalizacji, ← na stronie 404 (reszta emoji w kolejnym pakiecie),
-- kafle 1, 2, 4, 8, 12, 13, 14 i 15 mają nowe obrazy Boba z napisem BOB na kasku i plakietką na kamizelce (kafel 3 i baner modułu 7 czekają na nowe wersje).
+- kafle 1, 2, 4, 8, 12, 13, 14 i 15 mają nowe obrazy Boba z napisem BOB na kasku i plakietką na kamizelce (kafel 3 i baner modułu 7 zostają bez zmian: właściciel potwierdził, że zestaw jest zgodny).
 
 Wpływ na liczby: brak — zmiana wyglądu.
 
