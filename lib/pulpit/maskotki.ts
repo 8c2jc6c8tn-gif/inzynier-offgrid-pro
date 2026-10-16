@@ -18,7 +18,9 @@ export const BANER_MODULU_PO_ID_KAFLA: Record<number, string> = {
 }
 
 export const MASKOTKA_PO_ID_KAFLA: Record<number, string> = {
+  1: "/maskotki-bob/modul-01.webp",
   3: "/maskotki-bob/modul-03.webp",
+  4: "/maskotki-bob/modul-04.webp",
   5: "/maskotki-bob/modul-05.webp",
   6: "/maskotki-bob/modul-06.webp",
   7: "/maskotki-bob/modul-07.webp",
