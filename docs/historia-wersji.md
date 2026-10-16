@@ -7,6 +7,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 Skala rozmiarów ikon (D83, `docs/ikony-rozmiary.md`):
 - ilustracje kafli pulpitu wypełniają szerokość kafla (układ C wybrany przez właściciela), do limitu 112 px na telefonie i 128 px od 640 px szerokości (wcześniej 44 px, przez co kreski i napisy były rozmyte); maskotki na kaflach używają tego samego rozmiaru,
 - kafle pulpitu mają ikonę, nazwę i plakietkę PRO wycentrowane w poziomie, kafle w jednym rzędzie tę samą wysokość, a ikony leżą na jednej linii: pod ikoną jest stałe pole na dwie linie nazwy, w którym krótka nazwa centruje się w pionie (wcześniej wszystko było przy lewej krawędzi, a kafle z dłuższą nazwą były wyższe i przesuwały ikony),
+- maskotka Bob na kaflu 13 (Tryb Live, pulpit i strona modułu) i na stronie Ustawień (kafel 14 nie ma miejsca w siatce pulpitu); dwa nowe pliki WebP w `public/maskotki-bob/`, wygenerowane z promptów D84,
 - dokument z 19 promptami do ilustracji maskotki Bob (`docs/maskotka-bob-prompty.md`, D84), bez zmian w kodzie,
 - rozmiar bierze się z tokenów `--ikona-*` w `app/globals.css`, a nie z liczby w komponencie; dodany test pilnujący skali.
 
