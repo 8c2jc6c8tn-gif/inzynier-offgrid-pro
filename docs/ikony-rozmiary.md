@@ -12,10 +12,9 @@ Wyłącznie wielokrotności 4 px: 16 · 20 · 24 · 32 · 48 · 64 · 80 · 96 �
 
 | Token (`app/globals.css`) | Wartość | Zastosowanie |
 |---|---|---|
-| `--ikona-xs` | 16 px | drobne znaczniki w tekście |
-| `--ikona-s` | 20 px | gęste tabele, kompaktowe wiersze |
-| `--ikona-ui` | 24 px | ikony interfejsu (przyciski, menu, „?”, „i”), na każdym ekranie |
 | `--ikona-kafel` | 112 / 128 px | górny limit ilustracji kafla pulpitu: telefon (<640 px) / od 640 px. Ilustracja wypełnia szerokość kafla (układ C) i nie przekracza limitu |
+
+Rozmiary ikon interfejsu leżą na tej samej skali: 16 px (drobne znaczniki w tekście), 20 px (gęste tabele, kompaktowe wiersze) i 24 px (przyciski, menu, „?”, „i”). Tokeny `--ikona-xs`, `--ikona-s` i `--ikona-ui` zostały usunięte 16.10.2026 jako nieużywane (martwy kod); wracają razem z pierwszym komponentem ikony liniowej (lista zadań, „Ikony interfejsu: emoji → liniowe SVG”).
 
 Cel dotykowy przycisku z ikoną ma co najmniej 44×44 px; sama ikona 24 px leży w jego środku.
 

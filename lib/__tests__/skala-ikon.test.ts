@@ -12,7 +12,7 @@ function wartosciTokenu(nazwa: string): number[] {
 }
 
 describe("skala rozmiarów ikon (D83)", () => {
-  it.each(["ikona-xs", "ikona-s", "ikona-ui", "ikona-kafel"])("token --%s is defined and sits on the scale", (nazwa) => {
+  it.each(["ikona-kafel"])("token --%s is defined and sits on the scale", (nazwa) => {
     const wartosci = wartosciTokenu(nazwa)
     expect(wartosci.length).toBeGreaterThan(0)
     for (const px of wartosci) expect(SKALA_PX).toContain(px)

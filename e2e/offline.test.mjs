@@ -107,7 +107,8 @@ test('map worker is served offline; 3D view falls back to a notice, not an error
           przeszkody: [],
           kalibracja: { zbior: 'budynek', punktA: '', punktB: '', znanaDlugoscM: '' },
         }
-        const r = indexedDB.open('offgrid-storage', 1)
+        const r = indexedDB.open('offgrid-storage')
+        // No version: the app owns the schema (it is at 2), so open whatever exists; create the store only in a fresh database.
         r.onupgradeneeded = () => r.result.createObjectStore('kv')
         r.onsuccess = () => {
           const tx = r.result.transaction('kv', 'readwrite')

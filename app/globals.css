@@ -79,11 +79,8 @@
 
 /* Skala rozmiarów ikon (D83, docs/ikony-rozmiary.md). Wyłącznie wielokrotności 4 px; komponenty
    biorą rozmiar z tych zmiennych, nie z liczby wpisanej w kodzie. Kafel pulpitu: górny limit
-   ilustracji, która wypełnia szerokość kafla (próg jak sm Tailwinda), ikona interfejsu zostaje 24 px na każdym ekranie. */
+   ilustracji, która wypełnia szerokość kafla (próg jak sm Tailwinda), ikona interfejsu 16/20/24 px dostanie tokeny razem z wdrożeniem ikon liniowych (docs/ikony-rozmiary.md). */
 :root {
-  --ikona-xs: 16px;
-  --ikona-s: 20px;
-  --ikona-ui: 24px;
   --ikona-kafel: 112px;
 }
 @media (min-width: 640px) {
