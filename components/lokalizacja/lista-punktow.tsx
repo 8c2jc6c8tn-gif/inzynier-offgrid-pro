@@ -3,7 +3,7 @@
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useTranslate } from "@/lib/i18n/language-context"
-import { Ikona } from "@/components/ui/ikona"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 
 /**
  * Lista punktów jednego zbioru Skanera (działka / budynek / połać): numer (ten sam co znacznik
@@ -54,7 +54,7 @@ export function ListaPunktow({
             aria-label={t("UI-LISPUN-USUN-PUNKT", { p: i + 1 })}
             onClick={() => onZmien(punkty.filter((_, j) => j !== i))}
           >
-            <Ikona nazwa="x" className="size-4" />
+            <Ikona nazwa={IKONA.x} className="size-4" />
           </button>
         </li>
       ))}

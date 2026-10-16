@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useTranslate } from '@/lib/i18n/language-context'
 import { BobStanu } from '@/components/ui/bob-stanu'
-import { Ikona } from '@/components/ui/ikona'
+import { Ikona, IKONA } from '@/components/ui/ikona'
 
 /**
  * 404 page for unknown URLs. The service worker precaches it as `/_not-found` and serves it to an
@@ -21,7 +21,7 @@ export default function NieZnaleziono() {
         href="/"
         className="w-fit rounded-md text-small text-primary underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
-        <Ikona nazwa="back" className="mr-1 inline size-4 align-text-bottom" />
+        <Ikona nazwa={IKONA.back} className="mr-1 inline size-4 align-text-bottom" />
         {t('UI-PWA-404-PULPIT')}
       </Link>
     </main>

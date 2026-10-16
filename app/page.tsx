@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useSyncExternalStore } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { StanPusty } from "@/components/ui/stany"
-import { Ikona } from "@/components/ui/ikona"
+import { Ikona, IKONA } from "@/components/ui/ikona"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
 import { KafelIkonaSvg, KAFLE_ZE_ZBUDOWANA_IKONA } from "@/components/kafle-ikony/ikona"
 import { tierKafla } from "@/lib/dostep/tier"
@@ -109,7 +109,7 @@ export default function PulpitPage() {
             title={t("UI-PUL-BRAK-POWIADOMIEN")}
             aria-label={t("UI-PUL-BRAK-POWIADOMIEN")}
           >
-            <Ikona nazwa="bell" />
+            <Ikona nazwa={IKONA.bell} />
           </span>
           <ThemeToggle />
         </nav>

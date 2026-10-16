@@ -77,6 +77,11 @@ const SCIEZKI = {
 
 export type NazwaIkony = keyof typeof SCIEZKI
 
+/** Stable icon keys, so components never pass bare literals (17.1a guard). */
+export const IKONA = Object.fromEntries(Object.keys(SCIEZKI).map((k) => [k, k])) as {
+  readonly [K in NazwaIkony]: K
+}
+
 export function Ikona({ nazwa, className }: { nazwa: NazwaIkony; className?: string }) {
   return (
     <svg
