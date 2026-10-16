@@ -6,6 +6,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 Skala rozmiarów ikon (D83, `docs/ikony-rozmiary.md`):
 - ilustracje kafli pulpitu mają jeden rozmiar zależny od ekranu: 80 px na telefonie, 96 px od 640 px szerokości, 112 px od 1024 px (wcześniej 44 px, przez co kreski i napisy były rozmyte); maskotki na kaflach używają tego samego rozmiaru,
+- kafle pulpitu mają ikonę, nazwę i plakietkę PRO wycentrowane, a kafle w jednym rzędzie tę samą wysokość (wcześniej wszystko było przy lewej krawędzi, a kafle z dłuższą nazwą były wyższe),
 - rozmiar bierze się z tokenów `--ikona-*` w `app/globals.css`, a nie z liczby w komponencie; dodany test pilnujący skali.
 
 Wpływ na liczby: brak — zmiana wyglądu pulpitu.
