@@ -21,6 +21,7 @@ import {
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { KIERUNKI_STRUMIENIA, type KierunekStrumienia } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
+import { MATERIALY_PRZEGROD, SZABLONY_PRZEGROD, znajdzMaterial, znajdzSzablon, type StatusLambda } from "@/lib/core/dane/materialy-przegrod"
 import {
   KLUCZ_DRAFTU_OBCIAZENIA,
   podgladUZWarstw,
@@ -52,6 +53,12 @@ const KLUCZE_KIERUNKU: Record<KierunekStrumienia, string> = {
   poziomo: "UI-OBCCIE-KIERUNEK-POZIOMO",
   "w-gore": "UI-OBCCIE-KIERUNEK-W-GORE",
   "w-dol": "UI-OBCCIE-KIERUNEK-W-DOL",
+}
+
+const KLUCZE_STATUSU_LAMBDA: Record<StatusLambda, string> = {
+  "karta-producenta": "UI-OBCCIE-LAMBDA-STATUS-KARTA",
+  norma: "UI-OBCCIE-LAMBDA-STATUS-NORMA",
+  orientacyjne: "UI-OBCCIE-LAMBDA-STATUS-ORIENTACYJNE",
 }
 
 const stanPoczatkowy = (t: (k: string) => string): Seed => ({
@@ -100,8 +107,55 @@ function WarstwyPrzegrody({ p, i, ustaw }: { p: PrzegrodaSeed; i: number; ustaw:
             </option>
           ))}
         </PoleSelect>
+        <PoleSelect
+          id={`przegroda-${i}-szablon`}
+          label={t("UI-OBCCIE-SZABLON")}
+          value=""
+          onChange={(e) => {
+            const sz = znajdzSzablon(e.target.value)
+            if (!sz) return
+            ustaw({
+              kierunek: sz.kierunek,
+              warstwy: sz.warstwy.map((w) => {
+                const m = znajdzMaterial(w.materialId)!
+                return { nazwa: t(m.nazwaKey), gruboscMm: String(w.gruboscMm), lambdaWmK: String(m.lambdaWmK), oporM2KW: "", materialId: m.id }
+              }),
+            })
+          }}
+          pomoc={<PomocPola ekran="obciazenie-cieplne" pole="szablonPrzegrody" />}
+        >
+          <option value="">{t("UI-OBCCIE-SZABLON-WYBIERZ")}</option>
+          {SZABLONY_PRZEGROD.map((sz) => (
+            <option key={sz.id} value={sz.id}>
+              {t(sz.nazwaKey)}
+            </option>
+          ))}
+        </PoleSelect>
         {warstwy.map((w, j) => (
           <div key={j} className="flex flex-col gap-3 rounded-md border p-3">
+            <PoleSelect
+              id={`przegroda-${i}-warstwa-${j}-material`}
+              label={t("UI-OBCCIE-MATERIAL")}
+              value={w.materialId ?? ""}
+              onChange={(e) => {
+                const m = znajdzMaterial(e.target.value)
+                if (!m) return ustawWarstwe(j, { materialId: undefined })
+                ustawWarstwe(j, {
+                  materialId: m.id,
+                  nazwa: t(m.nazwaKey),
+                  lambdaWmK: String(m.lambdaWmK),
+                  gruboscMm: w.gruboscMm.trim() === "" ? String(m.gruboscDomyslnaMm) : w.gruboscMm,
+                })
+              }}
+              pomoc={<PomocPola ekran="obciazenie-cieplne" pole="materialWarstwy" />}
+            >
+              <option value="">{t("UI-OBCCIE-MATERIAL-WLASNY")}</option>
+              {MATERIALY_PRZEGROD.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {t(m.nazwaKey)}
+                </option>
+              ))}
+            </PoleSelect>
             <Pole
               id={`przegroda-${i}-warstwa-${j}-nazwa`}
               label={t("UI-OBCCIE-WARSTWA-NAZWA", { p: j + 1 })}
@@ -129,7 +183,7 @@ function WarstwyPrzegrody({ p, i, ustaw }: { p: PrzegrodaSeed; i: number; ustaw:
                 inputMode="decimal"
                 min={0}
                 value={w.lambdaWmK}
-                onChange={(e) => ustawWarstwe(j, { lambdaWmK: e.target.value })}
+                onChange={(e) => ustawWarstwe(j, { lambdaWmK: e.target.value, materialId: undefined })}
                 pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaLambda" />}
               />
               <Pole
@@ -144,6 +198,11 @@ function WarstwyPrzegrody({ p, i, ustaw }: { p: PrzegrodaSeed; i: number; ustaw:
                 pomoc={<PomocPola ekran="obciazenie-cieplne" pole="warstwaOpor" />}
               />
             </div>
+            {w.materialId && znajdzMaterial(w.materialId) && (
+              <p className="text-small text-muted-foreground" role="note">
+                {t(KLUCZE_STATUSU_LAMBDA[znajdzMaterial(w.materialId)!.status])}
+              </p>
+            )}
             <Button variant="ghost" className="min-h-11 w-fit" onClick={() => ustaw({ warstwy: warstwy.filter((_, k) => k !== j) })}>
               {t("UI-OBCCIE-USUN-WARSTWE")}
             </Button>
