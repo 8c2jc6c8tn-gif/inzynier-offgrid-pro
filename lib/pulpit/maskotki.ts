@@ -37,6 +37,17 @@ export const MASKOTKA_PO_ID_KAFLA: Record<number, string> = {
 }
 
 /**
+ * Zestaw ikon 3D „zamiast Boba” (D87): te same 16 kafli, ten sam klucz, osobny katalog. Pliki to WebP 384 px
+ * z przezroczystym tłem (źródło: PNG właściciela 1254 px, zob. docs/maskotka-bob-prompty.md, sekcja D).
+ * Wybór między Bobem a ikonami jest w Ustawieniach (`lib/wyglad/storage.ts`, pole `ikonyKafli`).
+ */
+export const IKONA_3D_PO_ID_KAFLA: Record<number, string> = Object.fromEntries(
+  Array.from({ length: 16 }, (_, i) => [i + 1, `/ikony-3d/ikona-${String(i + 1).padStart(2, "0")}.webp`]),
+)
+
+export type IkonyKafli = "bob" | "3d"
+
+/**
  * Bob w stanach interfejsu (D88): awatar asystenta AI, werdykt 🟢🟡🔴, pusty stan, błąd strony.
  * Pliki to małe WebP z przezroczystym tłem, przycięte do postaci — rozmiar dobrany do miejsca,
  * w którym się pokazują (zob. docs/maskotka-bob-prompty.md, pozycje C1–C6). Ikona aplikacji (C7)

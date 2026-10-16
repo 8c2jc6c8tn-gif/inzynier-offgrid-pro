@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.30.0] — 16.10.2026
+
+Zestaw ikon 3D „zamiast Boba” (D87):
+- 16 ikon 3D kafli (WebP 384 px, przezroczyste tło, razem około 0,65 MB) w `public/ikony-3d/`, mapa `IKONA_3D_PO_ID_KAFLA` obok `maskotki.ts`,
+- w Ustawieniach, w sekcji wyglądu, wybór „Ilustracje modułów”: maskotka Bob (domyślnie) albo ikony 3D; dotyczy kafli pulpitu, górnej części stron modułów i Ustawień; zapis w tej przeglądarce (`ikonyKafli` w `offgrid.wyglad.v1`, stare zapisy czytają się jako Bob), tłumaczenia PL/EN/RU i pomoc „?”,
+- Bob w komunikatach (werdykty, pusty ekran, 404, asystent AI) na razie zostaje także przy ikonach 3D.
+
+Wpływ na liczby: brak — zmiana wyglądu.
+
 ## [3.29.0] — 16.10.2026
 
 Prace bez telemetrii z listy „co zostało”:

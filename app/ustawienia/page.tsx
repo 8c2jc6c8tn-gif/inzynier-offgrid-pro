@@ -9,13 +9,14 @@ import { JezykWybor } from "@/components/jezyk-wybor"
 import { WalutaWybor } from "@/components/waluta-wybor"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
+import { IkonyKafliWybor } from "@/components/ikony-kafli-wybor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
 import { Ikona, IKONA } from "@/components/ui/ikona"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla } from "@/components/tekst-rejestru"
 import { PRESETY, stanZPresetow } from "@/lib/pulpit/presety"
-import { MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
+import { IlustracjaKafla } from "@/components/ilustracja-kafla"
 import { USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import {
   domyslnyStan,
@@ -78,12 +79,7 @@ export default function UstawieniaPage() {
           {t("UI-UST-PULPIT")}
         </Link>
         {/* Kafel 14 nie ma miejsca w siatce pulpitu, więc Bob (D84) pokazuje się tu, jak na stronach modułów. */}
-        <img
-          src={MASKOTKA_PO_ID_KAFLA[USTAWIENIA_KAFEL.id]}
-          alt=""
-          aria-hidden="true"
-          className="mt-3 h-48 w-full rounded-lg object-cover object-top"
-        />
+        <IlustracjaKafla kafelId={USTAWIENIA_KAFEL.id} wariant="baner" />
         <h1 className="mt-2 text-h1 font-semibold">
           <Ikona nazwa={IKONA.sliders} className="mr-1 inline size-6 align-text-bottom" /> {t("UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI")}
         </h1>
@@ -205,6 +201,8 @@ export default function UstawieniaPage() {
         </div>
 
         <StylWygladuWybor />
+
+        <IkonyKafliWybor />
 
         <div>
           <h3 className="mb-2 text-small font-semibold">{t("UI-UST-KOLORY")}</h3>
