@@ -2793,3 +2793,13 @@ Na polecenie właściciela („podbij next, napraw e2e, pomiar, 3–8 możesz ro
 - Każdy nowy kod 🔴 w `warnings.ts` wymaga wpisu w `docs/rejestr-twardych-stopow.md` albo (walidacja danych) w `scripts/stopy-guard-wyjatki.json`; każdy nowy moduł domenowy — wpisu w liście `check-i18n-guard.mjs`.
 - Build lokalny w chmurze: `next build` na Turbopacku pada na `next/font/google` (patrz wpis o pomiarze precache); E2E wiążące jest tylko na CI.
 
+
+## 17.10.2026 — ocena ustawień BMS (JK) i plan ekranu zestawów autorów (wersja 3.30.2, tylko dokumentacja)
+
+Właściciel przesłał zrzut tabeli „LiFePO4 314Ah — parametry BMS” z filmu autora „Pozytywnie nauczeni” (to ustawienia **JK BMS**) i komentarz z Facebooka o balanserze i dolnych progach. Ocena (zweryfikowane w kodzie vs moja ocena): `analizy/ocena-ustawien-bms-lifepo4-314ah-2026-10-17.md` w folderze projektu; dane zestawu: `docs/zrodla/jk-bms-ustawienia-pozytywnie-nauczeni-2026-10-17.md`.
+
+**Decyzje właściciela:** (1) zestawy ustawień JK BMS od różnych autorów zbieramy na osobnym ekranie z wyborem autora, analizujemy, a docelowo powstanie nasz „idealny”; zestawy mają być dostępne dla użytkowników; (2) braki z oceny wpisane na listę zadań, realizacja 18.10.2026 — w kodzie nic nie zmieniono.
+
+**Ustalenia (nie decyzje):** zestaw ze zrzutu mieści się w zakresach źródła Modułu 11 (OVP 3,60, UVP 2,65, start balansu 3,40, prądy 0,32 C); jedyna uwaga: Charge UTPR = Charge UTP = 5 °C (brak histerezy). Dwa rozjazdy A vs B czekają na właściciela (model napięcie odcięcia ↔ DoD ↔ cykle; ładowanie poniżej 0 °C: Biblia vs `cold-c-rate`) — patrz lista zadań 17.10.2026.
+
+**Pułapka dla budowy ekranu (rozpoznanie 17.10):** nowy ekran w M4 dotyka: moduł w `lib/core/modules/baterie/<id>/`, `app/kalkulatory/<id>/page.tsx`, `lib/i18n/ui/<plik>.ts` + `lib/i18n/ui/index.ts`, pomoc w `lib/i18n/pomoc/m04-baterie.ts` (pl/en/ru), klucze ostrzeżeń w `lib/i18n/dictionary-{pl,en,ru}.ts`, `lib/i18n/ui/pulpit-rejestr.ts` (`UI-EKRAN-<modul>-<ID>`), `lib/pulpit/registry.ts`, `lib/ai/tools/<id>-tool.ts` + import w `lib/ai/pytaj-asystenta.ts`, lista `MIGRATED_MODULES` w `scripts/check-i18n-guard.mjs`, `docs/rejestr-pokrycia.md`, wersja. Wzorce do skopiowania: `terminarz-przegladow` (formularz + autosave + narzędzie AI), `matryca-alarmow-bms` (tabela referencyjna).

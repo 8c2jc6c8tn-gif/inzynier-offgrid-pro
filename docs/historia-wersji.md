@@ -2,6 +2,14 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.30.2] — 17.10.2026
+
+Dokumentacja: ocena ustawień BMS i plan ekranu zestawów JK (bez zmian w kodzie aplikacji):
+- nowy plik źródłowy `docs/zrodla/jk-bms-ustawienia-pozytywnie-nauczeni-2026-10-17.md` — 18 parametrów JK BMS autora „Pozytywnie nauczeni” (zrzut tabeli, z oznaczeniem pozycji do potwierdzenia w instrukcji JK),
+- w `docs/lista-do-zrobienia.md`: ekran „Zestawy ustawień JK BMS od autorów” (decyzja właściciela), cztery braki wykryte przy ocenie (czas balansowania, histereza temperatury UTP/UTPR, rozróżnienie top balancingu od startu balansu, potwierdzenie parametrów JK) oraz dwa rozjazdy do decyzji właściciela (model napięcie odcięcia ↔ DoD ↔ cykle, ładowanie poniżej 0 °C).
+
+Wpływ na liczby: brak — zmiana dokumentacji.
+
 ## [3.30.1] — 16.10.2026
 
 Bob w komunikatach przy wyborze „Ikony 3D” (D87):
