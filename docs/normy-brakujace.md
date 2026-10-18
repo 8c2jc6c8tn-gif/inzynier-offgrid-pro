@@ -40,6 +40,8 @@ wtedy zaktualizowane — naprawione teraz, przy okazji.)*
   pokazuje tylko masę równoważącą samą siłę wiatru. Potrzebny fragment: Załącznik A1 (tablice
   wartości obliczeniowych oddziaływań) + Załącznik krajowy. **[26.09.2026] UŻYTA** w kodzie: `lib/core/modules/pv/eurokod-0/` (balast projektowy M3/E9, E2, E6 — D29).
 
+> **[18.10.2026] Sprostowanie:** lista zadań pisała, że do wiatru dla paneli równoległych brakuje tablic PN-EN 1991-1-4 7.3 i 7.4. Tablice są w repo (`docs/zrodla/norma-PN-EN-1991-1-4/`, PDF i tekst) i zostały użyte w `lib/core/modules/pv/eurokod-1/wiatr-dachy.ts` (D90). Brakiem była decyzja o założeniu, nie źródło.
+
 ## 🔵 Spodziewane — zapowiedziane przez właściciela projektu
 
 *~~(pusta na razie)~~* **[29.09.2026]** dopisane po D54:

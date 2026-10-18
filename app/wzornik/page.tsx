@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Chmurka, PomocPole } from "@/components/ui/chmurka"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { StanBledu, StanLadowania, StanPusty } from "@/components/ui/stany"
+import { IkonaKafla } from "@/components/ui/ikona-modulu"
 import { CzcionkaEdytor } from "@/components/czcionka-edytor"
 import { KolorGrupaEdytor } from "@/components/kolor-grupa-edytor"
 import { StylWygladuWybor } from "@/components/styl-wygladu-wybor"
@@ -45,7 +46,7 @@ export default function WzornikPage() {
   const t = useTranslate()
   const { nazwaKafla } = useTekstyRejestru()
   const ikonyNawigacji = [IKONA.menu, IKONA.pin, IKONA.live, IKONA.sliders, IKONA.bell, IKONA.sun, IKONA.moon, IKONA.monitor]
-  const ikonyModulow = KAFLE.map((k) => ({ ikona: k.ikona, nazwa: nazwaKafla(k) }))
+  const ikonyModulow = KAFLE.map((k) => ({ id: k.id, nazwa: nazwaKafla(k) }))
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -247,13 +248,13 @@ export default function WzornikPage() {
 
         <Sekcja tytul={t("UI-WZO-IKONY-MODULOW")} opis={t("UI-WZO-EMOJI-LIB-PULPIT")}>
           <ul className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-            {ikonyModulow.map(({ ikona, nazwa }) => (
+            {ikonyModulow.map(({ id, nazwa }) => (
               <li
                 key={nazwa}
                 title={nazwa}
-                className="flex h-12 w-12 items-center justify-center rounded-md border text-xl"
+                className="flex h-12 w-12 items-center justify-center rounded-md border"
               >
-                {ikona}
+                <IkonaKafla kafelId={id} className="size-6" />
               </li>
             ))}
           </ul>

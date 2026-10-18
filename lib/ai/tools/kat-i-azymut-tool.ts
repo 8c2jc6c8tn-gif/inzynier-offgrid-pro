@@ -4,13 +4,14 @@
  * po stronie serwera (`pobierzTmy`, D22). Błąd PVGIS → INCOMPLETE z komunikatem, nigdy wynik zgadnięty.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateKatIAzymut, obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const KatIAzymutToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90).describe("[°], np. 52.23 dla Warszawy"),
   dlugoscGeograficzna: z.number().min(-180).max(180).describe("[°], np. 21.01 dla Warszawy"),
   azymutDeg: z.number().describe("Kierunek paneli: N=0, E=90, S=180, W=270 [°]"),
@@ -68,7 +69,7 @@ export function utworzKatIAzymutTool(
     requiresConfirmation: false,
     scope: "pv/kat-i-azymut",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       if (!tmy.ok) {
         return { status: "INCOMPLETE", ...PUSTY, zrodloDanych: null, ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zalozenia: [] }
       }

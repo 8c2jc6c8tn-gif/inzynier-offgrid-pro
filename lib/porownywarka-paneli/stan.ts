@@ -9,6 +9,7 @@ import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bila
 import type { OsprzetScenariuszaInput } from "@/lib/core/modules/pv/porownywarka-paneli/osprzet-zestawu"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
+import type { TypDachu } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { BilansGodzinowyInput, DaneElektryczne, DanePanelu, KryteriaWybor, ObciazeniePaneluKarta, OknoStrefy, PorownywarkaInput, WarunkiObciazen, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
@@ -59,6 +60,8 @@ export type ObciazeniaSeed = {
   kategoriaTerenu: string
   wysokoscKonstrukcji: string
   ekspozycjaSniegu: EkspozycjaTerenu
+  /** Roof type for panels parallel to the pitch (wind from Tables 7.3 / 7.4); "" = not chosen. Drafts saved before have no key (= ""). */
+  typDachu?: "" | TypDachu
 }
 
 /** Battery of the hourly balance (spec 34), as form texts: usable capacity [kWh] and cycle efficiency [%]; drafts saved before have no key (= both empty). */
@@ -98,6 +101,7 @@ export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {
   kategoriaTerenu: "",
   wysokoscKonstrukcji: "",
   ekspozycjaSniegu: "normalny",
+  typDachu: "",
 }
 
 /** Miejsce instalacji (U19): własna nazwa, kąty (z projektu albo wpisane), liczba paneli albo wymiary miejsca. */
@@ -405,6 +409,7 @@ export function warunkiObciazenZFormularza(o: ObciazeniaSeed | undefined, montaz
     wysokoscKonstrukcjiM: liczba(o.wysokoscKonstrukcji) ?? null,
     ekspozycjaSniegu: o.ekspozycjaSniegu,
     montaz,
+    typDachu: o.typDachu === "jednospadowy" || o.typDachu === "dwuspadowy" ? o.typDachu : null,
   }
   const cokolwiek = warunki.strefaSniegowa !== null || warunki.strefaWiatrowa !== null || warunki.wysokoscNpmM !== null || warunki.kategoriaTerenu !== null || warunki.wysokoscKonstrukcjiM !== null
   return cokolwiek ? warunki : null
@@ -416,6 +421,8 @@ export function budujWejscie(a: {
   lokalizacja: LokalizacjaProjektu | null
   dane: ZapisTmy | null
   zuzycie: number[] | null
+  /** Electric heating that is part of `zuzycie` (months [kWh] + indoor temperature), spread by hourly temperature in the hourly balance (spec 60); `null` = not added. */
+  ogrzewanieElektryczne?: { miesiaceKwh: number[]; temperaturaWewnetrznaC: number } | null
   t: (klucz: string, parametry?: Record<string, string | number>) => string
   /** Device and accessories for the "more panels" scenario (spec 41); see `osprzetScenariuszaZFormularza`. */
   osprzetScenariusza?: OsprzetScenariuszaInput | null
@@ -455,6 +462,7 @@ export function budujWejscie(a: {
     liczbaPaneli: liczba(m.liczbaPaneli) ?? null,
     wymiaryMiejsca: wymiaryZMiejsca(m),
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
+    ogrzewanieElektryczne: stan.uzyjZuzycia ? (a.ogrzewanieElektryczne ?? null) : null,
     tminC: liczba(stan.tmin ?? "") ?? null,
     testZanizeniaMocyPct: liczba(stan.zanizenieMocy ?? "") ?? null,
     obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),

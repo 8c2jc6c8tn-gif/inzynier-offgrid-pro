@@ -6,7 +6,7 @@
  * modelu budynku z Modułu 1 — dla asystenta to narzędzie `ocen_orientacje_powierzchni`.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
@@ -20,6 +20,7 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const TypMontazuToolInput = z.object({
+  ...NadpisanieTmyPola,
   tryb: z
     .enum(["pionowy", "dach_plaski_grunt", "wiata", "regulowany"])
     .describe("pionowy — panele pionowo (ogrodzenie, ściana); dach_plaski_grunt — stelaż pod kątem; wiata — ile paneli na wiacie/carporcie; regulowany — stelaż naziemny z ręczną zmianą kąta"),
@@ -106,7 +107,7 @@ type Tabela = { ok: true; tabela: TabelaNapromieniowania; zrodlo: string; wysoko
 async function tabelaZPvgis(input: TypMontazuToolInputT, fetchImpl: typeof fetch): Promise<Tabela> {
   const { szerokoscGeograficzna: lat, dlugoscGeograficzna: lon, azymutDeg } = input
   if (lat === undefined || lon === undefined || azymutDeg === undefined) return { ok: false, status: "INCOMPLETE", ostrzezenia: [], zrodlo: null }
-  const tmy = await pobierzTmy(lat, lon, fetchImpl)
+  const tmy = await pobierzTmyZNadpisaniem(lat, lon, fetchImpl, input)
   if (!tmy.ok) return { ok: false, status: "INCOMPLETE", ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zrodlo: null }
   const m = tmy.dane.meta
   const zrodlo = `PVGIS TMY (${m.bazaPromieniowania}, lata ${m.rokOd}–${m.rokDo})`

@@ -4,7 +4,7 @@
  * Wysokość n.p.m. — gdy user nie podał, z metadanych PVGIS (dane lokalizacji, nie zgadywanie).
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { KATEGORIE_TERENU } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { calculateZlotySrodek } from "@/lib/core/modules/pv/zloty-srodek/calculator"
@@ -14,6 +14,7 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const ZlotySrodekToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90),
   dlugoscGeograficzna: z.number().min(-180).max(180),
   azymutDeg: z.number().describe("Kierunek paneli: S=180 [°]"),
@@ -76,7 +77,7 @@ export function utworzZlotySrodekTool(
     requiresConfirmation: false,
     scope: "pv/zloty-srodek",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       if (!tmy.ok) {
         return { status: "INCOMPLETE", ...PUSTY, zrodloDanych: null, ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zalozenia: [] }
       }

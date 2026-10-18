@@ -5,6 +5,7 @@ import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -76,6 +77,7 @@ export default function TrybUproszczonyPage() {
           onChange={(e) => setNapiecieV(e.target.value)}
           pomoc={<PomocPola ekran="tryb-uproszczony" pole="napiecie" />}
         />
+        <NapiecieZProfilu aktualne={napiecieV} onUzyj={setNapiecieV} />
         <Pole
           label={t("UI-TRYUPR-MOC-ODBIORNIKA")}
           unit="W"

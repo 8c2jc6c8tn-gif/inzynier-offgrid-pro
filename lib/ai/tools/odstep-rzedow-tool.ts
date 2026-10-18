@@ -4,7 +4,7 @@
  * Handler tylko deleguje do `calculateOdstepRzedow` — model nie zgaduje ani kątów słońca, ani długości cienia.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateOdstepRzedow } from "@/lib/core/modules/pv/odstep-rzedow/calculator"
 import { OKNO_PROJEKTOWE_DOMYSLNE } from "@/lib/core/modules/pv/odstep-rzedow/constants"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -12,6 +12,7 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const OdstepRzedowToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90).describe("[°]"),
   dlugoscGeograficzna: z.number().min(-180).max(180).describe("[°]"),
   nachylenieDeg: z.number().describe("Nachylenie paneli [°], 0–90"),
@@ -84,7 +85,7 @@ export function utworzOdstepRzedowTool(fetchImpl: typeof fetch = fetch): AiToolD
     requiresConfirmation: false,
     scope: "pv/odstep-rzedow",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       const wynik = calculateOdstepRzedow({
         szerokoscGeograficzna: input.szerokoscGeograficzna,
         dlugoscGeograficzna: input.dlugoscGeograficzna,

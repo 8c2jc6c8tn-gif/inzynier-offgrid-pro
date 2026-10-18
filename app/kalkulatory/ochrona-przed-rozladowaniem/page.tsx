@@ -9,6 +9,7 @@ import type {
 } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -98,6 +99,11 @@ export default function OchronaPrzedRozladowaniemPage() {
           <option value={24}>24 V</option>
           <option value={48}>48 V</option>
         </PoleSelect>
+        <NapiecieZProfilu
+          aktualne={String(stan.napiecieZnamionoweV)}
+          dozwolone={[12, 24, 48]}
+          onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieZnamionoweV: Number(v) as FormularzStan["napiecieZnamionoweV"] }))}
+        />
         <PoleCheckbox
           id={idDozownik}
           label={t("UI-OCHPRZROZ-MAM-DOZOWNIK-NAPIECIA")}

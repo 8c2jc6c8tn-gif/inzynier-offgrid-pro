@@ -36,7 +36,7 @@ import {
   panelWykluczonyPorp,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.9.1"
+export const CALCULATOR_VERSION = "1.10.0"
 
 const FORMULA =
   "E_m = N \\sum_{t \\in m} \\frac{P_{STC}\\,G_{POA}(t)}{1000}\\,[1 + \\gamma (T_c(t) - 25)]\\,\\eta_{rel}(G_{POA}),\\quad T_c = T_a + \\frac{NOCT - 20}{800}\\,G_{POA}"
@@ -404,6 +404,7 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
         oknaTanie: okna,
         profilDobowy: input.bilansGodzinowy.profilDobowy ?? null,
         limityMocy: input.bilansGodzinowy.limityMocyKw ?? null,
+        ogrzewanie: input.ogrzewanieElektryczne ? { ...input.ogrzewanieElektryczne, tempZewnetrznaC: profil.tempC } : null,
       }
       const ps5 = podsumujBilans(bilansGodzinowy({ produkcjaKwh, ...wspolne }))
       const cel = input.bilansGodzinowy.celZimyPct ?? null
@@ -536,6 +537,10 @@ function policzPorownanie(input: PorownywarkaInput): CalcResult<PorownywarkaResu
   if (zakresModelu.slabeSwiatlo) assumptions.push({ kod: "PORP-ZAL-SWIATLO-INTERPOLACJA" })
   if (input.panele.some((p) => p.degradacjaPierwszyRokPct !== null && p.degradacjaLiniowaPctNaRok !== null)) {
     assumptions.push({ kod: "PORP-ZAL-DEGRADACJA-GWARANCYJNA" })
+  }
+  if (input.bilansGodzinowy && zapotrzebowanie && input.ogrzewanieElektryczne) {
+    if (profil.tempC) assumptions.push({ kod: "PORP-ZAL-OGRZEWANIE-GODZINOWE", params: { tWewn: input.ogrzewanieElektryczne.temperaturaWewnetrznaC } })
+    else if (!warnings.some((x) => x.code === "PORP-BRAK-TEMPERATURY-GODZINOWEJ")) warnings.push(brakTemperaturyGodzinowejPorp())
   }
   if (zapotrzebowanie) {
     assumptions.push({ kod: "PORP-ZAL-UZYTECZNA-MIESIECZNIE" })

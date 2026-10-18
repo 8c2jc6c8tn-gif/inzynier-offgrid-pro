@@ -2,6 +2,20 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.32.0] — 18.10.2026
+
+Wiatr dla paneli równoległych do połaci i minimum czytelności ilustracji (D90):
+- Porównywarka paneli (silnik 1.10.0), zakładka „Obciążenia”: dla paneli równoległych do połaci nowe pole „Rodzaj połaci” (dach jednospadowy albo dwuspadowy); wiatr liczony z ciśnienia zewnętrznego połaci c_pe,1 z Tablic 7.3 i 7.4 PN-EN 1991-1-4, dla spadku 5–75°, jako górne oszacowanie (najgorsze pole i kierunek wiatru; norma nie podaje współczynników panelu ze szczeliną pod spodem); tablice przepisane i sprawdzone ze skanem; pole zapisuje się w udostępnianym stanie, narzędzie AI `porownaj_panele` przyjmuje `typDachu`; panele pochylone na konstrukcji bez zmian (Tablica 7.6, 0–30°),
+- bilans zimy: ogrzewanie elektryczne doliczone w Porównywarce rozkłada się na godziny wg temperatury godzinowej (zimne noce dostają więcej), a nie w profilu dobowym reszty prądu (spec 60); założenie jawne w wyniku,
+- przycisk napięcia układu z profilu obiektu na kolejnych czterech ekranach z listą napięć (ochrona przed rozładowaniem, gniazdo zapalniczki, urządzenie 12 V bezpośrednio, tryb uproszczony),
+- narzędzia AI pobierające PVGIS przyjmują własne miesięczne nasłonecznienie i temperatury (`nadpisanieGhiKwhM2`, `nadpisanieTempSrednieC`), liczone tą samą funkcją co ekran,
+- ikony liniowe zamiast emoji kafli i presetów w Ustawieniach, na stronach modułów i we wzorniku (komponent `ikona-modulu`, dwie nowe ikony: kolba i kamper; emoji zostają w rejestrze jako dane do tłumaczeń),
+- dzwonek na pulpicie pokazuje liczbę przeglądów po terminie z terminarza użytkownika i prowadzi do terminarza (bez wysyłania powiadomień; liczba czytana przy otwarciu aplikacji),
+- panele pochylone na konstrukcji pod kątem 30–90° dostają wiatr z WŁASNEGO oszacowania aplikacji (wartości z 30° Tablicy 7.6 zachowane dla większych kątów); żadna norma ani dokument tego nie opisuje, co ekran mówi wprost w ostrzeżeniu, a narzędzie AI zwraca `wspolczynnikiWiatru: wlasne-oszacowanie`; kąty powyżej 90° i ujemne nadal poza zakresem,
+- minimum czytelności ilustracji kafla pulpitu to 80 px (token `--ikona-min`, test skali ikon).
+
+Wpływ na liczby: tak. (1) Przy włączonym doliczaniu ogrzewania elektrycznego bilans godzinowy Porównywarki (brak, pokrycie, koszt braku, dobór paneli na zimę) zmienia się: ogrzewanie przesuwa się na zimne godziny, więc brak i koszt braku zwykle rosną; zużycie miesięczne i roczne bez zmian. (2) Dla paneli równoległych do połaci z wybranym rodzajem połaci oraz dla paneli na konstrukcji pod kątem 30–90° Porównywarka pokazuje teraz ocenę wiatru (wcześniej tylko śnieg; w drugim przypadku z oznaczeniem „własne oszacowanie”); bez wyboru rodzaju połaci wynik jak dotąd (tylko śnieg). Pozostałe liczby bez zmian.
+
 ## [3.31.0] — 18.10.2026
 
 Klucze dostępu (passkey) jako dodatkowa metoda logowania (D89):

@@ -4,7 +4,7 @@
  * `calculatePorownywarkaPaneli` — parametry paneli pochodzą od użytkownika (karta katalogowa), model ich nie zgaduje.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
@@ -68,7 +68,8 @@ const Obciazenia = z.object({
   kategoriaTerenu: z.enum(["0", "I", "II", "III", "IV"]).optional().describe("Kategoria terenu wokół (0 morze … IV miasto) — do wiatru"),
   wysokoscKonstrukcjiM: z.number().optional().describe("Wysokość górnej krawędzi paneli nad gruntem [m] — do wiatru"),
   ekspozycjaSniegu: z.enum(["wystawiony", "normalny", "osloniety"]).optional().describe("Otoczenie pod kątem zwiewania śniegu; bez podania „normalny”"),
-  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Wiatr liczę tylko dla paneli pochylonych na konstrukcji (0–30°); równoległe do połaci/ściany — tylko śnieg"),
+  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Panele pochylone na konstrukcji (0–30°): wiatr z Tablicy 7.6. Równoległe do połaci: wiatr z Tablic 7.3/7.4 po podaniu typDachu (5–75°); ściany — tylko śnieg"),
+  typDachu: z.enum(["jednospadowy", "dwuspadowy"]).optional().describe("Rodzaj połaci, na której leżą panele równoległe — bez niego wiatru nie liczę (tylko śnieg). Ciśnienie zewnętrzne połaci jako górne oszacowanie, nie cp,net panelu"),
 })
 
 const BilansGodzinowy = z.object({
@@ -109,6 +110,7 @@ function limityZWejscia(l: { ladowanieKw?: number; rozladowanieKw?: number; falo
 }
 
 export const PorownajPaneleToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90).describe("[°]"),
   dlugoscGeograficzna: z.number().min(-180).max(180).describe("[°]"),
   nachylenieDeg: z.number().describe("Nachylenie paneli [°], 0–90"),
@@ -242,7 +244,11 @@ export const PorownajPaneleToolOutput = z.object({
     .object({
       sniegNaPaneluPa: z.number().nullable().describe("Śnieg prostopadle do panelu s·cos²α [Pa]; null bez strefy albo wysokości"),
       wiatrQpPa: z.number().nullable().describe("Szczytowe ciśnienie wiatru q_p [Pa]; null, gdy wiatru nie policzono"),
-      powodBrakuWiatru: z.enum(["brak-danych", "montaz-rownolegly", "kat-poza-zakresem"]).nullable(),
+      powodBrakuWiatru: z.enum(["brak-danych", "brak-typu-dachu", "kat-poza-zakresem"]).nullable(),
+      wspolczynnikiWiatru: z
+        .enum(["wiata-7.6", "polac-7.3-7.4", "wlasne-oszacowanie"])
+        .nullable()
+        .describe("Skąd współczynniki wiatru: Tablica 7.6 (panele na konstrukcji 0–30°), Tablice 7.3/7.4 (górne oszacowanie dla paneli równoległych do połaci) albo WŁASNE oszacowanie aplikacji dla konstrukcji 30–90° — to ostatnie nie ma podstawy w żadnej normie, powiedz to userowi"),
     })
     .nullable(),
   liderZimowyNazwa: z.string().nullable(),
@@ -301,7 +307,7 @@ export function utworzPorownajPaneleTool(
           zalozenia: [],
         }
       }
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       if (!tmy.ok) return { status: "INCOMPLETE", ...PUSTY, zrodloDanych: null, ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zalozenia: [] }
       const m = tmy.dane.meta
       const zrodloDanych = `PVGIS TMY (${m.bazaPromieniowania}, lata ${m.rokOd}–${m.rokDo})`
@@ -343,6 +349,7 @@ export function utworzPorownajPaneleTool(
               wysokoscKonstrukcjiM: o.wysokoscKonstrukcjiM ?? null,
               ekspozycjaSniegu: o.ekspozycjaSniegu ?? "normalny",
               montaz: o.montaz,
+              typDachu: o.typDachu ?? null,
             }
           : null,
         panele,
@@ -434,7 +441,7 @@ export function utworzPorownajPaneleTool(
         })),
         wykluczone: v.wykluczone.map((w) => ({ nazwa: w.nazwa, brakuje: w.brakuje })),
         obciazeniaMiejsca: v.obciazeniaMiejsca
-          ? { sniegNaPaneluPa: v.obciazeniaMiejsca.snieg?.sNormalnaPa ?? null, wiatrQpPa: v.obciazeniaMiejsca.wiatr?.qpPa ?? null, powodBrakuWiatru: v.obciazeniaMiejsca.powodBrakuWiatru }
+          ? { sniegNaPaneluPa: v.obciazeniaMiejsca.snieg?.sNormalnaPa ?? null, wiatrQpPa: v.obciazeniaMiejsca.wiatr?.qpPa ?? null, powodBrakuWiatru: v.obciazeniaMiejsca.powodBrakuWiatru, wspolczynnikiWiatru: v.obciazeniaMiejsca.wiatr ? ({ wiata: "wiata-7.6", polac: "polac-7.3-7.4", wlasne: "wlasne-oszacowanie" } as const)[v.obciazeniaMiejsca.wiatr.zrodloCp] : null }
           : null,
         liderZimowyNazwa: roznica ? (v.panele.find((p) => p.id === roznica.liderId)?.nazwa ?? null) : null,
         przewagaZimowaKwh: roznica?.roznicaKwh ?? null,

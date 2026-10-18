@@ -17,6 +17,7 @@ import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla } from "@/components/tekst-rejestru"
 import { PRESETY, stanZPresetow } from "@/lib/pulpit/presety"
 import { IlustracjaKafla } from "@/components/ilustracja-kafla"
+import { IkonaKafla, IkonaPresetu } from "@/components/ui/ikona-modulu"
 import { USTAWIENIA_KAFEL, znajdzKafel } from "@/lib/pulpit/registry"
 import {
   domyslnyStan,
@@ -107,7 +108,7 @@ export default function UstawieniaPage() {
                 />
                 <span className="flex flex-col gap-0.5">
                   <span className="text-small font-medium">
-                    <span aria-hidden="true">{preset.ikona}</span> {t(preset.nazwaKlucz)}
+                    <IkonaPresetu presetId={preset.id} className="mr-1 inline size-5 align-text-bottom" /> {t(preset.nazwaKlucz)}
                   </span>
                   <span className="text-caption text-muted-foreground">{t(preset.opisKlucz)}</span>
                 </span>
@@ -142,9 +143,7 @@ export default function UstawieniaPage() {
                 ukryty && "opacity-50",
               )}
             >
-              <span className="text-xl" aria-hidden="true">
-                {kafel.ikona}
-              </span>
+              <IkonaKafla kafelId={kafel.id} className="size-6" />
               <span className="flex-1 text-small font-medium">
                 {/* M14 tiles (15/16) are named, never numbered — "Kafel 14" is the settings (D39). */}
                 {kafel.id < USTAWIENIA_KAFEL.id ? `${kafel.id}. ` : null}

@@ -91,6 +91,14 @@ export function validateInput(input: PorownywarkaInput): { errors: Warning[] } {
     if (zap.length !== 12) errors.push(porpPozaZakresem("PORP-ZAPOTRZEBOWANIE-POZA-ZAKRESEM", "zapotrzebowanieMiesiaceKwh", zap.length, "12 liczb >= 0"))
     for (const v of zap) if (!nieujemna(v)) errors.push(wartoscUjemnaPorp("zapotrzebowanieMiesiaceKwh", v))
   }
+  const ogrz = input.ogrzewanieElektryczne
+  if (ogrz) {
+    if (ogrz.miesiaceKwh.length !== 12) errors.push(porpPozaZakresem("PORP-OGRZEWANIE-POZA-ZAKRESEM", "ogrzewanieElektryczne", ogrz.miesiaceKwh.length, "12 liczb >= 0"))
+    for (const v of ogrz.miesiaceKwh) if (!nieujemna(v)) errors.push(wartoscUjemnaPorp("ogrzewanieElektryczne", v))
+    if (!Number.isFinite(ogrz.temperaturaWewnetrznaC) || ogrz.temperaturaWewnetrznaC < -10 || ogrz.temperaturaWewnetrznaC > 40) {
+      errors.push(porpPozaZakresem("PORP-OGRZEWANIE-POZA-ZAKRESEM", "temperaturaWewnetrznaC", ogrz.temperaturaWewnetrznaC, "-10…40 °C"))
+    }
+  }
   for (const p of input.panele) {
     for (const [pole, v] of [["dlugoscMm", p.dlugoscMm], ["szerokoscMm", p.szerokoscMm], ["masaKg", p.masaKg]] as [string, number | null][]) {
       if (v !== null && !(Number.isFinite(v) && v > 0)) errors.push(porpPozaZakresem("PORP-WYMIARY-PANELU-POZA-ZAKRESEM", pole, v, "> 0"))

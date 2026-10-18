@@ -129,7 +129,7 @@ export function useWynikEkranu1(): WynikEkranu1 | null {
 
 /** Electric heating energy per month for the PV balance, taken from Screen 1 — or the reason why it is not available. */
 export type OgrzewanieElektryczne =
-  | { stan: "ok"; miesiaceKwh: number[]; rokKwh: number }
+  | { stan: "ok"; miesiaceKwh: number[]; rokKwh: number; temperaturaWewnetrznaC: number }
   | { stan: "brak-danych" | "paliwo" | "brak-cop" | "brak-miesiecy" }
 
 /** Pure: 12 monthly values of electric energy for heating, only when every month is known (a missing month would silently lower the demand). */
@@ -144,7 +144,8 @@ export function ogrzewanieElektryczneZSzkicu(seed: SeedObciazenia | null): Ogrze
   for (const m of wynik.miesiace ?? []) miesiace[m.miesiac - 1] = m.energiaElektrycznaKwh
   if (miesiace.some((x) => x === null)) return { stan: "brak-miesiecy" }
   const kwh = miesiace as number[]
-  return { stan: "ok", miesiaceKwh: kwh, rokKwh: kwh.reduce((a, b) => a + b, 0) }
+  if (wejscie.temperaturaWewnetrznaC === null) return { stan: "brak-danych" }
+  return { stan: "ok", miesiaceKwh: kwh, rokKwh: kwh.reduce((a, b) => a + b, 0), temperaturaWewnetrznaC: wejscie.temperaturaWewnetrznaC }
 }
 
 export function useOgrzewanieElektryczne(): OgrzewanieElektryczne {

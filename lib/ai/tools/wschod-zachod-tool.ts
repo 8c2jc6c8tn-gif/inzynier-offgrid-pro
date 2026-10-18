@@ -3,7 +3,7 @@
  * PVGIS TMY pobierany w handlerze po stronie serwera (jak Ekran 1 M3 / Ekran 4 M1, D22).
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateWschodZachod, obliczDaneWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import type { AiToolDefinition } from "../types"
@@ -15,6 +15,7 @@ const Polac = z.object({
 })
 
 export const WschodZachodToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90).describe("[°]"),
   dlugoscGeograficzna: z.number().min(-180).max(180).describe("[°]"),
   wschod: Polac,
@@ -63,7 +64,7 @@ export function utworzWschodZachodTool(
     requiresConfirmation: false,
     scope: "pv/wschod-zachod",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       if (!tmy.ok) return { status: "INCOMPLETE", ...PUSTY, zrodloDanych: null, ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zalozenia: [] }
       const m = tmy.dane.meta
       const zrodloDanych = `PVGIS TMY (${m.bazaPromieniowania}, lata ${m.rokOd}–${m.rokDo})`

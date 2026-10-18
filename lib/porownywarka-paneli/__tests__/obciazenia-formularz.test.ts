@@ -17,7 +17,16 @@ describe("warunkiObciazenZFormularza", () => {
       wysokoscKonstrukcjiM: 5.5,
       ekspozycjaSniegu: "normalny",
       montaz: "pochylony-na-konstrukcji",
+      typDachu: null,
     })
+  })
+
+  it("rodzaj połaci z formularza: tylko dwie znane wartości, reszta to brak wyboru", () => {
+    const seed = { ...OBCIAZENIA_PUSTE, strefaWiatrowa: "2" }
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "dwuspadowy" }, "rownolegly")!.typDachu).toBe("dwuspadowy")
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "jednospadowy" }, "rownolegly")!.typDachu).toBe("jednospadowy")
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "" }, "rownolegly")!.typDachu).toBeNull()
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "kopulasty" as never }, "rownolegly")!.typDachu).toBeNull()
   })
 })
 

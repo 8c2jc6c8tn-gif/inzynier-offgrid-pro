@@ -4,7 +4,11 @@
  * z sieci/agregatu, a nadwyżka z południa nie przechodzi na wieczór, jeśli bateria jest pełna albo jej nie ma.
  *
  * Model (świadomie prosty, wszystkie uproszczenia są jawnymi założeniami wyniku):
- *  - zużycie miesiąca rozłożone równo na wszystkie godziny tego miesiąca, chyba że użytkownik poda profil dobowy (24 udziały godzinowe, spec 39):
+ *  - ogrzewanie elektryczne (gdy podano jego miesięczne kWh i temperaturę wewnętrzną): ta część zużycia miesiąca nie idzie w profil dobowy,
+ *    tylko w godziny proporcjonalnie do (T_wewn − T_zewn)⁺ z temperatury godzinowej TMY (strata ciepła rośnie z różnicą temperatur), więc
+ *    zimne noce i poranki dostają więcej, a ciepłe południa mniej; suma miesiąca się nie zmienia. Bez temperatury godzinowej albo przy
+ *    miesiącu bez godzin chłodniejszych niż wnętrze — równo na godziny miesiąca (jak pozostałe zużycie bez profilu);
+ *  - reszta zużycia miesiąca rozłożona równo na wszystkie godziny tego miesiąca, chyba że użytkownik poda profil dobowy (24 udziały godzinowe, spec 39):
  *    wtedy zużycie miesiąca dzieli się na godziny doby wg tego profilu (każdy dzień miesiąca ma ten sam profil);
  *  - bateria o pojemności użytecznej C: nadwyżka ładuje ją ze sprawnością cyklu η (jak w „Bilans miesięczny” sieci: η raz, przy
  *    ładowaniu), rozładowanie bez dalszych strat; moc ładowania, rozładowania i falownika bez ograniczeń, chyba że użytkownik poda limity (spec 40):
@@ -36,6 +40,16 @@ export function limityMocyPodane(l: Partial<LimityMocy> | null | undefined): boo
   return !!l && (l.ladowanieKw != null || l.rozladowanieKw != null || l.falownikKw != null)
 }
 
+/** Ogrzewanie elektryczne wydzielone z zapotrzebowania do rozłożenia wg temperatury godzinowej (patrz opis modelu wyżej). */
+export type OgrzewanieGodzinowe = {
+  /** Część zapotrzebowania miesiąca, którą stanowi ogrzewanie [kWh], styczeń pierwszy; nie więcej niż zapotrzebowanie miesiąca. */
+  miesiaceKwh: readonly number[]
+  /** Temperatura wewnętrzna [°C], z której liczona jest różnica do temperatury zewnętrznej. */
+  temperaturaWewnetrznaC: number
+  /** Temperatura zewnętrzna w kolejnych rekordach TMY [°C]; `null` = brak w danych (zapis sprzed 08.10.2026) → rozkład równy. */
+  tempZewnetrznaC: Float64Array | null
+}
+
 export type WejscieBilansu = {
   /** Produkcja zestawu w kolejnych rekordach TMY [kWh/rekord]. */
   produkcjaKwh: Float64Array
@@ -58,6 +72,8 @@ export type WejscieBilansu = {
   profilDobowy?: readonly number[] | null
   /** Limity mocy baterii i falownika (spec 40); `null`/brak = bez ograniczeń. */
   limityMocy?: LimityMocy | null
+  /** Ogrzewanie elektryczne rozłożone wg temperatury godzinowej; `null`/brak = całe zapotrzebowanie wg profilu dobowego albo równo. */
+  ogrzewanie?: OgrzewanieGodzinowe | null
 }
 
 export type WynikBilansu = {
@@ -121,6 +137,10 @@ export function bilansGodzinowy(w: WejscieBilansu): WynikBilansu {
   const rekordy = rekordyWMiesiacach(w.miesiac)
   const profil = znormalizujProfilDobowy(w.profilDobowy)
   const rekordyGodz = profil ? rekordyWMiesiacuIGodzinie(w.miesiac, w.godzinaLokalna) : null
+  const ogrz = w.ogrzewanie ?? null
+  const wagaOgrz = (i: number): number => (ogrz?.tempZewnetrznaC ? Math.max(0, ogrz.temperaturaWewnetrznaC - ogrz.tempZewnetrznaC[i]!) : 0)
+  const sumaWagOgrz = new Array<number>(LICZBA_MIESIECY).fill(0)
+  if (ogrz) for (let i = 0; i < n; i++) sumaWagOgrz[w.miesiac[i]!]! += wagaOgrz(i)
   const eta = w.sprawnoscCyklu ?? 1
   const pojemnosc = Math.max(0, w.pojemnoscKwh)
   const limLad = w.limityMocy?.ladowanieKw ?? Infinity
@@ -136,11 +156,14 @@ export function bilansGodzinowy(w: WejscieBilansu): WynikBilansu {
     wynik = { bezposrednio: zero(), zBaterii: zero(), brak: zero(), odciete: zero(), brakTania: zero(), zuzycie: zero() }
     for (let i = 0; i < n; i++) {
       const m = w.miesiac[i]!
+      const ogrzMiesiaca = ogrz ? Math.min(Math.max(0, ogrz.miesiaceKwh[m] ?? 0), w.zapotrzebowanieMiesiaceKwh[m]!) : 0
+      const bazaMiesiaca = w.zapotrzebowanieMiesiaceKwh[m]! - ogrzMiesiaca
       let zuzycie: number
       if (profil && rekordyGodz) {
         const h = w.godzinaLokalna[i]!
-        zuzycie = rekordyGodz[m]![h]! > 0 ? (w.zapotrzebowanieMiesiaceKwh[m]! * profil[h]!) / rekordyGodz[m]![h]! : 0
-      } else zuzycie = rekordy[m]! > 0 ? w.zapotrzebowanieMiesiaceKwh[m]! / rekordy[m]! : 0
+        zuzycie = rekordyGodz[m]![h]! > 0 ? (bazaMiesiaca * profil[h]!) / rekordyGodz[m]![h]! : 0
+      } else zuzycie = rekordy[m]! > 0 ? bazaMiesiaca / rekordy[m]! : 0
+      if (ogrzMiesiaca > 0) zuzycie += sumaWagOgrz[m]! > 0 ? (ogrzMiesiaca * wagaOgrz(i)) / sumaWagOgrz[m]! : rekordy[m]! > 0 ? ogrzMiesiaca / rekordy[m]! : 0
       const prod = w.produkcjaKwh[i]!
       // The inverter limit caps what can reach the loads this hour; the rest of the consumption is a shortfall whatever the panels and battery hold.
       const obslugiwane = Math.min(zuzycie, limFalownik)

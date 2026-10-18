@@ -6,6 +6,7 @@
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
+import type { TypDachu } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import type { KryteriumId } from "./constants"
 import type { OsprzetScenariuszaInput } from "./osprzet-zestawu"
 
@@ -58,8 +59,10 @@ export type WarunkiObciazen = {
   /** Wysokość górnej krawędzi paneli nad gruntem [m] (wysokość odniesienia wiatru ze = h, 7.3 (8)). */
   wysokoscKonstrukcjiM: number | null
   ekspozycjaSniegu: EkspozycjaTerenu
-  /** Wiatr wg Tablicy 7.6 (wiata jednospadowa) dotyczy tylko paneli pochylonych na konstrukcji; panele równoległe do połaci/ściany — poza zakresem. */
+  /** Panele pochylone na konstrukcji: wiatr wg Tablicy 7.6 (wiata jednospadowa, 0–30°). Panele równoległe do połaci: wiatr z Tablic 7.3 i 7.4 (cpe połaci, 5–75°), gdy podano `typDachu`. */
   montaz: "rownolegly" | "pochylony-na-konstrukcji"
+  /** Rodzaj połaci, na której leżą panele równoległe (Tablice 7.3 jednospadowy, 7.4 dwuspadowy); `null` albo brak = nie wybrano (wiatr nie jest liczony). Dla paneli na konstrukcji bez znaczenia. */
+  typDachu?: TypDachu | null
 }
 
 export type DanePanelu = {
@@ -166,6 +169,11 @@ export type PorownywarkaInput = {
   wymiaryMiejsca?: WymiaryMiejsca | null
   /** Zapotrzebowanie na energię w miesiącach [kWh], styczeń pierwszy (z ekranu „Moje zużycie miesięcznie”); `null` = tryb „suchy” (7.2). */
   zapotrzebowanieMiesiaceKwh?: number[] | null
+  /**
+   * Ogrzewanie elektryczne będące częścią `zapotrzebowanieMiesiaceKwh` (miesięczne kWh, styczeń pierwszy) wraz z temperaturą wewnętrzną z ekranu strat
+   * ciepła: bilans godzinowy rozkłada je wg temperatury godzinowej TMY, a nie wg profilu dobowego (spec 60). `null`/brak = bez rozdzielenia.
+   */
+  ogrzewanieElektryczne?: { miesiaceKwh: number[]; temperaturaWewnetrznaC: number } | null
   panele: DanePanelu[]
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); wpisuje użytkownik (TMY nie jest temperaturą projektową); `null` = nie podano. */
   tminC?: number | null

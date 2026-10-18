@@ -229,6 +229,10 @@ export default function PorownywarkaPaneliPage() {
     () => (doliczone && ogrzewanie.stan === "ok" && zuzycieBazowe ? zuzycieBazowe.map((x, i) => x + ogrzewanie.miesiaceKwh[i]!) : zuzycieBazowe),
     [doliczone, ogrzewanie, zuzycieBazowe],
   )
+  const ogrzewanieDoBilansu = useMemo(
+    () => (doliczone && ogrzewanie.stan === "ok" ? { miesiaceKwh: ogrzewanie.miesiaceKwh, temperaturaWewnetrznaC: ogrzewanie.temperaturaWewnetrznaC } : null),
+    [doliczone, ogrzewanie],
+  )
   const [zakladka, setZakladka] = useState<Zakladka>("miesiace")
   // A comparison shared by link (`#udostepnij=…`): the code is read from the address, then the fragment is removed from it.
   const hashAdresu = useSyncExternalStore(subskrybujHash, () => window.location.hash, () => "")
@@ -280,17 +284,17 @@ export default function PorownywarkaPaneliPage() {
   const { kurs } = useDenominacja()
   const osprzetScenariusza = useMemo(() => osprzetScenariuszaZFormularza(stan, kurs), [stan, kurs])
   const wejscie = useMemo(
-    () => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, t, osprzetScenariusza }),
-    [stan, lokalizacja, dane, zuzycie, t, osprzetScenariusza],
+    () => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t, osprzetScenariusza }),
+    [stan, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t, osprzetScenariusza],
   )
 
   /** The same panels in every saved place (U18) — computed only while that tab is open. */
   const wynikiMiejsc = useMemo(
     () =>
       zakladka === "miejsca"
-        ? stan.miejsca.map((m) => ({ id: m.id, wynik: calculatePorownywarkaPaneli(budujWejscie({ stan, miejsce: m, lokalizacja, dane, zuzycie, t })) }))
+        ? stan.miejsca.map((m) => ({ id: m.id, wynik: calculatePorownywarkaPaneli(budujWejscie({ stan, miejsce: m, lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t })) }))
         : [],
-    [zakladka, stan, lokalizacja, dane, zuzycie, t],
+    [zakladka, stan, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t],
   )
 
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
@@ -1327,6 +1331,7 @@ export default function PorownywarkaPaneliPage() {
                 onObc={(zmiana) => setStan((prev) => ({ ...prev, obc: { ...(prev.obc ?? OBCIAZENIA_PUSTE), ...zmiana } }))}
                 wysokoscPodpowiedz={dane?.dane.meta.wysokoscNpmM}
                 nachylenieDeg={wejscie.miejsce?.nachylenieDeg ?? null}
+                montaz={miejsce.montaz}
               />
             )}
 

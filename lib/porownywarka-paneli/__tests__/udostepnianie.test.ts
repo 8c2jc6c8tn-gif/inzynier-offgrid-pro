@@ -62,6 +62,12 @@ describe("oczyscStan", () => {
     expect(wynik.stawka).toBe("1,00")
   })
 
+  it("keeps the roof type of the wind load only when it is one of the two known values", () => {
+    expect(oczyscStan({ obc: { typDachu: "dwuspadowy" } })!.obc!.typDachu).toBe("dwuspadowy")
+    expect(oczyscStan({ obc: { typDachu: "kopulasty" } })!.obc!.typDachu).toBe("")
+    expect(oczyscStan({})!.obc!.typDachu).toBe("")
+  })
+
   it("rejects non-objects", () => {
     expect(oczyscStan(null)).toBeNull()
     expect(oczyscStan("x")).toBeNull()

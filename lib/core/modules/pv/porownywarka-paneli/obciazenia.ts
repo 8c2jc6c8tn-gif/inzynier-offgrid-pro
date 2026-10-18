@@ -5,13 +5,16 @@
  *
  * Zakres, świadomie wąski:
  *  - śnieg: dach/połać jednospadowa bez przeszkód blokujących zsuwanie (Tablica 5.2), składowa prostopadła do panelu s·cos²α;
- *  - wiatr: tylko panele pochylone na konstrukcji (0–30°) jako wiata jednospadowa (Tablica 7.6, cp,net lokalne; założenie przyjęte przez
- *    właściciela 25.09.2026 dla stelaży). Panele równoległe do połaci/ściany i kąty > 30° — poza zakresem (norma ma tam inne tablice: 7.3, 7.4);
+ *  - wiatr: panele pochylone na konstrukcji (0–30°) jako wiata jednospadowa (Tablica 7.6, cp,net lokalne; założenie przyjęte przez
+ *    właściciela 25.09.2026 dla stelaży). Panele równoległe do połaci (5–75°) z cpe połaci jednospadowej (7.3) albo dwuspadowej (7.4) jako górne
+ *    oszacowanie (decyzja właściciela 18.10.2026; norma nie podaje cp,net takiego panelu). Panele na konstrukcji pod kątem 30–90°: WŁASNE oszacowanie
+ *    aplikacji (wartości z 30° Tablicy 7.6 zachowane; żadna norma tego nie opisuje, ekran to mówi wprost). Ściany i połacie poniżej 5° — poza zakresem;
  *  - bez ciężaru stelaża i bez korzystnego ciężaru panelu przy odrywaniu (strona bezpieczna).
  */
 import { GAMMA_G_SUP_STR, GAMMA_Q_STR, PSI0_WIATR, psi0Sniegu } from "@/lib/core/modules/pv/eurokod-0/kombinacje"
 import { WSPOLCZYNNIK_EKSPOZYCJI_CE, WSPOLCZYNNIK_TERMICZNY_CT, obciazenieSniegiemGruntuSk, wspolczynnikKsztaltuMu1 } from "@/lib/core/modules/pv/eurokod-1/snieg"
-import { bazoweCisnienieWiatruPa, cpNetWiatyJednospadowej, szczytoweCisnieniePa, wspolczynnikEkspozycji, type CpNetWiaty } from "@/lib/core/modules/pv/eurokod-1/wiatr"
+import { cpeDachuDlaPaneluRownoleglego } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
+import { CF_WIATA_MAX_KAT_DEG, KAT_PIONOWY_DEG, bazoweCisnienieWiatruPa, cpNetWiatyJednospadowej, szczytoweCisnieniePa, wspolczynnikEkspozycji, type CpNetWiaty } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
 import type { DanePanelu, ObciazeniePaneluKarta, WarunkiObciazen } from "./input"
 
@@ -42,12 +45,18 @@ export type WiatrNaPanelu = {
   ceZ: number
   /** Szczytowe ciśnienie prędkości qp(ze) = ce·qb [Pa]. */
   qpPa: number
-  /** cp,net z Tablicy 7.6 dla kąta paneli (docisk +, odrywanie — wartości bezwzględne). */
+  /** Współczynniki ciśnienia dla kąta paneli (docisk +, odrywanie — wartości bezwzględne). */
   cp: CpNetWiaty
+  /**
+   * Skąd cp: `wiata` = cp,net Tablicy 7.6 (panele na konstrukcji, 0–30°); `polac` = cpe,1 połaci z Tablic 7.3/7.4 (panele równoległe, górne oszacowanie);
+   * `wlasne` = własne oszacowanie aplikacji dla paneli na konstrukcji pod kątem 30–90°: żadna norma ani dokument nie podaje tam współczynników,
+   * wartości z 30° (Tablica 7.6) zachowane dla większych kątów (decyzja właściciela 18.10.2026, D90).
+   */
+  zrodloCp: "wiata" | "polac" | "wlasne"
 }
 
-/** Dlaczego wiatru nie porównano: `brak-danych` = nie wpisano strefy/terenu/wysokości; pozostałe — poza zakresem Tablicy 7.6. */
-export type PowodBrakuWiatru = "brak-danych" | "montaz-rownolegly" | "kat-poza-zakresem"
+/** Dlaczego wiatru nie porównano: `brak-danych` = nie wpisano strefy/terenu/wysokości; `brak-typu-dachu` = panele równoległe bez wybranej połaci; `kat-poza-zakresem` = poza tablicami. */
+export type PowodBrakuWiatru = "brak-danych" | "brak-typu-dachu" | "kat-poza-zakresem"
 
 export type ObciazeniaMiejsca = {
   nachylenieDeg: number
@@ -97,14 +106,20 @@ export function obciazeniaMiejsca(w: WarunkiObciazen, nachylenieDeg: number): Ob
       : null
   let wiatr: WiatrNaPanelu | null = null
   let powodBrakuWiatru: PowodBrakuWiatru | null = null
-  const cp = cpNetWiatyJednospadowej(nachylenieDeg)
-  if (w.montaz === "rownolegly") powodBrakuWiatru = "montaz-rownolegly"
+  const rownolegly = w.montaz === "rownolegly"
+  const wlasne = !rownolegly && nachylenieDeg > CF_WIATA_MAX_KAT_DEG && nachylenieDeg <= KAT_PIONOWY_DEG
+  const cp = rownolegly
+    ? w.typDachu
+      ? cpeDachuDlaPaneluRownoleglego(w.typDachu, nachylenieDeg)
+      : null
+    : cpNetWiatyJednospadowej(wlasne ? CF_WIATA_MAX_KAT_DEG : nachylenieDeg)
+  if (rownolegly && !w.typDachu) powodBrakuWiatru = "brak-typu-dachu"
   else if (cp === null) powodBrakuWiatru = "kat-poza-zakresem"
   else if (w.strefaWiatrowa === null || w.wysokoscNpmM === null || w.kategoriaTerenu === null || w.wysokoscKonstrukcjiM === null) powodBrakuWiatru = "brak-danych"
   else {
     const qbPa = bazoweCisnienieWiatruPa(w.strefaWiatrowa, w.wysokoscNpmM)
     const ceZ = wspolczynnikEkspozycji(w.kategoriaTerenu, w.wysokoscKonstrukcjiM)
-    wiatr = { qbPa, ceZ, qpPa: szczytoweCisnieniePa(qbPa, ceZ), cp }
+    wiatr = { qbPa, ceZ, qpPa: szczytoweCisnieniePa(qbPa, ceZ), cp, zrodloCp: rownolegly ? "polac" : wlasne ? "wlasne" : "wiata" }
   }
   if (snieg === null && wiatr === null) return null
   return { nachylenieDeg, snieg, wiatr, powodBrakuWiatru }

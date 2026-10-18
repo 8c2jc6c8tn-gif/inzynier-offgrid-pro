@@ -116,6 +116,7 @@ export function oczyscStan(surowy: unknown): FormularzStan | null {
       kategoriaTerenu: tekst(o?.kategoriaTerenu, OBCIAZENIA_PUSTE.kategoriaTerenu),
       wysokoscKonstrukcji: tekst(o?.wysokoscKonstrukcji, OBCIAZENIA_PUSTE.wysokoscKonstrukcji),
       ekspozycjaSniegu: jeden(o?.ekspozycjaSniegu, ["wystawiony", "normalny", "osloniety"], OBCIAZENIA_PUSTE.ekspozycjaSniegu),
+      typDachu: jeden<"" | "jednospadowy" | "dwuspadowy">(o?.typDachu, ["", "jednospadowy", "dwuspadowy"], ""),
     },
     bil: Object.fromEntries(Object.entries(BILANS_PUSTY).map(([kl, domyslny]) => [kl, tekst(b?.[kl], domyslny)])) as unknown as FormularzStan["bil"],
     urzadzenieId: znajdzUrzadzeniePv(urzadzenieId) ? urzadzenieId : "",

@@ -46,11 +46,37 @@ describe("obciazeniaMiejsca", () => {
     expect(m.powodBrakuWiatru).toBeNull()
   })
 
-  it("panele równoległe do połaci: wiatr poza zakresem, śnieg liczony; kąt > 30°: wiatr poza zakresem; brak pola: brak danych", () => {
-    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly" }, 30)).toMatchObject({ wiatr: null, powodBrakuWiatru: "montaz-rownolegly" })
-    expect(obciazeniaMiejsca(WARUNKI, 45)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+  it("panele równoległe do połaci bez wybranego rodzaju połaci: wiatru nie liczy, śnieg liczy; kąt > 30° na konstrukcji: poza zakresem; brak pola: brak danych", () => {
+    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly" }, 30)).toMatchObject({ wiatr: null, powodBrakuWiatru: "brak-typu-dachu" })
+    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly" }, 30)!.snieg).not.toBeNull()
+    expect(obciazeniaMiejsca(WARUNKI, 95)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
     expect(obciazeniaMiejsca({ ...WARUNKI, strefaWiatrowa: null }, 30)).toMatchObject({ wiatr: null, powodBrakuWiatru: "brak-danych" })
     expect(obciazeniaMiejsca({ ...WARUNKI, strefaSniegowa: null }, 30)!.snieg).toBeNull()
+  })
+
+  it("panele na konstrukcji 30–90°: WŁASNE oszacowanie aplikacji (wartości z 30° Tablicy 7.6), oznaczone jako takie", () => {
+    const na30 = obciazeniaMiejsca(WARUNKI, 30)!.wiatr!
+    expect(na30.zrodloCp).toBe("wiata")
+    for (const kat of [30.5, 45, 60, 90]) {
+      const w = obciazeniaMiejsca(WARUNKI, kat)!.wiatr!
+      expect(w.zrodloCp).toBe("wlasne")
+      expect(w.cp).toEqual(na30.cp)
+    }
+    expect(obciazeniaMiejsca(WARUNKI, 90.5)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+    expect(obciazeniaMiejsca(WARUNKI, -1)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+  })
+
+  it("panele równoległe do połaci z wybranym rodzajem połaci: wiatr z Tablic 7.3/7.4 (cpe,1 połaci), także dla kątów > 30°, do 75°", () => {
+    const jedno = obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "jednospadowy" }, 30)!
+    expect(jedno.powodBrakuWiatru).toBeNull()
+    expect(jedno.wiatr!.zrodloCp).toBe("polac")
+    expect(jedno.wiatr!.cp.odrywanieKrawedz).toBeCloseTo(2.9, 10)
+    const strome = obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "dwuspadowy" }, 60)!
+    expect(strome.wiatr).not.toBeNull()
+    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "dwuspadowy" }, 3)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "dwuspadowy" }, 80)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+    // Panels on a frame ignore the roof type and keep Table 7.6.
+    expect(obciazeniaMiejsca({ ...WARUNKI, typDachu: "dwuspadowy" }, 30)!.wiatr!.zrodloCp).toBe("wiata")
   })
 
   it("nic do policzenia (brak stref) = null", () => {

@@ -1205,6 +1205,10 @@ Odpowiedzi z kodu (`app/globals.css`, `lib/__tests__/skala-ikon.test.ts`, `compo
 Wniosek dla standardu: reguła „rozmiar z tokenu, nie z liczby w komponencie” jest sprawdzona w kodzie i testem. Liczbowe minimum czytelności i minimalna grubość kreski jeszcze **nie są ustalone ani zmierzone**; wymagają decyzji właściciela i próby na telefonach 1×/2×/3× (podanych w p. 4 i 3), więc nie traktować ich jako gotowych liczb do wniesienia do standardu.
 Status: 🔎 nowe
 
+## [18.10.2026] Skala rozmiarów ikon: minimum czytelności 80 px zatwierdzone i pilnowane tokenem
+Uzupełnienie wpisów z 16.10.2026 po decyzji właściciela (D90). (1) **Minimum czytelności ilustracji kafla: 80 px** — decyzja właściciela, wartość z oceny Claude, nie z pomiaru na urządzeniach; zapisana jako token `--ikona-min` w `app/globals.css`, a test `lib/__tests__/skala-ikon.test.ts` sprawdza, że token istnieje, wynosi 80 i że opakowania ilustracji (`components/ilustracja-kafla.tsx`, `app/page.tsx`) mają `min-w-(--ikona-min)` obok górnego limitu `--ikona-kafel`. Reguła dla standardu: minimum czytelności ma być tokenem obok limitu i mieć test, nie liczbą w opisie. (2) **Nadal otwarte, nie do wniesienia jako liczby:** minimalna grubość kreski i zakaz napisów w ilustracjach (propozycja: 1 px na minimalnym rozmiarze, czyli około 3,2 jednostki `viewBox 256` przy 80 px; obecne ilustracje mają 0,8–3) oraz próba na prawdziwych telefonach 1×/2×/3× (dziś tylko emulator Playwrighta przy 1×).
+Status: 🔎 nowe
+
 ## 16.10.2026 — dwie rekomendacje z pracy nad wersją 3.29.0 (do decyzji sesji nad `new-app-standards`)
 
 1. **Werdykt czytelny kształtem, nie tylko kolorem.** Panel werdyktu pokazywał poziom emoji kolorowych kółek (🟢🟡🔴). Zamiana na liniowe znaki SVG o różnym kształcie (✓ / ▲ / ✕), malowane kolorem tekstu, daje czytelność dla osób nierozróżniających barw i spójność ze stylem aplikacji (emoji renderują się inaczej w każdym systemie). Propozycja reguły do rozdziału o UI (8.x): „poziom werdyktu zawsze ma znak o odrębnym kształcie obok koloru; emoji nie są nośnikiem znaczenia”. Test regresji: panel renderuje `<svg aria-hidden>` plus etykietę tekstową.
