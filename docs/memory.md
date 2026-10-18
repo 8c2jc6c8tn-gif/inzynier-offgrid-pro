@@ -2817,8 +2817,8 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - `scripts/check-i18n-keys.mjs` traktował każdą właściwość `*Key` jako klucz tłumaczenia i wywalał się na `publicKey` z WebAuthn; dopisane do `NIE_I18N`.
 - Zweryfikowano wyłącznie atrapami (35 testów w `lib/adapters/supabase/__tests__`); nie na prawdziwym projekcie Supabase ani urządzeniu. `pnpm build` lokalnie pada na `next/font/google` (znana pułapka), więc kompilacja produkcyjna sprawdzana na CI.
 
-## 2026-10-18 — precache bez obrazków, wiatr dla paneli równoległych, minimum 80 px (wersja 3.32.0, D90)
-- **Precache wariant B:** `czyIlustracja` w `lib/pwa/precache-build.ts` wyklucza `maskotki-bob/` i `ikony-3d/`; `lib/pwa/sw-rdzen.js` obsługuje je osobno (cache `offgrid-ilustracje`, bez prefiksu `offgrid-precache-`, więc `aktywuj` go nie kasuje; serwuje z cache i odświeża w tle, bo właściciel podmienia pliki pod tymi samymi nazwami). Lista katalogów jest w dwóch miejscach (JS i TS); test w `sw-rdzen.test.ts` pilnuje zgodności. Pułapka: atrapa zdarzenia fetch w teście musi mieć `waitUntil`.
+## 2026-10-18 — wiatr dla paneli równoległych, minimum 80 px (wersja 3.32.0, D90)
+- **Budżet precache zostaje w wariancie A** (decyzja właściciela). Pułapka: po rekomendacji „B” odpowiedź „dawaj” została omyłkowo uznana za wybór B i wdrożona w PR; właściciel sprostował „opcja A”, więc zmianę cofnięto. **Rekomendacja nie jest decyzją; przy wyborze A/B/C czekać na jawny wybór.**
 - **Wiatr dla paneli równoległych:** tablice 7.3/7.4 były w repo; w nagłówku `wiatr.ts` stał błędny opis „oryginał normy poza repo”. Skan sprawdzono wizualnie (renderowanie PDF do PNG): numeracja stron PDF jest przesunięta o 6 względem numerów normy (rysunek 7.7 to PDF 44, tablice 7.3 to PDF 45, 7.4a to PDF 47). Przepisane liczby zgadzają się z tekstem OCR. Założenie: c_pe,1 połaci, najgorsze pole i kierunek, bez ciśnienia pod panelem.
 - **Wersja:** `main` miał już 3.31.0 (passkey) i 3.30.2 (BMS), więc ten pakiet to 3.32.0.
 - Testy vitest widzą tylko pliki pod `lib/` (konfiguracja `include`); test komponentu w `components/` się nie uruchomi.

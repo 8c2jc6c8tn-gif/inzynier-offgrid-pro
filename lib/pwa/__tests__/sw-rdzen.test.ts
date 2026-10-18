@@ -85,7 +85,6 @@ function srodowisko(opcje: {
         headers: new Headers(init.naglowki ?? {}),
       },
       respondWith: (p: Promise<Response>) => (odpowiedzSw = p),
-      waitUntil: () => undefined,
     })
     return odpowiedzSw
   }
@@ -102,49 +101,6 @@ const WPISY: WpisPrecache[] = [
 ]
 
 const klucz = (url: string, rev: string) => `${ORIGIN}${url}?__sw_rev=${rev}`
-
-describe('sw-rdzen.js — illustrations outside the precache', () => {
-  const OBRAZ = '/ikony-3d/ikona-03.webp'
-
-  it('fetches from the network the first time and stores a copy in offgrid-ilustracje', async () => {
-    const s = srodowisko({ wersja: 'v1', wpisy: WPISY })
-    const odp = await s.pobierz(OBRAZ)
-    expect(await odp!.text()).toBe(`body ${OBRAZ}`)
-    expect(s.magazyn.get('offgrid-ilustracje')!.has(ORIGIN + OBRAZ)).toBe(true)
-  })
-
-  it('serves the cached copy offline and keeps it when the refresh fails', async () => {
-    const s = srodowisko({
-      wersja: 'v1',
-      wpisy: WPISY,
-      siec: () => {
-        throw new Error('offline')
-      },
-      cache: new Map([['offgrid-ilustracje', new Map([[ORIGIN + OBRAZ, odpowiedz('cached')]])]]),
-    })
-    const odp = await s.pobierz(OBRAZ, {})
-    expect(await odp!.text()).toBe('cached')
-  })
-
-  it('survives a new precache version (activate does not delete it)', async () => {
-    const cache = new Map([
-      ['offgrid-precache-v1', new Map<string, Response>()],
-      ['offgrid-ilustracje', new Map([[ORIGIN + OBRAZ, odpowiedz('cached')]])],
-    ])
-    const s = srodowisko({ wersja: 'v2', wpisy: WPISY, cache })
-    await s.czekaj('activate')
-    expect(s.magazyn.has('offgrid-ilustracje')).toBe(true)
-    expect(s.magazyn.has('offgrid-precache-v1')).toBe(false)
-  })
-
-  it('uses the same directories as the precache exclusion', async () => {
-    const { czyIlustracja } = await import('../precache-build')
-    for (const katalog of ['maskotki-bob', 'ikony-3d']) {
-      expect(czyIlustracja(`${katalog}/x.webp`)).toBe(true)
-      expect(ZRODLO).toContain(`'/${katalog}/'`)
-    }
-  })
-})
 
 describe('sw-rdzen.js — install', () => {
   it('stores every entry in offgrid-precache-<version>, keyed with __sw_rev', async () => {

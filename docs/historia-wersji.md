@@ -4,9 +4,8 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 ## [3.32.0] — 18.10.2026
 
-Wiatr dla paneli równoległych do połaci, obrazki poza precache i minimum czytelności ilustracji (D90):
+Wiatr dla paneli równoległych do połaci i minimum czytelności ilustracji (D90):
 - Porównywarka paneli (silnik 1.10.0), zakładka „Obciążenia”: dla paneli równoległych do połaci nowe pole „Rodzaj połaci” (dach jednospadowy albo dwuspadowy); wiatr liczony z ciśnienia zewnętrznego połaci c_pe,1 z Tablic 7.3 i 7.4 PN-EN 1991-1-4, dla spadku 5–75°, jako górne oszacowanie (najgorsze pole i kierunek wiatru; norma nie podaje współczynników panelu ze szczeliną pod spodem); tablice przepisane i sprawdzone ze skanem; pole zapisuje się w udostępnianym stanie, narzędzie AI `porownaj_panele` przyjmuje `typDachu`; panele pochylone na konstrukcji bez zmian (Tablica 7.6, 0–30°),
-- obrazki Boba i ikon 3D nie wchodzą do precache (około 9 z 16 MiB transferu pierwszego pobrania); service worker zapisuje je przy pierwszym użyciu i odświeża w tle, więc po pierwszym wejściu online działają offline,
 - minimum czytelności ilustracji kafla pulpitu to 80 px (token `--ikona-min`, test skali ikon).
 
 Wpływ na liczby: tak, dla paneli równoległych do połaci z wybranym rodzajem połaci Porównywarka pokazuje teraz ocenę wiatru (wcześniej tylko śnieg); bez wyboru rodzaju połaci wynik jak dotąd (tylko śnieg). Pozostałe liczby bez zmian.
