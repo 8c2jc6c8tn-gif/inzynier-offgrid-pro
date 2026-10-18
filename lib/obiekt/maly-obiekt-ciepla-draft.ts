@@ -97,7 +97,7 @@ export function wejscieMalegoObiektu(seed: SeedMalyObiekt, miesiaceUzytkowania: 
 
 /** Electric heating energy per month for the PV balance of a micro-installation (months of use only) — or the reason it is not available. */
 export type OgrzewanieMalegoObiektu =
-  | { stan: "ok"; miesiaceKwh: number[]; rokKwh: number }
+  | { stan: "ok"; miesiaceKwh: number[]; rokKwh: number; temperaturaWewnetrznaC: number }
   | { stan: "brak-danych" | "paliwo" | "brak-cop" | "brak-miesiecy" | "brak-miesiecy-uzytkowania" }
 
 /** Pure; the same shape of reasons as the building variant (`ogrzewanieElektryczneZSzkicu`), plus “no months of use chosen”. */
@@ -112,7 +112,8 @@ export function ogrzewanieMalegoObiektuZSzkicu(seed: SeedMalyObiekt | null, prof
   if (!wejscie.miesiaceUzytkowania.some(Boolean)) return { stan: "brak-miesiecy-uzytkowania" }
   const e = wynik.value.energiaElektrycznaUzytkowanieKwh
   if (!e) return { stan: "brak-miesiecy" }
-  return { stan: "ok", miesiaceKwh: e, rokKwh: wynik.value.rokUzytkowaniaKwh! }
+  if (wejscie.temperaturaWewnetrznaC === null) return { stan: "brak-danych" }
+  return { stan: "ok", miesiaceKwh: e, rokKwh: wynik.value.rokUzytkowaniaKwh!, temperaturaWewnetrznaC: wejscie.temperaturaWewnetrznaC }
 }
 
 export function useOgrzewanieMalegoObiektu(): OgrzewanieMalegoObiektu {

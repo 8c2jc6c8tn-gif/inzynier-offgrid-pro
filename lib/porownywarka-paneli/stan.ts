@@ -421,6 +421,8 @@ export function budujWejscie(a: {
   lokalizacja: LokalizacjaProjektu | null
   dane: ZapisTmy | null
   zuzycie: number[] | null
+  /** Electric heating that is part of `zuzycie` (months [kWh] + indoor temperature), spread by hourly temperature in the hourly balance (spec 60); `null` = not added. */
+  ogrzewanieElektryczne?: { miesiaceKwh: number[]; temperaturaWewnetrznaC: number } | null
   t: (klucz: string, parametry?: Record<string, string | number>) => string
   /** Device and accessories for the "more panels" scenario (spec 41); see `osprzetScenariuszaZFormularza`. */
   osprzetScenariusza?: OsprzetScenariuszaInput | null
@@ -460,6 +462,7 @@ export function budujWejscie(a: {
     liczbaPaneli: liczba(m.liczbaPaneli) ?? null,
     wymiaryMiejsca: wymiaryZMiejsca(m),
     zapotrzebowanieMiesiaceKwh: stan.uzyjZuzycia ? zuzycie : null,
+    ogrzewanieElektryczne: stan.uzyjZuzycia ? (a.ogrzewanieElektryczne ?? null) : null,
     tminC: liczba(stan.tmin ?? "") ?? null,
     testZanizeniaMocyPct: liczba(stan.zanizenieMocy ?? "") ?? null,
     obciazenia: warunkiObciazenZFormularza(stan.obc, m.montaz),

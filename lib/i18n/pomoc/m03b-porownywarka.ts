@@ -341,7 +341,7 @@ export const pl = {
         nazwa: "Dolicz ogrzewanie elektryczne",
         cel: "Dodaje do miesięcznego zużycia prąd na ogrzewanie policzony na ekranie „Straty ciepła budynku” (ciepło ÷ COP), żeby bilans zimy na panelach uwzględniał dom ogrzewany prądem.",
         gdzie: "Działa tylko, gdy tamten ekran ma komplet danych, wybrane źródło ciepła na prąd, COP i średnie temperatury wszystkich 12 miesięcy. Jeśli rachunki z ekranu „Zużycie miesięczne” już zawierają ogrzewanie elektryczne, nie włączaj — policzysz je dwa razy.",
-        zakres: "Pole wyboru. Domyślnie wyłączone. Ogrzewanie dochodzi do zużycia w proporcji tego samego profilu dobowego co reszta prądu.",
+        zakres: "Pole wyboru. Domyślnie wyłączone. Ogrzewanie rozkłada się na godziny wg temperatury z danych godzinowych (zimne noce i poranki dostają więcej, suma miesiąca się nie zmienia); reszta prądu idzie wg profilu dobowego. Bez temperatury w danych: równo na godziny miesiąca.",
       },
       stronaSwiata: {
         nazwa: "Strona świata, w którą patrzą panele",
@@ -942,7 +942,7 @@ export const en: Tlumaczenie<typeof pl> = {
         nazwa: "Add electric heating",
         cel: "Adds to the monthly consumption the electricity for heating computed on the “Building heat loss” screen (heat ÷ COP), so that the winter balance on panels includes a house heated with electricity.",
         gdzie: "Works only when that screen has complete data, an electric heat source, the COP and the mean temperatures of all 12 months. If the bills from the “Monthly consumption” screen already include electric heating, do not switch it on — you would count it twice.",
-        zakres: "A checkbox. Off by default. The heating is added with the same daily profile as the rest of the electricity.",
+        zakres: "A checkbox. Off by default. The heating is spread over the hours by the temperature from the hourly data (cold nights and mornings get more, the monthly total does not change); the rest of the electricity follows the daily profile. Without temperature in the data: evenly over the hours of the month.",
       },
       stronaSwiata: {
         nazwa: "The direction the panels face",
@@ -1543,7 +1543,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         nazwa: "Добавить электроотопление",
         cel: "Добавляет к месячному потреблению электроэнергию на отопление, рассчитанную на экране «Теплопотери здания» (тепло ÷ COP), чтобы зимний баланс на панелях учитывал дом с электроотоплением.",
         gdzie: "Работает только при полных данных на том экране, электрическом источнике тепла, COP и среднемесячных температурах всех 12 месяцев. Если счета с экрана «Месячное потребление» уже включают электроотопление, не включайте — оно будет посчитано дважды.",
-        zakres: "Флажок. По умолчанию выключен. Отопление добавляется с тем же суточным профилем, что и остальная электроэнергия.",
+        zakres: "Флажок. По умолчанию выключен. Отопление распределяется по часам по температуре из почасовых данных (холодные ночи и утра получают больше, месячная сумма не меняется); остальная электроэнергия идёт по суточному профилю. Без температуры в данных: равномерно по часам месяца.",
       },
       stronaSwiata: {
         nazwa: "Сторона света, в которую смотрят панели",

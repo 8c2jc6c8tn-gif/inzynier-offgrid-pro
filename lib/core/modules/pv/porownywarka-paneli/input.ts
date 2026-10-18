@@ -169,6 +169,11 @@ export type PorownywarkaInput = {
   wymiaryMiejsca?: WymiaryMiejsca | null
   /** Zapotrzebowanie na energię w miesiącach [kWh], styczeń pierwszy (z ekranu „Moje zużycie miesięcznie”); `null` = tryb „suchy” (7.2). */
   zapotrzebowanieMiesiaceKwh?: number[] | null
+  /**
+   * Ogrzewanie elektryczne będące częścią `zapotrzebowanieMiesiaceKwh` (miesięczne kWh, styczeń pierwszy) wraz z temperaturą wewnętrzną z ekranu strat
+   * ciepła: bilans godzinowy rozkłada je wg temperatury godzinowej TMY, a nie wg profilu dobowego (spec 60). `null`/brak = bez rozdzielenia.
+   */
+  ogrzewanieElektryczne?: { miesiaceKwh: number[]; temperaturaWewnetrznaC: number } | null
   panele: DanePanelu[]
   /** Najniższa temperatura powietrza w miejscu [°C] do napięcia stringów zimą (A3); wpisuje użytkownik (TMY nie jest temperaturą projektową); `null` = nie podano. */
   tminC?: number | null

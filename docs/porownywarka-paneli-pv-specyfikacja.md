@@ -893,3 +893,12 @@ Wersja 3.32.0, silnik porównywarki 1.9.1 → 1.10.0. Zakładka „Obciążenia�
 - **Dalej bez zmian:** wysokość odniesienia z pola „Wysokość górnej krawędzi paneli” (z_e = h), kombinacja STR 6.10, nośność z karty. Poza zakresem: dachy czterospadowe (Tablica 7.5), ściany (Tablica 7.1), połacie poniżej 5° (Tablica 7.2), kąty powyżej 90° i ujemne.
 - **Testy:** `lib/core/modules/pv/eurokod-1/__tests__/wiatr-dachy.test.ts` (wartości z tablic w węzłach, interpolacja, zakresy), `obciazenia.test.ts` (integracja), `obciazenia-formularz.test.ts`, `udostepnianie.test.ts`. Narzędzie AI `porownaj_panele`: pole `typDachu`, powód braku wiatru `brak-typu-dachu` zamiast `montaz-rownolegly`.
 
+## 60. Profil godzinowy pracy ogrzewania w bilansie zimy (18.10.2026)
+
+Wersja 3.32.0, silnik porównywarki 1.10.0. Gdy w zakładce „Zużycie” włączono „Dolicz ogrzewanie elektryczne”, ogrzewanie szło dotąd w ten sam profil dobowy co reszta prądu (spec 39). Teraz bilans godzinowy (spec 34) rozkłada je wg temperatury.
+- **Model:** ogrzewanie miesiąca (kWh z ekranu „Straty ciepła budynku” albo „Bilans ciepła małego obiektu”) rozkładane jest na godziny tego miesiąca proporcjonalnie do (T_wewn − T_zewn)⁺, gdzie T_zewn to temperatura godzinowa TMY, a T_wewn temperatura wewnętrzna z tego samego ekranu; strata ciepła rośnie z różnicą temperatur. Suma miesiąca się nie zmienia; reszta zużycia idzie jak dotąd (profil dobowy albo równo).
+- **Zapasowe zachowania:** bez temperatury godzinowej w danych (zapisy sprzed 08.10.2026) albo w miesiącu bez godzin chłodniejszych niż wnętrze — rozkład równy (jak wcześniej); przy braku temperatury ekran pokazuje informację 🔵. Ogrzewanie większe niż zapotrzebowanie miesiąca jest obcinane do zapotrzebowania.
+- **Uproszczenia (jawne założenie `PORP-ZAL-OGRZEWANIE-GODZINOWE`):** bez obniżenia nocnego, bez bezwładności budynku, bez zysków słonecznych i wewnętrznych w godzinie, COP stały jak na ekranie strat; to kształt rozkładu, nie model dynamiki budynku.
+- **Wejście:** `ogrzewanieElektryczne: { miesiaceKwh[12], temperaturaWewnetrznaC }` jako część `zapotrzebowanieMiesiaceKwh`; walidacja 12 liczb ≥ 0 i temperatury −10…40 °C (`PORP-OGRZEWANIE-POZA-ZAKRESEM`).
+- **Testy:** `bilans-godzinowy.test.ts` (rachunek ręczny na dobie syntetycznej: suma, rozkład, zapas, obcięcie; integracja z silnikiem i walidacja).
+

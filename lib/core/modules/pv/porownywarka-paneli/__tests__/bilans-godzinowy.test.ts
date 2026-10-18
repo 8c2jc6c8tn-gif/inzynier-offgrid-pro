@@ -227,3 +227,88 @@ describe("calculatePorownywarkaPaneli — bilans godzinowy (A5, spec 34)", () =>
     expect(r2.warnings.map((w) => w.code)).toContain("PORP-SPRAWNOSC-CYKLU-POZA-ZAKRESEM")
   })
 })
+
+describe("bilansGodzinowy — ogrzewanie rozłożone wg temperatury godzinowej (spec 60)", () => {
+  // 1 doba w styczniu: noc zimna (−10 °C w godz. 0–5 i 20–23), dzień cieplej (0 °C), reszta zużycia 0 → całe zapotrzebowanie to ogrzewanie.
+  const n = 24
+  const temp = Float64Array.from({ length: n }, (_, h) => (h < 6 || h >= 20 ? -10 : 0))
+  const baza = { produkcjaKwh: new Float64Array(n), miesiac: new Uint8Array(n), godzinaLokalna: Uint8Array.from({ length: n }, (_, h) => h), pojemnoscKwh: 0, sprawnoscCyklu: null }
+  const zap = (x: number) => [x, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+  it("the monthly sum stays, cold hours get proportionally more (weights = 20 − T: 30 cold, 20 warm)", () => {
+    // weights: 10 cold hours × 30 + 14 warm hours × 20 = 580; total 58 kWh → 0,1 kWh per weight unit
+    const b = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(58), ogrzewanie: { miesiaceKwh: zap(58), temperaturaWewnetrznaC: 20, tempZewnetrznaC: temp } })
+    expect(suma(b.zuzycieMiesiaceKwh)).toBeCloseTo(58, 10)
+    // without panels and battery every kWh is a shortfall, hour by hour: cold hour 3.0 kWh, warm hour 2.0 kWh → 10·3 + 14·2 = 58
+    expect(suma(b.brakMiesiaceKwh)).toBeCloseTo(58, 10)
+  })
+
+  it("only the heating part follows the temperature; the rest of the consumption stays flat", () => {
+    const zZimna = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(100), ogrzewanie: { miesiaceKwh: zap(58), temperaturaWewnetrznaC: 20, tempZewnetrznaC: temp } })
+    expect(suma(zZimna.zuzycieMiesiaceKwh)).toBeCloseTo(100, 10)
+    // a battery-free home with panels covering exactly the flat part (42 kWh / 24 h = 1.75 per hour) leaves the heating peaks as shortfall
+    const panele = new Float64Array(n).fill(1.75)
+    const b = bilansGodzinowy({ ...baza, produkcjaKwh: panele, zapotrzebowanieMiesiaceKwh: zap(100), ogrzewanie: { miesiaceKwh: zap(58), temperaturaWewnetrznaC: 20, tempZewnetrznaC: temp } })
+    expect(suma(b.brakMiesiaceKwh)).toBeCloseTo(58, 10)
+  })
+
+  it("without hourly temperature the heating is spread evenly over the month (as before)", () => {
+    const rowno = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(58) })
+    const bezTemp = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(58), ogrzewanie: { miesiaceKwh: zap(58), temperaturaWewnetrznaC: 20, tempZewnetrznaC: null } })
+    expect(bezTemp.brakMiesiaceKwh).toEqual(rowno.brakMiesiaceKwh)
+    expect(bezTemp.zuzycieMiesiaceKwh).toEqual(rowno.zuzycieMiesiaceKwh)
+  })
+
+  it("a month with no hour colder than the indoor temperature falls back to an even spread", () => {
+    const cieplo = new Float64Array(n).fill(25)
+    const b = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(24), ogrzewanie: { miesiaceKwh: zap(24), temperaturaWewnetrznaC: 20, tempZewnetrznaC: cieplo } })
+    expect(suma(b.zuzycieMiesiaceKwh)).toBeCloseTo(24, 10)
+  })
+
+  it("heating larger than the monthly demand is capped at the demand (never creates consumption)", () => {
+    const b = bilansGodzinowy({ ...baza, zapotrzebowanieMiesiaceKwh: zap(10), ogrzewanie: { miesiaceKwh: zap(50), temperaturaWewnetrznaC: 20, tempZewnetrznaC: temp } })
+    expect(suma(b.zuzycieMiesiaceKwh)).toBeCloseTo(10, 10)
+  })
+
+  it("with the heating peaking in cold hours a battery-free home loses more of its production than the flat spread suggests", () => {
+    // Panels give 5 kWh in each warm hour 10–13 (when heating is weak); flat spread: heating 58 kWh → 2.4167/h flat; temperature spread: warm hours 2.0/h.
+    const prod = new Float64Array(n)
+    for (let h = 10; h <= 13; h++) prod[h] = 5
+    const plaski = bilansGodzinowy({ ...baza, produkcjaKwh: prod, zapotrzebowanieMiesiaceKwh: zap(58) })
+    const wgTemp = bilansGodzinowy({ ...baza, produkcjaKwh: prod, zapotrzebowanieMiesiaceKwh: zap(58), ogrzewanie: { miesiaceKwh: zap(58), temperaturaWewnetrznaC: 20, tempZewnetrznaC: temp } })
+    expect(suma(wgTemp.bezposrednioMiesiaceKwh)).toBeLessThan(suma(plaski.bezposrednioMiesiaceKwh))
+    expect(suma(wgTemp.bezposrednioMiesiaceKwh)).toBeCloseTo(8, 10) // 4 hours × 2.0
+  })
+})
+
+describe("calculatePorownywarkaPaneli — ogrzewanie rozłożone wg temperatury (spec 60)", () => {
+  const ogrzewanie = (c: number) => ({ miesiaceKwh: ZAPOTRZEBOWANIE.map((z) => z * c), temperaturaWewnetrznaC: 20 })
+  const kody = (r: ReturnType<typeof calculatePorownywarkaPaneli>) => r.assumptions.map((a) => (typeof a === "string" ? a : a.kod))
+
+  // Cold nights (−10 °C), mild days (0 °C): heating concentrates when the panels give nothing.
+  const zDobowaTemperatura = (): RekordGodzinowy[] => rok().map((r) => ({ ...r, tempC: new Date(r.czasUtcMs).getUTCHours() >= 6 && new Date(r.czasUtcMs).getUTCHours() < 16 ? 0 : -10 }))
+
+  it("adds the assumption and leaves the yearly consumption equal to the monthly demand; cold nights raise the shortfall", () => {
+    const wspolne = { daneGodzinowe: zDobowaTemperatura(), bilansGodzinowy: { pojemnoscKwh: 0, sprawnoscCyklu: null } }
+    const bez = calculatePorownywarkaPaneli(wejscie(wspolne))
+    const z = calculatePorownywarkaPaneli(wejscie({ ...wspolne, ogrzewanieElektryczne: ogrzewanie(0.5) }))
+    expect(kody(z)).toContain("PORP-ZAL-OGRZEWANIE-GODZINOWE")
+    expect(kody(bez)).not.toContain("PORP-ZAL-OGRZEWANIE-GODZINOWE")
+    const b = z.value.panele[0]!.bilansGodzinowy!
+    expect(b.zuzycieRokKwh).toBeCloseTo(ZAPOTRZEBOWANIE.reduce((a, c) => a + c, 0), 8)
+    expect(b.brakRokKwh).toBeGreaterThan(bez.value.panele[0]!.bilansGodzinowy!.brakRokKwh)
+  })
+
+  it("without hourly temperature in the data it keeps the even spread and says so (info warning, no assumption)", () => {
+    const bezTemp = rok().map(({ tempC: _t, ...r }) => r)
+    const z = calculatePorownywarkaPaneli(wejscie({ daneGodzinowe: bezTemp, bilansGodzinowy: { pojemnoscKwh: 0, sprawnoscCyklu: null }, ogrzewanieElektryczne: ogrzewanie(0.5) }))
+    expect(kody(z)).not.toContain("PORP-ZAL-OGRZEWANIE-GODZINOWE")
+    expect(z.warnings.some((w) => w.code === "PORP-BRAK-TEMPERATURY-GODZINOWEJ")).toBe(true)
+  })
+
+  it("rejects heating that is not 12 non-negative numbers or has an absurd indoor temperature", () => {
+    expect(calculatePorownywarkaPaneli(wejscie({ ogrzewanieElektryczne: { miesiaceKwh: [1, 2], temperaturaWewnetrznaC: 20 } })).status).toBe("INVALID_INPUT")
+    expect(calculatePorownywarkaPaneli(wejscie({ ogrzewanieElektryczne: { ...ogrzewanie(0.5), temperaturaWewnetrznaC: 80 } })).status).toBe("INVALID_INPUT")
+    expect(calculatePorownywarkaPaneli(wejscie({ ogrzewanieElektryczne: { miesiaceKwh: ZAPOTRZEBOWANIE.map(() => -1), temperaturaWewnetrznaC: 20 } })).status).toBe("INVALID_INPUT")
+  })
+})
