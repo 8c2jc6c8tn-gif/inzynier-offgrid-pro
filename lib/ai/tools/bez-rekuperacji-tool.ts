@@ -3,6 +3,7 @@
  * Dane wejściowe WYŁĄCZNIE od usera (karty urządzeń, Moduły 3/6); model nie zgaduje — null, gdy nieznane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBezRekuperacji } from "@/lib/core/modules/stress-test/bez-rekuperacji/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const BezRekuperacjiToolInput = z.object({
 export type BezRekuperacjiToolInputT = z.infer<typeof BezRekuperacjiToolInput>
 
 export const BezRekuperacjiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dodatkowaStrataKw: z.number().nullable(),
   dodatkowaEnergiaKwhDoba: z.number().nullable(),
   mocNagrzewnicyW: z.number().nullable(),

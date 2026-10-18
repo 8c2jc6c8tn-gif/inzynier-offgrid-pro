@@ -4,6 +4,7 @@
  * szczytowy prąd rozruchu falownika MUSZĄ pochodzić z karty katalogowej.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTopologiaBms } from "@/lib/core/modules/baterie/topologia-bms/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const TopologiaBmsToolInput = z.object({
 export type TopologiaBmsToolInputT = z.infer<typeof TopologiaBmsToolInput>
 
 export const TopologiaBmsToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   bmsCommonPortA: z.number(),
   falownikPradRozruchuA: z.number(),
   commonPortWystarcza: z.boolean(),

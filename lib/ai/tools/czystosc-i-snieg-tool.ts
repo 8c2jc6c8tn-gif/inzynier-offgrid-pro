@@ -4,6 +4,7 @@
  * wg kąta oraz rekomendacja mycia wg spadku produkcji i prognozy deszczu. Każda część opcjonalna.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import {
   CALCULATOR_VERSION,
   classifyKatSamooczyszczania,
@@ -26,7 +27,7 @@ export const CzystoscISniegToolInput = z.object({
 })
 export type CzystoscISniegToolInputT = z.infer<typeof CzystoscISniegToolInput>
 
-const STATUS = z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"])
+const STATUS = z.enum(STATUSY)
 
 export const CzystoscISniegToolOutput = z.object({
   samooczyszczanie: z

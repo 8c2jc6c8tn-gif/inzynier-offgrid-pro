@@ -6,6 +6,7 @@
  * modelu budynku z Modułu 1 — dla asystenta to narzędzie `ocen_orientacje_powierzchni`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu } from "@/lib/core/modules/pv/eurokod-1/wiatr"
@@ -50,7 +51,7 @@ export type TypMontazuToolInputT = z.infer<typeof TypMontazuToolInput>
 
 export const TypMontazuToolOutput = z.object({
   tryb: z.string(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pionowy: z
     .object({
       optimumDeg: z.number(),

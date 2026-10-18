@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Reakcje wentylacji na pożar — WYŁĄCZNIE deklaracja usera; model nie zakłada "tak".
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKlapyPozarowe } from "@/lib/core/modules/bezpieczenstwo/klapy-pozarowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const KlapyPozaroweToolInput = z.object({
 export type KlapyPozaroweToolInputT = z.infer<typeof KlapyPozaroweToolInput>
 
 export const KlapyPozaroweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaBrakow: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

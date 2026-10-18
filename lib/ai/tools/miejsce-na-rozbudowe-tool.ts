@@ -4,6 +4,7 @@
  * brak odstępów = 0 mm (brak danych, nie zalecenie), model nie zgaduje ani wymiarów, ani luzów wentylacyjnych.
  */
 import { z } from "zod"
+import { STATUSY, isComputed } from "@/lib/core/calc-result"
 import { calculateMiejsceNaRozbudowe } from "@/lib/core/modules/kalkulator-mobilny/miejsce-na-rozbudowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const MiejsceNaRozbudoweToolInput = z.object({
 export type MiejsceNaRozbudoweToolInputT = z.infer<typeof MiejsceNaRozbudoweToolInput>
 
 export const MiejsceNaRozbudoweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   maksSztuk: z.number().nullable().describe("Ile elementów zmieści się łącznie (wszystkie warstwy)"),
   uklad: z.enum(["wzdluz", "wszerz"]).nullable().describe("wzdluz = dłuższy bok elementu wzdłuż długości miejsca; wszerz = obrócony o 90°"),
   kolumny: z.number().nullable(),
@@ -65,7 +66,7 @@ export const miejsceNaRozbudoweTool: AiToolDefinition<MiejsceNaRozbudoweToolInpu
       moznaPietrowac: input.moznaPietrowac ?? false,
       planowanaLiczba: input.planowanaLiczba ?? null,
     })
-    const ma = wynik.status === "VALID" || wynik.status === "VALID_WITH_WARNINGS"
+    const ma = isComputed(wynik.status)
     const v = ma ? wynik.value : null
     return {
       status: wynik.status,

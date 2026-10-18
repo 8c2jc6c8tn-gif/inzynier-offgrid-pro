@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić od usera z karty katalogowej (Dyrektywa #1) — brak pola = 0, nigdy wartość zgadnięta przez model.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNagrzewnicaPowietrza } from "@/lib/core/modules/ogrzewanie/nagrzewnica-powietrza/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const NagrzewnicaPowietrzaToolInput = z.object({
 export type NagrzewnicaPowietrzaToolInputT = z.infer<typeof NagrzewnicaPowietrzaToolInput>
 
 export const NagrzewnicaPowietrzaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   paliwoNaKwhCieplaL: z.number().nullable(),
   kosztPaliwaNaKwhCieplaZl: z.number().nullable(),
   pradPomocniczyNaKwhCieplaKwh: z.number().nullable(),

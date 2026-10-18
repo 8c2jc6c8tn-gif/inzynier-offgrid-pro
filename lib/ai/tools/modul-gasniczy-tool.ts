@@ -4,6 +4,7 @@
  * gaśniczy, chemia magazynu w strefie, liczba czujników, odcięcie wentylacji i stan modułu — WYŁĄCZNIE od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateModulGasniczy } from "@/lib/core/modules/bezpieczenstwo/modul-gasniczy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const ModulGasniczyToolInput = z.object({
 export type ModulGasniczyToolInputT = z.infer<typeof ModulGasniczyToolInput>
 
 export const ModulGasniczyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   srodekWlasciwyDlaLifepo4: z.boolean().nullable(),
   liczbaBrakow: z.number(),
   ostrzezenia: z.array(z.string()),

@@ -4,6 +4,7 @@
  * z kart katalogowych — brak limitu = limit nieznany, nigdy wartość zgadnięta przez model.
  */
 import { z } from "zod"
+import { STATUSY, isComputed } from "@/lib/core/calc-result"
 import { calculateLadowanieZRegulatora } from "@/lib/core/modules/kalkulator-mobilny/ladowanie-z-regulatora/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const LadowanieZRegulatoraToolInput = z.object({
 export type LadowanieZRegulatoraToolInputT = z.infer<typeof LadowanieZRegulatoraToolInput>
 
 export const LadowanieZRegulatoraToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pradLadowaniaA: z.number().nullable().describe("Prąd ładowania po wszystkich znanych limitach [A] — GÓRNA granica (moc STC)"),
   mocLadowaniaW: z.number().nullable(),
   pradZPaneliA: z.number().nullable().describe("Prąd, jaki dałyby same panele (po limicie wejścia PV regulatora) [A]"),
@@ -65,7 +66,7 @@ export const ladowanieZRegulatoraTool: AiToolDefinition<LadowanieZRegulatoraTool
       socOdPct: input.socOdPct ?? null,
       socDoPct: input.socDoPct ?? null,
     })
-    const ma = wynik.status === "VALID" || wynik.status === "VALID_WITH_WARNINGS"
+    const ma = isComputed(wynik.status)
     const v = ma ? wynik.value : null
     return {
       status: wynik.status,

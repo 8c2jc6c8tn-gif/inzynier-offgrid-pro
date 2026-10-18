@@ -5,6 +5,7 @@
  * nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborBezpiecznikaRozlacznika } from "@/lib/core/modules/okablowanie/dobor-bezpiecznika-rozlacznika/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ export type DoborBezpiecznikaRozlacznikaToolInputT = z.infer<typeof DoborBezpiec
 export const DoborBezpiecznikaRozlacznikaToolOutput = z.object({
   pradBezpiecznikaZalecanyA: z.number(),
   aicWystarczajace: z.boolean().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

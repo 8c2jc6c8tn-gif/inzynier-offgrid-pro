@@ -4,6 +4,7 @@
  * połączeniu N–PE i RCD 30 mA (D56) MUSZĄ pochodzić od usera — model ich nie zgaduje. Nie liczy uziomu prętowego (pełny projekt: M5/E9).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUziemienieMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/uziemienie-male-instalacje/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -36,7 +37,7 @@ export const UziemienieMaleInstalacjeToolInput = z.object({
 export type UziemienieMaleInstalacjeToolInputT = z.infer<typeof UziemienieMaleInstalacjeToolInput>
 
 export const UziemienieMaleInstalacjeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wymaganeUziemienieOchronne: z.boolean().nullable().describe("Czy uziemienie ochronne jest wymagane; null = brak danych"),
   zalecaneZeWzgleduNaWilgoc: z.boolean(),
   ostrzezenia: z.array(z.string()),

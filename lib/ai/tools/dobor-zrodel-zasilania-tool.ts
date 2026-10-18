@@ -4,6 +4,7 @@
  * pojemność, możliwy prąd) — od usera albo z BMS; model nie zgaduje progu SoC ani temperatury.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborZrodelZasilania } from "@/lib/core/modules/ai/dobor-zrodel-zasilania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const DoborZrodelZasilaniaToolInput = z.object({
 export type DoborZrodelZasilaniaToolInputT = z.infer<typeof DoborZrodelZasilaniaToolInput>
 
 export const DoborZrodelZasilaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zrodlo: z.enum(["PV", "AGREGAT", "SIEC", "BRAK"]),
   pozniejSocPonizejProgu: z.boolean(),
   strefa: z.enum(["blokada", "limit-01c", "limit-02c", "luka-zrodla", "pelny-prad"]).nullable(),

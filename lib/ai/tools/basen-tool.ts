@@ -3,6 +3,7 @@
  * 'read'`. Objętość, przyrost, moc, COP i nocny spadek temperatury pochodzą od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBasen } from "@/lib/core/modules/ogrzewanie/basen/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const BasenToolInput = z.object({
 export type BasenToolInputT = z.infer<typeof BasenToolInput>
 
 export const BasenToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploKwh: z.number(),
   czasH: z.number(),
   pradKwh: z.number().nullable(),

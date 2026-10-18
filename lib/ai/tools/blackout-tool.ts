@@ -3,6 +3,7 @@
  * Pojemność, SoC, sprawność i zużycie w mrozie od usera; model nie zgaduje (null, gdy nieznane).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBlackout } from "@/lib/core/modules/stress-test/blackout/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const BlackoutToolInput = z.object({
 export type BlackoutToolInputT = z.infer<typeof BlackoutToolInput>
 
 export const BlackoutToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaDostepnaKwh: z.number().nullable(),
   deficytDobowyKwh: z.number().nullable(),
   dniPrzetrwania: z.number().nullable(),

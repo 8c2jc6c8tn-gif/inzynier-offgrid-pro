@@ -4,6 +4,7 @@
  * napięcie/prąd wejścia) MUSZĄ pochodzić od usera z kart katalogowych — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePanelDoStacjiZasilania } from "@/lib/core/modules/kalkulator-mobilny/panel-do-stacji-zasilania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const PanelDoStacjiZasilaniaToolInput = z.object({
 export type PanelDoStacjiZasilaniaToolInputT = z.infer<typeof PanelDoStacjiZasilaniaToolInput>
 
 export const PanelDoStacjiZasilaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   vocZimoweV: z.number().describe("Napięcie jałowe łańcucha w najniższej temperaturze [V]"),
   udzialLimituPct: z.number().describe("Udział limitu napięcia wejścia stacji [%]"),
   pradZwarciowyA: z.number().nullable().describe("Suma prądów zwarciowych gałęzi [A]; null = nie podano Isc"),

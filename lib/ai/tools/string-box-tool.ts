@@ -5,6 +5,7 @@
  * ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateStringBox } from "@/lib/core/modules/okablowanie/string-box/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const StringBoxToolOutput = z.object({
   wejscWystarczajaco: z.boolean().nullable(),
   bezpiecznikWZakresie: z.boolean().nullable(),
   maSkrzynkeIp66: z.boolean(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

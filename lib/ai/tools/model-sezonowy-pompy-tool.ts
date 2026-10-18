@@ -3,6 +3,7 @@
  * SCOP (dawne 5.43). `operationType: 'read'`. Ciepło miesięcy (Ekran 1/2) i COP miesięcy (karta) — od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateModelSezonowyPompy } from "@/lib/core/modules/ogrzewanie/model-sezonowy-pompy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const ModelSezonowyPompyToolInput = z.object({
 export type ModelSezonowyPompyToolInputT = z.infer<typeof ModelSezonowyPompyToolInput>
 
 export const ModelSezonowyPompyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   miesiace: z.array(
     z.object({ miesiac: z.number(), cieploKwh: z.number(), cop: z.number(), energiaKwh: z.number(), energiaDobaKwh: z.number() }),
   ),

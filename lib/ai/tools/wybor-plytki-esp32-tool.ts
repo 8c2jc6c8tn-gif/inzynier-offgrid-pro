@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Dopasowanie po cechach wariantów ze źródła; kanałów ADC, flash i poboru prądu nie porównuje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWyborPlytki } from "@/lib/core/modules/esp32/wybor-plytki/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const WyborPlytkiEsp32ToolInput = z.object({
 export type WyborPlytkiEsp32ToolInputT = z.infer<typeof WyborPlytkiEsp32ToolInput>
 
 export const WyborPlytkiEsp32ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   rekomendacja: z.array(z.string()),
   plytki: z.array(z.object({ id: z.string(), dopasowania: z.number() })),
   liczbaPotrzeb: z.number(),

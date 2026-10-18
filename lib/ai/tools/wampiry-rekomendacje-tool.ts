@@ -5,6 +5,7 @@
  * Koszt zakupu i roczną oszczędność podaje user — źródło nie daje norm cenowych, model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import {
   calculatePorownanieMetod,
   wybierzMetodeDlaKategorii,
@@ -33,7 +34,7 @@ export const WampiryRekomendacjeToolInput = z.object({
 export type WampiryRekomendacjeToolInputT = z.infer<typeof WampiryRekomendacjeToolInput>
 
 export const WampiryRekomendacjeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   metody: z.array(
     z.object({
       id: z.string(),

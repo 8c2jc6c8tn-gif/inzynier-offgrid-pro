@@ -5,6 +5,7 @@
  * różnych chemii).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMixingRownolegle } from "@/lib/core/modules/baterie/mixing-rownolegle/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const MixingRownoleglToolInput = z.object({
 export type MixingRownoleglToolInputT = z.infer<typeof MixingRownoleglToolInput>
 
 export const MixingRownoleglToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   roznicaNapiecV: z.number(),
   iWyrownawczyA: z.number(),
   udzialPradu1Pct: z.number(),

@@ -5,6 +5,7 @@
  * przetwornice; model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDniBezSlonca } from "@/lib/core/modules/kalkulator-mobilny/dni-bez-slonca/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const DniBezSloncaToolInput = z.object({
 export type DniBezSloncaToolInputT = z.infer<typeof DniBezSloncaToolInput>
 
 export const DniBezSloncaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dni: z.number().describe("Liczba dni pracy bez doładowania (ułamkowa)"),
   pelneDoby: z.number().describe("Pełne doby pracy"),
   energiaDostepnaWh: z.number().describe("Energia realnie dostępna z akumulatora [Wh] = C × U × DoD × η"),

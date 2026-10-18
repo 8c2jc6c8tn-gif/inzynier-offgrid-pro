@@ -4,6 +4,7 @@
  * usera — bezpiecznik zależy od pojazdu, model go nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateGniazdoZapalniczki } from "@/lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const GniazdoZapalniczkiToolInput = z.object({
 export type GniazdoZapalniczkiToolInputT = z.infer<typeof GniazdoZapalniczkiToolInput>
 
 export const GniazdoZapalniczkiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   sumaMocyW: z.number(),
   pradA: z.number().describe("Prąd pobierany z gniazda [A]"),
   mocMaxW: z.number().describe("Największa moc dopuszczalna przez bezpiecznik [W]"),

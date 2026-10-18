@@ -5,6 +5,7 @@
  * przez model. To dane bezpieczeństwa (różnica napięć >0,05V, brak balancera BMS).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWeryfikacjaOgniw } from "@/lib/core/modules/montaz-baterii/weryfikacja-ogniw/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const WeryfikacjaOgniwToolInput = z.object({
 export type WeryfikacjaOgniwToolInputT = z.infer<typeof WeryfikacjaOgniwToolInput>
 
 export const WeryfikacjaOgniwToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaOgniw: z.number(),
   minNapiecieV: z.number(),
   maxNapiecieV: z.number(),

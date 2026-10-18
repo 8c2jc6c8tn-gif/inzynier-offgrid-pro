@@ -6,6 +6,7 @@
  * (zależy od konfiguracji, źródło nie podaje wzoru).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZacienienieDiodyBocznikujace } from "@/lib/core/modules/pv/zacienienie-diody-bocznikujace/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const ZacienienieDiodyBocznikujaceToolInput = z.object({
 export type ZacienienieDiodyBocznikujaceToolInputT = z.infer<typeof ZacienienieDiodyBocznikujaceToolInput>
 
 export const ZacienienieDiodyBocznikujaceToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataPaneluPct: z.number(),
   mocPaneluRzeczywistaW: z.number(),
   ostrzezenia: z.array(z.string()),

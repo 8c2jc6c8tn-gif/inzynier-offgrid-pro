@@ -4,6 +4,7 @@
  * zgadnięte przez model (mapy wyładowań nie ma w aplikacji).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -33,7 +34,7 @@ export const OcenaRyzykaCrlToolInput = z.object({
 export type OcenaRyzykaCrlToolInputT = z.infer<typeof OcenaRyzykaCrlToolInput>
 
 export const OcenaRyzykaCrlToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   spdWymagany: z.boolean().nullable(),
   powod: z.enum(["skutki-krytyczne", "crl", "brak-linii"]).nullable(),
   crl: z.number().nullable(),

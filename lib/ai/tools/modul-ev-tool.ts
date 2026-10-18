@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić od usera — nie zgaduj zużycia energii EV na km ani produkcji PV.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateModulEv } from "@/lib/core/modules/baterie/modul-ev/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const ModulEvToolInput = z.object({
 export type ModulEvToolInputT = z.infer<typeof ModulEvToolInput>
 
 export const ModulEvToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   brakLatemKwh: z.number(),
   brakZimaKwh: z.number(),
   pokryteLatem: z.boolean(),

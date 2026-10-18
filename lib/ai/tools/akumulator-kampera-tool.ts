@@ -4,6 +4,7 @@
  * akumulatorów (Dyrektywa #1); pełne porównanie technologii — M4/E30.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAkumulatorKampera } from "@/lib/core/modules/kalkulator-mobilny/akumulator-kampera/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -35,7 +36,7 @@ const Wariant = z.object({
 })
 
 export const AkumulatorKamperaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   agm: Wariant,
   lfp: Wariant,
   potrzebaWh: z.number(),

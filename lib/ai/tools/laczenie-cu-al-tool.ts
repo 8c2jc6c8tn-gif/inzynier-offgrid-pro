@@ -5,6 +5,7 @@
  * instalacji) — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLaczenieCuAl } from "@/lib/core/modules/okablowanie/laczenie-cu-al/calculator"
 import type { Material, Srodowisko } from "@/lib/core/modules/okablowanie/laczenie-cu-al/input"
 import type { AiToolDefinition } from "../types"
@@ -27,7 +28,7 @@ export type LaczenieCuAlToolInputT = z.infer<typeof LaczenieCuAlToolInput>
 export const LaczenieCuAlToolOutput = z.object({
   bezpieczna: z.boolean().nullable(),
   wymaganyPrzekrojAlMm2: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

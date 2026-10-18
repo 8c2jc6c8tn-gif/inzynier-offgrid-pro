@@ -5,6 +5,7 @@
  * wpływu na wielkość magazynu (wzorzec "echo" Modułu 4/Ekran 1) — również od usera, nie zgaduj.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDniAutonomii } from "@/lib/core/modules/zapotrzebowanie/dni-autonomii/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const DniAutonomiiToolInput = z.object({
 export type DniAutonomiiToolInputT = z.infer<typeof DniAutonomiiToolInput>
 
 export const DniAutonomiiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dniAutonomii: z.number(),
   pojemnoscUzytecznaSzacowanaKwh: z.number().nullable(),
   ostrzezenia: z.array(z.string()),

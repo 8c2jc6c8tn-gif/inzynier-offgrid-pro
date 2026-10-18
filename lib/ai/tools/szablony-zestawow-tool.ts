@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSzablonyZestawow } from "@/lib/core/modules/kalkulator-mobilny/szablony-zestawow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const SzablonyZestawowToolInput = z.object({
 export type SzablonyZestawowToolInputT = z.infer<typeof SzablonyZestawowToolInput>
 
 export const SzablonyZestawowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   zuzyciePobytWh: z.number(),
   szczytW: z.number(),

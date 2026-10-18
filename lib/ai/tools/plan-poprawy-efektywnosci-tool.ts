@@ -3,6 +3,7 @@
  * (dawne 5.68, Wzorzec G). `operationType: 'read'`. Oszczędności działań — z ekranu „Wpływ czynnika”; koszty — oferty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePlanPoprawy } from "@/lib/core/modules/ogrzewanie/plan-poprawy-efektywnosci/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const PlanPoprawyToolInput = z.object({
 export type PlanPoprawyToolInputT = z.infer<typeof PlanPoprawyToolInput>
 
 export const PlanPoprawyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   plan: z.array(
     z.object({
       indeks: z.number(),

@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 21, Moduł 5 — "Normy i certyfikaty". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNormyICertyfikaty } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/constants"
 import type { AiToolDefinition } from "../types"
@@ -20,7 +21,7 @@ export type NormyICertyfikatyToolInputT = z.infer<typeof NormyICertyfikatyToolIn
 export const NormyICertyfikatyToolOutput = z.object({
   potwierdzone: z.number(),
   razem: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   brakujaceKomponenty: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

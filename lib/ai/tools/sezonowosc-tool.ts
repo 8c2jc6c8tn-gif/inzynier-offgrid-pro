@@ -4,6 +4,7 @@
  * źródło nie definiuje uniwersalnych granic "lata"/"zimy" dla wszystkich urządzeń, nie zgaduj ich.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSezonowosc } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const SezonowoscToolInput = z.object({
 export type SezonowoscToolInputT = z.infer<typeof SezonowoscToolInput>
 
 export const SezonowoscToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   aktywne: z.boolean(),
   zapotrzebowanieWliczoneKwhDoba: z.number(),
   ostrzezenia: z.array(z.string()),

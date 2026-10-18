@@ -6,6 +6,7 @@
  * źródła) NIE jest liczona, celowo pominięta w `calculator.ts`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateInfiltracjaPowietrza } from "@/lib/core/modules/ogrzewanie/infiltracja-powietrza/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const InfiltracjaPowietrzaToolInput = z.object({
 export type InfiltracjaPowietrzaToolInputT = z.infer<typeof InfiltracjaPowietrzaToolInput>
 
 export const InfiltracjaPowietrzaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataCieplnaKw: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

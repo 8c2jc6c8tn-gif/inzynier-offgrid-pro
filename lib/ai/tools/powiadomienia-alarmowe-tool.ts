@@ -4,6 +4,7 @@
  * WYŁĄCZNIE wyraźna deklaracja usera, model nigdy jej nie zakłada.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePowiadomieniaAlarmowe } from "@/lib/core/modules/bezpieczenstwo/powiadomienia-alarmowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const PowiadomieniaAlarmoweToolInput = z.object({
 export type PowiadomieniaAlarmoweToolInputT = z.infer<typeof PowiadomieniaAlarmoweToolInput>
 
 export const PowiadomieniaAlarmoweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   autoWezwanieAktywne: z.boolean(),
   liczbaBrakow: z.number(),
   ostrzezenia: z.array(z.string()),

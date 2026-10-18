@@ -5,6 +5,7 @@
  * budowlanego albo od konstruktora).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateObciazenieDachuSniegiem } from "@/lib/core/modules/stress-test/obciazenie-dachu-sniegiem/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -31,7 +32,7 @@ export const ObciazenieDachuSniegiemToolInput = z.object({
 export type ObciazenieDachuSniegiemToolInputT = z.infer<typeof ObciazenieDachuSniegiemToolInput>
 
 export const ObciazenieDachuSniegiemToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   skKnM2: z.number().describe("Obciążenie śniegiem gruntu s_k [kN/m²] (Tablica NB.1)"),
   sKnM2: z.number().describe("Obciążenie śniegiem dachu s = μ1·Ce·Ct·s_k [kN/m²], wartość charakterystyczna"),
   sKgM2: z.number().describe("To samo w kg/m²"),

@@ -5,6 +5,7 @@
  * Zawsze pełna tabela A–D, nigdy jeden „najlepszy” werdykt.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { DANE_ROZLICZEN } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { calculateScenariuszePrzejscia } from "@/lib/core/modules/siec/scenariusze-przejscia/calculator"
 import type { AiToolDefinition } from "../types"
@@ -64,7 +65,7 @@ export type PorownajScenariuszeToolInputT = z.infer<typeof PorownajScenariuszeTo
 const Id = z.enum(["A", "B", "C", "D"])
 
 export const PorownajScenariuszeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   scenariusze: z.array(
     z.object({
       id: Id,

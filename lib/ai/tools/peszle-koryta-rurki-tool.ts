@@ -4,6 +4,7 @@
  * nigdy go nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePeszleKorytaRurki } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/calculator"
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/peszle-koryta-rurki/input"
 import type { AiToolDefinition } from "../types"
@@ -20,7 +21,7 @@ export const PeszleKorytaRurkiToolOutput = z.object({
   zalecanaOslona: z
     .object({ id: z.string(), nazwa: z.string(), opis: z.string() })
     .nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

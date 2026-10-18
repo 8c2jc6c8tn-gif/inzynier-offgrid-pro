@@ -6,6 +6,7 @@
  * (nie zbudowany w jądrze — świadomo pominięta, przykładowa, nie uniwersalna dana źródła).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateProfilAstronomiczny } from "@/lib/core/modules/zapotrzebowanie/profil-astronomiczny/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const ProfilAstronomicznyToolInput = z.object({
 export type ProfilAstronomicznyToolInputT = z.infer<typeof ProfilAstronomicznyToolInput>
 
 export const ProfilAstronomicznyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dlugoscDniaH: z.number(),
   dlugoscNocyH: z.number(),
   energiaNocnaKwh: z.number().nullable(),

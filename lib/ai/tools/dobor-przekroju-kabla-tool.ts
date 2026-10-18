@@ -6,6 +6,7 @@
  * liczba żył (dwie) są założeniami stałymi kalkulatora, nie ma potrzeby ich podawać.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborPrzekrojuKabla } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import type { AiToolDefinition } from "../types"
@@ -45,7 +46,7 @@ export const DoborPrzekrojuKablaToolOutput = z.object({
   marginesObciazalnosciPct: z.number(),
   marginesSpadkuPct: z.number(),
   strataRocznaKwh: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

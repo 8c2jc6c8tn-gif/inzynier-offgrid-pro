@@ -4,6 +4,7 @@
  * nominalna i poziom zachmurzenia MUSZĄ pochodzić od usera — nie zgaduj prognozy pogody.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSymulacjaZachmurzenia } from "@/lib/core/modules/baterie/symulacja-miesiaca-zachmurzenia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const SymulacjaMiesiacaZachmurzeniaToolInput = z.object({
 export type SymulacjaMiesiacaZachmurzeniaToolInputT = z.infer<typeof SymulacjaMiesiacaZachmurzeniaToolInput>
 
 export const SymulacjaMiesiacaZachmurzeniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dobowyDeficytKwh: z.number(),
   przetrwaCalyScenariusz: z.boolean(),
   dzienPadnieSystem: z.number().nullable(),

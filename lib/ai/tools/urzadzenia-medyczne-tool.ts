@@ -4,6 +4,7 @@
  * (Dyrektywa #1). Minimum 2 doby i zalecenie źródła zapasowego — decyzja właściciela 30.09.2026.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUrzadzeniaMedyczne } from "@/lib/core/modules/kalkulator-mobilny/urzadzenia-medyczne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const UrzadzeniaMedyczneToolInput = z.object({
 export type UrzadzeniaMedyczneToolInputT = z.infer<typeof UrzadzeniaMedyczneToolInput>
 
 export const UrzadzeniaMedyczneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   minimalnyAh: z.number().describe("Minimalny akumulator na 2 doby [Ah]"),
   dobyPosiadany: z.number().describe("Ile dób podtrzyma posiadany akumulator; 0 = nie podano"),

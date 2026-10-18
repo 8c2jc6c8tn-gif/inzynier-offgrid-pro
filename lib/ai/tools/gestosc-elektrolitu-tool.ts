@@ -4,6 +4,7 @@
  * areometrem przez usera — nie zgaduj. `null` = jeszcze niezmierzone.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateGestoscElektrolitu } from "@/lib/core/modules/montaz-baterii/gestosc-elektrolitu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const GestoscElektrolituToolInput = z.object({
 export type GestoscElektrolituToolInputT = z.infer<typeof GestoscElektrolituToolInput>
 
 export const GestoscElektrolituToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   gestoscGCm3: z.number(),
   stan: z.enum(["pelny", "czesciowo-naladowany", "rozladowany"]).nullable(),
   ostrzezenia: z.array(z.string()),

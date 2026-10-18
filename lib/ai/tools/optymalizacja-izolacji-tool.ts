@@ -4,6 +4,7 @@
  * nigdy wartości zgadnięte przez model.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOptymalizacjaIzolacji } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const OptymalizacjaIzolacjiToolInput = z.object({
 export type OptymalizacjaIzolacjiToolInputT = z.infer<typeof OptymalizacjaIzolacjiToolInput>
 
 export const OptymalizacjaIzolacjiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataRocznaPrzedKwh: z.number().nullable(),
   warianty: z.array(
     z.object({

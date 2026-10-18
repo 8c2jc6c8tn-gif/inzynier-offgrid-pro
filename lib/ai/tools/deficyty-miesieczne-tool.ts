@@ -4,6 +4,7 @@
  * historia produkcji z lat — tylko dane podane przez usera albo z jego źródła (nigdy wymyślone).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDeficytyMiesieczne } from "@/lib/core/modules/stress-test/deficyty-miesieczne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -69,7 +70,7 @@ export const DeficytyMiesieczneToolInput = z.object({
 export type DeficytyMiesieczneToolInputT = z.infer<typeof DeficytyMiesieczneToolInput>
 
 export const DeficytyMiesieczneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   miesiace: z.array(
     z.object({
       miesiac: z.number(),

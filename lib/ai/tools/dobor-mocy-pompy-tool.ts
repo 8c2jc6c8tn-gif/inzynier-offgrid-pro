@@ -4,6 +4,7 @@
  * z tabeli karty — od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborMocyPompy } from "@/lib/core/modules/ogrzewanie/dobor-mocy-pompy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const DoborMocyPompyToolInput = z.object({
 export type DoborMocyPompyToolInputT = z.infer<typeof DoborMocyPompyToolInput>
 
 export const DoborMocyPompyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zapasKw: z.number(),
   dogrzewanieKw: z.number(),
   pokryciePompaPct: z.number(),

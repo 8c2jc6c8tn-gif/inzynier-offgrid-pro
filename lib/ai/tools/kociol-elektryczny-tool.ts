@@ -4,6 +4,7 @@
  * katalogowa/pomiar) i cena energii pochodzą WYŁĄCZNIE od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKociolElektryczny } from "@/lib/core/modules/ogrzewanie/kociol-elektryczny/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const KociolElektrycznyToolInput = z.object({
 export type KociolElektrycznyToolInputT = z.infer<typeof KociolElektrycznyToolInput>
 
 export const KociolElektrycznyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaPompyKwh: z.number(),
   energiaKotlaKwh: z.number(),
   kosztPompyZl: z.number(),

@@ -5,6 +5,7 @@
  * model nigdy nie zakłada "tak" ani "fail-safe" — dane bezpieczeństwa życia (drogi ewakuacji).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZamkiDrzwiEwakuacyjnych } from "@/lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -29,7 +30,7 @@ export const ZamkiDrzwiEwakuacyjnychToolInput = z.object({
 export type ZamkiDrzwiEwakuacyjnychToolInputT = z.infer<typeof ZamkiDrzwiEwakuacyjnychToolInput>
 
 export const ZamkiDrzwiEwakuacyjnychToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   failSafe: z.boolean().nullable(),
   liczbaBrakow: z.number(),
   ostrzezenia: z.array(z.string()),

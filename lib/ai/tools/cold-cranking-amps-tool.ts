@@ -5,6 +5,7 @@
  * napięcia poniżej progu falownika = wyłączenie systemu w trakcie rozruchu).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateColdCrankingAmps } from "@/lib/core/modules/baterie/cold-cranking-amps/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const ColdCrankingAmpsToolInput = z.object({
 export type ColdCrankingAmpsToolInputT = z.infer<typeof ColdCrankingAmpsToolInput>
 
 export const ColdCrankingAmpsToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   vSagV: z.number(),
   falownikWytrzyma: z.boolean(),
   ostrzezenia: z.array(z.string()),

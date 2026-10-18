@@ -3,12 +3,14 @@
  * Każdy kalkulator domenowy zwraca CalcResult<T>, nigdy samą liczbę.
  */
 
-export type Status =
-  | "VALID"
-  | "VALID_WITH_WARNINGS"
-  | "INCOMPLETE"
-  | "OUT_OF_SCOPE"
-  | "INVALID_INPUT"
+/**
+ * Wszystkie statusy wyniku, w jednym miejscu (schematy narzędzi AI budują z tej listy `z.enum(STATUSY)`).
+ * `ESTIMATE` (3.3): wynik poza zakresem metody/normy, policzony jako nasza interpretacja — liczba istnieje,
+ * ale nigdy nie jest podawana jako normowa.
+ */
+export const STATUSY = ["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "ESTIMATE", "INVALID_INPUT"] as const
+
+export type Status = (typeof STATUSY)[number]
 
 /** Werdykt trójstopniowy — docs/standards/04-walidacja-i-twarde-stopy.md, 4.1. */
 export type WarningLevel = "info" | "warning" | "critical"
@@ -66,7 +68,7 @@ export type CalcResult<T> = {
   traceId?: string
 }
 
-/** Pomocnicze: czy wynik nadaje się do pokazania jako liczba (nie INCOMPLETE/INVALID_INPUT). */
+/** Pomocnicze: czy wynik nadaje się do pokazania jako liczba (nie INCOMPLETE/OUT_OF_SCOPE/INVALID_INPUT). `ESTIMATE` jest liczbą, ale zawsze z oznaczeniem, że to szacunek. */
 export function isComputed(status: Status): boolean {
-  return status === "VALID" || status === "VALID_WITH_WARNINGS"
+  return status === "VALID" || status === "VALID_WITH_WARNINGS" || status === "ESTIMATE"
 }

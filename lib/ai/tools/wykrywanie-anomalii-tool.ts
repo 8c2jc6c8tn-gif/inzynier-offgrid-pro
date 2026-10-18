@@ -4,6 +4,7 @@
  * kaskady — od usera; model nie zgaduje progu ani przyczyny.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWykrywanieAnomalii } from "@/lib/core/modules/ai/wykrywanie-anomalii/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const WykrywanieAnomaliiToolInput = z.object({
 export type WykrywanieAnomaliiToolInputT = z.infer<typeof WykrywanieAnomaliiToolInput>
 
 export const WykrywanieAnomaliiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   odchylenieKwh: z.number(),
   odchyleniePct: z.number(),
   przekroczonyProg: z.boolean().nullable(),

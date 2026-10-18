@@ -4,6 +4,7 @@
  * WYŁĄCZNIE od usera (karta katalogowa / stan faktyczny instalacji).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBuforCiepla } from "@/lib/core/modules/ogrzewanie/bufor-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const BuforCieplaToolInput = z.object({
 export type BuforCieplaToolInputT = z.infer<typeof BuforCieplaToolInput>
 
 export const BuforCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalecanaPojemnoscL: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

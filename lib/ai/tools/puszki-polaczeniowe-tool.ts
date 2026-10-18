@@ -4,6 +4,7 @@
  * nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePuszkiPolaczeniowe } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/calculator"
 import type { MiejsceMontazu } from "@/lib/core/modules/okablowanie/puszki-polaczeniowe/input"
 import type { AiToolDefinition } from "../types"
@@ -18,7 +19,7 @@ export type PuszkiPolaczenioweToolInputT = z.infer<typeof PuszkiPolaczenioweTool
 
 export const PuszkiPolaczenioweToolOutput = z.object({
   wymaganyTyp: z.string().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

@@ -4,6 +4,7 @@
  * model nie zgaduje — null, gdy nieznane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLadowanieZAgregatu } from "@/lib/core/modules/stress-test/ladowanie-z-agregatu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const LadowanieZAgregatuToolInput = z.object({
 export type LadowanieZAgregatuToolInputT = z.infer<typeof LadowanieZAgregatuToolInput>
 
 export const LadowanieZAgregatuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocLadowaniaKw: z.number().nullable(),
   obciazeniePct: z.number().nullable(),
   energiaDoMagazynuKwh: z.number().nullable(),

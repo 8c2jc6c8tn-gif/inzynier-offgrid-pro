@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 23, Moduł 3 — "Powłoki antyrefleksyjne". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePowlokiAntyrefleksyjne } from "@/lib/core/modules/pv/powloki-antyrefleksyjne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const PowlokiAntyrefleksyjneToolOutput = z.object({
   zyskMinKwh: z.number(),
   zyskMaxKwh: z.number(),
   jednostka: z.string(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

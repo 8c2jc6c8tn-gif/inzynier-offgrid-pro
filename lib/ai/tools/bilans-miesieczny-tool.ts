@@ -5,6 +5,7 @@
  * magazynu — wyłącznie od usera (brak profili OSD, D38) — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBilansMiesieczny } from "@/lib/core/modules/siec/bilans-miesieczny/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -31,7 +32,7 @@ export const BilansMiesiecznyToolInput = z.object({
 export type BilansMiesiecznyToolInputT = z.infer<typeof BilansMiesiecznyToolInput>
 
 export const BilansMiesiecznyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   miesiace: z.array(
     z.object({
       miesiac: z.number(),

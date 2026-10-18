@@ -3,6 +3,7 @@
  * 5.67), dokładka do Ekranu 1. `operationType: 'read'`. Straty — z Ekranu 1 (przegrody + wentylacja).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRaportEfektywnosci } from "@/lib/core/modules/ogrzewanie/raport-efektywnosci-budynku/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const RaportEfektywnosciToolInput = z.object({
 export type RaportEfektywnosciToolInputT = z.infer<typeof RaportEfektywnosciToolInput>
 
 export const RaportEfektywnosciToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ranking: z.array(z.object({ nazwa: z.string(), strataW: z.number(), udzialPct: z.number() })),
   sumaW: z.number(),
   wskaznikKwhM2Rok: z.number().nullable(),

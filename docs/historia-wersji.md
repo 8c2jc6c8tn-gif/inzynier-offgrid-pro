@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.34.0] — 18.10.2026
+
+Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D92):
+- szósta wartość `Status` w `lib/core/calc-result.ts`, lista `STATUSY` w jednym miejscu; 278 schematów narzędzi AI buduje `z.enum(STATUSY)` zamiast własnej kopii listy,
+- `isComputed` traktuje `ESTIMATE` jako policzoną liczbę, `poziomZStatusu` pokazuje go jako „uwaga”; powielone predykaty (6 miejsc) i trójki warunków (4 ekrany) zastąpione wspólnymi funkcjami,
+- żaden kalkulator jeszcze nie zwraca `ESTIMATE` (pierwsze użycie: wiatr dla paneli pod kątem 30–90° — osobne zadanie).
+
+Wpływ na liczby: brak (żaden wynik nie zmienia statusu ani wartości).
+
 ## [3.33.1] — 18.10.2026
 
 Liczby i daty zgodne z językiem interfejsu (audyt Y.11 z 18.10.2026, poz. 8, standard 17.12):

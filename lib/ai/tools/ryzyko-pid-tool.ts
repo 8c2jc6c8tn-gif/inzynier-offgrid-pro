@@ -5,6 +5,7 @@
  * nigdy ich nie zgaduje. Bez symulacji tempa degradacji mocy — tylko próg ostrzegawczy ze źródła.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRyzykoPid } from "@/lib/core/modules/pv/ryzyko-pid/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const RyzykoPidToolInput = z.object({
 export type RyzykoPidToolInputT = z.infer<typeof RyzykoPidToolInput>
 
 export const RyzykoPidToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ryzykoPid: z.boolean(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

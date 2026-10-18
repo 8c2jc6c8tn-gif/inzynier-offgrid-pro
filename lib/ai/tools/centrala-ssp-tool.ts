@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Stan centrali i odbierane sygnały — WYŁĄCZNIE od usera; model nie zakłada "tak".
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateCentralaSsp } from "@/lib/core/modules/bezpieczenstwo/centrala-ssp/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const CentralaSspToolInput = z.object({
 export type CentralaSspToolInputT = z.infer<typeof CentralaSspToolInput>
 
 export const CentralaSspToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaBrakow: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

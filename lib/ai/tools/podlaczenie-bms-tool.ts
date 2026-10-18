@@ -5,6 +5,7 @@
  * Wzór T = 5·R·C jest kanoniczny (Moduł 4/Ekran 7, obwod-precharge), tu tylko reużyty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePodlaczenieBms } from "@/lib/core/modules/montaz-baterii/podlaczenie-bms/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const PodlaczenieBmsToolInput = z.object({
 export type PodlaczenieBmsToolInputT = z.infer<typeof PodlaczenieBmsToolInput>
 
 export const PodlaczenieBmsToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   czasPreChargeS: z.number(),
   potwierdzoneWKolejnosci: z.number(),
   razem: z.number(),

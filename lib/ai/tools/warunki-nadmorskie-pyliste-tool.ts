@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 25, Moduł 3 — "Warunki nadmorskie i pyliste". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWarunkiNadmorskiePyliste } from "@/lib/core/modules/pv/warunki-nadmorskie-pyliste/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export type WarunkiNadmorskiePylisteToolInputT = z.infer<typeof WarunkiNadmorski
 
 export const WarunkiNadmorskiePylisteToolOutput = z.object({
   niespelnioneReguly: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

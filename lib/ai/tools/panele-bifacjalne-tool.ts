@@ -6,6 +6,7 @@
  * model nigdy nie zgaduje żadnej z tych wartości.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePaneleBifacjalne } from "@/lib/core/modules/pv/panele-bifacjalne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const PaneleBifacjalneToolInput = z.object({
 export type PaneleBifacjalneToolInputT = z.infer<typeof PaneleBifacjalneToolInput>
 
 export const PaneleBifacjalneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dodatkowyUzyskKwh: z.number(),
   calkowityUzyskKwh: z.number(),
   ostrzezenia: z.array(z.string()),

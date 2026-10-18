@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Moce grzałki, nadwyżki PV i falownika MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateGrzalkaCwu } from "@/lib/core/modules/ogrzewanie/grzalka-cwu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const GrzalkaCwuToolInput = z.object({
 export type GrzalkaCwuToolInputT = z.infer<typeof GrzalkaCwuToolInput>
 
 export const GrzalkaCwuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploKwh: z.number(),
   czasH: z.number(),
   energiaZPvKwh: z.number().nullable(),

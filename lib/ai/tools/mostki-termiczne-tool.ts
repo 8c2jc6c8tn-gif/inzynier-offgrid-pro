@@ -4,6 +4,7 @@
  * user wskazał/potwierdził (od 27.09.2026) — brak → INCOMPLETE, nigdy Ψ ani kod zgadnięte przez model.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMostkiTermiczne } from "@/lib/core/modules/ogrzewanie/mostki-termiczne/calculator"
 import { KATALOG_PSI_14683 } from "@/lib/core/modules/ogrzewanie/mostki-termiczne/katalog-psi"
 import type { AiToolDefinition } from "../types"
@@ -34,7 +35,7 @@ export const MostkiTermiczneToolInput = z.object({
 export type MostkiTermiczneToolInputT = z.infer<typeof MostkiTermiczneToolInput>
 
 export const MostkiTermiczneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   hMostkowWK: z.number().nullable(),
   strataMostkowW: z.number().nullable(),
   udzialMostkowPct: z.number().nullable(),

@@ -4,6 +4,7 @@
  * oraz dane płyty indukcyjnej pochodzą WYŁĄCZNIE od usera — nigdy nie zgaduj czasu pracy.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUrzadzeniaZmienne } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -29,7 +30,7 @@ export const UrzadzeniaZmienneToolInput = z.object({
 export type UrzadzeniaZmienneToolInputT = z.infer<typeof UrzadzeniaZmienneToolInput>
 
 export const UrzadzeniaZmienneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaWh: z.number(),
   plytaIndukcyjnaEnergiaWh: z.number(),
   ostrzezenia: z.array(z.string()),

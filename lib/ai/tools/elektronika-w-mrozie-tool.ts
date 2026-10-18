@@ -4,6 +4,7 @@
  * katalogowych podanych przez usera — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateElektronikaWMrozie } from "@/lib/core/modules/stress-test/elektronika-w-mrozie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const ElektronikaWMrozieToolInput = z.object({
 export type ElektronikaWMrozieToolInputT = z.infer<typeof ElektronikaWMrozieToolInput>
 
 export const ElektronikaWMrozieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   /** `nazwa` is "" for an unnamed device — `nr` is its 1-based position on the input list. */
   oceny: z.array(z.object({ nazwa: z.string(), nr: z.number(), typ: Typ, zapasK: z.number().nullable() })),
   liczbaPonizejMin: z.number(),

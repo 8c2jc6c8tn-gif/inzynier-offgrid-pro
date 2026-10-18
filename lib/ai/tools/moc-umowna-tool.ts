@@ -5,6 +5,7 @@
  * podaje user — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMocUmowna } from "@/lib/core/modules/siec/moc-umowna/calculator"
 import type { AiToolDefinition } from "../types"
 import { SiecGrupaSchema, SiecOsdSchema } from "./siec-schematy"
@@ -38,7 +39,7 @@ export const MocUmownaToolInput = z.object({
 export type MocUmownaToolInputT = z.infer<typeof MocUmownaToolInput>
 
 export const MocUmownaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   stalaZlKwMies: z.number(),
   oplatyMiesieczneZl: z.array(z.number()),
   oplataPrzekroczenRokZl: z.number(),

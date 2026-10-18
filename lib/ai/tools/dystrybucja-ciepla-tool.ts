@@ -3,6 +3,7 @@
  * `operationType: 'read'`. COP z karty pompy MUSI pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDystrybucjaCiepla } from "@/lib/core/modules/ogrzewanie/dystrybucja-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const DystrybucjaCieplaToolInput = z.object({
 export type DystrybucjaCieplaToolInputT = z.infer<typeof DystrybucjaCieplaToolInput>
 
 export const DystrybucjaCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dopasowanie: z.enum(["dobre", "zle", "inne-zrodlo"]),
   oszczednoscPct: z.number().nullable().describe("Oszczędność prądu pompy względem grzejników standardowych [%]"),
   energiaSystemuKwh: z.number(),

@@ -4,6 +4,7 @@
  * WYŁĄCZNIE od usera — źródło nie podaje wzoru przeliczającego profil "sterowany" na godziny.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const PompyCyrkulacyjneToolInput = z.object({
 export type PompyCyrkulacyjneToolInputT = z.infer<typeof PompyCyrkulacyjneToolInput>
 
 export const PompyCyrkulacyjneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaObecnaKwh: z.number(),
   energiaNowaKwh: z.number(),
   oszczednoscKwh: z.number(),

@@ -3,6 +3,7 @@
  * Ekranu 6. `operationType: 'read'`. Cykl każdego scenariusza (odstęp, czas) — karta / sterownik / obserwacja.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDefrostSezon } from "@/lib/core/modules/ogrzewanie/defrost-sezon/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ const WynikScenariusza = z
   .nullable()
 
 export const DefrostSezonToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   scenariusze: z.array(WynikScenariusza),
   sumaKwh: z.number(),
   udzialPct: z.number().nullable(),

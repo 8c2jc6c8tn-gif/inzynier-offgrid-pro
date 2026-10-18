@@ -4,6 +4,7 @@
  * asystent musi to powiedzieć userowi razem z wynikiem (Dyrektywa #1); wartości składowych MUSZĄ pochodzić od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWspolczynnik } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -41,7 +42,7 @@ export const WspolczynnikToolInput = z.object({
 export type WspolczynnikToolInputT = z.infer<typeof WspolczynnikToolInput>
 
 export const WspolczynnikToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wskaznikPct: z.number().nullable(),
   zestawWag: z.enum(["domyslne", "wlasne"]),
   najslabsza: z.object({ id: z.string(), wynikPct: z.number() }).nullable(),

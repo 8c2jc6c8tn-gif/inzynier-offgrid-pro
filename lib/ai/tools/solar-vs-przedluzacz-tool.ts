@@ -4,6 +4,7 @@
  * nie ma cennika kabli ani zestawów (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSolarVsPrzedluzacz } from "@/lib/core/modules/kalkulator-mobilny/solar-vs-przedluzacz/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const SolarVsPrzedluzaczToolInput = z.object({
 export type SolarVsPrzedluzaczToolInputT = z.infer<typeof SolarVsPrzedluzaczToolInput>
 
 export const SolarVsPrzedluzaczToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   kosztRocznySieciZl: z.number(),
   oszczednoscRocznaZl: z.number(),
   zwrotLat: z.number().nullable().describe("Okres zwrotu dopłaty do zestawu [lat]; 0 = od razu taniej; null = nigdy"),

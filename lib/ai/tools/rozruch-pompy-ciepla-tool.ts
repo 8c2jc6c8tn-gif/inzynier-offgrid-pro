@@ -3,6 +3,7 @@
  * 5.61, 5.66). `operationType: 'read'`. Prąd rozruchowy i moce źródła pochodzą z kart katalogowych usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRozruchPompyCiepla } from "@/lib/core/modules/ogrzewanie/rozruch-pompy-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const RozruchPompyCieplaToolInput = z.object({
 export type RozruchPompyCieplaToolInputT = z.infer<typeof RozruchPompyCieplaToolInput>
 
 export const RozruchPompyCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   startKva: z.number(),
   softstartKva: z.number().nullable(),
   szczytWymaganyKva: z.number(),

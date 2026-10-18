@@ -4,6 +4,7 @@
  * od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBuforRozbudowy } from "@/lib/core/modules/zapotrzebowanie/bufor-rozbudowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const BuforRozbudowyToolInput = z.object({
 export type BuforRozbudowyToolInputT = z.infer<typeof BuforRozbudowyToolInput>
 
 export const BuforRozbudowyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zapotrzebowanieZBuforemKwh: z.number(),
   dodatekKwh: z.number(),
   ostrzezenia: z.array(z.string()),

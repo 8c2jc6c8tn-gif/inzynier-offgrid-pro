@@ -5,6 +5,7 @@
  * pomiarów wykonanych przez uprawnioną osobę — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePomiaryPowykonawcze } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/calculator"
 import type { CelUziemienia } from "@/lib/core/modules/okablowanie/pomiary-powykonawcze/input"
 import type { AiToolDefinition } from "../types"
@@ -27,7 +28,7 @@ export type PomiaryPowykonawczeToolInputT = z.infer<typeof PomiaryPowykonawczeTo
 export const PomiaryPowykonawczeToolOutput = z.object({
   testowPrzeszlo: z.number(),
   testowLacznie: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

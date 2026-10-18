@@ -4,6 +4,7 @@
  * w repo nie ma bazy stacji ani cennika).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateStacjaVsDiy } from "@/lib/core/modules/kalkulator-mobilny/stacja-vs-diy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const StacjaVsDiyToolInput = z.object({
 export type StacjaVsDiyToolInputT = z.infer<typeof StacjaVsDiyToolInput>
 
 export const StacjaVsDiyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaStacjiWh: z.number(),
   energiaDiyWh: z.number(),
   zlZaWhStacja: z.number().describe("Cena za 1 Wh użyteczną stacji [zł/Wh]"),

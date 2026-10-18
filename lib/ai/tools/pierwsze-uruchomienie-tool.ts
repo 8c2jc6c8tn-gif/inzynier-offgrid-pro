@@ -4,6 +4,7 @@
  * ogniwa podczas testu pochodzą wyłącznie z karty katalogowej/pomiaru usera — nie zgaduj.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePierwszeUruchomienie } from "@/lib/core/modules/montaz-baterii/pierwsze-uruchomienie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const PierwszeUruchomienieToolInput = z.object({
 export type PierwszeUruchomienieToolInputT = z.infer<typeof PierwszeUruchomienieToolInput>
 
 export const PierwszeUruchomienieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pradTestowyA: z.number(),
   osiagnietoTopBalancing: z.boolean(),
   potwierdzone: z.number(),

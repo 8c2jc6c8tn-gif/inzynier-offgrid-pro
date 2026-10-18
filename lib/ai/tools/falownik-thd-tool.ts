@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Tabela obniżenia mocy MUSI pochodzić z karty falownika wpisanej przez usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateFalownikThd } from "@/lib/core/modules/stress-test/falownik-thd/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const FalownikThdToolInput = z.object({
 export type FalownikThdToolInputT = z.infer<typeof FalownikThdToolInput>
 
 export const FalownikThdToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wspolczynnik: z.number(),
   dostepnaKw: z.number(),
   zapasKw: z.number(),

@@ -4,6 +4,7 @@
  * user faktycznie ma przygotowane, bez żadnej wartości liczbowej do zgadywania.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzygotowanieStanowiska } from "@/lib/core/modules/montaz-baterii/przygotowanie-stanowiska/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const PrzygotowanieStanowiskaToolInput = z.object({
 export type PrzygotowanieStanowiskaToolInputT = z.infer<typeof PrzygotowanieStanowiskaToolInput>
 
 export const PrzygotowanieStanowiskaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzone: z.number(),
   razem: z.number(),
   ostrzezenia: z.array(z.string()),

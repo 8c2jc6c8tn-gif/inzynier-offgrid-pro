@@ -4,6 +4,7 @@
  * i sprawność MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAlternatorVsPanele } from "@/lib/core/modules/kalkulator-mobilny/alternator-vs-panele/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const AlternatorVsPaneleToolInput = z.object({
 export type AlternatorVsPaneleToolInputT = z.infer<typeof AlternatorVsPaneleToolInput>
 
 export const AlternatorVsPaneleToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaAlternatorWh: z.number(),
   energiaPaneliWh: z.number(),
   sumaWh: z.number(),

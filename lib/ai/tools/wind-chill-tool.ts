@@ -7,6 +7,7 @@
  * zakresem kalkulator zwraca OUT_OF_SCOPE (wzór traci sens fizyczny), nie przybliżoną wartość.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWindChill } from "@/lib/core/modules/stress-test/wind-chill/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const WindChillToolInput = z.object({
 export type WindChillToolInputT = z.infer<typeof WindChillToolInput>
 
 export const WindChillToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   temperaturaOdczuwalnaC: z.number().describe("Temperatura odczuwalna (wind chill) [°C]"),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

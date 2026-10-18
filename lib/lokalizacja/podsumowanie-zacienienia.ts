@@ -3,7 +3,7 @@
  * jeden punkt, powierzchnia to siatka punktów (`punktyProbkowania`). Tu tylko uśrednienie wyników
  * punktów (równe wagi — punkty siatki reprezentują równe pola rzutu), bez własnej fizyki.
  */
-import type { CalcResult } from "@/lib/core/calc-result"
+import { isComputed, type CalcResult } from "@/lib/core/calc-result"
 import type { AnalizaZacienieniaResult, ScenariuszZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import type { Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 
@@ -45,7 +45,7 @@ export function podsumujPowierzchnie(
   punkty: Punkt3D[],
   wyniki: CalcResult<AnalizaZacienieniaResult>[],
 ): PodsumowaniePowierzchni | null {
-  const poprawne = wyniki.map((w) => (w.status === "VALID" || w.status === "VALID_WITH_WARNINGS" ? w.value : null))
+  const poprawne = wyniki.map((w) => (isComputed(w.status) ? w.value : null))
   const ok = poprawne.filter((v): v is AnalizaZacienieniaResult => v !== null)
   if (ok.length === 0) return null
 

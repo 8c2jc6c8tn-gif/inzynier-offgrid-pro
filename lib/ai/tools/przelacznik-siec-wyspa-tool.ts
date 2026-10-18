@@ -5,6 +5,7 @@
  * Odpowiedzi o przełączniku i agregacie tylko od usera — model ich nie zgaduje (null = brak odpowiedzi).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzelacznik } from "@/lib/core/modules/siec/przelacznik-siec-wyspa/calculator"
 import type { AiToolDefinition } from "../types"
 import { MiejsceAgregatuSchema, PodlaczenieAgregatuSchema } from "./agregat-bezpieczenstwo-schema"
@@ -31,7 +32,7 @@ export const PrzelacznikSiecWyspaToolInput = z.object({
 export type PrzelacznikSiecWyspaToolInputT = z.infer<typeof PrzelacznikSiecWyspaToolInput>
 
 export const PrzelacznikSiecWyspaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   backfeed: z.boolean(),
   twardeStopy: z.number(),
   ostrzezenia: z.array(z.string()),

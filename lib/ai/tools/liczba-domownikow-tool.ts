@@ -4,6 +4,7 @@
  * wzorem. Liczba domowników pochodzi WYŁĄCZNIE od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLiczbaDomownikow } from "@/lib/core/modules/zapotrzebowanie/liczba-domownikow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const LiczbaDomownikowToolInput = z.object({
 export type LiczbaDomownikowToolInputT = z.infer<typeof LiczbaDomownikowToolInput>
 
 export const LiczbaDomownikowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cwuMinLDoba: z.number(),
   cwuMaxLDoba: z.number(),
   ostrzezenia: z.array(z.string()),

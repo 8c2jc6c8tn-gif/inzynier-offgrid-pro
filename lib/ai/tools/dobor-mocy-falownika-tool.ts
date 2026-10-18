@@ -5,6 +5,7 @@
  * przez ten kalkulator (źródło nie podaje wzoru wiążącego typ silnika z mnożnikiem).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborMocyFalownika } from "@/lib/core/modules/okablowanie/dobor-mocy-falownika/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export type DoborMocyFalownikaToolInputT = z.infer<typeof DoborMocyFalownikaTool
 export const DoborMocyFalownikaToolOutput = z.object({
   mocFalownikaZalecanaW: z.number(),
   mocFalownikaZalecanaVa: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

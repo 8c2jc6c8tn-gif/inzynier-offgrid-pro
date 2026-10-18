@@ -5,6 +5,7 @@
  * live danych/pomiaru usera, nigdy zgadywane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateHierarchiaLadowania } from "@/lib/core/modules/baterie/hierarchia-ladowania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const HierarchiaLadowaniaToolInput = z.object({
 export type HierarchiaLadowaniaToolInputT = z.infer<typeof HierarchiaLadowaniaToolInput>
 
 export const HierarchiaLadowaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zrodlo: z.enum(["PV", "AGREGAT", "SIEC", "BRAK"]),
   pozniejSocPonizejProgu: z.boolean(),
   ostrzezenia: z.array(z.string()),

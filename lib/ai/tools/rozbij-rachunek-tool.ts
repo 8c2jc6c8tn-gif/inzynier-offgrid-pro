@@ -4,6 +4,7 @@
  * handlowa zawsze od usera. Brakujących danych narzędzie nie zgaduje — zwraca listę braków.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRachunek } from "@/lib/core/modules/siec/rachunek-za-prad/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const RozbijRachunekToolInput = SiecWspolneSchema.extend({
 export type RozbijRachunekToolInputT = z.infer<typeof RozbijRachunekToolInput>
 
 export const RozbijRachunekToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   skladniki: z.array(
     z.object({ kod: z.string(), kwotaNettoZl: z.number(), charakter: z.enum(["staly", "zmienny"]), zrodlo: z.enum(["taryfa", "faktura"]) }),
   ),

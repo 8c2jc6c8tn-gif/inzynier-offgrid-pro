@@ -4,6 +4,7 @@
  * stanu katalogu, nie obliczenie fizyczne (Wzorzec H, brak wzoru/wyniku fizycznego).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKatalogCzujnikow } from "@/lib/core/modules/esp32/katalog-czujnikow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const KatalogCzujnikowToolInput = z.object({
 export type KatalogCzujnikowToolInputT = z.infer<typeof KatalogCzujnikowToolInput>
 
 export const KatalogCzujnikowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaInstancji: z.number().describe("Liczba dodanych instancji czujników"),
   liczbaTypowUzytych: z.number().describe("Liczba różnych typów czujników użytych w katalogu"),
   ostrzezenia: z.array(z.string()),

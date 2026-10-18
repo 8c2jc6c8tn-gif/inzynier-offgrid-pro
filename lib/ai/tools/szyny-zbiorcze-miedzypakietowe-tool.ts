@@ -5,6 +5,7 @@
  * szyny. Prąd całkowity, materiał i wymiary gałęzi MUSZĄ pochodzić od usera z projektu instalacji.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSzynyZbiorczeMiedzypakietowe } from "@/lib/core/modules/baterie/szyny-zbiorcze-miedzypakietowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -30,7 +31,7 @@ const GalazWynik = z.object({
 })
 
 export const SzynyZbiorczeMiedzypakietoweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   galezie: z.array(GalazWynik),
   maxOdchylenieOdSredniejPct: z.number(),
   ostrzezenia: z.array(z.string()),

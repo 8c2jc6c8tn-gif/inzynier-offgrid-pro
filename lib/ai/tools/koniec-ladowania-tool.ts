@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić z live pomiaru/BMS, nigdy zgadywane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKoniecLadowania } from "@/lib/core/modules/baterie/koniec-ladowania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const KoniecLadowaniaToolInput = z.object({
 export type KoniecLadowaniaToolInputT = z.infer<typeof KoniecLadowaniaToolInput>
 
 export const KoniecLadowaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pradKoncowyA: z.number(),
   faza: z.enum(["CC", "CV-koncowka", "zakonczone"]),
   ostrzezenia: z.array(z.string()),

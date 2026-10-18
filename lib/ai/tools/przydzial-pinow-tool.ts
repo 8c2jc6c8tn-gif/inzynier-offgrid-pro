@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Sprawdza konflikty przydziału pinów podanego przez usera; niczego nie przydziela sam.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzydzialPinow } from "@/lib/core/modules/esp32/przydzial-pinow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -34,7 +35,7 @@ export const PrzydzialPinowToolInput = z.object({
 export type PrzydzialPinowToolInputT = z.infer<typeof PrzydzialPinowToolInput>
 
 export const PrzydzialPinowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaPrzypisan: z.number(),
   liczbaKonfliktow: z.number(),
   ostrzezenia: z.array(z.string()),

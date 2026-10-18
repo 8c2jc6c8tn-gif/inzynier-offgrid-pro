@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Redundancję komponentu deklaruje user — model nigdy jej nie zakłada.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAnalizaSpof } from "@/lib/core/modules/stress-test/analiza-spof/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const AnalizaSpofToolInput = z.object({
 export type AnalizaSpofToolInputT = z.infer<typeof AnalizaSpofToolInput>
 
 export const AnalizaSpofToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaKomponentow: z.number(),
   liczbaSpof: z.number(),
   ostrzezenia: z.array(z.string()),

@@ -4,6 +4,7 @@
  * długość, warunki ułożenia i dopuszczalny spadek MUSZĄ pochodzić od usera — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKableBezpiecznikiMale } from "@/lib/core/modules/kalkulator-mobilny/kable-bezpieczniki-male/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const KableBezpiecznikiMaleToolInput = z.object({
 export type KableBezpiecznikiMaleToolInputT = z.infer<typeof KableBezpiecznikiMaleToolInput>
 
 export const KableBezpiecznikiMaleToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   przekrojMm2: z.number().describe("Przekrój dobrany albo sprawdzany [mm²]"),
   wymaganyMm2: z.number().describe("Minimalny przekrój (obciążalność + spadek + koordynacja z bezpiecznikiem) [mm²]"),
   obciazalnoscA: z.number().describe("Obciążalność Iz przekroju po korektach [A]"),

@@ -3,6 +3,7 @@
  * wody, temperatury i sprawność wymiennika pochodzą od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOdzyskCieplaSciekow } from "@/lib/core/modules/ogrzewanie/odzysk-ciepla-sciekow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const OdzyskCieplaSciekowToolInput = z.object({
 export type OdzyskCieplaSciekowToolInputT = z.infer<typeof OdzyskCieplaSciekowToolInput>
 
 export const OdzyskCieplaSciekowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploDobaKwh: z.number(),
   cieploRokKwh: z.number().nullable(),
   udzialCwuPct: z.number().nullable(),

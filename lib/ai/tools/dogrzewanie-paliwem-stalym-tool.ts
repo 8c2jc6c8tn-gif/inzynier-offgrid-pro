@@ -7,6 +7,7 @@
  * (dane bezpieczeństwa, brak czujnika CO to twardy stop, zagrożenie życia).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDogrzewaniePaliwemStalym } from "@/lib/core/modules/bezpieczenstwo/dogrzewanie-paliwem-stalym/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -32,7 +33,7 @@ export const DogrzewaniePaliwemStalymToolInput = z.object({
 export type DogrzewaniePaliwemStalymToolInputT = z.infer<typeof DogrzewaniePaliwemStalymToolInput>
 
 export const DogrzewaniePaliwemStalymToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   marginesOdlegloscCm: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

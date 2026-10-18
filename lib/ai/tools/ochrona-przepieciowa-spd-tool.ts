@@ -5,6 +5,7 @@
  * "Zimowy stress-test MPPT", pomiar instalacji odgromowej) — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaPrzepieciowaSpd } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -30,7 +31,7 @@ export type OchronaPrzepieciowaSpdToolInputT = z.infer<typeof OchronaPrzepieciow
 export const OchronaPrzepieciowaSpdToolOutput = z.object({
   typWymagany: z.enum(["Typ 1", "Typ 2"]),
   ucMinimalneV: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

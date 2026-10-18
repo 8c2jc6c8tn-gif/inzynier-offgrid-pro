@@ -5,6 +5,7 @@
  * rzeczywisty stan instalacji) — model nigdy tego nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUziemienieFunkcjonalneOchronne } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/calculator"
 import type { UkladSieci } from "@/lib/core/modules/okablowanie/uziemienie-funkcjonalne-ochronne/input"
 import type { AiToolDefinition } from "../types"
@@ -24,7 +25,7 @@ export const UziemienieFunkcjonalneOchronneToolInput = z.object({
 export type UziemienieFunkcjonalneOchronneToolInputT = z.infer<typeof UziemienieFunkcjonalneOchronneToolInput>
 
 export const UziemienieFunkcjonalneOchronneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

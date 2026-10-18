@@ -4,6 +4,7 @@
  * (Dyrektywa #1) — źródło podaje tylko widełki, nie wartość dla konkretnego gruntu.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKolektorGruntowy } from "@/lib/core/modules/ogrzewanie/kolektor-gruntowy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const KolektorGruntowyToolInput = z.object({
 export type KolektorGruntowyToolInputT = z.infer<typeof KolektorGruntowyToolInput>
 
 export const KolektorGruntowyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   powierzchniaM2: z.number().nullable(),
   powierzchniaZakresM2: Zakres.nullable(),
   dlugoscOdwiertowM: z.number().nullable(),

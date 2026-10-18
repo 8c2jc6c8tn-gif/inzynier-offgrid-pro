@@ -4,6 +4,7 @@
  * pochodzić od usera (Dyrektywa #1, D33 — przykładowe moce to tylko podpowiedź, nie dane).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMamAkumulator } from "@/lib/core/modules/kalkulator-mobilny/mam-akumulator/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const MamAkumulatorToolInput = z.object({
 export type MamAkumulatorToolInputT = z.infer<typeof MamAkumulatorToolInput>
 
 export const MamAkumulatorToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaUzytecznaWh: z.number().describe("Energia do wykorzystania [Wh] = C × U × DoD × η"),
   urzadzenia: z
     .array(z.object({ nazwa: z.string(), mocW: z.number(), czasH: z.number(), pradA: z.number() }))

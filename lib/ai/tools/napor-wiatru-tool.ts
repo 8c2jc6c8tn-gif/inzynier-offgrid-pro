@@ -6,6 +6,7 @@
  * od spodu i moment wywracający NIE są liczone (wymagają geometrii montażu nieobecnej w źródle).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNaporWiatru } from "@/lib/core/modules/pv/napor-wiatru/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const NaporWiatruToolInput = z.object({
 export type NaporWiatruToolInputT = z.infer<typeof NaporWiatruToolInput>
 
 export const NaporWiatruToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   silaNaporuN: z.number(),
   balastProjektowyKg: z.number().describe("Balast projektowy przeciw oderwaniu wg PN-EN 1990 (EQU) [kg]"),
   ostrzezenia: z.array(z.string()),

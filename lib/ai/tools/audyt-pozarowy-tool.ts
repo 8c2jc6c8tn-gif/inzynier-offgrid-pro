@@ -6,6 +6,7 @@
  * dziennik serwisowy) — model nigdy nie zgaduje statusu żadnej pozycji audytu.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAuditPozarowy } from "@/lib/core/modules/bezpieczenstwo/audyt-pozarowy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -32,7 +33,7 @@ export const AudytPozarowyToolInput = z.object({
 export type AudytPozarowyToolInputT = z.infer<typeof AudytPozarowyToolInput>
 
 export const AudytPozarowyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   procentGotowosci: z.number(),
   liczbaOk: z.number(),
   liczbaOstrzezen: z.number(),

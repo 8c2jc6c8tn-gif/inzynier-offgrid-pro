@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Produkcja okna, bateria i SoC MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOknoSloneczne } from "@/lib/core/modules/stress-test/okno-sloneczne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const OknoSloneczneToolInput = z.object({
 export type OknoSloneczneToolInputT = z.infer<typeof OknoSloneczneToolInput>
 
 export const OknoSloneczneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaDoPodzialuKwh: z.number(),
   naGrzalkiBmsKwh: z.number(),
   naBaterieKwh: z.number(),

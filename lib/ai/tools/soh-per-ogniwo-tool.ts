@@ -4,6 +4,7 @@
  * aktualna MUSZĄ pochodzić z pomiaru — dane bezpieczeństwa (kwalifikacja ogniwa do wymiany).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSohPerOgniwo } from "@/lib/core/modules/baterie/soh-per-ogniwo/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const SohPerOgniwoToolInput = z.object({
 export type SohPerOgniwoToolInputT = z.infer<typeof SohPerOgniwoToolInput>
 
 export const SohPerOgniwoToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wzrostPct: z.number(),
   doWymiany: z.boolean(),
   ostrzezenia: z.array(z.string()),

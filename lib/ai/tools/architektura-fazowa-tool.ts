@@ -5,6 +5,7 @@
  * "znacznej" asymetrii, tylko jakościowy opis — nie wymyślaj progu w interpretacji wyniku.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateArchitekturaFazowa } from "@/lib/core/modules/zapotrzebowanie/architektura-fazowa/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const ArchitekturaFazowaToolInput = z.object({
 export type ArchitekturaFazowaToolInputT = z.infer<typeof ArchitekturaFazowaToolInput>
 
 export const ArchitekturaFazowaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   sumaW: z.number(),
   maxFazaW: z.number(),
   minFazaW: z.number(),

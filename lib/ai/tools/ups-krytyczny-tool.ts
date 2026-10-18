@@ -6,6 +6,7 @@
  * instalacji / karta katalogowa) — model nie może zgadywać mocy urządzeń ani parametrów UPS.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUpsKrytyczny } from "@/lib/core/modules/bezpieczenstwo/ups-krytyczny/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -44,7 +45,7 @@ export const UpsKrytycznyToolInput = z.object({
 export type UpsKrytycznyToolInputT = z.infer<typeof UpsKrytycznyToolInput>
 
 export const UpsKrytycznyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   laczonyPoborW: z.number(),
   czasPodtrzymaniaH: z.number(),
   planOdciecia: z

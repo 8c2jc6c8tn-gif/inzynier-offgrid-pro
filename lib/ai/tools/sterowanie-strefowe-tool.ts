@@ -3,6 +3,7 @@
  * `operationType: 'read'`. H stref, temperatury, pobory siłowników i COP MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSterowanieStrefowe } from "@/lib/core/modules/ogrzewanie/sterowanie-strefowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -29,7 +30,7 @@ export const SterowanieStrefoweToolInput = z.object({
 export type SterowanieStrefoweToolInputT = z.infer<typeof SterowanieStrefoweToolInput>
 
 export const SterowanieStrefoweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploBezStrefKwh: z.number(),
   cieploZeStrefamiKwh: z.number(),
   oszczednoscCieplaKwh: z.number(),

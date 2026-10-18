@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Ciepło do usunięcia, EER/COP, moce i temperatury pochodzą od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateChlodzeniePompaCiepla } from "@/lib/core/modules/ogrzewanie/chlodzenie-pompa-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const ChlodzeniePompaCieplaToolInput = z.object({
 export type ChlodzeniePompaCieplaToolInputT = z.infer<typeof ChlodzeniePompaCieplaToolInput>
 
 export const ChlodzeniePompaCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pradPompyKwh: z.number(),
   pradKlimatyzatoraKwh: z.number().nullable(),
   pradFreeCoolingKwh: z.number().nullable(),

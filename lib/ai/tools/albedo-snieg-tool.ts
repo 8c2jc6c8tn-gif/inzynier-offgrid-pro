@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Procent zysku MUSI pochodzić od usera (Dyrektywa #1) — przykłady ze źródła to ilustracje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAlbedoSnieg } from "@/lib/core/modules/stress-test/albedo-snieg/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const AlbedoSniegToolInput = z.object({
 export type AlbedoSniegToolInputT = z.infer<typeof AlbedoSniegToolInput>
 
 export const AlbedoSniegToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zyskKwh: z.number(),
   produkcjaZZyskiemKwh: z.number(),
   ostrzezenia: z.array(z.string()),

@@ -5,6 +5,7 @@
  * szacunkiem, oznaczonym w ostrzeżeniach kalkulatora.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNapiecieOdciecia } from "@/lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const NapiecieOdcieciaAZywotnoscToolInput = z.object({
 export type NapiecieOdcieciaAZywotnoscToolInputT = z.infer<typeof NapiecieOdcieciaAZywotnoscToolInput>
 
 export const NapiecieOdcieciaAZywotnoscToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   napiecieOgniwaV: z.number(),
   dodPct: z.number(),
   cykleZycia: z.number(),

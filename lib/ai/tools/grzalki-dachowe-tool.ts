@@ -4,6 +4,7 @@
  * model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateGrzalkiDachowe } from "@/lib/core/modules/stress-test/grzalki-dachowe/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const GrzalkiDachoweToolInput = z.object({
 export type GrzalkiDachoweToolInputT = z.infer<typeof GrzalkiDachoweToolInput>
 
 export const GrzalkiDachoweToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocW: z.number(),
   energiaKwhDoba: z.number(),
   ostrzezenia: z.array(z.string()),

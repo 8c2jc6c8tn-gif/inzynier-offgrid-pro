@@ -3,6 +3,7 @@
  * Stan każdego punktu i ilości paliwa — wyłącznie od usera; model nie zgaduje, co zostało zrobione.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAudytZimowy } from "@/lib/core/modules/ai/audyt-zimowy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const AudytZimowyToolInput = z.object({
 export type AudytZimowyToolInputT = z.infer<typeof AudytZimowyToolInput>
 
 export const AudytZimowyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pozycje: z.array(z.object({ id: z.string(), stan: z.string(), zLiczb: z.boolean() })),
   gotowe: z.number(),
   liczbaPozycji: z.number(),

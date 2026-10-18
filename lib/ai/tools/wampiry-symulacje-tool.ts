@@ -7,6 +7,7 @@
  * sprawdza handler. Cenę energii podaje user — źródło nie daje wartości domyślnej.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import {
   CALCULATOR_VERSION,
   calculateAutonomiaStandby,
@@ -45,7 +46,7 @@ export type WampirySymulacjeToolInputT = z.infer<typeof WampirySymulacjeToolInpu
 
 export const WampirySymulacjeToolOutput = z.object({
   tryb: z.string(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   godzinyDoWyczerpania: z.number().nullable(),
   godzinyDoWyczerpaniaZredukowany: z.number().nullable(),
   energiaRocznaKwh: z.number().nullable(),

@@ -4,6 +4,7 @@
  * sprawność efektywna, koszt wymiany i liczba cykli MUSZĄ pochodzić od usera z danych pojazdu.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateVehicleToHome } from "@/lib/core/modules/baterie/vehicle-to-home/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const VehicleToHomeToolInput = z.object({
 export type VehicleToHomeToolInputT = z.infer<typeof VehicleToHomeToolInput>
 
 export const VehicleToHomeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pojemnoscRealnaKwh: z.number(),
   kosztZaKwh: z.number(),
   ostrzezenia: z.array(z.string()),

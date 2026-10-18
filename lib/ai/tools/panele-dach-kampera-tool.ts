@@ -3,6 +3,7 @@
  * Wymiary, marginesy i odstępy MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePaneleDachKampera } from "@/lib/core/modules/kalkulator-mobilny/panele-dach-kampera/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const PaneleDachKamperaToolInput = z.object({
 export type PaneleDachKamperaToolInputT = z.infer<typeof PaneleDachKamperaToolInput>
 
 export const PaneleDachKamperaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   odcinki: z.array(
     z.object({ wzdluz: z.number(), wPoprzek: z.number(), panelWzdluz: z.boolean(), paneli: z.number() }),
   ),

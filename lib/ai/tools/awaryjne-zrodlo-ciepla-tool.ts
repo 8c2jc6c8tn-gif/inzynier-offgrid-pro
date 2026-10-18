@@ -4,6 +4,7 @@
  * i od dostawcy paliwa, podane przez usera; model ich nie zgaduje (null, gdy nieznane).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAwaryjneZrodloCiepla } from "@/lib/core/modules/bezpieczenstwo/awaryjne-zrodlo-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const AwaryjneZrodloCieplaToolInput = z.object({
 export type AwaryjneZrodloCieplaToolInputT = z.infer<typeof AwaryjneZrodloCieplaToolInput>
 
 export const AwaryjneZrodloCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploDobaKwh: z.number().nullable(),
   cieploDoInstalacjiKwh: z.number().nullable(),
   pokrycieProc: z.number().nullable(),

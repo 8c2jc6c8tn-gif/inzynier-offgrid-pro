@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Kubatura, liczba wymian i temperatury MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWentylacjaGrawitacyjna } from "@/lib/core/modules/ogrzewanie/wentylacja-grawitacyjna/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const WentylacjaGrawitacyjnaToolInput = z.object({
 export type WentylacjaGrawitacyjnaToolInputT = z.infer<typeof WentylacjaGrawitacyjnaToolInput>
 
 export const WentylacjaGrawitacyjnaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strumienM3H: z.number(),
   wymianyNaGodzine: z.number(),
   stratyW: z.number(),

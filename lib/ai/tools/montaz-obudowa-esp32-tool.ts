@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Kontrola IP w miejscu wilgotnym — echo M4/E10 i M12/E23; odstęp, wentylacja, izolacja — 🟡.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMontazObudowa } from "@/lib/core/modules/esp32/montaz-obudowa/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const MontazObudowaEsp32ToolInput = z.object({
 export type MontazObudowaEsp32ToolInputT = z.infer<typeof MontazObudowaEsp32ToolInput>
 
 export const MontazObudowaEsp32ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalecaneIp: z.number().nullable(),
   minimalneIp: z.number().nullable(),
   ostrzezenia: z.array(z.string()),

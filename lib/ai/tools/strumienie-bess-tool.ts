@@ -5,6 +5,7 @@
  * Cen magazynów nie ma w kodzie — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateStrumienieBess } from "@/lib/core/modules/siec/strumienie-bess/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -35,7 +36,7 @@ export const StrumienieBessToolInput = z.object({
 export type StrumienieBessToolInputT = z.infer<typeof StrumienieBessToolInput>
 
 export const StrumienieBessToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strumienie: z.array(z.object({ id: z.string(), korzyscRokZl: z.number() })),
   korzyscRokZl: z.number().nullable(),
   kosztZuzyciaRokZl: z.number().nullable(),

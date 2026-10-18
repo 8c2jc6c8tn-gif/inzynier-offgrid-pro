@@ -4,6 +4,7 @@
  * o uzysku, żeby nie przedstawiał procentów uzysku ze źródła jako pewnego wyniku.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTechnologiePaneli } from "@/lib/core/modules/pv/technologie-paneli/calculator"
 import { GRUPY_TECHNOLOGII, TECHNOLOGIE_KRYSTALICZNE } from "@/lib/core/modules/pv/technologie-paneli/constants"
 import type { AiToolDefinition } from "../types"
@@ -42,7 +43,7 @@ export const TechnologiePaneliToolOutput = z.object({
       powierzchniaModulow: Powierzchnia,
     }),
   ),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

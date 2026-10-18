@@ -3,6 +3,7 @@
  * Dane wejściowe WYŁĄCZNIE od usera (karty urządzeń, Moduły 3/6); model nie zgaduje — null, gdy nieznane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAwariaStringaZima } from "@/lib/core/modules/stress-test/awaria-stringa-zima/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const AwariaStringaZimaToolInput = z.object({
 export type AwariaStringaZimaToolInputT = z.infer<typeof AwariaStringaZimaToolInput>
 
 export const AwariaStringaZimaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   produkcjaPoAwariiKwhDoba: z.number().nullable(),
   deficytDobowyKwh: z.number().nullable(),
   dniNaBaterii: z.number().nullable(),

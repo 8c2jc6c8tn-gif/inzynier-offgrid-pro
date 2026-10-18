@@ -4,6 +4,7 @@
  * user — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSztywnienieIzolacji } from "@/lib/core/modules/stress-test/sztywnienie-izolacji/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const SztywnienieIzolacjiToolInput = z.object({
 export type SztywnienieIzolacjiToolInputT = z.infer<typeof SztywnienieIzolacjiToolInput>
 
 export const SztywnienieIzolacjiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   oceny: z.array(
     z.object({
       material: z.string(),

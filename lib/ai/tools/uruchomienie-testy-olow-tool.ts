@@ -4,6 +4,7 @@
  * sprawdzonych przez usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUruchomienieTestyOlow } from "@/lib/core/modules/montaz-baterii/uruchomienie-testy-olow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const UruchomienieTestyOlowToolInput = z.object({
 export type UruchomienieTestyOlowToolInputT = z.infer<typeof UruchomienieTestyOlowToolInput>
 
 export const UruchomienieTestyOlowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzone: z.number(),
   razem: z.number(),
   ostrzezenia: z.array(z.string()),

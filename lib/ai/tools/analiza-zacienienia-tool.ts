@@ -12,6 +12,7 @@
  * bezpośredniego clear-sky, jawnie w założeniach) + komunikat w ostrzeżeniach — jak w UI offline.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import type { Przeszkoda, Punkt2D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
@@ -72,7 +73,7 @@ const Scenariusz = z.object({
 })
 
 export const AnalizaZacienieniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zrodloPromieniowania: z
     .enum(["pvgis-tmy", "czyste-niebo"])
     .describe("pvgis-tmy — strata całkowitej energii; czyste-niebo — zapasowo, tylko bezpośrednie przy bezchmurnym niebie"),

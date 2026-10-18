@@ -4,6 +4,7 @@
  * model nigdy jej nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOznakowanieObwodow } from "@/lib/core/modules/okablowanie/oznakowanie-obwodow/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/oznakowanie-obwodow/constants"
 import type { AiToolDefinition } from "../types"
@@ -21,7 +22,7 @@ export type OznakowanieObwodowToolInputT = z.infer<typeof OznakowanieObwodowTool
 export const OznakowanieObwodowToolOutput = z.object({
   oznaczone: z.number(),
   razem: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

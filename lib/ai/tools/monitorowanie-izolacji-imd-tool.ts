@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 18, Moduł 5 — "Monitorowanie izolacji (IMD)". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMonitorowanieIzolacjiImd } from "@/lib/core/modules/okablowanie/monitorowanie-izolacji-imd/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export type MonitorowanieIzolacjiImdToolInputT = z.infer<typeof MonitorowanieIzo
 
 export const MonitorowanieIzolacjiImdToolOutput = z.object({
   wymagany: z.boolean(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

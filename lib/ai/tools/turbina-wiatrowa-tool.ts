@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Krzywa mocy, prędkość wyłączenia i współczynnik dostępności MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTurbinaWiatrowa } from "@/lib/core/modules/stress-test/turbina-wiatrowa/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ export const TurbinaWiatrowaToolInput = z.object({
 export type TurbinaWiatrowaToolInputT = z.infer<typeof TurbinaWiatrowaToolInput>
 
 export const TurbinaWiatrowaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaDobaKwh: z.number(),
   sredniaMocKw: z.number(),
   calkaKw: z.number(),
