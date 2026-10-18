@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Punkty krzywej ze sterownika i COP z karty — od usera; wpływ na COP z reguły źródła 5.69.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKrzywaGrzewcza } from "@/lib/core/modules/ogrzewanie/krzywa-grzewcza/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const KrzywaGrzewczaToolInput = z.object({
 export type KrzywaGrzewczaToolInputT = z.infer<typeof KrzywaGrzewczaToolInput>
 
 export const KrzywaGrzewczaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   nachylenie: z.number(),
   zasilanieC: z.number(),
   nachylenieNowe: z.number().nullable(),

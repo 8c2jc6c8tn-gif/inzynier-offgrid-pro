@@ -9,19 +9,27 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useFormatLiczby, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 
 /** Short month names — `UI-MIESIAC-SKR-*` keys, render through `t()`. */
 export const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
-export const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-export const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-export const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
+/** Number formatters bound to the UI language, one hook for all modes of the screen. */
+export function useFormaty() {
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  return {
+    fMasa: (x: number) => formatLiczbe(x),
+    f0: (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 }),
+    f1,
+    f2: (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 }),
+    znak: (x: number) => (x > 0 ? "+" : x < 0 ? "−" : "") + f1(Math.abs(x)),
+  }
+}
 /** Pole tekstowe → liczba albo `null` (puste/niepoprawne = nie wpisano, bez wartości domyślnej). */
 export const n = (s: string) => liczba(s) ?? null
-export const znak = (x: number) => (x > 0 ? "+" : x < 0 ? "−" : "") + f1(Math.abs(x))
 
 /** Poziom werdyktu: `critical` → czerwony (źródło: 🔴), `warning` → żółty, sam `info` → zielony. */
 export function poziomZOstrzezen(warnings: Warning[]): WerdyktPoziom {
@@ -135,9 +143,9 @@ export function stelazZSeeda(s: StelazSeed) {
 }
 
 /** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
-export function dopiskMasyWlasnej(s: StelazSeed, t: (kod: string, params?: Record<string, string | number>) => string): string {
+export function dopiskMasyWlasnej(s: StelazSeed, t: (kod: string, params?: Record<string, string | number>) => string, f: (x: number) => string): string {
   const masa = n(s.masaPaneliStelazaKg ?? "")
-  return masa === null ? "" : " " + t("UI-TYPMON-COMWSP-PONAD-CIEZAR", { masa: masa.toLocaleString("pl-PL") })
+  return masa === null ? "" : " " + t("UI-TYPMON-COMWSP-PONAD-CIEZAR", { masa: f(masa) })
 }
 
 export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; poleKrawedzi: "krawedzRegulowany" | "krawedzDachPlaski" }) {

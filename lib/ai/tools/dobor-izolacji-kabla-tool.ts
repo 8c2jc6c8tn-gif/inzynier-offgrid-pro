@@ -5,6 +5,7 @@
  * ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborIzolacjiKabla } from "@/lib/core/modules/okablowanie/dobor-izolacji-kabla/calculator"
 import type { Izolacja, MiejsceTrasy } from "@/lib/core/modules/okablowanie/dobor-izolacji-kabla/input"
 import type { AiToolDefinition } from "../types"
@@ -28,7 +29,7 @@ export type DoborIzolacjiKablaToolInputT = z.infer<typeof DoborIzolacjiKablaTool
 
 export const DoborIzolacjiKablaToolOutput = z.object({
   maksTemperaturaIzolacjiC: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

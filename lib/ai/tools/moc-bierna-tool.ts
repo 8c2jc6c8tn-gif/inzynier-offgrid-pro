@@ -4,6 +4,7 @@
  * narzędzie podaje sam czynnik nadwyżki, bez kwoty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMocBierna } from "@/lib/core/modules/siec/moc-bierna/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const MocBiernaToolInput = z.object({
 export type MocBiernaToolInputT = z.infer<typeof MocBiernaToolInput>
 
 export const MocBiernaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   czynnik: z.number(),
   oplataRazemZl: z.number().nullable(),
   mocKompensacjiKvar: z.number().nullable(),

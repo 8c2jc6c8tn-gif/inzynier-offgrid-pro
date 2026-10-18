@@ -14,7 +14,7 @@ import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted
 import { calculateObciazenieCieplne } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { calculateZapotrzebowanieCoCwu, type MiesiacCoCwu } from "@/lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu/calculator"
 import { CWU_L_NA_OSOBE_ZRODLO_M6 } from "@/lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
@@ -27,11 +27,12 @@ const STAN_POCZATKOWY: Seed = { liczbaOsob: "", litry: String(CWU_L_NA_OSOBE_ZRO
 type DraftDomownikow = { liczbaDomownikow: string }
 
 const n = (s: string) => liczba(s) ?? null
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export default function ZapotrzebowanieCoCwuPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<Seed>("zapotrzebowanie-co-cwu", STAN_POCZATKOWY)
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ekran1 = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)

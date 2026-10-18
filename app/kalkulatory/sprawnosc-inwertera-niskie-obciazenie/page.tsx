@@ -5,7 +5,7 @@ import { calculateSprawnoscInwertera } from "@/lib/core/modules/zapotrzebowanie/
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -50,7 +50,7 @@ export default function SprawnoscInwerteraPage() {
     [zapotrzebowanieW, mocFalownikaW, sprawnoscPct],
   )
 
-  const poziom = result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"
+  const poziom = poziomOstrzezen(result.status)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

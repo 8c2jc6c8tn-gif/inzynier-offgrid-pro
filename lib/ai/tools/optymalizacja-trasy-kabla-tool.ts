@@ -6,6 +6,7 @@
  * przekroju kabla), nie uproszczonym wzorem tego narzędzia.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOptymalizacjaTrasyKabla } from "@/lib/core/modules/okablowanie/optymalizacja-trasy-kabla/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import type { AiToolDefinition } from "../types"
@@ -41,7 +42,7 @@ export const OptymalizacjaTrasyKablaToolOutput = z.object({
   strataRocznaBKwh: z.number(),
   tcoAZl: z.number(),
   tcoBZl: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

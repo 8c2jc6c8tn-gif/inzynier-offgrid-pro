@@ -3,14 +3,13 @@
  * with a second model. Each part is the result of its screen's engine from that screen's saved draft; a part whose screen is
  * not filled in is reported as missing (never as zero). Pure functions — the page reads the drafts and renders the texts.
  */
-import type { CalcResult } from "@/lib/core/calc-result"
+import { isComputed, type CalcResult } from "@/lib/core/calc-result"
 import type { DeficytyMiesieczneResult } from "@/lib/core/modules/stress-test/deficyty-miesieczne/calculator"
 import type { SymulacjaMrozuResult, WynikScenariusza } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
 import type { SkladowaId } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/constants"
 import type { WspolczynnikResult } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/calculator"
 import type { WspolczynnikInput } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/input"
 
-const uzyteczny = (status: CalcResult<unknown>["status"]) => status === "VALID" || status === "VALID_WITH_WARNINGS"
 
 export type CzescRaportu = "symulacja" | "deficyty" | "blackout" | "wspolczynnik"
 
@@ -71,9 +70,9 @@ export type Raport = {
 }
 
 export function zbudujRaport(d: DaneRaportu): Raport {
-  const sym = d.symulacja && uzyteczny(d.symulacja.status) && d.symulacja.value.scenariusze.length > 0 ? d.symulacja.value : null
-  const def = d.deficyty && uzyteczny(d.deficyty.status) ? d.deficyty.value : null
-  const wsp = d.wspolczynnik && uzyteczny(d.wspolczynnik.wynik.status) ? d.wspolczynnik : null
+  const sym = d.symulacja && isComputed(d.symulacja.status) && d.symulacja.value.scenariusze.length > 0 ? d.symulacja.value : null
+  const def = d.deficyty && isComputed(d.deficyty.status) ? d.deficyty.value : null
+  const wsp = d.wspolczynnik && isComputed(d.wspolczynnik.wynik.status) ? d.wspolczynnik : null
 
   const symulacja: Raport["symulacja"] = sym
     ? {

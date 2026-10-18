@@ -4,6 +4,7 @@
  * pochodzi od usera (mapa stref / projekt) — model jej nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRyzykoZamarzniecia } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -29,7 +30,7 @@ export const RyzykoZamarznieciaToolInput = z.object({
 export type RyzykoZamarznieciaToolInputT = z.infer<typeof RyzykoZamarznieciaToolInput>
 
 export const RyzykoZamarznieciaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   oceny: z.array(z.object({ nazwa: z.string(), typ: Typ, wymaganaCm: z.number(), zapasCm: z.number().nullable() })),
   liczbaWStrefie: z.number(),
   ostrzezenia: z.array(z.string()),

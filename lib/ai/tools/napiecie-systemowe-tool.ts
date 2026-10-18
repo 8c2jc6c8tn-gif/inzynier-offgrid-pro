@@ -14,6 +14,7 @@
  * jednoczesności (jednoczesnosc.ts), ani kosztorysu (kosztorys.ts), ani doboru kabla (Moduł 5).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNapiecieSystemowe } from "@/lib/core/modules/baterie/napiecie-systemowe/calculator"
 import type { NapiecieSystemoweInput } from "@/lib/core/modules/baterie/napiecie-systemowe/input"
 import { ZASTOSOWANIA, PRIORYTETY, type Zastosowanie, type Priorytet } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
@@ -79,7 +80,7 @@ const KabelPorownanieSchema = z.object({
   obciazalnoscEfektywnaA: z.number(),
   spadekNapieciaPct: z.number(),
   strataRocznaKwh: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
 })
 
@@ -119,7 +120,7 @@ export const NapiecieSystemoweToolOutput = z.object({
   kable: z.object({ v12: KabelPorownanieSchema, v24: KabelPorownanieSchema, v48: KabelPorownanieSchema }).nullable(),
   kosztorysy: z.object({ v12: KosztorysSchema, v24: KosztorysSchema, v48: KosztorysSchema }).nullable(),
   kosztKonwersji24Do48Zl: z.number().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

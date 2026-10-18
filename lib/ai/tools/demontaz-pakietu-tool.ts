@@ -5,6 +5,7 @@
  * (>3,2V/ogniwo) jest ostrzeżeniem krytycznym.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDemontazPakietu } from "@/lib/core/modules/montaz-baterii/demontaz-pakietu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const DemontazPakietuToolInput = z.object({
 export type DemontazPakietuToolInputT = z.infer<typeof DemontazPakietuToolInput>
 
 export const DemontazPakietuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   napiecieOgniwaV: z.number(),
   potwierdzoneWKolejnosci: z.number(),
   razem: z.number(),

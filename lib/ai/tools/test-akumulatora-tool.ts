@@ -3,6 +3,7 @@
  * Biblia §12.48). `operationType: 'read'`. Pomiary i rezystancja z karty MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTestAkumulatora } from "@/lib/core/modules/kalkulator-mobilny/test-akumulatora/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const TestAkumulatoraToolInput = z.object({
 export type TestAkumulatoraToolInputT = z.infer<typeof TestAkumulatoraToolInput>
 
 export const TestAkumulatoraToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   stan: z.enum(["dobry", "do-wymiany", "uszkodzony", "niejasny"]),
   pradA: z.number(),
   spadekV: z.number(),

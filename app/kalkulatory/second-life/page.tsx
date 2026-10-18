@@ -13,7 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { DEGRADACJA_NA_10000KM_PCT, DEGRADACJA_ROCZNA_PCT } from "@/lib/core/modules/baterie/second-life/constants"
 
 type FormularzStan = {
@@ -39,6 +39,7 @@ const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZakupuZl", "cenaNowejLiF
 
 export default function SecondLifePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { pojemnoscDeklarowanaKwh, cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, cenaNowejLiFePO4ZlZaKwh } = stan
 
@@ -172,10 +173,10 @@ export default function SecondLifePage() {
         poziom !== "blad" && (
           <WerdyktPanel poziom={poziom} etykieta={t("UI-SECLIF-SZACOWANY-SOH", { sohSzacowanyPct: result.value.sohSzacowanyPct.toFixed(0) })}>
             <WynikGlowny>
-              {t("UI-SECLIF-KWH", { kosztZaKwh: result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+              {t("UI-SECLIF-KWH", { kosztZaKwh: formatLiczbe(result.value.kosztZaKwh, { maximumFractionDigits: 0 }) })}
             </WynikGlowny>
             <p className="mt-1 text-small">
-              {t("UI-SECLIF-POJEMNOSC-UZYTECZNA-KWH", { pojemnoscUzytecznaKwh: result.value.pojemnoscUzytecznaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
+              {t("UI-SECLIF-POJEMNOSC-UZYTECZNA-KWH", { pojemnoscUzytecznaKwh: formatLiczbe(result.value.pojemnoscUzytecznaKwh, { maximumFractionDigits: 1 }) })}
             </p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

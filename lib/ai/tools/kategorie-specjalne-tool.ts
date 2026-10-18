@@ -4,6 +4,7 @@
  * pochodzą WYŁĄCZNIE od usera — źródło nie podaje domyślnych mocy dla żadnej kategorii.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKategorieSpecjalne } from "@/lib/core/modules/zapotrzebowanie/kategorie-specjalne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const KategorieSpecjalneToolInput = z.object({
 export type KategorieSpecjalneToolInputT = z.infer<typeof KategorieSpecjalneToolInput>
 
 export const KategorieSpecjalneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaWh: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

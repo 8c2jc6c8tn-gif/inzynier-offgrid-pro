@@ -3,6 +3,7 @@
  * Ekranu 14. `operationType: 'read'`. Histereza, woda w instalacji, straty postojowe — od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBuforPracaPompy } from "@/lib/core/modules/ogrzewanie/bufor-praca-pompy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export type BuforPracaPompyToolInputT = z.infer<typeof BuforPracaPompyToolInput>
 const Cykl = z.object({ pracaMin: z.number(), postojMin: z.number(), startyDoba: z.number() }).nullable()
 
 export const BuforPracaPompyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   bez: Cykl,
   z: Cykl,
   cieploMagazynKwh: z.number().nullable(),

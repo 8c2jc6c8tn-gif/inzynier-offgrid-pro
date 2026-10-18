@@ -3,12 +3,12 @@
  * Thick line = state of charge (0–100 %), dashed line = the lowest allowed charge, light bars = PV production, outlined bars = consumption.
  */
 import type { PrognozaSocResult } from "@/lib/core/modules/ai/prognoza-soc/calculator"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 export function WykresSoc({ wynik, socMinPct, godzinaStartu }: { wynik: PrognozaSocResult; socMinPct: number; godzinaStartu: number }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const H = wynik.godziny.length
   const W = 360
   const wys = 170

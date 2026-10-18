@@ -4,6 +4,7 @@
  * (Dyrektywa #1 — w repo nie ma krzywej zużycia). Blok bezpieczeństwa D48 jak w M2/E17.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const AgregatPaliwoToolInput = z.object({
 export type AgregatPaliwoToolInputT = z.infer<typeof AgregatPaliwoToolInput>
 
 export const AgregatPaliwoToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   litrowNaDobe: z.number().describe("Paliwo na dobę [l]"),
   kosztNaDobeZl: z.number().describe("Koszt paliwa na dobę [zł]"),
   energiaNaDobeKwh: z.number().describe("Energia oddana przez agregat na dobę [kWh]"),

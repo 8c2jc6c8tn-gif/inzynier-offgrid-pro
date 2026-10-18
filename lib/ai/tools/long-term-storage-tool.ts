@@ -4,6 +4,7 @@
  * przechowywania i lista potwierdzonych czynności MUSZĄ pochodzić od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLongTermStorage } from "@/lib/core/modules/baterie/long-term-storage/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const LongTermStorageToolInput = z.object({
 export type LongTermStorageToolInputT = z.infer<typeof LongTermStorageToolInput>
 
 export const LongTermStorageToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   socDocelowyPct: z.number(),
   temperaturaMinC: z.number(),
   socWZakresie: z.boolean(),

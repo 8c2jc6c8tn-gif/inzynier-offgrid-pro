@@ -116,3 +116,21 @@ Niezależnie od wzorca: każda sugestia AI pokazuje źródło (`traceId`/`calcul
 ## 9.10. Pole `zaproponowaneBy` w rejestrze pokrycia
 
 [15.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (14.09.2026). Rejestr pokrycia funkcji/reguł (rozdział 14.1) może nieść opcjonalne pole `zaproponowaneBy: "ai" | "czlowiek"` przy pozycji, której pierwszy szkic zasugerował asystent AI działający w produkcie (nie AI piszące kod — to rozdział 15). Pole jest **czysto informacyjne** — nie zmienia procesu decyzyjnego: decyzja o wdrożeniu wymaga tak samo człowieka, jak każda inna pozycja rejestru (15.4).
+
+## 9.11. Odczyt dokumentu (zdjęcie/PDF) przez model: wymuszone jedyne narzędzie, zatwierdzanie pole po polu
+
+[16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 09.10.2026), decyzja właściciela repo (wariant A). Konkretna realizacja 9.4 (treść pliku nigdy nie jest poleceniem) i 9.5 (jawna niepewność) dla funkcji „wczytaj dane z karty/zdjęcia/dokumentu”. Wzorzec zadziałał w praktyce bez obaw o wstrzyknięcie poleceń.
+
+**1. Jedno narzędzie z wymuszonym wyborem.** Model dostaje plik i **dokładnie jedno narzędzie** z wymuszonym wyborem narzędzia (nie może zrobić nic poza zwróceniem pól). Odpowiedź jest walidowana schematem; to, co nie spełnia schematu, jest odrzucane, nie naprawiane po cichu.
+
+**2. Każde pole niesie wartość, flagę „widoczne” i pewność** (9.5). Pole niewidoczne na dokumencie ma stan jawny (`null` + „niewidoczne”), nie wartość domyślną (3.7 pkt 1).
+
+**3. Do formularza trafia tylko to, co użytkownik zatwierdził pole po polu**, z podglądem pliku obok. Odczyt nigdy nie zapisuje się do projektu automatycznie.
+
+**4. Kontrole spójności odczytu są skalibrowane na danych referencyjnych.** Kontrole typu iloczyn napięcia i prądu a moc, kolejność wielkości, znak współczynników uruchamia się testem na **całym katalogu danych znanych jako poprawne** — ten sam test dowodzi, że kontrole nie dają fałszywych alarmów na poprawnych danych (10.10 pkt 7).
+
+**5. Upload plików nie idzie akcją serwerową o niskim limicie ciała.** Pliki większe niż domyślny limit akcji serwerowej wysyła się trasą (route/endpoint) z multipart, a nie akcją serwerową — podniesienie limitu akcji dotyczyłoby wszystkich akcji aplikacji. *Przykład (Next.js):* domyślny limit ciała akcji serwerowej to 1 MB; stos może się zmienić, regułą jest sama separacja.
+
+**6. Zgodę na wysłanie pliku do chmury egzekwuje także serwer** (7.5), nie tylko wyszarzony przycisk w kliencie. Serwer odrzuca żądanie bez zapisanej zgody użytkownika.
+
+**7. Testy.** Atrapa API w testach czyta sygnał z dedykowanego pola żądania, nie z całego ciała (10.10 pkt 8).

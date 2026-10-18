@@ -15,7 +15,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateKosztyOgrzewania, type WynikZrodla } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/calculator"
 import { LICZBA_LAT_ZRODLO, SPOSOB_LICZENIA } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/constants"
 import type { RodzajZrodla, ZrodloCiepla } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
@@ -76,9 +76,6 @@ const PRZELICZ_KWOTY = (stan: Seed, wspolczynnik: number): Seed => ({
 })
 
 const n = (s: string) => liczba(s) ?? null
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 const nazwaZrodla = (z: ZrodloSeed, i: number, t: (k: string) => string) =>
   z.nazwa.trim() || `${t(RODZAJE.find((r) => r.id === z.rodzaj)!.label)} (${i + 1})`
 
@@ -157,6 +154,10 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
 
 export default function KosztyOgrzewaniaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const [stan, setStan, info] = usePersistedDraft<Seed>("koszty-ogrzewania", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustawZrodlo = (i: number, p: Partial<ZrodloSeed>) => setStan((s) => ({ ...s, zrodla: s.zrodla.map((z, j) => (j === i ? { ...z, ...p } : z)) }))
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { DATA_PRZEGLADU_PRODUCENTOW, lataJakoZakresy, opisProducenta, type FaktProducenta, type KodKraju } from "@/lib/core/dane/producenci-paneli"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 const KLUCZ_KRAJU: Record<KodKraju, string> = {
   CN: "UI-PORP-PROD-KRAJ-CN",
@@ -20,6 +20,7 @@ const KLUCZ_KRAJU: Record<KodKraju, string> = {
  */
 export function OpisyProducentow({ producenci, jestPanelPozaKatalogiem }: { producenci: string[]; jestPanelPozaKatalogiem: boolean }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const tekstFaktu = (f: FaktProducenta): string => {
     switch (f.rodzaj) {
       case "zalozona":
@@ -33,7 +34,7 @@ export function OpisyProducentow({ producenci, jestPanelPozaKatalogiem }: { prod
       case "grupa":
         return t("UI-PORP-PROD-F-grupa", { grupa: f.grupa })
       case "wysylki":
-        return t("UI-PORP-PROD-F-wysylki", { rok: f.rok, mw: f.mw.toLocaleString("pl-PL") })
+        return t("UI-PORP-PROD-F-wysylki", { rok: f.rok, mw: formatLiczbe(f.mw) })
       case "biura-europa":
         return t("UI-PORP-PROD-F-biura-europa", { kraje: f.kraje.map((k) => t(KLUCZ_KRAJU[k])).join(", ") })
       case "pvel":

@@ -4,6 +4,7 @@
  * `calculatePorownywarkaPaneli` — parametry paneli pochodzą od użytkownika (karta katalogowa), model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
@@ -146,7 +147,7 @@ export const PorownajPaneleToolInput = z.object({
 export type PorownajPaneleToolInputT = z.infer<typeof PorownajPaneleToolInput>
 
 export const PorownajPaneleToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   panele: z.array(
     z.object({
       nazwa: z.string(),

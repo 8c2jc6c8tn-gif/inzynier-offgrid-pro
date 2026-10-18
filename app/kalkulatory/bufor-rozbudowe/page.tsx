@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   zapotrzebowanieCalkowiteKwh: string
@@ -26,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function BuforRozbudowyPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bufor-rozbudowe", STAN_POCZATKOWY)
   const { zapotrzebowanieCalkowiteKwh, buforPct } = stan
 
@@ -89,7 +90,7 @@ export default function BuforRozbudowyPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-BUFROZ-ZAPOTRZEBOWANIE-BUFOREM")}>
           <WynikGlowny>
-            {t("UI-BUFROZ-KWH-DOBE", { zapotrzebowanieZBuforemKwh: result.value.zapotrzebowanieZBuforemKwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
+            {t("UI-BUFROZ-KWH-DOBE", { zapotrzebowanieZBuforemKwh: formatLiczbe(result.value.zapotrzebowanieZBuforemKwh, { maximumFractionDigits: 1 }) })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

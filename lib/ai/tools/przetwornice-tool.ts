@@ -4,6 +4,7 @@
  * i krotność rozruchu MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzetwornica } from "@/lib/core/modules/kalkulator-mobilny/przetwornice/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -31,7 +32,7 @@ export const PrzetwornicaToolInput = z.object({
 export type PrzetwornicaToolInputT = z.infer<typeof PrzetwornicaToolInput>
 
 export const PrzetwornicaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   napiecieWyjscioweV: z.number(),
   pradWyjsciowyA: z.number().describe("Minimalny prąd wyjściowy przetwornicy/ładowarki [A]"),
   pradZAkumulatoraA: z.number(),

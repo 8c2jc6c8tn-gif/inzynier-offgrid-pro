@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   chemia1: string
@@ -34,6 +34,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function MixingRownoleglePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("mixing-rownolegle", STAN_POCZATKOWY)
   const {
     chemia1,
@@ -191,13 +192,13 @@ export default function MixingRownoleglePage() {
           {werdykt !== "invalid" && (
             <>
               <WynikGlowny>
-                {result.value.iWyrownawczyA.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} A
+                {formatLiczbe(result.value.iWyrownawczyA, { maximumFractionDigits: 1 })} A
               </WynikGlowny>
               <p className="mt-1 text-small">
-                {t("UI-MIXROW-PRAD-WYROWNAWCZY-CHWILI", { roznicaNapiecV: result.value.roznicaNapiecV.toLocaleString("pl-PL", { maximumFractionDigits: 2 }), PROG_ROZNICY_NAPIEC_V })}
+                {t("UI-MIXROW-PRAD-WYROWNAWCZY-CHWILI", { roznicaNapiecV: formatLiczbe(result.value.roznicaNapiecV, { maximumFractionDigits: 2 }), PROG_ROZNICY_NAPIEC_V })}
               </p>
               <p className="mt-2 text-small">
-                {t("UI-MIXROW-UDZIAL-PRADZIE-OBCIAZENIA", { udzialPradu1Pct: result.value.udzialPradu1Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }), udzialPradu2Pct: result.value.udzialPradu2Pct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+                {t("UI-MIXROW-UDZIAL-PRADZIE-OBCIAZENIA", { udzialPradu1Pct: formatLiczbe(result.value.udzialPradu1Pct, { maximumFractionDigits: 0 }), udzialPradu2Pct: formatLiczbe(result.value.udzialPradu2Pct, { maximumFractionDigits: 0 }) })}
               </p>
             </>
           )}

@@ -4,6 +4,7 @@
  * informacja o istniejącej ochronie MUSZĄ pochodzić od usera — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaPrzedRozladowaniem } from "@/lib/core/modules/kalkulator-mobilny/ochrona-przed-rozladowaniem/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const OchronaPrzedRozladowaniemToolInput = z.object({
 export type OchronaPrzedRozladowaniemToolInputT = z.infer<typeof OchronaPrzedRozladowaniemToolInput>
 
 export const OchronaPrzedRozladowaniemToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   progOdcieciaV: z.number().nullable().describe("Próg odcięcia dozownika [V]; null = źródło nie podaje dla tej chemii"),
   progNaOgniwoV: z.number().nullable().describe("Ten sam próg na ogniwo [V]"),
   liczbaOgniw: z.number().describe("Liczba ogniw w szeregu"),

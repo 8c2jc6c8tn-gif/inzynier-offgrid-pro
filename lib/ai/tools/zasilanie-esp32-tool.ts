@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Parametry przetwornicy — z karty katalogowej podanej przez usera; model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZasilanieEsp32 } from "@/lib/core/modules/esp32/zasilanie-esp32/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const ZasilanieEsp32ToolInput = z.object({
 export type ZasilanieEsp32ToolInputT = z.infer<typeof ZasilanieEsp32ToolInput>
 
 export const ZasilanieEsp32ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pradWyjsciowyA: z.number().nullable(),
   pradWejsciowyA: z.number().nullable(),
   ostrzezenia: z.array(z.string()),

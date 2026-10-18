@@ -11,7 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MIN_AIC_LIFEPO4_A } from "@/lib/core/modules/baterie/dobor-bezpiecznika-dc/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -27,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborBezpiecznikaDcPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-dc", STAN_POCZATKOWY)
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, aicBezpiecznikaA } = stan
 
@@ -120,7 +121,7 @@ export default function DoborBezpiecznikaDcPage() {
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {result.status !== "INVALID_INPUT" && (
-          <WynikGlowny>I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL")} A</WynikGlowny>
+          <WynikGlowny>I_zw = {formatLiczbe(result.value.pradZwarciowyA)} A</WynikGlowny>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>

@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 3, Moduł 3 — "Tracker vs konstrukcja stała". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTrackerVsStaly } from "@/lib/core/modules/pv/tracker-vs-staly/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const TrackerVsStalyToolOutput = z.object({
   przewagaStalegoMaxPct: z.number(),
   werdykt: z.enum(["staly", "tracker", "zalezy"]),
   jednostka: z.string(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

@@ -5,6 +5,7 @@
  * są opcjonalne. Moc grzania (W/m²) musi pochodzić z karty katalogowej od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOsadNaPv } from "@/lib/core/modules/stress-test/osad-na-pv/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -37,7 +38,7 @@ export const OsadNaPvToolInput = z.object({
 export type OsadNaPvToolInputT = z.infer<typeof OsadNaPvToolInput>
 
 export const OsadNaPvToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pozostalaProdukcjaPct: z.number(),
   utrataNaDobeKwh: z.number(),
   scenariusze: z.array(

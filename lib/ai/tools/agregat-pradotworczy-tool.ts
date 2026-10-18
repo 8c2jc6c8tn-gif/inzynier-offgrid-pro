@@ -5,6 +5,7 @@
  * (70-80%, górna granica) jest stałą projektu, nie wymyśloną tu wartością.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const AgregatPradotworczyToolInput = z.object({
 export type AgregatPradotworczyToolInputT = z.infer<typeof AgregatPradotworczyToolInput>
 
 export const AgregatPradotworczyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   godzinyPracy: z.number(),
   zuzyciePaliwaLitry: z.number(),
   kosztZl: z.number(),

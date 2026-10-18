@@ -5,6 +5,7 @@
  * zabezpieczenie) — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAnalizaZwarciowa } from "@/lib/core/modules/okablowanie/analiza-zwarciowa/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -28,7 +29,7 @@ export const AnalizaZwarciowaToolOutput = z.object({
   pradZwarciowyPvA: z.number(),
   pradZwarciowyMaksymalnyA: z.number(),
   aicWystarczajace: z.boolean().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

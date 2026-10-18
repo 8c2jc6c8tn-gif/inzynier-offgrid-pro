@@ -12,7 +12,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = { zacienioneSekcje: number }
 
@@ -70,6 +70,7 @@ function SchematPanelu({ zacienioneSekcje }: { zacienioneSekcje: number }) {
 
 export default function DiodyBocznikujacePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("diody-bocznikujace", STAN_POCZATKOWY)
   const { zacienioneSekcje } = stan
   const strataPct = obliczStrataPaneluPct(zacienioneSekcje)
@@ -101,7 +102,7 @@ export default function DiodyBocznikujacePage() {
       </PoleSelect>
 
       <WynikGlowny>
-        {t("UI-DIOBOC-STRATA-MOCY-PANELU", { strataPct: strataPct.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
+        {t("UI-DIOBOC-STRATA-MOCY-PANELU", { strataPct: formatLiczbe(strataPct, { maximumFractionDigits: 1 }) })}
       </WynikGlowny>
       <p className="text-small text-muted-foreground">
         {t("UI-DIOBOC-BEZ-DIOD-ZACIENIENIE")}{" "}

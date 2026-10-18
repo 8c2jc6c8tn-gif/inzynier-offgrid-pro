@@ -5,6 +5,7 @@
  * rozładowania oraz długość dnia MUSZĄ pochodzić od usera, nie zgaduj pogody/profilu obciążenia.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSymulacjaLadowania } from "@/lib/core/modules/baterie/symulacja-ladowania-rozladowania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const SymulacjaLadowaniaRozladowaniaToolInput = z.object({
 export type SymulacjaLadowaniaRozladowaniaToolInputT = z.infer<typeof SymulacjaLadowaniaRozladowaniaToolInput>
 
 export const SymulacjaLadowaniaRozladowaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   godzinDoPelna: z.number(),
   zdazyNaladowacPrzedZachodem: z.boolean(),
   socOZachodzieSlonca: z.number(),

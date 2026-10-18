@@ -4,6 +4,7 @@
  * usera — brak → INCOMPLETE albo samo C.W.U., nigdy wartość zgadnięta przez model.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZapotrzebowanieCoCwu } from "@/lib/core/modules/ogrzewanie/zapotrzebowanie-co-cwu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const ZapotrzebowanieCoCwuToolInput = z.object({
 export type ZapotrzebowanieCoCwuToolInputT = z.infer<typeof ZapotrzebowanieCoCwuToolInput>
 
 export const ZapotrzebowanieCoCwuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cwuKwhDoba: z.number().nullable(),
   cwuPradKwhDoba: z.number().nullable(),
   miesiace: z.array(

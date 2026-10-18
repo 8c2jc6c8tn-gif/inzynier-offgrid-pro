@@ -4,6 +4,7 @@
  * w godzinach 7:00–22:00 dni roboczych — od usera, z danych licznika.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOplataMocowa } from "@/lib/core/modules/siec/oplata-mocowa/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const OplataMocowaToolInput = z.object({
 export type OplataMocowaToolInputT = z.infer<typeof OplataMocowaToolInput>
 
 export const OplataMocowaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   stawkaZlKwh: z.number(),
   udzialProcent: z.number(),
   oplataRokZl: z.number(),

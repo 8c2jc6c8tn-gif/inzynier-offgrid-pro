@@ -11,13 +11,14 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = { poborJalowyW: string }
 const STAN_POCZATKOWY: FormularzStan = { poborJalowyW: "" }
 
 export default function PoborWlasnyFalownikaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pobor-wlasny-falownika", STAN_POCZATKOWY)
   const { poborJalowyW } = stan
   const setPoborJalowyW = (a: string | ((p: string) => string)) =>
@@ -57,7 +58,7 @@ export default function PoborWlasnyFalownikaPage() {
       ) : (
         <WerdyktPanel poziom="uwaga" etykieta={t("UI-POBWLAFAL-STALY-KOSZT-BILANSU")}>
           <WynikGlowny>
-            {t("UI-POBWLAFAL-KWH-DOBE", { strataDobowaKwh: result.value.strataDobowaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
+            {t("UI-POBWLAFAL-KWH-DOBE", { strataDobowaKwh: formatLiczbe(result.value.strataDobowaKwh, { maximumFractionDigits: 2 }) })}
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

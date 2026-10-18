@@ -5,6 +5,7 @@
  * nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWylaczniki } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/calculator"
 import type { CelOchrony, TypRcd } from "@/lib/core/modules/okablowanie/wylaczniki-rcd/input"
 import type { AiToolDefinition } from "../types"
@@ -25,7 +26,7 @@ export type WylacznikiRcdToolInputT = z.infer<typeof WylacznikiRcdToolInput>
 
 export const WylacznikiRcdToolOutput = z.object({
   progWymaganyMa: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

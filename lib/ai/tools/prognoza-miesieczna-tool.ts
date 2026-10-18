@@ -4,6 +4,7 @@
  * brak degradacji = 0 % (brak danych), a model nie zgaduje ani produkcji, ani wahań pogody.
  */
 import { z } from "zod"
+import { STATUSY, isComputed } from "@/lib/core/calc-result"
 import { calculatePrognozaMiesieczna } from "@/lib/core/modules/ai/prognoza-miesieczna/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const PrognozaMiesiecznaToolInput = z.object({
 export type PrognozaMiesiecznaToolInputT = z.infer<typeof PrognozaMiesiecznaToolInput>
 
 export const PrognozaMiesiecznaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wiersze: z
     .array(
       z.object({
@@ -63,7 +64,7 @@ export const prognozaMiesiecznaTool: AiToolDefinition<PrognozaMiesiecznaToolInpu
       miesiecyNaprzod: input.miesiecyNaprzod,
       odchylenieMeteoPct: input.odchylenieMeteoPct ?? null,
     })
-    const ma = wynik.status === "VALID" || wynik.status === "VALID_WITH_WARNINGS"
+    const ma = isComputed(wynik.status)
     const v = ma ? wynik.value : null
     return {
       status: wynik.status,

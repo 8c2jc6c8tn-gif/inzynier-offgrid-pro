@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 5, Moduł 5 — "Złącza MC4". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZlaczaMc4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/calculator"
 import { PRODUCENCI_MC4 } from "@/lib/core/modules/okablowanie/zlacza-mc4/constants"
 import type { AiToolDefinition } from "../types"
@@ -20,7 +21,7 @@ export type ZlaczaMc4ToolInputT = z.infer<typeof ZlaczaMc4ToolInput>
 
 export const ZlaczaMc4ToolOutput = z.object({
   zgodne: z.boolean(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

@@ -4,6 +4,7 @@
  * się jej zgadnąć) — `null` oznacza jeszcze nieocenione, wygrywa natychmiast nad checklistą.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOcenaZuzycia } from "@/lib/core/modules/montaz-baterii/ocena-zuzycia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const OcenaZuzyciaToolInput = z.object({
 export type OcenaZuzyciaToolInputT = z.infer<typeof OcenaZuzyciaToolInput>
 
 export const OcenaZuzyciaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzone: z.number(),
   razem: z.number(),
   ostrzezenia: z.array(z.string()),

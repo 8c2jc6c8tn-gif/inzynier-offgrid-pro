@@ -4,6 +4,7 @@
  * aplikacja jej nie ma i nie zgaduje (przykład 51,49/36,12 zł/kW z opracowania §5.3 to 🔎B, nie do kodu).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKosztPowrotu } from "@/lib/core/modules/siec/koszt-powrotu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const KosztPowrotuToolInput = z.object({
 export type KosztPowrotuToolInputT = z.infer<typeof KosztPowrotuToolInput>
 
 export const KosztPowrotuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   kosztNettoZl: z.number().nullable(),
   wycenaIndywidualna: z.boolean(),
   ostrzezenia: z.array(z.string()),

@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { MAGNUS_A, MAGNUS_B, MIN_IP_KOD_WILGOTNE } from "@/lib/core/modules/baterie/ochrona-wilgoc/constants"
 
 type FormularzStan = {
@@ -32,6 +32,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function OchronaWilgocPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-wilgoc", STAN_POCZATKOWY)
   const { temperaturaOtoczeniaC, wilgotnoscPct, temperaturaObudowyC, srodowiskoWilgotne, ipKod } = stan
 
@@ -154,7 +155,7 @@ export default function OchronaWilgocPage() {
             }
           >
             {result.status !== "INVALID_INPUT" && (
-              <WynikGlowny>{t("UI-OCHWIL-PUNKT-ROSY", { punktRosyC: result.value.punktRosyC.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}</WynikGlowny>
+              <WynikGlowny>{t("UI-OCHWIL-PUNKT-ROSY", { punktRosyC: formatLiczbe(result.value.punktRosyC, { maximumFractionDigits: 1 }) })}</WynikGlowny>
             )}
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

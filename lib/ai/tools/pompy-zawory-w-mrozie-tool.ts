@@ -4,6 +4,7 @@
  * katalogowych podanych przez usera — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePompyZaworyWMrozie } from "@/lib/core/modules/stress-test/pompy-zawory-w-mrozie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const PompyZaworyWMrozieToolInput = z.object({
 export type PompyZaworyWMrozieToolInputT = z.infer<typeof PompyZaworyWMrozieToolInput>
 
 export const PompyZaworyWMrozieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   oceny: z.array(z.object({ nazwa: z.string(), typ: Typ, zapasK: z.number().nullable() })),
   liczbaPonizejMin: z.number(),
   ostrzezenia: z.array(z.string()),

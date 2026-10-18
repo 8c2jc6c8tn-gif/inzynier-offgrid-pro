@@ -4,6 +4,7 @@
  * pochodzić z BMS/live danych usera, nigdy zgadywana.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKalibracjaSoc } from "@/lib/core/modules/baterie/kalibracja-soc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const KalibracjaSocToolInput = z.object({
 export type KalibracjaSocToolInputT = z.infer<typeof KalibracjaSocToolInput>
 
 export const KalibracjaSocToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dni: z.number(),
   kalibracjaRekomendowana: z.boolean(),
   ostrzezenia: z.array(z.string()),

@@ -3,6 +3,7 @@
  * Dane PVGIS TMY pobierane po stronie serwera (`pobierzTmy`, jak M3/E1). Błąd PVGIS → INCOMPLETE.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { calculateLiczbaPaneli } from "@/lib/core/modules/pv/liczba-paneli/calculator"
@@ -28,7 +29,7 @@ export const LiczbaPaneliToolInput = z.object({
 export type LiczbaPaneliToolInputT = z.infer<typeof LiczbaPaneliToolInput>
 
 export const LiczbaPaneliToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   warianty: z.array(
     z.object({
       okres: z.enum(["lato", "marPaz", "lutLis", "rok"]),

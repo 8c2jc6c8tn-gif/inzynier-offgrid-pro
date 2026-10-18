@@ -3,6 +3,7 @@
  * `operationType: 'read'`. UA zasobnika, strata rury, moc pompy MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZasobnikCwu } from "@/lib/core/modules/ogrzewanie/zasobnik-cwu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ export const ZasobnikCwuToolInput = z.object({
 export type ZasobnikCwuToolInputT = z.infer<typeof ZasobnikCwuToolInput>
 
 export const ZasobnikCwuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zapotrzebowanieL: z.number(),
   cieploWodyKwh: z.number(),
   strataPostojowaKwh: z.number(),

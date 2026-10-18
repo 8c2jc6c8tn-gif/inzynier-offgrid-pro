@@ -4,6 +4,7 @@
  * wiek/przebieg MUSZĄ pochodzić z oferty/oględzin usera — nie zgaduj tempa degradacji.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSecondLife } from "@/lib/core/modules/baterie/second-life/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const SecondLifeToolInput = z.object({
 export type SecondLifeToolInputT = z.infer<typeof SecondLifeToolInput>
 
 export const SecondLifeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   sohSzacowanyPct: z.number(),
   pojemnoscUzytecznaKwh: z.number(),
   kosztZaKwh: z.number(),

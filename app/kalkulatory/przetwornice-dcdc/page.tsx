@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   zapotrzebowanieUrzadzeniaW: string
@@ -27,6 +27,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function PrzetworniceDcdcPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("przetwornice-dcdc", STAN_POCZATKOWY)
   const { zapotrzebowanieUrzadzeniaW, zasilanieBezposrednie, sprawnoscPrzetwornicyPct } = stan
 
@@ -99,7 +100,7 @@ export default function PrzetworniceDcdcPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-PRZDCD-REALNE-ZAPOTRZEBOWANIE-MOCY")}>
           <WynikGlowny>
-            {result.value.zapotrzebowanieRealneW.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} W
+            {formatLiczbe(result.value.zapotrzebowanieRealneW, { maximumFractionDigits: 1 })} W
           </WynikGlowny>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

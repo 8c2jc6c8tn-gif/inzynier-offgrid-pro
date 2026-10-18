@@ -4,6 +4,7 @@
  * usera — w repo nie ma bazy „typowych mocy” (D33, Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWeekend } from "@/lib/core/modules/kalkulator-mobilny/weekend/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -31,7 +32,7 @@ export const WeekendToolInput = z.object({
 export type WeekendToolInputT = z.infer<typeof WeekendToolInput>
 
 export const WeekendToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   zuzyciePobytWh: z.number(),
   energiaAkumulatoraWh: z.number(),

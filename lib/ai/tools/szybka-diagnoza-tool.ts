@@ -4,6 +4,7 @@
  * narzędzie ponownie z uzupełnionymi odpowiedziami.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSzybkaDiagnoza } from "@/lib/core/modules/kalkulator-mobilny/szybka-diagnoza/calculator"
 import { t } from "@/lib/i18n/t"
 import type { AiToolDefinition } from "../types"
@@ -16,7 +17,7 @@ export const SzybkaDiagnozaToolInput = z.object({
 export type SzybkaDiagnozaToolInputT = z.infer<typeof SzybkaDiagnozaToolInput>
 
 export const SzybkaDiagnozaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   aktualnyKrok: z.object({ id: z.string(), polecenie: z.string() }).nullable().describe("Co user ma teraz sprawdzić"),
   przyczyna: z.object({ id: z.string(), opis: z.string(), link: z.string().nullable() }).nullable(),
   ostrzezenia: z.array(z.string()),

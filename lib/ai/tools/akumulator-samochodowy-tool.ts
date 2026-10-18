@@ -4,6 +4,7 @@
  * część użyteczną rozruchowego źródło podaje tylko jako zakres 30–50% (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAkumulatorSamochodowy } from "@/lib/core/modules/kalkulator-mobilny/akumulator-samochodowy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const AkumulatorSamochodowyToolInput = z.object({
 export type AkumulatorSamochodowyToolInputT = z.infer<typeof AkumulatorSamochodowyToolInput>
 
 export const AkumulatorSamochodowyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   czasH: z.number().describe("Czas pracy do granicy części użytecznej [h]"),
   pradA: z.number().describe("Prąd pobierany z akumulatora [A] = P / U"),
   pojemnoscUzytecznaAh: z.number(),

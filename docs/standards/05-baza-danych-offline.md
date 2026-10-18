@@ -28,6 +28,8 @@ Powiązane: [01 Architektura](01-architektura.md) · [02 Model danych](02-model-
 
 **Konsekwencja (web).** Dane trwałe w IndexedDB, service worker do cache'owania assetów, jednorazowe zapytania online (np. dane referencyjne, geolokalizacja) buforowane na stałe po pierwszym pobraniu.
 
+**Rozmiar instalacji nie jest argumentem przeciw danym wbudowanym.** [07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (D171, reguła właściciela; U.4 06.10.2026), decyzja właściciela repo. W aplikacji offline-first dane potrzebne do podstawowego działania trafiają do precache **od instalacji**, a nie przy pierwszym użyciu (leniwy cache łamie offline właśnie wtedy, gdy użytkownik pierwszy raz otwiera dany ekran bez sieci). Ładowanie do pamięci pozostaje leniwe. Dwa zabezpieczenia, bez których reguła zachęcałaby do puchnięcia instalacji: (1) użytkownik jest uprzedzony o rozmiarze pobierania przed instalacją (zwłaszcza w sieci komórkowej), a przyrost rozmiaru jest widoczny w przeglądzie zmian; (2) test offline (10.8, 10.9) obejmuje dane z precache, czyli sprawdza otwarcie ekranów zależnych od tych danych po instalacji i odcięciu sieci. Atomowość instalacji precache (5.8) znaczy, że jeden błędny plik blokuje cały Service Worker, więc przyrost listy plików wymaga tej samej kontroli co reszta.
+
 ## 5.4. Struktura magazynu
 
 **Reguła.** Jedna, scentralizowana baza (wersjonowana wg 2.4), z osobnymi "magazynami"/tabelami dla różnych klas danych — np. dane projektu (Seed) osobno od załączników binarnych (zdjęcia jako natywny `Blob`, nigdy base64 w tym samym rekordzie co dane tekstowe — narzut pamięciowy). Scentralizowanie ma celowo unikać rywalizacji wielu niezależnych baz o operacje strukturalne (np. `onupgradeneeded` w IndexedDB).

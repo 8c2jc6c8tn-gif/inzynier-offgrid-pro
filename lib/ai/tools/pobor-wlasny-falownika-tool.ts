@@ -3,6 +3,7 @@
  * Pobór jałowy falownika [W] pochodzi WYŁĄCZNIE od usera (karta katalogowa falownika).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePoborWlasnyFalownika } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -13,7 +14,7 @@ export const PoborWlasnyFalownikaToolInput = z.object({
 export type PoborWlasnyFalownikaToolInputT = z.infer<typeof PoborWlasnyFalownikaToolInput>
 
 export const PoborWlasnyFalownikaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataDobowaKwh: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

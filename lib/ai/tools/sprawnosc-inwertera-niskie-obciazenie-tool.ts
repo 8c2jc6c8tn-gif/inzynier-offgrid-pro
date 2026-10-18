@@ -5,6 +5,7 @@
  * sprawności z krzywej, nigdy nie zgaduj.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSprawnoscInwertera } from "@/lib/core/modules/zapotrzebowanie/sprawnosc-inwertera-niskie-obciazenie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const SprawnoscInwerteraToolInput = z.object({
 export type SprawnoscInwerteraToolInputT = z.infer<typeof SprawnoscInwerteraToolInput>
 
 export const SprawnoscInwerteraToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   realneZuzycieW: z.number(),
   obciazenieFalownikaPct: z.number(),
   strataPct: z.number(),

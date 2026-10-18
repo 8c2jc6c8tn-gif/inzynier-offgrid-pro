@@ -18,13 +18,13 @@ import {
   kluczZuzycia,
   zuzycieZeSzkicu,
 } from "@/components/siec/zuzycie-miesieczne"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 /** M14 — D3 „Moje zużycie miesięcznie” (pochodny, Wzorzec D). Owner of `siec-zuzycie-dom`. */
 export default function ZuzycieMiesiecznePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<StanZuzycia>(kluczZuzycia("dom"), POCZATKOWY_ZUZYCIA)
   const zuzycie = zuzycieZeSzkicu(stan)
   // Echo of the balance without PV: shortfall = consumption, so the engine gives the sum, the winter part and the peak month.

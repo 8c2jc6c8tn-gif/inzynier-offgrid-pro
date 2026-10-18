@@ -3,6 +3,7 @@
  * lokalny (Wzorzec H). `operationType: 'read'`. Podsumowuje stan katalogu (instancje, typy) — bez oceny doboru.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKatalogKomponentow } from "@/lib/core/modules/esp32/katalog-komponentow/calculator"
 import { KATALOGI_ESP32, NAZWY_KATALOGOW_ESP32, type KatalogEsp32 } from "@/lib/core/modules/esp32/katalog-komponentow/constants"
 import type { AiToolDefinition } from "../types"
@@ -25,7 +26,7 @@ export const KatalogKomponentowEsp32ToolInput = z
 export type KatalogKomponentowEsp32ToolInputT = z.infer<typeof KatalogKomponentowEsp32ToolInput>
 
 export const KatalogKomponentowEsp32ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaInstancji: z.number(),
   liczbaTypowUzytych: z.number(),
   dostepneTypy: z.array(z.string()),

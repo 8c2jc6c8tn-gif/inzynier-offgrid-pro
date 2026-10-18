@@ -6,6 +6,7 @@
  * usera — nie zgaduj (dane bezpieczeństwa: dobór zabezpieczeń).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborKabliBezpiecznikowOlow } from "@/lib/core/modules/montaz-baterii/dobor-kabli-bezpiecznikow-olow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -33,7 +34,7 @@ export const DoborKabliBezpiecznikowOlowToolInput = z.object({
 export type DoborKabliBezpiecznikowOlowToolInputT = z.infer<typeof DoborKabliBezpiecznikowOlowToolInput>
 
 export const DoborKabliBezpiecznikowOlowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   przekrojMm2: z.number(),
   obciazalnoscEfektywnaA: z.number(),
   spadekNapieciaPct: z.number(),

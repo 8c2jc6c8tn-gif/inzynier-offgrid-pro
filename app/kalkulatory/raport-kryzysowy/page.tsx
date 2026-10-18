@@ -13,16 +13,13 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { zBlackoutu, type SeedBlackout } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/zrodla"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { zbudujRaport, type CzescRaportu } from "@/lib/stress-test/raport-kryzysowy"
 import { KLUCZ_DRAFTU_SYMULACJI_MROZU, STAN_POCZATKOWY_SYMULACJI, type StanSymulacjiMrozu } from "@/lib/stress-test/symulacja-mrozu"
 import { useWynikSymulacjiMrozu } from "@/lib/stress-test/use-symulacja-mrozu"
 import { wynikDeficytowZeSzkicu, type PolaDeficytow } from "@/lib/stress-test/wejscie-deficytow"
 import { wejscieWspolczynnika, wynikWspolczynnikaZeSzkicu, type PolaWspolczynnika } from "@/lib/stress-test/wejscie-wspolczynnika"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 const EKRANY: Record<CzescRaportu, { href: string; tytul: string }> = {
   symulacja: { href: "/kalkulatory/symulacja-mrozu", tytul: "UI-M7-RAPORT-SEKCJA-SYM" },
@@ -38,6 +35,9 @@ const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number
 
 export default function RaportKryzysowyPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [panele, setPanele] = usePersistedDraft<PaneleSeed>("raport-kryzysowy", PUSTE_PANELE)
   const e1 = useOdczytDraftu<StanSymulacjiMrozu>(KLUCZ_DRAFTU_SYMULACJI_MROZU)
   const e2 = useOdczytDraftu<Partial<PolaDeficytow>>("deficyty-miesieczne")

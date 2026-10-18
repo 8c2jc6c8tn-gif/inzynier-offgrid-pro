@@ -6,6 +6,7 @@
  * Nie mylić z `zlacza-mc4-tool.ts` (Moduł "okablowanie" — inny kalkulator, inny ekran).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateStratyZlaczkiMc4 } from "@/lib/core/modules/pv/straty-zlaczki-mc4/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const StratyZlaczkiMc4ToolInput = z.object({
 export type StratyZlaczkiMc4ToolInputT = z.infer<typeof StratyZlaczkiMc4ToolInput>
 
 export const StratyZlaczkiMc4ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataNaZlaczkeW: z.number(),
   strataCalkowitaW: z.number(),
   ostrzezenia: z.array(z.string()),

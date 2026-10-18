@@ -5,6 +5,7 @@
  * nigdy nie zgaduj tych wartości.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDoborPojemnosci } from "@/lib/core/modules/baterie/dobor-pojemnosci/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const DoborPojemnosciToolInput = z.object({
 export type DoborPojemnosciToolInputT = z.infer<typeof DoborPojemnosciToolInput>
 
 export const DoborPojemnosciToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pojemnoscUzytecznaKwh: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Wielkości (Ah, W) nie są zgadywane — pozycje odsyłają do kalkulatorów.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateListaKemping } from "@/lib/core/modules/kalkulator-mobilny/lista-kemping/calculator"
 import { t } from "@/lib/i18n/t"
 import type { AiToolDefinition } from "../types"
@@ -22,7 +23,7 @@ export const ListaKempingToolInput = z.object({
 export type ListaKempingToolInputT = z.infer<typeof ListaKempingToolInput>
 
 export const ListaKempingToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   konieczne: z.array(z.string()).describe("Pozycje konieczne (z ilością, gdy wynika z parametrów)"),
   opcjonalne: z.array(z.string()),
   ostrzezenia: z.array(z.string()),

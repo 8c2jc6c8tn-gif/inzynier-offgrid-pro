@@ -1,5 +1,6 @@
 "use client"
 
+import { formatujDate } from "@/lib/i18n/liczby"
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -90,9 +91,9 @@ export function KontoPasskey() {
               <div className="flex flex-col">
                 <span className="text-small">{k.nazwa ?? t("UI-KONPAS-BEZ-NAZWY")}</span>
                 <span className="text-caption text-muted-foreground">
-                  {t("UI-KONPAS-UTWORZONO", { data: new Date(k.utworzono).toLocaleDateString(jezyk) })}
+                  {t("UI-KONPAS-UTWORZONO", { data: formatujDate(new Date(k.utworzono), jezyk) })}
                   {k.ostatnieUzycie &&
-                    ` · ${t("UI-KONPAS-OSTATNIO", { data: new Date(k.ostatnieUzycie).toLocaleDateString(jezyk) })}`}
+                    ` · ${t("UI-KONPAS-OSTATNIO", { data: formatujDate(new Date(k.ostatnieUzycie), jezyk) })}`}
                 </span>
               </div>
               <Button type="button" variant="outline" size="sm" onClick={() => usun(k.id)} disabled={zajete}>

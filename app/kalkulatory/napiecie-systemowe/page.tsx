@@ -316,7 +316,7 @@ export default function NapiecieSystemowePage() {
   const result = useMemo(() => calculateNapiecieSystemowe(input), [input])
 
   const poziom: WerdyktPoziom | null =
-    result.status === "INVALID_INPUT" ? "blad" : result.status === "INCOMPLETE" ? null : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"
+    result.status === "INVALID_INPUT" ? "blad" : result.status === "INCOMPLETE" ? null : result.status === "VALID_WITH_WARNINGS" || result.status === "ESTIMATE" ? "uwaga" : "ok"
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 p-6">

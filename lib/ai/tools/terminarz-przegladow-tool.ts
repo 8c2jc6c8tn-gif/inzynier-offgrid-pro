@@ -3,6 +3,7 @@
  * Interwały i daty podaje user z instrukcji swoich urządzeń — model nie zna zaleceń producentów i nie zgaduje interwałów.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTerminarzPrzegladow } from "@/lib/core/modules/bezpieczenstwo/terminarz-przegladow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const TerminarzPrzegladowToolInput = z.object({
 export type TerminarzPrzegladowToolInputT = z.infer<typeof TerminarzPrzegladowToolInput>
 
 export const TerminarzPrzegladowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   terminy: z.array(
     z.object({
       nazwa: z.string(),

@@ -4,9 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
+import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDate } from "@/lib/i18n/liczby"
 
 /**
  * Monthly mean outdoor temperatures from the saved PVGIS TMY of the project location (T2m, ERA5)
@@ -15,6 +14,9 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  */
 export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]) => void }) {
   const t = useTranslate()
+  const jezyk = useLanguage()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const online = useOnline()
   if (!wczytano) return null
@@ -52,7 +54,7 @@ export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]
     <div className="flex flex-col gap-2 rounded-lg border p-3">
       <p className="text-small text-muted-foreground">
         {dane
-          ? t("UI-TEMZPVG-DANE-PVGIS-ZAPISANE", { p: new Date(dane.pobrano).toLocaleDateString("pl-PL") })
+          ? t("UI-TEMZPVG-DANE-PVGIS-ZAPISANE", { p: formatujDate(new Date(dane.pobrano), jezyk) })
           : t("UI-TEMZPVG-TEMPERATURY-MOZE-WSTAWIC-2")}
       </p>
       <Button

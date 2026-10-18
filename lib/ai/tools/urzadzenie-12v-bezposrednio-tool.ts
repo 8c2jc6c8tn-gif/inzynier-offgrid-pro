@@ -4,6 +4,7 @@
  * pochodzić od usera (instrukcja/tabliczka) — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUrzadzenie12vBezposrednio } from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const Urzadzenie12vBezposrednioToolInput = z.object({
 export type Urzadzenie12vBezposrednioToolInputT = z.infer<typeof Urzadzenie12vBezposrednioToolInput>
 
 export const Urzadzenie12vBezposrednioToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   urzadzenieMinV: z.number(),
   urzadzenieMaxV: z.number(),
   akuMinV: z.number().describe("Najniższe realne napięcie akumulatora [V]"),

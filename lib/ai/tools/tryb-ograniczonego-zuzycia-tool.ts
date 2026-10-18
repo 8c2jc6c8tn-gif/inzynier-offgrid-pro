@@ -3,6 +3,7 @@
  * Zużycie dobowe odbiorników i wybór, które zostają włączone, podaje user — model nie ocenia, co jest krytyczne dla bezpieczeństwa.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTrybOgraniczonegoZuzycia } from "@/lib/core/modules/zapotrzebowanie/tryb-ograniczonego-zuzycia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const TrybOgraniczonegoZuzyciaToolInput = z.object({
 export type TrybOgraniczonegoZuzyciaToolInputT = z.infer<typeof TrybOgraniczonegoZuzyciaToolInput>
 
 export const TrybOgraniczonegoZuzyciaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   normalnieDobaKwh: z.number().nullable(),
   ograniczoneDobaKwh: z.number().nullable(),
   oszczednoscDobaKwh: z.number().nullable(),

@@ -5,6 +5,7 @@
  * adnotacja idzie w `ostrzezenia`; cała masa (C źródła) osobno w `pojemnoscCalkowitaKwhK`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePojemnoscCieplna } from "@/lib/core/modules/ogrzewanie/pojemnosc-cieplna/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -37,7 +38,7 @@ export const PojemnoscCieplnaToolInput = z.object({
 export type PojemnoscCieplnaToolInputT = z.infer<typeof PojemnoscCieplnaToolInput>
 
 export const PojemnoscCieplnaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pojemnoscKwhK: z.number().nullable(),
   pojemnoscCalkowitaKwhK: z.number().nullable(),
   stalaCzasowaH: z.number().nullable(),

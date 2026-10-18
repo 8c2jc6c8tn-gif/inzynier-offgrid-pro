@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   predkoscWiatruMS: string
@@ -31,6 +31,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function NaporWiatruPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("napor-wiatru", STAN_POCZATKOWY)
   // Drafts saved before 26.09.2026 have no `balastPlanowanyKg` — treat as empty.
   const { predkoscWiatruMS, powierzchniaM2, cd } = stan
@@ -144,7 +145,7 @@ export default function NaporWiatruPage() {
           <p className="text-small">
             {t("UI-NAPWIA-BALAST-PROJEKTOWY-PRZECIW")}
             {masaPaneliStelazaKg !== "" ? ` ${t("UI-NAPWIA-PONAD-CIEZAR-PANELU")}` : ""}{t("UI-NAPWIA-NAJMNIEJ")}{" "}
-            <strong>{Math.ceil(result.value.balastProjektowyKg).toLocaleString("pl-PL")} kg</strong>
+            <strong>{formatLiczbe(Math.ceil(result.value.balastProjektowyKg))} kg</strong>
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

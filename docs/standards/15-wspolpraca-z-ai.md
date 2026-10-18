@@ -214,6 +214,10 @@ Każdy wpis zadania w tej liście zawiera, obok statusu (B.6):
 
 **Uzasadnienie.** Właściciel projektu koordynuje wiele sesji/projektów naraz — lista bez priorytetu/odblokowania/kolizji zmusza go (albo kolejną sesję) do odtwarzania tego kontekstu z pamięci albo z historii czatu za każdym razem. Jawny zapis kolejności (duże przed powiązanymi małymi) zapobiega sytuacji, w której drobna poprawka zrobiona przed dużym zadaniem musi być robiona ponownie po jego zamknięciu, bo duże zadanie zmieniło założenia, na których drobna poprawka się opierała.
 
+**[07.10.2026] ✅ DOPISANO — przekazanie sesji i bilans liczony maszynowo** (źródło: inzynier-offgrid-pro, U.4 05.10.2026). (1) Notatka przekazania („następny krok: …”) bywa nieaktualna w chwili odczytu — kolejna sesja potrafiła wykonać polecenie wg przekazania, choć wskazane zadania zrobiono już wcześniej. Przed rozpoczęciem pracy wg przekazania sesja sprawdza je względem `git log` (commity i daty po dacie przekazania) i wpisuje do listy rozbieżność, jeśli jest. (2) Bilans łączny (liczba zrobionych/otwartych, suma wierszy) wpisany ręcznie rozjeżdża się z sumą wierszy — liczy się go skryptem (np. `grep -c` po statusach), a wpisany ręcznie oznacza się jako przybliżony.
+
+[16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 11.10.2026), decyzja właściciela repo; odpowiada GOD BOOK B.6 (v2.45). **Długie wpisy: nagłówek zgodny z treścią i wpis „STAN BIEŻĄCY”.** Wpis zbierający więcej niż kilka pozycji nie rośnie jako dziennik z dopiskami ✅ w środku i nagłówkiem 🔲/🔄, który nie oddaje stanu — sesja czytająca same nagłówki zgłosiłaby jako braki rzeczy już zrobione. Na górze listy stoi jeden wpis „STAN BIEŻĄCY” (zrobione / zostaje); zamknięcie pozycji ze środka długiego wpisu zmienia ten wpis i nagłówek długiego (stara treść zostaje, dopisana data). Odpowiedź na „co zostało” opiera się na rejestrze pokrycia (14.1) i historii wersji, o ile projekt je prowadzi, nie tylko na liście zadań, i podaje, z czego wynika.
+
 ## 15.23. Po większej pracy: commit → push → PR → merge obowiązkowo; lista zadań i ślad gałęzi zawsze na gałęzi domyślnej
 
 [29.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4: 27.09.2026 oraz dwa wpisy 28.09.2026, w tym zgłoszenie właściciela repo), decyzja właściciela repo. 15.21 wymagała tylko zadeklarowania stanu, a moment scalenia zostawał do uznania. W inzynier-offgrid-pro gałęzie robocze rosły przez wiele dni bez PR, narosło ~15 nigdy niescalonych gałęzi (część martwa, wymagająca ręcznego audytu), a sesja startująca z `main` przeczytała tam nieaktualną listę zadań (notatka przekazania leżała na niescalonej gałęzi) i wykonała drugi raz całą, już zrobioną pracę (D29).
@@ -226,3 +230,47 @@ Każdy wpis zadania w tej liście zawiera, obok statusu (B.6):
 5. **Higiena gałęzi.** Gałęzie w pełni scalone są usuwane; niescalona gałąź bez wpisu śladu (punkt 3) to błąd do wyjaśnienia, nie stan do zignorowania.
 
 **Uzasadnienie.** Przy wielu równoległych sesjach w chmurze, każdej na własnej gałęzi, niescalona praca jest niewidoczna dla kolejnej sesji — skutkiem są zgubione gałęzie, trudne późniejsze scalanie i podwójna praca, która może nadpisać tę pierwszą. Merge po każdej większej pracy sprawia, że niescalona gałąź jest wyjątkiem (praca przerwana), a nie stanem domyślnym; punkt 3 zabezpiecza właśnie ten wyjątek.
+
+**[07.10.2026] ✅ DOPISANO — start sesji i rezerwacja pracy przy równoległych sesjach** (źródło: inzynier-szkieletowy-pro, U.4 04–07.10.2026; decyzja właściciela repo). Do punktu 4 (start sesji) dochodzą trzy elementy.
+- **Otwarte PR z GitHuba, nie `git cherry`.** W repo scalanym squashem `git cherry` i `rev-list main..gałąź` oznaczają jako „niescalone” każdą starą gałąź (w jednym projekcie ~60). Wiarygodne jest zestawienie listy PR z GitHuba (otwarte/scalone) z `git merge-base --is-ancestor` i diffem plików. Otwarte PR i gałęzie z pracą bez PR wpisuje się do sekcji **„Otwarte PR / niespięte gałęzie”** w `docs/lista-do-zrobienia.md` (szablon ma ją od v2.42), aktualizowanej przy każdym push bez PR i przy każdym PR pozostawionym otwartym.
+- **Przed większą pracą nad modułem:** `git fetch`, `git log origin/<domyślna> -- <ścieżka modułu>` oraz otwarte PR dotykające modułu. Powtórz po kompaktowaniu kontekstu i przed zamknięciem zadania.
+- **Rezerwacja modułu — tylko dla prac dłuższych niż jedna sesja:** wpis „w trakcie — gałąź X” w liście zadań, żeby inna sesja go widziała; zamykana albo zwalniana razem ze scaleniem. Drobne zadania w jednej sesji nie wymagają rezerwacji. Do tego: scalaj małymi krokami, nie jednym dużym merge po kilku dniach (dwie przebudowy tego samego modułu dały 21 plików konfliktu i odrzucenie całej pracy jednej strony).
+
+## 15.24. Scalanie równoległych prac: przenumerowanie, testy po złożeniu, usuwanie „duplikatu”
+
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4 04–07.10.2026: 5 kolizji numeracji D#/backlogu, scalenia dwóch implementacji tej samej reguły i dwóch baz meteo), decyzja właściciela repo. Uzupełnia GOD BOOK H.3 (kolizja ID) o procedurę scalania, której H.3 (c) dotąd nie opisywała.
+
+**Reguła.**
+1. **Przenumerowanie przed merge, osobnym commitem.** Gdy dwie gałęzie nadały te same numery (D#, M#, pozycje backlogu), przenumerowuje się jedną stronę **osobnym commitem na gałęzi pomocniczej**, tylko w treści **dodanej po merge-base** (`git diff <merge-base>` względem tej gałęzi), nigdy globalnie w całych plikach. Numery typu `#20` są wieloznaczne (moduły, kroki, pozycje), więc zamiana globalna psuje cudze odwołania. Odwołania „D1xx” w kodzie, testach i komentarzach przenumerowuje się razem z wpisami. Po commicie `git merge`: konflikty zostają zwykle tylko w nagłówkach i dopiskach na końcu plików.
+2. **Zasada domyślna z H.3 (c) zostaje:** pierwszy scalony zachowuje numer; przenumerowanie z wpisem w logu zmian (I.5).
+3. **Pełne testy po złożeniu, także gdy kod scalił się bez konfliktów.** Zmiana wyniku testu po scaleniu bez konfliktu w kodzie to **skutek złożenia dwóch decyzji** (np. pełniejsza masa budynku zmieniła wejście innej decyzji i wynik spadł z R 60 do R 45), a nie błąd scalenia. Opisuje się go wpisem w rejestrze decyzji; oczekiwań testu nie poprawia się po cichu.
+4. **Dwie implementacje tej samej reguły:** git potrafi dołożyć bez konfliktu zmiany „przegranej” wersji w plikach poza konfliktem — trzeba je przejrzeć i cofnąć jawnie.
+5. **„To duplikat, usuwamy” wymaga dowodu.** Przed usunięciem „odpowiednika” (plików, funkcji, bazy danych) sporządza się wykaz pól i funkcji **obu** wersji, przenosi to, czego zostająca wersja nie ma (rozszerzenie schematu, jego skrypty i walidacja), i dopiero test równości wartości (stare vs nowe, zero rozbieżności) pozwala usunąć. Bez wykazu i testu równości usunięcie jest utratą pracy, nie porządkowaniem.
+
+**Uzasadnienie.** Równoległe sesje są normą rodziny, a „to duplikat” bywa najczęstszym uzasadnieniem utraty danych przy scalaniu (w jednym przypadku usunięcie pominęłoby statystyki wydawcy, wysokość i współrzędne stacji oraz min./maks. godzinowe). Kolizje numeracji wracały pięciokrotnie w jednym projekcie, więc potrzebna jest powtarzalna procedura, nie improwizacja za każdym razem.
+
+## 15.25. Raport dla właściciela: twierdzenia mają pokrycie w kodzie, „brak danych” po przeszukaniu repo
+
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4 05.10.2026: trzy wpisy o sondzie na pełnym grafie, o zakresie stosowania normy w raporcie i o „brakujących” danych już zapisanych w repo), decyzja właściciela repo. Uzupełnia 15.10 (format raportu) i 15.4 (konflikty); nie zastępuje ich.
+
+**Reguła.**
+1. **Twierdzenie o zachowaniu kodu ma pokrycie w uruchomieniu.** Zdanie w raporcie typu „norma obejmuje ten wariant”, „wynik X wymaga danych Y”, „moduł Z tego nie liczy” opiera się na sondzie lub teście tego samego kodu, a nie na pamięci o module. Sonda liczy **projekt domyślny przez pełny graf modułów** (pełny Kernel plus stan nowego projektu), bo opis z pamięci jednego modułu bywa nieprawdziwy dla całości (obciążenie może płynąć z innego modułu). Bez pokrycia pisze się „do sprawdzenia”, nie stwierdzenie.
+2. **Sonda jest narzędziem, nie artefaktem.** Runner testów może tłumić `console.log`, więc sonda zapisuje wynik do pliku w katalogu roboczym sesji i jest usuwana przed commitem. To, co sonda wykaże trwałego (rozjazd założeń między modułami), zamienia się w test (10.10 pkt 5).
+3. **Przed zgłoszeniem „brakuje danych” albo „do decyzji” AI przeszukuje repo.** Grep po wartościach i nazwach w Seedach, stałych, rejestrze decyzji i liście zadań. Dane i rozstrzygnięcia podane przez właściciela oznacza się „źródło: właściciel”, nie „niezweryfikowane” ani „do decyzji”. Pozycję, w której właściciel już wskazał rozwiązanie, przedstawia się jako zdecydowaną.
+4. **Jedna wartość biznesowa ma jedno pole źródłowe.** Cena, parametr produktu czy współczynnik czytane przez kilka analiz pochodzą z jednego pola, a druga analiza nie wprowadza własnej stałej (por. 1.2, cecha współdzielona czytana przez `dependsOn`).
+
+**Uzasadnienie.** Właściciel podejmuje decyzje na podstawie raportów AI. W jednym przypadku zlecił obliczenie na podstawie obietnicy z raportu, której kod nie spełniał (tablica normy obejmowała inne materiały niż projekt). W innym raport nazwał „brakującymi” ceny leżące od miesiąca w Seedzie, a druga analiza dostała własną stałą ceny, więc jeden produkt miał dwa źródła cen.
+
+## 15.26. Pytanie do właściciela o decyzję: samodzielne i kompletne
+
+[18.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpis z 07.10.2026, polecenie właściciela tamtego projektu), decyzja właściciela repo (wariant S3-A). **Uzasadnienie.** AI zadawało pytania w rodzaju „czy robimy X?” bez wyjaśnienia, czego X dotyczy, gdzie leży w kodzie lub dokumentach i co się stanie po każdej odpowiedzi; przykład: pytanie o przeniesienie endpointu `/api/paragony/rozpoznaj` do rejestru `lib/ai/` było zrozumiałe dopiero po rozbudowaniu („nie rozumiem pytania, nie wiem po co i gdzie chcesz przenosić”). Zasada była omawiana ustnie, ale AI jej nie stosowało — stąd reguła, nie dobra praktyka. Uzupełnia 15.4 (pokaż obie strony konfliktu) o format ogólnego pytania decyzyjnego.
+
+**Reguła.** Każde pytanie o decyzję, która ma skutki (zmiana reguły, kodu, dokumentu, kierunku pracy), jest **samodzielne**: właściciel rozumie je bez czytania wcześniejszej rozmowy i bez dopytywania. Kolejność pól:
+1. **Co to jest** — jedno zdanie w języku właściciela, bez żargonu; nazwa pliku, modułu lub reguły dopiero po wyjaśnieniu.
+2. **Gdzie to jest** — ścieżki, ekrany, numery reguł i decyzji (D#, rozdział standardu), żeby dało się to znaleźć.
+3. **Dlaczego pytam teraz** — skąd problem (audyt, błąd, nowa reguła) i co się dzieje, jeśli nie zrobimy nic.
+4. **Opcje A/B/(C)** — każda z: co dokładnie się zmieni, efekt widoczny dla użytkownika końcowego, efekt dla kodu i dokumentacji, plusy, minusy, koszt (skala pracy), ryzyko (co może się zepsuć i jak to wykryjemy), odwracalność, co odblokowuje lub zamyka, kolizje z innymi zadaniami listy.
+5. **Rekomendacja AI** z uzasadnieniem i warunkiem, przy którym rekomendacja się zmienia.
+6. **Czego AI nie wie albo zakłada** — jawnie, żeby właściciel mógł to skorygować (15.1: nie zgaduj po cichu).
+
+**Proporcjonalność.** Pełny szablon obowiązuje przy pytaniach o decyzje z realnymi skutkami. Krótkie pytanie doprecyzowujące (np. „którą z dwóch nazw pliku wybrać”) nie wymaga wszystkich sześciu pól, ale nadal jest zrozumiałe bez kontekstu rozmowy: podaje, czego dotyczy, i co zmienia każda odpowiedź.

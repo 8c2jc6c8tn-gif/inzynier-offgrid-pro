@@ -11,7 +11,7 @@ import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ry
 import type { OdcinekCrl, SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Stan = {
   skutkiKrytyczne: boolean
@@ -64,8 +64,6 @@ const STAN_POCZATKOWY: Stan = {
 }
 
 const n = (s: string) => liczba(s) ?? null
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 /**
  * Moduł 5, Ekran 2 — "Czy SPD jest wymagany" per HD 60364-4-443 (443.4 + 443.5 CRL). Separate draft from the SPD
@@ -73,6 +71,9 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 }
  */
 export function SekcjaCrl() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const [stan, setStan] = usePersistedDraft<Stan>("ochrona-przepieciowa-spd-crl", STAN_POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((s) => ({ ...s, ...z }))
   const wynik = useMemo(

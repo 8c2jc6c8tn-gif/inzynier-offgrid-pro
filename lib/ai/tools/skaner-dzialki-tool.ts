@@ -7,6 +7,7 @@
  * rozmowy) — tylko wielkości, o które user pyta.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -40,7 +41,7 @@ export const SkanerDzialkiToolInput = z.object({
 export type SkanerDzialkiToolInputT = z.infer<typeof SkanerDzialkiToolInput>
 
 export const SkanerDzialkiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dzialka: z.object({ powierzchniaM2: z.number(), obwodM: z.number() }).nullable(),
   budynek: z
     .object({

@@ -4,6 +4,7 @@
  * katalogowej użytkownika — model nigdy ich nie zgaduje. Wynik podany dla warunków STC.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKonfiguratorStringow } from "@/lib/core/modules/pv/konfigurator-stringow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -32,7 +33,7 @@ export const KonfiguratorStringowToolInput = z.discriminatedUnion("mode", [
 export type KonfiguratorStringowToolInputT = z.infer<typeof KonfiguratorStringowToolInput>
 
 export const KonfiguratorStringowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   voltageV: z.number(),
   currentA: z.number(),
   ostrzezenia: z.array(z.string()),

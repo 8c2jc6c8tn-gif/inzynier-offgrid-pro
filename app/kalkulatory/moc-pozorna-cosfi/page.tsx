@@ -10,7 +10,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   mocCzynnaW: string
@@ -24,6 +24,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function MocPozornaCosfiPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("moc-pozorna-cosfi", STAN_POCZATKOWY)
   const { mocCzynnaW, cosFi } = stan
 
@@ -83,7 +84,7 @@ export default function MocPozornaCosfiPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-MOCPOZCOS-MOC-POZORNA")}>
           <WynikGlowny>
-            {result.value.mocPozornaVA.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} VA
+            {formatLiczbe(result.value.mocPozornaVA, { maximumFractionDigits: 0 })} VA
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-2 text-small">

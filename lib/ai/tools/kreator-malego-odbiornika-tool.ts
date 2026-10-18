@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKreatorMalegoOdbiornika } from "@/lib/core/modules/kalkulator-mobilny/kreator-malego-odbiornika/calculator"
 import { SCENARIUSZE } from "@/lib/core/modules/kalkulator-mobilny/kreator-malego-odbiornika/constants"
 import type { AiToolDefinition } from "../types"
@@ -36,7 +37,7 @@ export const KreatorMalegoOdbiornikaToolInput = z.object({
 export type KreatorMalegoOdbiornikaToolInputT = z.infer<typeof KreatorMalegoOdbiornikaToolInput>
 
 export const KreatorMalegoOdbiornikaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   sumaMocyW: z.number(),
   szczytW: z.number(),

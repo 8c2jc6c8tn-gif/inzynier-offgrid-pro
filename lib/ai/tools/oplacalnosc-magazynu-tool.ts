@@ -5,6 +5,7 @@
  * opcjonalny (porównanie pominięte, gdy nie podany).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const OplacalnoscMagazynuToolInput = z.object({
 export type OplacalnoscMagazynuToolInputT = z.infer<typeof OplacalnoscMagazynuToolInput>
 
 export const OplacalnoscMagazynuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaCalkowitaZyciaKwh: z.number(),
   kosztZaKwh: z.number(),
   tansze: z.boolean().nullable(),

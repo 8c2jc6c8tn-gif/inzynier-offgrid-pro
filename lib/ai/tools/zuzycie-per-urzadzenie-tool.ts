@@ -4,6 +4,7 @@
  * model nie zgaduje typowych mocy ani współczynnika sprężarki.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateZuzyciePerUrzadzenie } from "@/lib/core/modules/kalkulator-mobilny/zuzycie-per-urzadzenie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const ZuzyciePerUrzadzenieToolInput = z.object({
 export type ZuzyciePerUrzadzenieToolInputT = z.infer<typeof ZuzyciePerUrzadzenieToolInput>
 
 export const ZuzyciePerUrzadzenieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   urzadzenia: z.array(z.object({ nazwa: z.string(), zuzycieWh: z.number(), zuzycieZnamionoweWh: z.number() })),
   sumaWh: z.number().describe("Łączne zużycie na dobę [Wh]"),
   ostrzezenia: z.array(z.string()),

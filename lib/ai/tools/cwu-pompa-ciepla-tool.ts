@@ -3,6 +3,7 @@
  * 5.58), dokładka do Ekranu 18. `operationType: 'read'`. Temperatura maksymalna, COP i moc w trybie C.W.U. — z karty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateCwuPompaCiepla } from "@/lib/core/modules/ogrzewanie/cwu-pompa-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const CwuPompaCieplaToolInput = z.object({
 export type CwuPompaCieplaToolInputT = z.infer<typeof CwuPompaCieplaToolInput>
 
 export const CwuPompaCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploPompaKwh: z.number(),
   cieploGrzalkaKwh: z.number(),
   energiaPompaKwh: z.number(),

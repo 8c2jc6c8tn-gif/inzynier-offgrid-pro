@@ -10,7 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -30,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function AnalizaZwarciowaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY)
   const { napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA } = stan
 
@@ -140,12 +141,12 @@ export default function AnalizaZwarciowaPage() {
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <WynikGlowny>
-            {t("UI-ANAZWA-MAKS", { pradZwarciowyMaksymalnyA: result.value.pradZwarciowyMaksymalnyA.toLocaleString("pl-PL") })}
+            {t("UI-ANAZWA-MAKS", { pradZwarciowyMaksymalnyA: formatLiczbe(result.value.pradZwarciowyMaksymalnyA) })}
           </WynikGlowny>
         )}
         {verdict !== "invalid" && verdict !== "incomplete" && (
           <p className="mt-1 text-small text-muted-foreground">
-            {t("UI-ANAZWA-BATERIA", { pradZwarciowyBateriaA: result.value.pradZwarciowyBateriaA.toLocaleString("pl-PL"), pradZwarciowyPvA: result.value.pradZwarciowyPvA.toLocaleString("pl-PL") })}
+            {t("UI-ANAZWA-BATERIA", { pradZwarciowyBateriaA: formatLiczbe(result.value.pradZwarciowyBateriaA), pradZwarciowyPvA: formatLiczbe(result.value.pradZwarciowyPvA) })}
           </p>
         )}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />

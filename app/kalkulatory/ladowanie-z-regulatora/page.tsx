@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { WyborUrzadzeniaPv } from "@/components/urzadzenia-pv/wybor-urzadzenia"
 import { znajdzUrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
 import { limityZUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   urzadzenieId: string
@@ -45,9 +45,6 @@ const STAN_POCZATKOWY: FormularzStan = {
 // Empty field = no data (never a default): the engine treats `null` as "limit unknown".
 const liczba = (s: string): number | null => (s.trim() === "" ? null : Number(s))
 const tekst = (x: number | null) => (x === null ? "" : String(x))
-const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 const KLUCZ_OGRANICZENIA: Record<Ograniczenie, string> = {
   panele: "UI-LADREG-OGRANICZA-PANELE",
@@ -57,6 +54,10 @@ const KLUCZ_OGRANICZENIA: Record<Ograniczenie, string> = {
 
 export default function LadowanieZRegulatoraPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ladowanie-z-regulatora", STAN_POCZATKOWY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))

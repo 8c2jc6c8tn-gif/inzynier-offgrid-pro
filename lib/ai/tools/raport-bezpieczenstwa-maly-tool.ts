@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Odpowiedzi OK / Błąd MUSZĄ pochodzić od usera — narzędzie nie zgaduje stanu instalacji.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRaportBezpieczenstwa } from "@/lib/core/modules/kalkulator-mobilny/raport-bezpieczenstwa-maly/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -25,7 +26,7 @@ export const RaportBezpieczenstwaToolInput = z.object({
 export type RaportBezpieczenstwaToolInputT = z.infer<typeof RaportBezpieczenstwaToolInput>
 
 export const RaportBezpieczenstwaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   procentBezpieczenstwa: z.number(),
   liczbaOk: z.number(),
   liczbaBledow: z.number(),

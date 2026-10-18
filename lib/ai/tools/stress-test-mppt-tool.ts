@@ -6,6 +6,7 @@
  * = gwarantowane uszkodzenie sprzętu).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateStressTestMppt } from "@/lib/core/modules/pv/stress-test-mppt/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const StressTestMpptToolInput = z.object({
 export type StressTestMpptToolInputT = z.infer<typeof StressTestMpptToolInput>
 
 export const StressTestMpptToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   vMaxV: z.number().describe("Voc panelu w najzimniejszych warunkach [V]"),
   vStringV: z.number().describe("Napięcie całego stringu w najzimniejszych warunkach [V]"),
   ostrzezenia: z.array(z.string()),

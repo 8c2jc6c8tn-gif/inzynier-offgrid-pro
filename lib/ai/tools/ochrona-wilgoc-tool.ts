@@ -4,6 +4,7 @@
  * temperatura obudowy/ogniw MUSZĄ pochodzić z pomiaru usera (wzór Magnusa-Tetensa na punkt rosy).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaWilgoc } from "@/lib/core/modules/baterie/ochrona-wilgoc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const OchronaWilgocToolInput = z.object({
 export type OchronaWilgocToolInputT = z.infer<typeof OchronaWilgocToolInput>
 
 export const OchronaWilgocToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   punktRosyC: z.number(),
   temperaturaObudowyC: z.number(),
   ryzykoKondensacji: z.boolean(),

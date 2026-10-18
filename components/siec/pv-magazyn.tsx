@@ -23,7 +23,7 @@ import {
   useZuzycieMiesieczne,
   zuzycieZeSzkicu,
 } from "./zuzycie-miesieczne"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 /**
  * M14 — PV + storage of the transition part: D4 „Ile PV i magazynu” (dom) / F6 „PV w firmie i
@@ -76,10 +76,10 @@ export function useDaneBilansu(segment: Segment) {
   return { zuzycie, pv, wczytano: w1 && w2 }
 }
 
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-
 export function TabelaBilansu({ wynik, tryb }: { wynik: BilansMiesiecznyResult; tryb: TrybBilansu }) {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   return (
     <table className="mt-3 w-full text-small tabular-nums">
       <thead>
@@ -143,6 +143,8 @@ function PvDomu() {
 
 function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] | null }) {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const firma = segment === "firma"
   const [pv, setPv] = usePersistedDraft<StanPvMagazynu>(kluczPv(segment), POCZATKOWY_PV)
   const ustaw = <K extends keyof StanPvMagazynu>(k: K, v: StanPvMagazynu[K]) => setPv((p) => ({ ...p, [k]: v }))

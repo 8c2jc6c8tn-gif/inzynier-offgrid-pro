@@ -3,6 +3,7 @@
  * Dane wejściowe WYŁĄCZNIE od usera (karty urządzeń, Moduły 3/6); model nie zgaduje — null, gdy nieznane.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePreHeat } from "@/lib/core/modules/stress-test/pre-heat/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const PreHeatToolInput = z.object({
 export type PreHeatToolInputT = z.infer<typeof PreHeatToolInput>
 
 export const PreHeatToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   cieploDomuKwh: z.number().nullable(),
   cieploBojleraKwh: z.number().nullable(),
   energiaElektrycznaKwh: z.number().nullable(),

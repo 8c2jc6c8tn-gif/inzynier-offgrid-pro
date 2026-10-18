@@ -7,6 +7,7 @@
  * pominięte — patrz `calculator.ts`).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDopasowanieTablicyFalownika } from "@/lib/core/modules/pv/dopasowanie-tablicy-falownika/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const DopasowanieTablicyFalownikaToolInput = z.object({
 export type DopasowanieTablicyFalownikaToolInputT = z.infer<typeof DopasowanieTablicyFalownikaToolInput>
 
 export const DopasowanieTablicyFalownikaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   vStringColdV: z.number().describe("Napięcie stringu w zimie [V]"),
   vStringStcV: z.number().describe("Napięcie robocze stringu w STC [V]"),
   iStringA: z.number(),

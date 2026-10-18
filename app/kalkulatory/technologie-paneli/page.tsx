@@ -16,7 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Zakladka = "sprawnosc" | "degradacja" | "uzysk" | "cienkowarstwowe"
 
@@ -31,8 +31,6 @@ type FormularzStan = { zakladka: Zakladka; mocInstalacjiKwp: string }
 
 const STAN_POCZATKOWY: FormularzStan = { zakladka: "sprawnosc", mocInstalacjiKwp: "" }
 
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 function opisSprawnosci(s: Sprawnosc): string {
   if (s.maxPct === null) return `${s.minPct}%+`
   return s.minPct === s.maxPct ? `~${s.minPct}%` : `${s.minPct}–${s.maxPct}%`
@@ -40,6 +38,8 @@ function opisSprawnosci(s: Sprawnosc): string {
 
 export default function TechnologiePaneliPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("technologie-paneli", STAN_POCZATKOWY)
   const { zakladka, mocInstalacjiKwp } = stan
 

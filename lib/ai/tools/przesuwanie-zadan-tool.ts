@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Prognoza (8 punktów co 3 h, jak Ekran Prognozy) i zadania (moc, czas, okno) — od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzesuwanieZadan } from "@/lib/core/modules/ai/przesuwanie-zadan/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -33,7 +34,7 @@ export const PrzesuwanieZadanToolInput = z.object({
 export type PrzesuwanieZadanToolInputT = z.infer<typeof PrzesuwanieZadanToolInput>
 
 export const PrzesuwanieZadanToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zadania: z.array(
     z.object({
       id: z.string(),

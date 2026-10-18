@@ -5,6 +5,7 @@
  * warstwy (grubość + λ albo opór R, od usera/z karty produktu) z kierunkiem strumienia; λ materiałów model nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateObciazenieCieplne, uPrzegrody } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import type { StrefaKlimatyczna } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import type { AiToolDefinition } from "../types"
@@ -51,7 +52,7 @@ export const ObciazenieCieplneToolInput = z.object({
 export type ObciazenieCieplneToolInputT = z.infer<typeof ObciazenieCieplneToolInput>
 
 export const ObciazenieCieplneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   temperaturaZewnetrznaC: z.number().nullable(),
   obciazenieW: z.number().nullable(),
   strataPrzenikanieW: z.number().nullable(),

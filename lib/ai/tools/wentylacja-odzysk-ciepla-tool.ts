@@ -6,6 +6,7 @@
  * bypassu letniego są świadomie pominięte (brak wzoru w źródle).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWentylacjaOdzyskCiepla } from "@/lib/core/modules/ogrzewanie/wentylacja-odzysk-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const WentylacjaOdzyskCieplaToolInput = z.object({
 export type WentylacjaOdzyskCieplaToolInputT = z.infer<typeof WentylacjaOdzyskCieplaToolInput>
 
 export const WentylacjaOdzyskCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   odzyskaneCieploKw: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

@@ -4,6 +4,7 @@
  * pochodzą z instrukcji producenta podanej przez usera — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAgregatWMrozie } from "@/lib/core/modules/stress-test/agregat-w-mrozie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ export const AgregatWMrozieToolInput = z.object({
 export type AgregatWMrozieToolInputT = z.infer<typeof AgregatWMrozieToolInput>
 
 export const AgregatWMrozieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   paliwoL: z.number().nullable(),
   wymianyOleju: z.number().nullable(),
   liczbaPrzerw: z.number().nullable(),

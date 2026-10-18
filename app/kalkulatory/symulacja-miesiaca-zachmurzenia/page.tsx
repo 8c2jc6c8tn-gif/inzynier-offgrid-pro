@@ -6,7 +6,7 @@ import { LICZBA_DNI_SCENARIUSZA_SUGEROWANA } from "@/lib/core/modules/baterie/sy
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -74,7 +74,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
     ],
   )
 
-  const poziom = result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "blad"
+  const poziom = poziomZStatusu(result.status)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

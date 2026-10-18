@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 8, Moduł 5 — "Przepust powietrza pod panelami". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzepustPowietrza } from "@/lib/core/modules/okablowanie/przepust-powietrza/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export type PrzepustPowietrzaToolInputT = z.infer<typeof PrzepustPowietrzaToolIn
 export const PrzepustPowietrzaToolOutput = z.object({
   klasyfikacja: z.enum(["krytyczna", "posrednia", "bezpieczna"]),
   strataOrientacyjnaPct: z.number().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

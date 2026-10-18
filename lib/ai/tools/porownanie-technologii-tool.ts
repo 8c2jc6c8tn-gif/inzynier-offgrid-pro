@@ -4,6 +4,7 @@
  * cyklu życia (pojemność × cykle × DoD) dla LiFePO4, AGM, GEL i trakcyjnej. Opisowe — bez werdyktu.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePorownanieTechnologii } from "@/lib/core/modules/baterie/porownanie-technologii/calculator"
 import { CENA_STARTOWA_LABELS } from "@/lib/core/modules/baterie/porownanie-technologii/constants"
 import type { AiToolDefinition } from "../types"
@@ -18,7 +19,7 @@ export const PorownanieTechnologiiToolInput = z.object({
 export type PorownanieTechnologiiToolInputT = z.infer<typeof PorownanieTechnologiiToolInput>
 
 export const PorownanieTechnologiiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   technologie: z.array(
     z.object({
       nazwa: z.string(),

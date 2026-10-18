@@ -4,6 +4,7 @@
  * sprawdzonych przez usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLadowanieWGarazu } from "@/lib/core/modules/kalkulator-mobilny/ladowanie-w-garazu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const LadowanieWGarazuToolInput = z.object({
 export type LadowanieWGarazuToolInputT = z.infer<typeof LadowanieWGarazuToolInput>
 
 export const LadowanieWGarazuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pozycje: z.array(z.object({ id: z.string(), element: z.string() })).describe("Pozycje checklisty dla tej chemii"),
   potwierdzone: z.number(),
   razem: z.number(),

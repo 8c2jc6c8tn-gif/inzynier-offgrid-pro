@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   cenaBateriiZl: string
@@ -34,6 +34,7 @@ const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBateriiZl", "kosztAltern
 
 export default function OplacalnoscMagazynuPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const { cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh } = stan
 
@@ -145,10 +146,10 @@ export default function OplacalnoscMagazynuPage() {
         poziom !== "blad" && (
           <WerdyktPanel poziom={poziom} etykieta={t("UI-OPLMAG-KOSZT-ENERGII-MAGAZYNU")}>
             <WynikGlowny>
-              {t("UI-OPLMAG-KWH", { kosztZaKwh: result.value.kosztZaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
+              {t("UI-OPLMAG-KWH", { kosztZaKwh: formatLiczbe(result.value.kosztZaKwh, { maximumFractionDigits: 2 }) })}
             </WynikGlowny>
             <p className="mt-1 text-small">
-              {t("UI-OPLMAG-CALKOWITA-ENERGIA-ODDANA", { energiaCalkowitaZyciaKwh: result.value.energiaCalkowitaZyciaKwh.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+              {t("UI-OPLMAG-CALKOWITA-ENERGIA-ODDANA", { energiaCalkowitaZyciaKwh: formatLiczbe(result.value.energiaCalkowitaZyciaKwh, { maximumFractionDigits: 0 }) })}
             </p>
             {result.warnings.map((w) => (
               <p key={w.code} className="mt-2 text-small">

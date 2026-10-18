@@ -4,6 +4,7 @@
  * dla niego), nigdy wartość zgadnięta przez model. Okres bez podania → 10 lat ze źródła (jak w UI).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKosztyOgrzewania } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/calculator"
 import { LICZBA_LAT_ZRODLO } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/constants"
 import type { AiToolDefinition } from "../types"
@@ -45,7 +46,7 @@ export const KosztyOgrzewaniaToolInput = z.object({
 export type KosztyOgrzewaniaToolInputT = z.infer<typeof KosztyOgrzewaniaToolInput>
 
 export const KosztyOgrzewaniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ranking: z.array(
     z.object({
       nazwa: z.string(),

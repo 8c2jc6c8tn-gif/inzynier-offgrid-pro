@@ -20,6 +20,8 @@ Struktura pojedynczego ostrzeżenia: kod, poziom, komunikat dla użytkownika ("p
 
 [15.09.2026] ✅ DODANO — źródło: integracja z rozdz. 17 (i18n), kolizja zgłoszona przez inzynier-offgrid-pro. **`kod` jako jedyny output domenowy.** Domenowa funkcja generująca ostrzeżenie zwraca wyłącznie `kod` — nigdy gotowy `komunikat dla użytkownika`. Ten komunikat jest wygenerowany dopiero w warstwie prezentacji, odczytem `kod` ze słownika tłumaczeń (17.2), tak samo jak `komunikat techniczny` pozostaje wewnętrzny/deweloperski i nie podlega i18n. Bez tego rozróżnienia domenowa funkcja produkowałaby twardy tekst w jednym języku, kolidując z 01.1.
 
+[07.10.2026] ✅ DOPRECYZOWANO (nic nie usunięto) — „odczyt `kod` ze słownika” wyżej czytaj przez 17.2 (dopisek 07.10.2026): domenowa funkcja zwraca `kod` + jawne `i18nKey` + `params` (opcjonalnie `akcjaI18nKey`); tłumaczenie nadal wyłącznie w warstwie prezentacji. Zasada „nigdy gotowy komunikat dla użytkownika” bez zmian.
+
 **Reguła priorytetu.** Ostrzeżenia nigdy nie zmieniają statusu wyniku (3.3) same z siebie. Priorytet stanu widżetu/ekranu: `BŁĄD > NIEKOMPLETNE > OK`.
 
 ## 4.2. Kontrakt wyniku prezentacyjnego (Kontrakt Widżetu)

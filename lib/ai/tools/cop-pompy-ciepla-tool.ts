@@ -4,6 +4,7 @@
  * katalogowa — lub zmierzony) pochodzą WYŁĄCZNIE od usera; nie zgaduj COP.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateCopPompyCiepla } from "@/lib/core/modules/ogrzewanie/cop-pompy-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const CopPompyCieplaToolInput = z.object({
 export type CopPompyCieplaToolInputT = z.infer<typeof CopPompyCieplaToolInput>
 
 export const CopPompyCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocElektrycznaKw: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

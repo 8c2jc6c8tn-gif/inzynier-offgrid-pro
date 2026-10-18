@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Obecność transceivera, adresy i prędkości — tylko od usera; model nie zakłada transceivera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateArchitekturaKomunikacji } from "@/lib/core/modules/esp32/architektura-komunikacji/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const ArchitekturaKomunikacjiToolInput = z.object({
 export type ArchitekturaKomunikacjiToolInputT = z.infer<typeof ArchitekturaKomunikacjiToolInput>
 
 export const ArchitekturaKomunikacjiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaPolaczen: z.number(),
   liczbaProblemow: z.number(),
   ostrzezenia: z.array(z.string()),

@@ -10,7 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { LIMIT_C_RATE_CHLODNO, LIMIT_C_RATE_ZIMNO, PROG_BLOKADY_C, PROG_LIMITU_02C, PROG_LUKI_GORNY_C, PROG_PELNEGO_PRADU_C } from "@/lib/core/modules/baterie/cold-c-rate/constants"
 
 const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
@@ -41,6 +41,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function ColdCRatePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("cold-c-rate", STAN_POCZATKOWY)
   const { temperaturaOgniwaC, pojemnoscAh } = stan
 
@@ -109,7 +110,7 @@ export default function ColdCRatePage() {
           etykieta={t(ETYKIETA_ZE_STREFY[result.value.strefa]!)}
         >
           {result.value.maxPradA !== null && (
-            <WynikGlowny>{result.value.maxPradA.toLocaleString("pl-PL")} A</WynikGlowny>
+            <WynikGlowny>{formatLiczbe(result.value.maxPradA)} A</WynikGlowny>
           )}
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-1 text-small">

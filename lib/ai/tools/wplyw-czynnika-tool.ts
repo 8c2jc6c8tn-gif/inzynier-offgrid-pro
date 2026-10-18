@@ -3,6 +3,7 @@
  * 5.73–5.100). `operationType: 'read'`. Każda liczba pochodzi od usera albo z jego ekranów Części 1 (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { t } from "@/lib/i18n/t"
 import { calculateWplywCzynnika, paramsDoWyswietlenia } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/calculator"
 import { CZYNNIKI, POLA_CZYNNIKA } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/constants"
@@ -26,7 +27,7 @@ export const WplywCzynnikaToolInput = z.object({
 export type WplywCzynnikaToolInputT = z.infer<typeof WplywCzynnikaToolInput>
 
 export const WplywCzynnikaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wynik: z.string().nullable(),
   szczegoly: z.array(z.string()),
   ostrzezenia: z.array(z.string()),

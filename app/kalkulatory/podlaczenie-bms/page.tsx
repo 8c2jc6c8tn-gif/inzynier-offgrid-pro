@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 /** Schemat: kolejność podłączania BMS — wtyczka balansująca, potem B−, potem pre-charge do P−. */
@@ -120,6 +120,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function PodlaczenieBmsPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("podlaczenie-bms", STAN_POCZATKOWY)
   const { pojemnoscFalownikaUf, rezystancjaPreChargeOhm, potwierdzoneIds } = stan
 
@@ -191,7 +192,7 @@ export default function PodlaczenieBmsPage() {
 
       {result.status !== "INVALID_INPUT" && (
         <WerdyktPanel poziom="uwaga" etykieta={t("UI-PODBMS-CZAS-PRE-CHARGE")}>
-          <WynikGlowny>{result.value.czasPreChargeS.toLocaleString("pl-PL")} s</WynikGlowny>
+          <WynikGlowny>{formatLiczbe(result.value.czasPreChargeS)} s</WynikGlowny>
           <p className="mt-1 text-small">
             {t("UI-PODBMS-TRZYMAJ-REZYSTOR-PODLACZONY")}
           </p>

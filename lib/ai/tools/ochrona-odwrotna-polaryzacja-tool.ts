@@ -4,6 +4,7 @@
  * projekt/instalacja) — model nigdy go nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaOdwrotnaPolaryzacja } from "@/lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/calculator"
 import type { MiejsceObwodu, TypOchrony } from "@/lib/core/modules/okablowanie/ochrona-odwrotna-polaryzacja/input"
 import type { AiToolDefinition } from "../types"
@@ -20,7 +21,7 @@ export const OchronaOdwrotnaPolaryzacjaToolInput = z.object({
 export type OchronaOdwrotnaPolaryzacjaToolInputT = z.infer<typeof OchronaOdwrotnaPolaryzacjaToolInput>
 
 export const OchronaOdwrotnaPolaryzacjaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

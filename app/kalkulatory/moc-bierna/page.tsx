@@ -13,7 +13,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "@/components/siec/wspolne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Stan = {
   tgFi: string
@@ -30,6 +30,7 @@ const TG_FI0 = String(DANE_ROZLICZEN.mocBierna.tgFi0Domyslny.okresy[0].wartosc)
 
 export default function MocBiernaPage() {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-bierna", {
     tgFi: "",
@@ -157,16 +158,16 @@ export default function MocBiernaPage() {
       ) : (
         <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta={t("UI-MOCBIE-OPLATA-ENERGIE-BIERNA")}>
           <WynikGlowny>
-            {v.oplataRazemZl !== null ? t("UI-MOCBIE-NETTO-ROK", { oplataRazemZl: zl(v.oplataRazemZl) }) : t("UI-MOCBIE-CZYNNIK", { czynnik: v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 }) })}
+            {v.oplataRazemZl !== null ? t("UI-MOCBIE-NETTO-ROK", { oplataRazemZl: zl(v.oplataRazemZl) }) : t("UI-MOCBIE-CZYNNIK", { czynnik: formatLiczbe(v.czynnik, { maximumFractionDigits: 4 }) })}
           </WynikGlowny>
           <p className="mt-1 text-small">
-            {t("UI-MOCBIE-CZYNNIK-NADWYZKI", { czynnik: v.czynnik.toLocaleString("pl-PL", { maximumFractionDigits: 4 }) })}
+            {t("UI-MOCBIE-CZYNNIK-NADWYZKI", { czynnik: formatLiczbe(v.czynnik, { maximumFractionDigits: 4 }) })}
             {v.oplataIndukcyjnaZl !== null && <> {t("UI-MOCBIE-INDUKCYJNA-POJEMNOSCIOWA", { oplataIndukcyjnaZl: zl(v.oplataIndukcyjnaZl), p: zl(v.oplataPojemnosciowaZl ?? 0) })}</>}
           </p>
           {v.mocKompensacjiKvar !== null && (
             <p className="mt-1 text-small">
-              {t("UI-MOCBIE-POTRZEBNA-MOC-KOMPENSACJI", { mocKompensacjiKvar: v.mocKompensacjiKvar.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
-              {v.zwrotLat !== null && <>{t("UI-MOCBIE-ZWROT-BATERII-LAT", { zwrotLat: v.zwrotLat.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}</>}.
+              {t("UI-MOCBIE-POTRZEBNA-MOC-KOMPENSACJI", { mocKompensacjiKvar: formatLiczbe(v.mocKompensacjiKvar, { maximumFractionDigits: 1 }) })}
+              {v.zwrotLat !== null && <>{t("UI-MOCBIE-ZWROT-BATERII-LAT", { zwrotLat: formatLiczbe(v.zwrotLat, { maximumFractionDigits: 1 }) })}</>}.
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />

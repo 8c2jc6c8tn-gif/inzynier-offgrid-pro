@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Dane paneli MUSZĄ pochodzić od usera z kart (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePanelKampera } from "@/lib/core/modules/kalkulator-mobilny/panel-kampera/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export type PanelKamperaToolInputT = z.infer<typeof PanelKamperaToolInput>
 const Wariant = z.object({ wNaKg: z.number(), zlNaW: z.number(), zlNaWRok: z.number() })
 
 export const PanelKamperaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   elastyczny: Wariant,
   sztywny: Wariant,
   ostrzezenia: z.array(z.string()),

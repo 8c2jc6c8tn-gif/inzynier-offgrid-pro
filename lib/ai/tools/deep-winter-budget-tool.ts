@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Plan miesiąca, zużycie narastające i cele MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDeepWinterBudget } from "@/lib/core/modules/stress-test/deep-winter-budget/calculator"
 import { CELE_BUDZETU } from "@/lib/core/modules/stress-test/deep-winter-budget/input"
 import type { AiToolDefinition } from "../types"
@@ -33,7 +34,7 @@ export const DeepWinterBudgetToolInput = z.object({
 export type DeepWinterBudgetToolInputT = z.infer<typeof DeepWinterBudgetToolInput>
 
 export const DeepWinterBudgetToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   planKwh: z.number(),
   budzetNarastajacyKwh: z.number(),
   odchyleniePct: z.number(),

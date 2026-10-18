@@ -22,12 +22,11 @@ import { liczba, poziomWerdyktu } from "@/components/siec/wspolne"
 import { useDaneBilansu, wejscieBilansu } from "@/components/siec/pv-magazyn"
 import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Stan = BezpieczenstwoAgregatuStan & { moc: string; zuzycieLH: string; cena: string; bms: boolean }
 
 const POCZATKOWY: Stan = { moc: "", zuzycieLH: "", cena: "", bms: false, miejsceAgregatu: "", podlaczenieAgregatu: "" }
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 /**
  * M14 — D6 „Agregat jako zapas” (pochodny, Wzorzec D). Echo of M2/E17 „Agregat prądotwórczy”
@@ -36,6 +35,8 @@ const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 }
  */
 export default function AgregatJakoZapasPage() {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)

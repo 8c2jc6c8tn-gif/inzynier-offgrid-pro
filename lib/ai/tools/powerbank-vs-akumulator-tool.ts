@@ -4,6 +4,7 @@
  * (Dyrektywa #1). Cena/masa na Wh — `porownaj_stacje_zasilania_z_zestawem_diy` (E34).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePowerbankVsAkumulator } from "@/lib/core/modules/kalkulator-mobilny/powerbank-vs-akumulator/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const PowerbankVsAkumulatorToolInput = z.object({
 export type PowerbankVsAkumulatorToolInputT = z.infer<typeof PowerbankVsAkumulatorToolInput>
 
 export const PowerbankVsAkumulatorToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaPowerbankuWh: z.number(),
   energiaAkumulatoraWh: z.number(),
   uzyciaPowerbank: z.number().describe("Ile pełnych użyć z powerbanku"),

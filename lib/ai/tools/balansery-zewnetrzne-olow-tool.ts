@@ -4,6 +4,7 @@
  * wyłącznie od usera (skład jego instalacji) — nie zgaduj.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBalanseryZewnetrzneOlow } from "@/lib/core/modules/montaz-baterii/balansery-zewnetrzne-olow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const BalanseryZewnetrzneOlowToolInput = z.object({
 export type BalanseryZewnetrzneOlowToolInputT = z.infer<typeof BalanseryZewnetrzneOlowToolInput>
 
 export const BalanseryZewnetrzneOlowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   iloscAkumulatorowWSzeregu: z.number(),
   wymaganyBalanser: z.boolean(),
   ostrzezenia: z.array(z.string()),

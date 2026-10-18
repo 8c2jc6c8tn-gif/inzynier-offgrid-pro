@@ -4,6 +4,7 @@
  * Wysokość n.p.m. — gdy user nie podał, z metadanych PVGIS (dane lokalizacji, nie zgadywanie).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { KATEGORIE_TERENU } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
@@ -45,7 +46,7 @@ const Punkt = z.object({
 })
 
 export const ZlotySrodekToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   rekomendacjaDeg: z.number().nullable(),
   optimumEnergiiDeg: z.number().nullable(),
   cisnienieSzczytowePa: z.number().nullable(),

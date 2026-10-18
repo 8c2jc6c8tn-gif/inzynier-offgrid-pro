@@ -5,6 +5,7 @@
  * SoC zależy od krzywej rozładowania konkretnych ogniw, nie jest wyprowadzane z SoC.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRyzykoNiskiegoNapiecia } from "@/lib/core/modules/ogrzewanie/ryzyko-niskiego-napiecia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const RyzykoNiskiegoNapieciaToolInput = z.object({
 export type RyzykoNiskiegoNapieciaToolInputT = z.infer<typeof RyzykoNiskiegoNapieciaToolInput>
 
 export const RyzykoNiskiegoNapieciaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   marginesV: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

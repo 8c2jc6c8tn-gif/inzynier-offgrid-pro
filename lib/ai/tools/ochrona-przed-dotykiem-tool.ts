@@ -4,6 +4,7 @@
  * instalacji) — model nigdy jej nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaPrzedDotykiem } from "@/lib/core/modules/okablowanie/ochrona-przed-dotykiem/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/ochrona-przed-dotykiem/constants"
 import type { AiToolDefinition } from "../types"
@@ -21,7 +22,7 @@ export type OchronaPrzedDotykiemToolInputT = z.infer<typeof OchronaPrzedDotykiem
 export const OchronaPrzedDotykiemToolOutput = z.object({
   potwierdzone: z.number(),
   razem: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

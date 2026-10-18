@@ -3,6 +3,7 @@
  * PVGIS TMY pobierany w handlerze po stronie serwera (jak Ekran 1 M3 / Ekran 4 M1, D22).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateWschodZachod, obliczDaneWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -26,7 +27,7 @@ export const WschodZachodToolInput = z.object({
 export type WschodZachodToolInputT = z.infer<typeof WschodZachodToolInput>
 
 export const WschodZachodToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   stosunekDoPoludniaPct: z.number().nullable().describe("Roczna energia wschód-zachód względem południa pod najlepszym kątem [%]"),
   stosunekMiesiecznyPct: z.array(z.number()).nullable(),
   udzialEnergiiPrzedPoludniemPct: z.number().nullable(),

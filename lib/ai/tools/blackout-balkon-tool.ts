@@ -4,6 +4,7 @@
  * (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBlackoutBalkon } from "@/lib/core/modules/kalkulator-mobilny/blackout-balkon/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const BlackoutBalkonToolInput = z.object({
 export type BlackoutBalkonToolInputT = z.infer<typeof BlackoutBalkonToolInput>
 
 export const BlackoutBalkonToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   energiaBlackoutWh: z.number(),
   energiaMagazynuWh: z.number(),

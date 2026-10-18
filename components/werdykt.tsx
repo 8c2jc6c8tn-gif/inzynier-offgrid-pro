@@ -30,12 +30,17 @@ const DOMYSLNA_ETYKIETA: Record<WerdyktPoziom, string> = {
   blad: "UI-WERDYKT-ZABRONIONE",
 }
 
-/** Ogólna reguła: VALID → ok, VALID_WITH_WARNINGS → uwaga, reszta (brak/błędne dane) → blad.
+/** Ogólna reguła: VALID → ok, VALID_WITH_WARNINGS i ESTIMATE (szacunek spoza normy, 3.3) → uwaga, reszta (brak/błędne dane) → blad.
  * Ekran z bardziej szczegółową logiką (np. próg liczbowy) może zamiast tego ustalić poziom sam. */
 export function poziomZStatusu(status: Status): WerdyktPoziom {
   if (status === "VALID") return "ok"
-  if (status === "VALID_WITH_WARNINGS") return "uwaga"
+  if (status === "VALID_WITH_WARNINGS" || status === "ESTIMATE") return "uwaga"
   return "blad"
+}
+
+/** Dla ekranów, które mają już policzony wynik: `ok`, a przy ostrzeżeniu albo szacunku spoza normy (ESTIMATE, 3.3) `uwaga`. */
+export function poziomOstrzezen(status: Status): WerdyktPoziom {
+  return status === "VALID_WITH_WARNINGS" || status === "ESTIMATE" ? "uwaga" : "ok"
 }
 
 export function WerdyktPanel({

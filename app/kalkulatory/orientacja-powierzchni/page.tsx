@@ -14,7 +14,7 @@ import { ZalozeniaLista } from "@/components/zalozenia-lista"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { OrientacjaPowierzchniResult } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   horyzontyPolaci,
@@ -39,11 +39,11 @@ type StanE4 = {
 
 const STAN_POCZATKOWY: StanE4 = { korekty: {}, reczne: [], albedo: "" }
 
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 export default function OrientacjaPowierzchniPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { model, skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<StanE4>("orientacja-powierzchni", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()

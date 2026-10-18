@@ -7,6 +7,7 @@
  * danego trybu handler zwraca jako INCOMPLETE, zamiast wstawiać wartość domyślną.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSciezkaCen, CALCULATOR_VERSION } from "@/lib/core/modules/siec/sciezka-cen-energii/calculator"
 import type { TrybSciezki } from "@/lib/core/modules/siec/sciezka-cen-energii/input"
 import type { AiToolDefinition } from "../types"
@@ -36,7 +37,7 @@ export const SciezkaCenEnergiiToolInput = z.object({
 export type SciezkaCenEnergiiToolInputT = z.infer<typeof SciezkaCenEnergiiToolInput>
 
 export const SciezkaCenEnergiiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mnozniki: z.array(z.number()),
   mnoznikKoncowy: z.number().nullable(),
   sredniaProcentRok: z.number().nullable(),

@@ -4,6 +4,7 @@
  * umorzenie po 12 miesiącach (ustawa o OZE). Tylko net-billing. Cenę rynkową i wykorzystanie podaje user.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDepozyt } from "@/lib/core/modules/siec/depozyt-prosumencki/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const DepozytProsumenckiToolInput = z.object({
 export type DepozytProsumenckiToolInputT = z.infer<typeof DepozytProsumenckiToolInput>
 
 export const DepozytProsumenckiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wartoscEnergiiZl: z.number(),
   depozytZl: z.number(),
   maksZwrotZl: z.number(),

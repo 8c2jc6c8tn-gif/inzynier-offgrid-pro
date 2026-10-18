@@ -4,6 +4,7 @@
  * pochodzić od użytkownika (karty katalogowe / pomiar) — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNiedopasowaniePaneli } from "@/lib/core/modules/pv/niedopasowanie-paneli/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const NiedopasowaniePaneliToolInput = z.object({
 export type NiedopasowaniePaneliToolInputT = z.infer<typeof NiedopasowaniePaneliToolInput>
 
 export const NiedopasowaniePaneliToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocTeoretycznaW: z.number(),
   mocRzeczywistaW: z.number(),
   strataPct: z.number(),

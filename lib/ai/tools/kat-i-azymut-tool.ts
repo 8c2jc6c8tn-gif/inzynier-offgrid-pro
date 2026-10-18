@@ -4,6 +4,7 @@
  * po stronie serwera (`pobierzTmy`, D22). Błąd PVGIS → INCOMPLETE z komunikatem, nigdy wynik zgadnięty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateKatIAzymut, obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -26,7 +27,7 @@ export const KatIAzymutToolInput = z.object({
 export type KatIAzymutToolInputT = z.infer<typeof KatIAzymutToolInput>
 
 export const KatIAzymutToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   napromieniowanieMiesieczneKwhM2: z.array(z.number()).nullable(),
   napromieniowanieRoczneKwhM2: z.number().nullable(),
   najlepszyKatStaly: z.object({ nachylenieDeg: z.number(), napromieniowanieRoczneKwhM2: z.number() }).nullable(),

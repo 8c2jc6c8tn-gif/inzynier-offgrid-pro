@@ -3,6 +3,7 @@
  * Ceny prądu, długość strefy nocnej, COP i bufor pochodzą od usera (Dyrektywa #1) — narzędzie nie zna żadnej taryfy.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTaryfaNocnaPompyCiepla } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -30,7 +31,7 @@ export const TaryfaNocnaPompyCieplaToolInput = z.object({
 export type TaryfaNocnaPompyCieplaToolInputT = z.infer<typeof TaryfaNocnaPompyCieplaToolInput>
 
 export const TaryfaNocnaPompyCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   pojemnoscBuforaKwh: z.number(),
   przesunieteKwh: z.number(),
   udzialNocyPct: z.number(),

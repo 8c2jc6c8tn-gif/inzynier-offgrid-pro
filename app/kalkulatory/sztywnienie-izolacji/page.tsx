@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { MIN_TEMPERATURA_MATERIALU_C } from "@/lib/core/modules/stress-test/sztywnienie-izolacji/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
@@ -29,10 +29,10 @@ const MATERIALY: { id: MaterialMrozu; label: string; hint: string }[] = [
   { id: "aluminium", label: "UI-SZTIZO-ALUMINIUM-ZYLY-ZACISKI", hint: "UI-SZTIZO-YAKY-ZACISKI-ALUMINIOWE" },
 ]
 
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 export default function SztywnienieIzolacjiPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("sztywnienie-izolacji", STAN_POCZATKOWY)
   const idBazowe = useId()
 

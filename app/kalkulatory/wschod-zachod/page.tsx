@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/calculator"
 import type { DaneWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -37,8 +37,6 @@ const STAN_POCZATKOWY: FormularzStan = {
 }
 
 const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 /** Rozkład dobowy — 2 serie: wschód-zachód (linia ciągła) i południe (przerywana) + legenda. */
 function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
@@ -82,6 +80,9 @@ function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
 
 export default function WschodZachodPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wschod-zachod", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()

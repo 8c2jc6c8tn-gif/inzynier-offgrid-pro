@@ -9,7 +9,7 @@ import {
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -121,7 +121,7 @@ export default function BojlerCwuPage() {
         <p className="text-small text-muted-foreground">{t("UI-BOJCWU-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
-          poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
+          poziom={poziomOstrzezen(result.status)}
           etykieta={t("UI-BOJCWU-DOBOWE-ZAPOTRZEBOWANIE-ENERG")}
         >
           <WynikGlowny>{t("UI-BOJCWU-KWH-DOBE", { energiaDobowaKwh: result.value.energiaDobowaKwh.toFixed(1) })}</WynikGlowny>

@@ -14,16 +14,16 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = { rocznyUzyskKwh: string }
 
 const STAN_POCZATKOWY: FormularzStan = { rocznyUzyskKwh: "" }
 
-const formatKwh = (kwh: number) => kwh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 export default function PowlokiAntyrefleksyjnePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const formatKwh = (kwh: number) => formatLiczbe(kwh, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("powloki-antyrefleksyjne", STAN_POCZATKOWY)
   const { rocznyUzyskKwh } = stan
 

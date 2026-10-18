@@ -4,6 +4,7 @@
  * aplikacja nie ma wartości domyślnych, model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMalyObiektCiepla } from "@/lib/core/modules/ogrzewanie/maly-obiekt-bilans-ciepla/calculator"
 import { STREFY_KLIMATYCZNE } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
 import type { AiToolDefinition } from "../types"
@@ -40,7 +41,7 @@ export const MalyObiektCieplaToolInput = z.object({
 export type MalyObiektCieplaToolInputT = z.infer<typeof MalyObiektCieplaToolInput>
 
 export const MalyObiektCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   obciazenieW: z.number().nullable().describe("Moc grzania przy temperaturze obliczeniowej strefy [W]"),
   temperaturaObliczeniowaC: z.number().nullable(),
   strataPrzenikanieW: z.number().nullable(),

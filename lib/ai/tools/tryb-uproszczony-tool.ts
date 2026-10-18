@@ -6,6 +6,7 @@
  * odpowiedź na jedno pytanie, nie pełny proces projektowy).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/tryb-uproszczony/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const TrybUproszczonyToolInput = z.object({
 export type TrybUproszczonyToolInputT = z.infer<typeof TrybUproszczonyToolInput>
 
 export const TrybUproszczonyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   czasPracyH: z.number().describe("Teoretyczny czas pracy odbiornika [h] = C_Ah × V / P"),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

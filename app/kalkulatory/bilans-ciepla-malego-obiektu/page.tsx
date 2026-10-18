@@ -14,20 +14,20 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft, useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { calculateMalyObiektCiepla } from "@/lib/core/modules/ogrzewanie/maly-obiekt-bilans-ciepla/calculator"
 import { STREFY_KLIMATYCZNE, TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C, type StrefaKlimatyczna } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { KLUCZ_DRAFTU_MALY_OBIEKT, PUSTY_SEED_MALY_OBIEKT, wejscieMalegoObiektu, type SeedMalyObiekt } from "@/lib/obiekt/maly-obiekt-ciepla-draft"
 import { KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 
 const RZYMSKIE: Record<StrefaKlimatyczna, string> = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" }
 const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-${i + 1}`)
 
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 type WierszMiesiaca = { id: number; miesiac: number; temperatura: number; cieplo: number; prad: number | null; uzywany: boolean }
 
 export default function BilansCieplaMalegoObiektuPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<SeedMalyObiekt>(KLUCZ_DRAFTU_MALY_OBIEKT, PUSTY_SEED_MALY_OBIEKT)
   const profil = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU).dane
   const ustaw = <K extends keyof SeedMalyObiekt>(k: K, v: SeedMalyObiekt[K]) => setStan((s) => ({ ...s, [k]: v }))

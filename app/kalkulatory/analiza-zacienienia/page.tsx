@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useMemo, useState } from "react"
@@ -17,7 +18,7 @@ import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted
 import type { Assumption, Warning } from "@/lib/core/calc-result"
 import type { Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   dachWedlugObrysu,
@@ -82,13 +83,13 @@ type WynikE3 = {
   warnings: Warning[]
 }
 
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-
 /** CSS gradient of the heat-map legend (not user text). */
 const TLO_LEGENDY = `linear-gradient(to right, ${kolorStraty(0, 1)}, ${kolorStraty(0.5, 1)}, ${kolorStraty(1, 1)})`
 
 export default function AnalizaZacienieniaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { dane: zapisanyModel, wczytano } = useOdczytDraftu<ModelDzialki>(KLUCZ_MODELU_DZIALKI)
   const model = zapisanyModel ?? MODEL_PUSTY
   const [stan, setStan] = usePersistedDraft<StanE3>("analiza-zacienienia", STAN_POCZATKOWY)
@@ -135,7 +136,7 @@ export default function AnalizaZacienieniaPage() {
       k += grupa.length
       return podsumujPowierzchnie(grupa.map((x) => x.punkt!), wyniki)
     })
-    const pierwszy = r.wyniki.find((x) => x.status === "VALID" || x.status === "VALID_WITH_WARNINGS")
+    const pierwszy = r.wyniki.find((x) => isComputed(x.status))
     const warnings = [...new Map(r.wyniki.flatMap((x) => x.warnings).map((x) => [x.code + JSON.stringify(x.params ?? {}), x])).values()]
     setWynikE3({
       klucz,

@@ -5,6 +5,7 @@
  * wartości źródłowej i musi być wpisana ręcznie, nigdy nie zgaduj.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSurvivalCore } from "@/lib/core/modules/zapotrzebowanie/systemy-podtrzymania-zycia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const SystemyPodtrzymaniaZyciaToolInput = z.object({
 export type SystemyPodtrzymaniaZyciaToolInputT = z.infer<typeof SystemyPodtrzymaniaZyciaToolInput>
 
 export const SystemyPodtrzymaniaZyciaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocBazowaW: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

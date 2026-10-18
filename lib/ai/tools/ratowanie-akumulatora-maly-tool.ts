@@ -3,6 +3,7 @@
  * akumulatora — mała instalacja". `operationType: 'read'`. Odsyłacz do procedur Modułu 11 wg chemii.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateRatowanieAkumulatoraMaly } from "@/lib/core/modules/kalkulator-mobilny/ratowanie-akumulatora-maly/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const RatowanieAkumulatoraMalyToolInput = z.object({
 export type RatowanieAkumulatoraMalyToolInputT = z.infer<typeof RatowanieAkumulatoraMalyToolInput>
 
 export const RatowanieAkumulatoraMalyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   procedury: z.array(z.object({ ekran: z.string(), href: z.string() })).describe("Ekrany Modułu 11 z pełną procedurą, w kolejności"),
   krytycznieRozladowany: z.boolean().nullable().describe("Ołowiowy 12 V poniżej 10,5 V; null = nie dotyczy/nie zmierzono"),
   ostrzezenia: z.array(z.string()),

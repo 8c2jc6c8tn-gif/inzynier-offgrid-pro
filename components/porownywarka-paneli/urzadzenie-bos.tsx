@@ -9,16 +9,14 @@ import { CENNIK_BOS, VAT_OSPRZETU, type BosId } from "@/lib/core/dane/cennik-bos
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { LimityWejsciaPv, OcenaWariantuUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
-import { useTranslate, useSymbolWaluty } from "@/lib/i18n/language-context"
+import { useTranslate, useSymbolWaluty, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { ladowanieAkumulatoraPaneli } from "@/lib/porownywarka-paneli/ladowanie-akumulatora"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import { kluczUkladu, podsumujUrzadzenie, wylaczoneBos, type PanelNaUrzadzeniu } from "@/lib/porownywarka-paneli/urzadzenie"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
+type Formatuj = (x: number) => string
 
 const KLUCZ_POZYCJI: Record<BosId, string> = {
   "kabel-pv": "UI-PORP-URZ-BOS-L-KABEL",
@@ -46,7 +44,7 @@ const KLUCZ_OGRANICZENIA_LADOWANIA = {
 type Tlumacz = ReturnType<typeof useTranslate>
 
 /** Value of a catalogue limit as text, or the standard "the datasheet does not give it" wording. */
-function zakresOkna(min: number | null, max: number | null): string | null {
+function zakresOkna(min: number | null, max: number | null, f0: Formatuj): string | null {
   if (min !== null && max !== null) return `${f0(min)}–${f0(max)} V`
   if (max !== null) return `≤ ${f0(max)} V`
   if (min !== null) return `≥ ${f0(min)} V`
@@ -68,6 +66,10 @@ export function UrzadzenieIBos(p: {
   naElektryke: () => void
 }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const waluta = useSymbolWaluty()
   const { kurs } = useDenominacja()
   const { stan, ustaw } = p
@@ -276,9 +278,12 @@ export function UrzadzenieIBos(p: {
 /** The limits the checks use, as read from the device card — including the ones the card does not give. */
 function LimityUrzadzenia({ limity }: { limity: LimityWejsciaPv }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const brak = t("UI-PORP-URZ-KARTA-NIE-PODAJE")
   if (!limity.maWejsciePv) return <p className="text-small">{t("UI-PORP-URZ-BEZ-WEJSCIA-PV")}</p>
-  const okno = zakresOkna(limity.mpptMinV, limity.mpptMaxV)
+  const okno = zakresOkna(limity.mpptMinV, limity.mpptMaxV, f0)
   const moc =
     limity.mocLimitW === null || limity.mocLimitRodzaj === null
       ? null
@@ -317,6 +322,9 @@ type PanelProps = {
 
 function PanelNaUrzadzeniu(p: PanelProps) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { wynik, dopasowanie: d, wybrany, bos } = p.panel
   const proponowany = d.proponowany === null ? null : d.warianty[d.proponowany]!
   const mieszczace = d.warianty.filter((w) => w.liczbaUrzadzen !== null)
@@ -351,7 +359,7 @@ function PanelNaUrzadzeniu(p: PanelProps) {
               {i === d.proponowany && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-caption">{t("UI-PORP-URZ-PROPOZYCJA-ZNACZNIK")}</span>}
             </p>
             <ul className="mt-1 flex flex-col gap-0.5">
-              {kontrole(w, t).map(([ikona, tekst], j) => (
+              {kontrole(w, t, f0, f1).map(([ikona, tekst], j) => (
                 <li key={j}>
                   <span aria-hidden="true" className="mr-1">
                     {ikona}
@@ -399,7 +407,7 @@ function PanelNaUrzadzeniu(p: PanelProps) {
   )
 }
 
-const zakresKwot = (min: number, max: number, waluta: string) => (Math.round(min) === Math.round(max) ? `${f0(min)} ${waluta}` : `${f0(min)}–${f0(max)} ${waluta}`)
+const zakresKwot = (min: number, max: number, waluta: string, f0: Formatuj) => (Math.round(min) === Math.round(max) ? `${f0(min)} ${waluta}` : `${f0(min)}–${f0(max)} ${waluta}`)
 
 /**
  * Pozycje osprzętu wybranego układu z ilością, ceną jednostkową, sumami i łączną kwotą — ta sama lista na ekranie i w wydruku oferty
@@ -407,6 +415,9 @@ const zakresKwot = (min: number, max: number, waluta: string) => (Math.round(min
  */
 export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?: boolean }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const { bos, ochronaA3, razemMin, razemMax } = p.panel
   if (!bos) return null
   const przygaszony = p.druk ? "text-neutral-700" : "text-muted-foreground"
@@ -430,7 +441,7 @@ export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?:
                       cena: l.cenaMin === l.cenaMax ? f2(l.cenaMin) : `${f2(l.cenaMin)}–${f2(l.cenaMax)}`,
                       waluta: p.waluta,
                     })}
-                {l.sumaMin !== null && l.sumaMax !== null && ` = ${zakresKwot(l.sumaMin, l.sumaMax, p.waluta)}`}
+                {l.sumaMin !== null && l.sumaMax !== null && ` = ${zakresKwot(l.sumaMin, l.sumaMax, p.waluta, f0)}`}
               </p>
               {l.id === "bezpiecznik-dc" && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-BEZPIECZNIK-UWAGA")}</p>}
             </li>
@@ -438,9 +449,9 @@ export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?:
       </ul>
       {ochronaA3 === null && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-OCHRONA-NIEZNANA")}</p>}
       {bos.brakIlosci.includes("kabel-pv") && <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-BRAK-TRASY")}</p>}
-      <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-SUMA", { zakres: zakresKwot(bos.sumaMin, bos.sumaMax, p.waluta) })}</p>
+      <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-SUMA", { zakres: zakresKwot(bos.sumaMin, bos.sumaMax, p.waluta, f0) })}</p>
       {razemMin !== null && razemMax !== null ? (
-        <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-RAZEM", { zakres: zakresKwot(razemMin, razemMax, p.waluta) })}</p>
+        <p className="text-small font-medium">{t("UI-PORP-URZ-BOS-RAZEM", { zakres: zakresKwot(razemMin, razemMax, p.waluta, f0) })}</p>
       ) : (
         <p className={`text-caption ${przygaszony}`}>{t("UI-PORP-URZ-BOS-RAZEM-BRAK")}</p>
       )}
@@ -449,7 +460,7 @@ export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?:
 }
 
 /** One line per check: a symbol (✓ fits, ✗ does not, ? the card does not say) and the sentence with the numbers. */
-function kontrole(w: OcenaWariantuUrzadzenia, t: Tlumacz): [string, string][] {
+function kontrole(w: OcenaWariantuUrzadzenia, t: Tlumacz, f0: Formatuj, f1: Formatuj): [string, string][] {
   const wynik: [string, string][] = []
   if (w.ukladNiedozwolony) wynik.push(["✗", t("UI-PORP-URZ-K-UKLAD-NIEDOZWOLONY")])
 
@@ -466,7 +477,7 @@ function kontrole(w: OcenaWariantuUrzadzenia, t: Tlumacz): [string, string][] {
   )
 
   const o = w.oknoMppt
-  const zakres = zakresOkna(o.minV, o.maxV)
+  const zakres = zakresOkna(o.minV, o.maxV, f0)
   const oParams = { v: f1(o.vmpV), zakres: zakres ?? "", min: o.minV === null ? "" : f0(o.minV), max: o.maxV === null ? "" : f0(o.maxV) }
   wynik.push(
     o.status === "ok"

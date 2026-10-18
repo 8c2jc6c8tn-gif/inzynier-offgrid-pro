@@ -7,6 +7,7 @@
  * lokalizację i powierzchnie. Błąd PVGIS → status INCOMPLETE z komunikatem, nigdy wynik zgadnięty.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateOrientacjaPowierzchni } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -32,7 +33,7 @@ export const OrientacjaPowierzchniToolInput = z.object({
 export type OrientacjaPowierzchniToolInputT = z.infer<typeof OrientacjaPowierzchniToolInput>
 
 export const OrientacjaPowierzchniToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   optimum: z.object({ nachylenieDeg: z.number(), azymutDeg: z.number(), napromieniowanieRoczneKwhM2: z.number() }).nullable(),
   powierzchnie: z.array(
     z.object({

@@ -4,6 +4,7 @@
  * Handler tylko deleguje do `calculateOdstepRzedow` — model nie zgaduje ani kątów słońca, ani długości cienia.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateOdstepRzedow } from "@/lib/core/modules/pv/odstep-rzedow/calculator"
 import { OKNO_PROJEKTOWE_DOMYSLNE } from "@/lib/core/modules/pv/odstep-rzedow/constants"
@@ -35,7 +36,7 @@ const Strata = z.object({
 })
 
 export const OdstepRzedowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   odstepWymaganyM: z.number().nullable().describe("Odstęp rzędów bez cienia w całym oknie [m] (dolna krawędź do dolnej krawędzi)"),
   przerwaWymaganaM: z.number().nullable().describe("Ta sama wartość jako przerwa w świetle między rzędami [m]"),
   wspolczynnikZabudowyPct: z.number().nullable().describe("Długość stołu / odstęp rzędów [%]"),

@@ -4,6 +4,7 @@
  * wejściowy fakt to lista ID kroków faktycznie już wykonanych przez usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateDemontazOlow } from "@/lib/core/modules/montaz-baterii/demontaz-olow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const DemontazOlowToolInput = z.object({
 export type DemontazOlowToolInputT = z.infer<typeof DemontazOlowToolInput>
 
 export const DemontazOlowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzoneWKolejnosci: z.number(),
   razem: z.number(),
   ostrzezenia: z.array(z.string()),

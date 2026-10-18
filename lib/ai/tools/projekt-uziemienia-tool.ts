@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 9, Moduł 5 — "Projekt uziemienia". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateProjektUziemienia } from "@/lib/core/modules/okablowanie/projekt-uziemienia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const ProjektUziemieniaToolOutput = z.object({
   rezystancjaJednegoPretaOm: z.number(),
   liczbaPretowSzacowana: z.number(),
   docelowaRezystancjaOm: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

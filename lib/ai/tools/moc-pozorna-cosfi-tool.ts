@@ -4,6 +4,7 @@
  * z silnikiem/sprężarką, źródło podaje ~0,7 jako typową wartość, ale to nie domyślna do zgadywania).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMocPozornaCosfi } from "@/lib/core/modules/zapotrzebowanie/moc-pozorna-cosfi/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const MocPozornaCosfiToolInput = z.object({
 export type MocPozornaCosfiToolInputT = z.infer<typeof MocPozornaCosfiToolInput>
 
 export const MocPozornaCosfiToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocPozornaVA: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

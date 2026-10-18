@@ -22,10 +22,13 @@ uproszczona), bo pokazuje realne, przetestowane rozwiązanie, nie szkielet.
   procedura włączania bramki bez obniżania progu).
 - [`i18n/`](i18n/) — mechanizm strażniczy i18n (17.11: AST zamiast regex, explicit allowlist
   modułów już zmigrowanych, złapana pułapka z wyrażeniami warunkowymi).
+- [`dane-srodowiskowe/`](dane-srodowiskowe/) — wspólna paczka środowiskowa (19.13): pobieranie z przypięciem wersji i sumą SHA-256, generator modułu TS wg `meteo.konsument.json`, przykładowy lock. Jeden sposób dla wszystkich projektów; narzędzia przetestowane lokalnie na paczce 0.1.0.
 - [`pwa/`](pwa/) — własny Service Worker offline (5.8–5.10, 7.3, 8.11, 10.8: precache
   wersjonowany hashem, aktualizacja przez toast nie cichy reload, kolizja wersji IndexedDB między
   kartami, `navigator.storage.persist()`, wskaźnik online, e2e bez nowych zależności). Źródło:
   `inzynier-szkieletowy-pro`.
+- [`waluta/`](waluta/waluta-i-kursy.md) — waluta wyświetlania, przeliczanie kwot w polach i źródło
+  kursów (17.12). Przykład referencyjny, nie reguła. Źródło: `inzynier-offgrid-pro`.
 - [`PROMPT.md`](PROMPT.md) — skrócony, samodzielny blok do wklejenia jako pierwsza wiadomość nowej
   sesji AI budującej to od zera w innym projekcie rodziny, bez czekania na przeczytanie całego
   uzasadnienia wyżej.

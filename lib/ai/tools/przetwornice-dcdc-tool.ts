@@ -4,6 +4,7 @@
  * usera (~90-95% typowo wg źródła, ale nie domyślna do zgadywania).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzetworniceDcdc } from "@/lib/core/modules/zapotrzebowanie/przetwornice-dcdc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const PrzetworniceDcdcToolInput = z.object({
 export type PrzetworniceDcdcToolInputT = z.infer<typeof PrzetworniceDcdcToolInput>
 
 export const PrzetworniceDcdcToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zapotrzebowanieRealneW: z.number(),
   strataW: z.number(),
   strataPct: z.number(),

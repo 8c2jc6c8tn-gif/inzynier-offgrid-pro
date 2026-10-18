@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Moc, ΔT, przepływ pompy obiegowej (jej krzywa) i minimum z karty — od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrzeplywPompyCiepla } from "@/lib/core/modules/ogrzewanie/przeplyw-pompy-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const PrzeplywPompyCieplaToolInput = z.object({
 export type PrzeplywPompyCieplaToolInputT = z.infer<typeof PrzeplywPompyCieplaToolInput>
 
 export const PrzeplywPompyCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wymaganyM3H: z.number(),
   wymaganyLMin: z.number(),
   rzeczywistyDTK: z.number().nullable(),

@@ -36,8 +36,21 @@ Powiązane: [01 Architektura](01-architektura.md) · [05 Baza danych i offline-f
 
 **Konsekwencja.** Preferowany jest **jeden, scentralizowany, deklaratywny mechanizm migracji** ("migruj z wersji N do N+1"), a nie rozproszone po każdym module doraźne `?? wartość_domyślna` w kodzie odczytu. To drugie jest dopuszczalne tylko jako świadomy, tymczasowy kompromis na wczesnym etapie — ma trafić do `docs/memory.md` jako znany dług, nie zostać cichym stanem docelowym.
 
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpisy z 05.10.2026), decyzja właściciela repo. **Kolejność: migracja przed scaleniem z domyślnymi.** Migracja działa na **surowych danych** zapisu (gdy `schema_version` jest niższa), dopiero potem następuje scalenie z wartościami domyślnymi nowej wersji. Odwrotna kolejność gubi informację „to pole nie istniało”: nowe pole dostaje domyślną wartość korzystniejszą dla wyniku, zanim migracja zdąży wybrać wariant bezpieczny dla starego projektu. Błąd jest cichy (projekt się otwiera i liczy, tylko z innym założeniem). Test: stary zapis bez nowego pola, po wczytaniu niesie wartość z migracji, nie z domyślnych.
+
+**Właściwość z katalogu skopiowana do zapisu.** Zapis projektu, który niesie kopię stałej z katalogu (np. µ, λ, ρ materiału), nie dostanie poprawki katalogu. Albo zapis odwołuje się do pozycji katalogu po id, albo każda zmiana wartości w katalogu idzie z migracją podmieniającą wyłącznie dawne wartości domyślne (nie wartości zmienione przez użytkownika).
+
 ## 2.5. Zakaz luźnych struktur między warstwami
 
 **Reguła.** Nie przekazuj luźnych słowników/obiektów `any` między warstwami, jeśli struktura danych jest znana. Osobne typy dla wejścia i wyniku każdej operacji, jawne jednostki w nazwach pól (`length_m`, `expiry_date`, nie `length`, `date`).
 
 **Uzasadnienie.** Luźna struktura ukrywa błędy typu i jednostki do czasu wykonania — jawny typ wyłapuje je przy kompilacji/przed testami.
+
+## 2.6. Katalog wyboru — opcja niesie komplet właściwości, wybór nie rusza konstrukcji
+
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpisy z 05.10.2026), decyzja właściciela repo. Dotyczy projektów z katalogiem pozycji wybieranych przez użytkownika (materiały, produkty, elementy).
+
+1. **Opcja niesie komplet właściwości** używanych przez jakikolwiek moduł. Wybór EPS zamiast wełny, który zmienia λ i ρ, ale nie µ ani c, daje dwa moduły liczące EPS jak wełnę. Test: każde pole rekordu liczone gdziekolwiek jest ustawiane przy zmianie pozycji.
+2. **Zmiana pozycji zmienia tylko cechy produktu.** Wymiary wynikające z konstrukcji (grubość warstwy, przekrój) zostają. Test: wybór tej samej pozycji co domyślna odtwarza projekt domyślny co do liczby.
+3. **Logika zależna od rodzaju czyta jawne pole** (np. `rodzaj: 'welna'`), nigdy fragment nazwy wyświetlanej. Rozpoznawanie po słowie w nazwie to ukryty kontrakt: nowa pozycja bez tego słowa po cichu wyłączy regułę (np. limit skroplin). Dopóki tak nie jest, test pilnuje, że każda pozycja katalogu spełnia ten kontrakt.
+

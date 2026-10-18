@@ -4,6 +4,7 @@
  * energia = Σ P × 3 h) i godzina szczytu zużycia. Punkty podaje model — bez danych demonstracyjnych.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePrognozy, KROK_PROBKOWANIA_H } from "@/lib/core/modules/ai/prognozy/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const PrognozyToolInput = z.object({
 export type PrognozyToolInputT = z.infer<typeof PrognozyToolInput>
 
 export const PrognozyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   produkcjaLacznaKwh: z.number(),
   zuzycieLaczneKwh: z.number(),
   bilansKwh: z.number(),

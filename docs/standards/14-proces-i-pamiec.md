@@ -57,4 +57,12 @@ Wpisy krótkie: data + treść, nie eseje.
 
 **Zasada aktualizacji.** Agent AI czyta `docs/memory.md` na starcie każdej sesji pracy nad projektem. Dopisuje wpis po: nietrywialnej decyzji architektonicznej, znalezionym i naprawionym błędzie/pułapce wartej zapamiętania, zamknięciu większego etapu, odkrytej rozbieżności/konflikcie w dokumentacji. **Nie** po każdym drobnym commicie — inaczej plik się zaśmieca i przestaje być użyteczny.
 
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpis 05.10.2026), decyzja właściciela repo. **Zamknięcie decyzji zamyka jej źródło.** Wpis zamykający pozycję (decyzja D#, wpis w pamięci) wskazuje jej źródło (dług techniczny TD#, wiersz backlogu, pozycja listy zadań), a ten sam commit oznacza źródło jako zamknięte. Inaczej pozycja zostaje „otwarta” tygodniami po realizacji w kodzie i kieruje kolejne sesje na pracę już wykonaną. Przy okresowym przeglądzie długu każda „otwarta” pozycja jest weryfikowana z kodem (kotwica i wyszukiwanie), nie tylko z tekstem rejestru.
+
 **Lokalizacja.** `docs/memory.md` w root każdego naszego projektu — w tym w repozytorium, w którym trzyma się ten sam standard (decyzje podjęte przy budowie/rozwoju standardu też są warte zapamiętania).
+
+## 14.6. Archiwizacja plików roboczych
+
+[07.10.2026] ✅ DODANO — pliki append-only (`docs/memory.md`, `docs/lista-do-zrobienia.md`, `docs/wklad-do-standardu.md`) rosną bez końca; w długo żyjącym projekcie `memory.md` osiąga setki KB i sesja nie jest w stanie go przeczytać na starcie (przypadek z praktyki: ok. 770 KB, pułapki zapisane głęboko ginęły). Reguła, pełna procedura i uzasadnienie: GOD BOOK **W.7** (Y.8 dla kanału zwrotnego jako szczególny przypadek).
+
+W skrócie: gdy plik aktywny przekroczy orientacyjnie 150 KB (albo przy pełnym audycie Y.9), sekcje i wpisy zamknięte, których **najpóźniejsza data w całej treści** jest starsza niż 7 dni, przenosi się **1:1** do archiwum (`docs/memory-archiwum/`, `docs/lista-do-zrobienia-archiwum/`) z `INDEKS.md`; wpisy otwarte zostają zawsze. Obowiązujące pułapki i decyzje wyciąga się do **Skrótu aktywnego** na początku `memory.md`. **Dowód bezstratności skryptem jest obowiązkowy** przed zmianą pliku aktywnego. Przebieg wykonuje wyłącznie sesja nad danym projektem, jako osobne zadanie na własnej gałęzi (15.23).

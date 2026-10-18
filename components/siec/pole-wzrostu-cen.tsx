@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import { useMemo } from "react"
 import { DANE_ROZLICZEN } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { calculateSciezkaCen } from "@/lib/core/modules/siec/sciezka-cen-energii/calculator"
@@ -109,7 +110,7 @@ export function PoleWzrostuCen({
               )}
             </>
           )}
-          {sciezka.status === "VALID" || sciezka.status === "VALID_WITH_WARNINGS" ? (
+          {isComputed(sciezka.status) ? (
             <p className="text-small">
               {t("UI-WZR-SREDNIO", {
                 srednia: dwaMiejsca(sciezka.value.sredniaProcentRok),

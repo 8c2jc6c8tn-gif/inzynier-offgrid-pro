@@ -3,6 +3,7 @@
  * Poziom ryzyka MUSI pochodzić od użytkownika (ocena terenu działki) — model nigdy go nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaPrzedGryzoniami } from "@/lib/core/modules/okablowanie/ochrona-przed-gryzoniami/calculator"
 import type { PoziomRyzykaGryzoni } from "@/lib/core/modules/okablowanie/ochrona-przed-gryzoniami/input"
 import type { AiToolDefinition } from "../types"
@@ -22,7 +23,7 @@ export type OchronaPrzedGryzoniamiToolInputT = z.infer<typeof OchronaPrzedGryzon
 
 export const OchronaPrzedGryzoniamiToolOutput = z.object({
   zalecanaOslona: z.string().nullable(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

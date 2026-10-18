@@ -4,6 +4,7 @@
  * (Dyrektywa #1). Wielodniowy blackout istniejącej instalacji PV — `stress-test/blackout` (M7).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBlackoutMinimum } from "@/lib/core/modules/kalkulator-mobilny/blackout-minimum/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const BlackoutMinimumToolInput = z.object({
 export type BlackoutMinimumToolInputT = z.infer<typeof BlackoutMinimumToolInput>
 
 export const BlackoutMinimumToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieDobaWh: z.number(),
   energiaBlackoutWh: z.number(),
   energiaReferencyjnaWh: z.array(z.number()).describe("Energia na 12, 24 i 48 h [Wh]"),

@@ -5,6 +5,7 @@
  * ma tu żadnej wartości fizycznej do zgadywania.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSekwencjaMontazu } from "@/lib/core/modules/montaz-baterii/sekwencja-montazu/calculator"
 import type { AiToolDefinition } from "../types"
 import { t } from "@/lib/i18n/t"
@@ -16,7 +17,7 @@ export const SekwencjaMontazuToolInput = z.object({
 export type SekwencjaMontazuToolInputT = z.infer<typeof SekwencjaMontazuToolInput>
 
 export const SekwencjaMontazuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   polaczeniaBusbarow: z.array(
     z.object({
       numer: z.number(),

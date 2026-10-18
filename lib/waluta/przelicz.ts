@@ -1,10 +1,10 @@
 /** Pure currency conversion and formatting (no DOM, no storage). Rates: units of X per 1 PLN. */
 import type { Language } from "@/lib/i18n/language"
+import { LOCALE_INTL } from "@/lib/i18n/liczby"
 import { WALUTA_BAZOWA, type KodWaluty } from "./waluty"
 
 export type Kursy = Partial<Record<string, number>>
 
-const LOCALE: Record<Language, string> = { pl: "pl-PL", en: "en-GB", ru: "ru-RU" }
 
 /**
  * Effective rate for `kod`: a manual rate wins over the fetched one; `narzutProc` widens the rate
@@ -22,7 +22,7 @@ export function przeliczZPln(kwotaPln: number, kurs: number): number {
 }
 
 export function formatujKwote(kwota: number, kod: KodWaluty, jezyk: Language, cyfry = 0): string {
-  return new Intl.NumberFormat(LOCALE[jezyk], {
+  return new Intl.NumberFormat(LOCALE_INTL[jezyk], {
     style: "currency",
     currency: kod,
     minimumFractionDigits: cyfry,
@@ -33,7 +33,7 @@ export function formatujKwote(kwota: number, kod: KodWaluty, jezyk: Language, cy
 /** Short symbol/label for unit strings (`zł/kWh` → `€/kWh`): PLN keeps the Polish „zł”, others use the narrow symbol, falling back to the code. */
 export function symbolWaluty(kod: KodWaluty, jezyk: Language): string {
   if (kod === WALUTA_BAZOWA) return jezyk === "pl" ? "zł" : "PLN"
-  const czesc = new Intl.NumberFormat(LOCALE[jezyk], { style: "currency", currency: kod, currencyDisplay: "narrowSymbol" })
+  const czesc = new Intl.NumberFormat(LOCALE_INTL[jezyk], { style: "currency", currency: kod, currencyDisplay: "narrowSymbol" })
     .formatToParts(0)
     .find((c) => c.type === "currency")
   return czesc?.value ?? kod

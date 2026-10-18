@@ -1,10 +1,11 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import { useMemo } from "react"
 import { calculateNormyICertyfikaty } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/normy-i-certyfikaty/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { WerdyktPanel, type WerdyktPoziom, poziomZStatusu } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
@@ -32,7 +33,7 @@ export default function NormyICertyfikatyPage() {
   const result = useMemo(() => calculateNormyICertyfikaty({ potwierdzoneIds }), [potwierdzoneIds])
 
   const poziom: WerdyktPoziom | null =
-    result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : null
+    isComputed(result.status) ? poziomZStatusu(result.status) : null
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

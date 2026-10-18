@@ -16,7 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   chemia: ChemiaMalegoAkumulatora | ""
@@ -32,10 +32,10 @@ const STAN_POCZATKOWY: FormularzStan = {
   odbiornikMaWlasneZabezpieczenie: false,
 }
 
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
-
 export default function OchronaPrzedRozladowaniemPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 2 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przed-rozladowaniem", STAN_POCZATKOWY)
   const idDozownik = useId()
   const idZabezpieczenie = useId()

@@ -4,6 +4,7 @@
  * z pomiaru/BMS — dane bezpieczeństwa (ładowanie poniżej 0°C degraduje/uszkadza LiFePO4).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateColdCRate } from "@/lib/core/modules/baterie/cold-c-rate/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const ColdCRateToolInput = z.object({
 export type ColdCRateToolInputT = z.infer<typeof ColdCRateToolInput>
 
 export const ColdCRateToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   temperaturaC: z.number(),
   strefa: z.enum(["blokada", "limit-01c", "limit-02c", "luka-zrodla", "pelny-prad"]),
   maxPradA: z.number().nullable(),

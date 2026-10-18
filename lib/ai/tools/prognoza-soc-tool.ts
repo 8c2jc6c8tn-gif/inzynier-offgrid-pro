@@ -4,6 +4,7 @@
  * model nie zgaduje ani profilu produkcji, ani zużycia, ani sprawności. Brak sprawności = 100 % (brak danych), brak limitu mocy = bez limitu.
  */
 import { z } from "zod"
+import { STATUSY, isComputed } from "@/lib/core/calc-result"
 import { calculatePrognozaSoc } from "@/lib/core/modules/ai/prognoza-soc/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -26,7 +27,7 @@ export const PrognozaSocToolInput = z.object({
 export type PrognozaSocToolInputT = z.infer<typeof PrognozaSocToolInput>
 
 export const PrognozaSocToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   socKoncowePct: z.number().nullable().describe("Stan naładowania na końcu prognozy [%]"),
   minSocPct: z.number().nullable(),
   minSocPoGodz: z.number().nullable().describe("Po ilu godzinach od startu SoC jest najniższy"),
@@ -77,7 +78,7 @@ export const prognozaSocTool: AiToolDefinition<PrognozaSocToolInputT, PrognozaSo
       zuzycieKw: input.zuzycieKw,
       wspolczynnikDniPct: input.wspolczynnikDniPct ?? [],
     })
-    const ma = wynik.status === "VALID" || wynik.status === "VALID_WITH_WARNINGS"
+    const ma = isComputed(wynik.status)
     const v = ma ? wynik.value : null
     return {
       status: wynik.status,

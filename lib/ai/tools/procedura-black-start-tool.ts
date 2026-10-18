@@ -9,6 +9,7 @@
  * z tą samą wagą co UI, nigdy go nie łagodzić ani nie pomijać w odpowiedzi dla usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateProceduraBlackStart } from "@/lib/core/modules/stress-test/procedura-black-start/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const ProceduraBlackStartToolInput = z.object({
 export type ProceduraBlackStartToolInputT = z.infer<typeof ProceduraBlackStartToolInput>
 
 export const ProceduraBlackStartToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzoneWKolejnosci: z.number().describe("Liczba kroków potwierdzonych w prawidłowej kolejności od początku"),
   razem: z.number().describe("Łączna liczba kroków procedury"),
   ostrzezenia: z.array(z.string()),

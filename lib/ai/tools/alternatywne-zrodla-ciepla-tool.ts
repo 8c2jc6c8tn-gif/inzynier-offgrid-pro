@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Moce, udziały, gęstość i ciepło topnienia PCM MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateAlternatywneZrodlaCiepla } from "@/lib/core/modules/ogrzewanie/alternatywne-zrodla-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -27,7 +28,7 @@ export const AlternatywneZrodlaCieplaToolInput = z.object({
 export type AlternatywneZrodlaCieplaToolInputT = z.infer<typeof AlternatywneZrodlaCieplaToolInput>
 
 export const AlternatywneZrodlaCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   kominekDoWodyKw: z.number().nullable(),
   kominekDoPowietrzaKw: z.number().nullable(),
   matyMocKw: z.number().nullable(),

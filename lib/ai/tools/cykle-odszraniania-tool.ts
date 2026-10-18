@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Cykl defrostu i pobory MUSZĄ pochodzić od usera (karta albo pomiar, Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateCykleOdszraniania } from "@/lib/core/modules/ogrzewanie/cykle-odszraniania/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const CykleOdszranianiaToolInput = z.object({
 export type CykleOdszranianiaToolInputT = z.infer<typeof CykleOdszranianiaToolInput>
 
 export const CykleOdszranianiaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   udzialCzasuPct: z.number(),
   energiaNaGodzineKwh: z.number(),
   narzutPct: z.number(),

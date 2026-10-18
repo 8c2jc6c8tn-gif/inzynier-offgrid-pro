@@ -5,6 +5,7 @@
  * (pełny kalkulator: M4/E10, narzędzie modułu baterii).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWilgocMaleInstalacje } from "@/lib/core/modules/kalkulator-mobilny/wilgoc-male-instalacje/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const WilgocMaleInstalacjeToolInput = z.object({
 export type WilgocMaleInstalacjeToolInputT = z.infer<typeof WilgocMaleInstalacjeToolInput>
 
 export const WilgocMaleInstalacjeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   minimalneIp: z.number().nullable().describe("Minimalny stopień IP dla miejsca; null = miejsce suche, próg nie dotyczy"),
   ipWystarczajace: z.boolean(),
   zalecenia: z.array(z.string()).describe("Zalecane osłony (identyfikatory): obudowy IP, puszki z uszczelką, peszel, osuszacz/pochłaniacz"),

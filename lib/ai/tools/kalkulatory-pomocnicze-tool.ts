@@ -10,6 +10,7 @@
  * walidacja kompletności per tryb i tak dzieje się w handlerze (4.5 — walidacja wielowarstwowa).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import {
   calculateKalkulatoryPomocnicze,
   CALCULATOR_VERSION,
@@ -41,7 +42,7 @@ export type KalkulatoryPomocniczeToolInputT = z.infer<typeof KalkulatoryPomocnic
 export const KalkulatoryPomocniczeToolOutput = z.object({
   wartosc: z.number(),
   jednostka: z.string(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wzor: z.string(),
   zalozenia: z.array(z.string()),
   ostrzezenia: z.array(z.string()),

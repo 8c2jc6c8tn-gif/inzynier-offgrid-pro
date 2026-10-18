@@ -1,5 +1,7 @@
 "use client"
 
+import type { Language } from "@/lib/i18n/language"
+import { formatujLiczbe } from "@/lib/i18n/liczby"
 import { useMemo, useState } from "react"
 import { calculateTestLicznika } from "@/lib/core/modules/siec/test-licznika/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -13,7 +15,7 @@ import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, poziomWerdyktu } from "@/components/siec/wspolne"
-import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Pomiar = { impulsy: string; czas: string; stala: string; odbiornik: string }
 
@@ -36,7 +38,7 @@ type Pismo = {
  */
 type Tlumacz = (kod: string, params?: Record<string, string | number>) => string
 
-function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): string {
+function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: Language): string {
   const linie = [
     p.miejscowoscData,
     "",
@@ -52,7 +54,7 @@ function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): 
     "",
     p.opis,
     mocKw !== null
-      ? t("UI-TESLIC-PISMO-MOC", { moc: mocKw.toLocaleString(jezyk, { maximumFractionDigits: 3 }) })
+      ? t("UI-TESLIC-PISMO-MOC", { moc: formatujLiczbe(mocKw, jezyk, { maximumFractionDigits: 3 }) })
       : "",
     "",
     p.zadanie ?? t("UI-TESLIC-PISMO-ZADANIE-DOMYSLNE"),
@@ -64,6 +66,7 @@ function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): 
 
 export default function TestLicznikaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const jezyk = useLanguage()
   const [pomiar, setPomiar] = usePersistedDraft<Pomiar>("siec-test-licznika", { impulsy: "", czas: "", stala: "", odbiornik: "" })
   // Letter data (personal) is kept only in memory, not in the saved draft.
@@ -158,10 +161,10 @@ export default function TestLicznikaPage() {
         </WerdyktPanel>
       ) : result.status === "VALID" && poziom !== null ? (
         <WerdyktPanel poziom={poziom} etykieta={t("UI-TESLIC-MOC-ZAREJESTROWANA-LICZNIK")}>
-          <WynikGlowny>{result.value.mocZLicznikaKw.toLocaleString("pl-PL", { maximumFractionDigits: 3 })} kW</WynikGlowny>
+          <WynikGlowny>{formatLiczbe(result.value.mocZLicznikaKw, { maximumFractionDigits: 3 })} kW</WynikGlowny>
           {result.value.roznicaProcent !== null && (
             <p className="mt-1 text-small">
-              {t("UI-TESLIC-ROZNICA-WZGLEDEM-ODBIORNIKA", { p: result.value.roznicaProcent > 0 ? "+" : "", roznicaProcent: result.value.roznicaProcent.toLocaleString("pl-PL", { maximumFractionDigits: 1 }) })}
+              {t("UI-TESLIC-ROZNICA-WZGLEDEM-ODBIORNIKA", { p: result.value.roznicaProcent > 0 ? "+" : "", roznicaProcent: formatLiczbe(result.value.roznicaProcent, { maximumFractionDigits: 1 }) })}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />

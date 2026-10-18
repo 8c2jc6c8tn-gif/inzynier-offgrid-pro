@@ -4,6 +4,7 @@
  * katalogowej BMS.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePoborWlasnyBms } from "@/lib/core/modules/baterie/pobor-wlasny-bms/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const PoborWlasnyBmsToolInput = z.object({
 export type PoborWlasnyBmsToolInputT = z.infer<typeof PoborWlasnyBmsToolInput>
 
 export const PoborWlasnyBmsToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   strataRocznaCiagleKwh: z.number(),
   strataDoboweUspienieKwh: z.number(),
   strataRocznaUspienieKwh: z.number(),

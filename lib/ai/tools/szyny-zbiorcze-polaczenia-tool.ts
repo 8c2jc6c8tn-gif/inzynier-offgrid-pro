@@ -6,6 +6,7 @@
  * zbudowana — brak wzoru/tabeli w źródle.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSzynyZbiorczePolaczenia } from "@/lib/core/modules/okablowanie/szyny-zbiorcze-polaczenia/calculator"
 import { CHECKLIST_ITEMS } from "@/lib/core/modules/okablowanie/szyny-zbiorcze-polaczenia/constants"
 import type { AiToolDefinition } from "../types"
@@ -23,7 +24,7 @@ export type SzynyZbiorczePolaczeniaToolInputT = z.infer<typeof SzynyZbiorczePola
 export const SzynyZbiorczePolaczeniaToolOutput = z.object({
   potwierdzone: z.number(),
   razem: z.number(),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wersjaKalkulatora: z.string(),
 })
 

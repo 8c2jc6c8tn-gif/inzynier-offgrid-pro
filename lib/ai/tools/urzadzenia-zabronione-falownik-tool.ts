@@ -4,6 +4,7 @@
  * MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateUrzadzeniaZabronione } from "@/lib/core/modules/kalkulator-mobilny/urzadzenia-zabronione-falownik/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const UrzadzeniaZabronioneToolInput = z.object({
 export type UrzadzeniaZabronioneToolInputT = z.infer<typeof UrzadzeniaZabronioneToolInput>
 
 export const UrzadzeniaZabronioneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   oceny: z.array(z.object({ nazwa: z.string(), ocena: z.enum(["ok", "ryzykowne", "zabronione"]), rozruchW: z.number() })),
   potrzebnaMocCiaglaW: z.number(),
   potrzebnaMocSzczytowaW: z.number(),

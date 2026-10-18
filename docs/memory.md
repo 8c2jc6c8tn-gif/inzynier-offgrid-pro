@@ -2832,3 +2832,61 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Lint React:** `setState` wprost w efekcie jest błędem (`react-hooks`); uprawnienie przeglądarki czytać przez `useSyncExternalStore`.
 - **Liczba paneli w raporcie (3.34.0, D92):** raport nie ma własnego modelu doboru, więc N paneli = `ceil(brak ÷ uzysk jednego panelu)`, gdzie uzysk wpisuje użytkownik albo wynika z produkcji ÷ liczby paneli dziś. Pole liczbowe przeliczenia „(x ÷ y) − 1e−9” chroni przed zaokrągleniem w górę przy dokładnym dzieleniu (200 ÷ 50 = 4, nie 5). Migawka ekranu mówiła „Ekran nie ma pól do wypełnienia” — poprawiona w trzech językach.
 
+
+## Synchronizacja ze standardem — Y.6/Y.9 (18.10.2026, na polecenie właściciela „Aktualizacja”)
+
+- Źródło: płytki klon `new-app-standards` (`f9d2886`, 18.10 18:02 +02:00), tylko odczyt. Poprzednia synchronizacja 29.09.2026;
+  `AKTUALIZACJE.md` 114 → 148 linii (wiersze 2026-09-29 … 2026-10-18).
+- *NIETYKALNE (pełny nadpis):* `docs/standards/` 00-INDEKS, 00, 01, 02, 03, 04, 05, 08, 09, 10, 14, 15, 17, 18 oraz **nowe 19
+  (dane środowiskowe) i 20 (wymiana między appkami)** — razem 20 rozdziałów. GOD BOOK `v2_39` → `v2_49` (stary plik usunięty
+  przez `git rm`, nowy dodany), `PROMPT_STARTOWY.md`, `docs/przyklady/i18n/` (README + nowy `check-i18n-keys.mjs`; **tylko
+  skopiowany, nie podpięty do `pnpm`/CI** — wdrożenie jako druga warstwa strażnika i18n to osobna decyzja).
+- *ADAPTOWALNE (patch):* `CLAUDE.md` — dopisany akapit 15.26 („pytanie o decyzję zadawaj tak, żeby dało się odpowiedzieć bez
+  czytania rozmowy”), liczba rozdziałów 19 → 20, ścieżka GOD BOOK v2_49. Skill `standards` — wersja GOD BOOK i liczba rozdziałów.
+  `README.md`, `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md` — tylko ścieżka GOD BOOK i liczba rozdziałów.
+- *LOKALNE:* `docs/wklad-do-standardu.md` — 19 wpisów oznaczonych `✅ przekazane` (część z adnotacją „CZĘŚCIOWO” i tym, co
+  zostaje: transkrypcja karty/ostrzeżenie niższe niż twardy stop, rejestr schematów, skala ikon 8.16, generator tłumaczenia wzoru).
+- **Checklista Y.9:** 1 standards ✅ · 2 GOD BOOK ✅ v2_49 · 3 `CLAUDE.md` ✅ (patch) · 4 Biblia ✅ (bez zmian poza ścieżkami) ·
+  5 lista ✅ (wpis niżej) · 6 wkład ✅ · 7 `docs/zrodla/` ✅ · 8 skill ✅ · 9 `01_`/`02_` ✅.
+- **Nie wniesione, do decyzji właściciela (Y.10 — moduły opcjonalne proponuje się, nie dodaje):** `docs/biblioteka-norm/`
+  (+31 katalogów), `docs/playbooki-opcjonalne/`, `docs/schematy-transferu/`, `docs/przyklady/{dane-srodowiskowe,waluta}/`,
+  `docs/katalog-zasobow-wspolnych.md`; `docs/przyklady/pwa/` nadal świadomie niekopiowany (pytanie z 26.09 otwarte).
+- **Nie sprawdzone (Y.2/Y.11) — dryf kodu od nowych reguł:** nowe/zmienione reguły 3.7 (próg numeryczny, `ESTIMATE`), 3.8 (ślad
+  wersji obliczeń), 8.13–8.16, 9.11, 10.10, 17.12, 18.2 (passkey), 18.15–18.16, rozdz. 19 i 20, GOD BOOK Y.11 pozycje 8–11.
+  Audyt zgodności kodu (rozszerzenie `docs/audyt-zgodnosci-kodu.md`) jest do zrobienia osobno — wpis na liście zadań.
+- **Pytanie od źródła do tego projektu (AKTUALIZACJE.md 18.10):** generator tłumaczenia wzoru (17.11, kolejność pracy: najpierw
+  literał w module). Bez odpowiedzi, na liście zadań.
+- Pakiet po zmianie (same dokumenty, kod bez zmian): `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`,
+  `check:stopy-guard` — zielone. Wersja programu bez podbicia (brak wpływu na liczby i na ekrany).
+- Cykl adaptacyjny: nowa treść → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`; kolejne sprawdzenie najpóźniej 19.10.2026 ok. 07:00.
+
+## Po synchronizacji 18.10.2026 — decyzje właściciela i audyt Y.11 (przebieg 3)
+
+- **Odpowiedzi właściciela na pytania z synchronizacji:** (1) moduły opcjonalne — tak; wniesione: `docs/playbooki-opcjonalne/`, `docs/schematy-transferu/`, `docs/katalog-zasobow-wspolnych.md`, `docs/przyklady/{dane-srodowiskowe,waluta}/`, `docs/biblioteka-norm/README.md` + `00-INDEKS.md`. **Bez ~221 MB katalogów norm** — wniesienie hurtowe bez wyraźnego polecenia uznałem za zbyt duży skutek (rozmiar repo, licencje PKN); adnotacja lokalna na górze README biblioteki. Konkretne pozycje na żądanie. (2) `check-i18n-keys.mjs` — już podpięty od 3.31.0 (część `pnpm check:i18n-guard` i CI); kopia w `docs/przyklady/i18n/` różni się od `scripts/` tylko wyjątkiem `publicKey` w `NIE_I18N`. (3) generator tłumaczenia wzoru — odpowiedź w `docs/wklad-do-standardu.md` (generatora nie ma, jest tylko test dryfu). (4) `docs/przyklady/pwa/` — okazał się identyczny ze źródłem (wcześniejsza notatka „niekopiowany” była nieaktualna); skopiowano `docs/przyklady/README.md`. (5) audyt Y.11 — `docs/audyt-zgodnosci-kodu.md`, przebieg 3.
+- **Wynik audytu (pozycje 8–11):** 8 ⚠️ waluta/liczby (181 sztywnych `pl-PL` w 103 plikach), 9 ⚠️ brak `ESTIMATE` w `Status`, 10 ➕ atrybucja i licencja PVGIS, 11 ✅ passkey. Kodu nie zmieniono — decyzje właściciela w raporcie.
+
+## Migracja liczb i dat na język UI — wersja 3.33.1 (18.10.2026)
+
+- Zrobione na polecenie właściciela („po audycie JSX”): audyt JSX (poz. 1b) był już domknięty strażnikiem `check:i18n-ui-guard` (lista zapadkowa 2 pliki / 2 teksty), więc migracja ruszyła od razu. `lib/i18n/liczby.ts` (`formatujLiczbe`, `formatujDate`, `LOCALE_INTL`) + hak `useFormatLiczby()` w `language-context.tsx`; 166 wywołań w ~100 plikach przekształconych skryptem na drzewie składni TypeScript (poza repo), resztę ręcznie.
+- **Pułapki:** (1) pomocniki modułowe `const f1 = (x) => x.toLocaleString("pl-PL", …)` używane poza komponentami (funkcje pomocnicze, tablice kolumn, pliki `.ts`) nie dają się zamienić hakiem — przyjmują teraz formatter parametrem (`kolumny(t, f0, f2)`, `zakresOkna(…, f0)`, `wierszeWyniku(t, waluta, jezyk, …)`); (2) skrypt na ślepo usunął wyeksportowane pomocniki (`typ-montazu/_components/wspolne.tsx`) — wychwycił to typecheck; zamiast eksportów jest hak `useFormaty()`; (3) nazwa `liczba` w ekranie typ-montazu koliduje z importowaną funkcją `liczba` z `model-dzialki` — stąd `fMasa`.
+- **Strażnik:** test w `lib/i18n/__tests__/liczby.test.ts` zabrania `toLocaleString("pl-PL")` w `lib/`, `app/`, `components/` poza `moment-dokrecania-srub/constants.ts` (tekst listy kontrolnej po polsku w całości).
+- **Do wkładu w standard (kandydat):** wzorzec „jeden hak + test zakazujący sztywnego locale” dla 17.12 — zapisane w `docs/wklad-do-standardu.md`.
+
+## Generator słownika wzorów (18.10.2026, wersja 3.33.1)
+
+- `scripts/generuj-formuly.mjs` — parowanie `formulaKey` ↔ literał `formula` po drzewie składni TypeScript (obiekt z obiema właściwościami, także `formula,` skrótowo z lokalną stałą; wywołanie z kluczem i stałą jako argumentami). Sprawdzenie (kod wyjścia 1) jest częścią `pnpm check:i18n-guard` i CI; `pnpm formuly:napraw` poprawia `pl` i dodaje brakujące klucze (EN/RU = szkic z PL). Test: `lib/i18n/__tests__/generuj-formuly.test.ts`.
+- **Pułapka znaleziona przy okazji:** `"\times"` z jednym backslashem w TS to TAB + „imes”; stary test dryfu tego nie widział (porównywał obie strony po tej samej obróbce). Generator zgłasza `ZNAK_STERUJĄCY`. Stan wyjściowy: 101 kluczy, 0 problemów — więc błąd nie występował w repo, tylko nie był pilnowany.
+- **Przegląd kodu całej gałęzi (18.10.2026, przed PR):** 9 uwag; poprawione: ręczne sprawdzenia statusu pod `ESTIMATE` (ok. 30 miejsc), surowe kody języka w `toLocale*String` (strażnik w `liczby.test.ts` łapie teraz także `jezyk`/`language` i `Intl.NumberFormat("…")`), generator (znacznik szkicu blokujący CI, edycje po drzewie składni, wielokrotne użycie klucza, wybór argumentu-wzoru), test `ESTIMATE` przeniesiony tak, by `lib/core` nie importowało UI (Vitest obejmuje tylko `lib/**`, więc test komponentu leży w `lib/__tests__`), timeout testu generatora, aliasy `uzyteczny` i `LOCALE`. **Odłożone świadomie:** zduplikowane lokalne domknięcia `f0/f1/f2` w ok. 100 komponentach (liczba miejsc po przecinku to wybór miejsca wywołania, nie polityka językowa; to samo duplikowanie istniało przed migracją) — wpis na liście zadań.
+- Odpowiedź dla `new-app-standards` zaktualizowana w `docs/wklad-do-standardu.md` (generator istnieje; skopiowanie do przykładów to decyzja źródła).
+
+## Korekta zakresu synchronizacji 18.10.2026 — kopiujemy tylko to, co projekt potrzebuje (decyzja właściciela)
+
+- Zasada właściciela: **nie robimy kopii wszystkiego, tylko tego, co nam potrzeba.** Dotyczy też modułów opcjonalnych (Y.10).
+- Usunięte z wcześniejszej kopii tego samego dnia (jeszcze niescalonej, więc bez śladu w `main`): `docs/schematy-transferu/` (projekt nie wymienia budynków z innymi appkami; koperta ESP32 w telemetrii to inna rzecz), `docs/przyklady/waluta/` (mamy własne `lib/waluta/`), `docs/przyklady/dane-srodowiskowe/` (do skopiowania dopiero przy pracy nad danymi środowiskowymi po stronie bazy, razem z licencją PVGIS), `docs/biblioteka-norm/` (README i indeks opisywały katalogi, których tu nie ma — mylące; normy offgrida są w `docs/zrodla/`), `docs/katalog-zasobow-wspolnych.md` (indeks zasobów źródła, czytać tam).
+- **Zostaje:** `docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md` (przetwarzanie norm to stały element pracy), `docs/przyklady/i18n/` (README + `check-i18n-keys.mjs`), `docs/przyklady/README.md`.
+- Odnośniki z `docs/standards/19-dane-srodowiskowe.md` do usuniętych plików wskazują źródło (`new-app-standards`) — to mirror NIETYKALNY, nie poprawiamy.
+
+## Status `ESTIMATE` dodany do kontraktu — wersja 3.35.0 (D93, 18.10.2026)
+
+- Właściciel wybrał wariant A po wyjaśnieniu, czym jest status i skąd 280 błędów typów. Zamiast dopisywać szósty status w 278 schematach, zrobiłem `STATUSY` (jedna lista) i `z.enum(STATUSY)` — następny status nie będzie wymagał takiej operacji.
+- **Pułapka:** wspólna funkcja `poziomZStatusu` traktowała każdy nieznany status jako „błąd”; `ESTIMATE` trafiłby w „zabronione” mimo istnienia liczby. Poprawione (→ „uwaga”), tak samo `isComputed`. Na ekranach było 4 ręczne trójki `status === "VALID" ? "ok" : … "VALID_WITH_WARNINGS" ? "uwaga" : "blad"` — zastąpione wspólną funkcją, żeby nowy status nie wymagał ich osobnego poprawiania. Pozostałe sprawdzenia `status === "VALID"`/`"VALID_WITH_WARNINGS"` na ekranach (kilkadziesiąt) są kontekstowe i nie były zmieniane; przy pierwszym użyciu `ESTIMATE` w module trzeba sprawdzić jego ekran.

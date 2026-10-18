@@ -5,6 +5,7 @@
  * (`defaultPowerW`, ten sam punkt startowy co ekran — silnik oznacza go jako założenie).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateKatalogUrzadzen } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen/calculator"
 import { KATALOG_URZADZEN_STANDBY } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen/constants"
 import type { StandbyDeviceItem } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen/input"
@@ -32,7 +33,7 @@ export const WampiryKatalogToolInput = z.object({
 export type WampiryKatalogToolInputT = z.infer<typeof WampiryKatalogToolInput>
 
 export const WampiryKatalogToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   sumaW: z.number(),
   energiaDobowaKwh: z.number(),
   energiaRocznaKwh: z.number(),

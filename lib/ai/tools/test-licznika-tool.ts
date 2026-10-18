@@ -4,6 +4,7 @@
  * Liczbę impulsów, czas i stałą z tabliczki licznika podaje user — model ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateTestLicznika } from "@/lib/core/modules/siec/test-licznika/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -20,7 +21,7 @@ export const TestLicznikaToolInput = z.object({
 export type TestLicznikaToolInputT = z.infer<typeof TestLicznikaToolInput>
 
 export const TestLicznikaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   mocZLicznikaKw: z.number(),
   roznicaProcent: z.number().nullable(),
   wzor: z.string(),

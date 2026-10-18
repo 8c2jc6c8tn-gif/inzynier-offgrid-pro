@@ -4,6 +4,7 @@
  * wyłączone (✏️ K8), nie „gorsze”. Podział zużycia na strefy i ceny energii per grupa podaje user.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePorownanieTaryf } from "@/lib/core/modules/siec/porownanie-taryf/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const DobierzTaryfeToolInput = SiecWspolneSchema.extend({
 export type DobierzTaryfeToolInputT = z.infer<typeof DobierzTaryfeToolInput>
 
 export const DobierzTaryfeToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   najtanszaGrupa: z.string().nullable(),
   ranking: z.array(
     z.object({ grupa: z.string(), bruttoZl: z.number().nullable(), wylaczona: z.string().nullable() }),

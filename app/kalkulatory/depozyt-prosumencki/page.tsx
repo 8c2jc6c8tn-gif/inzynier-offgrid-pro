@@ -14,7 +14,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "@/components/siec/wspolne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Stan = {
   miesiac: string
@@ -29,6 +29,7 @@ const POCZATKOWY: Stan = { miesiac: "2026-06", energia: "", cena: "", system: "r
 
 export default function DepozytProsumenckiPage() {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-depozyt-prosumencki", POCZATKOWY)
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
@@ -161,7 +162,7 @@ export default function DepozytProsumenckiPage() {
           )}
           {v.wspolczynnikBilansowania !== null && (
             <p className="mt-1 text-small">
-              {t("UI-DEPPRO-KWH-ODDANA-WART", { p: (v.wspolczynnikBilansowania * 100).toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+              {t("UI-DEPPRO-KWH-ODDANA-WART", { p: formatLiczbe((v.wspolczynnikBilansowania * 100), { maximumFractionDigits: 0 }) })}
             </p>
           )}
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />

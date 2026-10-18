@@ -3,6 +3,7 @@
  * część geometryczna (stały okap nad oknem południowym). `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOslonyPrzeciwsloneczne } from "@/lib/core/modules/ogrzewanie/oslony-przeciwsloneczne/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -16,7 +17,7 @@ export const OslonyPrzeciwsloneczneToolInput = z.object({
 export type OslonyPrzeciwsloneczneToolInputT = z.infer<typeof OslonyPrzeciwsloneczneToolInput>
 
 export const OslonyPrzeciwsloneczneToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wysokoscLatoDeg: z.number(),
   wysokoscZimaDeg: z.number(),
   zacienienieLatoPct: z.number(),

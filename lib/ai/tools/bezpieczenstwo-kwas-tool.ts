@@ -4,6 +4,7 @@
  * jedyny wejściowy fakt to lista ID pozycji faktycznie sprawdzonych przez usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBezpieczenstwoKwas } from "@/lib/core/modules/montaz-baterii/bezpieczenstwo-kwas/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -14,7 +15,7 @@ export const BezpieczenstwoKwasToolInput = z.object({
 export type BezpieczenstwoKwasToolInputT = z.infer<typeof BezpieczenstwoKwasToolInput>
 
 export const BezpieczenstwoKwasToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   potwierdzone: z.number(),
   razem: z.number(),
   ostrzezenia: z.array(z.string()),

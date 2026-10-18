@@ -3,6 +3,7 @@
  * do Ekranu 4. `operationType: 'read'`. Przyrost w GWC — pomiar/producent; strumień parownika i COP — karta pompy.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateGwcPompaCiepla } from "@/lib/core/modules/ogrzewanie/gwc-pompa-ciepla/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -19,7 +20,7 @@ export const GwcPompaCieplaToolInput = z.object({
 export type GwcPompaCieplaToolInputT = z.infer<typeof GwcPompaCieplaToolInput>
 
 export const GwcPompaCieplaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   wzrostTempParownikaK: z.number(),
   mocGwcKw: z.number(),
   mocDolnegoZrodlaKw: z.number(),

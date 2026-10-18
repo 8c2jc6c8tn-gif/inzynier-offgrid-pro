@@ -4,6 +4,7 @@
  * `sprawdz_panel_do_stacji_zasilania` (E39).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLaczeniePaneliPrzenosnych } from "@/lib/core/modules/kalkulator-mobilny/laczenie-paneli-przenosnych/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen } from "./teksty-wyniku"
@@ -21,7 +22,7 @@ export const LaczeniePaneliPrzenosnychToolInput = z.object({
 export type LaczeniePaneliPrzenosnychToolInputT = z.infer<typeof LaczeniePaneliPrzenosnychToolInput>
 
 export const LaczeniePaneliPrzenosnychToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   moznaLaczyc: z.boolean().describe("false = twardy stop, nie łączyć"),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),

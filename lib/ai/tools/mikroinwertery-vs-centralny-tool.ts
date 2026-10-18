@@ -2,6 +2,7 @@
  * Narzędzie AI (9.3) dla Ekranu 21, Moduł 3 — "Mikroinwertery vs inwerter centralny". `operationType: 'read'`.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMikroinwerteryVsCentralny } from "@/lib/core/modules/pv/mikroinwertery-vs-centralny/calculator"
 import { KRYTERIA_POROWNANIA } from "@/lib/core/modules/pv/mikroinwertery-vs-centralny/constants"
 import type { AiToolDefinition } from "../types"
@@ -25,7 +26,7 @@ export type MikroinwerteryVsCentralnyToolInputT = z.infer<typeof MikroinwerteryV
 export const MikroinwerteryVsCentralnyToolOutput = z.object({
   rekomendacja: z.enum(["mikroinwertery", "centralny"]).nullable(),
   porownanie: z.array(z.object({ kryterium: z.string(), mikroinwerter: z.string(), centralny: z.string() })),
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   ostrzezenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
 })

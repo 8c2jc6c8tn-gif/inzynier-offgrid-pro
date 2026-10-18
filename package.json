@@ -1,6 +1,6 @@
 {
   "name": "my-project",
-  "version": "3.34.0",
+  "version": "3.35.0",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {
@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check:i18n-guard": "node scripts/check-i18n-guard.mjs && node scripts/check-i18n-ui-guard.mjs && node scripts/check-i18n-keys.mjs",
+    "check:i18n-guard": "node scripts/check-i18n-guard.mjs && node scripts/check-i18n-ui-guard.mjs && node scripts/check-i18n-keys.mjs && node scripts/generuj-formuly.mjs",
+    "formuly:napraw": "node scripts/generuj-formuly.mjs --write",
     "check:pomoc-guard": "node scripts/check-pomoc-guard.mjs",
     "check:ai-tools-guard": "node scripts/check-ai-tools-guard.mjs",
     "check:stopy-guard": "node scripts/check-stopy-guard.mjs",

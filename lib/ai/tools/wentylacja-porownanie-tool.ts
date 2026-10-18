@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Strumienie, sprawność, pobór wentylatorów i COP MUSZĄ pochodzić od usera (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWentylacjaPorownanie } from "@/lib/core/modules/ogrzewanie/wentylacja-porownanie/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const WentylacjaPorownanieToolInput = z.object({
 export type WentylacjaPorownanieToolInputT = z.infer<typeof WentylacjaPorownanieToolInput>
 
 export const WentylacjaPorownanieToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   stratyNaturalnaKwh: z.number(),
   stratyMechanicznaKwh: z.number(),
   pradWentylatorowKwh: z.number(),

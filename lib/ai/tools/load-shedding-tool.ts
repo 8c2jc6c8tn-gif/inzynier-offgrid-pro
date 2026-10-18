@@ -5,6 +5,7 @@
  * nigdy nie jest zgadywany.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateLoadShedding } from "@/lib/core/modules/zapotrzebowanie/load-shedding/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const LoadSheddingToolInput = z.object({
 export type LoadSheddingToolInputT = z.infer<typeof LoadSheddingToolInput>
 
 export const LoadSheddingToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   odlaczone: z.boolean(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

@@ -4,6 +4,7 @@
  * zgaduje (brak → INCOMPLETE). Bez danych budynku symulacja liczy zużycie bez ogrzewania i mówi o tym w ostrzeżeniu.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateSymulacjaMrozu } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -61,7 +62,7 @@ const Scenariusz = z.object({
 })
 
 export const SymulacjaMrozuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaDni: z.number(),
   ogrzewanieWPopycie: z.boolean(),
   scenariusze: z.array(Scenariusz),

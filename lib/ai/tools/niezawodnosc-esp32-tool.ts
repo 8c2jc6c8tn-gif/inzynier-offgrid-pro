@@ -3,6 +3,7 @@
  * `operationType: 'read'`. Stan przełączników — tylko deklaracja usera; model nie zakłada weryfikacji podpisu OTA.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateNiezawodnoscEsp32 } from "@/lib/core/modules/esp32/niezawodnosc-esp32/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -23,7 +24,7 @@ export const NiezawodnoscEsp32ToolInput = z.object({
 export type NiezawodnoscEsp32ToolInputT = z.infer<typeof NiezawodnoscEsp32ToolInput>
 
 export const NiezawodnoscEsp32ToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   liczbaWlaczonych: z.number(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),

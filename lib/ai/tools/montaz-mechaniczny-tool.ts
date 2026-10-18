@@ -4,6 +4,7 @@
  * tylko od usera, nigdy zgadywany. Próg 300-400 kgf to wzorzec "echo" z Modułu 4/Ekran 21.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateMontazMechaniczny } from "@/lib/core/modules/montaz-baterii/montaz-mechaniczny/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -15,7 +16,7 @@ export const MontazMechanicznyToolInput = z.object({
 export type MontazMechanicznyToolInputT = z.infer<typeof MontazMechanicznyToolInput>
 
 export const MontazMechanicznyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   dociskKgf: z.number(),
   dociskWZakresie: z.boolean(),
   potwierdzone: z.number(),

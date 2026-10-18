@@ -6,13 +6,13 @@ import { LICZBA_OGNIW_SUGEROWANA } from "@/lib/core/modules/baterie/napiecie-odc
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomZStatusu } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { KALIBRACJA_NAPIECIE_OGNIWO_MAX_V, KALIBRACJA_NAPIECIE_OGNIWO_MIN_V } from "@/lib/core/modules/baterie/napiecie-odciecia-a-zywotnosc/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieOdcieciaV: string
@@ -26,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function NapiecieOdcieciaAZywotnoscPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("napiecie-odciecia-a-zywotnosc", STAN_POCZATKOWY)
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: string) {
@@ -43,7 +44,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
     [napiecieOdcieciaV, liczbaOgniwSzeregowo],
   )
 
-  const poziom = result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "blad"
+  const poziom = poziomZStatusu(result.status)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -89,7 +90,7 @@ export default function NapiecieOdcieciaAZywotnoscPage() {
         <p className="text-small text-muted-foreground">{t("UI-NAPODCAZYW-WYPELNIJ-OBA-POLA")}</p>
       ) : (
         <WerdyktPanel poziom={poziom} etykieta={t("UI-NAPODCAZYW-DOD", { dodPct: result.value.dodPct.toFixed(0) })}>
-          <WynikGlowny>{t("UI-NAPODCAZYW-CYKLI", { cykleZycia: result.value.cykleZycia.toLocaleString("pl-PL") })}</WynikGlowny>
+          <WynikGlowny>{t("UI-NAPODCAZYW-CYKLI", { cykleZycia: formatLiczbe(result.value.cykleZycia) })}</WynikGlowny>
           <p className="mt-1 text-small">
             {t("UI-NAPODCAZYW-OGNIWO", { napiecieOgniwaV: result.value.napiecieOgniwaV.toFixed(3), liczbaOgniwSzeregowo: stan.liczbaOgniwSzeregowo })}
           </p>

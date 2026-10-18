@@ -4,6 +4,7 @@
  * przykład (Dyrektywa #1).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculatePanelDlaUrzadzenia } from "@/lib/core/modules/kalkulator-mobilny/panel-dla-urzadzenia/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -18,7 +19,7 @@ export const PanelDlaUrzadzeniaToolInput = z.object({
 export type PanelDlaUrzadzeniaToolInputT = z.infer<typeof PanelDlaUrzadzeniaToolInput>
 
 export const PanelDlaUrzadzeniaToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   zuzycieWh: z.number().describe("Zużycie urządzenia na dobę [Wh]"),
   minimalnaMocPaneluW: z.number().describe("Minimalna moc panelu [W]"),
   produkcjaPosiadanegoWh: z.number(),

@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.35.0] — 18.10.2026
+
+Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D93):
+- szósta wartość `Status` w `lib/core/calc-result.ts`, lista `STATUSY` w jednym miejscu; 278 schematów narzędzi AI buduje `z.enum(STATUSY)` zamiast własnej kopii listy,
+- `isComputed` traktuje `ESTIMATE` jako policzoną liczbę, `poziomZStatusu` i nowe `poziomOstrzezen` pokazują go jako „uwaga”; ręczne sprawdzenia statusu (ok. 30 miejsc w ekranach i narzędziach AI) zastąpione tymi funkcjami,
+- żaden kalkulator jeszcze nie zwraca `ESTIMATE` (pierwsze użycie: wiatr dla paneli pod kątem 30–90° — osobne zadanie).
+
+Wpływ na liczby: brak (żaden wynik nie zmienia statusu ani wartości).
+
 ## [3.34.0] — 18.10.2026
 
 Liczba paneli do dołożenia w raporcie kryzysowym (D92):
@@ -9,6 +18,17 @@ Liczba paneli do dołożenia w raporcie kryzysowym (D92):
 - to zwykła proporcja dla jednakowych paneli: nie sprawdza miejsca, stringów, okna napięcia falownika ani udźwigu baterii i falownika; bez poprawnej liczby (zero, ułamek, uzysk ≤ 0) nie podaje nic, nigdy nie zgaduje.
 
 Wpływ na liczby: brak — istniejące liczby raportu bez zmian, dochodzi jedna linia po wpisaniu liczby paneli albo uzysku.
+
+## [3.33.1] — 18.10.2026
+
+Liczby i daty zgodne z językiem interfejsu (audyt Y.11 z 18.10.2026, poz. 8, standard 17.12):
+- nowy pomocnik `lib/i18n/liczby.ts` (`formatujLiczbe`, `formatujDate`, mapa `LOCALE_INTL`) i hak `useFormatLiczby()`; 166 wywołań `toLocaleString("pl-PL", …)` w ekranach i komponentach oraz 3 daty przeszły przez niego, więc w EN liczby mają kropkę dziesiętną (1,234.5), a w RU przecinek i spację jako separator tysięcy,
+- `formatujKwote` (waluta) korzysta z tej samej mapy ustawień regionalnych,
+- daty i liczby w ofercie, koncie (klucze dostępu) i informacji o przeliczeniu przechodzą przez `formatujDate`/`formatujLiczbe` (wcześniej surowy kod języka: angielski dawał daty amerykańskie obok brytyjskich),
+- generator słownika wzorów `scripts/generuj-formuly.mjs` (drzewo składni TypeScript): wiąże każdy `formulaKey` z literałem `formula` w module, wykrywa rozjazd, brakujący klucz i pojedynczy backslash (`"\\times"` daje TAB), a `pnpm formuly:napraw` poprawia słownik; sprawdzenie jest częścią `pnpm check:i18n-guard` i CI,
+- test pilnuje, żeby w `lib/`, `app/` i `components/` nie wróciło `toLocaleString("pl-PL")` (wyjątek: tekst listy kontrolnej momentu dokręcania, który jest po polsku w całości).
+
+Wpływ na liczby: brak (wartości te same; zmienia się tylko zapis separatorów w EN i RU, po polsku wygląd bez zmian).
 
 ## [3.33.0] — 18.10.2026
 

@@ -5,6 +5,7 @@
  * nigdy ich nie zgaduje. Dobór diody blokującej NIE jest tu liczony (poza zakresem kalkulatora).
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateOchronaStringow } from "@/lib/core/modules/pv/ochrona-stringow/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -24,7 +25,7 @@ export const OchronaStringowToolInput = z.object({
 export type OchronaStringowToolInputT = z.infer<typeof OchronaStringowToolInput>
 
 export const OchronaStringowToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   iScMaxA: z.number().describe("Prąd maksymalny zwarciowy stringu wg Załącznika B.2"),
   inMinA: z.number().describe("Dolna granica prądu znamionowego zabezpieczenia wg §712.431.102"),
   inMaxA: z.number().describe("Górna granica — I_MOD_MAX_OCPR panelu"),

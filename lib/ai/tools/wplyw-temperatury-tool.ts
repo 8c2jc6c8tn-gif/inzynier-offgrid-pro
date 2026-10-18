@@ -5,6 +5,7 @@
  * podane w źródle jako zakresy, nie pojedyncze liczby) — model nigdy ich nie zgaduje.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateWplywTemperatury } from "@/lib/core/modules/pv/wplyw-temperatury/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -22,7 +23,7 @@ export const WplywTemperaturyToolInput = z.object({
 export type WplywTemperaturyToolInputT = z.infer<typeof WplywTemperaturyToolInput>
 
 export const WplywTemperaturyToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   temperaturaPanelaC: z.number(),
   mocRzeczywistaW: z.number(),
   strataPct: z.number(),

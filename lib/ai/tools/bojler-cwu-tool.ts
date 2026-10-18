@@ -4,6 +4,7 @@
  * i pojemność bojlera pochodzą WYŁĄCZNIE od usera.
  */
 import { z } from "zod"
+import { STATUSY } from "@/lib/core/calc-result"
 import { calculateBojlerCwu } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/calculator"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -17,7 +18,7 @@ export const BojlerCwuToolInput = z.object({
 export type BojlerCwuToolInputT = z.infer<typeof BojlerCwuToolInput>
 
 export const BojlerCwuToolOutput = z.object({
-  status: z.enum(["VALID", "VALID_WITH_WARNINGS", "INCOMPLETE", "OUT_OF_SCOPE", "INVALID_INPUT"]),
+  status: z.enum(STATUSY),
   energiaDobowaKwh: z.number(),
   czasLadowaniaH: z.number(),
   ostrzezenia: z.array(z.string()),

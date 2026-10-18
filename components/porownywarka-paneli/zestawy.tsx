@@ -6,7 +6,8 @@ import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { UdostepnianiePorownania } from "@/components/porownywarka-paneli/udostepnianie"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDate } from "@/lib/i18n/liczby"
 import { KWOTY_ZESTAWOW, kolejnyId, STAN_ZESTAWOW_POCZATKOWY, type FormularzStan, type StanZestawow } from "@/lib/porownywarka-paneli/stan"
 
 /**
@@ -26,6 +27,7 @@ export function ZestawyPorownan({
   onKodObsluzony: () => void
 }) {
   const t = useTranslate()
+  const jezyk = useLanguage()
   const [zapisane, setZapisane, , wczytano] = usePersistedDraft<StanZestawow>("porownywarka-zestawy", STAN_ZESTAWOW_POCZATKOWY, KWOTY_ZESTAWOW)
   const [nazwa, setNazwa] = useState("")
   const [doUsuniecia, setDoUsuniecia] = useState<string | null>(null)
@@ -75,7 +77,7 @@ export function ZestawyPorownan({
             {zapisane.zestawy.map((z) => (
               <li key={z.id} className="flex flex-col gap-2 rounded-md border p-3 text-small">
                 <span className="font-medium">{z.nazwa}</span>
-                <span className="text-caption text-muted-foreground">{t("UI-PORP-ZEST-ZAPISANO", { data: new Date(z.zapisanoIso).toLocaleDateString("pl-PL") })}</span>
+                <span className="text-caption text-muted-foreground">{t("UI-PORP-ZEST-ZAPISANO", { data: formatujDate(new Date(z.zapisanoIso), jezyk) })}</span>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" className="min-h-11" onClick={() => onWczytaj(z.stan)}>
                     {t("UI-PORP-ZEST-WCZYTAJ")}
