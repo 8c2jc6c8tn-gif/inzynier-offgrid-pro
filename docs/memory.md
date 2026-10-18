@@ -2830,4 +2830,5 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Powiadomienia:** `new Notification` w efekcie na pulpicie; na Androidzie przeglądarka może go odrzucić bez rejestracji service workera — wtedy zostaje dzwonek (try/catch).
 - **Playwright w piaskownicy:** `chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })` (domyślna ścieżka nie istnieje); serwer `next dev --webpack`.
 - **Lint React:** `setState` wprost w efekcie jest błędem (`react-hooks`); uprawnienie przeglądarki czytać przez `useSyncExternalStore`.
+- **Liczba paneli w raporcie (3.34.0, D92):** raport nie ma własnego modelu doboru, więc N paneli = `ceil(brak ÷ uzysk jednego panelu)`, gdzie uzysk wpisuje użytkownik albo wynika z produkcji ÷ liczby paneli dziś. Pole liczbowe przeliczenia „(x ÷ y) − 1e−9” chroni przed zaokrągleniem w górę przy dokładnym dzieleniu (200 ÷ 50 = 4, nie 5). Migawka ekranu mówiła „Ekran nie ma pól do wypełnienia” — poprawiona w trzech językach.
 

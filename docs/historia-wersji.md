@@ -2,6 +2,14 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.34.0] — 18.10.2026
+
+Liczba paneli do dołożenia w raporcie kryzysowym (D92):
+- raport kryzysowy ma dwa opcjonalne pola: liczbę paneli, które masz dziś, albo uzysk jednego panelu w najgorszym miesiącu (uzysk ma pierwszeństwo); z braku energii w najgorszym miesiącu liczy, ile paneli dołożyć (zaokrąglenie w górę); pola zapisują się automatycznie, mają „?” i tłumaczenia PL/EN/RU,
+- to zwykła proporcja dla jednakowych paneli: nie sprawdza miejsca, stringów, okna napięcia falownika ani udźwigu baterii i falownika; bez poprawnej liczby (zero, ułamek, uzysk ≤ 0) nie podaje nic, nigdy nie zgaduje.
+
+Wpływ na liczby: brak — istniejące liczby raportu bez zmian, dochodzi jedna linia po wpisaniu liczby paneli albo uzysku.
+
 ## [3.33.0] — 18.10.2026
 
 Wiatr dla dachu czterospadowego i ściany, powiadomienia o przeglądach, kreska w ilustracjach, rekomendacje w raporcie kryzysowym, ikony ekranów (D91):
