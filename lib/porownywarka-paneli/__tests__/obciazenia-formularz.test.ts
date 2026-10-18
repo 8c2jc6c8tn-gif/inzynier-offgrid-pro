@@ -25,6 +25,8 @@ describe("warunkiObciazenZFormularza", () => {
     const seed = { ...OBCIAZENIA_PUSTE, strefaWiatrowa: "2" }
     expect(warunkiObciazenZFormularza({ ...seed, typDachu: "dwuspadowy" }, "rownolegly")!.typDachu).toBe("dwuspadowy")
     expect(warunkiObciazenZFormularza({ ...seed, typDachu: "jednospadowy" }, "rownolegly")!.typDachu).toBe("jednospadowy")
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "czterospadowy" }, "rownolegly")!.typDachu).toBe("czterospadowy")
+    expect(warunkiObciazenZFormularza({ ...seed, typDachu: "sciana" }, "rownolegly")!.typDachu).toBe("sciana")
     expect(warunkiObciazenZFormularza({ ...seed, typDachu: "" }, "rownolegly")!.typDachu).toBeNull()
     expect(warunkiObciazenZFormularza({ ...seed, typDachu: "kopulasty" as never }, "rownolegly")!.typDachu).toBeNull()
   })

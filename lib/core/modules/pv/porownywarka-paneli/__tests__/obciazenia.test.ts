@@ -66,6 +66,16 @@ describe("obciazeniaMiejsca", () => {
     expect(obciazeniaMiejsca(WARUNKI, -1)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
   })
 
+  it("dach czterospadowy (Tablica 7.5) i ściana (Tablica 7.1) dla paneli równoległych", () => {
+    const hip = obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "czterospadowy" }, 30)!
+    expect(hip.wiatr!.zrodloCp).toBe("polac")
+    expect(hip.wiatr!.cp.dociskKrawedz).toBeCloseTo(0.7, 10)
+    const sciana = obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "sciana" }, 90)!
+    expect(sciana.wiatr!.cp).toEqual({ dociskSrodek: 1.0, dociskKrawedz: 1.0, odrywanieSrodek: 0.7, odrywanieKrawedz: 1.4 })
+    // a wall needs a vertical panel; a pitched panel with “wall” chosen is out of range
+    expect(obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "sciana" }, 35)).toMatchObject({ wiatr: null, powodBrakuWiatru: "kat-poza-zakresem" })
+  })
+
   it("panele równoległe do połaci z wybranym rodzajem połaci: wiatr z Tablic 7.3/7.4 (cpe,1 połaci), także dla kątów > 30°, do 75°", () => {
     const jedno = obciazeniaMiejsca({ ...WARUNKI, montaz: "rownolegly", typDachu: "jednospadowy" }, 30)!
     expect(jedno.powodBrakuWiatru).toBeNull()

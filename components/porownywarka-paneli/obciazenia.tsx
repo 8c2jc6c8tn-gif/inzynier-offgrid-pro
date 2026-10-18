@@ -29,6 +29,12 @@ const OPIS_TERENU: Record<KategoriaTerenu, string> = {
   III: "UI-TYPMON-COMWSP-III-WIES-PRZEDMIESCIA",
   IV: "UI-TYPMON-COMWSP-MIASTO-MIN-ZABUDOWY",
 }
+const ETYKIETA_TYPU_DACHU: Record<(typeof TYPY_DACHU)[number], string> = {
+  jednospadowy: "UI-PORP-OBC-TYP-DACHU-JEDNOSPADOWY",
+  dwuspadowy: "UI-PORP-OBC-TYP-DACHU-DWUSPADOWY",
+  czterospadowy: "UI-PORP-OBC-TYP-DACHU-CZTEROSPADOWY",
+  sciana: "UI-PORP-OBC-TYP-DACHU-SCIANA",
+}
 const ETYKIETA_SYTUACJI: Record<SytuacjaObciazenia, string> = {
   docisk: "UI-PORP-OBC-S-DOCISK",
   "docisk-srodek": "UI-PORP-OBC-S-DOCISK-SRODEK",
@@ -141,7 +147,7 @@ export function ObciazeniaPaneli(p: {
           <option value="">{t("UI-WYBIERZ")}</option>
           {TYPY_DACHU.map((typ) => (
             <option key={typ} value={typ}>
-              {t(typ === "jednospadowy" ? "UI-PORP-OBC-TYP-DACHU-JEDNOSPADOWY" : "UI-PORP-OBC-TYP-DACHU-DWUSPADOWY")}
+              {t(ETYKIETA_TYPU_DACHU[typ])}
             </option>
           ))}
         </PoleSelect>

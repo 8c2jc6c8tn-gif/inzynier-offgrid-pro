@@ -2,6 +2,13 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.33.0] — 18.10.2026
+
+Wiatr dla paneli na dachu czterospadowym i na ścianie, powiadomienia o przeglądach, zapadka grubości kreski, ikony ekranów (D91):
+- Porównywarka (silnik 1.11.0), zakładka „Obciążenia”: pole „Rodzaj połaci albo ściany” ma dwie nowe wartości, dach czterospadowy (Tablica 7.5, spadek 5–75°) i ściana budynku (Tablica 7.1, nachylenie 85–90°); liczby sprawdzone ze skanem PDF; dla ściany najgorsza wartość ze wszystkich pól i stosunków h/d (aplikacja ich nie zna); górne oszacowanie jak dla pozostałych połaci.
+
+Wpływ na liczby: tak, dla paneli równoległych do dachu czterospadowego albo do ściany z wybranym rodzajem Porównywarka pokazuje ocenę wiatru (wcześniej tylko śnieg); pozostałe liczby bez zmian.
+
 ## [3.32.0] — 18.10.2026
 
 Wiatr dla paneli równoległych do połaci i minimum czytelności ilustracji (D90):

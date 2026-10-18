@@ -350,10 +350,10 @@ export const pl = {
         zakres: "Osiem kierunków co 45°. Inny azymut ustawisz w trybie pełnym.",
       },
       obcTypDachu: {
-        nazwa: "Rodzaj połaci, na której leżą panele",
-        cel: "Dla paneli równoległych do połaci wiatr zależy od kształtu dachu. Eurokod ma osobne tablice dla dachu jednospadowego (7.3) i dwuspadowego (7.4). Biorę z nich ciśnienie zewnętrzne połaci w najgorszym polu i przy najgorszym kierunku wiatru, jako górne oszacowanie.",
-        gdzie: "Wybierz kształt dachu, na którym leżą panele. Spadek połaci to kąt nachylenia paneli z zakładki miejsca.",
-        zakres: "Dach jednospadowy albo dwuspadowy; spadek 5–75°. Bez wyboru wiatru nie liczę (śnieg liczę). Ściany i dachy płaskie nie są objęte.",
+        nazwa: "Rodzaj połaci albo ściany, na której leżą panele",
+        cel: "Dla paneli równoległych do połaci wiatr zależy od kształtu dachu. Eurokod ma osobne tablice dla dachu jednospadowego (7.3), dwuspadowego (7.4), czterospadowego (7.5) i dla ściany (7.1). Biorę z nich ciśnienie zewnętrzne połaci w najgorszym polu i przy najgorszym kierunku wiatru, jako górne oszacowanie.",
+        gdzie: "Wybierz kształt dachu albo ścianę, na której leżą panele. Spadek połaci to kąt nachylenia paneli z zakładki miejsca; dla ściany wpisz nachylenie 90°.",
+        zakres: "Dach jedno-, dwu- albo czterospadowy (spadek 5–75°) albo ściana (nachylenie 85–90°). Bez wyboru wiatru nie liczę (śnieg liczę). Dachy płaskie nie są objęte.",
       },
       obcWysokoscPaneli: {
         nazwa: "Wysokość górnej krawędzi paneli nad gruntem [m]",
@@ -951,10 +951,10 @@ export const en: Tlumaczenie<typeof pl> = {
         zakres: "Eight directions every 45°. You can set another azimuth in the full mode.",
       },
       obcTypDachu: {
-        nazwa: "Roof type the panels lie on",
-        cel: "For panels parallel to the pitch, wind depends on the roof shape. The Eurocode has separate tables for a mono-pitch roof (7.3) and a duo-pitch roof (7.4). I take the external pressure of the pitch from them, in the worst field and for the worst wind direction, as an upper estimate.",
-        gdzie: "Choose the shape of the roof the panels lie on. The roof pitch is the tilt angle of the panels from the place tab.",
-        zakres: "Mono-pitch or duo-pitch roof; pitch 5–75°. Without a choice I do not compute wind (snow is computed). Walls and flat roofs are not covered.",
+        nazwa: "Roof or wall type the panels lie on",
+        cel: "For panels parallel to the pitch, wind depends on the roof shape. The Eurocode has separate tables for a mono-pitch roof (7.3), a duo-pitch roof (7.4), a hip roof (7.5) and a wall (7.1). I take the external pressure of the pitch from them, in the worst field and for the worst wind direction, as an upper estimate.",
+        gdzie: "Choose the shape of the roof or the wall the panels lie on. The roof pitch is the tilt angle of the panels from the place tab; for a wall enter a tilt of 90°.",
+        zakres: "Mono-, duo- or hip-pitch roof (pitch 5–75°) or a wall (tilt 85–90°). Without a choice I do not compute wind (snow is computed). Flat roofs are not covered.",
       },
       obcWysokoscPaneli: {
         nazwa: "Height of the top edge of the panels above the ground [m]",
@@ -1552,10 +1552,10 @@ export const ru: Tlumaczenie<typeof pl> = {
         zakres: "Восемь направлений через 45°. Другой азимут можно задать в полном режиме.",
       },
       obcTypDachu: {
-        nazwa: "Тип ската, на котором лежат панели",
-        cel: "Для панелей, параллельных скату, ветер зависит от формы крыши. В Еврокоде есть отдельные таблицы для односкатной (7.3) и двускатной (7.4) крыши. Из них я беру внешнее давление ската в худшем поле и при худшем направлении ветра как верхнюю оценку.",
-        gdzie: "Выберите форму крыши, на которой лежат панели. Уклон ската — это угол наклона панелей с вкладки места.",
-        zakres: "Односкатная или двускатная крыша; уклон 5–75°. Без выбора ветер не считаю (снег считаю). Стены и плоские крыши не охвачены.",
+        nazwa: "Тип ската или стены, на которых лежат панели",
+        cel: "Для панелей, параллельных скату, ветер зависит от формы крыши. В Еврокоде есть отдельные таблицы для односкатной (7.3), двускатной (7.4), вальмовой (7.5) крыши и для стены (7.1). Из них я беру внешнее давление ската в худшем поле и при худшем направлении ветра как верхнюю оценку.",
+        gdzie: "Выберите форму крыши или стену, на которых лежат панели. Уклон ската — это угол наклона панелей с вкладки места; для стены укажите наклон 90°.",
+        zakres: "Одно-, двух- или вальмовая крыша (уклон 5–75°) или стена (наклон 85–90°). Без выбора ветер не считаю (снег считаю). Плоские крыши не охвачены.",
       },
       obcWysokoscPaneli: {
         nazwa: "Высота верхнего края панелей над землёй [м]",

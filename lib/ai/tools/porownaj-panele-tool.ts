@@ -68,8 +68,8 @@ const Obciazenia = z.object({
   kategoriaTerenu: z.enum(["0", "I", "II", "III", "IV"]).optional().describe("Kategoria terenu wokół (0 morze … IV miasto) — do wiatru"),
   wysokoscKonstrukcjiM: z.number().optional().describe("Wysokość górnej krawędzi paneli nad gruntem [m] — do wiatru"),
   ekspozycjaSniegu: z.enum(["wystawiony", "normalny", "osloniety"]).optional().describe("Otoczenie pod kątem zwiewania śniegu; bez podania „normalny”"),
-  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Panele pochylone na konstrukcji (0–30°): wiatr z Tablicy 7.6. Równoległe do połaci: wiatr z Tablic 7.3/7.4 po podaniu typDachu (5–75°); ściany — tylko śnieg"),
-  typDachu: z.enum(["jednospadowy", "dwuspadowy"]).optional().describe("Rodzaj połaci, na której leżą panele równoległe — bez niego wiatru nie liczę (tylko śnieg). Ciśnienie zewnętrzne połaci jako górne oszacowanie, nie cp,net panelu"),
+  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Panele pochylone na konstrukcji (0–30°): wiatr z Tablicy 7.6. Równoległe do połaci albo ściany: wiatr z Tablic 7.3/7.4/7.5/7.1 po podaniu typDachu"),
+  typDachu: z.enum(["jednospadowy", "dwuspadowy", "czterospadowy", "sciana"]).optional().describe("Rodzaj połaci albo ściany, na której leżą panele równoległe (połać 5–75°, ściana: nachylenie 85–90°) — bez niego wiatru nie liczę (tylko śnieg). Ciśnienie zewnętrzne połaci/ściany jako górne oszacowanie, nie cp,net panelu"),
 })
 
 const BilansGodzinowy = z.object({

@@ -7,6 +7,7 @@
  * rebuilt field by field from the form's template (`oczyscStan`) — unknown keys are dropped, wrong types fall back to the empty field, enumerations
  * and catalogue ids are checked. The recipient always gets the comparison as a NEW saved set, never over the form they are working on.
  */
+import { TYPY_DACHU, type TypDachu } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import { CENNIK_BOS, type BosId } from "@/lib/core/dane/cennik-bos"
 import { znajdzUrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
@@ -116,7 +117,7 @@ export function oczyscStan(surowy: unknown): FormularzStan | null {
       kategoriaTerenu: tekst(o?.kategoriaTerenu, OBCIAZENIA_PUSTE.kategoriaTerenu),
       wysokoscKonstrukcji: tekst(o?.wysokoscKonstrukcji, OBCIAZENIA_PUSTE.wysokoscKonstrukcji),
       ekspozycjaSniegu: jeden(o?.ekspozycjaSniegu, ["wystawiony", "normalny", "osloniety"], OBCIAZENIA_PUSTE.ekspozycjaSniegu),
-      typDachu: jeden<"" | "jednospadowy" | "dwuspadowy">(o?.typDachu, ["", "jednospadowy", "dwuspadowy"], ""),
+      typDachu: jeden<"" | TypDachu>(o?.typDachu, ["", ...TYPY_DACHU], ""),
     },
     bil: Object.fromEntries(Object.entries(BILANS_PUSTY).map(([kl, domyslny]) => [kl, tekst(b?.[kl], domyslny)])) as unknown as FormularzStan["bil"],
     urzadzenieId: znajdzUrzadzeniePv(urzadzenieId) ? urzadzenieId : "",
