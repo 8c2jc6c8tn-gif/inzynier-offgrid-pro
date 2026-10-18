@@ -2,6 +2,13 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.35.1] — 18.10.2026
+
+Decyzja o domenach na polski rynek (D94, tylko dokumentacja):
+- `rejestr-decyzji.md`: D94 — `inżynier-offgrid.pl` i `inzynier-offgrid.pl` (bez „ż”), jedna kanoniczna z przekierowaniem 301; rejestracja do wykonania przez właściciela; domena angielska, domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
+
+Wpływ na liczby: brak.
+
 ## [3.35.0] — 18.10.2026
 
 Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D93):
