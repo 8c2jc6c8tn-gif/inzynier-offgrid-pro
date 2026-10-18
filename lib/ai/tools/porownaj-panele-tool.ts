@@ -68,7 +68,8 @@ const Obciazenia = z.object({
   kategoriaTerenu: z.enum(["0", "I", "II", "III", "IV"]).optional().describe("Kategoria terenu wokół (0 morze … IV miasto) — do wiatru"),
   wysokoscKonstrukcjiM: z.number().optional().describe("Wysokość górnej krawędzi paneli nad gruntem [m] — do wiatru"),
   ekspozycjaSniegu: z.enum(["wystawiony", "normalny", "osloniety"]).optional().describe("Otoczenie pod kątem zwiewania śniegu; bez podania „normalny”"),
-  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Wiatr liczę tylko dla paneli pochylonych na konstrukcji (0–30°); równoległe do połaci/ściany — tylko śnieg"),
+  montaz: z.enum(["rownolegly", "pochylony-na-konstrukcji"]).describe("Panele pochylone na konstrukcji (0–30°): wiatr z Tablicy 7.6. Równoległe do połaci: wiatr z Tablic 7.3/7.4 po podaniu typDachu (5–75°); ściany — tylko śnieg"),
+  typDachu: z.enum(["jednospadowy", "dwuspadowy"]).optional().describe("Rodzaj połaci, na której leżą panele równoległe — bez niego wiatru nie liczę (tylko śnieg). Ciśnienie zewnętrzne połaci jako górne oszacowanie, nie cp,net panelu"),
 })
 
 const BilansGodzinowy = z.object({
@@ -242,7 +243,7 @@ export const PorownajPaneleToolOutput = z.object({
     .object({
       sniegNaPaneluPa: z.number().nullable().describe("Śnieg prostopadle do panelu s·cos²α [Pa]; null bez strefy albo wysokości"),
       wiatrQpPa: z.number().nullable().describe("Szczytowe ciśnienie wiatru q_p [Pa]; null, gdy wiatru nie policzono"),
-      powodBrakuWiatru: z.enum(["brak-danych", "montaz-rownolegly", "kat-poza-zakresem"]).nullable(),
+      powodBrakuWiatru: z.enum(["brak-danych", "brak-typu-dachu", "kat-poza-zakresem"]).nullable(),
     })
     .nullable(),
   liderZimowyNazwa: z.string().nullable(),
@@ -343,6 +344,7 @@ export function utworzPorownajPaneleTool(
               wysokoscKonstrukcjiM: o.wysokoscKonstrukcjiM ?? null,
               ekspozycjaSniegu: o.ekspozycjaSniegu ?? "normalny",
               montaz: o.montaz,
+              typDachu: o.typDachu ?? null,
             }
           : null,
         panele,

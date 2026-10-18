@@ -883,3 +883,12 @@ Realizacja ustalenia z sekcji 37.7 pkt 3 („kamper/garaż mają własny ekran b
 - **Czego nie robi:** profilu godzinowego pracy ogrzewania (wchodzi w ten sam profil dobowy co reszta prądu), mostków, zysków słonecznych, doboru źródła ciepła.
 - **Ekran:** `/kalkulatory/bilans-ciepla-malego-obiektu` (kafel 12), pomoc „?” przy każdym polu i „i” przy tytule PL/EN/RU, narzędzie AI `policz_bilans_ciepla_malego_obiektu`.
 
+## 59. Wiatr dla paneli równoległych do połaci (18.10.2026)
+
+Wersja 3.32.0, silnik porównywarki 1.9.1 → 1.10.0. Zakładka „Obciążenia” liczyła wiatr tylko dla paneli pochylonych na konstrukcji (Tablica 7.6); dla paneli równoległych pokazywała tylko śnieg. Decyzja właściciela 18.10.2026 (D90): policzyć je z tablic dla dachów.
+- **Wejście:** nowe pole „Rodzaj połaci” (`typDachu`: jednospadowy albo dwuspadowy), widoczne, gdy montaż miejsca to „równolegle”; zapisuje się w stanie formularza i w udostępnianej paczce; bez wyboru wiatru się nie liczy (śnieg tak), komunikat „Wiatru nie liczę, dopóki nie wybierzesz rodzaju połaci”.
+- **Dane:** `lib/core/modules/pv/eurokod-1/wiatr-dachy.ts` — Tablice 7.3a, 7.3b (dach jednospadowy, wiatr θ = 0°, 180°, 90°) i 7.4a, 7.4b (dwuspadowy, θ = 0°, 90°); liczby przepisane i sprawdzone wizualnie ze skanem PDF normy (strony 39 i 41–42 normy) 18.10.2026. Spadek połaci to kąt nachylenia paneli (5–75°); między wierszami interpolacja liniowa wartości tego samego znaku (Uwaga 2); wartość nieobecna dla znaku = 0.
+- **Założenie (górne oszacowanie, nie cp,net panelu):** norma nie podaje współczynników dla elementu leżącego nad połacią ze szczeliną, więc bierzemy ciśnienie zewnętrzne połaci c_pe,1 (lokalne, pole ≤ 1 m²; panel ma około 2 m²) bez ciśnienia pod panelem. „Środek” = największe pola (H, I), „krawędź” = najgorsze ze wszystkich pól (F, G, H, I, J, Fup, Flow) i ze wszystkich kierunków wiatru w tablicach. Docisk i odrywanie liczone osobno (Uwaga 1: nie łączyć znaków na tej samej połaci).
+- **Dalej bez zmian:** wysokość odniesienia z pola „Wysokość górnej krawędzi paneli” (z_e = h), kombinacja STR 6.10, nośność z karty. Poza zakresem: dachy czterospadowe (Tablica 7.5), ściany, połacie poniżej 5° (Tablica 7.2), panele na konstrukcji powyżej 30°.
+- **Testy:** `lib/core/modules/pv/eurokod-1/__tests__/wiatr-dachy.test.ts` (wartości z tablic w węzłach, interpolacja, zakresy), `obciazenia.test.ts` (integracja), `obciazenia-formularz.test.ts`, `udostepnianie.test.ts`. Narzędzie AI `porownaj_panele`: pole `typDachu`, powód braku wiatru `brak-typu-dachu` zamiast `montaz-rownolegly`.
+

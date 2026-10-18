@@ -18,7 +18,7 @@ export function IlustracjaKafla({ kafelId, wariant }: { kafelId: number; wariant
   const dopasowanie = ikona3d ? "object-contain" : "object-cover object-top"
   if (wariant === "kafel") {
     return (
-      <span className="block aspect-square w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+      <span className="block aspect-square w-full min-w-(--ikona-min) max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
         <img src={src} alt="" className={`h-full w-full ${dopasowanie}`} />
       </span>
     )

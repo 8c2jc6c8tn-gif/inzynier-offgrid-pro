@@ -1,7 +1,7 @@
 /**
  * PN-EN 1991-1-4:2008 + AC:2009 (Eurokod 1, oddziaływania wiatru) — wyłącznie wartości i wzory
  * potrzebne kalkulatorom Modułu 3. Źródło liczb: własna notatka robocza
- * `docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md` (oryginał normy poza repo — licencja PKN, plan B).
+ * `docs/zrodla/norma-PN-EN-1991-1-4/00-INDEKS.md` (w tym samym katalogu skan PDF i tekst OCR normy; zob. też `wiatr-dachy.ts`).
  * Czyste funkcje bez CalcResult — wspólne dla M3/E9 (D27), docelowo M3/E6 i M3/E2 (echo D12).
  */
 

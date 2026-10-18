@@ -48,7 +48,7 @@ export default function PulpitPage() {
         {MASKOTKA_PO_ID_KAFLA[kafel.id] ? (
           <IlustracjaKafla kafelId={kafel.id} wariant="kafel" />
         ) : KAFLE_ZE_ZBUDOWANA_IKONA.includes(kafel.id) ? (
-          <span className="block w-full max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+          <span className="block w-full min-w-(--ikona-min) max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
             <KafelIkonaSvg kafelId={kafel.id} />
           </span>
         ) : (

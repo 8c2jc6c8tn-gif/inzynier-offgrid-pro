@@ -18,6 +18,19 @@ describe("skala rozmiarów ikon (D83)", () => {
     for (const px of wartosci) expect(SKALA_PX).toContain(px)
   })
 
+  it("the legibility minimum of a tile illustration is 80 px (owner's decision 18.10.2026), on the scale and below the cap", () => {
+    expect(wartosciTokenu("ikona-min")).toEqual([80])
+    const [telefon] = wartosciTokenu("ikona-kafel")
+    expect(telefon).toBeGreaterThanOrEqual(80)
+  })
+
+  it("every tile illustration wrapper carries the minimum next to the cap (3D icon / Bob and the animated SVG)", () => {
+    for (const plik of ["components/ilustracja-kafla.tsx", "app/page.tsx"]) {
+      const kod = readFileSync(path.join(korzen, plik), "utf8")
+      expect(kod, plik).toContain("min-w-(--ikona-min) max-w-(--ikona-kafel)")
+    }
+  })
+
   it("the tile icon cap does not shrink with the screen: phone < tablet", () => {
     const [telefon, tablet] = wartosciTokenu("ikona-kafel")
     expect(telefon).toBeGreaterThanOrEqual(80)

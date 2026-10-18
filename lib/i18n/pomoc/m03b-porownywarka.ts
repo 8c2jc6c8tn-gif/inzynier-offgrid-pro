@@ -349,6 +349,12 @@ export const pl = {
         gdzie: "Kompas w telefonie albo mapa: w którą stronę patrzy przód panelu (dla dachu: w którą stronę opada połać).",
         zakres: "Osiem kierunków co 45°. Inny azymut ustawisz w trybie pełnym.",
       },
+      obcTypDachu: {
+        nazwa: "Rodzaj połaci, na której leżą panele",
+        cel: "Dla paneli równoległych do połaci wiatr zależy od kształtu dachu. Eurokod ma osobne tablice dla dachu jednospadowego (7.3) i dwuspadowego (7.4). Biorę z nich ciśnienie zewnętrzne połaci w najgorszym polu i przy najgorszym kierunku wiatru, jako górne oszacowanie.",
+        gdzie: "Wybierz kształt dachu, na którym leżą panele. Spadek połaci to kąt nachylenia paneli z zakładki miejsca.",
+        zakres: "Dach jednospadowy albo dwuspadowy; spadek 5–75°. Bez wyboru wiatru nie liczę (śnieg liczę). Ściany i dachy płaskie nie są objęte.",
+      },
       obcWysokoscPaneli: {
         nazwa: "Wysokość górnej krawędzi paneli nad gruntem [m]",
         cel: "Wiatr jest tym silniejszy, im wyżej stoją panele; z tej wysokości liczę szczytowe ciśnienie wiatru.",
@@ -944,6 +950,12 @@ export const en: Tlumaczenie<typeof pl> = {
         gdzie: "A compass on the phone or a map: which way the front of the panel faces (for a roof: which way the slope falls).",
         zakres: "Eight directions every 45°. You can set another azimuth in the full mode.",
       },
+      obcTypDachu: {
+        nazwa: "Roof type the panels lie on",
+        cel: "For panels parallel to the pitch, wind depends on the roof shape. The Eurocode has separate tables for a mono-pitch roof (7.3) and a duo-pitch roof (7.4). I take the external pressure of the pitch from them, in the worst field and for the worst wind direction, as an upper estimate.",
+        gdzie: "Choose the shape of the roof the panels lie on. The roof pitch is the tilt angle of the panels from the place tab.",
+        zakres: "Mono-pitch or duo-pitch roof; pitch 5–75°. Without a choice I do not compute wind (snow is computed). Walls and flat roofs are not covered.",
+      },
       obcWysokoscPaneli: {
         nazwa: "Height of the top edge of the panels above the ground [m]",
         cel: "The higher the panels stand, the stronger the wind; I compute the peak wind pressure from this height.",
@@ -1538,6 +1550,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Вы выбираете направление вместо ввода азимута в градусах; приложение переводит его в азимут (север 0°, восток 90°, юг 180°, запад 270°). Юг даёт больше всего энергии зимой.",
         gdzie: "Компас в телефоне или карта: куда смотрит лицевая сторона панели (для крыши: в какую сторону опускается скат).",
         zakres: "Восемь направлений через 45°. Другой азимут можно задать в полном режиме.",
+      },
+      obcTypDachu: {
+        nazwa: "Тип ската, на котором лежат панели",
+        cel: "Для панелей, параллельных скату, ветер зависит от формы крыши. В Еврокоде есть отдельные таблицы для односкатной (7.3) и двускатной (7.4) крыши. Из них я беру внешнее давление ската в худшем поле и при худшем направлении ветра как верхнюю оценку.",
+        gdzie: "Выберите форму крыши, на которой лежат панели. Уклон ската — это угол наклона панелей с вкладки места.",
+        zakres: "Односкатная или двускатная крыша; уклон 5–75°. Без выбора ветер не считаю (снег считаю). Стены и плоские крыши не охвачены.",
       },
       obcWysokoscPaneli: {
         nazwa: "Высота верхнего края панелей над землёй [м]",

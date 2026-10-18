@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
 import { REV_NIEZMIENNY, zbudujWpisyPrecache, type WejsciePrecache } from '../precache'
-import { czyChunkTylkoOnline, czyWykluczonyStatyczny } from '../precache-build'
+import { czyChunkTylkoOnline, czyIlustracja, czyWykluczonyStatyczny } from '../precache-build'
 
 const wejscie = (zmiany: Partial<WejsciePrecache> = {}): WejsciePrecache => ({
   buildId: 'B1',
@@ -50,6 +50,13 @@ describe('exclusions (lib/pwa/precache-build.ts)', () => {
     expect(czyWykluczonyStatyczny('media/maplibre-gl-dev.abc.js')).toBe(true)
     expect(czyWykluczonyStatyczny('media/font.woff2')).toBe(false)
     expect(czyWykluczonyStatyczny('chunks/a.js')).toBe(false)
+  })
+
+  it('illustrations stay out of the precache; icons and the manifest assets stay in', () => {
+    expect(czyIlustracja('maskotki-bob/modul-03.webp')).toBe(true)
+    expect(czyIlustracja('ikony-3d/ikona-03.webp')).toBe(true)
+    expect(czyIlustracja('icon-192.png')).toBe(false)
+    expect(czyIlustracja('icon.svg')).toBe(false)
   })
 
   it('three.js chunk (3D view, online only) is recognised by content, not by name', () => {

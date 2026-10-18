@@ -1327,6 +1327,7 @@ export default function PorownywarkaPaneliPage() {
                 onObc={(zmiana) => setStan((prev) => ({ ...prev, obc: { ...(prev.obc ?? OBCIAZENIA_PUSTE), ...zmiana } }))}
                 wysokoscPodpowiedz={dane?.dane.meta.wysokoscNpmM}
                 nachylenieDeg={wejscie.miejsce?.nachylenieDeg ?? null}
+                montaz={miejsce.montaz}
               />
             )}
 

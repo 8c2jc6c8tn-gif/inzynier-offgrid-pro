@@ -9,6 +9,7 @@ import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bila
 import type { OsprzetScenariuszaInput } from "@/lib/core/modules/pv/porownywarka-paneli/osprzet-zestawu"
 import { PRZYKLADOWE_OKNA_TANIE_G12 } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import type { EkspozycjaTerenu, StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
+import type { TypDachu } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import type { KategoriaTerenu, StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { BilansGodzinowyInput, DaneElektryczne, DanePanelu, KryteriaWybor, ObciazeniePaneluKarta, OknoStrefy, PorownywarkaInput, WarunkiObciazen, WycenaKwh, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
@@ -59,6 +60,8 @@ export type ObciazeniaSeed = {
   kategoriaTerenu: string
   wysokoscKonstrukcji: string
   ekspozycjaSniegu: EkspozycjaTerenu
+  /** Roof type for panels parallel to the pitch (wind from Tables 7.3 / 7.4); "" = not chosen. Drafts saved before have no key (= ""). */
+  typDachu?: "" | TypDachu
 }
 
 /** Battery of the hourly balance (spec 34), as form texts: usable capacity [kWh] and cycle efficiency [%]; drafts saved before have no key (= both empty). */
@@ -98,6 +101,7 @@ export const OBCIAZENIA_PUSTE: ObciazeniaSeed = {
   kategoriaTerenu: "",
   wysokoscKonstrukcji: "",
   ekspozycjaSniegu: "normalny",
+  typDachu: "",
 }
 
 /** Miejsce instalacji (U19): własna nazwa, kąty (z projektu albo wpisane), liczba paneli albo wymiary miejsca. */
@@ -405,6 +409,7 @@ export function warunkiObciazenZFormularza(o: ObciazeniaSeed | undefined, montaz
     wysokoscKonstrukcjiM: liczba(o.wysokoscKonstrukcji) ?? null,
     ekspozycjaSniegu: o.ekspozycjaSniegu,
     montaz,
+    typDachu: o.typDachu === "jednospadowy" || o.typDachu === "dwuspadowy" ? o.typDachu : null,
   }
   const cokolwiek = warunki.strefaSniegowa !== null || warunki.strefaWiatrowa !== null || warunki.wysokoscNpmM !== null || warunki.kategoriaTerenu !== null || warunki.wysokoscKonstrukcjiM !== null
   return cokolwiek ? warunki : null

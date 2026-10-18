@@ -4,6 +4,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import type { StrefaSniegowa } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import { KATEGORIE_TERENU, type KategoriaTerenu } from "@/lib/core/modules/pv/eurokod-1/wiatr"
+import { TYPY_DACHU } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { ObciazeniaMiejsca, OcenaObciazenia, SytuacjaObciazenia } from "@/lib/core/modules/pv/porownywarka-paneli/obciazenia"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -47,8 +48,9 @@ export function ObciazeniaPaneli(p: {
   onObc: (zmiana: Partial<ObciazeniaSeed>) => void
   /** Wysokość miejsca z danych pogodowych (PVGIS) — tylko podpowiedź w polu, nigdy wartość ukryta. */
   wysokoscPodpowiedz: number | undefined
-  /** Montaż miejsca; wiatr liczę tylko dla paneli pochylonych na konstrukcji. */
   nachylenieDeg: number | null
+  /** Montaż miejsca: panele pochylone na konstrukcji (Tablica 7.6) albo równoległe do połaci (wybór rodzaju połaci, Tablice 7.3 i 7.4). */
+  montaz: "rownolegly" | "pochylony-na-konstrukcji"
 }) {
   const t = useTranslate()
   const m = p.miejsce
@@ -129,6 +131,21 @@ export function ObciazeniaPaneli(p: {
         onChange={(e) => p.onObc({ wysokoscKonstrukcji: e.target.value })}
         pomoc={<PomocPola ekran="porownywarka-paneli" pole="obcWysokoscPaneli" />}
       />
+      {p.montaz === "rownolegly" ? (
+        <PoleSelect
+          label={t("UI-PORP-OBC-F-TYP-DACHU")}
+          value={p.obc.typDachu ?? ""}
+          onChange={(e) => p.onObc({ typDachu: e.target.value as NonNullable<ObciazeniaSeed["typDachu"]> })}
+          pomoc={<PomocPola ekran="porownywarka-paneli" pole="obcTypDachu" />}
+        >
+          <option value="">{t("UI-WYBIERZ")}</option>
+          {TYPY_DACHU.map((typ) => (
+            <option key={typ} value={typ}>
+              {t(typ === "jednospadowy" ? "UI-PORP-OBC-TYP-DACHU-JEDNOSPADOWY" : "UI-PORP-OBC-TYP-DACHU-DWUSPADOWY")}
+            </option>
+          ))}
+        </PoleSelect>
+      ) : null}
       <p className="text-caption text-muted-foreground">{t("UI-PORP-OBC-STREFY-WSKAZOWKA")}</p>
 
       {m === null ? (
@@ -145,7 +162,7 @@ export function ObciazeniaPaneli(p: {
             )}
             {m.wiatr ? (
               <p>
-                {t("UI-PORP-OBC-WIATR-WYNIK", {
+                {t(m.wiatr.zrodloCp === "polac" ? "UI-PORP-OBC-WIATR-WYNIK-POLAC" : "UI-PORP-OBC-WIATR-WYNIK", {
                   qb: f0(m.wiatr.qbPa),
                   h: p.obc.wysokoscKonstrukcji,
                   ce: f2(m.wiatr.ceZ),
@@ -158,10 +175,10 @@ export function ObciazeniaPaneli(p: {
               </p>
             ) : (
               <p className="text-muted-foreground">
-                {m.powodBrakuWiatru === "montaz-rownolegly"
-                  ? t("UI-PORP-OBC-WIATR-ROWNOLEGLY")
+                {m.powodBrakuWiatru === "brak-typu-dachu"
+                  ? t("UI-PORP-OBC-WIATR-BRAK-TYPU")
                   : m.powodBrakuWiatru === "kat-poza-zakresem"
-                    ? t("UI-PORP-OBC-WIATR-KAT", { kat: p.nachylenieDeg === null ? "" : f0(p.nachylenieDeg) })
+                    ? t(p.montaz === "rownolegly" ? "UI-PORP-OBC-WIATR-KAT-POLAC" : "UI-PORP-OBC-WIATR-KAT", { kat: p.nachylenieDeg === null ? "" : f0(p.nachylenieDeg) })
                     : t("UI-PORP-OBC-WIATR-BRAK-DANYCH")}
               </p>
             )}
@@ -206,6 +223,7 @@ export function ObciazeniaPaneli(p: {
               </section>
             )
           })}
+          {m.wiatr?.zrodloCp === "polac" ? <p className="text-caption text-muted-foreground">{t("UI-PORP-OBC-NOTA-POLAC")}</p> : null}
           <p className="text-caption text-muted-foreground">{t("UI-PORP-OBC-NOTA")}</p>
         </>
       )}

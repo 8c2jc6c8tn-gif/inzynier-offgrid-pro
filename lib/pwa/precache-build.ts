@@ -26,6 +26,15 @@ export function czyWykluczonyStatyczny(sciezka: string): boolean {
 }
 
 /**
+ * Illustrations (Bob mascot, 3D icons) stay out of the precache: ~9 MB of already compressed WebP, over half
+ * of the first download (budget D61, owner's decision 18.10.2026, option B). The service worker caches them on
+ * first use (lib/pwa/sw-rdzen.js). `sciezka` is relative to `public/`.
+ */
+export function czyIlustracja(sciezka: string): boolean {
+  return sciezka.startsWith('maskotki-bob/') || sciezka.startsWith('ikony-3d/')
+}
+
+/**
  * Chunks left out by content, not by name (the hash changes every build).
  * three.js (3D view on the shading screen, components/lokalizacja/widok-3d.tsx,
  * ~0.9 MB): online only — owner's decision 30.09.2026 (SW stage 2). three.js
@@ -58,7 +67,9 @@ export function wczytajWpisyPrecache(korzen: string = process.cwd()): WpisPrecac
       !czyWykluczonyStatyczny(p) &&
       !(p.endsWith('.js') && czyChunkTylkoOnline(p, fs.readFileSync(path.join(next, 'static', p), 'utf8'))),
   )
-  const plikiPubliczne = plikiRekurencyjnie(publiczny).map((sciezka) => ({
+  const plikiPubliczne = plikiRekurencyjnie(publiczny)
+    .filter((sciezka) => !czyIlustracja(sciezka))
+    .map((sciezka) => ({
       sciezka,
       hash: createHash('sha256')
         .update(fs.readFileSync(path.join(publiczny, sciezka)))
