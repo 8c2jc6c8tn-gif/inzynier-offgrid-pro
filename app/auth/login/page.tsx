@@ -1,17 +1,21 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { signInWithApple, signInWithGoogle, signInWithMagicLink } from "./actions"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { rozpocznijLogowanieKluczem, zakonczLogowanieKluczem } from "@/lib/adapters/supabase/passkey-actions"
+import { potwierdzLogowanieKluczem, przegladarkaObslugujeKlucze } from "@/lib/adapters/supabase/passkey-przegladarka"
 
 /**
  * docs/standards/18-logowanie.md, 18.2 — trzej równorzędni dostawcy: magic link e-mail
  * (passwordless), Google, Apple. Żadnego pola hasła — magic link eliminuje "reset hasła"
- * jako kategorię w ogóle.
+ * jako kategorię w ogóle. Do tego klucz dostępu (passkey, D89): twarz, odcisk palca albo PIN
+ * urządzenia; przycisk pokazujemy tylko w przeglądarce, która go obsługuje, a klucz zakłada się
+ * w Ustawieniach po pierwszym zalogowaniu inną metodą.
  *
  * `useSearchParams` wymaga granicy Suspense przy prerenderingu (Next.js) — LoginPage niżej
  * jest tylko tym wrapperem, cała treść żyje w LoginForm.
@@ -32,6 +36,36 @@ function LoginForm() {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
   const [error, setError] = useState<string | null>(null)
+  // Wykrycie po zamontowaniu, żeby HTML z serwera i pierwszy render w przeglądarce były zgodne.
+  const [kluczeDostepne, setKluczeDostepne] = useState(false)
+  const [kluczBlad, setKluczBlad] = useState<string | null>(null)
+  const [kluczTrwa, setKluczTrwa] = useState(false)
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- wynik zależy od API przeglądarki, niedostępnego przy renderze serwerowym
+    setKluczeDostepne(przegladarkaObslugujeKlucze())
+  }, [])
+
+  async function handlePasskey() {
+    setKluczTrwa(true)
+    setKluczBlad(null)
+    const start = await rozpocznijLogowanieKluczem()
+    if ("errorKey" in start) {
+      setKluczBlad(start.errorKey)
+      setKluczTrwa(false)
+      return
+    }
+    const ceremonia = await potwierdzLogowanieKluczem(start.options)
+    if (!ceremonia.ok) {
+      setKluczBlad(ceremonia.errorKey)
+      setKluczTrwa(false)
+      return
+    }
+    // Sukces kończy się przekierowaniem z poziomu Server Action; wracamy tu tylko z błędem.
+    const wynik = await zakonczLogowanieKluczem(start.challengeId, ceremonia.credential, next)
+    if (wynik?.errorKey) setKluczBlad(wynik.errorKey)
+    setKluczTrwa(false)
+  }
 
   async function handleMagicLink(formData: FormData) {
     setStatus("sending")
@@ -53,6 +87,14 @@ function LoginForm() {
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-3">
+        {kluczeDostepne && (
+          <div className="flex flex-col gap-1">
+            <Button size="lg" onClick={handlePasskey} disabled={kluczTrwa}>
+              {kluczTrwa ? t("UI-LOG-KLUCZ-OCZEKIWANIE") : t("UI-LOG-ZALOGUJ-KLUCZEM")}
+            </Button>
+            {kluczBlad && <p className="text-small text-destructive">{t(kluczBlad)}</p>}
+          </div>
+        )}
         <Button
           variant="outline"
           size="lg"

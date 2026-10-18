@@ -35,7 +35,7 @@ import path from "node:path"
 
 const ROOT = process.cwd()
 const ZAKRES = ["lib/", "app/", "components/"]
-const NIE_I18N = new Set(["storageKey", "cacheKey", "apiKey", "sortKey", "queryKey", "idempotencyKey", "rowKey", "supabaseKey"])
+const NIE_I18N = new Set(["storageKey", "cacheKey", "apiKey", "sortKey", "queryKey", "idempotencyKey", "rowKey", "supabaseKey", "publicKey"])
 /**
  * Explicit exceptions for values not computable statically: `${file}::${expression text}` →
  * { powod, klucze }. The keys the value can take are listed by hand and STILL checked against

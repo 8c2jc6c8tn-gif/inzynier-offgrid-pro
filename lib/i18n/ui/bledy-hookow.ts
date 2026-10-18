@@ -23,6 +23,16 @@ export const pl = {
   "UI-ASYAI-BLAD-ODMOWA": "Asystent odmówił odpowiedzi na to pytanie.",
   "UI-ASYAI-BLAD-ZA-DLUGO": "Asystent nie zakończył odpowiedzi w rozsądnej liczbie kroków — spróbuj zadać pytanie prościej.",
   "UI-ASYAI-BLAD-OGOLNY": "Asystent AI napotkał błąd — spróbuj ponownie.",
+  "UI-BLAD-PASSKEY-NIESKONFIGUROWANE": "Logowanie kluczem dostępu nie jest jeszcze skonfigurowane.",
+  "UI-BLAD-PASSKEY-WYLACZONE": "Klucze dostępu nie są jeszcze włączone w ustawieniach usługi logowania.",
+  "UI-BLAD-PASSKEY-NIEOBSLUGIWANE": "Ta przeglądarka nie obsługuje kluczy dostępu.",
+  "UI-BLAD-PASSKEY-ANULOWANO": "Potwierdzenie na urządzeniu zostało anulowane albo nie doszło do skutku. Spróbuj ponownie.",
+  "UI-BLAD-PASSKEY-CEREMONIA": "Urządzenie nie dokończyło potwierdzenia. Spróbuj ponownie albo użyj linku z e-maila.",
+  "UI-BLAD-PASSKEY-LOGOWANIE": "Nie udało się zalogować kluczem dostępu. Spróbuj ponownie albo użyj linku z e-maila.",
+  "UI-BLAD-PASSKEY-REJESTRACJA": "Nie udało się dodać klucza dostępu. Spróbuj ponownie.",
+  "UI-BLAD-PASSKEY-LIMIT": "Osiągnięto największą liczbę kluczy dostępu na koncie. Usuń niepotrzebny klucz i spróbuj ponownie.",
+  "UI-BLAD-PASSKEY-LISTA": "Nie udało się wczytać kluczy dostępu.",
+  "UI-BLAD-PASSKEY-USUWANIE": "Nie udało się usunąć klucza dostępu.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -47,6 +57,16 @@ export const en: Record<Klucz, string> = {
   "UI-ASYAI-BLAD-ODMOWA": "The assistant declined to answer this question.",
   "UI-ASYAI-BLAD-ZA-DLUGO": "The assistant did not finish within a reasonable number of steps — try asking a simpler question.",
   "UI-ASYAI-BLAD-OGOLNY": "The AI assistant ran into an error — try again.",
+  "UI-BLAD-PASSKEY-NIESKONFIGUROWANE": "Passkey sign-in is not configured yet.",
+  "UI-BLAD-PASSKEY-WYLACZONE": "Passkeys are not enabled yet in the sign-in service settings.",
+  "UI-BLAD-PASSKEY-NIEOBSLUGIWANE": "This browser does not support passkeys.",
+  "UI-BLAD-PASSKEY-ANULOWANO": "The confirmation on the device was cancelled or did not complete. Try again.",
+  "UI-BLAD-PASSKEY-CEREMONIA": "The device did not finish the confirmation. Try again or use the e-mail link.",
+  "UI-BLAD-PASSKEY-LOGOWANIE": "Could not sign in with a passkey. Try again or use the e-mail link.",
+  "UI-BLAD-PASSKEY-REJESTRACJA": "Could not add the passkey. Try again.",
+  "UI-BLAD-PASSKEY-LIMIT": "The maximum number of passkeys for this account has been reached. Remove one you no longer need and try again.",
+  "UI-BLAD-PASSKEY-LISTA": "Could not load your passkeys.",
+  "UI-BLAD-PASSKEY-USUWANIE": "Could not remove the passkey.",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -69,4 +89,14 @@ export const ru: Record<Klucz, string> = {
   "UI-ASYAI-BLAD-ODMOWA": "Ассистент отказался отвечать на этот вопрос.",
   "UI-ASYAI-BLAD-ZA-DLUGO": "Ассистент не завершил ответ за разумное число шагов — задайте вопрос проще.",
   "UI-ASYAI-BLAD-OGOLNY": "ИИ-ассистент столкнулся с ошибкой — повторите попытку.",
+  "UI-BLAD-PASSKEY-NIESKONFIGUROWANE": "Вход по ключу доступа ещё не настроен.",
+  "UI-BLAD-PASSKEY-WYLACZONE": "Ключи доступа ещё не включены в настройках сервиса входа.",
+  "UI-BLAD-PASSKEY-NIEOBSLUGIWANE": "Этот браузер не поддерживает ключи доступа.",
+  "UI-BLAD-PASSKEY-ANULOWANO": "Подтверждение на устройстве отменено или не завершено. Попробуйте ещё раз.",
+  "UI-BLAD-PASSKEY-CEREMONIA": "Устройство не завершило подтверждение. Попробуйте ещё раз или воспользуйтесь ссылкой из письма.",
+  "UI-BLAD-PASSKEY-LOGOWANIE": "Не удалось войти с ключом доступа. Попробуйте ещё раз или воспользуйтесь ссылкой из письма.",
+  "UI-BLAD-PASSKEY-REJESTRACJA": "Не удалось добавить ключ доступа. Попробуйте ещё раз.",
+  "UI-BLAD-PASSKEY-LIMIT": "Достигнуто максимальное число ключей доступа для аккаунта. Удалите ненужный ключ и попробуйте ещё раз.",
+  "UI-BLAD-PASSKEY-LISTA": "Не удалось загрузить ключи доступа.",
+  "UI-BLAD-PASSKEY-USUWANIE": "Не удалось удалить ключ доступа.",
 }

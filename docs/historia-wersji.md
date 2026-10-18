@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.31.0] — 18.10.2026
+
+Klucze dostępu (passkey) jako dodatkowa metoda logowania (D89):
+- na ekranie logowania nowy przycisk „Zaloguj się kluczem dostępu (twarz lub odcisk palca)”; pokazuje się tylko w przeglądarce obsługującej WebAuthn, a logowanie linkiem e-mail, Google i Apple działa jak dotąd,
+- w Ustawieniach, w sekcji „Konto”, nowa podsekcja „Klucze dostępu”: lista kluczy konta (data dodania i ostatniego użycia), dodanie klucza na tym urządzeniu i usunięcie klucza; klucz zakłada się po zalogowaniu inną metodą,
+- weryfikacją i przechowywaniem kluczy publicznych zajmuje się Supabase Auth (funkcja oznaczona przez dostawcę jako eksperymentalna); aplikacja woła ją tylko z serwera, więc sesja nadal siedzi wyłącznie w ciasteczku `HttpOnly`, bez klienta Supabase w przeglądarce,
+- tłumaczenia PL/EN/RU, testy akcji serwerowych i warstwy przeglądarkowej,
+- do uruchomienia potrzebne są kroki po stronie właściciela (włączenie kluczy dostępu w projekcie Supabase, domena aplikacji); do tego czasu przycisk po kliknięciu pokazuje komunikat, a reszta logowania działa bez zmian.
+
+Wpływ na liczby: brak — nowa metoda logowania, bez zmian w obliczeniach i w formacie zapisów użytkownika.
+
 ## [3.30.2] — 17.10.2026
 
 Dokumentacja: ocena ustawień BMS i plan ekranu zestawów JK (bez zmian w kodzie aplikacji):
