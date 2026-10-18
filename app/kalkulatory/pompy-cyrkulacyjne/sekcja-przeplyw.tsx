@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -68,7 +68,7 @@ export function SekcjaPrzeplyw() {
         <p className="text-small text-muted-foreground">{t("UI-M6D-PRZ-UZUPELNIJ")}</p>
       ) : (
         <WerdyktPanel
-          poziom={stop ? "blad" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
+          poziom={stop ? "blad" : poziomOstrzezen(result.status)}
           etykieta={t(stop ? "UI-M6D-PRZ-W-STOP" : "UI-M6D-PRZ-W-OK")}
         >
           <WynikGlowny>{t("UI-M6D-PRZ-WYNIK", { m3h: r2(v.wymaganyM3H), lmin: r1(v.wymaganyLMin) })}</WynikGlowny>

@@ -8,8 +8,9 @@
  * `${...}` substitution written as `{p1}`, `{p2}`, ... (numbered in order of appearance).
  *
  *   node scripts/generuj-formuly.mjs            check only, exit 1 on any problem (also run by the Vitest test)
- *   node scripts/generuj-formuly.mjs --write    repair `pl` entries that drifted and add keys the modules use but
- *                                               the dictionary lacks (PL text copied into en/ru as a DRAFT to translate)
+ *   node scripts/generuj-formuly.mjs --write    repair `pl` entries that drifted and add keys the modules use but the
+ *                                               dictionary lacks; en/ru get the PL text prefixed with "⚠ " (a visible
+ *                                               draft marker) and the check FAILS (NIEPRZETŁUMACZONY) until it is translated
  *
  * Pairing of a key with its literal (TypeScript AST, no regexes over source):
  *   (1) an object literal with both `formula: <literal>` and `formulaKey: "UI-FORMULA-..."`;
@@ -20,7 +21,9 @@
  *
  * Problems detected: DRIFT (dictionary differs from module), BRAK (module uses a key missing in the dictionary),
  * NIEUŻYWANY (dictionary key no module uses), NIESPARZONY, ZNAK_STERUJĄCY (a control character in a formula, almost
- * always `"\times"` written with one backslash: it is a TAB followed by "imes"), BRAK_EN_RU (a locale lacks the key).
+ * always `"\times"` written with one backslash: it is a TAB followed by "imes"), BRAK_EN_RU (a locale lacks the key),
+ * NIEPRZETŁUMACZONY (an en/ru value still starts with the draft marker "⚠ "). A key used in several modules is
+ * compared in every one of them.
  */
 import { createRequire } from "node:module"
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs"
@@ -36,6 +39,7 @@ const SLOWNIK = path.join(ROOT, "lib/i18n/ui/formuly.ts")
 const PREFIKS = /^UI-FORMULA-[A-Z0-9-]+$/
 const DYNAMICZNE = /-STAWKI$/
 const STERUJACE = /[\u0000-\u001f]/
+const SZKIC = "⚠ "
 
 function pliki(dir) {
   return readdirSync(dir).flatMap((n) => {
@@ -80,8 +84,10 @@ const nazwa = (p) => (p.name && (ts.isIdentifier(p.name) || ts.isStringLiteral(p
 export function zbierzZModulow() {
   const uzycia = new Map()
   const dodaj = (klucz, plik, wartosc, jak) => {
-    const stare = uzycia.get(klucz)
-    if (!stare || (stare.tekst === null && wartosc !== null)) uzycia.set(klucz, { plik, tekst: wartosc, jak })
+    const lista = uzycia.get(klucz) ?? []
+    // the same call can be seen twice (object and call shape); keep one entry per file + text
+    if (!lista.some((u) => u.plik === plik && u.tekst === wartosc)) lista.push({ plik, tekst: wartosc, jak })
+    uzycia.set(klucz, lista)
   }
   for (const plik of pliki(MODULES)) {
     const src = readFileSync(plik, "utf8")
@@ -108,12 +114,13 @@ export function zbierzZModulow() {
       }
       if (ts.isCallExpression(n)) {
         const klucz = n.arguments.find((a) => ts.isStringLiteral(a) && PREFIKS.test(a.text))
-        const id = n.arguments.find((a) => ts.isIdentifier(a) && rozwiaz(a.text, n, stale))
+        // the argument that is the formula: the identifier whose `const` is a plain literal (not just any `const`)
+        const id = n.arguments.find((a) => ts.isIdentifier(a) && rozwiaz(a.text, n, stale) && tekst(rozwiaz(a.text, n, stale)) !== null)
         if (klucz && id) dodaj(klucz.text, plik, tekst(rozwiaz(id.text, n, stale)), "wywołanie")
       }
       ts.forEachChild(n, odwiedz)
     })
-    for (const k of widziane) if (!uzycia.has(k)) uzycia.set(k, { plik, tekst: null, jak: "niesparowany" })
+    for (const k of widziane) if (!uzycia.has(k)) uzycia.set(k, [{ plik, tekst: null, jak: "niesparowany" }])
   }
   return uzycia
 }
@@ -123,6 +130,7 @@ export function wczytajSlownik() {
   const src = readFileSync(SLOWNIK, "utf8")
   const sf = ts.createSourceFile(SLOWNIK, src, ts.ScriptTarget.Latest, true)
   const wynik = {}
+  const wezly = {}
   for (const s of sf.statements) {
     if (!ts.isVariableStatement(s)) continue
     for (const d of s.declarationList.declarations) {
@@ -133,54 +141,66 @@ export function wczytajSlownik() {
       wynik[d.name.text] = Object.fromEntries(
         obj.properties.filter((p) => ts.isPropertyAssignment(p) && ts.isStringLiteral(p.initializer)).map((p) => [nazwa(p), p.initializer.text]),
       )
+      wezly[d.name.text] = { obj, wlasciwosci: new Map(obj.properties.filter((p) => ts.isPropertyAssignment(p)).map((p) => [nazwa(p), p])) }
     }
   }
-  return { src, ...wynik }
+  return { src, wezly, ...wynik }
 }
 
 export function sprawdz() {
   const uzycia = zbierzZModulow()
   const { pl, en, ru } = wczytajSlownik()
   const problemy = []
-  for (const [klucz, u] of [...uzycia].sort(([a], [b]) => a.localeCompare(b))) {
-    const rel = path.relative(ROOT, u.plik)
-    if (!(klucz in pl)) problemy.push({ rodzaj: "BRAK", klucz, plik: rel, nowy: u.tekst })
-    else if (DYNAMICZNE.test(klucz)) continue
-    else if (u.tekst === null) problemy.push({ rodzaj: "NIESPARZONY", klucz, plik: rel })
-    else if (pl[klucz] !== u.tekst) problemy.push({ rodzaj: "DRIFT", klucz, plik: rel, nowy: u.tekst, stary: pl[klucz] })
-    if (u.tekst !== null && STERUJACE.test(u.tekst)) problemy.push({ rodzaj: "ZNAK_STERUJĄCY", klucz, plik: rel })
-    for (const [jezyk, s] of [["EN", en], ["RU", ru]]) if (klucz in pl && !(klucz in s)) problemy.push({ rodzaj: "BRAK_EN_RU", klucz, plik: `${jezyk} w słowniku` })
+  for (const [klucz, lista] of [...uzycia].sort(([x], [y]) => x.localeCompare(y))) {
+    if (!(klucz in pl)) {
+      const u = lista.find((x) => x.tekst !== null) ?? lista[0]
+      problemy.push({ rodzaj: "BRAK", klucz, plik: path.relative(ROOT, u.plik), nowy: u.tekst })
+    } else if (!DYNAMICZNE.test(klucz)) {
+      if (lista.every((u) => u.tekst === null)) problemy.push({ rodzaj: "NIESPARZONY", klucz, plik: path.relative(ROOT, lista[0].plik) })
+      for (const u of lista) {
+        if (u.tekst !== null && pl[klucz] !== u.tekst) problemy.push({ rodzaj: "DRIFT", klucz, plik: path.relative(ROOT, u.plik), nowy: u.tekst, stary: pl[klucz] })
+      }
+    }
+    for (const u of lista) if (u.tekst !== null && STERUJACE.test(u.tekst)) problemy.push({ rodzaj: "ZNAK_STERUJĄCY", klucz, plik: path.relative(ROOT, u.plik) })
+    for (const [jezyk, s] of [["EN", en], ["RU", ru]]) {
+      if (klucz in pl && !(klucz in s)) problemy.push({ rodzaj: "BRAK_EN_RU", klucz, plik: `${jezyk} w słowniku` })
+    }
   }
   for (const klucz of Object.keys(pl)) if (!uzycia.has(klucz)) problemy.push({ rodzaj: "NIEUŻYWANY", klucz, plik: path.relative(ROOT, SLOWNIK) })
   for (const [jezyk, s] of [["pl", pl], ["en", en], ["ru", ru]]) {
-    for (const [klucz, wartosc] of Object.entries(s)) if (STERUJACE.test(wartosc)) problemy.push({ rodzaj: "ZNAK_STERUJĄCY", klucz, plik: `${jezyk} w słowniku` })
+    for (const [klucz, wartosc] of Object.entries(s)) {
+      if (STERUJACE.test(wartosc)) problemy.push({ rodzaj: "ZNAK_STERUJĄCY", klucz, plik: `${jezyk} w słowniku` })
+      if (jezyk !== "pl" && wartosc.startsWith(SZKIC)) problemy.push({ rodzaj: "NIEPRZETŁUMACZONY", klucz, plik: `${jezyk} w słowniku` })
+    }
   }
   return { problemy, kluczy: uzycia.size }
 }
 
+/** Edits by AST positions (not by searching for braces): drifted `pl` values are replaced in place, new keys are appended to each of the three objects. */
 function napraw(problemy) {
-  let src = readFileSync(SLOWNIK, "utf8")
-  const linia = (k, w) => `  ${JSON.stringify(k)}: ${JSON.stringify(w)},`
+  const { src, wezly } = wczytajSlownik()
+  const edycje = []
   const poprawione = []
   for (const p of problemy.filter((x) => x.rodzaj === "DRIFT")) {
-    const re = new RegExp(`^  ${JSON.stringify(p.klucz).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}: .*,$`, "m")
-    const m = re.exec(src) // the first occurrence is the `pl` object (it is declared first)
-    if (!m) continue
-    src = src.slice(0, m.index) + linia(p.klucz, p.nowy) + src.slice(m.index + m[0].length)
+    const w = wezly.pl.wlasciwosci.get(p.klucz)
+    if (!w || poprawione.includes(p.klucz)) continue
+    edycje.push({ start: w.initializer.getStart(), end: w.initializer.getEnd(), text: JSON.stringify(p.nowy) })
     poprawione.push(p.klucz)
   }
-  const nowe = problemy.filter((x) => x.rodzaj === "BRAK" && x.nowy !== null)
+  const nowe = []
+  for (const p of problemy.filter((x) => x.rodzaj === "BRAK" && x.nowy !== null)) if (!nowe.some((x) => x.klucz === p.klucz)) nowe.push(p)
   if (nowe.length > 0) {
-    // closing brace of each of the three objects: the `}` lines at column 0 that end `pl`, `en`, `ru`
-    const koniec = [...src.matchAll(/^\}( as const)?\s*$/gm)].slice(0, 3)
-    if (koniec.length === 3) {
-      for (const m of koniec.reverse()) {
-        const blok = nowe.map((p) => linia(p.klucz, p.nowy)).join("\n") + "\n"
-        src = src.slice(0, m.index) + (m === koniec[2] ? "" : "") + blok + src.slice(m.index)
-      }
+    for (const jezyk of ["pl", "en", "ru"]) {
+      const { obj } = wezly[jezyk]
+      const ostatnia = obj.properties[obj.properties.length - 1]
+      const koniec = obj.properties.hasTrailingComma ? obj.properties.end : ostatnia.getEnd()
+      const linie = nowe.map((p) => `  ${JSON.stringify(p.klucz)}: ${JSON.stringify(jezyk === "pl" ? p.nowy : SZKIC + p.nowy)},`).join("\n")
+      edycje.push({ start: koniec, end: koniec, text: (obj.properties.hasTrailingComma ? "" : ",") + "\n" + linie })
     }
   }
-  writeFileSync(SLOWNIK, src)
+  let out = src
+  for (const e of edycje.sort((x, y) => y.start - x.start)) out = out.slice(0, e.start) + e.text + out.slice(e.end)
+  writeFileSync(SLOWNIK, out)
   return { poprawione, dodane: nowe.map((p) => p.klucz) }
 }
 
@@ -188,7 +208,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const { problemy, kluczy } = sprawdz()
   if (process.argv.includes("--write")) {
     const { poprawione, dodane } = napraw(problemy)
-    console.log(`formuly: poprawiono ${poprawione.length} wpisów PL, dodano ${dodane.length} nowych kluczy (EN/RU = szkic z PL do przetłumaczenia).`)
+    console.log(`formuly: poprawiono ${poprawione.length} wpisów PL, dodano ${dodane.length} nowych kluczy (EN/RU = tekst PL ze znacznikiem „⚠ ” do przetłumaczenia; sprawdzenie nie przejdzie, dopóki znacznik jest).`)
     const reszta = sprawdz().problemy
     for (const p of reszta) console.log(`  ${p.rodzaj}  ${p.klucz}  (${p.plik})`)
     process.exit(reszta.length === 0 ? 0 : 1)

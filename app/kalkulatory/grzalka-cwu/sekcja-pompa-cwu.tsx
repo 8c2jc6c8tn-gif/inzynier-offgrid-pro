@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -72,7 +72,7 @@ export function SekcjaPompaCwu({ pojemnoscL, tStartC, tKoniecC, mocGrzalkiKw, mo
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">{t("UI-M6D-CWP-UZUPELNIJ")}</p>
       ) : (
-        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta={t("UI-M6D-CWP-W-OK")}>
+        <WerdyktPanel poziom={poziomOstrzezen(result.status)} etykieta={t("UI-M6D-CWP-W-OK")}>
           <WynikGlowny>{t("UI-M6D-CWP-WYNIK", { kwh: r2(v.energiaPompaKwh), h: r2(v.czasPompaH) })}</WynikGlowny>
           {v.cieploGrzalkaKwh > 0 && (
             <p className="mt-1 text-small">

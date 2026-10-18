@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useMemo, useState } from "react"
@@ -135,7 +136,7 @@ export default function AnalizaZacienieniaPage() {
       k += grupa.length
       return podsumujPowierzchnie(grupa.map((x) => x.punkt!), wyniki)
     })
-    const pierwszy = r.wyniki.find((x) => x.status === "VALID" || x.status === "VALID_WITH_WARNINGS")
+    const pierwszy = r.wyniki.find((x) => isComputed(x.status))
     const warnings = [...new Map(r.wyniki.flatMap((x) => x.warnings).map((x) => [x.code + JSON.stringify(x.params ?? {}), x])).values()]
     setWynikE3({
       klucz,

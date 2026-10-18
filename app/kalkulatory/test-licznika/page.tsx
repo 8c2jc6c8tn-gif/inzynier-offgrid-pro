@@ -1,5 +1,7 @@
 "use client"
 
+import type { Language } from "@/lib/i18n/language"
+import { formatujLiczbe } from "@/lib/i18n/liczby"
 import { useMemo, useState } from "react"
 import { calculateTestLicznika } from "@/lib/core/modules/siec/test-licznika/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -36,7 +38,7 @@ type Pismo = {
  */
 type Tlumacz = (kod: string, params?: Record<string, string | number>) => string
 
-function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): string {
+function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: Language): string {
   const linie = [
     p.miejscowoscData,
     "",
@@ -52,7 +54,7 @@ function trescPisma(t: Tlumacz, p: Pismo, mocKw: number | null, jezyk: string): 
     "",
     p.opis,
     mocKw !== null
-      ? t("UI-TESLIC-PISMO-MOC", { moc: mocKw.toLocaleString(jezyk, { maximumFractionDigits: 3 }) })
+      ? t("UI-TESLIC-PISMO-MOC", { moc: formatujLiczbe(mocKw, jezyk, { maximumFractionDigits: 3 }) })
       : "",
     "",
     p.zadanie ?? t("UI-TESLIC-PISMO-ZADANIE-DOMYSLNE"),

@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import { useMemo, useState } from "react"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -146,7 +147,7 @@ export default function OdstepRzedowPage() {
   if (!wczytano) return <StanLadowania linie={6} />
 
   const v = result.value
-  const wynikGotowy = result.status === "VALID" || result.status === "VALID_WITH_WARNINGS"
+  const wynikGotowy = isComputed(result.status)
 
   function wybierzPowierzchnie(id: string) {
     const p = powierzchnie.find((x) => x.id === id)

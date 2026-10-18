@@ -1,10 +1,11 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import { useMemo } from "react"
 import { calculatePolaczeniaElektryczne } from "@/lib/core/modules/montaz-baterii/polaczenia-elektryczne/calculator"
 import { CHECKLIST_ITEMS, OSTRZEZENIA_STALE } from "@/lib/core/modules/montaz-baterii/polaczenia-elektryczne/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { WerdyktPanel, type WerdyktPoziom, poziomZStatusu } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { ListaChecklist } from "@/components/wzorce/lista-checklist"
@@ -115,7 +116,7 @@ export default function PolaczeniaElektrycznePage() {
   }
 
   const poziom: WerdyktPoziom | null =
-    result.status === "VALID" ? "ok" : result.status === "VALID_WITH_WARNINGS" ? "uwaga" : null
+    isComputed(result.status) ? poziomZStatusu(result.status) : null
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

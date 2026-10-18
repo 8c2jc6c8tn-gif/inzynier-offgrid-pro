@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import { useMemo } from "react"
 import { calculateKatalogUrzadzen } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen/calculator"
 import { KATALOG_URZADZEN_STANDBY } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/katalog-urzadzen/constants"
@@ -102,8 +103,8 @@ export default function WampiryEnergetycznePage() {
   const pomiarResult = useMemo(() => calculatePomiarMocyJalowej(stan.pomiar), [stan.pomiar])
 
   const sumaStandbyW =
-    (katalogResult.status === "VALID" || katalogResult.status === "VALID_WITH_WARNINGS" ? katalogResult.value.sumaW : 0) +
-    (pomiarResult.status === "VALID" || pomiarResult.status === "VALID_WITH_WARNINGS" ? pomiarResult.value.sumaW : 0)
+    (isComputed(katalogResult.status) ? katalogResult.value.sumaW : 0) +
+    (isComputed(pomiarResult.status) ? pomiarResult.value.sumaW : 0)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

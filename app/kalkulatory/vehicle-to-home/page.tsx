@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import { calculateVehicleToHome } from "@/lib/core/modules/baterie/vehicle-to-home/calculator"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
@@ -145,7 +145,7 @@ export default function VehicleToHomePage() {
         <p className="text-small text-muted-foreground">{t("UI-VEHTOHOM-WYPELNIJ-WSZYSTKIE-POLA")}</p>
       ) : (
         <WerdyktPanel
-          poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"}
+          poziom={poziomOstrzezen(result.status)}
           etykieta={t("UI-VEHTOHOM-REALNIE-DOSTEPNA-POJEMNOSC")}
         >
           <WynikGlowny>{result.value.pojemnoscRealnaKwh.toFixed(1)} kWh</WynikGlowny>

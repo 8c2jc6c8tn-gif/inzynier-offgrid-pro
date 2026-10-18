@@ -1,5 +1,6 @@
 "use client"
 
+import { formatujLiczbe, formatujDate } from "@/lib/i18n/liczby"
 import { useEffect, useSyncExternalStore } from "react"
 import { createPortal } from "react-dom"
 import { EdytorProfiluFirmy } from "@/components/firma/edytor-profilu-firmy"
@@ -231,9 +232,9 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
   const warunki = (stan.ofertaWarunki ?? "").trim()
   const montazWynik = policzMontaz(stan.ofertaMontazNetto, stan.ofertaMontazVat)
   const montaz = montazWynik.rodzaj === "ok" ? montazWynik.montaz : null
-  const kwota = (x: number) => `${x.toLocaleString(jezyk, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${dane.waluta}`
+  const kwota = (x: number) => `${formatujLiczbe(x, jezyk, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${dane.waluta}`
   const podsumowanie = dane.podsumowanie
-  const data = new Date().toLocaleDateString(jezyk)
+  const data = formatujDate(new Date(), jezyk)
   const liniaFirmy = linieKontaktuFirmy(firma, t("UI-FIRMA-NIP"))
   const nazwaFirmy = firma.nazwa.trim()
   const naglowekWersji = (w: WersjaOferty) =>
@@ -361,7 +362,7 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
                   <p>{t("UI-PORP-OF-MONTAZ-NETTO-LINIA", { kwota: kwota(montaz.nettoKwota) })}</p>
                   {montaz.vatPct !== null && montaz.vatKwota !== null && montaz.bruttoKwota !== null ? (
                     <>
-                      <p>{t("UI-PORP-OF-MONTAZ-VAT-LINIA", { stawka: montaz.vatPct.toLocaleString(jezyk), kwota: kwota(montaz.vatKwota) })}</p>
+                      <p>{t("UI-PORP-OF-MONTAZ-VAT-LINIA", { stawka: formatujLiczbe(montaz.vatPct, jezyk), kwota: kwota(montaz.vatKwota) })}</p>
                       <p className="font-medium">{t("UI-PORP-OF-MONTAZ-BRUTTO-LINIA", { kwota: kwota(montaz.bruttoKwota) })}</p>
                     </>
                   ) : (
@@ -411,7 +412,7 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
                 <ul className="list-disc pl-5 text-neutral-700">
                   <li>{t("UI-PORP-OF-SLAD-APP", { wersja: wersjaZeZnacznikiem() })}</li>
                   <li>{t("UI-PORP-OF-SLAD-SILNIK", { wersja: CALCULATOR_VERSION })}</li>
-                  {dane.pogodaPobrano && <li>{t("UI-PORP-OF-SLAD-POGODA", { data: new Date(dane.pogodaPobrano).toLocaleDateString(jezyk) })}</li>}
+                  {dane.pogodaPobrano && <li>{t("UI-PORP-OF-SLAD-POGODA", { data: formatujDate(new Date(dane.pogodaPobrano), jezyk) })}</li>}
                   {podsumowanie && sekcjeUrzadzenia.length > 0 && <li>{t("UI-PORP-OF-SLAD-KATALOG", { data: podsumowanie.urzadzenie.dataOdczytu })}</li>}
                   {pokazBos && <li>{t("UI-PORP-OF-SLAD-CENNIK", { data: DATA_CENNIKA_BOS })}</li>}
                 </ul>

@@ -10,7 +10,6 @@ import type { SkladowaId } from "@/lib/core/modules/stress-test/wspolczynnik-bez
 import type { WspolczynnikResult } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/calculator"
 import type { WspolczynnikInput } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/input"
 
-const uzyteczny = (status: CalcResult<unknown>["status"]) => isComputed(status)
 
 export type CzescRaportu = "symulacja" | "deficyty" | "blackout" | "wspolczynnik"
 
@@ -53,9 +52,9 @@ export type Raport = {
 }
 
 export function zbudujRaport(d: DaneRaportu): Raport {
-  const sym = d.symulacja && uzyteczny(d.symulacja.status) && d.symulacja.value.scenariusze.length > 0 ? d.symulacja.value : null
-  const def = d.deficyty && uzyteczny(d.deficyty.status) ? d.deficyty.value : null
-  const wsp = d.wspolczynnik && uzyteczny(d.wspolczynnik.wynik.status) ? d.wspolczynnik : null
+  const sym = d.symulacja && isComputed(d.symulacja.status) && d.symulacja.value.scenariusze.length > 0 ? d.symulacja.value : null
+  const def = d.deficyty && isComputed(d.deficyty.status) ? d.deficyty.value : null
+  const wsp = d.wspolczynnik && isComputed(d.wspolczynnik.wynik.status) ? d.wspolczynnik : null
 
   const symulacja: Raport["symulacja"] = sym
     ? {

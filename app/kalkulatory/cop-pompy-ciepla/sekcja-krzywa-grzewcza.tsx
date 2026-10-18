@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { WerdyktPanel } from "@/components/werdykt"
+import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -78,7 +78,7 @@ export function SekcjaKrzywaGrzewcza() {
       ) : result.status === "INCOMPLETE" ? (
         <p className="text-small text-muted-foreground">{t("UI-M6D-KRZ-UZUPELNIJ")}</p>
       ) : (
-        <WerdyktPanel poziom={result.status === "VALID_WITH_WARNINGS" ? "uwaga" : "ok"} etykieta={t("UI-M6D-KRZ-W-OK")}>
+        <WerdyktPanel poziom={poziomOstrzezen(result.status)} etykieta={t("UI-M6D-KRZ-W-OK")}>
           <WynikGlowny>{t("UI-M6D-KRZ-WYNIK", { t: stan.tOceny, z: r1(v.zasilanieC), n: r2(v.nachylenie) })}</WynikGlowny>
           <ul className="mt-2 flex flex-col gap-1 text-small">
             {v.zasilanieNoweC !== null && v.obnizenieK !== null && (

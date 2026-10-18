@@ -35,11 +35,11 @@ describe("no hardcoded pl-PL number formatting in screens", () => {
       return /\.tsx?$/.test(n) && !/\.test\./.test(n) ? [p] : []
     })
 
-  it('does not call toLocaleString("pl-PL") / toLocaleDateString("pl-PL") outside the allow-list (use useFormatLiczby / formatujDate)', () => {
+  it("does not call toLocale(Date|Time)String with a hardcoded locale or a raw language code, nor Intl.NumberFormat with a literal locale (use useFormatLiczby / formatujLiczbe / formatujDate)", () => {
     const trafienia = ["lib", "app", "components"]
       .flatMap((d) => pliki(path.join(root, d)))
       .filter((p) => !DOZWOLONE.includes(path.relative(root, p)))
-      .filter((p) => /toLocale(?:Date)?String\(\s*["']pl-PL["']/.test(readFileSync(p, "utf8")))
+      .filter((p) => /toLocale(?:Date|Time)?String\(\s*(?:["'][a-z]{2}(?:-[A-Z]{2})?["']|jezyk\b|language\b)|new Intl\.NumberFormat\(\s*["']/.test(readFileSync(p, "utf8")))
       .map((p) => path.relative(root, p))
     expect(trafienia).toEqual([])
   })

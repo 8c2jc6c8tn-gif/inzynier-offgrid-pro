@@ -1,5 +1,6 @@
 "use client"
 
+import { isComputed } from "@/lib/core/calc-result"
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { ElektrykaPaneli } from "@/components/porownywarka-paneli/elektryka"
@@ -325,7 +326,7 @@ export default function PorownywarkaPaneliPage() {
   })()
   const brakTemperaturyWDanych = dane !== null && !dane.dane.rekordy.some((r) => r.tempC !== undefined)
   const nazwaPanelu = (id: string) => v.panele.find((p) => p.id === id)?.nazwa ?? ""
-  const wynikGotowy = result.status === "VALID" || result.status === "VALID_WITH_WARNINGS"
+  const wynikGotowy = isComputed(result.status)
   /** Results table as a CSV file (one row per panel); the accessory columns appear only while the accessory switch is on. */
   const eksportujCsv = () =>
     pobierzPlikTekstowy(
