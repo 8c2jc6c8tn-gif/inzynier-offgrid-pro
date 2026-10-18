@@ -9,7 +9,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WIATA_KAT_SAMOOCZYSZCZANIA_MAX_DEG, WIATA_KAT_SAMOOCZYSZCZANIA_MIN_DEG } from "@/lib/core/modules/pv/typ-montazu/constants"
 import { calculateWiata, type BlokPaneli, type Podzial } from "@/lib/core/modules/pv/typ-montazu/wiata"
-import { BledyDanych, n, poziomZOstrzezen, useFormaty } from "./wspolne"
+import { BledyDanych, n, poziomZOstrzezen, useFormatyMontazu } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Seed = { dlugoscM: string; szerokoscM: string; dlugoscPaneluM: string; szerokoscPaneluM: string; mocPaneluW: string; nachylenieDeg: string }
@@ -49,7 +49,7 @@ function Rzut({ L, W, dl, sz, bloki, podzial }: { L: number; W: number; dl: numb
 
 export function TrybWiata() {
   const t = useTranslate()
-  const { f0, f2 } = useFormaty()
+  const { f0, f2 } = useFormatyMontazu()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-wiata", PUSTY)
   const wynik = useMemo(
     () =>

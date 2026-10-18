@@ -9,7 +9,7 @@ import { CENNIK_BOS, VAT_OSPRZETU, type BosId } from "@/lib/core/dane/cennik-bos
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { LimityWejsciaPv, OcenaWariantuUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
-import { useTranslate, useSymbolWaluty, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useSymbolWaluty, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { ladowanieAkumulatoraPaneli } from "@/lib/porownywarka-paneli/ladowanie-akumulatora"
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
@@ -66,10 +66,7 @@ export function UrzadzenieIBos(p: {
   naElektryke: () => void
 }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f0, f1, f2 } = useFormaty()
   const waluta = useSymbolWaluty()
   const { kurs } = useDenominacja()
   const { stan, ustaw } = p
@@ -278,9 +275,7 @@ export function UrzadzenieIBos(p: {
 /** The limits the checks use, as read from the device card — including the ones the card does not give. */
 function LimityUrzadzenia({ limity }: { limity: LimityWejsciaPv }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const brak = t("UI-PORP-URZ-KARTA-NIE-PODAJE")
   if (!limity.maWejsciePv) return <p className="text-small">{t("UI-PORP-URZ-BEZ-WEJSCIA-PV")}</p>
   const okno = zakresOkna(limity.mpptMinV, limity.mpptMaxV, f0)
@@ -322,9 +317,7 @@ type PanelProps = {
 
 function PanelNaUrzadzeniu(p: PanelProps) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const { wynik, dopasowanie: d, wybrany, bos } = p.panel
   const proponowany = d.proponowany === null ? null : d.warianty[d.proponowany]!
   const mieszczace = d.warianty.filter((w) => w.liczbaUrzadzen !== null)
@@ -415,9 +408,7 @@ const zakresKwot = (min: number, max: number, waluta: string, f0: Formatuj) => (
  */
 export function PozycjeBos(p: { panel: PanelNaUrzadzeniu; waluta: string; druk?: boolean }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f0, f2 } = useFormaty()
   const { bos, ochronaA3, razemMin, razemMax } = p.panel
   if (!bos) return null
   const przygaszony = p.druk ? "text-neutral-700" : "text-muted-foreground"

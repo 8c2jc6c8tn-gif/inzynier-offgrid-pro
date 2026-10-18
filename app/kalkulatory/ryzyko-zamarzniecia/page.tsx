@@ -16,7 +16,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { ZAPAS_RURY_WODNEJ_POD_STREFA_CM } from "@/lib/core/modules/stress-test/ryzyko-zamarzniecia/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
@@ -37,8 +37,7 @@ const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function RyzykoZamarznieciaPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ryzyko-zamarzniecia", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<InstalacjaGruntowa>) {

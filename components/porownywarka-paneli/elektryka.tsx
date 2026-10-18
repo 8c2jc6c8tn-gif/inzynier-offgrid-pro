@@ -4,7 +4,7 @@ import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { OchronaWariantu } from "@/lib/core/modules/pv/porownywarka-paneli/elektryka"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 /**
  * Zakładka „Elektryka” (A3): napięcie stringów zimą, limit napięcia z karty i wszystkie równe układy N paneli z ochroną stringów.
@@ -22,10 +22,7 @@ export function ElektrykaPaneli(p: {
   brakTmin: boolean
 }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f0, f1, f2 } = useFormaty()
   const ochrona = (o: OchronaWariantu | null) => {
     if (o === null) return t("UI-PORP-ELE-OCH-BRAK-KARTY")
     const zakres = { min: f1(o.inMinA), max: f1(o.inMaxA) }

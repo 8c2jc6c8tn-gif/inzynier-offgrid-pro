@@ -11,7 +11,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { WykresPrognozyMiesiecznej } from "@/components/prognozy/wykres-prognozy-miesiecznej"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   historia: string[]
@@ -37,7 +37,7 @@ const liczba = (s: string): number | null => (s.trim() === "" ? null : Number(s)
 export default function PrognozaMiesiecznaPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("prognoza-miesieczna", STAN_POCZATKOWY)
   const ustaw = (pole: Exclude<keyof FormularzStan, "historia">) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>

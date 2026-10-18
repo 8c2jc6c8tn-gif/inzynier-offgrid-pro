@@ -2890,3 +2890,9 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 
 - Właściciel wybrał wariant A po wyjaśnieniu, czym jest status i skąd 280 błędów typów. Zamiast dopisywać szósty status w 278 schematach, zrobiłem `STATUSY` (jedna lista) i `z.enum(STATUSY)` — następny status nie będzie wymagał takiej operacji.
 - **Pułapka:** wspólna funkcja `poziomZStatusu` traktowała każdy nieznany status jako „błąd”; `ESTIMATE` trafiłby w „zabronione” mimo istnienia liczby. Poprawione (→ „uwaga”), tak samo `isComputed`. Na ekranach było 4 ręczne trójki `status === "VALID" ? "ok" : … "VALID_WITH_WARNINGS" ? "uwaga" : "blad"` — zastąpione wspólną funkcją, żeby nowy status nie wymagał ich osobnego poprawiania. Pozostałe sprawdzenia `status === "VALID"`/`"VALID_WITH_WARNINGS"` na ekranach (kilkadziesiąt) są kontekstowe i nie były zmieniane; przy pierwszym użyciu `ESTIMATE` w module trzeba sprawdzić jego ekran.
+
+## Hak formatowania, audyt JSX i `ESTIMATE` bez zastosowania — wersja 3.35.1 (18.10.2026)
+
+- `useFormaty()` (`f0…f3`, `useMemo`) zastąpił 69 lokalnych bloków `const formatLiczbe = useFormatLiczby()` + `f0…f3` w 58 ekranach (skrypt na drzewie składni; hak `useFormatLiczby` zostaje tam, gdzie `formatLiczbe` jest używane też inaczej). Ekran „typ montażu” ma `useFormatyMontazu` (dokłada `fMasa`, `znak`). 23 definicje z `minimumFractionDigits` świadomie bez zmian.
+- Audyt JSX: oba wpisy listy zapadkowej były fałszywymi trafieniami (ciąg klas Tailwind w `werdykt.tsx`, statyczny SVG w `definicje-symboli.tsx`); poprawiony strażnik (`isClassListOrMarkup`, testy w `ui.test.ts`), baseline `{}`.
+- **`ESTIMATE`:** brak kalkulatora, którego cały wynik leży poza normą. Wiatr 30–90° to fragment wyniku Porównywarki; zmiana statusu całej Porównywarki byłaby błędna (uzysk i koszty nie są szacunkiem spoza normy). Zostawione z jawnym opisem na ekranie; opcje w liście zadań.

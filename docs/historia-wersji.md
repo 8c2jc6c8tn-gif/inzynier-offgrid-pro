@@ -2,6 +2,14 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.35.1] — 18.10.2026
+
+Wspólny hak formatowania liczb i domknięcie audytu JSX (zadania z listy po 3.35.0):
+- `useFormaty()` w `lib/i18n/language-context.tsx` zwraca `f0`…`f3` (do 0…3 miejsc po przecinku, stabilne między renderami); 69 lokalnych definicji tych samych domknięć w 58 ekranach zastąpionych jednym wywołaniem, ekran „typ montażu” buduje swój zestaw (`useFormatyMontazu`) na wspólnym; 23 definicje ze stałą liczbą miejsc (`minimumFractionDigits`) zostają, bo mają inną semantykę,
+- strażnik tekstów w interfejsie rozpoznaje listy klas Tailwind i statyczny kod SVG jako nie-tekst; lista zapadkowa spadła z 2 plików / 2 tekstów do zera (oba trafienia były fałszywe, nie brakujące tłumaczenia).
+
+Wpływ na liczby: brak (wartości i zaokrąglenia te same).
+
 ## [3.35.0] — 18.10.2026
 
 Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D93):

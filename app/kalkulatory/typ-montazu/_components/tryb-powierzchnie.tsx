@@ -27,7 +27,7 @@ import {
 } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
-import { BledyDanych, n, useFormaty } from "./wspolne"
+import { BledyDanych, n, useFormatyMontazu } from "./wspolne"
 
 /** Seed M1/E4 — tylko odczyt (jeden właściciel zapisu: ekran "Bryła budynku i orientacja ścian"). */
 type SeedM1E4 = { korekty: Record<string, KorektaSeed>; reczne: PowierzchniaRecznaSeed[]; albedo: string }
@@ -41,7 +41,7 @@ const PUSTY: Seed = { pr: "", moc: {}, wybrane: [] }
  */
 export function TrybPowierzchnie({ tylkoJednaPolac }: { tylkoJednaPolac: boolean }) {
   const t = useTranslate()
-  const { f0, f1 } = useFormaty()
+  const { f0, f1 } = useFormatyMontazu()
   const { model, skaner, lokalizacja, dane } = useLokalizacjaProjektu()
   const m1 = useOdczytDraftu<SeedM1E4>("orientacja-powierzchni")
   const [s, setS] = usePersistedDraft<Seed>(tylkoJednaPolac ? "typ-montazu-dach-skosny" : "typ-montazu-wielopolaciowy", PUSTY)

@@ -16,7 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type Zakladka = "sprawnosc" | "degradacja" | "uzysk" | "cienkowarstwowe"
 
@@ -38,8 +38,7 @@ function opisSprawnosci(s: Sprawnosc): string {
 
 export default function TechnologiePaneliPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("technologie-paneli", STAN_POCZATKOWY)
   const { zakladka, mocInstalacjiKwp } = stan
 

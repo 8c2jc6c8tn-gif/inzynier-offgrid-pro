@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateOptymalizacjaIzolacji, type WynikWariantu } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/calculator"
 import { LAT_ANALIZY } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
@@ -97,9 +97,8 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
 export default function OptymalizacjaIzolacjiPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f3 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const f3 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 3 })
   const [stan, setStan, info] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t), przeliczKwotySeed)
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWariant = (i: number, z: Partial<WariantSeed>) =>

@@ -13,7 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof LadowanieZAgregatuInput, string>
 
@@ -48,9 +48,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function LadowanieZAgregatuPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f2 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, KWOTY)
   const result = useMemo(
     () =>

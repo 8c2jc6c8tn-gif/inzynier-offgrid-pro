@@ -26,7 +26,7 @@ import {
   wiatrZSeeda,
   type StelazSeed,
   type WiatrSeed,
-  useFormaty,
+  useFormatyMontazu,
 } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -44,7 +44,7 @@ const kolumny = (t: (kod: string) => string, f0: (x: number) => string, f2: (x: 
 
 export function TrybRegulowany() {
   const t = useTranslate()
-  const { f0, f1, f2, fMasa } = useFormaty()
+  const { f0, f1, f2, fMasa } = useFormatyMontazu()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-regulowany", PUSTY)
   const tab = useTabelaNapromieniowania(s.azymutDeg)
   const wynik = useMemo(

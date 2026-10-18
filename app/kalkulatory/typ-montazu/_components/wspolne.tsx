@@ -9,25 +9,26 @@ import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
-import { useFormatLiczby, useTranslate } from "@/lib/i18n/language-context"
+import { useFormatLiczby, useFormaty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 
 /** Short month names — `UI-MIESIAC-SKR-*` keys, render through `t()`. */
 export const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
-/** Number formatters bound to the UI language, one hook for all modes of the screen. */
-export function useFormaty() {
+/** Montaż-specific formatters on top of the shared roundings: a signed one-decimal value and a mass with the default precision. */
+export function useFormatyMontazu() {
   const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1, f2 } = useFormaty()
   return {
-    fMasa: (x: number) => formatLiczbe(x),
-    f0: (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 }),
+    f0,
     f1,
-    f2: (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 }),
+    f2,
+    fMasa: (x: number) => formatLiczbe(x),
     znak: (x: number) => (x > 0 ? "+" : x < 0 ? "−" : "") + f1(Math.abs(x)),
   }
 }
+
 /** Pole tekstowe → liczba albo `null` (puste/niepoprawne = nie wpisano, bez wartości domyślnej). */
 export const n = (s: string) => liczba(s) ?? null
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import type { BilansSeed } from "@/lib/porownywarka-paneli/stan"
 
 /**
@@ -23,9 +23,7 @@ export function BilansGodzinowyPaneli(p: {
   mikro: boolean
 }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const zProfilu = p.pojemnoscZProfilu !== undefined ? Math.round(p.pojemnoscZProfilu * 10) / 10 : undefined
   const wyniki = p.panele.filter((x) => x.bilansGodzinowy !== null)
   const udzialy = [p.bil.profilDzien, p.bil.profilWieczor, p.bil.profilNoc].map((x) => x ?? "")

@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof BlackoutInput, string>
 
@@ -39,9 +39,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function BlackoutPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f1 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("blackout", STAN_POCZATKOWY)
 
   const result = useMemo(
