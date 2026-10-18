@@ -18,7 +18,7 @@ import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted
 import type { Assumption, Warning } from "@/lib/core/calc-result"
 import type { Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   dachWedlugObrysu,
@@ -88,8 +88,7 @@ const TLO_LEGENDY = `linear-gradient(to right, ${kolorStraty(0, 1)}, ${kolorStra
 
 export default function AnalizaZacienieniaPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const { dane: zapisanyModel, wczytano } = useOdczytDraftu<ModelDzialki>(KLUCZ_MODELU_DZIALKI)
   const model = zapisanyModel ?? MODEL_PUSTY
   const [stan, setStan] = usePersistedDraft<StanE3>("analiza-zacienienia", STAN_POCZATKOWY)

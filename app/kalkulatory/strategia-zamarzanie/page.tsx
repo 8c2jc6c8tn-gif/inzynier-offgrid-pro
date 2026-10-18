@@ -13,7 +13,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type Wiersz = OdbiornikZimowy & { id: string }
 type PoleLiczbowe = "pojemnoscKwh" | "socPct" | "socMinPct" | "sprawnoscFalownikaPct"
@@ -39,8 +39,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function StrategiaZamarzaniePage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("strategia-zamarzanie", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<Wiersz>) {

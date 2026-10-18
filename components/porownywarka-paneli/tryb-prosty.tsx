@@ -12,7 +12,7 @@ import type { CalcResult } from "@/lib/core/calc-result"
 import type { PorownywarkaResult } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { werdyktProsty } from "@/lib/core/modules/pv/porownywarka-paneli/werdykt-prosty"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import type { MiejsceSeed, PanelSeed, FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import { azymutStrony, odczytajStrone, STRONY_SWIATA, type StronaSwiata } from "@/lib/porownywarka-paneli/strona-swiata"
 
@@ -194,10 +194,7 @@ export function PytaniaProste(p: {
 /** One plain-language recommendation drawn from the engine's result (decision table in `werdyktProsty`), with the reasons behind it. */
 export function WerdyktProstyKarta({ wynik, waluta, naPelny }: { wynik: CalcResult<PorownywarkaResult>; waluta: string; naPelny: () => void }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f1, f2 } = useFormaty()
   const v = wynik.value
   const w = werdyktProsty(v)
   const nazwa = (id: string) => v.panele.find((x) => x.id === id)?.nazwa ?? ""

@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { WyborUrzadzeniaPv } from "@/components/urzadzenia-pv/wybor-urzadzenia"
 import { znajdzUrzadzeniePv } from "@/lib/core/dane/katalog-urzadzen-pv"
 import { limityZUrzadzenia } from "@/lib/core/modules/pv/porownywarka-paneli/dopasowanie-urzadzenia"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   urzadzenieId: string
@@ -55,9 +55,9 @@ const KLUCZ_OGRANICZENIA: Record<Ograniczenie, string> = {
 export default function LadowanieZRegulatoraPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
+  const { f0 } = useFormaty()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ladowanie-z-regulatora", STAN_POCZATKOWY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))

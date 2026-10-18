@@ -10,7 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   miejsceDlugoscMm: string
@@ -44,7 +44,7 @@ const liczba = (s: string): number | null => (s.trim() === "" ? null : Number(s)
 export default function MiejsceNaRozbudowePage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("miejsce-na-rozbudowe", STAN_POCZATKOWY)
   const ustaw = (pole: Exclude<keyof FormularzStan, "moznaPietrowac">) => (e: React.ChangeEvent<HTMLInputElement>) =>

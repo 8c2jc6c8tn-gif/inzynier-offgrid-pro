@@ -19,7 +19,7 @@ import {
   TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C,
   type StrefaKlimatyczna,
 } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { KIERUNKI_STRUMIENIA, type KierunekStrumienia } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/u-z-warstw"
 import { MATERIALY_PRZEGROD, SZABLONY_PRZEGROD, znajdzMaterial, znajdzSzablon, type StatusLambda } from "@/lib/core/dane/materialy-przegrod"
 import {
@@ -81,8 +81,7 @@ const stanPoczatkowy = (t: (k: string) => string): Seed => ({
 /** Optional "U from layers" of one partition: direction of the heat flow, layer rows and a live U preview. */
 function WarstwyPrzegrody({ p, i, ustaw }: { p: PrzegrodaSeed; i: number; ustaw: (z: Partial<PrzegrodaSeed>) => void }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f3 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 3 })
+  const { f3 } = useFormaty()
   const warstwy = p.warstwy ?? []
   const podglad = podgladUZWarstw(p)
   const ustawWarstwe = (j: number, z: Partial<WarstwaSeed>) => ustaw({ warstwy: warstwy.map((w, k) => (k === j ? { ...w, ...z } : w)) })
@@ -283,9 +282,7 @@ function KartaPrzegrody({ p, i, ustaw, usun }: { p: PrzegrodaSeed; i: number; us
 
 export default function ObciazenieCieplnePage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<Seed>(KLUCZ_DRAFTU_OBCIAZENIA, stanPoczatkowy(t))
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ustawPrzegrode = (i: number, z: Partial<PrzegrodaSeed>) => setStan((s) => ({ ...s, przegrody: s.przegrody.map((p, j) => (j === i ? { ...p, ...z } : p)) }))

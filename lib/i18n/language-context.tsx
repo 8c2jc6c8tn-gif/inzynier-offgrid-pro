@@ -7,7 +7,7 @@
  * kontekst tylko udostępnia rozwiązaną wartość przez Reacta, żeby `useTranslate()`/`useLanguage()`
  * nie musiały wywoływać `useSyncExternalStore` w każdym z ~130 miejsc użycia.
  */
-import { createContext, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react"
+import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react"
 import { DEFAULT_LANGUAGE, type Language } from "./language"
 import { getServerSnapshot, getSnapshot, subscribe } from "./storage"
 import { formatujLiczbe } from "./liczby"
@@ -54,4 +54,18 @@ export function useTranslate(stalaPln = false) {
 export function useFormatLiczby() {
   const language = useLanguage()
   return useCallback((x: number, opcje?: Intl.NumberFormatOptions) => formatujLiczbe(x, language, opcje), [language])
+}
+
+/** The usual roundings of screens, bound to the UI language: `f0`…`f3` = at most 0…3 decimal places (stable between renders). */
+export function useFormaty() {
+  const formatLiczbe = useFormatLiczby()
+  return useMemo(
+    () => ({
+      f0: (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 }),
+      f1: (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 }),
+      f2: (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 }),
+      f3: (x: number) => formatLiczbe(x, { maximumFractionDigits: 3 }),
+    }),
+    [formatLiczbe],
+  )
 }

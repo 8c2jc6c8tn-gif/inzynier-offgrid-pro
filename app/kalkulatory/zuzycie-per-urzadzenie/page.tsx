@@ -19,7 +19,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = { urzadzenia: PozycjaZuzycia[] }
 
@@ -40,8 +40,7 @@ const WSZYSTKIE_MIESIACE: readonly boolean[] = Array(12).fill(true)
 
 export default function ZuzyciePerUrzadzeniePage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zuzycie-per-urzadzenie", STAN_POCZATKOWY)
   const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
   const urzadzenia = stan.urzadzenia

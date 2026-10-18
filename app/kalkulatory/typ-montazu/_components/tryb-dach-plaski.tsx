@@ -26,7 +26,7 @@ import {
   wiatrZSeeda,
   type StelazSeed,
   type WiatrSeed,
-  useFormaty,
+  useFormatyMontazu,
 } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -35,7 +35,7 @@ const PUSTY: Seed = { miejsce: "", nachylenieDeg: "", stelaz: STELAZ_PUSTY, wiat
 
 export function TrybDachPlaski() {
   const t = useTranslate()
-  const { f0, f2, fMasa } = useFormaty()
+  const { f0, f2, fMasa } = useFormatyMontazu()
   const { dane } = useLokalizacjaProjektu()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-dach-plaski", PUSTY)
   const wysokoscPvgis = dane?.dane.meta.wysokoscNpmM

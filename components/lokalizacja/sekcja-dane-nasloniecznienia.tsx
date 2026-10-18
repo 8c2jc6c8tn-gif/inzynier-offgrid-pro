@@ -9,7 +9,7 @@ import { StanPusty } from "@/components/ui/stany"
 import { czyPoprawnaTemperatura, czyPoprawneNadpisanie, nadpisaniePasuje, type NadpisanieNasloneczenia, type ZapisTmyZNadpisaniem } from "@/lib/lokalizacja/nadpisanie-nasloneczenia"
 import type { LokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
-import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { useFormatLiczby, useLanguage, useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { formatujDate } from "@/lib/i18n/liczby"
 const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
 
@@ -189,8 +189,7 @@ export function SekcjaDanychNaslonecznienia({
 }) {
   const t = useTranslate()
   const jezyk = useLanguage()
-  const formatLiczbe = useFormatLiczby()
-  const f3 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 3 })
+  const { f3 } = useFormaty()
   const online = useOnline()
   return (
     <section className="flex flex-col gap-2 rounded-lg border p-4">

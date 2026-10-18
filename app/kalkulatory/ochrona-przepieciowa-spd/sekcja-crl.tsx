@@ -11,7 +11,7 @@ import { calculateOcenaRyzykaCrl } from "@/lib/core/modules/okablowanie/ocena-ry
 import type { OdcinekCrl, SrodowiskoCrl } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/input"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { LP_DLUGOSC_MAX_KM, NG_NA_DZIEN_BURZOWY } from "@/lib/core/modules/okablowanie/ocena-ryzyka-crl/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type Stan = {
   skutkiKrytyczne: boolean
@@ -71,9 +71,7 @@ const n = (s: string) => liczba(s) ?? null
  */
 export function SekcjaCrl() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f1, f2 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<Stan>("ochrona-przepieciowa-spd-crl", STAN_POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((s) => ({ ...s, ...z }))
   const wynik = useMemo(

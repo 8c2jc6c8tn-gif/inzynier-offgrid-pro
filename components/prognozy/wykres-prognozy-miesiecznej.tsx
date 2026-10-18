@@ -3,14 +3,13 @@
  * Filled bar = forecast, dashed outline = the same month a year earlier, vertical whisker = low/high scenario.
  */
 import type { WierszPrognozy } from "@/lib/core/modules/ai/prognoza-miesieczna/calculator"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
 
 export function WykresPrognozyMiesiecznej({ wiersze }: { wiersze: readonly WierszPrognozy[] }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const max = Math.max(1, ...wiersze.map((w) => Math.max(w.historiaKwh ?? 0, w.prognozaKwh ?? 0, w.gornaKwh ?? 0)))
   const W = 360
   const H = 150

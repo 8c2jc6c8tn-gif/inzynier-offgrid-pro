@@ -36,7 +36,7 @@ import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV, znajdzPanelKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { useLanguage, useSymbolWaluty, useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useLanguage, useSymbolWaluty, useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { czyMikroinstalacja, KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 import { KLUCZ_DRAFTU_ODBIORNIKOW, zuzycieMikroinstalacjiKwh, type DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
@@ -102,9 +102,7 @@ function ladnyMaks(x: number): number {
 /** Grouped monthly bars (one bar per panel), winter months highlighted. Colour never carries identity alone: legend + table view. */
 function WykresMiesiecy({ panele }: { panele: WynikPanelu[] }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const W = 360
   const H = 170
   const lewy = 34
@@ -203,10 +201,7 @@ const subskrybujHash = (callback: () => void) => {
 
 export default function PorownywarkaPaneliPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f0, f1, f2 } = useFormaty()
   /** One figure when both ends of a price range round to the same number, otherwise "min–max". */
   const zakresTekst = (min: number, max: number) => (f0(min) === f0(max) ? f0(min) : `${f0(min)}–${f0(max)}`)
   const jezyk = useLanguage()
