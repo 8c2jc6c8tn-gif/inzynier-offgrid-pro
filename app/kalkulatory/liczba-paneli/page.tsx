@@ -15,7 +15,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateLiczbaPaneli } from "@/lib/core/modules/pv/liczba-paneli/calculator"
 import { type IdOkresu, LIMIT_MONTAZOWY_PODPOWIEDZ_SZT } from "@/lib/core/modules/pv/liczba-paneli/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -53,11 +53,12 @@ const NAZWA_OKRESU: Record<IdOkresu, string> = {
   lutLis: "UI-LICPAN-LUTY-LISTOPAD",
   rok: "UI-LICPAN-CALY-ROK",
 }
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export default function LiczbaPaneliPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("liczba-paneli", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()

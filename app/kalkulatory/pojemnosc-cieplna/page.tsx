@@ -15,7 +15,7 @@ import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted
 import { calculateObciazenieCieplne, uPrzegrody } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { calculatePojemnoscCieplna, type UdzialWarstwy } from "@/lib/core/modules/ogrzewanie/pojemnosc-cieplna/calculator"
 import type { StronaWarstwy } from "@/lib/core/modules/ogrzewanie/pojemnosc-cieplna/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
@@ -40,9 +40,6 @@ const stanPoczatkowy = (t: (k: string) => string): Seed => ({
 })
 
 const n = (s: string) => liczba(s) ?? null
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw: (z: Partial<WarstwaSeed>) => void; usun: () => void }) {
   const t = useTranslate()
@@ -89,6 +86,10 @@ function KartaWarstwy({ w, i, ustaw, usun }: { w: WarstwaSeed; i: number; ustaw:
 
 export default function PojemnoscCieplnaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<Seed>("pojemnosc-cieplna", stanPoczatkowy(t))
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWarstwe = (i: number, z: Partial<WarstwaSeed>) =>

@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscZnamionowaAh: string
@@ -25,6 +25,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function SlabeOgniwoPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("slabe-ogniwo", STAN_POCZATKOWY)
   const { pojemnoscZnamionowaAh, tolerancjaPct } = stan
 
@@ -94,7 +95,7 @@ export default function SlabeOgniwoPage() {
       ) : (
         <WerdyktPanel poziom="uwaga" etykieta={t("UI-SLAOGN-POJEMNOSC-UZYTECZNA-PAKIETU")}>
           <WynikGlowny>
-            {result.value.pojemnoscNajslabszegoAh.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} Ah
+            {formatLiczbe(result.value.pojemnoscNajslabszegoAh, { maximumFractionDigits: 1 })} Ah
           </WynikGlowny>
           {result.warnings.map((w) => (
             <p key={w.code} className="mt-2 text-small">

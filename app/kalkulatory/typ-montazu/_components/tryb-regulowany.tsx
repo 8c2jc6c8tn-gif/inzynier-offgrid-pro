@@ -13,9 +13,6 @@ import { calculateRegulowany, type MiesiacRegulowany } from "@/lib/core/modules/
 import {
   BledyDanych,
   dopiskMasyWlasnej,
-  f0,
-  f1,
-  f2,
   MIESIACE,
   n,
   PoleAzymutu,
@@ -29,6 +26,7 @@ import {
   wiatrZSeeda,
   type StelazSeed,
   type WiatrSeed,
+  useFormaty,
 } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -36,7 +34,7 @@ type Seed = { azymutDeg: string; katMinDeg: string; katMaxDeg: string; stelaz: S
 const PUSTY: Seed = { azymutDeg: "", katMinDeg: "", katMaxDeg: "", stelaz: STELAZ_PUSTY, wiatr: WIATR_PUSTY }
 
 type Wiersz = MiesiacRegulowany & { id: number }
-const kolumny = (t: (kod: string) => string): Kolumna<Wiersz>[] => [
+const kolumny = (t: (kod: string) => string, f0: (x: number) => string, f2: (x: number) => string): Kolumna<Wiersz>[] => [
   { naglowek: t("UI-TYPMON-COMTRYREG-MIESIAC"), render: (r) => t(MIESIACE[r.miesiac]) },
   { naglowek: t("UI-TYPMON-COMTRYREG-KAT"), render: (r) => `${r.katDeg}°`, liczbowa: true },
   { naglowek: t("UI-TYPMON-COMTRYREG-PODNIESIENIE"), render: (r) => `${f2(r.podniesienieM)} m`, liczbowa: true },
@@ -46,6 +44,7 @@ const kolumny = (t: (kod: string) => string): Kolumna<Wiersz>[] => [
 
 export function TrybRegulowany() {
   const t = useTranslate()
+  const { f0, f1, f2, fMasa } = useFormaty()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-regulowany", PUSTY)
   const tab = useTabelaNapromieniowania(s.azymutDeg)
   const wynik = useMemo(
@@ -114,11 +113,11 @@ export function TrybRegulowany() {
             <li className="font-medium">
               {v.balastWymaganyKg === null
                 ? t("UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH")
-                : t("UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990", { p: v.liczbaMiesiecyBezDanychWiatru > 0 ? t("UI-TYPMON-COMTRYREG-DO-30") : "", balastWymaganyKg: f0(v.balastWymaganyKg), stelaz: dopiskMasyWlasnej(s.stelaz, t) })}
+                : t("UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990", { p: v.liczbaMiesiecyBezDanychWiatru > 0 ? t("UI-TYPMON-COMTRYREG-DO-30") : "", balastWymaganyKg: f0(v.balastWymaganyKg), stelaz: dopiskMasyWlasnej(s.stelaz, t, fMasa) })}
             </li>
           </ul>
           <div className="mt-3">
-            <KartaPorownawcza kolumny={kolumny(t)} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={420} />
+            <KartaPorownawcza kolumny={kolumny(t, f0, f2)} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={420} />
           </div>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />
         </WerdyktPanel>

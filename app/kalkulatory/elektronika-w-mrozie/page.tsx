@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
@@ -30,12 +30,12 @@ const TYPY: { id: TypElektroniki; label: string }[] = [
   { id: "regulator", label: "UI-ELEWMRO-REGULATOR-LADOWANIA-MPPT" },
   { id: "inne", label: "UI-ELEWMRO-INNE" },
 ]
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function ElektronikaWMroziePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("elektronika-w-mrozie", STAN_POCZATKOWY)
 
   function aktualizuj(id: string, zmiana: Partial<UrzadzenieElektroniczne>) {

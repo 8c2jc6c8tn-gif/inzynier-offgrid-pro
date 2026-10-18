@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { WykresSoc } from "@/components/prognozy/wykres-soc"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pojemnoscKwh: string
@@ -57,12 +57,13 @@ const KLUCZ_SEGMENTU: Record<TypSegmentu, string> = {
 
 // Empty field = no data (never a default): the engine treats `null` as "not entered".
 const liczba = (s: string | undefined): number | null => (s === undefined || s.trim() === "" ? null : Number(s))
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 const hh = (h: number) => String(h % 24).padStart(2, "0")
 
 export default function PrognozaSocPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("prognoza-soc", STAN_POCZATKOWY)
   const ustaw = (pole: keyof Omit<FormularzStan, "produkcja" | "zuzycie" | "dniPct">) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))

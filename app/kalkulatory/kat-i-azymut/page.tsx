@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateKatIAzymut } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -29,12 +29,12 @@ type FormularzStan = {
 const STAN_POCZATKOWY: FormularzStan = { azymutDeg: "", nachylenieDeg: "", mocInstalacjiKwp: "", wspolczynnikPr: "" }
 
 const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 /** Słupki 12 miesięcy — jedna seria (bez legendy, tytuł nazywa serię), dymek natywny `<title>`. */
 function WykresMiesieczny({ wartosci, jednostka }: { wartosci: number[]; jednostka: string }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const max = Math.max(...wartosci, 1)
   const W = 360
   const H = 160
@@ -62,6 +62,8 @@ function WykresMiesieczny({ wartosci, jednostka }: { wartosci: number[]; jednost
 /** Suma roczna w funkcji kąta — linia 2px, znacznik wybranego kąta i optimum. */
 function WykresKata({ wartosci, wybrany, optimum }: { wartosci: number[]; wybrany: number; optimum: number }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const W = 360
   const H = 140
   const max = Math.max(...wartosci)
@@ -89,6 +91,9 @@ function WykresKata({ wartosci, wybrany, optimum }: { wartosci: number[]; wybran
 
 export default function KatIAzymutPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("kat-i-azymut", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()

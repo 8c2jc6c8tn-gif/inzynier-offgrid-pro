@@ -12,7 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { PROG_ZBLIZANIA_DO_NOSNOSCI } from "@/lib/core/modules/stress-test/obciazenie-dachu-sniegiem/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   strefa: string
@@ -38,11 +38,12 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 const liczbaLubNull = (s: string) => (s === "" ? null : Number(s))
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export default function ObciazenieDachuSniegiemPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("obciazenie-dachu-sniegiem", STAN_POCZATKOWY)
   const idBarierki = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>

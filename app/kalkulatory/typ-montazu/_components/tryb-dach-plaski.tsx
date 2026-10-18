@@ -16,8 +16,6 @@ import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projek
 import {
   BledyDanych,
   dopiskMasyWlasnej,
-  f0,
-  f2,
   n,
   PolaStelaza,
   PolaWiatru,
@@ -28,6 +26,7 @@ import {
   wiatrZSeeda,
   type StelazSeed,
   type WiatrSeed,
+  useFormaty,
 } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
@@ -36,6 +35,7 @@ const PUSTY: Seed = { miejsce: "", nachylenieDeg: "", stelaz: STELAZ_PUSTY, wiat
 
 export function TrybDachPlaski() {
   const t = useTranslate()
+  const { f0, f2, fMasa } = useFormaty()
   const { dane } = useLokalizacjaProjektu()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-dach-plaski", PUSTY)
   const wysokoscPvgis = dane?.dane.meta.wysokoscNpmM
@@ -100,7 +100,7 @@ export function TrybDachPlaski() {
                 ? t("UI-TYPMON-COMTRYDACPLA-SILA-WIATRU-BRAK")
                 : t("UI-TYPMON-COMTRYDACPLA-SILA-WIATRU", { silaWiatruN: f0(v.silaWiatruN), p: f0(v.silaWiatruN / PRZYSPIESZENIE_ZIEMSKIE_M_S2), p2: v.balastKg === null ? t("UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU") : "." })}
             </li>
-            {v.balastKg !== null && <li className="font-medium">{t("UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990", { balastKg: f0(v.balastKg), stelaz: dopiskMasyWlasnej(s.stelaz, t) })}</li>}
+            {v.balastKg !== null && <li className="font-medium">{t("UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990", { balastKg: f0(v.balastKg), stelaz: dopiskMasyWlasnej(s.stelaz, t, fMasa) })}</li>}
             <li>{t("UI-TYPMON-COMTRYDACPLA-SNIEG-PANELACH-ZOSTAJE", { p: f0(v.mu1 * 100), mu1: f2(v.mu1) })}</li>
           </ul>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />

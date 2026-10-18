@@ -26,7 +26,7 @@ import {
   } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Strefowe = Partial<Record<Strefa, string>>
 
@@ -130,6 +130,7 @@ export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMie
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
   const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)
@@ -352,7 +353,7 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           <WerdyktPanel poziom={poziom} etykieta={t("UI-FORRAC-MOJ-RACHUNEK-ROCZNY")}>
             <WynikGlowny>{t("UI-FORRAC-BRUTTO-ROK", { bruttoZl: zl(v.bruttoZl) })}</WynikGlowny>
             <p className="mt-1 text-small">
-              {t("UI-FORRAC-NETTO-VAT-SREDNIO", { nettoZl: zl(v.nettoZl), vatZl: zl(v.vatZl), sredniaCenaKwhBruttoZl: v.sredniaCenaKwhBruttoZl.toLocaleString("pl-PL", { maximumFractionDigits: 2 }) })}
+              {t("UI-FORRAC-NETTO-VAT-SREDNIO", { nettoZl: zl(v.nettoZl), vatZl: zl(v.vatZl), sredniaCenaKwhBruttoZl: formatLiczbe(v.sredniaCenaKwhBruttoZl, { maximumFractionDigits: 2 }) })}
             </p>
             <p className="mt-2 text-small font-medium">
               {t("UI-FORRAC-CENA-TRZYMANIA-SIECI", { cenaTrzymaniaSieciBruttoZl: zl(v.cenaTrzymaniaSieciBruttoZl), zmienneNettoZl: zl(v.zmienneNettoZl) })}

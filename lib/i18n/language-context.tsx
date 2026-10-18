@@ -10,6 +10,7 @@
 import { createContext, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react"
 import { DEFAULT_LANGUAGE, type Language } from "./language"
 import { getServerSnapshot, getSnapshot, subscribe } from "./storage"
+import { formatujLiczbe } from "./liczby"
 import { t } from "./t"
 import { kursEfektywny, symbolWaluty } from "@/lib/waluta/przelicz"
 import { getServerSnapshot as walutaServer, getSnapshot as walutaSnapshot, subscribe as walutaSubscribe } from "@/lib/waluta/storage"
@@ -47,4 +48,10 @@ export function useTranslate(stalaPln = false) {
     (kod: string, params?: Record<string, string | number>) => t(language, kod, { waluta, ...params }),
     [language, waluta],
   )
+}
+
+/** Number formatter bound to the UI language (replaces `x.toLocaleString("pl-PL", …)` in screens). */
+export function useFormatLiczby() {
+  const language = useLanguage()
+  return useCallback((x: number, opcje?: Intl.NumberFormatOptions) => formatujLiczbe(x, language, opcje), [language])
 }

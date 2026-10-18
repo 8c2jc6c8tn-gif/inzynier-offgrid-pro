@@ -12,7 +12,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type PoleLiczbowe = Exclude<keyof PreHeatInput, "zrodloEnergii">
 type FormularzStan = Record<PoleLiczbowe, string> & { zrodloEnergii: ZrodloEnergiiPreHeat | "" }
@@ -39,10 +39,11 @@ const POLA: { pole: PoleLiczbowe; label: string; unit: string }[] = [
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 
 export default function PreHeatPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pre-heat", STAN_POCZATKOWY)
   const result = useMemo(() => {
     const { zrodloEnergii, ...liczby } = stan

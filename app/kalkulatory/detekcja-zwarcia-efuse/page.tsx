@@ -10,7 +10,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   napiecieBateriiV: string
@@ -26,6 +26,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DetekcjaZwarciaEFusePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("detekcja-zwarcia-efuse", STAN_POCZATKOWY)
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, zdolnoscLaczeniowaTranzystorowA } = stan
 
@@ -114,7 +115,7 @@ export default function DetekcjaZwarciaEFusePage() {
           >
             {result.status !== "INVALID_INPUT" && (
               <WynikGlowny>
-                I_zw = {result.value.pradZwarciowyA.toLocaleString("pl-PL", { maximumFractionDigits: 0 })} A
+                I_zw = {formatLiczbe(result.value.pradZwarciowyA, { maximumFractionDigits: 0 })} A
               </WynikGlowny>
             )}
             {result.warnings.map((w) => (

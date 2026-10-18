@@ -18,9 +18,7 @@ import {
   REZYSTYWNOSC_ALUMINIUM_OHM_MM2_NA_M,
   REZYSTYWNOSC_MIEDZI_OHM_MM2_NA_M,
 } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const LICZBA = (v: number) => v.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -50,6 +48,8 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborPrzekrojuKablaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const LICZBA = (v: number) => formatLiczbe(v, { maximumFractionDigits: 2 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-przekroju-kabla", STAN_POCZATKOWY)
   const {
     pradA,

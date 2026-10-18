@@ -11,9 +11,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { poziomWerdyktu } from "@/components/siec/wspolne"
 import { TabelaBilansu, useDaneBilansu, wejscieBilansu } from "@/components/siec/pv-magazyn"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 /**
  * M14 — D5 „Zima bez sieci” (pochodny, Wzorzec G). Echo: the D4 installation in island mode
@@ -22,6 +20,8 @@ const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 }
  */
 export default function ZimaBezSieciPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const result = useMemo(() => {
     const w = wejscieBilansu(pv, zuzycie, "wyspa")

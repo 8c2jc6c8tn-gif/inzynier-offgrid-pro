@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
@@ -34,12 +34,12 @@ const TYPY: { id: TypArmatury; label: string }[] = [
   { id: "silownik", label: "UI-POMZAWWMRO-SILOWNIK" },
   { id: "inne", label: "UI-POMZAWWMRO-INNE" },
 ]
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
 const pole = "min-h-10 rounded-md border border-input bg-background px-2"
 
 export default function PompyZaworyWMroziePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pompy-zawory-w-mrozie", STAN_POCZATKOWY)
   const idZawor = useId()
   const idOprozniony = useId()

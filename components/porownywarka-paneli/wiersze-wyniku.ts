@@ -1,10 +1,8 @@
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
+import type { Language } from "@/lib/i18n/language"
+import { formatujLiczbe } from "@/lib/i18n/liczby"
 import type { useTranslate } from "@/lib/i18n/language-context"
 import type { ZwrotZOsprzetem } from "@/lib/porownywarka-paneli/zwrot-z-osprzetem"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 export type WierszWyniku = [klucz: string, wartosc: (p: WynikPanelu) => string | null]
 
@@ -12,7 +10,10 @@ export type WierszWyniku = [klucz: string, wartosc: (p: WynikPanelu) => string |
  * Wiersze tabeli wyniku Porównywarki (zakładka „Opłacalność” i wydruk oferty): klucz etykiety i wartość dla panelu, `null` = brak danych.
  * Jedno miejsce, żeby ekran i wydruk pokazywały te same liczby w tym samym formacie.
  */
-export function wierszeWyniku(t: ReturnType<typeof useTranslate>, waluta: string, osprzet?: ReadonlyMap<string, ZwrotZOsprzetem | null>): WierszWyniku[] {
+export function wierszeWyniku(t: ReturnType<typeof useTranslate>, waluta: string, jezyk: Language, osprzet?: ReadonlyMap<string, ZwrotZOsprzetem | null>): WierszWyniku[] {
+  const f0 = (x: number) => formatujLiczbe(x, jezyk, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatujLiczbe(x, jezyk, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatujLiczbe(x, jezyk, { maximumFractionDigits: 2 })
   /** "a–b" for a range, one number when both ends are equal at the displayed precision. */
   const zakres = (a: number, b: number, fmt: (x: number) => string) => (fmt(a) === fmt(b) ? fmt(a) : `${fmt(a)}–${fmt(b)}`)
   /** With the switch on, the figure is a range including the accessories; a panel without a result shows "no data". */

@@ -3,11 +3,7 @@
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 /**
  * Sekcja „Test: co, jeśli panel ma mniej mocy, niż deklaruje” w zakładce „Opłacalność” (spec 38): jedno pole (procent, bez wartości domyślnej)
@@ -15,6 +11,10 @@ const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 }
  */
 export function TestZanizeniaMocy(p: { panele: WynikPanelu[]; wartosc: string; onWartosc: (v: string) => void; waluta: string }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const z = p.panele.filter((w) => w.zanizenieMocy !== null)
   const brak = <span className="text-muted-foreground">{t("UI-PORP-BRAK-DANYCH")}</span>
   return (

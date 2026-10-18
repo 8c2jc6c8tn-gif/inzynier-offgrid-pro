@@ -35,7 +35,7 @@ import { useZuzycieMiesieczne } from "@/components/siec/zuzycie-miesieczne"
 import { KATALOG_PANELI_PV, znajdzPanelKatalogu } from "@/lib/core/dane/katalog-paneli-pv"
 import { KRYTERIA, MAKS_PANELI_W_ZESTAWIE, MIESIACE_ZIMOWE_POROWNYWARKI, type KryteriumId } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
 import { calculatePorownywarkaPaneli, type ScenariuszWiecejPaneli, type WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
-import { useLanguage, useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useSymbolWaluty, useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { czyMikroinstalacja, KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 import { KLUCZ_DRAFTU_ODBIORNIKOW, zuzycieMikroinstalacjiKwh, type DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
@@ -66,12 +66,6 @@ import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porow
 import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-/** One figure when both ends of a price range round to the same number, otherwise "min–max". */
-const zakresTekst = (min: number, max: number) => (f0(min) === f0(max) ? f0(min) : `${f0(min)}–${f0(max)}`)
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 type Zakladka = "miesiace" | "oplacalnosc" | "elektryka" | "obciazenia" | "urzadzenie" | "oferta" | "wiecej" | "nadwyzka" | "bilans" | "miejsca" | "producenci" | "gwiazdki" | "zalozenia"
 const ZAKLADKI: Zakladka[] = ["miesiace", "oplacalnosc", "elektryka", "obciazenia", "urzadzenie", "oferta", "wiecej", "nadwyzka", "bilans", "miejsca", "producenci", "gwiazdki", "zalozenia"]
@@ -107,6 +101,9 @@ function ladnyMaks(x: number): number {
 /** Grouped monthly bars (one bar per panel), winter months highlighted. Colour never carries identity alone: legend + table view. */
 function WykresMiesiecy({ panele }: { panele: WynikPanelu[] }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const W = 360
   const H = 170
   const lewy = 34
@@ -205,6 +202,12 @@ const subskrybujHash = (callback: () => void) => {
 
 export default function PorownywarkaPaneliPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  /** One figure when both ends of a price range round to the same number, otherwise "min–max". */
+  const zakresTekst = (min: number, max: number) => (f0(min) === f0(max) ? f0(min) : `${f0(min)}–${f0(max)}`)
   const jezyk = useLanguage()
   const waluta = useSymbolWaluty()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
@@ -1264,7 +1267,7 @@ export default function PorownywarkaPaneliPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {wierszeWyniku(t, waluta, zwroty)
+                      {wierszeWyniku(t, waluta, jezyk, zwroty)
                         .filter(([klucz]) => klucz !== "UI-PORP-UKLAD-RZEDOW" || v.panele.some((p) => p.rozmieszczenie !== null))
                         .map(([klucz, wartosc]) => (
                         <tr key={klucz} className="border-t">

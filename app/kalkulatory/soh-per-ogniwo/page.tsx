@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   rezystancjaFabrycznaMOhm: string
@@ -25,6 +25,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function SohPerOgniwoPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("soh-per-ogniwo", STAN_POCZATKOWY)
   const { rezystancjaFabrycznaMOhm, rezystancjaAktualnaMOhm } = stan
 
@@ -99,7 +100,7 @@ export default function SohPerOgniwoPage() {
         poziom !== null && (
           <WerdyktPanel poziom={poziom} etykieta={result.value.doWymiany ? t("UI-SOHPEROGN-OGNIWO-WYMIANY") : t("UI-SOHPEROGN-OGNIWO")}>
             <WynikGlowny>
-              {t("UI-SOHPEROGN-WZGLEDEM-FABRYCZNEJ", { wzrostPct: result.value.wzrostPct.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+              {t("UI-SOHPEROGN-WZGLEDEM-FABRYCZNEJ", { wzrostPct: formatLiczbe(result.value.wzrostPct, { maximumFractionDigits: 0 }) })}
             </WynikGlowny>
             <p className="mt-1 text-small">{t("UI-SOHPEROGN-PROG-KRYTYCZNY", { PROG_KRYTYCZNY_WZROSTU_PCT })}</p>
             {result.warnings.map((w) => (

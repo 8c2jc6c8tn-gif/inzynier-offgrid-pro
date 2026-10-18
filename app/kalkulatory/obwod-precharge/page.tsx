@@ -14,7 +14,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { ZnakStanu } from "@/components/ui/znak-stanu"
 
 type FormularzStan = {
@@ -29,6 +29,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function ObwodPrechargePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("obwod-precharge", STAN_POCZATKOWY)
   const { pojemnoscFalownikaUf, rezystancjaPreChargeOhm } = stan
 
@@ -88,7 +89,7 @@ export default function ObwodPrechargePage() {
         <p className="text-small text-muted-foreground">{t("UI-OBWPRE-WPISZ-OBA-POLA")}</p>
       ) : (
         <WerdyktPanel poziom="uwaga" etykieta={t("UI-OBWPRE-CZAS-WSTEPNEGO-LADOWANIA")}>
-          <WynikGlowny>{result.value.czasPreChargeS.toLocaleString("pl-PL")} s</WynikGlowny>
+          <WynikGlowny>{formatLiczbe(result.value.czasPreChargeS)} s</WynikGlowny>
           <p className="mt-1 text-small">
             {t("UI-OBWPRE-POCZEKAJ-ZGASNIE-DIODA")}
           </p>

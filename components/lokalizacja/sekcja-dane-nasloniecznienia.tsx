@@ -9,11 +9,8 @@ import { StanPusty } from "@/components/ui/stany"
 import { czyPoprawnaTemperatura, czyPoprawneNadpisanie, nadpisaniePasuje, type NadpisanieNasloneczenia, type ZapisTmyZNadpisaniem } from "@/lib/lokalizacja/nadpisanie-nasloneczenia"
 import type { LokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
-import { useTranslate } from "@/lib/i18n/language-context"
-
-const f3 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 3 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDate } from "@/lib/i18n/liczby"
 const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i + 1).padStart(2, "0")}`)
 
 /** Own monthly radiation totals replacing the PVGIS ones (INFRA-2). Stores strings while typing; an empty or non-positive field means "no override". */
@@ -27,6 +24,9 @@ function NadpisanieMiesieczne({
   ustaw: (ghiKwhM2: (number | null)[]) => void
 }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   // The parent remounts this component once the saved sums are read (`key`), so the initial state is the saved one.
   const [wpisy, setWpisy] = useState<string[]>(() =>
     nadpisaniePasuje(nadpisanie, dane.szerokosc, dane.dlugosc) ? nadpisanie.ghiKwhM2.map((v) => (v === null ? "" : String(v))) : Array(12).fill(""),
@@ -101,6 +101,8 @@ function NadpisanieTemperatur({
   ustaw: (tempSrednieC: (number | null)[]) => void
 }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const [wpisy, setWpisy] = useState<string[]>(() =>
     nadpisaniePasuje(nadpisanie, dane.szerokosc, dane.dlugosc) && nadpisanie.tempSrednieC
       ? nadpisanie.tempSrednieC.map((v) => (v === null ? "" : String(v)))
@@ -186,6 +188,9 @@ export function SekcjaDanychNaslonecznienia({
   }
 }) {
   const t = useTranslate()
+  const jezyk = useLanguage()
+  const formatLiczbe = useFormatLiczby()
+  const f3 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 3 })
   const online = useOnline()
   return (
     <section className="flex flex-col gap-2 rounded-lg border p-4">
@@ -208,7 +213,7 @@ export function SekcjaDanychNaslonecznienia({
           </p>
           {dane ? (
             <p className="text-small text-muted-foreground">
-              {t("UI-SEKDANNAS-TYPOWY-ROK-METEOROLOGICZNY", { bazaPromieniowania: dane.dane.meta.bazaPromieniowania, rokOd: dane.dane.meta.rokOd, rokDo: dane.dane.meta.rokDo, p: new Date(dane.pobrano).toLocaleDateString("pl-PL") })}
+              {t("UI-SEKDANNAS-TYPOWY-ROK-METEOROLOGICZNY", { bazaPromieniowania: dane.dane.meta.bazaPromieniowania, rokOd: dane.dane.meta.rokOd, rokDo: dane.dane.meta.rokDo, p: formatujDate(new Date(dane.pobrano), jezyk) })}
             </p>
           ) : (
             <p className="text-small text-muted-foreground">

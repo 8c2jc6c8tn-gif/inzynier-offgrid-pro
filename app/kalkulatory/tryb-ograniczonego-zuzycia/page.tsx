@@ -12,18 +12,19 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateTrybOgraniczonegoZuzycia } from "@/lib/core/modules/zapotrzebowanie/tryb-ograniczonego-zuzycia/calculator"
 import type { TrybOgraniczony } from "@/lib/core/modules/zapotrzebowanie/tryb-ograniczonego-zuzycia/input"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 import { KLUCZ_DRAFTU_TRYB_OGRANICZONY, odbiornikiDoTrybu, PUSTY_SEED_TRYBU, wejscieTrybu, type SeedTrybuOgraniczonego } from "@/lib/obiekt/tryb-ograniczony-draft"
 import type { DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 
 const KLUCZ_DRAFTU_ODBIORNIKOW = "zuzycie-per-urzadzenie"
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 export default function TrybOgraniczonegoZuzyciaPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const [stan, setStan] = usePersistedDraft<SeedTrybuOgraniczonego>(KLUCZ_DRAFTU_TRYB_OGRANICZONY, PUSTY_SEED_TRYBU)
   const profil = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU).dane
   const { dane: lista } = useOdczytDraftu<DraftOdbiornikow>(KLUCZ_DRAFTU_ODBIORNIKOW)

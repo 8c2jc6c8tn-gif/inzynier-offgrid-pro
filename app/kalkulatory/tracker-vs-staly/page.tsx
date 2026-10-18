@@ -15,7 +15,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useFormatLiczby, useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   liczbaPaneliTracker: string
@@ -37,7 +37,6 @@ const kolumny = (t: (kod: string) => string): Kolumna<WierszPorownania>[] => [
   { naglowek: t("UI-TRAVSSTA-STALY-STELAZ"), render: (r) => r.staly },
 ]
 
-const liczba = (v: number, miejsca = 0) => v.toLocaleString("pl-PL", { maximumFractionDigits: miejsca })
 const naLiczbe = (s: string) => (s === "" ? 0 : Number(s))
 
 /** Polish plural form key: 1 panel, 2–4 panele (except 12–14), otherwise paneli (EN/RU texts follow the same three keys). */
@@ -52,6 +51,8 @@ const ETYKIETA_WERDYKTU = {
 
 export default function TrackerVsStalyPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const liczba = (v: number, miejsca = 0) => formatLiczbe(v, { maximumFractionDigits: miejsca })
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("tracker-vs-staly", STAN_POCZATKOWY, PRZELICZ_KWOTY)
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan({ ...stan, [pole]: e.target.value })

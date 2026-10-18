@@ -16,7 +16,7 @@ import { calculateMostkiTermiczne, type StrataMostka } from "@/lib/core/modules/
 import { KATALOG_PSI_14683, pozycjaKatalogu, type KategoriaMostka, type SystemWymiarow } from "@/lib/core/modules/ogrzewanie/mostki-termiczne/katalog-psi"
 import { calculateObciazenieCieplne } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { TEMPERATURA_OBLICZENIOWA_ZEWNETRZNA_C } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { KLUCZ_DRAFTU_OBCIAZENIA, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
@@ -36,9 +36,6 @@ const stanPoczatkowy = (t: (k: string) => string): Seed => ({
 })
 
 const n = (s: string) => liczba(s) ?? null
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 const KATEGORIE: { kategoria: KategoriaMostka; nazwa: string }[] = [
   { kategoria: "narozniki", nazwa: "UI-MOSTER-NAROZNIKI-SCIAN" },
@@ -78,6 +75,8 @@ function WyborDetalu({ id, label, value, onChange }: { id: string; label: string
 /** Ψ of the chosen table detail for the chosen system — display only, the core does the calculation. */
 function PsiZTablicy({ kod, system }: { kod: string; system: SystemWymiarow | "" }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const poz = pozycjaKatalogu(kod)
   if (!poz) return null
   return (
@@ -177,6 +176,9 @@ function KartaMostka({
 
 export default function MostkiTermicznePage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
   const [stan, setStan] = usePersistedDraft<Seed>("mostki-termiczne", stanPoczatkowy(t))
   const ustawMostek = (i: number, z: Partial<MostekSeed>) => setStan((s) => ({ ...s, mostki: s.mostki.map((m, j) => (j === i ? { ...m, ...z } : m)) }))
   const ekran1 = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)

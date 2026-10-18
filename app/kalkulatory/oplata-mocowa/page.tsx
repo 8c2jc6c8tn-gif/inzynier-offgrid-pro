@@ -12,12 +12,13 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { liczba, liczbaLubNull, nadpisanie, poziomWerdyktu } from "@/components/siec/wspolne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type Stan = { roczna: string; wGodzinach: string; przesuniecie: string; stawka: string }
 
 export default function OplataMocowaPage() {
   const t = useTranslate(true)
+  const formatLiczbe = useFormatLiczby()
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-oplata-mocowa", { roczna: "", wGodzinach: "", przesuniecie: "0", stawka: "" })
   const ustaw = <K extends keyof Stan>(pole: K, v: string) => setStan((p) => ({ ...p, [pole]: v }))
@@ -92,7 +93,7 @@ export default function OplataMocowaPage() {
         <WerdyktPanel poziom={poziom ?? "uwaga"} etykieta={t("UI-OPLMOC-OPLATA-MOCOWA-ROKU")}>
           <WynikGlowny>{t("UI-OPLMOC-NETTO-ROK", { oplataRokZl: zl(v.oplataRokZl) })}</WynikGlowny>
           <p className="mt-1 text-small">
-            {t("UI-OPLMOC-ENERGII-POBIERASZ-GODZINACH", { udzialProcent: v.udzialProcent.toLocaleString("pl-PL", { maximumFractionDigits: 1 }), oplataPoPrzesunieciuZl: zl(v.oplataPoPrzesunieciuZl), oszczednoscRokZl: zl(v.oszczednoscRokZl) })}
+            {t("UI-OPLMOC-ENERGII-POBIERASZ-GODZINACH", { udzialProcent: formatLiczbe(v.udzialProcent, { maximumFractionDigits: 1 }), oplataPoPrzesunieciuZl: zl(v.oplataPoPrzesunieciuZl), oszczednoscRokZl: zl(v.oszczednoscRokZl) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

@@ -1236,3 +1236,12 @@ Status: ✅ przekazane CZĘŚCIOWO do new-app-standards (18.10.2026). Zostaje ot
 
 Status: 🔎 nowe
 
+
+## [18.10.2026] Formatowanie liczb i dat wg języka UI: jeden hak i test zakazujący sztywnego locale (do 17.12, audyt Y.11 poz. 8)
+
+**Problem:** audyt Y.11 (poz. 8) znalazł 181 wywołań `toLocaleString("pl-PL")` w 103 plikach; przy interfejsie EN/RU liczby miały polski separator. Sam strażnik tekstów (17.9) tego nie widzi, bo to nie literał do tłumaczenia.
+**Rozwiązanie, które zadziałało:** (1) czysty pomocnik `formatujLiczbe(x, jezyk, opcje)` + hak `useFormatLiczby()` w kontekście języka, mapa języków na locale w jednym miejscu, współdzielona z formatowaniem kwot; (2) test, który skanuje źródła i zabrania `toLocale(Date)String("pl-PL")` poza jawną listą wyjątków; (3) migracja skryptem na drzewie składni (nie wyrażeniem regularnym), z ręcznym domknięciem pomocników modułowych używanych poza komponentami; typecheck wychwycił usunięte eksporty.
+**Pułapka:** pomocniki modułowe `const f1 = (x) => …` używane w funkcjach poza komponentami wymagają przekazania formattera parametrem — hak ich nie obsłuży.
+Dlaczego warto zgłosić do new-app-standards: ta sama luka jest w każdym projekcie rodziny z więcej niż jednym językiem (poz. 8 rejestru Y.11 mówi to samo); gotowy wzorzec i test oszczędzają audyt od zera.
+
+Status: 🔎 nowe

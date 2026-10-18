@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.33.1] — 18.10.2026
+
+Liczby i daty zgodne z językiem interfejsu (audyt Y.11 z 18.10.2026, poz. 8, standard 17.12):
+- nowy pomocnik `lib/i18n/liczby.ts` (`formatujLiczbe`, `formatujDate`, mapa `LOCALE_INTL`) i hak `useFormatLiczby()`; 166 wywołań `toLocaleString("pl-PL", …)` w ekranach i komponentach oraz 3 daty przeszły przez niego, więc w EN liczby mają kropkę dziesiętną (1,234.5), a w RU przecinek i spację jako separator tysięcy,
+- `formatujKwote` (waluta) korzysta z tej samej mapy ustawień regionalnych,
+- test pilnuje, żeby w `lib/`, `app/` i `components/` nie wróciło `toLocaleString("pl-PL")` (wyjątek: tekst listy kontrolnej momentu dokręcania, który jest po polsku w całości).
+
+Wpływ na liczby: brak (wartości te same; zmienia się tylko zapis separatorów w EN i RU, po polsku wygląd bez zmian).
+
 ## [3.33.0] — 18.10.2026
 
 Wiatr dla dachu czterospadowego i ściany, powiadomienia o przeglądach, kreska w ilustracjach, rekomendacje w raporcie kryzysowym, ikony ekranów (D91):

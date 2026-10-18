@@ -9,11 +9,11 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porownawcza"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useFormatLiczby, useTranslate } from "@/lib/i18n/language-context"
 
 type Tech = ReturnType<typeof calculatePorownanieTechnologii>["value"][number]
 
-const kolumny = (t: (kod: string) => string): Kolumna<Tech>[] => [
+const kolumny = (t: (kod: string) => string, formatLiczbe: (x: number) => string): Kolumna<Tech>[] => [
   { naglowek: "UI-PORTECMAG-TECHNOLOGIA", render: (tech) => <span className="font-medium">{t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}`)}</span> },
   { naglowek: "UI-PORTECMAG-CENA-STARTOWA", render: (tech) => t(`UI-STALEBAT-CENA-${tech.cenaStartowa.toUpperCase()}`) },
   { naglowek: "UI-PORTECMAG-CYKLE-DOD", render: (tech) => (tech.id === "trakcyjna" ? t("UI-STALEBAT-TECH-TRAKCYJNA-CYKLE") : tech.cyklePrzyDodOpis) },
@@ -22,7 +22,7 @@ const kolumny = (t: (kod: string) => string): Kolumna<Tech>[] => [
   { naglowek: "UI-PORTECMAG-OBSLUGA", render: (tech) => t(`UI-STALEBAT-TECH-${tech.id.toUpperCase()}-OBSLUGA`) },
   {
     naglowek: "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA",
-    render: (tech) => `${tech.energiaCalkowitaKwh.toLocaleString("pl-PL")} kWh`,
+    render: (tech) => `${formatLiczbe(tech.energiaCalkowitaKwh)} kWh`,
     liczbowa: true,
   },
 ]
@@ -37,6 +37,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function PorownanieTechnologiiMagazynowPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("porownanie-technologii-magazynow", STAN_POCZATKOWY)
   const { pojemnoscKwh } = stan
   const setPojemnoscKwh = (a: string | ((p: string) => string)) =>
@@ -79,7 +80,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
       {isInvalid ? (
         <WerdyktPanel poziom="blad" etykieta={blad && (blad.message ?? t(blad.i18nKey ?? blad.code, blad.params))} />
       ) : (
-        <KartaPorownawcza kolumny={kolumny(t).map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={result.value} minWidth={640} />
+        <KartaPorownawcza kolumny={kolumny(t, formatLiczbe).map((k) => ({ ...k, naglowek: t(k.naglowek) }))} wiersze={result.value} minWidth={640} />
       )}
 
       {result.assumptions.length > 0 && (

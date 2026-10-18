@@ -1,10 +1,11 @@
 /** Pure currency conversion and formatting (no DOM, no storage). Rates: units of X per 1 PLN. */
 import type { Language } from "@/lib/i18n/language"
+import { LOCALE_INTL } from "@/lib/i18n/liczby"
 import { WALUTA_BAZOWA, type KodWaluty } from "./waluty"
 
 export type Kursy = Partial<Record<string, number>>
 
-const LOCALE: Record<Language, string> = { pl: "pl-PL", en: "en-GB", ru: "ru-RU" }
+const LOCALE = LOCALE_INTL
 
 /**
  * Effective rate for `kod`: a manual rate wins over the fetched one; `narzutProc` widens the rate

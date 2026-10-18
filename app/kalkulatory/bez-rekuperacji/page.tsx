@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = Record<keyof BezRekuperacjiInput, string>
 
@@ -34,11 +34,12 @@ const POLA: { pole: keyof BezRekuperacjiInput; label: string; unit: string }[] =
 ]
 
 const liczba = (v: string) => (v === "" ? null : Number(v))
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
 
 export default function BezRekuperacjiPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const [stan, setStan] = usePersistedDraft<FormularzStan>("bez-rekuperacji", STAN_POCZATKOWY)
   const result = useMemo(
     () => calculateBezRekuperacji(Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as BezRekuperacjiInput),

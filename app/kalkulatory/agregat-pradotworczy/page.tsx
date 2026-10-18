@@ -18,7 +18,7 @@ import {
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = BezpieczenstwoAgregatuStan & {
   deficytKwh: string
@@ -42,6 +42,7 @@ const KWOTY = przeliczPola<FormularzStan>("cenaZaLitrZl")
 
 export default function AgregatPradotworczyPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, KWOTY)
   const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
     stan
@@ -168,10 +169,10 @@ export default function AgregatPradotworczyPage() {
             etykieta={hasCritical ? t("UI-AGRPRA-RAPORT-PRACY-AGREGATU") : t("UI-AGRPRA-RAPORT-PRACY-AGREGATU-2")}
           >
             <WynikGlowny>
-              {result.value.godzinyPracy.toLocaleString("pl-PL", { maximumFractionDigits: 1 })} h
+              {formatLiczbe(result.value.godzinyPracy, { maximumFractionDigits: 1 })} h
             </WynikGlowny>
             <p className="mt-1 text-small">
-              {t("UI-AGRPRA-ZUZYCIE-PALIWA-KOSZT", { zuzyciePaliwaLitry: result.value.zuzyciePaliwaLitry.toLocaleString("pl-PL", { maximumFractionDigits: 1 }), kosztZl: result.value.kosztZl.toLocaleString("pl-PL", { maximumFractionDigits: 0 }) })}
+              {t("UI-AGRPRA-ZUZYCIE-PALIWA-KOSZT", { zuzyciePaliwaLitry: formatLiczbe(result.value.zuzyciePaliwaLitry, { maximumFractionDigits: 1 }), kosztZl: formatLiczbe(result.value.kosztZl, { maximumFractionDigits: 0 }) })}
             </p>
             <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>

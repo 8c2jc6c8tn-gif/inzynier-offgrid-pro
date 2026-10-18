@@ -7,12 +7,8 @@ import { KATEGORIE_TERENU, type KategoriaTerenu } from "@/lib/core/modules/pv/eu
 import { TYPY_DACHU } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
 import type { WynikPanelu } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import type { ObciazeniaMiejsca, OcenaObciazenia, SytuacjaObciazenia } from "@/lib/core/modules/pv/porownywarka-paneli/obciazenia"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import type { ObciazeniaSeed } from "@/lib/porownywarka-paneli/stan"
-
-const f0 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 0 })
-const f1 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 1 })
-const f2 = (x: number) => x.toLocaleString("pl-PL", { maximumFractionDigits: 2 })
 
 const STREFY_SNIEGOWE: readonly StrefaSniegowa[] = [1, 2, 3, 4, 5]
 const ETYKIETA_STREFY_SNIEGOWEJ: Record<StrefaSniegowa, string> = {
@@ -59,6 +55,10 @@ export function ObciazeniaPaneli(p: {
   montaz: "rownolegly" | "pochylony-na-konstrukcji"
 }) {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
+  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
   const m = p.miejsce
   const opisRodzaju = (rodzaj: "testowe" | "obliczeniowe") => t(rodzaj === "testowe" ? "UI-PORP-OBC-RODZAJ-TESTOWE" : "UI-PORP-OBC-RODZAJ-OBLICZENIOWE")
   const status = (o: OcenaObciazenia) =>

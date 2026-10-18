@@ -16,7 +16,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   poborCiagleW: string
@@ -30,6 +30,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function PoborWlasnyBmsPage() {
   const t = useTranslate()
+  const formatLiczbe = useFormatLiczby()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("pobor-wlasny-bms", STAN_POCZATKOWY)
   const { poborCiagleW, poborUspienieW } = stan
 
@@ -89,9 +90,9 @@ export default function PoborWlasnyBmsPage() {
         <p className="text-small text-muted-foreground">{t("UI-POBWLABMS-WYPELNIJ-OBA-POLA")}</p>
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-POBWLABMS-ROCZNA-STRATA-PRACY")}>
-          <WynikGlowny>{result.value.strataRocznaCiagleKwh.toLocaleString("pl-PL")} kWh</WynikGlowny>
+          <WynikGlowny>{formatLiczbe(result.value.strataRocznaCiagleKwh)} kWh</WynikGlowny>
           <p className="mt-1 text-small">
-            {t("UI-POBWLABMS-TRYBIE-USPIENIA-KWH", { strataDoboweUspienieKwh: result.value.strataDoboweUspienieKwh.toLocaleString("pl-PL"), strataRocznaUspienieKwh: result.value.strataRocznaUspienieKwh.toLocaleString("pl-PL"), oszczednoscRocznaKwh: result.value.oszczednoscRocznaKwh.toLocaleString("pl-PL") })}
+            {t("UI-POBWLABMS-TRYBIE-USPIENIA-KWH", { strataDoboweUspienieKwh: formatLiczbe(result.value.strataDoboweUspienieKwh), strataRocznaUspienieKwh: formatLiczbe(result.value.strataRocznaUspienieKwh), oszczednoscRocznaKwh: formatLiczbe(result.value.oszczednoscRocznaKwh) })}
           </p>
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>

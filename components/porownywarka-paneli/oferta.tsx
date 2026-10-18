@@ -223,7 +223,7 @@ export function ArkuszOferty({ dane, stan, firma, wersje }: PropsArkusza) {
   const t = useTranslate()
   const jezyk = useLanguage()
   const panele = wersje.map((w) => w.panel)
-  const wiersze = wierszeWyniku(t, dane.waluta, dane.zwroty).filter(([klucz, wartosc]) => WIERSZE_OFERTY.includes(klucz) && panele.some((x) => wartosc(x) !== null))
+  const wiersze = wierszeWyniku(t, dane.waluta, jezyk, dane.zwroty).filter(([klucz, wartosc]) => WIERSZE_OFERTY.includes(klucz) && panele.some((x) => wartosc(x) !== null))
   const dla = (stan.ofertaDla ?? "").trim()
   const wykonawca = (stan.ofertaWykonawca ?? "").trim()
   const uwagi = (stan.ofertaUwagi ?? "").trim()
