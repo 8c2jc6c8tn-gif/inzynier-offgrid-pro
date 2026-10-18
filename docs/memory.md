@@ -2803,3 +2803,16 @@ Właściciel przesłał zrzut tabeli „LiFePO4 314Ah — parametry BMS” z fil
 **Ustalenia (nie decyzje):** zestaw ze zrzutu mieści się w zakresach źródła Modułu 11 (OVP 3,60, UVP 2,65, start balansu 3,40, prądy 0,32 C); jedyna uwaga: Charge UTPR = Charge UTP = 5 °C (brak histerezy). Dwa rozjazdy A vs B czekają na właściciela (model napięcie odcięcia ↔ DoD ↔ cykle; ładowanie poniżej 0 °C: Biblia vs `cold-c-rate`) — patrz lista zadań 17.10.2026.
 
 **Pułapka dla budowy ekranu (rozpoznanie 17.10):** nowy ekran w M4 dotyka: moduł w `lib/core/modules/baterie/<id>/`, `app/kalkulatory/<id>/page.tsx`, `lib/i18n/ui/<plik>.ts` + `lib/i18n/ui/index.ts`, pomoc w `lib/i18n/pomoc/m04-baterie.ts` (pl/en/ru), klucze ostrzeżeń w `lib/i18n/dictionary-{pl,en,ru}.ts`, `lib/i18n/ui/pulpit-rejestr.ts` (`UI-EKRAN-<modul>-<ID>`), `lib/pulpit/registry.ts`, `lib/ai/tools/<id>-tool.ts` + import w `lib/ai/pytaj-asystenta.ts`, lista `MIGRATED_MODULES` w `scripts/check-i18n-guard.mjs`, `docs/rejestr-pokrycia.md`, wersja. Wzorce do skopiowania: `terminarz-przegladow` (formularz + autosave + narzędzie AI), `matryca-alarmow-bms` (tabela referencyjna).
+
+
+## 18.10.2026 — klucze dostępu (passkey) w logowaniu (wersja 3.31.0, D89)
+
+Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy sprawdzony w repo: konta to szkielet Supabase Auth (magic link, Google, Apple), bramka w `proxy.ts` wyłączona do czasu kluczy właściciela (`isSupabaseConfigured()`), więc passkey zbudowany jako dodatek za tą samą bramką; bez kluczy aplikacja działa jak dotąd.
+
+**Rozstrzygnięcia (domyślne, do korekty przez właściciela, szczegóły D89):** dodatek do istniejących metod, nie zamiennik; natywne klucze Supabase Auth (supabase-js 2.116 ma `auth.passkey.*`, wymaga flagi `auth.experimental.passkey`), zamiast własnego WebAuthn i nowej zależności; wołane wyłącznie z Server Actions.
+
+**Pułapki:**
+- Standard 18.5 zabrania klienta Supabase w przeglądarce, a gotowe `signInWithPasskey()` działa w przeglądarce. Rozwiązanie: dwuetapowy `auth.passkey.startAuthentication/verifyAuthentication` na serwerze, a okno systemowe otwierają natywne `PublicKeyCredential.parse…OptionsFromJSON` i `toJSON()` w przeglądarce (bez własnej konwersji base64url). Przeglądarka bez tych metod nie dostaje przycisku.
+- Rejestracja klucza wymaga już zalogowanego, potwierdzonego konta (nie da się założyć konta kluczem), a RP ID (domena) jest niezmienny po zapisaniu pierwszych kluczy; domena produkcyjna nieustalona, więc włączać na produkcji dopiero po jej wyborze.
+- `scripts/check-i18n-keys.mjs` traktował każdą właściwość `*Key` jako klucz tłumaczenia i wywalał się na `publicKey` z WebAuthn; dopisane do `NIE_I18N`.
+- Zweryfikowano wyłącznie atrapami (35 testów w `lib/adapters/supabase/__tests__`); nie na prawdziwym projekcie Supabase ani urządzeniu. `pnpm build` lokalnie pada na `next/font/google` (znana pułapka), więc kompilacja produkcyjna sprawdzana na CI.

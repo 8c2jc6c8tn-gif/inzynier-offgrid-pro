@@ -7,6 +7,7 @@ import { deleteAccount } from "@/lib/adapters/supabase/delete-account"
 import { signOut } from "@/app/auth/signout/actions"
 import { isSupabaseConfigured } from "@/lib/adapters/supabase/config"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { KontoPasskey } from "@/components/konto-passkey"
 
 /**
  * docs/standards/18-logowanie.md — widoczny status konta w Ustawieniach. Renderuje się na coś
@@ -48,6 +49,7 @@ export function KontoSekcja() {
             </form>
             <UsunKontoPrzycisk />
           </div>
+          <KontoPasskey />
         </>
       ) : (
         <p className="text-small text-muted-foreground">{t("UI-KONSEK-NIEZALOGOWANO")}</p>

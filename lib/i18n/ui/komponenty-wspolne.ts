@@ -50,6 +50,17 @@ export const pl = {
   "UI-WERDYKT-DOPUSZCZALNE": "Dopuszczalne",
   "UI-WERDYKT-ZABRONIONE": "Zabronione",
   "UI-BUDLIS-USUN": "Usuń",
+  "UI-KONPAS-TYTUL": "Klucze dostępu",
+  "UI-KONPAS-OPIS": "Loguj się twarzą, odciskiem palca albo PIN-em urządzenia, bez linku z e-maila. Klucz zostaje w systemie urządzenia lub w menedżerze haseł; aplikacja nie dostaje ani Twojej twarzy, ani odcisku palca.",
+  "UI-KONPAS-DODAJ": "Dodaj klucz dostępu",
+  "UI-KONPAS-DODAWANIE": "Czekam na potwierdzenie na urządzeniu…",
+  "UI-KONPAS-DODANO": "Dodano klucz dostępu.",
+  "UI-KONPAS-BRAK": "Nie dodano jeszcze żadnego klucza dostępu.",
+  "UI-KONPAS-BEZ-NAZWY": "Klucz dostępu",
+  "UI-KONPAS-UTWORZONO": "dodano {data}",
+  "UI-KONPAS-OSTATNIO": "ostatnio użyty {data}",
+  "UI-KONPAS-USUN": "Usuń",
+  "UI-KONPAS-POTWIERDZ-USUN": "Usunąć ten klucz dostępu? Zalogujesz się wtedy linkiem z e-maila albo innym kluczem.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -104,6 +115,17 @@ export const en: Record<Klucz, string> = {
   "UI-WERDYKT-DOPUSZCZALNE": "Acceptable",
   "UI-WERDYKT-ZABRONIONE": "Prohibited",
   "UI-BUDLIS-USUN": "Remove",
+  "UI-KONPAS-TYTUL": "Passkeys",
+  "UI-KONPAS-OPIS": "Sign in with your face, fingerprint or device PIN, without an e-mail link. The passkey stays in the device system or your password manager; the app never receives your face or fingerprint.",
+  "UI-KONPAS-DODAJ": "Add a passkey",
+  "UI-KONPAS-DODAWANIE": "Waiting for confirmation on your device…",
+  "UI-KONPAS-DODANO": "Passkey added.",
+  "UI-KONPAS-BRAK": "No passkey added yet.",
+  "UI-KONPAS-BEZ-NAZWY": "Passkey",
+  "UI-KONPAS-UTWORZONO": "added {data}",
+  "UI-KONPAS-OSTATNIO": "last used {data}",
+  "UI-KONPAS-USUN": "Remove",
+  "UI-KONPAS-POTWIERDZ-USUN": "Remove this passkey? You will then sign in with the e-mail link or another passkey.",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -156,4 +178,15 @@ export const ru: Record<Klucz, string> = {
   "UI-WERDYKT-DOPUSZCZALNE": "Допустимо",
   "UI-WERDYKT-ZABRONIONE": "Запрещено",
   "UI-BUDLIS-USUN": "Удалить",
+  "UI-KONPAS-TYTUL": "Ключи доступа",
+  "UI-KONPAS-OPIS": "Входите по лицу, отпечатку пальца или PIN-коду устройства, без ссылки из письма. Ключ хранится в системе устройства или в менеджере паролей; приложение не получает ни ваше лицо, ни отпечаток.",
+  "UI-KONPAS-DODAJ": "Добавить ключ доступа",
+  "UI-KONPAS-DODAWANIE": "Ожидание подтверждения на устройстве…",
+  "UI-KONPAS-DODANO": "Ключ доступа добавлен.",
+  "UI-KONPAS-BRAK": "Ключи доступа ещё не добавлены.",
+  "UI-KONPAS-BEZ-NAZWY": "Ключ доступа",
+  "UI-KONPAS-UTWORZONO": "добавлен {data}",
+  "UI-KONPAS-OSTATNIO": "последнее использование: {data}",
+  "UI-KONPAS-USUN": "Удалить",
+  "UI-KONPAS-POTWIERDZ-USUN": "Удалить этот ключ доступа? Вы сможете войти по ссылке из письма или другим ключом.",
 }

@@ -12,6 +12,10 @@ export async function createSupabaseServerClient() {
 
   return createServerClient(supabaseUrl(), supabaseAnonKey(), {
     cookieOptions: sessionCookieOptions(),
+    // Passkeys (WebAuthn) są w Supabase Auth oznaczone jako eksperymentalne — metody `auth.passkey.*`
+    // rzucają błąd, dopóki flaga nie jest włączona jawnie (supabase.com/docs/guides/auth/passkeys).
+    // Flaga nie zmienia działania pozostałych metod logowania.
+    auth: { experimental: { passkey: true } },
     cookies: {
       getAll() {
         return cookieStore.getAll()

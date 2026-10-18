@@ -45,6 +45,8 @@ export const pl = {
   "UI-UST-UKRYJ": "Ukryj",
   "UI-MOD-PULPIT": "← Pulpit",
   "UI-MOD-TYTUL": "Moduł {id} — {nazwa}",
+  "UI-LOG-ZALOGUJ-KLUCZEM": "Zaloguj się kluczem dostępu (twarz lub odcisk palca)",
+  "UI-LOG-KLUCZ-OCZEKIWANIE": "Czekam na potwierdzenie na urządzeniu…",
 } as const
 
 type Klucz = keyof typeof pl
@@ -93,6 +95,8 @@ export const en: Record<Klucz, string> = {
   "UI-UST-UKRYJ": "Hide",
   "UI-MOD-PULPIT": "← Dashboard",
   "UI-MOD-TYTUL": "Module {id} — {nazwa}",
+  "UI-LOG-ZALOGUJ-KLUCZEM": "Sign in with a passkey (face or fingerprint)",
+  "UI-LOG-KLUCZ-OCZEKIWANIE": "Waiting for confirmation on your device…",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -139,4 +143,6 @@ export const ru: Record<Klucz, string> = {
   "UI-UST-UKRYJ": "Скрыть",
   "UI-MOD-PULPIT": "← Панель",
   "UI-MOD-TYTUL": "Модуль {id} — {nazwa}",
+  "UI-LOG-ZALOGUJ-KLUCZEM": "Войти с ключом доступа (лицо или отпечаток пальца)",
+  "UI-LOG-KLUCZ-OCZEKIWANIE": "Ожидание подтверждения на устройстве…",
 }
