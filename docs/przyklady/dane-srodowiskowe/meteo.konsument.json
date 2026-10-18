@@ -1,7 +1,0 @@
-{
-  "wyjscie": "src/generated/srodowisko.ts",
-  "lokalizacje": ["miib-121000", "miib-123750", "punkt-nowe-olszyny"],
-  "klimatMiesieczny": { "zrodla": ["miib", "pvgis"], "pola": ["te", "fie", "hdd20_15", "hdd18_15"] },
-  "opady": { "pola": ["opad", "opadSnieg"] },
-  "strefyNormowe": true
-}
