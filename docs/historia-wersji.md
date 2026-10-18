@@ -5,7 +5,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 ## [3.35.1] — 18.10.2026
 
 Decyzja o domenach na polski rynek (D94, tylko dokumentacja):
-- `rejestr-decyzji.md`: D94 — `inżynier-offgrid.pl` i `inzynier-offgrid.pl` (bez „ż”), jedna kanoniczna z przekierowaniem 301; rejestracja do wykonania przez właściciela; domena angielska, domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
+- `rejestr-decyzji.md`: D94 — `inżynier-offgrid.pl` i `inzynier-offgrid.pl` (bez „ż”), jedna kanoniczna z przekierowaniem 301; rejestracja do wykonania przez właściciela; wersja międzynarodowa `offgrid-engineer.pro`; domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
 
 Wpływ na liczby: brak.
 
