@@ -26,8 +26,7 @@ export const PANELI_NAD_SOBA_MAKS = 2
 export const TMIN_ZAKRES_C: readonly [number, number] = [-70, 50]
 
 /** Dopuszczalny zakres wpisanej wysokości miejsca nad poziomem morza [m] i wysokości górnej krawędzi paneli nad gruntem [m] (spec 32) — kontrola literówki, nie klimat. */
-export const WYSOKOSC_NPM_ZAKRES_M: readonly [number, number] = [-50, 2500]
-export const WYSOKOSC_KONSTRUKCJI_ZAKRES_M: readonly [number, number] = [0.1, 200]
+export { WYSOKOSC_KONSTRUKCJI_ZAKRES_M, WYSOKOSC_NPM_ZAKRES_M } from "../wiatr-powyzej-30/constants"
 
 /** Horyzont liczenia kosztu zimowej kWh [lata] — „zł/kWh zimowej w 25 latach” ze specyfikacji, sekcja 6.4. */
 export const HORYZONT_LAT = 25

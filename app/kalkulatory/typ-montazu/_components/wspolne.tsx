@@ -65,7 +65,7 @@ export function wiatrZSeeda(s: WiatrSeed, wysokoscPvgis: number | undefined) {
   }
 }
 
-const OPIS_TERENU: Record<KategoriaTerenu, string> = {
+export const OPIS_TERENU: Record<KategoriaTerenu, string> = {
   "0": "UI-TYPMON-COMWSP-MORZE",
   I: "UI-TYPMON-COMWSP-JEZIORA-TEREN-PLASKI",
   II: "UI-TYPMON-COMWSP-NISKA-ROSLINNOSC-POJEDYNCZE",

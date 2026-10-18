@@ -106,10 +106,13 @@ export function zbierzZModulow() {
       if (ts.isObjectLiteralExpression(n)) {
         const formula = n.properties.find((p) => (ts.isPropertyAssignment(p) || ts.isShorthandPropertyAssignment(p)) && nazwa(p) === "formula")
         const klucz = n.properties.find((p) => ts.isPropertyAssignment(p) && nazwa(p) === "formulaKey")
-        if (formula && klucz && ts.isStringLiteral(klucz.initializer) && PREFIKS.test(klucz.initializer.text)) {
+        // the key may be a literal or a `const` holding one (`formulaKey: FORMULA_KEY`)
+        let kluczWyr = klucz ? klucz.initializer : null
+        if (kluczWyr && ts.isIdentifier(kluczWyr)) kluczWyr = rozwiaz(kluczWyr.text, n, stale)
+        if (formula && kluczWyr && ts.isStringLiteral(kluczWyr) && PREFIKS.test(kluczWyr.text)) {
           let wyrazenie = ts.isShorthandPropertyAssignment(formula) ? formula.name : formula.initializer
           if (ts.isIdentifier(wyrazenie)) wyrazenie = rozwiaz(wyrazenie.text, n, stale)
-          dodaj(klucz.initializer.text, plik, wyrazenie ? tekst(wyrazenie) : null, "obiekt")
+          dodaj(kluczWyr.text, plik, wyrazenie ? tekst(wyrazenie) : null, "obiekt")
         }
       }
       if (ts.isCallExpression(n)) {

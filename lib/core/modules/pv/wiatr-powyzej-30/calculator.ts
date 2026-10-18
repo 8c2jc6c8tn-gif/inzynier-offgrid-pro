@@ -14,7 +14,6 @@ import { katObjetyNorma, szacunekPozaNorma } from "./warnings"
 export const CALCULATOR_VERSION = "1.0.0"
 
 const FORMULA = "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ)"
-const FORMULA_KEY = "UI-FORMULA-PV-WIATR-POWYZEJ-30"
 
 export type WiatrPowyzej30Result = {
   /** Bazowe ciśnienie prędkości q_b [Pa] (Tablica NA.1). */
@@ -56,7 +55,7 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
   if (input.wysokoscNpmM !== null) inputs.wysokoscNpmM = input.wysokoscNpmM
   if (input.wysokoscKonstrukcjiM !== null) inputs.wysokoscKonstrukcjiM = input.wysokoscKonstrukcjiM
   if (input.strefaWiatrowa !== null) inputs.strefaWiatrowa = input.strefaWiatrowa
-  const baza = { unit: "Pa", formula: FORMULA, formulaKey: FORMULA_KEY, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "Pa", formula: FORMULA, formulaKey: "UI-FORMULA-PV-WIATR-POWYZEJ-30", inputs, calculatorVersion: CALCULATOR_VERSION }
 
   if (errors.length > 0) return { ...baza, value: PUSTY, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
