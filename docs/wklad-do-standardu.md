@@ -1245,3 +1245,15 @@ Status: 🔎 nowe
 Dlaczego warto zgłosić do new-app-standards: ta sama luka jest w każdym projekcie rodziny z więcej niż jednym językiem (poz. 8 rejestru Y.11 mówi to samo); gotowy wzorzec i test oszczędzają audyt od zera.
 
 Status: 🔎 nowe
+
+## [18.10.2026, uzupełnienie odpowiedzi o generator tłumaczenia wzoru] Generator napisany i działa (zastępuje pkt 1 i 5 odpowiedzi wyżej)
+
+**Stan po pracy w tym projekcie (wersja 3.33.1):** generator istnieje — `scripts/generuj-formuly.mjs` (ok. 190 linii, zależność: `typescript`). Uruchomienie: `node scripts/generuj-formuly.mjs` (sprawdzenie, kod wyjścia 1 przy problemie) i `--write` (`pnpm formuly:napraw`). Sprawdzenie wchodzi w `pnpm check:i18n-guard`, więc jedzie w CI.
+- **Wejście:** pliki `.ts` w `lib/core/modules` (bez `__tests__`) i słownik `lib/i18n/ui/formuly.ts` (obiekty `pl`, `en`, `ru`). **Wyjście:** zmieniony słownik (`--write`) albo raport.
+- **Jak paruje klucz z literałem (drzewo składni, nie wyrażenia regularne):** (1) obiekt z `formula` i `formulaKey`, także `formula,` skrótowo z lokalną stałą; (2) wywołanie z argumentem tekstowym `UI-FORMULA-…` i stałą jako argumentem. Podstawienie `${…}` staje się `{p1}`, `{p2}`… Klucze `-STAWKI` (ustawiane dynamicznie) pomija przy dryfie.
+- **Co wykrywa:** DRIFT, BRAK klucza w słowniku, NIEUŻYWANY klucz, NIESPARZONY (użycie, którego nie umie sparować), BRAK_EN_RU, **ZNAK_STERUJĄCY** — pojedynczy backslash (`"\times"` w TS to TAB + „imes”) w literale modułu albo w słowniku. To ten test od pojedynczego backslasha, którego brakowało (poprzedni test dryfu porównywał po zdjęciu cudzysłowów i nie widział go).
+- **`--write`:** poprawia wpisy `pl`, dodaje brakujące klucze do `pl`/`en`/`ru` (EN i RU jako szkic z tekstu PL — do przetłumaczenia ręcznie; test placeholderów to wymusi dopiero przy niezgodności znaczników).
+- **Sprawdzone na próbie:** sztuczny rozjazd, nowy klucz i pojedynczy backslash zostały wykryte, a `--write` naprawił rozjazd i dodał klucz; stan wyjściowy: 101 kluczy, 0 problemów.
+- **Specyficzne dla offgrida (do zmiany przy kopiowaniu):** ścieżki `lib/core/modules` i `lib/i18n/ui/formuly.ts`, prefiks `UI-FORMULA-`, wyjątek `-STAWKI`. Skrypt można skopiować do `docs/przyklady/i18n/` jako przykład referencyjny — decyzja sesji nad `new-app-standards`.
+
+Status: 🔎 nowe

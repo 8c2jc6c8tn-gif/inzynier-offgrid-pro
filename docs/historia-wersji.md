@@ -7,6 +7,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 Liczby i daty zgodne z językiem interfejsu (audyt Y.11 z 18.10.2026, poz. 8, standard 17.12):
 - nowy pomocnik `lib/i18n/liczby.ts` (`formatujLiczbe`, `formatujDate`, mapa `LOCALE_INTL`) i hak `useFormatLiczby()`; 166 wywołań `toLocaleString("pl-PL", …)` w ekranach i komponentach oraz 3 daty przeszły przez niego, więc w EN liczby mają kropkę dziesiętną (1,234.5), a w RU przecinek i spację jako separator tysięcy,
 - `formatujKwote` (waluta) korzysta z tej samej mapy ustawień regionalnych,
+- generator słownika wzorów `scripts/generuj-formuly.mjs` (drzewo składni TypeScript): wiąże każdy `formulaKey` z literałem `formula` w module, wykrywa rozjazd, brakujący klucz i pojedynczy backslash (`"\\times"` daje TAB), a `pnpm formuly:napraw` poprawia słownik; sprawdzenie jest częścią `pnpm check:i18n-guard` i CI,
 - test pilnuje, żeby w `lib/`, `app/` i `components/` nie wróciło `toLocaleString("pl-PL")` (wyjątek: tekst listy kontrolnej momentu dokręcania, który jest po polsku w całości).
 
 Wpływ na liczby: brak (wartości te same; zmienia się tylko zapis separatorów w EN i RU, po polsku wygląd bez zmian).
