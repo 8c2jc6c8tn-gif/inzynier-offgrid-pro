@@ -479,5 +479,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 18.10.2026 | Dodano D89 (klucze dostępu passkey jako dodatkowa metoda logowania, natywne Supabase Auth wołane z serwera) — polecenie właściciela projektu, szczegóły jako ustalenia domyślne do korekty. Wersja 1.60→1.61. |
 | 18.10.2026 | Dodano D90 (budżet precache bez zmian — wariant A, wiatr dla paneli równoległych do połaci, minimum czytelności ilustracji 80 px) — decyzje właściciela projektu. Wersja 1.61→1.62. |
 | 18.10.2026 | Dodano D91 (reszta listy po D90: wiatr dach czterospadowy i ściana, powiadomienia o przeglądach, kreska w ilustracjach, rekomendacje raportu kryzysowego, ikony ekranów) — polecenie właściciela projektu. Wersja 1.62→1.63. |
-
 | 18.10.2026 | Dodano D92 (liczba paneli do dołożenia w raporcie kryzysowym z dwóch opcjonalnych liczb) — polecenie właściciela projektu. Wersja 1.63→1.64. |
