@@ -77,6 +77,9 @@ export default function RaportKryzysowyPage() {
                 : t("UI-M7-RAPORT-POKRYCIE-PELNE")}
             </p>
           )}
+          {wsp?.pokrycieNajgorszegoMiesiaca?.wzrostPvPct != null && (
+            <p className="mt-1 text-small">{t("UI-M7-RAPORT-POKRYCIE-WZROST", { proc: f0(wsp.pokrycieNajgorszegoMiesiaca.wzrostPvPct) })}</p>
+          )}
           {wsp?.najslabsza && (
             <p className="mt-1 text-small">{t("UI-M7-RAPORT-NAJSLABSZA", { nazwa: nazwaSkladowej(wsp.najslabsza.id), proc: f0(wsp.najslabsza.wynikPct) })}</p>
           )}
@@ -113,9 +116,14 @@ export default function RaportKryzysowyPage() {
 
       <Sekcja czesc="blackout" gotowa={blackout !== null}>
         {blackout && (
-          <p>
-            {t(blackout.wystarcza ? "UI-M7-RAPORT-BLACKOUT-OK" : "UI-M7-RAPORT-BLACKOUT-ZA-MALO", { dni: f1(blackout.autonomiaDni), wymagane: f0(blackout.wymaganaAutonomiaDni) })}
-          </p>
+          <>
+            <p>
+              {t(blackout.wystarcza ? "UI-M7-RAPORT-BLACKOUT-OK" : "UI-M7-RAPORT-BLACKOUT-ZA-MALO", { dni: f1(blackout.autonomiaDni), wymagane: f0(blackout.wymaganaAutonomiaDni) })}
+            </p>
+            {!blackout.wystarcza && blackout.dodatkowaPojemnoscKwh != null && blackout.dodatkowaPojemnoscKwh > 0 && (
+              <p>{t("UI-M7-RAPORT-BLACKOUT-DOLOZ", { kwh: f1(blackout.dodatkowaPojemnoscKwh), dni: f0(blackout.wymaganaAutonomiaDni) })}</p>
+            )}
+          </>
         )}
       </Sekcja>
 

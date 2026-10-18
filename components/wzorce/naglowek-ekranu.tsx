@@ -1,4 +1,6 @@
 import type { ReactNode } from "react"
+import { IlustracjaEkranu } from "@/components/ilustracja-ekranu"
+import type { IkonaEkranu } from "@/lib/pulpit/maskotki"
 import { MigawkaInfo, type WynikMigawki } from "@/components/ui/pomoc"
 import type { EkranPomocy } from "@/lib/i18n/pomoc"
 
@@ -16,6 +18,7 @@ export function NaglowekEkranu({
   ekran,
   wynik,
   parametry,
+  ilustracja,
   children,
 }: {
   tytul: string
@@ -23,11 +26,14 @@ export function NaglowekEkranu({
   wynik?: WynikMigawki
   /** `{name}` placeholders of the Migawka, filled from engine constants. */
   parametry?: Record<string, string | number>
+  /** 3D icon next to the title (only with the 3D icon set chosen in Settings). */
+  ilustracja?: IkonaEkranu
   children?: ReactNode
 }) {
   return (
     <div>
       <div className="flex items-start gap-2">
+        {ilustracja ? <IlustracjaEkranu ikona={ilustracja} /> : null}
         <h1 className="text-h1 font-semibold">{tytul}</h1>
         {ekran && (
           <span className="mt-1.5 shrink-0">

@@ -61,3 +61,46 @@ describe("cpe of roofs for panels parallel to the pitch (Tables 7.3a/b, 7.4a/b, 
     }
   })
 })
+
+describe("hip roof (Table 7.5) and walls (Table 7.1), checked against the scan 18.10.2026", () => {
+  it("hip roof 15°: suction L, K, F −2.0 → 2.0 at the edge; the big fields H, I, N are milder (0.5); pressure +0.2", () => {
+    const r = cpeDachuDlaPaneluRownoleglego("czterospadowy", 15)!
+    expect(r.odrywanieKrawedz).toBeCloseTo(2.0, 10)
+    expect(r.odrywanieSrodek).toBeCloseTo(0.5, 10) // H −0.3, I −0.5, N −0.3: the big fields are milder than the edge
+    expect(r.dociskKrawedz).toBeCloseTo(0.2, 10)
+  })
+
+  it("hip roof 5°: F −2.5 worst suction; pressure only +0.0 (interpolation node)", () => {
+    const r = cpeDachuDlaPaneluRownoleglego("czterospadowy", 5)!
+    expect(r.odrywanieKrawedz).toBeCloseTo(2.5, 10)
+    expect(r.dociskKrawedz).toBe(0)
+  })
+
+  it("hip roof 30°: windward pressure up to +0.7 (G), H +0.4", () => {
+    const r = cpeDachuDlaPaneluRownoleglego("czterospadowy", 30)!
+    expect(r.dociskKrawedz).toBeCloseTo(0.7, 10)
+    expect(r.dociskSrodek).toBeCloseTo(0.4, 10)
+  })
+
+  it("hip roof 75°: +0.8 pressure, suction from L −2.0", () => {
+    const r = cpeDachuDlaPaneluRownoleglego("czterospadowy", 75)!
+    expect(r.dociskKrawedz).toBeCloseTo(0.8, 10)
+    expect(r.odrywanieKrawedz).toBeCloseTo(2.0, 10)
+  })
+
+  it("hip roof is null outside 5–75°", () => {
+    expect(cpeDachuDlaPaneluRownoleglego("czterospadowy", 4)).toBeNull()
+    expect(cpeDachuDlaPaneluRownoleglego("czterospadowy", 76)).toBeNull()
+  })
+
+  it("wall: worst of Table 7.1 rows — suction A 1.4 (edge) and E 0.7 (centre), pressure D 1.0", () => {
+    expect(cpeDachuDlaPaneluRownoleglego("sciana", 90)).toEqual({ dociskSrodek: 1.0, dociskKrawedz: 1.0, odrywanieSrodek: 0.7, odrywanieKrawedz: 1.4 })
+    expect(cpeDachuDlaPaneluRownoleglego("sciana", 85)).not.toBeNull()
+  })
+
+  it("wall needs a vertical panel (85–90°)", () => {
+    expect(cpeDachuDlaPaneluRownoleglego("sciana", 84)).toBeNull()
+    expect(cpeDachuDlaPaneluRownoleglego("sciana", 30)).toBeNull()
+    expect(cpeDachuDlaPaneluRownoleglego("sciana", 91)).toBeNull()
+  })
+})

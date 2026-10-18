@@ -85,13 +85,15 @@ describe("zbudujRaport (M7/E3)", () => {
     expect(p.pokrycieProc).toBeCloseTo(80, 9)
     expect(p.brakKwh).toBeCloseTo(200, 9)
     expect(p.brakProc).toBeCloseTo(20, 9)
+    // 800 kWh produced vs 1000 kWh demand → the worst month needs 1000/800 − 1 = 25% more PV energy (plain proportion, no sizing model)
+    expect(p.wzrostPvPct).toBeCloseTo(25, 9)
     expect(r.wymagaUwagi).toBe(true)
   })
 
   it("produkcja większa od zapotrzebowania: pokrycie obcięte do 100%, brak 0", () => {
     const szkic = { ...SZKIC_WSP, produkcja: "1500" }
     const r = zbudujRaport({ symulacja: null, deficyty: null, blackout: null, wspolczynnik: { wynik: wynikWspolczynnikaZeSzkicu(szkic)!, wejscie: wejscieWspolczynnika(szkic) } })
-    expect(r.wspolczynnik!.pokrycieNajgorszegoMiesiaca).toEqual({ pokrycieProc: 100, brakKwh: 0, brakProc: 0 })
+    expect(r.wspolczynnik!.pokrycieNajgorszegoMiesiaca).toEqual({ pokrycieProc: 100, brakKwh: 0, brakProc: 0, wzrostPvPct: null })
   })
 
   it("kompletny raport: wszystkie części dostępne, kolejność jak w źródle", () => {
@@ -105,3 +107,20 @@ describe("zbudujRaport (M7/E3)", () => {
     expect(r.brakujace).toEqual([])
   })
 })
+
+describe("rekomendacje liczbowe w raporcie: tylko z liczb ekranów, bez modelu doboru", () => {
+  it("zero production gives no percentage (undefined), the shortfall stays", () => {
+    const szkic = { ...SZKIC_WSP, produkcja: "0" }
+    const p = zbudujRaport({ symulacja: null, deficyty: null, blackout: null, wspolczynnik: { wynik: wynikWspolczynnikaZeSzkicu(szkic)!, wejscie: wejscieWspolczynnika(szkic) } }).wspolczynnik!.pokrycieNajgorszegoMiesiaca!
+    expect(p.wzrostPvPct).toBeNull()
+    expect(p.brakKwh).toBeGreaterThan(0)
+  })
+
+  it("blackout: missing battery capacity comes from the Blackout screen's own model, null when the screen gives none", () => {
+    const z = zbudujRaport({ symulacja: null, deficyty: null, blackout: { autonomiaDni: 7, wymaganaAutonomiaDni: 10, dodatkowaPojemnoscKwh: 6.5 }, wspolczynnik: null })
+    expect(z.blackout).toEqual({ autonomiaDni: 7, wymaganaAutonomiaDni: 10, wystarcza: false, dodatkowaPojemnoscKwh: 6.5 })
+    const bez = zbudujRaport({ symulacja: null, deficyty: null, blackout: { autonomiaDni: 10, wymaganaAutonomiaDni: 10 }, wspolczynnik: null })
+    expect(bez.blackout!.dodatkowaPojemnoscKwh).toBeNull()
+  })
+})
+

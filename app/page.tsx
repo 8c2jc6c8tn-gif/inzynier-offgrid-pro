@@ -5,6 +5,8 @@ import { useSyncExternalStore } from "react"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { KLUCZ_DRAFTU_TERMINARZ, dzisiajLokalnie, liczbaPrzegladowPoTerminie, type SeedTerminarza } from "@/lib/obiekt/terminarz-przegladow-draft"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { IkonaKafla } from "@/components/ui/ikona-modulu"
+import { PrzypomnieniePrzegladowNaPulpicie } from "@/components/przypomnienia-przegladow"
 import { StanPusty } from "@/components/ui/stany"
 import { Ikona, IKONA } from "@/components/ui/ikona"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
@@ -90,20 +92,24 @@ export default function PulpitPage() {
             href="/moduly/1"
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
+            <IkonaKafla kafelId={1} className="mr-1 inline size-4 align-text-bottom" />
             {t("UI-PUL-LOKALIZACJA-TEREN")}
           </Link>
           <Link
             href="/moduly/13"
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
+            <IkonaKafla kafelId={13} className="mr-1 inline size-4 align-text-bottom" />
             {t("UI-PUL-TRYB-LIVE")}
           </Link>
           <Link
             href={USTAWIENIA_KAFEL.href}
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
-            {t("UI-PUL-USTAWIENIA", { ikona: USTAWIENIA_KAFEL.ikona })}
+            <IkonaKafla kafelId={USTAWIENIA_KAFEL.id} className="mr-1 inline size-4 align-text-bottom" />
+            {t("UI-PUL-USTAWIENIA")}
           </Link>
+          <PrzypomnieniePrzegladowNaPulpicie poTerminie={poTerminie} />
           {poTerminie > 0 ? (
             <Link
               href="/kalkulatory/terminarz-przegladow"

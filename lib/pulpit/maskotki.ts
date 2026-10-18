@@ -45,6 +45,13 @@ export const IKONA_3D_PO_ID_KAFLA: Record<number, string> = Object.fromEntries(
   Array.from({ length: 16 }, (_, i) => [i + 1, `/ikony-3d/ikona-${String(i + 1).padStart(2, "0")}.webp`]),
 )
 
+/** Dwie ikony zestawu bez kafla, dla ekranów w modułach (pokazywane tylko przy wyborze „Ikony 3D”): pogoda — ekrany prognoz, bojler — ekran bojlera CWU. */
+export const IKONA_3D_EKRANOW = {
+  pogoda: "/ikony-3d/ikona-dodatkowa-pogoda.webp",
+  bojler: "/ikony-3d/ikona-dodatkowa-bojler.webp",
+} as const
+export type IkonaEkranu = keyof typeof IKONA_3D_EKRANOW
+
 export type IkonyKafli = "bob" | "3d"
 
 /**

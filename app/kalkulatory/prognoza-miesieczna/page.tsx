@@ -65,7 +65,7 @@ export default function PrognozaMiesiecznaPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/prognoza-miesieczna" />
-      <NaglowekEkranu tytul={t("UI-PROGMIES-TYTUL")} ekran="prognoza-miesieczna" wynik={result}>
+      <NaglowekEkranu tytul={t("UI-PROGMIES-TYTUL")} ekran="prognoza-miesieczna" wynik={result} ilustracja="pogoda">
         {t("UI-PROGMIES-OPIS")}
       </NaglowekEkranu>
 

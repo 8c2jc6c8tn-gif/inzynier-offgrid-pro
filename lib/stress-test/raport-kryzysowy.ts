@@ -18,7 +18,7 @@ export type DaneRaportu = {
   symulacja: CalcResult<SymulacjaMrozuResult> | null
   deficyty: CalcResult<DeficytyMiesieczneResult> | null
   /** From `zBlackoutu`: days the store lasts without sun vs. the scenario length. */
-  blackout: { autonomiaDni: number; wymaganaAutonomiaDni: number } | null
+  blackout: { autonomiaDni: number; wymaganaAutonomiaDni: number; dodatkowaPojemnoscKwh?: number | null } | null
   wspolczynnik: { wynik: CalcResult<WspolczynnikResult>; wejscie: WspolczynnikInput } | null
 }
 
@@ -33,14 +33,20 @@ export type Raport = {
     ogrzewanieWPopycie: boolean
   } | null
   deficyty: { sumaDeficytKwh: number; sumaGodzin: number; sumaPaliwaL: number; sumaKosztZl: number; miesiacNajdluzszy: number | null; miesiecyZDeficytem: number } | null
-  blackout: { autonomiaDni: number; wymaganaAutonomiaDni: number; wystarcza: boolean } | null
+  blackout: {
+    autonomiaDni: number
+    wymaganaAutonomiaDni: number
+    wystarcza: boolean
+    /** Missing nominal battery capacity to last the whole scenario [kWh], from the Blackout screen's own model; `null` when the screen gives none, 0 when enough. */
+    dodatkowaPojemnoscKwh: number | null
+  } | null
   wspolczynnik: {
     wskaznikPct: number | null
     najslabsza: { id: SkladowaId; wynikPct: number } | null
     slabePunkty: SkladowaId[]
     brakujaceSkladowe: SkladowaId[]
     /** Worst-month coverage and what is missing, from the two numbers typed on Screen 12; `null` when either is missing. */
-    pokrycieNajgorszegoMiesiaca: { pokrycieProc: number; brakKwh: number; brakProc: number } | null
+    pokrycieNajgorszegoMiesiaca: { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null } | null
   } | null
   /** Something in the report needs a generator or another source, or reveals a weak point. */
   wymagaUwagi: boolean
@@ -68,7 +74,9 @@ export function zbudujRaport(d: DaneRaportu): Raport {
         miesiecyZDeficytem: def.miesiace.length,
       }
     : null
-  const blackout: Raport["blackout"] = d.blackout ? { ...d.blackout, wystarcza: d.blackout.autonomiaDni >= d.blackout.wymaganaAutonomiaDni } : null
+  const blackout: Raport["blackout"] = d.blackout
+    ? { ...d.blackout, dodatkowaPojemnoscKwh: d.blackout.dodatkowaPojemnoscKwh ?? null, wystarcza: d.blackout.autonomiaDni >= d.blackout.wymaganaAutonomiaDni }
+    : null
   const wspolczynnik: Raport["wspolczynnik"] = wsp
     ? {
         wskaznikPct: wsp.wynik.value.wskaznikPct,
@@ -102,10 +110,15 @@ export function zbudujRaport(d: DaneRaportu): Raport {
   }
 }
 
-function pokrycie(w: WspolczynnikInput): { pokrycieProc: number; brakKwh: number; brakProc: number } | null {
+/**
+ * Worst-month coverage from the two numbers typed on Screen 12. `wzrostPvPct` is plain proportion, no sizing model: how much more PV energy the worst month
+ * needs to equal the demand, (demand / production − 1) · 100, for the same weather (production scales with installed power). `null` when the production is 0
+ * (a percentage of zero is undefined) or there is no shortfall. The number of panels follows from the yield of one panel, which this report does not know.
+ */
+function pokrycie(w: WspolczynnikInput): { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null } | null {
   const p = w.produkcjaNajgorszyMiesiacKwh
   const z = w.zapotrzebowanieNajgorszyMiesiacKwh
   if (p === null || z === null || !(z > 0) || p < 0) return null
   const pokrycieProc = Math.min(100, (100 * p) / z)
-  return { pokrycieProc, brakKwh: Math.max(0, z - p), brakProc: 100 - pokrycieProc }
+  return { pokrycieProc, brakKwh: Math.max(0, z - p), brakProc: 100 - pokrycieProc, wzrostPvPct: p > 0 && z > p ? (100 * (z - p)) / p : null }
 }

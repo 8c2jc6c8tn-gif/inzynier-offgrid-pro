@@ -41,7 +41,7 @@ export default function PrognozyPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/prognozy" />
-      <NaglowekEkranu tytul={t("UI-PRO-PROGNOZY")} ekran="prognozy" wynik={result}>
+      <NaglowekEkranu tytul={t("UI-PRO-PROGNOZY")} ekran="prognozy" wynik={result} ilustracja="pogoda">
         {t("UI-PRO-POGODA-SYSTEMU-ENERGETYCZNEG")}
       </NaglowekEkranu>
 

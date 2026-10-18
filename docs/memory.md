@@ -2824,3 +2824,10 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - Testy vitest widzą tylko pliki pod `lib/` (konfiguracja `include`); test komponentu w `components/` się nie uruchomi.
 - **Dalsze pozycje listy bez blokad (3.32.0):** profil godzinowy ogrzewania (`ogrzewanieElektryczne` w wejściu Porównywarki jako część zapotrzebowania; hooki `useOgrzewanie*` zwracają teraz też temperaturę wewnętrzną); przycisk napięcia z `dozwolone` dla pól z listą wartości (48 V nie jest podpowiadane tam, gdzie lista ma tylko 12/24); narzędzia AI z PVGIS dostają nadpisanie przez wspólny `pobierzTmyZNadpisaniem` (ekran czyta je z przeglądarki, serwer nie ma do nich dostępu); ikony liniowe w `ikona-modulu.tsx`; dzwonek przeglądów na pulpicie. Wiatr dla konstrukcji 30–90° to własne oszacowanie (polecenie właściciela: „zrobić nasze obliczenia i dopisać, że to autorskie”).
 
+## 2026-10-18 — reszta listy po D90 (wersja 3.33.0, D91)
+- **Skan 7.5 i 7.1:** liczby sprawdzone na PDF (strony 43 i 35 normy = PDF 49 i 41); w Tablicy 7.5 pole F przy 30° ma +0,5, a G +0,7 (inaczej niż w 7.3a, gdzie oba +0,7).
+- **Raport kryzysowy:** silnik Blackout już liczy `dodatkowaPojemnoscKwh`, więc „X kWh baterii” to odczyt, nie nowy model; „N paneli” świadomie pominięte.
+- **Powiadomienia:** `new Notification` w efekcie na pulpicie; na Androidzie przeglądarka może go odrzucić bez rejestracji service workera — wtedy zostaje dzwonek (try/catch).
+- **Playwright w piaskownicy:** `chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })` (domyślna ścieżka nie istnieje); serwer `next dev --webpack`.
+- **Lint React:** `setState` wprost w efekcie jest błędem (`react-hooks`); uprawnienie przeglądarki czytać przez `useSyncExternalStore`.
+
