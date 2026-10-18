@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react"
 import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
 import { KLUCZ_DRAFTU_TERMINARZ, dzisiajLokalnie, liczbaPrzegladowPoTerminie, type SeedTerminarza } from "@/lib/obiekt/terminarz-przegladow-draft"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { PrzypomnieniePrzegladowNaPulpicie } from "@/components/przypomnienia-przegladow"
 import { StanPusty } from "@/components/ui/stany"
 import { Ikona, IKONA } from "@/components/ui/ikona"
 import { KafleIkonySymbole } from "@/components/kafle-ikony/definicje-symboli"
@@ -104,6 +105,7 @@ export default function PulpitPage() {
           >
             {t("UI-PUL-USTAWIENIA", { ikona: USTAWIENIA_KAFEL.ikona })}
           </Link>
+          <PrzypomnieniePrzegladowNaPulpicie poTerminie={poTerminie} />
           {poTerminie > 0 ? (
             <Link
               href="/kalkulatory/terminarz-przegladow"

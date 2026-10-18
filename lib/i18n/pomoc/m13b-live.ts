@@ -30,6 +30,7 @@ export const pl = {
     pola: {
       nazwa: { nazwa: "Co przeglądasz", cel: "Tylko opis pozycji — pomaga rozpoznać ją na liście.", gdzie: "Np. dokręcenie złączy DC, kontrola akumulatorów, przegląd gaśnicy, czyszczenie paneli.", zakres: "Dowolny tekst." },
       ostatni: { nazwa: "Data ostatniego przeglądu", cel: "Od niej liczę następny termin.", gdzie: "Z Twojego dziennika, protokołu przeglądu albo faktury za serwis.", zakres: "Istniejąca data. Puste = termin nie jest liczony." },
+      przypomnienia: { nazwa: "Przypominaj o przeglądach po terminie", cel: "Włącza powiadomienie przeglądarki, gdy któryś przegląd z listy jest po terminie.", gdzie: "Zaznacz pole i zezwól na powiadomienia, gdy przeglądarka zapyta. Powiadomienie pokazuje się raz dziennie przy otwarciu aplikacji, nie w tle.", zakres: "Włączone albo wyłączone, osobno na każdym urządzeniu. Bez zgody przeglądarki nic się nie pokaże; liczbę przeglądów po terminie zawsze widać na dzwonku pulpitu." },
       interwal: { nazwa: "Odstęp między przeglądami [miesiące]", cel: "Dodaję go do daty ostatniego przeglądu.", gdzie: "Z instrukcji urządzenia, zaleceń producenta albo wymagań ubezpieczyciela — aplikacja nie podaje wartości domyślnej.", zakres: "Liczba całkowita ≥ 1. Twoja instalacja." },
     },
   },
@@ -61,6 +62,7 @@ export const en: Tlumaczenie<typeof pl> = {
     pola: {
       nazwa: { nazwa: "What you inspect", cel: "Only a label of the item — it helps recognise it on the list.", gdzie: "E.g. tightening DC connectors, checking batteries, extinguisher service, cleaning panels.", zakres: "Any text." },
       ostatni: { nazwa: "Date of the last inspection", cel: "I count the next date from it.", gdzie: "From your logbook, the inspection report or the service invoice.", zakres: "An existing date. Empty = the date is not calculated." },
+      przypomnienia: { nazwa: "Remind me about overdue inspections", cel: "Turns on a browser notification when any inspection on the list is overdue.", gdzie: "Tick the box and allow notifications when the browser asks. The notification appears once a day when you open the app, not in the background.", zakres: "On or off, separately on each device. Without the browser’s permission nothing is shown; the number of overdue inspections is always visible on the dashboard bell." },
       interwal: { nazwa: "Interval between inspections [months]", cel: "I add it to the date of the last inspection.", gdzie: "From the device manual, the manufacturer’s recommendations or your insurer’s requirements — the app gives no default.", zakres: "A whole number ≥ 1. Your installation." },
     },
   },
@@ -92,6 +94,7 @@ export const ru: Tlumaczenie<typeof pl> = {
     pola: {
       nazwa: { nazwa: "Что осматриваете", cel: "Только подпись позиции — помогает узнать её в списке.", gdzie: "Например, подтяжка DC-соединений, проверка аккумуляторов, обслуживание огнетушителя, чистка панелей.", zakres: "Любой текст." },
       ostatni: { nazwa: "Дата последнего осмотра", cel: "От неё считаю следующий срок.", gdzie: "Из вашего журнала, протокола осмотра или счёта за обслуживание.", zakres: "Существующая дата. Пусто = срок не рассчитывается." },
+      przypomnienia: { nazwa: "Напоминать о просроченных осмотрах", cel: "Включает уведомление браузера, когда какой-либо осмотр из списка просрочен.", gdzie: "Отметьте поле и разрешите уведомления, когда браузер спросит. Уведомление появляется раз в день при открытии приложения, не в фоне.", zakres: "Включено или выключено, отдельно на каждом устройстве. Без разрешения браузера ничего не покажется; количество просроченных осмотров всегда видно на колокольчике рабочего стола." },
       interwal: { nazwa: "Интервал между осмотрами [месяцы]", cel: "Прибавляю его к дате последнего осмотра.", gdzie: "Из инструкции устройства, рекомендаций производителя или требований страховщика — значения по умолчанию в приложении нет.", zakres: "Целое число ≥ 1. Ваша установка." },
     },
   },

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { PrzypomnieniaPrzegladowWybor } from "@/components/przypomnienia-przegladow"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -49,6 +50,8 @@ export default function TerminarzPrzegladowPage() {
           {t("UI-TPRZ-DODAJ")}
         </Button>
       </section>
+
+      <PrzypomnieniaPrzegladowWybor />
 
       {wynik.status === "INVALID_INPUT" && (
         <WerdyktPanel poziom="blad" etykieta={t("UI-TPRZ-SPRAWDZ")}>
