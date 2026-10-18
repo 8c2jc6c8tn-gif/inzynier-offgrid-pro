@@ -12,7 +12,7 @@
  * bezpośredniego clear-sky, jawnie w założeniach) + komunikat w ostrzeżeniach — jak w UI offline.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import type { Przeszkoda, Punkt2D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -49,6 +49,7 @@ const Budynek = z.object({
 })
 
 export const AnalizaZacienieniaToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().describe("[°], np. 52.23 dla Warszawy"),
   dlugoscGeograficzna: z.number().describe("[°], np. 21.01 dla Warszawy"),
   nachyleniePowierzchniDeg: z.number().describe("Nachylenie paneli od poziomu [°]"),
@@ -130,7 +131,7 @@ export function utworzAnalizaZacienieniaTool(
     requiresConfirmation: false,
     scope: "lokalizacja/analiza-zacienienia",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       const wynik = calculateAnalizaZacienienia({
         szerokoscGeograficzna: input.szerokoscGeograficzna,
         dlugoscGeograficzna: input.dlugoscGeograficzna,

@@ -5,6 +5,7 @@ import { calculateGniazdoZapalniczki } from "@/lib/core/modules/kalkulator-mobil
 import type { GniazdoZapalniczkiInput, UrzadzenieGniazda } from "@/lib/core/modules/kalkulator-mobilny/gniazdo-zapalniczki/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -65,6 +66,11 @@ export default function GniazdoZapalniczkiPage() {
           <option value={12}>{t("UI-GNIZAP-SAMOCHOD-OSOBOWY-KAMPER")}</option>
           <option value={24}>{t("UI-GNIZAP-CIEZAROWKA-AUTOBUS")}</option>
         </PoleSelect>
+        <NapiecieZProfilu
+          aktualne={String(stan.napiecieV)}
+          dozwolone={[12, 24]}
+          onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: Number(v) as FormularzStan["napiecieV"] }))}
+        />
         <Pole
           label={t("UI-GNIZAP-BEZPIECZNIK-GNIAZDA")}
           unit="A"

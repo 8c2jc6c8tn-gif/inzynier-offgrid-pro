@@ -27,6 +27,15 @@ describe("NapiecieZProfilu", () => {
     expect(container.textContent).toBe("")
   })
 
+  it("for a field with a fixed list it offers the voltage only when the list contains it", () => {
+    profil = { ...kamper24, napiecieUkladuV: 48 }
+    const { container, unmount } = render(<NapiecieZProfilu aktualne="0" dozwolone={[12, 24]} onUzyj={() => {}} />)
+    expect(container.textContent).toBe("")
+    unmount()
+    render(<NapiecieZProfilu aktualne="0" dozwolone={[12, 24, 48]} onUzyj={() => {}} />)
+    expect(screen.getByRole("button", { name: "Wpisz 48 V" })).toBeTruthy()
+  })
+
   it("renders nothing for a building, without a chosen voltage or without a profile", () => {
     for (const p of [{ ...kamper24, rodzaj: "budynek" as const }, { ...kamper24, napiecieUkladuV: "" as const }, null]) {
       profil = p

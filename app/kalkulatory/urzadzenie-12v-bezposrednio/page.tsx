@@ -9,6 +9,7 @@ import {
 } from "@/lib/core/modules/kalkulator-mobilny/urzadzenie-12v-bezposrednio/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
+import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -81,6 +82,11 @@ export default function Urzadzenie12vBezposrednioPage() {
           <option value={12}>12 V</option>
           <option value={24}>24 V</option>
         </PoleSelect>
+        <NapiecieZProfilu
+          aktualne={String(stan.napiecieSystemuV)}
+          dozwolone={[12, 24]}
+          onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieSystemuV: Number(v) as FormularzStan["napiecieSystemuV"] }))}
+        />
         <Pole
           label={t("UI-URZ12VBEZ-NAPIECIE-URZADZENIA")}
           unit="V"

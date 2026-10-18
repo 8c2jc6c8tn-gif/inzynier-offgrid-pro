@@ -3,7 +3,7 @@
  * Dane PVGIS TMY pobierane po stronie serwera (`pobierzTmy`, jak M3/E1). Błąd PVGIS → INCOMPLETE.
  */
 import { z } from "zod"
-import { pobierzTmy } from "@/lib/adapters/pvgis/tmy"
+import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { obliczTabeleNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import { calculateLiczbaPaneli } from "@/lib/core/modules/pv/liczba-paneli/calculator"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
@@ -11,6 +11,7 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const LiczbaPaneliToolInput = z.object({
+  ...NadpisanieTmyPola,
   szerokoscGeograficzna: z.number().min(-90).max(90),
   dlugoscGeograficzna: z.number().min(-180).max(180),
   azymutDeg: z.number().describe("Kierunek paneli: S=180 [°]"),
@@ -64,7 +65,7 @@ export function utworzLiczbaPaneliTool(
     requiresConfirmation: false,
     scope: "pv/liczba-paneli",
     handler: async (input) => {
-      const tmy = await pobierzTmy(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl)
+      const tmy = await pobierzTmyZNadpisaniem(input.szerokoscGeograficzna, input.dlugoscGeograficzna, fetchImpl, input)
       if (!tmy.ok) {
         return { status: "INCOMPLETE", ...PUSTY, zrodloDanych: null, ostrzezenia: [KOMUNIKAT_PVGIS[tmy.kod]], zalozenia: [] }
       }
