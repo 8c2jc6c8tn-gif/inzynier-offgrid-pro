@@ -2858,3 +2858,8 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - Pakiet po zmianie (same dokumenty, kod bez zmian): `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`,
   `check:stopy-guard` — zielone. Wersja programu bez podbicia (brak wpływu na liczby i na ekrany).
 - Cykl adaptacyjny: nowa treść → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`; kolejne sprawdzenie najpóźniej 19.10.2026 ok. 07:00.
+
+## Po synchronizacji 18.10.2026 — decyzje właściciela i audyt Y.11 (przebieg 3)
+
+- **Odpowiedzi właściciela na pytania z synchronizacji:** (1) moduły opcjonalne — tak; wniesione: `docs/playbooki-opcjonalne/`, `docs/schematy-transferu/`, `docs/katalog-zasobow-wspolnych.md`, `docs/przyklady/{dane-srodowiskowe,waluta}/`, `docs/biblioteka-norm/README.md` + `00-INDEKS.md`. **Bez ~221 MB katalogów norm** — wniesienie hurtowe bez wyraźnego polecenia uznałem za zbyt duży skutek (rozmiar repo, licencje PKN); adnotacja lokalna na górze README biblioteki. Konkretne pozycje na żądanie. (2) `check-i18n-keys.mjs` — już podpięty od 3.31.0 (część `pnpm check:i18n-guard` i CI); kopia w `docs/przyklady/i18n/` różni się od `scripts/` tylko wyjątkiem `publicKey` w `NIE_I18N`. (3) generator tłumaczenia wzoru — odpowiedź w `docs/wklad-do-standardu.md` (generatora nie ma, jest tylko test dryfu). (4) `docs/przyklady/pwa/` — okazał się identyczny ze źródłem (wcześniejsza notatka „niekopiowany” była nieaktualna); skopiowano `docs/przyklady/README.md`. (5) audyt Y.11 — `docs/audyt-zgodnosci-kodu.md`, przebieg 3.
+- **Wynik audytu (pozycje 8–11):** 8 ⚠️ waluta/liczby (181 sztywnych `pl-PL` w 103 plikach), 9 ⚠️ brak `ESTIMATE` w `Status`, 10 ➕ atrybucja i licencja PVGIS, 11 ✅ passkey. Kodu nie zmieniono — decyzje właściciela w raporcie.

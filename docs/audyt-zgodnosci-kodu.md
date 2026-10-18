@@ -54,3 +54,23 @@ Faza przedpremierowa (17.7c (a)). Rejestr świadomych wyjątków — pusty (brak
 **Podsumowanie:** 6 ✅, 1 ⚠️ (poz. 7 — znane), 1 ➕ (luka strażnika 1b). Kodu nie zmieniono (Y.11). Poprawka do przebiegu 1: plik bramki to `proxy.ts`, nie `middleware.ts`.
 
 **Do decyzji właściciela:** (1) czy zamknąć ➕ strażnikiem skanującym `lib/` (zapisane też w `docs/wklad-do-standardu.md`); (2) poz. 7 — bez zmian, czeka na Supabase; (3) przed premierą: przegląd EN/RU i ponowna ocena 1c.
+
+---
+
+## Przebieg 3 — 18.10.2026 (na żądanie właściciela, po synchronizacji do GOD BOOK v2_49; pozycje nowe 8–11)
+
+Stan kodu: gałąź `claude/aktualizacja-standardu-18-10` na `main` @ `b8e85f4c` (3.33.0). Pozycje 1–7 nie były ponawiane (ostatnio sprawdzone w przebiegu 2). Rejestr świadomych wyjątków — pusty. Kodu nie zmieniono (Y.11).
+
+| # | Reguła | Wynik | Dowód (odtwarzalny) |
+|---|---|---|---|
+| 8 | 17.12 — waluta i kursy (projekt wielorynkowy: PL/EN/RU, ceny w zł) | ⚠️ | Moduł formatujący istnieje: `lib/waluta/przelicz.ts` (`formatujKwote`, locale z języka UI). Poza nim: 188 wywołań `toLocaleString`/`Intl.NumberFormat`/`toLocaleDateString` w kodzie nietestowym, z tego 181 ze sztywnym `"pl-PL"` w 103 plikach (4 w `lib/core`), ok. 14 dotyczy kwot/kosztów (np. `app/kalkulatory/koszty-ogrzewania/page.tsx` 79–81, `oplacalnosc-magazynu`, `second-life`). Skutek: przy języku EN/RU liczby w wynikach mają polski separator dziesiętny. Odtworzenie: `grep -rEn 'toLocaleString|Intl\.NumberFormat' lib app components --include=*.ts --include=*.tsx`. |
+| 9 | 3.3 — status `ESTIMATE` (część strukturalna) | ⚠️ | `lib/core/calc-result.ts:6` — unia `Status` ma 5 wartości (`VALID`, `VALID_WITH_WARNINGS`, `INCOMPLETE`, `OUT_OF_SCOPE`, `INVALID_INPUT`); `ESTIMATE`: 0 trafień w `lib/`. Dodanie wartości zmienia kontrakt wyniku (`isComputed`, 278 kalkulatorów) — decyzja właściciela. |
+| 10 | Rozdz. 19 — dane środowiskowe (opis pola, metadane źródła, licencja i atrybucja) | ➕ | Projekt nie trzyma własnych plików danych środowiskowych w repo: nasłonecznienie to odpowiedź PVGIS TMY pobierana w locie i zapisywana lokalnie (`lib/lokalizacja/dane-tmy.ts`: współrzędne + `pobrano` ISO 8601 + dane). Brak: pola opisu jednostek/wersji źródła przy zapisie oraz jawnej atrybucji i licencji PVGIS/JRC w UI i w dokumentacji (19.6, 19.10). Dług do domknięcia, nie naruszenie. |
+| 11 | 18.2 — klucz dostępu (passkey) | ✅ | `lib/adapters/supabase/passkey-actions.ts` (`"use server"`), `passkey-przegladarka.ts` (tylko okno systemowe), `components/konto-passkey.tsx`, `app/auth/login/page.tsx`; sesja w `HttpOnly` cookie (18.5); brak `createBrowserClient` (komentarz w `components/konto-sekcja.tsx`). Do potwierdzenia przed premierą: RP ID pochodzi z konfiguracji domeny produkcyjnej — w kodzie projektu nie ma własnego RP ID, ustala je Supabase Auth (ustawienia projektu Supabase, który jeszcze nie jest podpięty — patrz poz. 7). |
+
+**Podsumowanie:** 1 ✅, 2 ⚠️ (poz. 8, 9), 1 ➕ (poz. 10). Kodu nie zmieniono.
+
+**Do decyzji właściciela:**
+1. Poz. 8 — (A) jeden helper `formatujLiczbe(x, jezyk, opcje)` w `lib/i18n` i migracja 181 wywołań modułami (jak 17.9), (B) tylko kwoty przez `formatujKwote`, liczby bez zmian do czasu migracji. Rekomendacja: A, ale po audycie JSX (poz. 1b), bo dotyka tych samych plików.
+2. Poz. 9 — dodać `ESTIMATE` do `Status` (zmiana kontraktu = wyższa cyfra wersji wg `docs/wersjonowanie.md`) albo zapisać świadomy wyjątek w `rejestr-decyzji.md` („WYJĄTEK OD REGUŁY RODZINY”) z powodem.
+3. Poz. 10 — dopisać atrybucję PVGIS i licencję (tekst do uzgodnienia z właścicielem; nie zgaduję warunków licencji JRC).
