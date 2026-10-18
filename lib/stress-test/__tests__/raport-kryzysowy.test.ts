@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest"
 import { calculateSymulacjaMrozu } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
 import { PUSTE_POLA_DEFICYTOW, wynikDeficytowZeSzkicu } from "../wejscie-deficytow"
 import { wejscieWspolczynnika, wynikWspolczynnikaZeSzkicu, type PolaWspolczynnika } from "../wejscie-wspolczynnika"
-import { zbudujRaport } from "../raport-kryzysowy"
+import { dodatkowePaneleZBraku, zbudujRaport, type PaneleDoRaportu } from "../raport-kryzysowy"
 
 const SYMULACJA = calculateSymulacjaMrozu({
   produkcjaDobowaKwh: [5, 5, 5],
@@ -93,7 +93,7 @@ describe("zbudujRaport (M7/E3)", () => {
   it("produkcja większa od zapotrzebowania: pokrycie obcięte do 100%, brak 0", () => {
     const szkic = { ...SZKIC_WSP, produkcja: "1500" }
     const r = zbudujRaport({ symulacja: null, deficyty: null, blackout: null, wspolczynnik: { wynik: wynikWspolczynnikaZeSzkicu(szkic)!, wejscie: wejscieWspolczynnika(szkic) } })
-    expect(r.wspolczynnik!.pokrycieNajgorszegoMiesiaca).toEqual({ pokrycieProc: 100, brakKwh: 0, brakProc: 0, wzrostPvPct: null })
+    expect(r.wspolczynnik!.pokrycieNajgorszegoMiesiaca).toEqual({ pokrycieProc: 100, brakKwh: 0, brakProc: 0, wzrostPvPct: null, dodatkowePanele: null })
   })
 
   it("kompletny raport: wszystkie części dostępne, kolejność jak w źródle", () => {
@@ -121,6 +121,40 @@ describe("rekomendacje liczbowe w raporcie: tylko z liczb ekranów, bez modelu d
     expect(z.blackout).toEqual({ autonomiaDni: 7, wymaganaAutonomiaDni: 10, wystarcza: false, dodatkowaPojemnoscKwh: 6.5 })
     const bez = zbudujRaport({ symulacja: null, deficyty: null, blackout: { autonomiaDni: 10, wymaganaAutonomiaDni: 10 }, wspolczynnik: null })
     expect(bez.blackout!.dodatkowaPojemnoscKwh).toBeNull()
+  })
+})
+
+describe("liczba dodatkowych paneli z braku zimowej energii (bez modelu doboru)", () => {
+  // worst month: 800 kWh produced, 1000 kWh needed → 200 kWh missing
+  const raport = (panele: PaneleDoRaportu | null) =>
+    zbudujRaport({ symulacja: null, deficyty: null, blackout: null, wspolczynnik: { wynik: wynikWspolczynnikaZeSzkicu(SZKIC_WSP)!, wejscie: wejscieWspolczynnika(SZKIC_WSP) }, panele }).wspolczynnik!.pokrycieNajgorszegoMiesiaca!.dodatkowePanele
+
+  it("from the typed yield of one panel: ceil(200 / 60) = 4 panels; an exact division does not round up (200 / 50 = 4)", () => {
+    expect(raport({ liczbaDzis: null, uzyskPaneluKwh: 60 })).toEqual({ sztuk: 4, uzyskPaneluKwh: 60, zrodlo: "uzysk-panelu" })
+    expect(raport({ liczbaDzis: null, uzyskPaneluKwh: 50 })).toEqual({ sztuk: 4, uzyskPaneluKwh: 50, zrodlo: "uzysk-panelu" })
+  })
+
+  it("from the number of panels today: 10 panels gave 800 kWh → 80 kWh each → ceil(200 / 80) = 3", () => {
+    expect(raport({ liczbaDzis: 10, uzyskPaneluKwh: null })).toEqual({ sztuk: 3, uzyskPaneluKwh: 80, zrodlo: "liczba-paneli" })
+  })
+
+  it("the typed yield wins over the count when both are given", () => {
+    expect(raport({ liczbaDzis: 10, uzyskPaneluKwh: 100 })).toEqual({ sztuk: 2, uzyskPaneluKwh: 100, zrodlo: "uzysk-panelu" })
+  })
+
+  it("gives nothing without panel data or with unusable numbers (no guess)", () => {
+    expect(raport(null)).toBeNull()
+    expect(raport({ liczbaDzis: null, uzyskPaneluKwh: null })).toBeNull()
+    expect(raport({ liczbaDzis: 0, uzyskPaneluKwh: null })).toBeNull()
+    expect(raport({ liczbaDzis: 2.5, uzyskPaneluKwh: null })).toBeNull()
+    expect(raport({ liczbaDzis: null, uzyskPaneluKwh: 0 })).toBeNull()
+    expect(raport({ liczbaDzis: null, uzyskPaneluKwh: -5 })).toBeNull()
+  })
+
+  it("gives nothing when there is no shortfall, and no yield from a count when the production is 0", () => {
+    expect(dodatkowePaneleZBraku(0, 1000, { liczbaDzis: 10, uzyskPaneluKwh: null })).toBeNull()
+    expect(dodatkowePaneleZBraku(200, 0, { liczbaDzis: 10, uzyskPaneluKwh: null })).toBeNull()
+    expect(dodatkowePaneleZBraku(200, 0, { liczbaDzis: null, uzyskPaneluKwh: 60 })).toEqual({ sztuk: 4, uzyskPaneluKwh: 60, zrodlo: "uzysk-panelu" })
   })
 })
 

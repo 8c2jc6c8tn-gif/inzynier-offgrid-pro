@@ -2,14 +2,22 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
-## [3.34.0] — 18.10.2026
+## [3.35.0] — 18.10.2026
 
-Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D92):
+Status wyniku `ESTIMATE` (standard 3.3, audyt Y.11 poz. 9, D93):
 - szósta wartość `Status` w `lib/core/calc-result.ts`, lista `STATUSY` w jednym miejscu; 278 schematów narzędzi AI buduje `z.enum(STATUSY)` zamiast własnej kopii listy,
 - `isComputed` traktuje `ESTIMATE` jako policzoną liczbę, `poziomZStatusu` i nowe `poziomOstrzezen` pokazują go jako „uwaga”; ręczne sprawdzenia statusu (ok. 30 miejsc w ekranach i narzędziach AI) zastąpione tymi funkcjami,
 - żaden kalkulator jeszcze nie zwraca `ESTIMATE` (pierwsze użycie: wiatr dla paneli pod kątem 30–90° — osobne zadanie).
 
 Wpływ na liczby: brak (żaden wynik nie zmienia statusu ani wartości).
+
+## [3.34.0] — 18.10.2026
+
+Liczba paneli do dołożenia w raporcie kryzysowym (D92):
+- raport kryzysowy ma dwa opcjonalne pola: liczbę paneli, które masz dziś, albo uzysk jednego panelu w najgorszym miesiącu (uzysk ma pierwszeństwo); z braku energii w najgorszym miesiącu liczy, ile paneli dołożyć (zaokrąglenie w górę); pola zapisują się automatycznie, mają „?” i tłumaczenia PL/EN/RU,
+- to zwykła proporcja dla jednakowych paneli: nie sprawdza miejsca, stringów, okna napięcia falownika ani udźwigu baterii i falownika; bez poprawnej liczby (zero, ułamek, uzysk ≤ 0) nie podaje nic, nigdy nie zgaduje.
+
+Wpływ na liczby: brak — istniejące liczby raportu bez zmian, dochodzi jedna linia po wpisaniu liczby paneli albo uzysku.
 
 ## [3.33.1] — 18.10.2026
 

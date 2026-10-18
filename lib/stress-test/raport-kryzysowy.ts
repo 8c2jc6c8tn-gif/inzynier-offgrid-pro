@@ -13,7 +13,25 @@ import type { WspolczynnikInput } from "@/lib/core/modules/stress-test/wspolczyn
 
 export type CzescRaportu = "symulacja" | "deficyty" | "blackout" | "wspolczynnik"
 
+/**
+ * Optional numbers typed on the report page to turn the missing winter energy into a number of panels. Either one is enough:
+ * the yield of one panel in the worst month [kWh] (e.g. from the panel comparison), or the number of panels installed today (then the yield of one panel
+ * is the worst-month production ÷ that number, i.e. identical panels in the same setting).
+ */
+export type PaneleDoRaportu = { liczbaDzis: number | null; uzyskPaneluKwh: number | null }
+
+export type DodatkowePanele = {
+  /** Panels to add so that the worst month's production reaches the demand. */
+  sztuk: number
+  /** Yield of one panel in the worst month [kWh] the count rests on (typed, or worst-month production ÷ panels today). */
+  uzyskPaneluKwh: number
+  /** What the count rests on: the typed yield of one panel, or the typed number of panels installed today. */
+  zrodlo: "uzysk-panelu" | "liczba-paneli"
+}
+
 export type DaneRaportu = {
+  /** Optional, typed on the report page; `null`/missing = no panel count is given. */
+  panele?: PaneleDoRaportu | null
   symulacja: CalcResult<SymulacjaMrozuResult> | null
   deficyty: CalcResult<DeficytyMiesieczneResult> | null
   /** From `zBlackoutu`: days the store lasts without sun vs. the scenario length. */
@@ -45,7 +63,7 @@ export type Raport = {
     slabePunkty: SkladowaId[]
     brakujaceSkladowe: SkladowaId[]
     /** Worst-month coverage and what is missing, from the two numbers typed on Screen 12; `null` when either is missing. */
-    pokrycieNajgorszegoMiesiaca: { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null } | null
+    pokrycieNajgorszegoMiesiaca: { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null; dodatkowePanele: DodatkowePanele | null } | null
   } | null
   /** Something in the report needs a generator or another source, or reveals a weak point. */
   wymagaUwagi: boolean
@@ -82,7 +100,7 @@ export function zbudujRaport(d: DaneRaportu): Raport {
         najslabsza: wsp.wynik.value.najslabsza,
         slabePunkty: wsp.wynik.value.slabePunkty,
         brakujaceSkladowe: wsp.wynik.value.brakujace,
-        pokrycieNajgorszegoMiesiaca: pokrycie(wsp.wejscie),
+        pokrycieNajgorszegoMiesiaca: pokrycie(wsp.wejscie, d.panele ?? null),
       }
     : null
 
@@ -114,10 +132,30 @@ export function zbudujRaport(d: DaneRaportu): Raport {
  * needs to equal the demand, (demand / production − 1) · 100, for the same weather (production scales with installed power). `null` when the production is 0
  * (a percentage of zero is undefined) or there is no shortfall. The number of panels follows from the yield of one panel, which this report does not know.
  */
-function pokrycie(w: WspolczynnikInput): { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null } | null {
+/**
+ * Number of extra panels from the shortfall: `ceil(shortfall / yield of one panel)`. The typed yield of one panel wins; otherwise the yield is the worst-month
+ * production divided by the typed number of panels installed today (identical panels, same setting). `null` without a shortfall, without a usable number
+ * (yield ≤ 0, a non-integer or non-positive count, production 0) — never a guess. The result ignores space, strings and the voltage window of the inverter.
+ */
+export function dodatkowePaneleZBraku(brakKwh: number, produkcjaKwh: number, p: PaneleDoRaportu | null): DodatkowePanele | null {
+  if (!p || !(brakKwh > 0)) return null
+  if (p.uzyskPaneluKwh !== null) {
+    return p.uzyskPaneluKwh > 0 && Number.isFinite(p.uzyskPaneluKwh)
+      ? { sztuk: Math.ceil(brakKwh / p.uzyskPaneluKwh - 1e-9), uzyskPaneluKwh: p.uzyskPaneluKwh, zrodlo: "uzysk-panelu" }
+      : null
+  }
+  if (p.liczbaDzis !== null && Number.isInteger(p.liczbaDzis) && p.liczbaDzis >= 1 && produkcjaKwh > 0) {
+    const uzysk = produkcjaKwh / p.liczbaDzis
+    return { sztuk: Math.ceil(brakKwh / uzysk - 1e-9), uzyskPaneluKwh: uzysk, zrodlo: "liczba-paneli" }
+  }
+  return null
+}
+
+function pokrycie(w: WspolczynnikInput, panele: PaneleDoRaportu | null): { pokrycieProc: number; brakKwh: number; brakProc: number; wzrostPvPct: number | null; dodatkowePanele: DodatkowePanele | null } | null {
   const p = w.produkcjaNajgorszyMiesiacKwh
   const z = w.zapotrzebowanieNajgorszyMiesiacKwh
   if (p === null || z === null || !(z > 0) || p < 0) return null
   const pokrycieProc = Math.min(100, (100 * p) / z)
-  return { pokrycieProc, brakKwh: Math.max(0, z - p), brakProc: 100 - pokrycieProc, wzrostPvPct: p > 0 && z > p ? (100 * (z - p)) / p : null }
+  const brakKwh = Math.max(0, z - p)
+  return { pokrycieProc, brakKwh, brakProc: 100 - pokrycieProc, wzrostPvPct: p > 0 && z > p ? (100 * (z - p)) / p : null, dodatkowePanele: dodatkowePaneleZBraku(brakKwh, p, panele) }
 }

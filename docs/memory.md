@@ -2830,6 +2830,7 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Powiadomienia:** `new Notification` w efekcie na pulpicie; na Androidzie przeglądarka może go odrzucić bez rejestracji service workera — wtedy zostaje dzwonek (try/catch).
 - **Playwright w piaskownicy:** `chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })` (domyślna ścieżka nie istnieje); serwer `next dev --webpack`.
 - **Lint React:** `setState` wprost w efekcie jest błędem (`react-hooks`); uprawnienie przeglądarki czytać przez `useSyncExternalStore`.
+- **Liczba paneli w raporcie (3.34.0, D92):** raport nie ma własnego modelu doboru, więc N paneli = `ceil(brak ÷ uzysk jednego panelu)`, gdzie uzysk wpisuje użytkownik albo wynika z produkcji ÷ liczby paneli dziś. Pole liczbowe przeliczenia „(x ÷ y) − 1e−9” chroni przed zaokrągleniem w górę przy dokładnym dzieleniu (200 ÷ 50 = 4, nie 5). Migawka ekranu mówiła „Ekran nie ma pól do wypełnienia” — poprawiona w trzech językach.
 
 
 ## Synchronizacja ze standardem — Y.6/Y.9 (18.10.2026, na polecenie właściciela „Aktualizacja”)
@@ -2885,7 +2886,7 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Zostaje:** `docs/playbooki-opcjonalne/przetwarzanie-materialow-zrodlowych.md` (przetwarzanie norm to stały element pracy), `docs/przyklady/i18n/` (README + `check-i18n-keys.mjs`), `docs/przyklady/README.md`.
 - Odnośniki z `docs/standards/19-dane-srodowiskowe.md` do usuniętych plików wskazują źródło (`new-app-standards`) — to mirror NIETYKALNY, nie poprawiamy.
 
-## Status `ESTIMATE` dodany do kontraktu — wersja 3.34.0 (D92, 18.10.2026)
+## Status `ESTIMATE` dodany do kontraktu — wersja 3.35.0 (D93, 18.10.2026)
 
 - Właściciel wybrał wariant A po wyjaśnieniu, czym jest status i skąd 280 błędów typów. Zamiast dopisywać szósty status w 278 schematach, zrobiłem `STATUSY` (jedna lista) i `z.enum(STATUSY)` — następny status nie będzie wymagał takiej operacji.
 - **Pułapka:** wspólna funkcja `poziomZStatusu` traktowała każdy nieznany status jako „błąd”; `ESTIMATE` trafiłby w „zabronione” mimo istnienia liczby. Poprawione (→ „uwaga”), tak samo `isComputed`. Na ekranach było 4 ręczne trójki `status === "VALID" ? "ok" : … "VALID_WITH_WARNINGS" ? "uwaga" : "blad"` — zastąpione wspólną funkcją, żeby nowy status nie wymagał ich osobnego poprawiania. Pozostałe sprawdzenia `status === "VALID"`/`"VALID_WITH_WARNINGS"` na ekranach (kilkadziesiąt) są kontekstowe i nie były zmieniane; przy pierwszym użyciu `ESTIMATE` w module trzeba sprawdzić jego ekran.

@@ -1,15 +1,17 @@
 "use client"
 
-/** autosave: nie dotyczy — ekran zbiorczy (Wzorzec G) bez pól wejściowych, czyta zapisane szkice ekranów 1, 2, 4 i 12. */
+/** Ekran zbiorczy (Wzorzec G): czyta zapisane szkice ekranów 1, 2, 4 i 12; jedyne własne pola (opcjonalna liczba paneli) zapisują się automatycznie w szkicu „raport-kryzysowy”. */
 import Link from "next/link"
 import { useMemo, type ReactNode } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { Pole } from "@/components/ui/pole"
+import { PomocPola } from "@/components/ui/pomoc"
 import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
-import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
+import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { zBlackoutu, type SeedBlackout } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/zrodla"
 import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
 import { zbudujRaport, type CzescRaportu } from "@/lib/stress-test/raport-kryzysowy"
@@ -26,11 +28,17 @@ const EKRANY: Record<CzescRaportu, { href: string; tytul: string }> = {
   wspolczynnik: { href: "/kalkulatory/wspolczynnik-bezpieczenstwa-zimowego", tytul: "UI-M7-RAPORT-SEKCJA-WSP" },
 }
 
+/** Optional numbers for the panel count (form strings); the only inputs of this report, kept on the device like every other screen. */
+type PaneleSeed = { liczbaDzis: string; uzyskPanelu: string }
+const PUSTE_PANELE: PaneleSeed = { liczbaDzis: "", uzyskPanelu: "" }
+const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number(s.replace(",", "."))) ? null : Number(s.replace(",", ".")))
+
 export default function RaportKryzysowyPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
   const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const [panele, setPanele] = usePersistedDraft<PaneleSeed>("raport-kryzysowy", PUSTE_PANELE)
   const e1 = useOdczytDraftu<StanSymulacjiMrozu>(KLUCZ_DRAFTU_SYMULACJI_MROZU)
   const e2 = useOdczytDraftu<Partial<PolaDeficytow>>("deficyty-miesieczne")
   const e4 = useOdczytDraftu<SeedBlackout>("blackout")
@@ -45,8 +53,9 @@ export default function RaportKryzysowyPage() {
         deficyty: wynikDeficytowZeSzkicu(e2.dane),
         blackout: zBlackoutu(e4.dane),
         wspolczynnik: e12.dane ? { wynik: wynikWspolczynnikaZeSzkicu(e12.dane)!, wejscie: wejscieWspolczynnika(e12.dane) } : null,
+        panele: { liczbaDzis: liczbaLubNull(panele.liczbaDzis), uzyskPaneluKwh: liczbaLubNull(panele.uzyskPanelu) },
       }),
-    [e1.dane, symulacja, e2.dane, e4.dane, e12.dane],
+    [e1.dane, symulacja, e2.dane, e4.dane, e12.dane, panele],
   )
 
   if (!(e1.wczytano && e2.wczytano && e4.wczytano && e12.wczytano)) return <StanLadowania linie={6} />
@@ -80,10 +89,54 @@ export default function RaportKryzysowyPage() {
           {wsp?.pokrycieNajgorszegoMiesiaca?.wzrostPvPct != null && (
             <p className="mt-1 text-small">{t("UI-M7-RAPORT-POKRYCIE-WZROST", { proc: f0(wsp.pokrycieNajgorszegoMiesiaca.wzrostPvPct) })}</p>
           )}
+          {wsp?.pokrycieNajgorszegoMiesiaca?.dodatkowePanele && (
+            <p className="mt-1 text-small">
+              {t("UI-M7-RAPORT-PANELE-WYNIK", {
+                kwh: f0(wsp.pokrycieNajgorszegoMiesiaca.brakKwh),
+                n: wsp.pokrycieNajgorszegoMiesiaca.dodatkowePanele.sztuk,
+                uzysk: f1(wsp.pokrycieNajgorszegoMiesiaca.dodatkowePanele.uzyskPaneluKwh),
+              })}
+            </p>
+          )}
           {wsp?.najslabsza && (
             <p className="mt-1 text-small">{t("UI-M7-RAPORT-NAJSLABSZA", { nazwa: nazwaSkladowej(wsp.najslabsza.id), proc: f0(wsp.najslabsza.wynikPct) })}</p>
           )}
         </WerdyktPanel>
+      )}
+
+      {wsp?.pokrycieNajgorszegoMiesiaca && wsp.pokrycieNajgorszegoMiesiaca.brakKwh > 0 && (
+        <section className="flex flex-col gap-3 rounded-lg border p-4 text-small print:hidden">
+          <div>
+            <h2 className="font-semibold">{t("UI-M7-RAPORT-PANELE-TYTUL")}</h2>
+            <p className="text-muted-foreground">{t("UI-M7-RAPORT-PANELE-OPIS")}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Pole
+              id="raport-liczba-paneli"
+              label={t("UI-M7-RAPORT-PANELE-LICZBA")}
+              type="number"
+              inputMode="numeric"
+              min={1}
+              step={1}
+              value={panele.liczbaDzis}
+              onChange={(e) => setPanele((s) => ({ ...s, liczbaDzis: e.target.value }))}
+              pomoc={<PomocPola ekran="raport-kryzysowy" pole="liczbaDzis" />}
+            />
+            <Pole
+              id="raport-uzysk-panelu"
+              label={t("UI-M7-RAPORT-PANELE-UZYSK")}
+              unit="kWh"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="any"
+              value={panele.uzyskPanelu}
+              onChange={(e) => setPanele((s) => ({ ...s, uzyskPanelu: e.target.value }))}
+              pomoc={<PomocPola ekran="raport-kryzysowy" pole="uzyskPanelu" />}
+            />
+          </div>
+          <p className="text-caption text-muted-foreground">{t("UI-M7-RAPORT-PANELE-UWAGA")}</p>
+        </section>
       )}
 
       <Sekcja czesc="symulacja" gotowa={sym !== null}>
