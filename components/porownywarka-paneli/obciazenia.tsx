@@ -162,7 +162,7 @@ export function ObciazeniaPaneli(p: {
             )}
             {m.wiatr ? (
               <p>
-                {t(m.wiatr.zrodloCp === "polac" ? "UI-PORP-OBC-WIATR-WYNIK-POLAC" : "UI-PORP-OBC-WIATR-WYNIK", {
+                {t(m.wiatr.zrodloCp === "polac" ? "UI-PORP-OBC-WIATR-WYNIK-POLAC" : m.wiatr.zrodloCp === "wlasne" ? "UI-PORP-OBC-WIATR-WYNIK-WLASNE" : "UI-PORP-OBC-WIATR-WYNIK", {
                   qb: f0(m.wiatr.qbPa),
                   h: p.obc.wysokoscKonstrukcji,
                   ce: f2(m.wiatr.ceZ),
@@ -224,6 +224,11 @@ export function ObciazeniaPaneli(p: {
             )
           })}
           {m.wiatr?.zrodloCp === "polac" ? <p className="text-caption text-muted-foreground">{t("UI-PORP-OBC-NOTA-POLAC")}</p> : null}
+          {m.wiatr?.zrodloCp === "wlasne" ? (
+            <p role="note" className="rounded-md border border-werdykt-uwaga-border bg-werdykt-uwaga-bg p-2 text-small text-werdykt-uwaga-foreground">
+              {t("UI-PORP-OBC-NOTA-WLASNE", { kat: p.nachylenieDeg === null ? "" : f0(p.nachylenieDeg) })}
+            </p>
+          ) : null}
           <p className="text-caption text-muted-foreground">{t("UI-PORP-OBC-NOTA")}</p>
         </>
       )}

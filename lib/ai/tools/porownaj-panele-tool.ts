@@ -244,6 +244,10 @@ export const PorownajPaneleToolOutput = z.object({
       sniegNaPaneluPa: z.number().nullable().describe("Śnieg prostopadle do panelu s·cos²α [Pa]; null bez strefy albo wysokości"),
       wiatrQpPa: z.number().nullable().describe("Szczytowe ciśnienie wiatru q_p [Pa]; null, gdy wiatru nie policzono"),
       powodBrakuWiatru: z.enum(["brak-danych", "brak-typu-dachu", "kat-poza-zakresem"]).nullable(),
+      wspolczynnikiWiatru: z
+        .enum(["wiata-7.6", "polac-7.3-7.4", "wlasne-oszacowanie"])
+        .nullable()
+        .describe("Skąd współczynniki wiatru: Tablica 7.6 (panele na konstrukcji 0–30°), Tablice 7.3/7.4 (górne oszacowanie dla paneli równoległych do połaci) albo WŁASNE oszacowanie aplikacji dla konstrukcji 30–90° — to ostatnie nie ma podstawy w żadnej normie, powiedz to userowi"),
     })
     .nullable(),
   liderZimowyNazwa: z.string().nullable(),
@@ -436,7 +440,7 @@ export function utworzPorownajPaneleTool(
         })),
         wykluczone: v.wykluczone.map((w) => ({ nazwa: w.nazwa, brakuje: w.brakuje })),
         obciazeniaMiejsca: v.obciazeniaMiejsca
-          ? { sniegNaPaneluPa: v.obciazeniaMiejsca.snieg?.sNormalnaPa ?? null, wiatrQpPa: v.obciazeniaMiejsca.wiatr?.qpPa ?? null, powodBrakuWiatru: v.obciazeniaMiejsca.powodBrakuWiatru }
+          ? { sniegNaPaneluPa: v.obciazeniaMiejsca.snieg?.sNormalnaPa ?? null, wiatrQpPa: v.obciazeniaMiejsca.wiatr?.qpPa ?? null, powodBrakuWiatru: v.obciazeniaMiejsca.powodBrakuWiatru, wspolczynnikiWiatru: v.obciazeniaMiejsca.wiatr ? ({ wiata: "wiata-7.6", polac: "polac-7.3-7.4", wlasne: "wlasne-oszacowanie" } as const)[v.obciazeniaMiejsca.wiatr.zrodloCp] : null }
           : null,
         liderZimowyNazwa: roznica ? (v.panele.find((p) => p.id === roznica.liderId)?.nazwa ?? null) : null,
         przewagaZimowaKwh: roznica?.roznicaKwh ?? null,

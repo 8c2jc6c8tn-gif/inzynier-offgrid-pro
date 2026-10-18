@@ -6,9 +6,10 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 Wiatr dla paneli równoległych do połaci i minimum czytelności ilustracji (D90):
 - Porównywarka paneli (silnik 1.10.0), zakładka „Obciążenia”: dla paneli równoległych do połaci nowe pole „Rodzaj połaci” (dach jednospadowy albo dwuspadowy); wiatr liczony z ciśnienia zewnętrznego połaci c_pe,1 z Tablic 7.3 i 7.4 PN-EN 1991-1-4, dla spadku 5–75°, jako górne oszacowanie (najgorsze pole i kierunek wiatru; norma nie podaje współczynników panelu ze szczeliną pod spodem); tablice przepisane i sprawdzone ze skanem; pole zapisuje się w udostępnianym stanie, narzędzie AI `porownaj_panele` przyjmuje `typDachu`; panele pochylone na konstrukcji bez zmian (Tablica 7.6, 0–30°),
+- panele pochylone na konstrukcji pod kątem 30–90° dostają wiatr z WŁASNEGO oszacowania aplikacji (wartości z 30° Tablicy 7.6 zachowane dla większych kątów); żadna norma ani dokument tego nie opisuje, co ekran mówi wprost w ostrzeżeniu, a narzędzie AI zwraca `wspolczynnikiWiatru: wlasne-oszacowanie`; kąty powyżej 90° i ujemne nadal poza zakresem,
 - minimum czytelności ilustracji kafla pulpitu to 80 px (token `--ikona-min`, test skali ikon).
 
-Wpływ na liczby: tak, dla paneli równoległych do połaci z wybranym rodzajem połaci Porównywarka pokazuje teraz ocenę wiatru (wcześniej tylko śnieg); bez wyboru rodzaju połaci wynik jak dotąd (tylko śnieg). Pozostałe liczby bez zmian.
+Wpływ na liczby: tak, dla paneli równoległych do połaci z wybranym rodzajem połaci oraz dla paneli na konstrukcji pod kątem 30–90° Porównywarka pokazuje teraz ocenę wiatru (wcześniej tylko śnieg; w drugim przypadku z oznaczeniem „własne oszacowanie”); bez wyboru rodzaju połaci wynik jak dotąd (tylko śnieg). Pozostałe liczby bez zmian.
 
 ## [3.31.0] — 18.10.2026
 
