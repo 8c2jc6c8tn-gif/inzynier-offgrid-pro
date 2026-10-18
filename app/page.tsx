@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import { useSyncExternalStore } from "react"
+import { useOdczytDraftu } from "@/lib/adapters/use-persisted-draft"
+import { KLUCZ_DRAFTU_TERMINARZ, dzisiajLokalnie, liczbaPrzegladowPoTerminie, type SeedTerminarza } from "@/lib/obiekt/terminarz-przegladow-draft"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { StanPusty } from "@/components/ui/stany"
 import { Ikona, IKONA } from "@/components/ui/ikona"
@@ -29,6 +31,9 @@ const KAFLE_SIECI = [15, 16]
 export default function PulpitPage() {
   const t = useTranslate()
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  // Overdue inspections from the user's own schedule (screen "Terminarz przeglądów i serwisu") ring the bell; nothing is sent, the count is read on opening the app.
+  const terminarz = useOdczytDraftu<SeedTerminarza>(KLUCZ_DRAFTU_TERMINARZ)
+  const poTerminie = liczbaPrzegladowPoTerminie(terminarz.dane, dzisiajLokalnie())
 
   const widoczneKafle = stan.order
     .filter((id) => !stan.hiddenIds.includes(id))
@@ -99,13 +104,27 @@ export default function PulpitPage() {
           >
             {t("UI-PUL-USTAWIENIA", { ikona: USTAWIENIA_KAFEL.ikona })}
           </Link>
-          <span
-            className="px-1 text-muted-foreground"
-            title={t("UI-PUL-BRAK-POWIADOMIEN")}
-            aria-label={t("UI-PUL-BRAK-POWIADOMIEN")}
-          >
-            <Ikona nazwa={IKONA.bell} />
-          </span>
+          {poTerminie > 0 ? (
+            <Link
+              href="/kalkulatory/terminarz-przegladow"
+              className="relative rounded-md px-1 py-1.5 text-foreground transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+              title={t("UI-PUL-PRZEGLADY-PO-TERMINIE", { n: poTerminie })}
+              aria-label={t("UI-PUL-PRZEGLADY-PO-TERMINIE", { n: poTerminie })}
+            >
+              <Ikona nazwa={IKONA.bell} />
+              <span aria-hidden="true" className="absolute -top-0.5 -right-0.5 min-w-4 rounded-full bg-werdykt-blad px-1 text-center text-caption leading-4 font-medium text-white tabular-nums">
+                {poTerminie}
+              </span>
+            </Link>
+          ) : (
+            <span
+              className="px-1 text-muted-foreground"
+              title={t("UI-PUL-BRAK-POWIADOMIEN")}
+              aria-label={t("UI-PUL-BRAK-POWIADOMIEN")}
+            >
+              <Ikona nazwa={IKONA.bell} />
+            </span>
+          )}
           <ThemeToggle />
         </nav>
       </header>

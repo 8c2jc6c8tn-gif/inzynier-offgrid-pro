@@ -86,7 +86,7 @@ export const pl = {
   "UI-WZO-POLICZYC-SPRAWDZ-DANE": "Nie da się policzyć — sprawdź dane wejściowe.",
   "UI-WZO-IKONY-NAWIGACJI": "Ikony nawigacji",
   "UI-WZO-IKONY-MODULOW": "Ikony modułów",
-  "UI-WZO-EMOJI-LIB-PULPIT": "Emoji z lib/pulpit/registry.ts — jeden na kafel.",
+  "UI-WZO-EMOJI-LIB-PULPIT": "Ikony liniowe modułów (components/ui/ikona-modulu.tsx) — jedna na kafel.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -176,7 +176,7 @@ export const en: Record<Klucz, string> = {
   "UI-WZO-POLICZYC-SPRAWDZ-DANE": "Cannot calculate — check the input data.",
   "UI-WZO-IKONY-NAWIGACJI": "Navigation icons",
   "UI-WZO-IKONY-MODULOW": "Module icons",
-  "UI-WZO-EMOJI-LIB-PULPIT": "Emoji from lib/pulpit/registry.ts — one per tile.",
+  "UI-WZO-EMOJI-LIB-PULPIT": "Line icons of the modules (components/ui/ikona-modulu.tsx) — one per tile.",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -264,5 +264,5 @@ export const ru: Record<Klucz, string> = {
   "UI-WZO-POLICZYC-SPRAWDZ-DANE": "Невозможно рассчитать — проверьте входные данные.",
   "UI-WZO-IKONY-NAWIGACJI": "Иконки навигации",
   "UI-WZO-IKONY-MODULOW": "Иконки модулей",
-  "UI-WZO-EMOJI-LIB-PULPIT": "Эмодзи из lib/pulpit/registry.ts — по одному на плитку.",
+  "UI-WZO-EMOJI-LIB-PULPIT": "Линейные иконки модулей (components/ui/ikona-modulu.tsx) — по одной на плитку.",
 }

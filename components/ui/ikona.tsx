@@ -99,6 +99,14 @@ const SCIEZKI = {
     </>
   ),
   warn: <path d="M12 3l10 18H2zM12 10v5M12 18h.01" />,
+  flask: <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3M8 15h8" />,
+  van: (
+    <>
+      <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" />
+      <circle cx="7" cy="18" r="1.5" />
+      <circle cx="17" cy="18" r="1.5" />
+    </>
+  ),
   err: (
     <>
       <circle cx="12" cy="12" r="9" />

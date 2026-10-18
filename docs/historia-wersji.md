@@ -9,6 +9,8 @@ Wiatr dla paneli równoległych do połaci i minimum czytelności ilustracji (D9
 - bilans zimy: ogrzewanie elektryczne doliczone w Porównywarce rozkłada się na godziny wg temperatury godzinowej (zimne noce dostają więcej), a nie w profilu dobowym reszty prądu (spec 60); założenie jawne w wyniku,
 - przycisk napięcia układu z profilu obiektu na kolejnych czterech ekranach z listą napięć (ochrona przed rozładowaniem, gniazdo zapalniczki, urządzenie 12 V bezpośrednio, tryb uproszczony),
 - narzędzia AI pobierające PVGIS przyjmują własne miesięczne nasłonecznienie i temperatury (`nadpisanieGhiKwhM2`, `nadpisanieTempSrednieC`), liczone tą samą funkcją co ekran,
+- ikony liniowe zamiast emoji kafli i presetów w Ustawieniach, na stronach modułów i we wzorniku (komponent `ikona-modulu`, dwie nowe ikony: kolba i kamper; emoji zostają w rejestrze jako dane do tłumaczeń),
+- dzwonek na pulpicie pokazuje liczbę przeglądów po terminie z terminarza użytkownika i prowadzi do terminarza (bez wysyłania powiadomień; liczba czytana przy otwarciu aplikacji),
 - panele pochylone na konstrukcji pod kątem 30–90° dostają wiatr z WŁASNEGO oszacowania aplikacji (wartości z 30° Tablicy 7.6 zachowane dla większych kątów); żadna norma ani dokument tego nie opisuje, co ekran mówi wprost w ostrzeżeniu, a narzędzie AI zwraca `wspolczynnikiWiatru: wlasne-oszacowanie`; kąty powyżej 90° i ujemne nadal poza zakresem,
 - minimum czytelności ilustracji kafla pulpitu to 80 px (token `--ikona-min`, test skali ikon).
 

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { IlustracjaKafla } from "@/components/ilustracja-kafla"
+import { IkonaKafla } from "@/components/ui/ikona-modulu"
 import { BANER_MODULU_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
 import { TekstUi } from "@/components/ui/tekst-ui"
@@ -29,7 +30,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
         </Link>
         {maskotka ? <IlustracjaKafla kafelId={kafel.id} wariant="baner" /> : null}
         <h1 className="mt-2 text-h1 font-semibold">
-          <span aria-hidden="true">{kafel.ikona}</span> <TytulModulu kafel={kafel} />
+          <IkonaKafla kafelId={kafel.id} className="mr-1 inline size-6 align-text-bottom" /> <TytulModulu kafel={kafel} />
         </h1>
         <p className="mt-1 text-small text-muted-foreground"><OpisKafla kafel={kafel} /></p>
       </div>
