@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest"
 import { zapiszTryb } from "@/lib/theme/storage"
 import { existsSync } from "node:fs"
 import { join } from "node:path"
-import { IKONA_3D_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
+import { IKONA_3D_EKRANOW, IKONA_3D_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { getSnapshot, ustawIkonyKafli, ustawKolor, ustawPokazUkryteStyle, ustawStyl } from "../storage"
 
 const KLUCZ = "offgrid.wyglad.v1"
@@ -90,5 +90,9 @@ describe("tile illustrations: Bob or 3D icons (D87)", () => {
       expect(src, `tile ${id}`).toBeTruthy()
       expect(existsSync(join(process.cwd(), "public", src)), src).toBe(true)
     }
+  })
+
+  it("the two screen icons (weather, boiler) exist in public/", () => {
+    for (const src of Object.values(IKONA_3D_EKRANOW)) expect(existsSync(join(process.cwd(), "public", src)), src).toBe(true)
   })
 })

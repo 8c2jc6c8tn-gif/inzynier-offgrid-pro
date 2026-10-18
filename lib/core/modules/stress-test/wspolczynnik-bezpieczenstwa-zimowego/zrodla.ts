@@ -31,7 +31,7 @@ export function zDeficytow(seed: SeedDeficytow | null): { najwiekszyDeficytKwh: 
 export type SeedBlackout = Partial<Record<keyof BlackoutInput, string>>
 
 /** Days of autonomy without sun vs. the scenario length, from Ekran 4. `null` = Ekran 4 incomplete. */
-export function zBlackoutu(seed: SeedBlackout | null): { autonomiaDni: number; wymaganaAutonomiaDni: number } | null {
+export function zBlackoutu(seed: SeedBlackout | null): { autonomiaDni: number; wymaganaAutonomiaDni: number; dodatkowaPojemnoscKwh: number | null } | null {
   if (!seed) return null
   const input = Object.fromEntries(
     (["pojemnoscKwh", "socStartPct", "socMinPct", "sprawnoscFalownikaPct", "zuzycieDoboweKwh", "dniScenariusza", "agregatKwhDoba"] as const).map(
@@ -41,7 +41,7 @@ export function zBlackoutu(seed: SeedBlackout | null): { autonomiaDni: number; w
   const wynik = calculateBlackout(input)
   if (wynik.status === "INCOMPLETE" || wynik.status === "INVALID_INPUT" || input.dniScenariusza === null) return null
   // dniPrzetrwania = null: the generator covers the whole daily use — the system lasts the whole scenario (this model).
-  return { autonomiaDni: wynik.value.dniPrzetrwania ?? input.dniScenariusza, wymaganaAutonomiaDni: input.dniScenariusza }
+  return { autonomiaDni: wynik.value.dniPrzetrwania ?? input.dniScenariusza, wymaganaAutonomiaDni: input.dniScenariusza, dodatkowaPojemnoscKwh: wynik.value.dodatkowaPojemnoscKwh }
 }
 
 /** Seed of `strategia-zamarzanie` (Ekran 6). */

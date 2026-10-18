@@ -103,7 +103,7 @@ export default function PrognozaSocPage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
       <NawigacjaEkranu href="/kalkulatory/prognoza-soc" />
-      <NaglowekEkranu tytul={t("UI-PROGSOC-TYTUL")} ekran="prognoza-soc" wynik={result}>
+      <NaglowekEkranu tytul={t("UI-PROGSOC-TYTUL")} ekran="prognoza-soc" wynik={result} ilustracja="pogoda">
         {t("UI-PROGSOC-OPIS")}
       </NaglowekEkranu>
 

@@ -65,6 +65,7 @@ export default function BojlerCwuPage() {
         ekran="bojler-cwu"
         wynik={result}
         parametry={{ cWody: CIEPLO_WLASCIWE_WODY_J_KG_K, kwhNaLK: WSPOLCZYNNIK_KWH_NA_L_K.toFixed(6) }}
+        ilustracja="bojler"
       >
         {t("UI-BOJCWU-BOJLER-JEDEN-NAJWIEKSZYCH")}
       </NaglowekEkranu>

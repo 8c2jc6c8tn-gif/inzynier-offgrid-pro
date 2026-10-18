@@ -4,10 +4,14 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 ## [3.33.0] — 18.10.2026
 
-Wiatr dla paneli na dachu czterospadowym i na ścianie, powiadomienia o przeglądach, zapadka grubości kreski, ikony ekranów (D91):
-- Porównywarka (silnik 1.11.0), zakładka „Obciążenia”: pole „Rodzaj połaci albo ściany” ma dwie nowe wartości, dach czterospadowy (Tablica 7.5, spadek 5–75°) i ściana budynku (Tablica 7.1, nachylenie 85–90°); liczby sprawdzone ze skanem PDF; dla ściany najgorsza wartość ze wszystkich pól i stosunków h/d (aplikacja ich nie zna); górne oszacowanie jak dla pozostałych połaci.
+Wiatr dla dachu czterospadowego i ściany, powiadomienia o przeglądach, kreska w ilustracjach, rekomendacje w raporcie kryzysowym, ikony ekranów (D91):
+- Porównywarka (silnik 1.11.0), zakładka „Obciążenia”: pole „Rodzaj połaci albo ściany” ma dwie nowe wartości, dach czterospadowy (Tablica 7.5, spadek 5–75°) i ściana budynku (Tablica 7.1, nachylenie 85–90°); liczby sprawdzone ze skanem PDF; dla ściany najgorsza wartość ze wszystkich pól i stosunków h/d (aplikacja ich nie zna); górne oszacowanie jak dla pozostałych połaci,
+- powiadomienia przeglądarki o przeglądach po terminie: pole na ekranie terminarza (zgoda przeglądarki pytana dopiero po kliknięciu), jedno powiadomienie dziennie przy otwarciu aplikacji; nic nie przychodzi, gdy aplikacja jest zamknięta (offline, bez harmonogramu w tle); dzwonek na pulpicie działa jak dotąd,
+- „Raport kryzysowy”: pod pokryciem najgorszego miesiąca pokazuje, o ile procent więcej mocy PV by to wymagało (zwykła proporcja dwóch liczb ekranu współczynnika), a przy blackoucie, którego bateria nie wytrzymuje, ile kWh pojemności brakuje (z modelu ekranu „Blackout”); liczby paneli raport nie podaje, bo zależy od uzysku jednego panelu,
+- reguła grubości kreski w ilustracjach (3,2 jednostki `viewBox 256` przy 80 px, bez napisów) jako zapadka w teście; rozmiary ilustracji kafli zmierzone w emulatorze przy gęstości 1×–3× (zawsze 112 albo 128 px),
+- ikony „pogoda” (ekrany prognoz) i „bojler” (bojler CWU) przy tytułach tych ekranów, tylko przy wyborze „Ikony 3D”; ikony liniowe zamiast emoji w nagłówku pulpitu.
 
-Wpływ na liczby: tak, dla paneli równoległych do dachu czterospadowego albo do ściany z wybranym rodzajem Porównywarka pokazuje ocenę wiatru (wcześniej tylko śnieg); pozostałe liczby bez zmian.
+Wpływ na liczby: tak, dla paneli równoległych do dachu czterospadowego albo do ściany z wybranym rodzajem Porównywarka pokazuje ocenę wiatru (wcześniej tylko śnieg); raport kryzysowy dostaje dwie nowe linie (bez zmiany istniejących liczb); pozostałe liczby bez zmian.
 
 ## [3.32.0] — 18.10.2026
 
