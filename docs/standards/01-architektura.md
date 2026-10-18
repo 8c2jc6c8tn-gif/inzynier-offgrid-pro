@@ -37,6 +37,10 @@ Mniejsze projekty mogą spłaszczyć `application` do `domain`, dając trójwars
 
 Dla mniejszych projektów (kilka–kilkanaście modułów logiki) pełny Kernel bywa nadmiarowy — wystarczy jawna orkiestracja w warstwie `application`, ale zasada "jedna bramka błędów" i "zależności deklarowane z góry" obowiązuje niezależnie od skali.
 
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpisy z 04–05.10.2026), decyzja właściciela repo. **Dwa ryzyka grafu, których Kernel sam nie zgłosi:**
+- **Cecha współdzielona ma jedno źródło.** Cecha materiału lub produktu używana przez więcej niż jeden moduł (energetyka, ppoż., akustyka, koszty) żyje w jednym miejscu (katalog albo warstwa), a moduły pochodne czytają ją przez `dependsOn`. Pole lokalne w module pochodnym jest dopuszczalne wyłącznie jako jawny zapas „cecha nieznana” (bez zgadywania). Opis tego samego elementu w dwóch modułach rozjechał się raz tak, że wynik pożarowy był o trzy klasy po stronie niebezpiecznej (REI 60 zamiast 20), a testy każdego modułu z osobna były zielone. UI pokazuje źródło wartości zamiast edytowalnego duplikatu. Wynik słaby z powodu wyboru materiału może nieść policzoną alternatywę (zalecane, nie wymóg).
+- **Brak krawędzi w grafie to brak danych, nie błąd.** Moduł agregujący („całość”: masa, koszty, bilans, raport) cicho pomija wszystko, czego nie ma w jego `dependsOn`; nowy moduł z danymi fizycznymi nie ma automatycznie konsumentów (dom z antresolą liczył się jak parterowy). Przy dodawaniu modułu wynikowego obowiązuje punkt: **które moduły agregujące powinny go czytać** — dopisane do ich `dependsOn` albo jawnie wykluczone z uzasadnieniem. Test łańcucha na pełnym grafie: 10.10 pkt 5.
+
 ## 1.3. Wzorzec "echo" zamiast duplikowania logiki
 
 **Reguła.** Gdy wynik modułu A jest potrzebny dalej w łańcuchu przez moduł C (zależny od B, zależnego od A), B "echouje" gotowe pole zamiast przeliczać tę samą logikę od nowa.

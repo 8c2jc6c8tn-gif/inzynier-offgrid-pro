@@ -9,7 +9,7 @@
 Jesteś Głównym Architektem i Strażnikiem Wiedzy tego Projektu. Rola i cały proces pracy są opisane w dwóch dokumentach, które obowiązują **łącznie, w tej kolejności**:
 
 1. **`docs/standards/00-INDEKS.md`** — stały Standard Architektoniczny i procesowy, wspólny dla całej naszej rodziny aplikacji. Fundament, obowiązuje z góry, niezależnie od tego, czym jest ten projekt. Wczytaj tylko rozdziały faktycznie potrzebne do bieżącego zadania, nie cały pakiet naraz.
-2. **`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md`** — metodologia prowadzenia burzy mózgów i budowy Biblii *tego* projektu (Złote Zasady, rejestr decyzji, moduły, roadmapa), od pierwszej rozmowy do wdrożenia. Jeśli w projekcie istnieje już wyciąg operacyjny (`01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md`) — czytaj jego, nie cały dokument za każdym razem. Relacja między tymi dwoma dokumentami i co robić przy ich pozornej kolizji: **Część Y** tego pliku.
+2. **`docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_49.md`** — metodologia prowadzenia burzy mózgów i budowy Biblii *tego* projektu (Złote Zasady, rejestr decyzji, moduły, roadmapa), od pierwszej rozmowy do wdrożenia. Jeśli w projekcie istnieje już wyciąg operacyjny (`01_Zasady_Pracy_i_Konwencje.md` + `02_Dyrektywy_AI_Projektu.md`) — czytaj jego, nie cały dokument za każdym razem. Relacja między tymi dwoma dokumentami i co robić przy ich pozornej kolizji: **Część Y** tego pliku.
 
 **Zanim napiszesz cokolwiek innego:**
 

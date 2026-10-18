@@ -83,6 +83,8 @@ Nazwa zakładki 2 w projekcie spoza dziedzin technicznych (np. finanse, żywnoś
 
 **Reguła.** Globalny przełącznik, stan trwały w preferencjach użytkownika. Domyślnie tryb prosty (suwaki, kafle, mniej pól). Tryb zaawansowany odsłania parametry dodatkowe (dla projektu technicznego: protokoły komunikacji, momenty dokręcania; dla innej domeny: pełne dane źródłowe, zaawansowane filtry — dobór wg projektu). **Menu pozostaje zawsze dostępne, również w trybie prowadzonym/prostym** — nigdy nie zamyka użytkownika w liniowej ścieżce bez wyjścia.
 
+[16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 09.10.2026), decyzja właściciela repo (wariant B). **Tryb ekranu na szkicu.** Dla ekranu z wieloma polami (prosty: kilka pytań i jedna rekomendacja „po ludzku”; pełny: wszystkie ustawienia) oba tryby działają na **tym samym szkicu**, więc przełączanie niczego nie gubi. Domyślny tryb nowego szkicu to nadal tryb prosty z globalnego przełącznika; dla ekranów z wieloma polami dopuszcza się **domyślny tryb wyliczony z zawartości szkicu** („pusty = prosty, są dane = pełny”), ale pod warunkiem: (1) wyliczenie następuje **raz, przy pierwszym renderze szkicu**, a wynik jest **zapisany w szkicu** — nigdy wyliczany na żywo (inaczej tryb przeskakuje w trakcie wpisywania pierwszej liczby); (2) po zapisaniu trybu zmienia go wyłącznie użytkownik; (3) rekomendacja trybu prostego jest **tabelą decyzyjną na liczbach, które ekran pełny też pokazuje** (bez nowych wag i progów — 3.7 pkt 4), a przy sprzeczności kryteriów pokazuje kompromis zamiast wskazywać zwycięzcę (8.14 reguła 3). Odstępstwo od „zawsze domyślnie prosty” jest więc dozwolone tylko w tej postaci i nie zastępuje globalnego przełącznika.
+
 ## 8.6. Bezpieczne wartości domyślne
 
 **Reguła.** Dane wpływające na bezpieczeństwo nie mogą mieć ukrytej wartości domyślnej, którą użytkownik przeoczy. Jeśli pole ma wartość domyślną, musi być jawnie oznaczone jako domyślne/orientacyjne, nie wyglądać jak dana wpisana świadomie przez użytkownika.
@@ -107,7 +109,7 @@ Przykład: *"Brakuje informacji o dacie otwarcia opakowania. Wynik został polic
 
 ## 8.10. Dostępność
 
-Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
+Nie polegaj wyłącznie na kolorze do przekazania informacji (werdykty 🟢🟡🔴 mają też kształt/ikonę, nie tylko barwę). [17.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 16.10.2026), decyzja właściciela repo: poziom werdyktu ma znak o **odrębnym kształcie** (np. liniowe SVG ✓ / ▲ / ✕ malowane kolorem tekstu), a **emoji nie są nośnikiem znaczenia** — renderują się inaczej w każdym systemie i nie dają spójności ze stylem aplikacji. Test regresji: panel werdyktu renderuje `<svg aria-hidden>` oraz etykietę tekstową. Zachowaj odpowiedni kontrast. Etykiety dla czytników ekranu. Nie blokuj powiększenia. Obsługa klawiaturą. Unikaj migających elementów.
 
 **`id` pola formularza generowany unikalnie, nigdy z tekstu etykiety.** [25.09.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4). Współdzielony komponent pola formularza budował `id` wyłącznie z tekstu etykiety — w liście (`.map()`) z powtarzającą się etykietą N pól dostało to samo `id`: `<label for>` wiąże się tylko z pierwszym, klik w etykietę i czytnik ekranu trafiają w złe pole, a `getByLabel` Playwrighta znajduje jeden element. Błąd niewidoczny dla typecheck, lint i testów jednostkowych. Reguła: `id` z generatora unikalnego identyfikatora frameworka (React: `useId()`) albo przekazany jawnie przez wywołującego — treść etykiety nigdy nie jest identyfikatorem.
 
@@ -143,3 +145,65 @@ Kroki 2–5 powstają od razu **we wszystkich językach minimalnego zestawu proj
 **Pilnowanie mechaniczne.** Kroki 3–5 mają strażnika w CI wg 11.9 (np. każde pole ma `?`, każdy nagłówek ekranu ma „i”, każda strona z polami używa autosave albo ma jawny komentarz z powodem, każdy kalkulator ma zarejestrowane narzędzie AI z opisem "kiedy użyć"). Reguła bez strażnika dryfuje w ciągu dni, bo nowy kod powstaje przez kopiowanie sąsiedniego (15.19).
 
 **Uzasadnienie.** Te same warstwy — i18n, autosave, rejestr AI (17.1a, 5.7, 9.0a), a teraz pomoc — jeden projekt odkrył osobno, każdą przez kosztowny retrofit. Jedna lista w jednym miejscu jest tańsza niż składanie jej z czterech rozdziałów przy każdym ekranie, a zrobienie wszystkiego naraz, łącznie z tłumaczeniami, oszczędza czas i tokeny, bo kontekst ekranu jest już załadowany.
+
+## 8.13. Prezentacja wyniku normowego: jedna liczba obowiązująca, jawna niepewność, podpowiedź przed bramką
+
+[07.10.2026] ✅ DODANO — źródło: inzynier-szkieletowy-pro (U.4, wpisy z 05–06.10.2026, D153 tamtego projektu), decyzja właściciela repo. Uzupełnia 3.7 pkt 6 o stronę UI.
+
+**Reguła 1 — jedna liczba obowiązująca.** Gdy metoda normowa daje przedział (kres górny/dolny, wariant uproszczony i dokładny), ekran pokazuje **jedną liczbę oznaczoną jako obowiązującą** i jedno zdanie „który wynik obowiązuje i dlaczego”; granice pokazuje się osobno jako przedział niepewności z opisem. Nie pokazuj trzech równorzędnych liczb (myli użytkownika) ani samej jednej bez widocznej niepewności (ukrywa ją). Narzędzie AI dostaje wynik obowiązujący **i** granice z opisem.
+
+**Reguła 2 — `ESTIMATE` jest widoczny w każdym miejscu, gdzie widać liczbę** (3.3): znacznik 🔎 i dopisek „norma liczy X, to nasza interpretacja”; w eksporcie/raporcie także.
+
+**Praktyka zalecana (nie reguła) — podpowiedź na etapie, bramka przy przejściu dalej.** Gdy domyślny/świeży projekt uczciwie nie spełnia wymagania (np. domyślna ściana REI 15 < wymagane 30), w trakcie konfiguracji pokaż **podpowiedź z propozycją poprawy**, a twardy błąd/bramkę uruchom dopiero przy próbie przejścia do następnego etapu. Nie zmieniaj obliczeń ani nie wyciszaj testów po to, by świeży projekt był „zielony” (10.10 pkt 3). Rozstrzygnięcie lokalne projektu może być inne — stąd status praktyki, nie reguły.
+
+
+## 8.14. Porównywarki i rankingi opcji: widoczne kryteria i wagi, brak danych to „nie do porównania”, skala względna
+
+[16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 08.10.2026, wzorzec z `docs/porownywarka-paneli-pv-specyfikacja.md` tamtego projektu), decyzja właściciela repo (pełny podrozdział, bo porównywarki innych typów — falowniki, baterie, materiały, dostawcy — mogą się pojawić w kolejnych aplikacjach rodziny). Dotyczy każdego ekranu, który **szereguje lub ocenia kilka opcji względem siebie**; uzupełnia 3.7 pkt 1 (brak danych nigdy nie staje się zerem) o stronę UI.
+
+**Reguła 1 — kryterium jest osobnym polem z zaznaczeniem.** Każde kryterium porównania to oddzielne pole z checkboxem: zaznaczone = liczone, odznaczone = pomijane w rankingu. Użytkownik widzi, co wchodzi do oceny, i może to wyłączyć; nie ma kryteriów ukrytych.
+
+**Reguła 2 — wagi są zawsze widoczne i sumują się do 100%.** Wagi widać przy kryteriach, a po zmianie zaznaczenia lub wagi przeliczają się automatycznie tak, by suma pozostała 100%. Ranking nigdy nie opiera się na wadze, której użytkownik nie widzi.
+
+**Reguła 3 — brak parametru to „nie do porównania”, nigdy zero ani wartość domyślna.** Gdy element nie ma wartości kryterium (brak w karcie katalogowej, dane nieznane), jest ona `null`, a kryterium dla **tego elementu** jest jawnie oznaczone „nie do porównania” (z powodem, jeśli znany). Nie wolno jej uzupełniać zerem, wartością typową ani średnią zestawu, bo wypaczyłoby to ranking po cichu — to szczególny przypadek 3.7 pkt 1. Wpływ braku na wynik zbiorczy jest widoczny (np. wynik liczony z mniejszej liczby kryteriów jest tak oznaczony), a zgodnie z 3.7 pkt 2 ocena zbiorcza nie ukrywa najsłabszego ogniwa.
+
+**Reguła 4 — skala względna jest nazwana wprost.** Gdy oceny (gwiazdki, punkty, kolory) wynikają z pozycji w danym zestawie, ekran mówi, że skala jest względna w obrębie porównywanych opcji: te same gwiazdki w innym zestawie znaczą co innego. Nie sugeruj skali bezwzględnej, jeśli jej nie ma.
+
+**Reguła 5 — tekst w obsługiwanych językach.** Nazwy kryteriów, komunikaty „nie do porównania” i opis skali względnej przechodzą przez słownik i18n (17.1a); w ranking nie wchodzi tekst zależny od języka.
+
+**Reguła 6 — źródło każdej liczby z katalogu jest pod ręką użytkownika.** [16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 08.10.2026), decyzja właściciela repo (wariant A+C). Gdy dane porównania pochodzą z katalogu przepisanego z kart katalogowych (panele, falowniki, baterie, materiały), ekran pokazuje przy każdym wpisie wstawionym z katalogu **wskazanie źródła**; zalecaną formą jest link „Zobacz kartę katalogową” do **obrazu karty serwowanego przez samą aplikację** (użytkownik sam sprawdza, że liczba pochodzi z karty). Zasady:
+- **Link znika po ręcznej zmianie.** Gdy użytkownik zmieni liczbę pochodzącą z karty, link do karty przy tej liczbie znika, a wartość jest oznaczona jako wpisana ręcznie — dane przestają być potwierdzone źródłem. Nigdy nie zostawiaj linku do karty przy liczbie, która z niej już nie pochodzi.
+- **Wpis katalogu niesie ścieżkę źródła.** Katalog zawiera dla każdego wpisu ścieżkę do obrazu karty (albo, gdy obrazu nie wolno serwować, nazwę dokumentu i stronę); brak źródła to jawny stan „źródło niedostępne”, nie ukryty link.
+- **Licencja przed udostępnieniem (19.10).** Obraz karty to materiał strony trzeciej, a aplikacje rodziny są użyciem komercyjnym (rozdz. 12) — obraz wolno serwować dopiero po rozstrzygnięciu praw do niego (zgoda producenta albo licencja dopuszczająca użycie komercyjne). Bez tego zostaje wariant bez obrazu: nazwa dokumentu, strona i ewentualnie link zewnętrzny.
+- **Rozmiar offline (5.3).** Obrazy kart nie wchodzą automatycznie do precache; decyzja o ich buforowaniu uwzględnia rozmiar instalacji i uprzedzenie użytkownika (5.3 — precache od instalacji z testem offline).
+- **Test istnienia plików.** Test sprawdza, że każda ścieżka źródła z katalogu wskazuje istniejący plik oraz że link znika po ręcznej zmianie liczby (rozdz. 10).
+
+**Testy (rozdz. 10).** Co najmniej: (a) suma wag = 100% po każdej kombinacji zaznaczeń, w tym po odznaczeniu wszystkich bez jednego; (b) opcja z `null` w kryterium nigdy nie dostaje punktów za to kryterium i jest oznaczona; (c) zmiana kolejności opcji w danych wejściowych nie zmienia ich oceny względem siebie.
+
+## 8.15. Wydruki i raporty: ślad wersji na każdej stronie, stopka jako `<tfoot>`
+
+[16.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 09.10.2026 „Stopka powtarzana na każdej stronie wydruku”), decyzja właściciela repo. Dotyczy wydruku/PDF generowanego z HTML (Chromium).
+
+**Reguła — ślad wersji na wydruku.** Wydruk lub PDF z wynikiem obliczeń niesie ślad wersji z 3.8 pkt 6 (numer wersji programu, identyfikator builda, wersje danych, w razie potrzeby wersja silnika). Powtarza się na każdej stronie, jeśli dokument ma więcej niż jedną.
+
+**Praktyka zalecana (nie reguła) — stopka jako `<tfoot>`, nie `position: fixed`.** Stopka, która ma być na każdej stronie i nie nachodzić na treść, najpewniej działa jako `<tfoot>` tabeli otaczającej dokument: przeglądarka powtarza ją na każdej stronie i rezerwuje na nią miejsce. `position: fixed` też powtarza element, ale zasłania treść dochodzącą do dołu strony. **Zakres weryfikacji:** sprawdzone w druku do PDF w Chromium (3 strony A4); zachowanie w Safari i Firefox nie zostało potwierdzone — projekt, który je wspiera, sprawdza wydruk w nich sam, zanim uzna wzorzec za obowiązujący u siebie.
+
+## 8.16. Rozmiar ilustracji i ikon: z tokenu, nie z liczby w komponencie
+
+[17.10.2026] ✅ DODANO część zasadniczą, 🔎 liczby nieustalone — źródło: inzynier-offgrid-pro (U.4, wpis z 16.10.2026 i jego uzupełnienie z odpowiedziami na pytania tej sesji, decyzja właściciela repo: wniesienie dopiero po odpowiedzi projektu). Projekt wprost zastrzegł, że liczbowego minimum czytelności i minimalnej grubości kreski **nie należy traktować jako gotowych liczb do standardu** — poniżej zasada sprawdzona w kodzie oraz osobno hipotezy ze statusem 🔎.
+
+**Reguła (sprawdzona w kodzie i testem) — rozmiar z tokenu.** Rozmiar ilustracji (kafle, banery modułów) pochodzi z **tokenu CSS zależnego od szerokości ekranu** (np. `--ikona-kafel`: jedna wartość dla telefonu, większa od progu szerokości), a nie z liczby wpisanej w komponencie. Komponent ilustracji nie ma propsa `size`. Wartości tokenów leżą na jednej skali (w projekcie źródłowym wielokrotności 4 px: 16, 20, 24, 32, 48, 64, 80, 96, 112, 128). Test sprawdza minimum trzy rzeczy: token istnieje i leży na skali, wartość dla telefonu jest nie większa niż dla tabletu, a komponent nie ma rozmiaru wpisanego w kodzie. Nie definiuj tokenów, których nic nie używa (martwy kod).
+
+**Ilustracje a ikony interfejsu.** To dwie klasy o różnych zasadach: ilustracje (duże, rysowane z cienką kreską, w `viewBox` np. 256) podlegają zasadom tej sekcji; ikony interfejsu (małe, liniowe, `viewBox` np. 24, rozmiary 16/20/24) mają własne rozmiary i nie podlegają minimum ilustracji. Wspólne jest tylko: rozmiar z jednej skali, nie z przypadkowych liczb.
+
+**SVG skaluje się z gęstością pikseli samo** — osobne pakiety rozdzielczości (@1x/@2x/@3x) dla SVG są zbędne. Raster jest potrzebny tylko tam, gdzie rozmiar narzuca system lub manifest (ikony PWA, `apple-icon`, favicon); te rysuje się osobno, prosto, w rozmiarze, w którym mają być czytelne, i nie obejmuje ich minimum ilustracji.
+
+**🔎 Hipotezy niezweryfikowane — nie traktować jako reguł.**
+1. **Minimum czytelności ilustracji (w projekcie źródłowym 80 px)** to **ocena autora z zapisu decyzji, nie pomiar**; nie sprawdzono jej na prawdziwym telefonie (tylko emulacja Chromium 390×844 przy gęstości 1×).
+2. **Minimalna grubość kreski niosącej treść** (propozycja: wyświetlana co najmniej 1 px na minimalnym rozmiarze, czyli w `viewBox` 256 przy 80 px co najmniej 3,2 jednostki) to **obliczenie, nie próba**, i istniejące ilustracje projektu źródłowego jej nie spełniają. Propozycja: napisy w ilustracjach niedozwolone, znaczenie niosą kształty.
+3. Warunek zdjęcia 🔎: próba na prawdziwych telefonach przy gęstości 1×/2×/3× i **decyzja właściciela** projektu. Do tego czasu projekt ustala minimum **wprost** i zapisuje w swoim dokumencie, **jak je ustalił** (pomiar na urządzeniach / ocena), nie podając oceny jako pomiaru.
+
+**Luka testowa do uniknięcia.** Test tokenu nie wykaże, że ilustracja nigdy nie wyświetli się poniżej minimum — kontener w wąskiej siatce może ją skurczyć mimo poprawnego tokenu. Jeśli projekt ma minimum, sprawdza **faktycznie wyrenderowany rozmiar** (np. pomiar elementu w teście przeglądarkowym), a nie tylko wartość tokenu.
+
+[18.10.2026] ✅ DODANO — źródło: inzynier-offgrid-pro (U.4, wpis z 18.10.2026, decyzja D90 właściciela tamtego projektu), decyzja właściciela repo (wariant A). **Minimum czytelności jest tokenem obok limitu, z testem.** Minimum czytelności ilustracji (w projekcie źródłowym `--ikona-min` = 80 px) zapisuje się jako **token CSS obok górnego limitu** (`--ikona-kafel`), a opakowania ilustracji stosują oba (`min-w-(--ikona-min)` obok limitu). Test sprawdza, że token istnieje, ma zapisaną wartość, a opakowania ilustracji go używają. Liczba nie siedzi w opisie ani w komponencie. **Status liczby 80 px:** to **decyzja właściciela projektu źródłowego (D90), wartość z oceny, nie z pomiaru na urządzeniach** — dla innych projektów punkt wyjścia do własnej decyzji, nie norma rodziny. Hipotezy 2 (minimalna grubość kreski, zakaz napisów w ilustracjach) i 3 (próba na prawdziwych telefonach 1×/2×/3×) zostają 🔎, bez zmian.
+

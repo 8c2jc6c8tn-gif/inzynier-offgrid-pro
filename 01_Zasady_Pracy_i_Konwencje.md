@@ -1,7 +1,7 @@
 # 01. Zasady Pracy i Konwencje — Inżynier Offgrid Pro
 
 **Wersja:** 1.0 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 04.09.2026 | **Status:** Stabilny
-**Powiązane dokumenty:** `00_Biblia.md`, `02_Dyrektywy_AI_Projektu.md`, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_39.md` (Część P.1)
+**Powiązane dokumenty:** `00_Biblia.md`, `02_Dyrektywy_AI_Projektu.md`, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_49.md` (Część P.1)
 
 TL;DR: Wyciąg operacyjny z GOD BOOK — jak formatować i prowadzić tę Biblię, dopasowany do tego projektu. Ktoś (człowiek albo AI), kto dostanie ten dokument bez GOD BOOK, ma tu wszystko potrzebne do dalszej pracy zgodnej z metodologią.
 
@@ -78,7 +78,7 @@ Rozdziały tematyczne = 13 Modułów źródła (`docs/zrodla/Tresc_Modul_N_*.md`
 
 ## §6 Standard Architektoniczny wspólny (Część Y GOD BOOK)
 
-Ten projekt korzysta z `docs/standards/` (17 rozdziałów, `new-app-standards`) jako fundamentu poprzedzającego tę Biblię. Kolizja treści między Standardem a tą Biblią:
+Ten projekt korzysta z `docs/standards/` (20 rozdziałów, `new-app-standards`) jako fundamentu poprzedzającego tę Biblię. Kolizja treści między Standardem a tą Biblią:
 - **Dryf kodu od już ustalonej reguły Standardu, bez świadomej decyzji** — naprawiaj od razu, zapisz w `docs/memory.md` (Część Y.2).
 - **Świadomy, jawny konflikt** (Standard mówi X, ta Biblia świadomie mówi Y z uzasadnieniem) — zgłoś właścicielowi projektu, nigdy nie rozstrzygaj sam.
 

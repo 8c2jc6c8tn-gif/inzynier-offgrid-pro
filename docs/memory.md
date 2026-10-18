@@ -2831,3 +2831,30 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Playwright w piaskownicy:** `chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })` (domyślna ścieżka nie istnieje); serwer `next dev --webpack`.
 - **Lint React:** `setState` wprost w efekcie jest błędem (`react-hooks`); uprawnienie przeglądarki czytać przez `useSyncExternalStore`.
 
+
+## Synchronizacja ze standardem — Y.6/Y.9 (18.10.2026, na polecenie właściciela „Aktualizacja”)
+
+- Źródło: płytki klon `new-app-standards` (`f9d2886`, 18.10 18:02 +02:00), tylko odczyt. Poprzednia synchronizacja 29.09.2026;
+  `AKTUALIZACJE.md` 114 → 148 linii (wiersze 2026-09-29 … 2026-10-18).
+- *NIETYKALNE (pełny nadpis):* `docs/standards/` 00-INDEKS, 00, 01, 02, 03, 04, 05, 08, 09, 10, 14, 15, 17, 18 oraz **nowe 19
+  (dane środowiskowe) i 20 (wymiana między appkami)** — razem 20 rozdziałów. GOD BOOK `v2_39` → `v2_49` (stary plik usunięty
+  przez `git rm`, nowy dodany), `PROMPT_STARTOWY.md`, `docs/przyklady/i18n/` (README + nowy `check-i18n-keys.mjs`; **tylko
+  skopiowany, nie podpięty do `pnpm`/CI** — wdrożenie jako druga warstwa strażnika i18n to osobna decyzja).
+- *ADAPTOWALNE (patch):* `CLAUDE.md` — dopisany akapit 15.26 („pytanie o decyzję zadawaj tak, żeby dało się odpowiedzieć bez
+  czytania rozmowy”), liczba rozdziałów 19 → 20, ścieżka GOD BOOK v2_49. Skill `standards` — wersja GOD BOOK i liczba rozdziałów.
+  `README.md`, `00_Biblia.md`, `01_Zasady_Pracy_i_Konwencje.md` — tylko ścieżka GOD BOOK i liczba rozdziałów.
+- *LOKALNE:* `docs/wklad-do-standardu.md` — 19 wpisów oznaczonych `✅ przekazane` (część z adnotacją „CZĘŚCIOWO” i tym, co
+  zostaje: transkrypcja karty/ostrzeżenie niższe niż twardy stop, rejestr schematów, skala ikon 8.16, generator tłumaczenia wzoru).
+- **Checklista Y.9:** 1 standards ✅ · 2 GOD BOOK ✅ v2_49 · 3 `CLAUDE.md` ✅ (patch) · 4 Biblia ✅ (bez zmian poza ścieżkami) ·
+  5 lista ✅ (wpis niżej) · 6 wkład ✅ · 7 `docs/zrodla/` ✅ · 8 skill ✅ · 9 `01_`/`02_` ✅.
+- **Nie wniesione, do decyzji właściciela (Y.10 — moduły opcjonalne proponuje się, nie dodaje):** `docs/biblioteka-norm/`
+  (+31 katalogów), `docs/playbooki-opcjonalne/`, `docs/schematy-transferu/`, `docs/przyklady/{dane-srodowiskowe,waluta}/`,
+  `docs/katalog-zasobow-wspolnych.md`; `docs/przyklady/pwa/` nadal świadomie niekopiowany (pytanie z 26.09 otwarte).
+- **Nie sprawdzone (Y.2/Y.11) — dryf kodu od nowych reguł:** nowe/zmienione reguły 3.7 (próg numeryczny, `ESTIMATE`), 3.8 (ślad
+  wersji obliczeń), 8.13–8.16, 9.11, 10.10, 17.12, 18.2 (passkey), 18.15–18.16, rozdz. 19 i 20, GOD BOOK Y.11 pozycje 8–11.
+  Audyt zgodności kodu (rozszerzenie `docs/audyt-zgodnosci-kodu.md`) jest do zrobienia osobno — wpis na liście zadań.
+- **Pytanie od źródła do tego projektu (AKTUALIZACJE.md 18.10):** generator tłumaczenia wzoru (17.11, kolejność pracy: najpierw
+  literał w module). Bez odpowiedzi, na liście zadań.
+- Pakiet po zmianie (same dokumenty, kod bez zmian): `check:i18n-guard`, `check:pomoc-guard`, `check:ai-tools-guard`,
+  `check:stopy-guard` — zielone. Wersja programu bez podbicia (brak wpływu na liczby i na ekrany).
+- Cykl adaptacyjny: nowa treść → `interwał_h = 12`, `licznik_zero_z_rzedu = 0`; kolejne sprawdzenie najpóźniej 19.10.2026 ok. 07:00.
