@@ -60,6 +60,24 @@ export const pl = {
         "cel": "Decyduje, jaką część kąta tarcia gruntu przyjmujemy jako tarcie podstawy o grunt.",
         "gdzie": "Gładki prefabrykat (bloczki): 2/3 kąta; beton formowany na gruncie: cały kąt (PN-EN 1997-1, p. 6.5.3 (10)).",
         "zakres": "Dwie wartości do wyboru."
+      },
+      "probaMasa": {
+        "nazwa": "Masa bloczka użytego do próby [kg]",
+        "cel": "Z masy i siły ruszenia aplikacja liczy współczynnik tarcia.",
+        "gdzie": "Zważ bloczek (waga łazienkowa, karta producenta). Użyj bloczka podobnego do tych, które będą balastem.",
+        "zakres": "Większa od 0."
+      },
+      "probaJednostka": {
+        "nazwa": "Jednostka dynamometru",
+        "cel": "Dynamometry pokazują niutony albo „kilogramy” (kilogramy siły); to inna liczba dla tej samej siły.",
+        "gdzie": "Sprawdź skalę na dynamometrze lub w jego instrukcji.",
+        "zakres": "Do wyboru: N albo kgf."
+      },
+      "probaSily": {
+        "nazwa": "Siła w chwili ruszenia [N lub kgf]",
+        "cel": "Najniższy wynik z prób wyznacza współczynnik tarcia po stronie bezpiecznej.",
+        "gdzie": "Ciągnij bloczek poziomo, równo narastającą siłą, i odczytaj wskazanie w chwili, gdy ruszy. Powtórz co najmniej trzy razy, także na mokrym podłożu.",
+        "zakres": "Liczby dodatnie rozdzielone spacjami (przecinek to przecinek dziesiętny)."
       }
     }
   },
@@ -121,6 +139,24 @@ export const en: Tlumaczenie<typeof pl> = {
         "cel": "It decides which part of the ground friction angle is taken as the friction of the base on the ground.",
         "gdzie": "Smooth precast (blocks): 2/3 of the angle; concrete cast on the ground: the whole angle (PN-EN 1997-1, clause 6.5.3 (10)).",
         "zakres": "Two values to choose from."
+      },
+      "probaMasa": {
+        "nazwa": "Mass of the block used in the test [kg]",
+        "cel": "The app computes the friction coefficient from the mass and the force at the start of movement.",
+        "gdzie": "Weigh the block (bathroom scale, manufacturer's datasheet). Use a block similar to those that will serve as ballast.",
+        "zakres": "Greater than 0."
+      },
+      "probaJednostka": {
+        "nazwa": "Force gauge unit",
+        "cel": "Force gauges show newtons or “kilograms” (kilograms-force); it is a different number for the same force.",
+        "gdzie": "Check the scale on the gauge or in its manual.",
+        "zakres": "Choose N or kgf."
+      },
+      "probaSily": {
+        "nazwa": "Force at the moment of starting to move [N or kgf]",
+        "cel": "The lowest test result sets the friction coefficient on the safe side.",
+        "gdzie": "Pull the block horizontally with a steadily increasing force and read the gauge the moment it starts to move. Repeat at least three times, also on wet ground.",
+        "zakres": "Positive numbers separated by spaces (a comma is a decimal comma)."
       }
     }
   },
@@ -182,6 +218,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Определяет, какую часть угла трения грунта принимать за трение основания о грунт.",
         "gdzie": "Гладкий сборный элемент (блоки): 2/3 угла; бетон, формуемый на грунте: весь угол (PN-EN 1997-1, п. 6.5.3 (10)).",
         "zakres": "Два значения на выбор."
+      },
+      "probaMasa": {
+        "nazwa": "Масса блока, использованного в пробе [кг]",
+        "cel": "По массе и силе начала движения приложение рассчитывает коэффициент трения.",
+        "gdzie": "Взвесьте блок (напольные весы, паспорт производителя). Используйте блок, подобный тем, что будут балластом.",
+        "zakres": "Больше 0."
+      },
+      "probaJednostka": {
+        "nazwa": "Единица динамометра",
+        "cel": "Динамометры показывают ньютоны или «килограммы» (килограммы-силы); для одной и той же силы это разные числа.",
+        "gdzie": "Проверьте шкалу на динамометре или в его инструкции.",
+        "zakres": "Выбор: Н или кгс."
+      },
+      "probaSily": {
+        "nazwa": "Сила в момент начала движения [Н или кгс]",
+        "cel": "Наименьший результат проб задаёт коэффициент трения в запас.",
+        "gdzie": "Тяните блок горизонтально равномерно нарастающей силой и считайте показание в момент начала движения. Повторите не менее трёх раз, в том числе на мокром основании.",
+        "zakres": "Положительные числа через пробел (запятая — десятичная)."
       }
     }
   },
