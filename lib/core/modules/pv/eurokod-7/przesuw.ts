@@ -83,3 +83,34 @@ export function wspolczynnikTarciaZKataGruntu(phiCvDeg: number, rodzaj: RodzajPo
   if (!Number.isFinite(phiCvDeg) || phiCvDeg <= 0 || phiCvDeg >= 90) return null
   return Math.tan((UlamekKataTarcia[rodzaj] * phiCvDeg * Math.PI) / 180)
 }
+
+export type TarcieZProby = {
+  /** μ = F_min / (m·g) — z NAJNIŻSZEGO wyniku (po stronie bezpiecznej). */
+  wspolczynnikTarcia: number
+  /** Najniższa siła ruszenia ze wszystkich prób [N]. */
+  najnizszaSilaN: number
+  liczbaProb: number
+}
+
+/**
+ * μ z próby na miejscu: bloczek o znanej masie ciągnięty poziomo po docelowym podłożu, siła odczytana w chwili ruszenia (tarcie statyczne,
+ * bo o nim decyduje początek przesuwu). μ = F/(m·g). Bierzemy NAJNIŻSZY wynik z prób — rozrzut jest normalny, a za wysokie μ daje za mały
+ * balast. To fizyka, nie norma: wynik jest szacunkiem użytkownika dla jego pary bloczek–grunt. `null` dla masy ≤ 0, braku prób albo siły ≤ 0.
+ */
+export function wspolczynnikTarciaZProby(masaKg: number, silyRuszeniaN: number[], przyspieszenieZiemskieMS2: number): TarcieZProby | null {
+  if (!Number.isFinite(masaKg) || masaKg <= 0 || silyRuszeniaN.length === 0) return null
+  if (silyRuszeniaN.some((f) => !Number.isFinite(f) || f <= 0)) return null
+  const najnizszaSilaN = Math.min(...silyRuszeniaN)
+  return { wspolczynnikTarcia: najnizszaSilaN / (masaKg * przyspieszenieZiemskieMS2), najnizszaSilaN, liczbaProb: silyRuszeniaN.length }
+}
+
+/**
+ * Lista liczb z pola tekstowego: rozdzielacze to spacje, tabulatory, średniki i nowe linie; przecinek jest przecinkiem dziesiętnym
+ * (np. „12,5 13 11,8”). `null`, gdy któryś token nie jest liczbą albo lista jest pusta.
+ */
+export function parsujListeLiczb(tekst: string): number[] | null {
+  const tokeny = tekst.split(/[\s;]+/).filter((t) => t !== "")
+  if (tokeny.length === 0) return null
+  const liczby = tokeny.map((t) => Number(t.replace(",", ".")))
+  return liczby.every((x) => Number.isFinite(x)) ? liczby : null
+}

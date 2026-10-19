@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { balastPrzesuwuEc7Kg, PODEJSCIA_EC7, przesuwEc7, wspolczynnikTarciaZKataGruntu } from "../przesuw"
+import { balastPrzesuwuEc7Kg, parsujListeLiczb, PODEJSCIA_EC7, przesuwEc7, wspolczynnikTarciaZKataGruntu, wspolczynnikTarciaZProby } from "../przesuw"
 
 const g = 9.80665
 
@@ -52,5 +52,31 @@ describe("μ z kąta tarcia gruntu wg p. 6.5.3 (10)", () => {
   })
   it("poza zakresem → null", () => {
     for (const x of [0, -5, 90, 120, NaN]) expect(wspolczynnikTarciaZKataGruntu(x, "prefabrykat")).toBeNull()
+  })
+})
+
+describe("μ z próby na miejscu (F = μ·m·g w chwili ruszenia)", () => {
+  // Reference computed independently in Python: 25 kg block, forces 118 / 124 / 121 N → min 118 → 118/(25·9,80665) = 0,4813.
+  it("bierze NAJNIŻSZY wynik z prób", () => {
+    const r = wspolczynnikTarciaZProby(25, [118, 124, 121], g)!
+    expect(r.najnizszaSilaN).toBe(118)
+    expect(r.liczbaProb).toBe(3)
+    expect(r.wspolczynnikTarcia).toBeCloseTo(0.4813, 4)
+  })
+
+  it("jedna próba też działa; masa i siły muszą być dodatnie, lista niepusta", () => {
+    expect(wspolczynnikTarciaZProby(10, [49], g)!.wspolczynnikTarcia).toBeCloseTo(49 / (10 * g), 9)
+    expect(wspolczynnikTarciaZProby(0, [10], g)).toBeNull()
+    expect(wspolczynnikTarciaZProby(-5, [10], g)).toBeNull()
+    expect(wspolczynnikTarciaZProby(10, [], g)).toBeNull()
+    expect(wspolczynnikTarciaZProby(10, [10, 0], g)).toBeNull()
+    expect(wspolczynnikTarciaZProby(10, [10, NaN], g)).toBeNull()
+  })
+
+  it("parser listy: spacje, średniki i nowe linie rozdzielają, przecinek to przecinek dziesiętny", () => {
+    expect(parsujListeLiczb("12,5 13  11.8")).toEqual([12.5, 13, 11.8])
+    expect(parsujListeLiczb("1;2\n3")).toEqual([1, 2, 3])
+    expect(parsujListeLiczb("")).toBeNull()
+    expect(parsujListeLiczb("12 abc")).toBeNull()
   })
 })

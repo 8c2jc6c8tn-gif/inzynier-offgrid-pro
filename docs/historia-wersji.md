@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.41.0] — 19.10.2026
+
+Kalkulator próby na miejscu dla współczynnika tarcia μ (D99; użytkownik bez dokumentacji geotechnicznej nie musi zgadywać):
+- przy polu μ w wiatrze >30°, typie montażu i „Złotym środku” (jeden wspólny pomocnik) można wpisać masę bloczka i siły w chwili ruszenia z kolejnych prób dynamometrem (w N albo kgf); aplikacja liczy μ = F/(m·g) z NAJNIŻSZEGO wyniku (po stronie bezpiecznej) i wpisuje je jednym przyciskiem,
+- to czysta fizyka, bez normy i bez tablic: wynik jest szacunkiem użytkownika dla jego pary bloczek–grunt; opis próby (poziomo, narastająca siła, co najmniej trzy powtórzenia, także na mokrym podłożu) i pomoc „?” przy każdym polu, PL/EN/RU,
+- funkcje `wspolczynnikTarciaZProby` i `parsujListeLiczb` w `eurokod-7/przesuw.ts` z testami (wartość odniesienia z Pythona).
+
+Wpływ na liczby: brak (nowy sposób wprowadzenia μ; silniki bez zmian).
+
 ## [3.40.0] — 19.10.2026
 
 Przesuw stelaża wg Eurokodu 7 (D98, polecenie właściciela: wdrożyć z rekomendacji po sprawdzeniu dostarczonej normy PN-EN 1997-1:2008):
