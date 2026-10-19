@@ -80,3 +80,38 @@ export function miesiaceNaWlasnaOdpowiedzialnosc(liczba: number, katMaksDeg: num
     technicalMessage: `${liczba} mies. z kątem > ${maxNormaDeg}° (maks. ${katMaksDeg}°): siła i balast to szacunek aplikacji (D95)`,
   }
 }
+
+/** Przesuw i przewracanie policzone z danych użytkownika (tarcie, punkt przyłożenia siły, podstawa) — szacunek aplikacji, nie wynik normy. */
+export function statecznoscSzacunek(mu: number, wysokoscM: number, szerokoscM: number): Warning {
+  // Geometry derived from L and α is not a round number — show it to the centimetre.
+  wysokoscM = Math.round(wysokoscM * 100) / 100
+  szerokoscM = Math.round(szerokoscM * 100) / 100
+  return {
+    code: "WP30-STATECZNOSC-SZACUNEK",
+    level: "warning",
+    i18nKey: "WP30-STATECZNOSC-SZACUNEK",
+    params: { mu, h: wysokoscM, b: szerokoscM },
+    technicalMessage: `przesuw i przewracanie z μ = ${mu}, h = ${wysokoscM} m, b = ${szerokoscM} m — szacunek aplikacji (EQU, γQ i γG,inf z PN-EN 1990), norma nie podaje tarcia ani punktu przyłożenia siły`,
+  }
+}
+
+/** Podano część danych stateczności (tarcie, wysokość, podstawa) — bez kompletu przesuw i przewracanie nie są liczone. */
+export function statecznoscNiekompletna(): Warning {
+  return {
+    code: "WP30-STATECZNOSC-NIEKOMPLETNA",
+    level: "info",
+    i18nKey: "WP30-STATECZNOSC-NIEKOMPLETNA",
+    technicalMessage: "przesuw i przewracanie wymagają trzech danych naraz: μ, wysokości punktu przyłożenia siły i szerokości podstawy",
+  }
+}
+
+/** To samo dla zestawienia wielu kątów (Złoty środek): geometria zmienia się z kątem, więc ostrzeżenie podaje tylko tarcie. */
+export function statecznoscSzacunekKaty(mu: number, dlugoscM: number): Warning {
+  return {
+    code: "WP30-STATECZNOSC-SZACUNEK-KATY",
+    level: "warning",
+    i18nKey: "WP30-STATECZNOSC-SZACUNEK-KATY",
+    params: { mu, dlugosc: dlugoscM },
+    technicalMessage: `przesuw i przewracanie dla każdego kąta z μ = ${mu} i L = ${dlugoscM} m — szacunek aplikacji (EQU, γQ i γG,inf z PN-EN 1990), norma nie podaje tarcia ani punktu przyłożenia siły`,
+  }
+}

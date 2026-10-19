@@ -25,4 +25,10 @@ export type WiatrPowyzej30Input = {
   wspolczynnikPhi?: number | null
   /** Masa paneli i stelaża dla tej powierzchni [kg], bez balastu (D29) — opcjonalnie; puste = pomijamy (bezpieczniej). */
   masaPaneliStelazaKg?: number | null
+  /** Współczynnik tarcia stelaża/balastu o podłoże μ — opcjonalnie; razem z wysokością i podstawą pozwala sprawdzić przesuw i przewracanie. Bez wartości domyślnej. */
+  wspolczynnikTarcia?: number | null
+  /** Wysokość punktu przyłożenia siły wiatru nad terenem [m] — opcjonalnie (środek paneli). */
+  wysokoscSrodkaParciaM?: number | null
+  /** Szerokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie (przewracanie wokół krawędzi zawietrznej). */
+  szerokoscPodstawyM?: number | null
 }

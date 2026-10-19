@@ -19,6 +19,9 @@ export function validateInput(input: ZlotySrodekInput): Warning[] {
     e.push(wartoscPozaZakresem("wspolczynnikPhi", "POLE-ZABUDOWA-PHI", phi, PHI_MIN, PHI_MAX))
   }
   if (!nieujemna(input.masaPaneliStelazaKg)) e.push(wartoscUjemna("masaPaneliStelazaKg", "POLE-MASA-PANELI-STELAZA", input.masaPaneliStelazaKg!))
+  if (!dodatnia(input.dlugoscWzdluzSpaduM ?? null)) e.push(wartoscNiedodatnia("dlugoscWzdluzSpaduM", "POLE-DLUGOSC-WZDLUZ-SPADKU", input.dlugoscWzdluzSpaduM!))
+  if (!dodatnia(input.wspolczynnikTarcia ?? null)) e.push(wartoscNiedodatnia("wspolczynnikTarcia", "POLE-WP30-TARCIE", input.wspolczynnikTarcia!))
+  if (!dodatnia(input.glebokoscPodstawyM ?? null)) e.push(wartoscNiedodatnia("glebokoscPodstawyM", "POLE-WP30-SZEROKOSC-PODSTAWY", input.glebokoscPodstawyM!))
   if (!nieujemna(input.cenaBalastuZlKg)) e.push(wartoscUjemna("cenaBalastuZlKg", "POLE-CENA-BALASTU", input.cenaBalastuZlKg!))
   if (!dodatnia(input.mocInstalacjiKwp)) e.push(wartoscNiedodatnia("mocInstalacjiKwp", "POLE-MOC-INSTALACJI", input.mocInstalacjiKwp!))
   if (pr !== null && !(pr > 0 && pr <= PR_MAX)) e.push(prPozaZakresem(pr))

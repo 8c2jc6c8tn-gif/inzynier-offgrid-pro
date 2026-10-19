@@ -6,9 +6,11 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
+import type { WarunekBalastu } from "@/lib/core/modules/pv/wiatr-powyzej-30/sila-i-balast"
 import { useFormatLiczby, useFormaty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
@@ -130,8 +132,8 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string; wspolczynnikTarcia: string; glebokoscPodstawyM: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "", wspolczynnikTarcia: "", glebokoscPodstawyM: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
@@ -140,7 +142,26 @@ export function stelazZSeeda(s: StelazSeed) {
     wysokoscDolnejKrawedziM: n(s.wysokoscDolnejKrawedziM),
     // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
     masaPaneliStelazaKg: n(s.masaPaneliStelazaKg ?? ""),
+    // Drafts saved before the stability check have no friction / footprint depth — treat as empty.
+    wspolczynnikTarcia: n(s.wspolczynnikTarcia ?? ""),
+    glebokoscPodstawyM: n(s.glebokoscPodstawyM ?? ""),
   }
+}
+
+/** Ballast for each condition with the governing one highlighted, or a hint what to enter when only uplift was checked. */
+export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null; warunekRozstrzygajacy: WarunekBalastu | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+  return (
+    <li>
+      <BalastWarunki
+        warunki={{ oderwanie: w.balastOderwanieKg, przesuw: w.balastPrzesuwKg, przewracanie: w.balastPrzewracanieKg }}
+        rozstrzyga={w.warunekRozstrzygajacy}
+        t={t}
+        f={f}
+        oderwanieNieDotyczy={w.balastOderwanieKg === null}
+      />
+      {!w.statecznosc && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</p>}
+    </li>
+  )
 }
 
 /** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
@@ -192,6 +213,26 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         value={s.masaPaneliStelazaKg ?? ""}
         onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
+      />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-TARCIE")}
+        type="number"
+        inputMode="decimal"
+        min={0}
+        step={0.05}
+        value={s.wspolczynnikTarcia ?? ""}
+        onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+      />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY")}
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.glebokoscPodstawyM ?? ""}
+        onChange={(e) => ustaw("glebokoscPodstawyM", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
       />
     </div>
   )

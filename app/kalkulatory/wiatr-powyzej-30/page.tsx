@@ -15,6 +15,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -30,6 +31,9 @@ type FormularzStan = {
   powierzchniaM2: string
   phi: string
   masaPaneliStelazaKg: string
+  wspolczynnikTarcia: string
+  wysokoscSrodkaParciaM: string
+  szerokoscPodstawyM: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -41,6 +45,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   powierzchniaM2: "",
   phi: "",
   masaPaneliStelazaKg: "",
+  wspolczynnikTarcia: "",
+  wysokoscSrodkaParciaM: "",
+  szerokoscPodstawyM: "",
 }
 
 const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number(s)) ? null : Number(s))
@@ -56,6 +63,9 @@ export default function WiatrPowyzej30Page() {
   const powierzchniaM2 = stan.powierzchniaM2 ?? ""
   const phi = stan.phi ?? ""
   const masaPaneliStelazaKg = stan.masaPaneliStelazaKg ?? ""
+  const wspolczynnikTarcia = stan.wspolczynnikTarcia ?? ""
+  const wysokoscSrodkaParciaM = stan.wysokoscSrodkaParciaM ?? ""
+  const szerokoscPodstawyM = stan.szerokoscPodstawyM ?? ""
   const ustaw = (pole: keyof FormularzStan, wartosc: string) => setStan((prev) => ({ ...prev, [pole]: wartosc }))
 
   const result = useMemo(
@@ -69,8 +79,11 @@ export default function WiatrPowyzej30Page() {
         powierzchniaM2: liczbaLubNull(powierzchniaM2),
         wspolczynnikPhi: liczbaLubNull(phi),
         masaPaneliStelazaKg: liczbaLubNull(masaPaneliStelazaKg),
+        wspolczynnikTarcia: liczbaLubNull(wspolczynnikTarcia),
+        wysokoscSrodkaParciaM: liczbaLubNull(wysokoscSrodkaParciaM),
+        szerokoscPodstawyM: liczbaLubNull(szerokoscPodstawyM),
       }),
-    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM, powierzchniaM2, phi, masaPaneliStelazaKg],
+    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM, powierzchniaM2, phi, masaPaneliStelazaKg, wspolczynnikTarcia, wysokoscSrodkaParciaM, szerokoscPodstawyM],
   )
   const v = result.value
 
@@ -181,6 +194,36 @@ export default function WiatrPowyzej30Page() {
           onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
           pomoc={<PomocPola ekran="napor-wiatru" pole="masa" />}
         />
+        <Pole
+          label={t("UI-WIAPOW30-TARCIE")}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step={0.05}
+          value={wspolczynnikTarcia}
+          onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+        />
+        <Pole
+          label={t("UI-WIAPOW30-WYSOKOSC-PARCIA")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={wysokoscSrodkaParciaM}
+          onChange={(e) => ustaw("wysokoscSrodkaParciaM", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="wysokoscParcia" />}
+        />
+        <Pole
+          label={t("UI-WIAPOW30-SZEROKOSC-PODSTAWY")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={szerokoscPodstawyM}
+          onChange={(e) => ustaw("szerokoscPodstawyM", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="szerokoscPodstawy" />}
+        />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
@@ -216,6 +259,16 @@ export default function WiatrPowyzej30Page() {
                   })}
                 </p>
               )}
+              {(v.balastOderwanieKg !== null || v.balastPrzesuwKg !== null) && (
+                <BalastWarunki
+                  warunki={{ oderwanie: v.balastOderwanieKg, przesuw: v.balastPrzesuwKg, przewracanie: v.balastPrzewracanieKg }}
+                  rozstrzyga={v.warunekRozstrzygajacy}
+                  t={t}
+                  f={f0}
+                  oderwanieNieDotyczy={v.balastOderwanieKg === null}
+                />
+              )}
+              {v.balastPrzesuwKg === null && v.balastProjektowyKg !== null && <p className="text-small text-muted-foreground">{t("UI-WIAPOW30-BALAST-NIESPRAWDZONE")}</p>}
             </>
           )}
           <WynikSzczegoly

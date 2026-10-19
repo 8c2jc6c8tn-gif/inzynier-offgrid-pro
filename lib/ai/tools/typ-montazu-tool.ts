@@ -35,6 +35,8 @@ export const TypMontazuToolInput = z.object({
   dlugoscWzdluzSpaduM: z.number().optional().describe("Długość pola paneli wzdłuż spadku [m]"),
   szerokoscStelazaM: z.number().optional().describe("Szerokość pola paneli w poprzek spadku [m]"),
   masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża bez balastu [kg] — tylko z karty katalogowej/wagi podanej przez usera, nigdy nie zgaduj; pomiń → pominięta (po stronie bezpiecznej)"),
+  wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ — tylko od usera, nigdy nie zgaduj; włącza sprawdzenie przesuwu i przewracania (szacunek aplikacji)"),
+  glebokoscPodstawyM: z.number().optional().describe("Głębokość podstawy stelaża w kierunku wiatru [m] — tylko od usera; puste = L·cos α; przy 90° konieczna"),
   strefaWiatrowa: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional().describe("Strefa wiatrowa NA.1 PN-EN 1991-1-4 — tylko jeśli user podał"),
   kategoriaTerenu: z.enum(KATEGORIE_TERENU as unknown as [string, ...string[]]).optional().describe("0, I, II, III, IV — tylko jeśli user podał lub opisał teren jednoznacznie"),
   wysokoscNpmM: z.number().optional().describe("Wysokość terenu n.p.m. [m]; brak → z PVGIS (tylko tryby z PVGIS)"),
@@ -66,6 +68,11 @@ export const TypMontazuToolOutput = z.object({
       silaWiatruN: z.number().nullable(),
       balastKg: z.number().nullable(),
       szacunekPozaNorma: z.boolean().describe("true = kąt powyżej 30° do 89°: siła wiatru i balast to szacunek aplikacji, nie wynik normy; kąt na własną odpowiedzialność użytkownika"),
+      balastOderwanieKg: z.number().nullable().describe("Składnik: przeciw oderwaniu [kg]; null dla 90°"),
+      balastPrzesuwKg: z.number().nullable().describe("Składnik: przeciw przesuwowi [kg]; null bez μ"),
+      balastPrzewracanieKg: z.number().nullable().describe("Składnik: przeciw przewróceniu [kg]; null bez μ"),
+      warunekRozstrzygajacy: z.enum(["oderwanie", "przesuw", "przewracanie"]).nullable().describe("Który ze sprawdzonych warunków daje największy balast i wyznacza balastKg/balastProjektowyKg — przekaż userowi, który to warunek"),
+      statecznosc: z.boolean().describe("true = balast obejmuje przesuw i przewracanie (dane usera) — szacunek aplikacji także do 30°"),
       mu1Snieg: z.number(),
     })
     .nullable(),
@@ -131,7 +138,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
       "trawa/zaspy pod panelami), 'dach_plaski_grunt' (podniesienie krawędzi h = L·sin α, siła wiatru i balast wg " +
       "PN-EN 1991-1-4 dla 0–30° i 90°, a dla kątów powyżej 30° do 89° jako SZACUNEK aplikacji poza normą (współczynnik z 30°; użytkownik ustawia taki kąt na własną odpowiedzialność), śnieg), 'wiata' (ile paneli zmieści się na wiacie/carporcie, kWp, kąt " +
       "samooczyszczania 5–10°), 'regulowany' (stelaż z ręczną zmianą kąta: kąt na każdy miesiąc w zakresie regulacji, " +
-      "zysk vs kąt stały, balast dla najgorszego ustawienia, także miesięcy z kątem powyżej 30° jako szacunek). Balast projektowy wg PN-EN 1990 (EQU) tylko przeciw oderwaniu, bez przesuwu i wywracania — zawsze to przekaż. " +
+      "zysk vs kąt stały, balast dla najgorszego ustawienia, także miesięcy z kątem powyżej 30° jako szacunek). Balast projektowy wg PN-EN 1990 (EQU): domyślnie tylko przeciw oderwaniu; gdy user poda współczynnik tarcia μ (a przy 90° głębokość podstawy), sprawdza też przesuw i przewracanie (szacunek aplikacji, norma nie podaje tarcia) — zawsze przekaż, co sprawdzono, a czego nie. " +
       "Dla oceny połaci dachu z modelu budynku użyj 'ocen_orientacje_powierzchni'. Użyj, gdy user wybiera sposób montażu paneli (pionowo, na dachu płaskim/gruncie, na wiacie, stelaż regulowany) i pyta o kąt, uzysk, wiatr lub balast.",
     inputSchema: TypMontazuToolInput,
     outputSchema: TypMontazuToolOutput,
@@ -149,6 +156,8 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         szerokoscStelazaM: n(input.szerokoscStelazaM),
         wysokoscDolnejKrawedziM: n(input.wysokoscDolnejKrawedziM),
         masaPaneliStelazaKg: n(input.masaPaneliStelazaKg),
+        wspolczynnikTarcia: n(input.wspolczynnikTarcia),
+        glebokoscPodstawyM: n(input.glebokoscPodstawyM),
       }
 
       if (input.tryb === "wiata") {
@@ -174,7 +183,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         const w = calculateDachPlaski({ ...wiatr, ...geometria, wysokoscNpmM: n(input.wysokoscNpmM), miejsce: input.miejsce ?? null, nachylenieDeg: n(input.nachylenieDeg) })
         const v = w.value
         return odpowiedz(input, w, {
-          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, szacunekPozaNorma: v.szacunek, mu1Snieg: v.mu1 },
+          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, szacunekPozaNorma: v.szacunek, balastOderwanieKg: v.balastOderwanieKg, balastPrzesuwKg: v.balastPrzesuwKg, balastPrzewracanieKg: v.balastPrzewracanieKg, warunekRozstrzygajacy: v.warunekRozstrzygajacy, statecznosc: v.statecznosc, mu1Snieg: v.mu1 },
         })
       }
 

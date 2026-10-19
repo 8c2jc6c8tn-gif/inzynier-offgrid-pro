@@ -1094,7 +1094,7 @@ export const dictionaryPl = {
   "WZ-ZALOZENIE-ODNIESIENIE": "Odniesienie: panele skierowane na południe (180°) pod najlepszym kątem stałym dla tej lokalizacji — {kat}°.",
   "WZ-ZALOZENIE-UDZIAL-MOCY": "Moc paneli: {wschod}% na wschodzie, {zachod}% na zachodzie — ta sama technologia paneli na obu połaciach (nasłonecznienie ważone mocą).",
   "ZS-WYSOKOSC-POZA-WZOREM-STREFY-3": "Wzór strefy 3 (PN-EN 1991-1-4, Tablica NA.1) działa tylko dla wysokości poniżej 20 000 m n.p.m. — sprawdź wpisaną wysokość.",
-  "ZS-PION-SILA-POZIOMA": "Przy 90° wiatr pcha panel poziomo (współczynnik 1,80, PN-EN 1991-1-4, p. 7.4.3). Masa balastu zależy wtedy od tarcia o podłoże i od przewracania — norma tego nie podaje, więc aplikacja nie liczy kg balastu dla pionu. Przy pionie praktyczniejsze są słupki kotwiczące w gruncie.",
+  "ZS-PION-SILA-POZIOMA": "Przy 90° wiatr pcha panel poziomo (współczynnik 1,80, PN-EN 1991-1-4, p. 7.4.3). Masa balastu zależy wtedy od tarcia o podłoże i od przewracania — norma tego nie podaje. Wpisz współczynnik tarcia, wysokość punktu przyłożenia siły i szerokość podstawy, a policzymy balast jako szacunek aplikacji. Przy pionie praktyczniejsze są słupki kotwiczące w gruncie.",
   "ZS-REKOMENDACJA-WYMAGA-WYCENY": "Żeby wskazać najlepszy kąt, wpisz moc paneli, współczynnik PR, cenę 1 kWh i liczbę lat. Aplikacja porównuje wtedy wartość energii z kosztem balastu dla każdego kąta. Bez tych danych widzisz wykresy i możesz sprawdzić dowolny kąt.",
   "ZS-OPTIMUM-ENERGII-POZA-ZAKRESEM-WIATRU": "Najwięcej energii daje kąt {kat}°, ale dla kątów powyżej 30° norma nie podaje siły wiatru na wiatę. Rekomendacja jest więc wybierana tylko spośród kątów 0–30°. Dla większych kątów aplikacja podaje SZACUNEK siły i balastu (🔎) — wybierasz je na własną odpowiedzialność.",
   "ZS-ZALOZENIE-STELAZ-WIATA": "Stelaż traktowany jak wiata jednospadowa (PN-EN 1991-1-4, Tablica 7.6) — przyjęte w decyzji D26, to praktyka inżynierska, nie zapis normy.",
@@ -2259,6 +2259,14 @@ export const dictionaryPl = {
   "ZS-SZACUNEK-LEPSZY-BILANS": "Kąt {kat}° (szacunek poza normą 🔎) dałby bilans wyższy o około {roznica} zł niż rekomendacja normowa, przy balaście {balast} kg. To informacja, nie rekomendacja: wybierając taki kąt, robisz to na własną odpowiedzialność.",
   "POLE-WP30-POWIERZCHNIA": "powierzchnia paneli",
   "POLE-WP30-PHI": "współczynnik zabudowy pod stelażem φ",
+  "POLE-WP30-TARCIE": "współczynnik tarcia o podłoże μ",
+  "POLE-WP30-WYSOKOSC-PARCIA": "wysokość punktu przyłożenia siły wiatru",
+  "POLE-WP30-SZEROKOSC-PODSTAWY": "szerokość podstawy stelaża",
+  "WP30-STATECZNOSC-SZACUNEK": "🔎 Przesuw i przewracanie są SZACUNKIEM aplikacji, nie wynikiem normy: Eurokod nie podaje współczynnika tarcia ani punktu przyłożenia siły. Policzone z Twoich danych (μ = {mu}, wysokość punktu przyłożenia {h} m, szerokość podstawy {b} m) tymi samymi współczynnikami częściowymi co oderwanie (PN-EN 1990). Balast to największy z trzech warunków — potwierdź go z konstruktorem.",
+  "WP30-STATECZNOSC-NIEKOMPLETNA": "Przesuw i przewracanie wymagają trzech danych naraz: współczynnika tarcia, wysokości punktu przyłożenia siły i szerokości podstawy. Bez kompletu liczymy tylko oderwanie.",
+  "WP30-ZALOZENIE-STATECZNOSC": "Przesuw: γQ·Fh ≤ μ·(γG,inf·(m+G)·g − γQ·Fv); przewracanie wokół krawędzi zawietrznej: γQ·Fh·h ≤ (γG,inf·(m+G)·g − γQ·Fv)·b/2, z μ = {mu}, h = {h} m, b = {b} m (Twoje dane). Siła wiatru jest prostopadła do paneli: Fh = F·sin α, Fv = F·cos α; przy 90° cała jest pozioma. Ciężar działa w połowie podstawy. To nasze założenia — norma ich nie podaje.",
+  "WP30-STATECZNOSC-SZACUNEK-KATY": "🔎 Balast w tabeli uwzględnia przesuw i przewracanie i jest SZACUNKIEM aplikacji, nie wynikiem normy: Eurokod nie podaje współczynnika tarcia ani punktu przyłożenia siły. Policzone z Twoich danych (μ = {mu}, długość paneli wzdłuż spadku {dlugosc} m) tymi samymi współczynnikami częściowymi co oderwanie (PN-EN 1990), dla każdego kąta osobno. Potwierdź balast z konstruktorem.",
+  "WP30-ZALOZENIE-STATECZNOSC-KATY": "Przesuw i przewracanie dla każdego kąta: siła wiatru prostopadła do paneli (Fh = F·sin α, Fv = F·cos α; przy 90° cała pozioma), punkt przyłożenia w środku paneli (wysokość górnej krawędzi − L/2·sin α, L = {dlugosc} m), podstawa L·cos α albo podana głębokość, μ = {mu} (Twoje dane). Dla kątów, dla których podstawa lub wysokość wychodzą niedodatnie (np. 90° bez głębokości podstawy), liczymy tylko oderwanie. To nasze założenia — norma ich nie podaje.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl
