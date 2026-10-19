@@ -74,7 +74,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (katPosredniTablicy(kat)) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
-  if (wiatr.szacunek) assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
+  if (wiatr.szacunek) assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
   if (wiatr.balastKg !== null) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })

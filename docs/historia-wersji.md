@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.39.0] — 19.10.2026
+
+Współczynnik siły wiatru dla kątów 31–89° liczony dla każdego stopnia (D97, polecenie właściciela: „przeliczone na bazie naszych danych”):
+- zamiast stałej wartości z 30° (D90/D95) współczynnik siły cf jest interpolowany liniowo między dwiema wartościami z normy: cf(30°, φ) z Tablicy 7.6 i cf(90°) = 1,80 z p. 7.4.3; wynik to szacunek aplikacji (norma nie podaje nic pomiędzy),
+- balast (oderwanie, przesuw, przewracanie) rośnie więc z kątem, jeśli φ > 0; przy φ = 0 cf(30°) = cf(90°) = 1,8, więc współczynnik jest płaski i liczby się nie zmieniają,
+- zmiana obejmuje wiatr powyżej 30° (silnik 1.3.0), dach płaski, stelaż regulowany i „Złoty środek” (1.4.0) naraz, bo wszystkie wołają `silaIBalastWiatru`; test spójności sprawdza teraz także φ = 1 i φ = 0,5,
+- ciśnienia lokalne c_p,net (docisk i odrywanie w Pa na ekranie wiatru powyżej 30° oraz w Porównywarce paneli) zostają z 30° — norma nie podaje ich dla pionu, więc nie ma drugiego punktu do interpolacji,
+- klucz założenia `WP30-ZALOZENIE-CF-Z-30` → `WP30-ZALOZENIE-CF-INTERPOLACJA`, teksty ostrzeżeń, pomoc, opis narzędzia AI i wzór zaktualizowane (PL/EN/RU).
+
+Wpływ na liczby: tak. Dla kątów 31–89° i φ > 0 siła wiatru i balast są większe niż w 3.38.0 (np. φ = 1, 45°: cf 1,5 zamiast 1,4); przy φ = 0 bez zmian. Wyniki dla 0–30° i 90° bez zmian.
+
 ## [3.38.0] — 19.10.2026
 
 Balast przeciw przesuwowi i przewracaniu dla wszystkich kątów, także 90° (D96, polecenie właściciela: „zamknąć ten system i wszystko podłączyć”):

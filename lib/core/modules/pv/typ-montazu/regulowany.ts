@@ -121,7 +121,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (miesiace.some((x) => katPosredniTablicy(x.katDeg))) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
-  if (miesiaceSzacunek.length > 0) assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
+  if (miesiaceSzacunek.length > 0) assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
   if (balasty.length > 0) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })

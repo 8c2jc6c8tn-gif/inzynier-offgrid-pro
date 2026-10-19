@@ -65,7 +65,7 @@ export function katNaWlasnaOdpowiedzialnosc(katDeg: number, maxNormaDeg: number)
     level: "warning",
     i18nKey: "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC",
     params: { kat: katDeg, max: maxNormaDeg },
-    technicalMessage: `nachylenieDeg = ${katDeg} > ${maxNormaDeg}: współczynnik siły z ${maxNormaDeg}° Tablicy 7.6 zachowany (D95) — szacunek aplikacji, kąt na własną odpowiedzialność użytkownika`,
+    technicalMessage: `nachylenieDeg = ${katDeg} > ${maxNormaDeg}: współczynnik siły interpolowany liniowo między ${maxNormaDeg}° (Tablica 7.6) a 90° (cf = 1,80, 7.4.3) (D97) — szacunek aplikacji, kąt na własną odpowiedzialność użytkownika`,
     field: "nachylenieDeg",
   }
 }
