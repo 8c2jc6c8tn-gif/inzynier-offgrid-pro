@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.43.0] — 19.10.2026
+
+Podpowiedź kąta tarcia Φu z PN-B-03020 dla gruntów niespoistych (D102, wariant A wybrany przez właściciela):
+- w pomocniku „Nie znasz μ?” (wiatr >30°, typ montażu, „Złoty środek”) można wybrać grupę gruntu (Ż/Po, Pr/Ps, Pd/Pπ) i wpisać stopień zagęszczenia I_D 0,20–1,00; aplikacja podaje Φu z wykresu normy (interpolacja liniowa, odczyt ±0,5°, szacunek 🔎, bez ekstrapolacji poza wykresem),
+- Φu to wartość charakterystyczna z korelacji, a NIE φ′cv z Eurokodu 7 (p. 6.5.3 (10)) — ostrzeżenie przy podpowiedzi; wartość trafia do pola kąta tylko po kliknięciu, nigdy automatycznie; grunty spoiste pominięte,
+- nowy moduł `eurokod-7/grunty-pn-b-03020.ts` z testem kontrolnym z normy (Pr, I_D = 0,5 → 33°), pomoc „?” i teksty PL/EN/RU.
+
+Wpływ na liczby: brak (silniki bez zmian; nowa podpowiedź przy wprowadzaniu μ — zbyt wysokie Φu może zawyżyć μ i zaniżyć balast, stąd ostrzeżenie).
+
 ## [3.42.0] — 19.10.2026
 
 Wybór metody szacunku współczynnika siły cf dla kątów 31–89° (D101, polecenie właściciela: dwie opcje do wyboru i pokazanie danych):

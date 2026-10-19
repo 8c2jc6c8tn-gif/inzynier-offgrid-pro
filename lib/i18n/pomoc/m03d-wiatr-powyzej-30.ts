@@ -58,8 +58,20 @@ export const pl = {
       "katTarciaGruntu": {
         "nazwa": "Kąt tarcia gruntu φ′cv [°]",
         "cel": "Z niego wynika współczynnik tarcia podstawy o grunt, a z niego balast przeciw przesuwowi.",
-        "gdzie": "Z dokumentacji geotechnicznej (efektywny kąt tarcia wewnętrznego w stanie krytycznym). Norma nie podaje go dla konkretnego gruntu, a aplikacja niczego nie podpowiada.",
+        "gdzie": "Z dokumentacji geotechnicznej (efektywny kąt tarcia wewnętrznego w stanie krytycznym). Norma nie podaje go dla konkretnego gruntu; podpowiedź Φu z PN-B-03020 poniżej to tylko szacunek, nie φ′cv.",
         "zakres": "Powyżej 0° i poniżej 90°."
+      },
+      "grupaGruntuPhiU": {
+        "nazwa": "Grupa gruntu niespoistego (podpowiedź Φu)",
+        "cel": "Wybiera krzywą z wykresu PN-B-03020 do podpowiedzi kąta Φu.",
+        "gdzie": "Z dokumentacji geotechnicznej lub badania gruntu (symbole Ż, Po, Pr, Ps, Pd, Pπ).",
+        "zakres": "Jedna z trzech grup; tylko grunty niespoiste."
+      },
+      "stopienZageszczeniaId": {
+        "nazwa": "Stopień zagęszczenia I_D (podpowiedź Φu)",
+        "cel": "Z niego i z grupy gruntu odczytujemy szacunkowy kąt Φu (nie φ′cv).",
+        "gdzie": "Z dokumentacji geotechnicznej (sondowania, badania laboratoryjne).",
+        "zakres": "Od 0,20 do 1,00; poza zakresem brak podpowiedzi."
       },
       "rodzajPodstawy": {
         "nazwa": "Rodzaj podstawy",
@@ -143,8 +155,20 @@ export const en: Tlumaczenie<typeof pl> = {
       "katTarciaGruntu": {
         "nazwa": "Ground friction angle φ′cv [°]",
         "cel": "It gives the friction coefficient of the base on the ground, and from it the ballast against sliding.",
-        "gdzie": "From the geotechnical documentation (effective critical-state angle of internal friction). The standard does not give it for a specific ground and the app suggests nothing.",
+        "gdzie": "From the geotechnical documentation (effective critical-state angle of internal friction). The standard does not give it for a specific ground; the PN-B-03020 Φu hint below is only an estimate, not φ′cv.",
         "zakres": "Above 0° and below 90°."
+      },
+      "grupaGruntuPhiU": {
+        "nazwa": "Non-cohesive soil group (Φu hint)",
+        "cel": "Selects the PN-B-03020 chart curve for the Φu hint.",
+        "gdzie": "From the geotechnical documentation or ground investigation (symbols Ż, Po, Pr, Ps, Pd, Pπ).",
+        "zakres": "One of three groups; non-cohesive soils only."
+      },
+      "stopienZageszczeniaId": {
+        "nazwa": "Density index I_D (Φu hint)",
+        "cel": "Together with the soil group it gives the estimated angle Φu (not φ′cv).",
+        "gdzie": "From the geotechnical documentation (soundings, laboratory tests).",
+        "zakres": "0.20 to 1.00; no hint outside this range."
       },
       "rodzajPodstawy": {
         "nazwa": "Type of base",
@@ -228,8 +252,20 @@ export const ru: Tlumaczenie<typeof pl> = {
       "katTarciaGruntu": {
         "nazwa": "Угол трения грунта φ′cv [°]",
         "cel": "Из него получается коэффициент трения основания о грунт, а из него — балласт против сдвига.",
-        "gdzie": "Из геотехнической документации (эффективный угол внутреннего трения в критическом состоянии). Норма не приводит его для конкретного грунта, а приложение ничего не подсказывает.",
+        "gdzie": "Из геотехнической документации (эффективный угол внутреннего трения в критическом состоянии). Норма не приводит его для конкретного грунта; подсказка Φu из PN-B-03020 ниже — лишь оценка, не φ′cv.",
         "zakres": "Больше 0° и меньше 90°."
+      },
+      "grupaGruntuPhiU": {
+        "nazwa": "Группа несвязного грунта (подсказка Φu)",
+        "cel": "Выбирает кривую графика PN-B-03020 для подсказки угла Φu.",
+        "gdzie": "Из геотехнической документации или изысканий (обозначения Ż, Po, Pr, Ps, Pd, Pπ).",
+        "zakres": "Одна из трёх групп; только несвязные грунты."
+      },
+      "stopienZageszczeniaId": {
+        "nazwa": "Степень плотности I_D (подсказка Φu)",
+        "cel": "Вместе с группой грунта даёт оценочный угол Φu (не φ′cv).",
+        "gdzie": "Из геотехнической документации (зондирование, лабораторные испытания).",
+        "zakres": "От 0,20 до 1,00; вне диапазона подсказки нет."
       },
       "rodzajPodstawy": {
         "nazwa": "Тип основания",
