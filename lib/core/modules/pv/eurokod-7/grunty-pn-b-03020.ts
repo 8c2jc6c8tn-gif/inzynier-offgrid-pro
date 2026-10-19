@@ -24,3 +24,21 @@ export function katTarciaPhiU(grupa: GrupaGruntuNiespoistego, stopienZageszczeni
   const u = (stopienZageszczeniaId - w.idOd) / (w.idDo - w.idOd)
   return w.phiOd + u * (w.phiDo - w.phiOd)
 }
+
+export type WilgotnoscGruntu = "malo-wilgotne" | "wilgotne" | "mokre"
+
+/** Bulk density ρ [t/m³] of non-cohesive soils, Table 1 of PN-B-03020: columns = dense (I_D 0.68–1.0), medium (0.34–0.67), loose (0–0.33). */
+const GESTOSC_OBJETOSCIOWA_TABLICA_1: Record<GrupaGruntuNiespoistego, Record<WilgotnoscGruntu, readonly [number, number, number]>> = {
+  "zwir-pospolka": { "malo-wilgotne": [1.85, 1.75, 1.7], wilgotne: [2.0, 1.9, 1.85], mokre: [2.1, 2.05, 2.0] },
+  "pr-ps": { "malo-wilgotne": [1.8, 1.7, 1.65], wilgotne: [1.9, 1.85, 1.8], mokre: [2.05, 2.0, 1.95] },
+  "pd-ppi": { "malo-wilgotne": [1.7, 1.65, 1.6], wilgotne: [1.85, 1.75, 1.7], mokre: [2.0, 1.9, 1.85] },
+}
+
+/** Bulk density ρ [t/m³] from Table 1 (PN-B-03020) for the state given by I_D; `null` outside I_D 0–1. */
+export function gestoscObjetosciowaGruntu(grupa: GrupaGruntuNiespoistego, stopienZageszczeniaId: number, wilgotnosc: WilgotnoscGruntu): number | null {
+  if (!Number.isFinite(stopienZageszczeniaId) || stopienZageszczeniaId < 0 || stopienZageszczeniaId > 1) return null
+  const kolumny = GESTOSC_OBJETOSCIOWA_TABLICA_1[grupa][wilgotnosc]
+  if (stopienZageszczeniaId > 0.67) return kolumny[0]
+  if (stopienZageszczeniaId > 0.33) return kolumny[1]
+  return kolumny[2]
+}

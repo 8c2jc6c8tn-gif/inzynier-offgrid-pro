@@ -90,6 +90,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/straty-zlaczki-mc4",
   "lib/core/modules/pv/stress-test-mppt",
   "lib/core/modules/pv/wiatr-powyzej-30",
+  "lib/core/modules/pv/ogrodzenie-pv",
   "lib/core/modules/pv/wplyw-temperatury",
   "lib/core/modules/pv/zacienienie-diody-bocznikujace",
   "lib/core/modules/zapotrzebowanie/agregat-pradotworczy",

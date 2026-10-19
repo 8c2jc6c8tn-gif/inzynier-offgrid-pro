@@ -17,6 +17,7 @@ import { liczbaPaneliTool, utworzLiczbaPaneliTool } from "../liczba-paneli-tool"
 import { trackerVsStalyTool } from "../tracker-vs-staly-tool"
 import { typMontazuTool, utworzTypMontazuTool } from "../typ-montazu-tool"
 import { wiatrPowyzej30Tool } from "../wiatr-powyzej-30-tool"
+import { ogrodzeniePvTool } from "../ogrodzenie-pv-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -420,5 +421,44 @@ describe("wiatrPowyzej30Tool (wiatr powyżej 30°, szacunek poza normą)", () =>
     expect(z.balastOderwanieKg).toBeNull()
     expect(z.ostrzezenia).toContain(t("pl", "WP30-STATECZNOSC-SZACUNEK", { mu: 0.5, h: 2, b: 1 }))
     bezBrakujacegoKlucza([...z.ostrzezenia, ...z.zalozenia])
+  })
+})
+
+describe("ogrodzeniePvTool (ogrodzenie z paneli PV, szacunek)", () => {
+  const wejscie = {
+    dlugoscPanelaMm: 1700,
+    wysokoscPanelaMm: 1100,
+    przeswitMm: 300,
+    maxWysokoscMm: 2200,
+    dlugoscOgrodzeniaM: 20,
+    strefaWiatrowa: 2 as const,
+    wysokoscNpmM: 100,
+    kategoriaTerenu: "II" as const,
+    grupaGruntu: "pr-ps" as const,
+    stopienZageszczeniaId: 0.5,
+    wilgotnoscGruntu: "wilgotne" as const,
+    glebokoscPrzemarzaniaM: 1,
+    gatunekStali: "S235" as const,
+  }
+
+  it("kontrakt 9.3 i opis z „Użyj, gdy”", () => {
+    expect(() => validateAiToolDefinition(ogrodzeniePvTool)).not.toThrow()
+    expect(ogrodzeniePvTool.description).toMatch(/Użyj, gdy/)
+  })
+
+  it("zwraca ESTIMATE z układem, profilami i fundamentem; zagłębienie nie mniejsze niż przemarzanie", async () => {
+    const w = await ogrodzeniePvTool.handler(wejscie)
+    expect(w.status).toBe("ESTIMATE")
+    expect(w.rzedy).toBe(1)
+    expect(w.wysokoscCalkowitaMm).toBe(1400)
+    expect(w.slupek).not.toBeNull()
+    expect(w.fundament?.zaglebienieKoncoweMm).toBeGreaterThanOrEqual(1000)
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("bez wymaganych danych nie zgaduje (INCOMPLETE)", async () => {
+    const w = await ogrodzeniePvTool.handler({ ...wejscie, dlugoscPanelaMm: 0 })
+    expect(w.status).toBe("INCOMPLETE")
+    expect(w.fundament).toBeNull()
   })
 })

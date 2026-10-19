@@ -107,6 +107,7 @@ export const pl = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{rok}[kWh] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Koszt = E_{rok} \\times cena",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{uzyteczna} = \\dfrac{(E_{standby} \\times eliminacja\\%) \\times d_{autonomii}}{\\eta_{falownika} \\times DoD}",
   "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad c_f(\\alpha,\\varphi) = c_f(30^\\circ,\\varphi) + \\left(c_f(90^\\circ) - c_f(30^\\circ,\\varphi)\\right)\\frac{\\alpha - 30^\\circ}{60^\\circ};\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (\\gamma_{\\varphi'}\\gamma_{R;h} F_h/\\mu + F_v)}{\\gamma_{G}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)",
+  "UI-FORMULA-PV-OGRODZENIE": "q_p = c_e(z_e)\\, q_b;\\quad F = c_f\\, q_p\\, s\\, h;\\quad M_{Ed} = \\gamma_Q F z_c \\le \\frac{W_{el} f_y}{\\gamma_{M0}};\\quad H_u = c\\,\\frac{\\gamma D K_p L^3}{e + L} \\ge \\gamma_Q F,\\ K_p = \\tan^2\\left(45^\\circ + \\frac{\\varphi'_d}{2}\\right)",
 } as const
 
 type Klucz = keyof typeof pl
@@ -214,6 +215,7 @@ export const en: Record<Klucz, string> = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{year}[kWh] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Cost = E_{year} \\times price",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{usable} = \\dfrac{(E_{standby} \\times elimination\\%) \\times d_{autonomy}}{\\eta_{inverter} \\times DoD}",
   "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
+  "UI-FORMULA-PV-OGRODZENIE": "q_p = c_e(z_e)\\, q_b;\\quad F = c_f\\, q_p\\, s\\, h;\\quad M_{Ed} = \\gamma_Q F z_c \\le \\frac{W_{el} f_y}{\\gamma_{M0}};\\quad H_u = c\\,\\frac{\\gamma D K_p L^3}{e + L} \\ge \\gamma_Q F,\\ K_p = \\tan^2\\left(45^\\circ + \\frac{\\varphi'_d}{2}\\right)",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -319,5 +321,6 @@ export const ru: Record<Klucz, string> = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{год}[кВтч] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Стоимость = E_{год} \\times цена",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{полезная} = \\dfrac{(E_{standby} \\times устранение\\%) \\times d_{автономии}}{\\eta_{инвертора} \\times DoD}",
   "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
+  "UI-FORMULA-PV-OGRODZENIE": "q_p = c_e(z_e)\\, q_b;\\quad F = c_f\\, q_p\\, s\\, h;\\quad M_{Ed} = \\gamma_Q F z_c \\le \\frac{W_{el} f_y}{\\gamma_{M0}};\\quad H_u = c\\,\\frac{\\gamma D K_p L^3}{e + L} \\ge \\gamma_Q F,\\ K_p = \\tan^2\\left(45^\\circ + \\frac{\\varphi'_d}{2}\\right)",
 }
 
