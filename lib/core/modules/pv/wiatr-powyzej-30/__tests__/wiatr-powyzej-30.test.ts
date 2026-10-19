@@ -159,7 +159,7 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
       const v = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan }).value
       const F = v.silaWiatruN!
       expect(v.balastOderwanieKg).toBeNull()
-      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (F / 0.5)) / (0.9 * g), 6)
+      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * ((F * 1.25) / 0.5)) / g, 6)
       expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * ((2 * F * 2) / 1)) / (0.9 * g), 6)
       expect(v.balastProjektowyKg).toBeCloseTo(Math.max(v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
     })
@@ -170,7 +170,7 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
       const Fh = F * Math.sin(Math.PI / 4)
       const Fv = F * Math.cos(Math.PI / 4)
       expect(v.balastOderwanieKg!).toBeCloseTo((1.5 * F) / (0.9 * g), 6)
-      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (Fh / 0.5 + Fv)) / (0.9 * g), 6)
+      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * ((Fh * 1.25) / 0.5 + Fv)) / g, 6)
       expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * (Fv + (2 * Fh * 2) / 1)) / (0.9 * g), 6)
       expect(v.balastProjektowyKg).toBeCloseTo(Math.max(v.balastOderwanieKg!, v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
     })
@@ -186,6 +186,12 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
       const szersza = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan, szerokoscPodstawyM: 3, wspolczynnikTarcia: 0.9 }).value
       expect(szersza.balastPrzewracanieKg!).toBeLessThan(wezsza.balastPrzewracanieKg!)
       expect(szersza.balastPrzesuwKg!).toBeLessThan(wezsza.balastPrzesuwKg!)
+    })
+
+    it("D98: sliding follows PN-EN 1997-1 p. 6.5.3 — the heaviest of the four design approaches governs (PO3 with the recommended Annex A values)", () => {
+      const z = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan }).value
+      expect(z.podejscieEc7Przesuw).toBe("PO3")
+      expect(calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 60 }).value.podejscieEc7Przesuw).toBeNull()
     })
 
     it("marks the stability as an estimate and records the user's data as an assumption", () => {

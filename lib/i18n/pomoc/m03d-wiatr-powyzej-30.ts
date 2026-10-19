@@ -28,7 +28,7 @@ export const pl = {
       "tarcie": {
         "nazwa": "Współczynnik tarcia o podłoże μ",
         "cel": "Od niego zależy, ile balastu potrzeba, by stelaż nie przesunął się pod parciem wiatru. Norma go nie podaje — to Twoja wartość dla konkretnego podłoża.",
-        "gdzie": "Dla pary: spód stelaża/bloczka i podłoże (beton, kostka, grunt, membrana dachowa). Skąd wziąć: (1) karta producenta bloczków, podkładek lub mat antypoślizgowych; (2) próba na miejscu — przeciągnij dynamometrem bloczek o znanym ciężarze po tym podłożu, μ = siła w chwili ruszenia ÷ ciężar bloczka; (3) konstruktor. Aplikacja nie podaje wartości domyślnej, bo zależy od materiałów, wilgoci i zabrudzenia — wpisz wartość dla najgorszych warunków (mokre, zabrudzone podłoże).",
+        "gdzie": "Dla pary: spód stelaża/bloczka i podłoże (beton, kostka, grunt, membrana dachowa). Skąd wziąć: (1) z kąta tarcia gruntu — μ = tan δ, gdzie δ = 2/3·φ′cv dla gładkich prefabrykatów albo φ′cv dla betonu formowanego na gruncie (PN-EN 1997-1, p. 6.5.3 (10); kalkulator poniżej); (2) z karty producenta bloczków, podkładek lub mat antypoślizgowych; (3) z próby na miejscu — przeciągnij dynamometrem bloczek o znanym ciężarze, μ = siła w chwili ruszenia ÷ ciężar bloczka; (4) od konstruktora. Aplikacja nie podaje wartości domyślnej, bo zależy od materiałów, wilgoci i zabrudzenia — wpisz wartość dla najgorszych warunków. Wpisana wartość to μ charakterystyczne (tan δk); współczynniki częściowe z Załącznika A stosujemy sami.",
         "zakres": "Większe od 0. Puste = przesuw i przewracanie nie są liczone."
       },
       "wysokoscParcia": {
@@ -48,6 +48,18 @@ export const pl = {
         "cel": "Stelaż przewraca się wokół krawędzi zawietrznej; im głębsza podstawa, tym mniej balastu trzeba.",
         "gdzie": "Odległość między skrajnymi punktami oparcia stelaża na podłożu, w kierunku wiatru. Puste = L·cos α (rzut pochylonych paneli na poziom).",
         "zakres": "Większe od 0. Przy 90° konieczna — rzut pionowych paneli to 0."
+      },
+      "katTarciaGruntu": {
+        "nazwa": "Kąt tarcia gruntu φ′cv [°]",
+        "cel": "Z niego wynika współczynnik tarcia podstawy o grunt, a z niego balast przeciw przesuwowi.",
+        "gdzie": "Z dokumentacji geotechnicznej (efektywny kąt tarcia wewnętrznego w stanie krytycznym). Norma nie podaje go dla konkretnego gruntu, a aplikacja niczego nie podpowiada.",
+        "zakres": "Powyżej 0° i poniżej 90°."
+      },
+      "rodzajPodstawy": {
+        "nazwa": "Rodzaj podstawy",
+        "cel": "Decyduje, jaką część kąta tarcia gruntu przyjmujemy jako tarcie podstawy o grunt.",
+        "gdzie": "Gładki prefabrykat (bloczki): 2/3 kąta; beton formowany na gruncie: cały kąt (PN-EN 1997-1, p. 6.5.3 (10)).",
+        "zakres": "Dwie wartości do wyboru."
       }
     }
   },
@@ -77,7 +89,7 @@ export const en: Tlumaczenie<typeof pl> = {
       "tarcie": {
         "nazwa": "Friction coefficient with the ground μ",
         "cel": "It decides how much ballast is needed so the frame does not slide under the wind load. The standard does not give it — it is your value for the specific ground.",
-        "gdzie": "For the pair: underside of the frame/block and the ground (concrete, paving, soil, roof membrane). Where to get it: (1) the datasheet of the blocks, pads or anti-slip mats; (2) an on-site test — drag a block of known weight over that ground with a force gauge, μ = force at the moment it starts to move ÷ weight of the block; (3) a structural engineer. The app gives no default because it depends on materials, moisture and dirt — enter the value for the worst conditions (wet, dirty ground).",
+        "gdzie": "For the pair: underside of the frame/block and the ground (concrete, paving, soil, roof membrane). Where to get it: (1) from the ground friction angle — μ = tan δ, where δ = 2/3·φ′cv for smooth precast elements or φ′cv for concrete cast on the ground (PN-EN 1997-1, clause 6.5.3 (10); the calculator below); (2) the datasheet of the blocks, pads or anti-slip mats; (3) an on-site test — drag a block of known weight with a force gauge, μ = force at the moment it starts to move ÷ weight of the block; (4) a structural engineer. The app gives no default because it depends on materials, moisture and dirt — enter the value for the worst conditions. The entered value is the characteristic μ (tan δk); the partial factors of Annex A are applied by the app.",
         "zakres": "Greater than 0. Empty = sliding and overturning are not calculated."
       },
       "wysokoscParcia": {
@@ -97,6 +109,18 @@ export const en: Tlumaczenie<typeof pl> = {
         "cel": "The frame overturns about its leeward edge; the deeper the footprint, the less ballast is needed.",
         "gdzie": "Distance between the outermost points where the frame rests on the ground, in the wind direction. Empty = L·cos α (horizontal projection of tilted panels).",
         "zakres": "Greater than 0. Required at 90° — the projection of vertical panels is 0."
+      },
+      "katTarciaGruntu": {
+        "nazwa": "Ground friction angle φ′cv [°]",
+        "cel": "It gives the friction coefficient of the base on the ground, and from it the ballast against sliding.",
+        "gdzie": "From the geotechnical documentation (effective critical-state angle of internal friction). The standard does not give it for a specific ground and the app suggests nothing.",
+        "zakres": "Above 0° and below 90°."
+      },
+      "rodzajPodstawy": {
+        "nazwa": "Type of base",
+        "cel": "It decides which part of the ground friction angle is taken as the friction of the base on the ground.",
+        "gdzie": "Smooth precast (blocks): 2/3 of the angle; concrete cast on the ground: the whole angle (PN-EN 1997-1, clause 6.5.3 (10)).",
+        "zakres": "Two values to choose from."
       }
     }
   },
@@ -126,7 +150,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       "tarcie": {
         "nazwa": "Коэффициент трения о основание μ",
         "cel": "От него зависит, сколько балласта нужно, чтобы каркас не сдвинулся под давлением ветра. Норма его не даёт — это ваше значение для конкретного основания.",
-        "gdzie": "Для пары: низ каркаса/блока и основание (бетон, плитка, грунт, кровельная мембрана). Где взять: (1) паспорт блоков, подкладок или противоскользящих матов; (2) проба на месте — протащите динамометром блок известного веса по этому основанию, μ = сила в момент начала движения ÷ вес блока; (3) конструктор. Приложение не даёт значения по умолчанию, так как оно зависит от материалов, влажности и загрязнения — введите значение для худших условий (мокрое, загрязнённое основание).",
+        "gdzie": "Для пары: низ каркаса/блока и основание (бетон, плитка, грунт, кровельная мембрана). Где взять: (1) из угла трения грунта — μ = tan δ, где δ = 2/3·φ′cv для гладких сборных элементов или φ′cv для бетона, формуемого на грунте (PN-EN 1997-1, п. 6.5.3 (10); калькулятор ниже); (2) из паспорта блоков, подкладок или противоскользящих матов; (3) из пробы на месте — протащите динамометром блок известного веса, μ = сила в момент начала движения ÷ вес блока; (4) у конструктора. Приложение не даёт значения по умолчанию, так как оно зависит от материалов, влажности и загрязнения — введите значение для худших условий. Введённое значение — характеристическое μ (tan δk); частные коэффициенты Приложения A применяет приложение.",
         "zakres": "Больше 0. Пусто = сдвиг и опрокидывание не считаются."
       },
       "wysokoscParcia": {
@@ -146,6 +170,18 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Каркас опрокидывается вокруг заветренной кромки; чем глубже основание, тем меньше нужно балласта.",
         "gdzie": "Расстояние между крайними точками опоры каркаса на основание в направлении ветра. Пусто = L·cos α (горизонтальная проекция наклонных панелей).",
         "zakres": "Больше 0. При 90° обязательна — проекция вертикальных панелей равна 0."
+      },
+      "katTarciaGruntu": {
+        "nazwa": "Угол трения грунта φ′cv [°]",
+        "cel": "Из него получается коэффициент трения основания о грунт, а из него — балласт против сдвига.",
+        "gdzie": "Из геотехнической документации (эффективный угол внутреннего трения в критическом состоянии). Норма не приводит его для конкретного грунта, а приложение ничего не подсказывает.",
+        "zakres": "Больше 0° и меньше 90°."
+      },
+      "rodzajPodstawy": {
+        "nazwa": "Тип основания",
+        "cel": "Определяет, какую часть угла трения грунта принимать за трение основания о грунт.",
+        "gdzie": "Гладкий сборный элемент (блоки): 2/3 угла; бетон, формуемый на грунте: весь угол (PN-EN 1997-1, п. 6.5.3 (10)).",
+        "zakres": "Два значения на выбор."
       }
     }
   },

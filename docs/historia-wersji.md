@@ -2,6 +2,18 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.40.0] — 19.10.2026
+
+Przesuw stelaża wg Eurokodu 7 (D98, polecenie właściciela: wdrożyć z rekomendacji po sprawdzeniu dostarczonej normy PN-EN 1997-1:2008):
+- balast przeciw przesuwowi liczony wg p. 6.5.3 (stan GEO), a nie wg EQU: `H_d ≤ V_d′·tan δ_k/(γ_φ′·γ_R;h)` z oddziaływaniami wg Tablic A.3–A.5 Załącznika A; ciężar korzystny γ_G = 1,0 (wcześniej 0,9), parcie bierne gruntu pominięte,
+- brak Załącznika krajowego (wskazuje podejście obliczeniowe), więc liczymy wszystkie cztery kombinacje (podejście 1 komb. 1 i 2, podejście 2, podejście 3) i bierzemy najcięższą; przy wartościach zalecanych zawsze rozstrzyga podejście 3; tabela współczynników w jednym miejscu (`eurokod-7/przesuw.ts`), więc zmiana po otrzymaniu Załącznika krajowego to edycja tabeli,
+- oderwanie i przewracanie zostają EQU: Tablica A.1 normy daje te same wartości (γ_Q = 1,5, γ_G;stb = 0,9),
+- ekrany pokazują przy wierszu przesuwu, które podejście rozstrzyga; nowy pomocnik „Nie znasz μ? Policz z kąta tarcia gruntu” (δ = 2/3·φ′cv dla gładkich prefabrykatów, φ′cv dla betonu formowanego na gruncie, p. 6.5.3 (10)) przy polu μ w wiatrze >30°, typie montażu i „Złotym środku”; nic nie jest podpowiadane z góry,
+- narzędzia AI zwracają `podejscieEc7Przesuw`; teksty, pomoc i wzór (silniki: wiatr >30° 1.4.0, „Złoty środek” 1.5.0) zaktualizowane PL/EN/RU,
+- notatka ze źródła: `docs/zrodla/norma-PN-EN-1997-1-eurokod-7/00-INDEKS.md`.
+
+Wpływ na liczby: tak, tylko po wpisaniu tarcia. Składnik przesuwu dla samej siły poziomej wzrósł o ok. 12% względem 3.39.0 (np. 10 kN, μ = 0,5: 3399 → 3824 kg); przy dużej składowej odrywającej składnik przesuwu może być o kilka procent niższy (γ_Q·F_v = 1,5 zamiast 1,5/0,9), ale balast całkowity to nadal największy z trzech warunków, więc oderwanie ogranicza go od dołu. Oderwanie i przewracanie bez zmian.
+
 ## [3.39.0] — 19.10.2026
 
 Współczynnik siły wiatru dla kątów 31–89° liczony dla każdego stopnia (D97, polecenie właściciela: „przeliczone na bazie naszych danych”):

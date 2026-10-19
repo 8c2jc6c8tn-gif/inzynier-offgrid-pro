@@ -1,4 +1,5 @@
-import { balastPrzesuwuEquKg, balastPrzewracaniaEquKg, balastProjektowyEquKg, type StatecznoscStelaza } from "../eurokod-0/rownowaga"
+import { balastPrzewracaniaEquKg, balastProjektowyEquKg, type StatecznoscStelaza } from "../eurokod-0/rownowaga"
+import { przesuwEc7, type PodejscieEc7 } from "../eurokod-7/przesuw"
 import { CF_TABLICA_PIONOWA, cfOdrywaniaWiaty, silaWiatruN } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
 import { KAT_MAX_DEG, KAT_NORMOWY_MAX_DEG } from "./constants"
@@ -14,8 +15,10 @@ import { KAT_MAX_DEG, KAT_NORMOWY_MAX_DEG } from "./constants"
  *  - 90° (panel pionowy): norma 7.4.3, cf = 1,80 to siła POZIOMA — balast zależy od tarcia i przewracania, norma tego nie podaje,
  *    więc bez danych użytkownika kg balastu nie liczymy (`null`);
  *  - z `stateczność` (tarcie, wysokość punktu przyłożenia siły, podstawa — dane użytkownika, bez wartości domyślnych) dla KAŻDEGO
- *    kąta sprawdzamy też przesuw i przewracanie tymi samymi współczynnikami częściowymi (D96). To szacunek aplikacji,
- *    także dla kątów normowych: norma nie podaje ani tarcia, ani punktu przyłożenia siły. Balast = największy ze sprawdzonych warunków.
+ *    kąta sprawdzamy też przesuw i przewracanie (D96). Przewracanie jak oderwanie: EQU, Tablica A.1 (γQ 1,5, γG,stb 0,9). Przesuw wg
+ *    PN-EN 1997-1 p. 6.5.3 (D98): obwiednia czterech kombinacji podejść obliczeniowych z Załącznika A. To nadal szacunek aplikacji,
+ *    także dla kątów normowych: norma nie podaje punktu przyłożenia siły ani tarcia dla konkretnej pary materiałów. Balast = największy
+ *    ze sprawdzonych warunków.
  */
 /** Warunek stateczności, który wyznacza balast (najcięższy z sprawdzonych). */
 export type WarunekBalastu = "oderwanie" | "przesuw" | "przewracanie"
@@ -33,6 +36,8 @@ export type SilaIBalastWiatru = {
   balastOderwanieKg: number | null
   balastPrzesuwKg: number | null
   balastPrzewracanieKg: number | null
+  /** Podejście obliczeniowe EC7 (PO1-K1, PO1-K2, PO2, PO3), które daje największy balast przesuwu; `null` bez danych stateczności. */
+  podejscieEc7Przesuw: PodejscieEc7 | null
   /** Który ze sprawdzonych warunków daje największy balast (przy remisie: oderwanie, potem przesuw); `null` = nic nie sprawdzono. */
   warunekRozstrzygajacy: WarunekBalastu | null
   /** `true` = sprawdzono przesuw i przewracanie — to SZACUNEK aplikacji (norma nie daje tarcia ani punktu przyłożenia siły). */
@@ -89,9 +94,9 @@ export function silaIBalastWiatru(
   const silaPoziomaN = pion ? silaN : silaN * Math.sin(rad)
   const silaPionowaN = pion ? 0 : silaN * Math.cos(rad)
   const balastOderwanieKg = pion ? null : balastProjektowyEquKg(silaN, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg)
-  const balastPrzesuwKg = statecznosc
-    ? balastPrzesuwuEquKg(silaPoziomaN, silaPionowaN, statecznosc.wspolczynnikTarcia, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg)
-    : null
+  // Przesuw to stan GEO wg PN-EN 1997-1 p. 6.5.3 (nie EQU): obwiednia czterech kombinacji z Załącznika A, bo brak Załącznika krajowego.
+  const przesuw = statecznosc ? przesuwEc7(silaPoziomaN, silaPionowaN, statecznosc.wspolczynnikTarcia, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg) : null
+  const balastPrzesuwKg = przesuw?.balastKg ?? null
   const balastPrzewracanieKg = statecznosc
     ? balastPrzewracaniaEquKg(silaPoziomaN, silaPionowaN, statecznosc.wysokoscSrodkaParciaM, statecznosc.szerokoscPodstawyM, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg)
     : null
@@ -104,6 +109,7 @@ export function silaIBalastWiatru(
     balastOderwanieKg,
     balastPrzesuwKg,
     balastPrzewracanieKg,
+    podejscieEc7Przesuw: przesuw?.podejscie ?? null,
     statecznosc: statecznosc !== null,
     szacunek,
   }

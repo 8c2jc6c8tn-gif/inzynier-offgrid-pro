@@ -19,7 +19,7 @@ export const WiatrPowyzej30ToolInput = z.object({
   powierzchniaM2: z.number().optional().describe("Powierzchnia grupy paneli [m²] — pomiń, jeśli user nie podał; z φ pozwala policzyć siłę na stelaż i balast"),
   wspolczynnikPhi: z.number().optional().describe("Zabudowa pod stelażem φ (0 = pusto, 1 = zastawione), 0–1 — pomiń, jeśli user nie podał; nie zgaduj"),
   masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża dla tej powierzchni bez balastu [kg] — tylko z karty/wagi, nigdy nie zgaduj; pomiń → balast bez odliczenia masy własnej (bezpieczniej)"),
-  wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ — tylko od usera, nigdy nie zgaduj; razem z wysokością punktu przyłożenia siły i szerokością podstawy włącza sprawdzenie przesuwu i przewracania"),
+  wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ = tan δk (charakterystyczny) — tylko od usera, nigdy nie zgaduj; razem z wysokością punktu przyłożenia siły i szerokością podstawy włącza sprawdzenie przesuwu i przewracania"),
   wysokoscSrodkaParciaM: z.number().optional().describe("Wysokość punktu przyłożenia siły wiatru nad terenem [m] (środek paneli) — tylko od usera"),
   szerokoscPodstawyM: z.number().optional().describe("Szerokość podstawy stelaża w kierunku wiatru [m] — tylko od usera"),
 })
@@ -36,6 +36,7 @@ export const WiatrPowyzej30ToolOutput = z.object({
   balastProjektowyKg: z.number().nullable().describe("Balast wg PN-EN 1990 (EQU) [kg], szacunek = największy ze sprawdzonych warunków; null bez powierzchni i φ albo dla 90° bez danych stateczności (siła pozioma, balast zależy od tarcia i przewracania)"),
   balastOderwanieKg: z.number().nullable().describe("Składnik: balast przeciw oderwaniu [kg]; null dla 90° albo bez powierzchni i φ"),
   balastPrzesuwKg: z.number().nullable().describe("Składnik: balast przeciw przesuwowi [kg]; null bez μ, wysokości i podstawy"),
+  podejscieEc7Przesuw: z.enum(["PO1-K1", "PO1-K2", "PO2", "PO3"]).nullable().describe("Podejście obliczeniowe PN-EN 1997-1 (p. 2.4.7.3.4), które daje największy balast przesuwu wg p. 6.5.3 — obwiednia czterech kombinacji, bo brak Załącznika krajowego; null bez danych stateczności. Przekaż userowi, że przesuw liczony jest wg Eurokodu 7, a nie wg EQU"),
   warunekRozstrzygajacy: z.enum(["oderwanie", "przesuw", "przewracanie"]).nullable().describe("Który ze sprawdzonych warunków daje największy balast i wyznacza balastKg/balastProjektowyKg — przekaż userowi, który to warunek"),
   balastPrzewracanieKg: z.number().nullable().describe("Składnik: balast przeciw przewróceniu [kg]; null bez μ, wysokości i podstawy"),
   ostrzezenia: z.array(z.string()),
@@ -53,7 +54,7 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
     "(Porównywarka paneli, „Złoty środek”). Strefa wiatrowa, wysokość n.p.m., kategoria terenu i wysokość konstrukcji " +
     "podaje user — nie zgaduj. Gdy user poda też powierzchnię paneli i φ (opcjonalnie masę własną), liczy siłę wiatru na " +
     "stelaż i balast przeciw oderwaniu (EQU) — tym samym wzorem co do 30°; użytkownik ustawia taki kąt i zabezpiecza " +
-    "konstrukcję na własną odpowiedzialność (zawsze to przekaż). Gdy user poda też współczynnik tarcia μ, wysokość punktu przyłożenia siły i szerokość podstawy, sprawdza także przesuw i przewracanie (szacunek; dla 90° to jedyny sposób na balast) — bez kompletu tych trzech tylko oderwanie. Użyj, gdy user pyta o wiatr na strome albo pionowe panele (np. ustawione pod zimowe " +
+    "konstrukcję na własną odpowiedzialność (zawsze to przekaż). Gdy user poda też współczynnik tarcia μ, wysokość punktu przyłożenia siły i szerokość podstawy, sprawdza także przesuw (wg PN-EN 1997-1 p. 6.5.3, obwiednia podejść obliczeniowych) i przewracanie (EQU) — szacunek; dla 90° to jedyny sposób na balast. Współczynnik tarcia user może policzyć z kąta tarcia gruntu φ′cv z dokumentacji geotechnicznej: μ = tan(2/3·φ′cv) dla bloczków prefabrykowanych — bez kompletu tych trzech tylko oderwanie. Użyj, gdy user pyta o wiatr na strome albo pionowe panele (np. ustawione pod zimowe " +
     "słońce) i trzeba uczciwie zaznaczyć, że to szacunek poza normą.",
   inputSchema: WiatrPowyzej30ToolInput,
   outputSchema: WiatrPowyzej30ToolOutput,
@@ -86,6 +87,7 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
       balastPrzesuwKg: v.balastPrzesuwKg,
       balastPrzewracanieKg: v.balastPrzewracanieKg,
       warunekRozstrzygajacy: v.warunekRozstrzygajacy,
+      podejscieEc7Przesuw: v.podejscieEc7Przesuw,
       ostrzezenia: tekstyOstrzezen(wynik.warnings),
       zalozenia: tekstyZalozen(wynik.assumptions),
       wersjaKalkulatora: wynik.calculatorVersion,

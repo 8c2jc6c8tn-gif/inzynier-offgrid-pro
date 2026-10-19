@@ -26,11 +26,11 @@ export function balastProjektowyEquKg(silaOdrywajacaN: number, przyspieszenieZie
 }
 
 /**
- * Stability of a free-standing frame against sliding and overturning — static equilibrium with the SAME partial
- * factors as the uplift check (EN 1990 Table A1.2(A): γQ = 1,50 wind, γG,inf = 0,90 ballast and self-weight).
- * The norm gives no friction coefficient nor point of application of the wind force, so both are user inputs
- * (no defaults) and the result is an application ESTIMATE, never a normative value. Wind force on a tilted panel
- * is perpendicular to it: F_h = F·sin α, F_v = F·cos α (uplift). At 90° F_h = F, F_v = 0.
+ * Stability of a free-standing frame against overturning — static equilibrium (EQU) with the SAME partial factors as the uplift
+ * check (PN-EN 1997-1 Table A.1 = EN 1990 Table A1.2(A): γQ = 1,50 wind, γG;stb = 0,90 ballast and self-weight). Sliding is NOT here: it
+ * is a GEO check per PN-EN 1997-1 p. 6.5.3 (`../eurokod-7/przesuw.ts`). The norm gives no point of application of the wind force nor the
+ * friction of a given pair of materials, so those are user inputs (no defaults) and the result is an application ESTIMATE. Wind force on a
+ * tilted panel is perpendicular to it: F_h = F·sin α, F_v = F·cos α (uplift). At 90° F_h = F, F_v = 0.
  */
 export type StatecznoscStelaza = {
   /** Friction coefficient between frame/ballast and ground, μ > 0 (user input, depends on ground). */
@@ -39,14 +39,6 @@ export type StatecznoscStelaza = {
   wysokoscSrodkaParciaM: number
   /** Footprint width of the frame in the wind direction [m], b > 0 (overturning about the leeward edge). */
   szerokoscPodstawyM: number
-}
-
-/**
- * Sliding: γQ·Fh ≤ μ·(γG,inf·(m + G)·g − γQ·Fv)  →  m = max(0, (γQ·Fh/μ + γQ·Fv)/(γG,inf·g) − G).
- * The uplift part of the wind reduces the normal force that carries the friction.
- */
-export function balastPrzesuwuEquKg(silaPoziomaN: number, silaPionowaN: number, wspolczynnikTarcia: number, przyspieszenieZiemskieMS2: number, masaWlasnaKg = 0): number {
-  return Math.max(0, (GAMMA_Q_EQU * (silaPoziomaN / wspolczynnikTarcia + silaPionowaN)) / (GAMMA_G_INF_EQU * przyspieszenieZiemskieMS2) - masaWlasnaKg)
 }
 
 /**

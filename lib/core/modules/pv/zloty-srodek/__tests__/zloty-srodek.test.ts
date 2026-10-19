@@ -159,7 +159,7 @@ describe("calculateZlotySrodek — przesuw i przewracanie (szacunek, dane od uż
     const h = 2 - Math.sin(rad) // ze − L/2·sin α
     const b = 2 * Math.cos(rad)
     const oderwanie = (1.5 * F) / (0.9 * g)
-    const przesuw = (1.5 * (Fh / 0.5 + Fv)) / (0.9 * g)
+    const przesuw = (1.5 * ((Fh * 1.25) / 0.5 + Fv)) / g
     const przewracanie = (1.5 * (Fv + (2 * Fh * h) / b)) / (0.9 * g)
     expect(p.statecznosc).toBe(true)
     expect(p.balastKg).toBeCloseTo(Math.max(oderwanie, przesuw, przewracanie), 6)
@@ -175,7 +175,7 @@ describe("calculateZlotySrodek — przesuw i przewracanie (szacunek, dane od uż
     const F = p.silaWiatruN!
     expect(p.statecznosc).toBe(true)
     // h = ze − L/2 = 1, bo sin 90° = 1
-    expect(p.balastKg).toBeCloseTo(Math.max((1.5 * (F / 0.5)) / (0.9 * g), (1.5 * ((2 * F * 1) / 0.8)) / (0.9 * g)), 6)
+    expect(p.balastKg).toBeCloseTo(Math.max((1.5 * ((F * 1.25) / 0.5)) / g, (1.5 * ((2 * F * 1) / 0.8)) / (0.9 * g)), 6)
   })
 
   it("kąt, dla którego środek paneli wypada pod gruntem (L za duża względem ze), zostaje na samym oderwaniu", () => {

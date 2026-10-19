@@ -7,9 +7,11 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { BalastWarunki } from "@/components/wzorce/balast-warunki"
+import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
+import type { PodejscieEc7 } from "@/lib/core/modules/pv/eurokod-7/przesuw"
 import type { WarunekBalastu } from "@/lib/core/modules/pv/wiatr-powyzej-30/sila-i-balast"
 import { useFormatLiczby, useFormaty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
@@ -149,7 +151,7 @@ export function stelazZSeeda(s: StelazSeed) {
 }
 
 /** Ballast for each condition with the governing one highlighted, or a hint what to enter when only uplift was checked. */
-export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null; warunekRozstrzygajacy: WarunekBalastu | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null; warunekRozstrzygajacy: WarunekBalastu | null; podejscieEc7Przesuw: PodejscieEc7 | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
   return (
     <li>
       <BalastWarunki
@@ -158,6 +160,7 @@ export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balast
         t={t}
         f={f}
         oderwanieNieDotyczy={w.balastOderwanieKg === null}
+        podejscieEc7={w.podejscieEc7Przesuw}
       />
       {!w.statecznosc && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</p>}
     </li>
@@ -234,6 +237,9 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         onChange={(e) => ustaw("glebokoscPodstawyM", e.target.value)}
         pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
       />
+      <div className="sm:col-span-3">
+        <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
+      </div>
     </div>
   )
 }

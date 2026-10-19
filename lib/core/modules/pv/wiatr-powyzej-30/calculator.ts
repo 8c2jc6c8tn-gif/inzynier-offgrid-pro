@@ -11,16 +11,17 @@ import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/const
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { KAT_NORMOWY_MAX_DEG } from "./constants"
+import type { PodejscieEc7 } from "../eurokod-7/przesuw"
 import { silaIBalastWiatru, skladStatecznosc, type WarunekBalastu } from "./sila-i-balast"
 import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
 import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, statecznoscNiekompletna, statecznoscSzacunek, szacunekPozaNorma } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.3.0"
+export const CALCULATOR_VERSION = "1.4.0"
 
 const FORMULA =
   "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad " +
-  "c_f(\\alpha,\\varphi) = c_f(30^\\circ,\\varphi) + \\left(c_f(90^\\circ) - c_f(30^\\circ,\\varphi)\\right)\\frac{\\alpha - 30^\\circ}{60^\\circ};\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_h/\\mu + F_v)}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)"
+  "c_f(\\alpha,\\varphi) = c_f(30^\\circ,\\varphi) + \\left(c_f(90^\\circ) - c_f(30^\\circ,\\varphi)\\right)\\frac{\\alpha - 30^\\circ}{60^\\circ};\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (\\gamma_{\\varphi'}\\gamma_{R;h} F_h/\\mu + F_v)}{\\gamma_{G}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 export type WiatrPowyzej30Result = {
   /** Bazowe ciśnienie prędkości q_b [Pa] (Tablica NA.1). */
@@ -45,6 +46,8 @@ export type WiatrPowyzej30Result = {
   balastOderwanieKg: number | null
   balastPrzesuwKg: number | null
   balastPrzewracanieKg: number | null
+  /** Podejście obliczeniowe EC7, które daje największy balast przesuwu (obwiednia czterech kombinacji, p. 6.5.3); `null` bez danych stateczności. */
+  podejscieEc7Przesuw: PodejscieEc7 | null
   /** Który warunek wyznacza `balastProjektowyKg` (najcięższy z sprawdzonych). */
   warunekRozstrzygajacy: WarunekBalastu | null
 }
@@ -65,6 +68,7 @@ const PUSTY: WiatrPowyzej30Result = {
   balastOderwanieKg: null,
   balastPrzesuwKg: null,
   balastPrzewracanieKg: null,
+  podejscieEc7Przesuw: null,
   warunekRozstrzygajacy: null,
 }
 
@@ -157,6 +161,7 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       balastOderwanieKg: sila?.balastOderwanieKg ?? null,
       balastPrzesuwKg: sila?.balastPrzesuwKg ?? null,
       balastPrzewracanieKg: sila?.balastPrzewracanieKg ?? null,
+      podejscieEc7Przesuw: sila?.podejscieEc7Przesuw ?? null,
       warunekRozstrzygajacy: sila?.warunekRozstrzygajacy ?? null,
     },
     status: "ESTIMATE",

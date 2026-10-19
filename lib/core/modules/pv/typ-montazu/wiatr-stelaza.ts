@@ -8,6 +8,7 @@ import {
   type StrefaWiatrowa,
 } from "../eurokod-1/wiatr"
 import type { StatecznoscStelaza } from "../eurokod-0/rownowaga"
+import type { PodejscieEc7 } from "../eurokod-7/przesuw"
 import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 
 export type WiatrPelny = {
@@ -37,6 +38,8 @@ export type WiatrDlaKata = {
   balastPrzewracanieKg: number | null
   /** Który ze sprawdzonych warunków wyznacza `balastKg`. */
   warunekRozstrzygajacy: WarunekBalastu | null
+  /** Podejście EC7 dające największy balast przesuwu (p. 6.5.3); `null` bez danych stateczności. */
+  podejscieEc7Przesuw: PodejscieEc7 | null
   statecznosc: boolean
 }
 
@@ -70,6 +73,7 @@ export function wiatrDlaKata(
     balastPrzesuwKg: s?.balastPrzesuwKg ?? null,
     balastPrzewracanieKg: s?.balastPrzewracanieKg ?? null,
     warunekRozstrzygajacy: s?.warunekRozstrzygajacy ?? null,
+    podejscieEc7Przesuw: s?.podejscieEc7Przesuw ?? null,
     statecznosc: s?.statecznosc ?? false,
   }
 }
