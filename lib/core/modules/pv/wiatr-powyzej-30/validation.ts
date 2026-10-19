@@ -28,5 +28,12 @@ export function validateInput(input: WiatrPowyzej30Input): ValidationResult {
   if (input.masaPaneliStelazaKg != null && !(Number.isFinite(input.masaPaneliStelazaKg) && input.masaPaneliStelazaKg >= 0)) {
     errors.push(ujemna("masaPaneliStelazaKg", input.masaPaneliStelazaKg))
   }
+  for (const [pole, klucz, wartosc] of [
+    ["wspolczynnikTarcia", "POLE-WP30-TARCIE", input.wspolczynnikTarcia],
+    ["wysokoscSrodkaParciaM", "POLE-WP30-WYSOKOSC-PARCIA", input.wysokoscSrodkaParciaM],
+    ["szerokoscPodstawyM", "POLE-WP30-SZEROKOSC-PODSTAWY", input.szerokoscPodstawyM],
+  ] as const) {
+    if (wartosc != null && !(Number.isFinite(wartosc) && wartosc > 0)) errors.push(niedodatnia(pole, klucz, wartosc))
+  }
   return { errors }
 }

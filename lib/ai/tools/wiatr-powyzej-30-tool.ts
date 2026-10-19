@@ -19,6 +19,9 @@ export const WiatrPowyzej30ToolInput = z.object({
   powierzchniaM2: z.number().optional().describe("Powierzchnia grupy paneli [m²] — pomiń, jeśli user nie podał; z φ pozwala policzyć siłę na stelaż i balast"),
   wspolczynnikPhi: z.number().optional().describe("Zabudowa pod stelażem φ (0 = pusto, 1 = zastawione), 0–1 — pomiń, jeśli user nie podał; nie zgaduj"),
   masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża dla tej powierzchni bez balastu [kg] — tylko z karty/wagi, nigdy nie zgaduj; pomiń → balast bez odliczenia masy własnej (bezpieczniej)"),
+  wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ — tylko od usera, nigdy nie zgaduj; razem z wysokością punktu przyłożenia siły i szerokością podstawy włącza sprawdzenie przesuwu i przewracania"),
+  wysokoscSrodkaParciaM: z.number().optional().describe("Wysokość punktu przyłożenia siły wiatru nad terenem [m] (środek paneli) — tylko od usera"),
+  szerokoscPodstawyM: z.number().optional().describe("Szerokość podstawy stelaża w kierunku wiatru [m] — tylko od usera"),
 })
 export type WiatrPowyzej30ToolInputT = z.infer<typeof WiatrPowyzej30ToolInput>
 
@@ -30,7 +33,10 @@ export const WiatrPowyzej30ToolOutput = z.object({
   docisk: CisnienieNaPanel,
   odrywanie: CisnienieNaPanel,
   silaWiatruN: z.number().nullable().describe("Siła wiatru na stelaż z panelami [N] (szacunek) — tylko gdy podano powierzchnię i φ; 90° to siła pozioma"),
-  balastProjektowyKg: z.number().nullable().describe("Balast przeciw oderwaniu wg PN-EN 1990 (EQU) [kg], szacunek; null bez powierzchni i φ albo dla 90° (siła pozioma, balast zależy od tarcia i przewracania)"),
+  balastProjektowyKg: z.number().nullable().describe("Balast wg PN-EN 1990 (EQU) [kg], szacunek = największy ze sprawdzonych warunków; null bez powierzchni i φ albo dla 90° bez danych stateczności (siła pozioma, balast zależy od tarcia i przewracania)"),
+  balastOderwanieKg: z.number().nullable().describe("Składnik: balast przeciw oderwaniu [kg]; null dla 90° albo bez powierzchni i φ"),
+  balastPrzesuwKg: z.number().nullable().describe("Składnik: balast przeciw przesuwowi [kg]; null bez μ, wysokości i podstawy"),
+  balastPrzewracanieKg: z.number().nullable().describe("Składnik: balast przeciw przewróceniu [kg]; null bez μ, wysokości i podstawy"),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
   wersjaKalkulatora: z.string(),
@@ -46,7 +52,7 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
     "(Porównywarka paneli, „Złoty środek”). Strefa wiatrowa, wysokość n.p.m., kategoria terenu i wysokość konstrukcji " +
     "podaje user — nie zgaduj. Gdy user poda też powierzchnię paneli i φ (opcjonalnie masę własną), liczy siłę wiatru na " +
     "stelaż i balast przeciw oderwaniu (EQU) — tym samym wzorem co do 30°; użytkownik ustawia taki kąt i zabezpiecza " +
-    "konstrukcję na własną odpowiedzialność (zawsze to przekaż), przesuw i przewracanie nie są sprawdzone. Użyj, gdy user pyta o wiatr na strome albo pionowe panele (np. ustawione pod zimowe " +
+    "konstrukcję na własną odpowiedzialność (zawsze to przekaż). Gdy user poda też współczynnik tarcia μ, wysokość punktu przyłożenia siły i szerokość podstawy, sprawdza także przesuw i przewracanie (szacunek; dla 90° to jedyny sposób na balast) — bez kompletu tych trzech tylko oderwanie. Użyj, gdy user pyta o wiatr na strome albo pionowe panele (np. ustawione pod zimowe " +
     "słońce) i trzeba uczciwie zaznaczyć, że to szacunek poza normą.",
   inputSchema: WiatrPowyzej30ToolInput,
   outputSchema: WiatrPowyzej30ToolOutput,
@@ -63,6 +69,9 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
       powierzchniaM2: input.powierzchniaM2 ?? null,
       wspolczynnikPhi: input.wspolczynnikPhi ?? null,
       masaPaneliStelazaKg: input.masaPaneliStelazaKg ?? null,
+      wspolczynnikTarcia: input.wspolczynnikTarcia ?? null,
+      wysokoscSrodkaParciaM: input.wysokoscSrodkaParciaM ?? null,
+      szerokoscPodstawyM: input.szerokoscPodstawyM ?? null,
     })
     const v = wynik.value
     return {
@@ -72,6 +81,9 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
       odrywanie: { srodekPa: v.odrywanieSrodekPa, krawedzPa: v.odrywanieKrawedzPa },
       silaWiatruN: v.silaWiatruN,
       balastProjektowyKg: v.balastProjektowyKg,
+      balastOderwanieKg: v.balastOderwanieKg,
+      balastPrzesuwKg: v.balastPrzesuwKg,
+      balastPrzewracanieKg: v.balastPrzewracanieKg,
       ostrzezenia: tekstyOstrzezen(wynik.warnings),
       zalozenia: tekstyZalozen(wynik.assumptions),
       wersjaKalkulatora: wynik.calculatorVersion,

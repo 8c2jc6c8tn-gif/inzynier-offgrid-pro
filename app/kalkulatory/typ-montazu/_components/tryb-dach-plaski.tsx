@@ -15,6 +15,7 @@ import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import {
   BledyDanych,
+  BalastSkladniki,
   dopiskMasyWlasnej,
   n,
   PolaStelaza,
@@ -101,6 +102,7 @@ export function TrybDachPlaski() {
                 : t("UI-TYPMON-COMTRYDACPLA-SILA-WIATRU", { silaWiatruN: f0(v.silaWiatruN), p: f0(v.silaWiatruN / PRZYSPIESZENIE_ZIEMSKIE_M_S2), p2: v.balastKg === null ? t("UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU") : v.szacunek ? `.${t("UI-TYPMON-COMTRYDACPLA-SZACUNEK")}` : "." })}
             </li>
             {v.balastKg !== null && <li className="font-medium">{t("UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990", { szacunek: v.szacunek ? t("UI-TYPMON-COMTRYDACPLA-SZACUNEK") : "", balastKg: f0(v.balastKg), stelaz: dopiskMasyWlasnej(s.stelaz, t, fMasa) })}</li>}
+            {v.balastKg !== null && <BalastSkladniki w={v} t={t} f={f0} />}
             <li>{t("UI-TYPMON-COMTRYDACPLA-SNIEG-PANELACH-ZOSTAJE", { p: f0(v.mu1 * 100), mu1: f2(v.mu1) })}</li>
           </ul>
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />

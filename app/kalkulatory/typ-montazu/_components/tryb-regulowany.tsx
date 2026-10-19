@@ -12,6 +12,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateRegulowany, type MiesiacRegulowany } from "@/lib/core/modules/pv/typ-montazu/regulowany"
 import {
   BledyDanych,
+  BalastSkladniki,
   dopiskMasyWlasnej,
   MIESIACE,
   n,
@@ -59,6 +60,8 @@ export function TrybRegulowany() {
     [tab.tabela, tab.wysokoscPvgis, s],
   )
   const v = wynik.value
+  // The month that needs the most ballast — its components are the ones worth showing.
+  const najgorszy = v ? v.miesiace.reduce((a, m) => ((m.balastKg ?? -1) > (a.balastKg ?? -1) ? m : a)) : null
 
   return (
     <div className="flex flex-col gap-4">
@@ -115,6 +118,7 @@ export function TrybRegulowany() {
                 ? t("UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH")
                 : t("UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990", { p: v.liczbaMiesiecySzacunekWiatru > 0 ? t("UI-TYPMON-COMTRYREG-SZACUNEK-POWYZEJ-30") : "", balastWymaganyKg: f0(v.balastWymaganyKg), stelaz: dopiskMasyWlasnej(s.stelaz, t, fMasa) })}
             </li>
+            {najgorszy && v.balastWymaganyKg !== null && <BalastSkladniki w={najgorszy} t={t} f={f0} />}
           </ul>
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny(t, f0, f2)} wiersze={v.miesiace.map((m) => ({ ...m, id: m.miesiac }))} minWidth={420} />

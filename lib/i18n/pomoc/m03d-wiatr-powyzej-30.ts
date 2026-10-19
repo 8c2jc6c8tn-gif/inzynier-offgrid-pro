@@ -24,6 +24,30 @@ export const pl = {
         "cel": "Wyżej wiatr jest silniejszy (współczynnik ekspozycji c_e).",
         "gdzie": "Wysokość środka paneli nad gruntem lub dachem.",
         "zakres": "{min}–{max} m."
+      },
+      "tarcie": {
+        "nazwa": "Współczynnik tarcia o podłoże μ",
+        "cel": "Od niego zależy, ile balastu potrzeba, by stelaż nie przesunął się pod parciem wiatru. Norma go nie podaje — to Twoja wartość dla konkretnego podłoża.",
+        "gdzie": "Dla zestawu stelaż/balast i podłoża (beton, kostka, grunt, membrana dachowa). Źródłem jest karta materiału lub próba na miejscu.",
+        "zakres": "Większe od 0. Puste = przesuw i przewracanie nie są liczone."
+      },
+      "wysokoscParcia": {
+        "nazwa": "Wysokość punktu przyłożenia siły wiatru [m]",
+        "cel": "Im wyżej działa siła, tym większy moment wywracający i więcej balastu przeciw przewróceniu.",
+        "gdzie": "Wysokość środka paneli nad terenem lub dachem (dla paneli pochylonych: środek ich powierzchni).",
+        "zakres": "Większe od 0. Puste = przesuw i przewracanie nie są liczone."
+      },
+      "szerokoscPodstawy": {
+        "nazwa": "Szerokość podstawy stelaża [m]",
+        "cel": "Stelaż przewraca się wokół krawędzi zawietrznej; im szersza podstawa, tym mniej balastu trzeba.",
+        "gdzie": "Odległość między skrajnymi punktami oparcia stelaża na podłożu, w kierunku wiatru.",
+        "zakres": "Większe od 0. Puste = przesuw i przewracanie nie są liczone."
+      },
+      "glebokoscPodstawy": {
+        "nazwa": "Głębokość podstawy stelaża [m]",
+        "cel": "Stelaż przewraca się wokół krawędzi zawietrznej; im głębsza podstawa, tym mniej balastu trzeba.",
+        "gdzie": "Odległość między skrajnymi punktami oparcia stelaża na podłożu, w kierunku wiatru. Puste = L·cos α (rzut pochylonych paneli na poziom).",
+        "zakres": "Większe od 0. Przy 90° konieczna — rzut pionowych paneli to 0."
       }
     }
   },
@@ -49,6 +73,30 @@ export const en: Tlumaczenie<typeof pl> = {
         "cel": "Wind is stronger higher up (exposure factor c_e).",
         "gdzie": "Height of the panel centre above the ground or roof.",
         "zakres": "{min}–{max} m."
+      },
+      "tarcie": {
+        "nazwa": "Friction coefficient with the ground μ",
+        "cel": "It decides how much ballast is needed so the frame does not slide under the wind load. The standard does not give it — it is your value for the specific ground.",
+        "gdzie": "For the frame/ballast pair and the ground (concrete, paving, soil, roof membrane). The source is the material datasheet or an on-site test.",
+        "zakres": "Greater than 0. Empty = sliding and overturning are not calculated."
+      },
+      "wysokoscParcia": {
+        "nazwa": "Height of the wind force application point [m]",
+        "cel": "The higher the force acts, the larger the overturning moment and the more ballast against overturning.",
+        "gdzie": "Height of the panel centre above the ground or roof (for tilted panels: the centre of their surface).",
+        "zakres": "Greater than 0. Empty = sliding and overturning are not calculated."
+      },
+      "szerokoscPodstawy": {
+        "nazwa": "Footprint width of the frame [m]",
+        "cel": "The frame overturns about its leeward edge; the wider the footprint, the less ballast is needed.",
+        "gdzie": "Distance between the outermost points where the frame rests on the ground, in the wind direction.",
+        "zakres": "Greater than 0. Empty = sliding and overturning are not calculated."
+      },
+      "glebokoscPodstawy": {
+        "nazwa": "Footprint depth of the frame [m]",
+        "cel": "The frame overturns about its leeward edge; the deeper the footprint, the less ballast is needed.",
+        "gdzie": "Distance between the outermost points where the frame rests on the ground, in the wind direction. Empty = L·cos α (horizontal projection of tilted panels).",
+        "zakres": "Greater than 0. Required at 90° — the projection of vertical panels is 0."
       }
     }
   },
@@ -74,6 +122,30 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Выше ветер сильнее (коэффициент экспозиции c_e).",
         "gdzie": "Высота центра панелей над землёй или крышей.",
         "zakres": "{min}–{max} м."
+      },
+      "tarcie": {
+        "nazwa": "Коэффициент трения о основание μ",
+        "cel": "От него зависит, сколько балласта нужно, чтобы каркас не сдвинулся под давлением ветра. Норма его не даёт — это ваше значение для конкретного основания.",
+        "gdzie": "Для пары каркас/балласт и основания (бетон, плитка, грунт, кровельная мембрана). Источник — паспорт материала или проба на месте.",
+        "zakres": "Больше 0. Пусто = сдвиг и опрокидывание не считаются."
+      },
+      "wysokoscParcia": {
+        "nazwa": "Высота точки приложения силы ветра [м]",
+        "cel": "Чем выше действует сила, тем больше опрокидывающий момент и тем больше нужен балласт.",
+        "gdzie": "Высота центра панелей над землёй или кровлей (для наклонных панелей — центр их поверхности).",
+        "zakres": "Больше 0. Пусто = сдвиг и опрокидывание не считаются."
+      },
+      "szerokoscPodstawy": {
+        "nazwa": "Ширина основания каркаса [м]",
+        "cel": "Каркас опрокидывается вокруг заветренной кромки; чем шире основание, тем меньше нужно балласта.",
+        "gdzie": "Расстояние между крайними точками опоры каркаса на основание в направлении ветра.",
+        "zakres": "Больше 0. Пусто = сдвиг и опрокидывание не считаются."
+      },
+      "glebokoscPodstawy": {
+        "nazwa": "Глубина основания каркаса [м]",
+        "cel": "Каркас опрокидывается вокруг заветренной кромки; чем глубже основание, тем меньше нужно балласта.",
+        "gdzie": "Расстояние между крайними точками опоры каркаса на основание в направлении ветра. Пусто = L·cos α (горизонтальная проекция наклонных панелей).",
+        "zakres": "Больше 0. При 90° обязательна — проекция вертикальных панелей равна 0."
       }
     }
   },

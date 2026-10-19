@@ -106,7 +106,7 @@ export const pl = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-AUTONOMIA": "t_{h} = \\dfrac{C_{uzyteczna}[kWh] \\times 1000 \\times DoD}{P_{standby}[W]}",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{rok}[kWh] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Koszt = E_{rok} \\times cena",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{uzyteczna} = \\dfrac{(E_{standby} \\times eliminacja\\%) \\times d_{autonomii}}{\\eta_{falownika} \\times DoD}",
-  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
+  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_h/\\mu + F_v)}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)",
 } as const
 
 type Klucz = keyof typeof pl

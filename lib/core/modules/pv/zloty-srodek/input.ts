@@ -27,6 +27,15 @@ export type ZlotySrodekInput = {
    * Siła utrzymująca z γG,inf = 0,90; balast i jego koszt liczone ponad tę masę. `null` = pominięta.
    */
   masaPaneliStelazaKg: number | null
+  /**
+   * Długość pola paneli wzdłuż spadku L [m] — opcjonalnie; razem ze współczynnikiem tarcia pozwala sprawdzić przesuw i przewracanie
+   * (punkt przyłożenia siły = środek paneli: ze − L/2·sin α; podstawa: L·cos α albo podana głębokość).
+   */
+  dlugoscWzdluzSpaduM?: number | null
+  /** Współczynnik tarcia stelaża/balastu o podłoże μ — opcjonalnie, bez wartości domyślnej. */
+  wspolczynnikTarcia?: number | null
+  /** Głębokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie; puste = L·cos α; przy 90° konieczna. */
+  glebokoscPodstawyM?: number | null
   /** Cena balastu [zł/kg] — podpowiedź 1 zł/kg (D27, wykonanie własne), użytkownik wpisuje swoją. */
   cenaBalastuZlKg: number | null
   /** Do wyceny energii (kryterium D27) — wszystkie cztery albo brak rekomendacji. */

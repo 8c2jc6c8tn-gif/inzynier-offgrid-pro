@@ -408,4 +408,17 @@ describe("wiatrPowyzej30Tool (wiatr powyżej 30°, szacunek poza normą)", () =>
     expect(w.status).toBe("OUT_OF_SCOPE")
     expect(w.silaWiatruN).toBeNull()
   })
+
+  it("z tarciem, wysokością i podstawą sprawdza przesuw i przewracanie — także dla 90°, gdzie bez nich balast to null", async () => {
+    const pion = { ...wejscie, nachylenieDeg: 90, powierzchniaM2: 10, wspolczynnikPhi: 0 }
+    const bez = await wiatrPowyzej30Tool.handler(pion)
+    expect(bez.balastProjektowyKg).toBeNull()
+    const z = await wiatrPowyzej30Tool.handler({ ...pion, wspolczynnikTarcia: 0.5, wysokoscSrodkaParciaM: 2, szerokoscPodstawyM: 1 })
+    expect(z.balastProjektowyKg).toBeGreaterThan(0)
+    expect(z.balastPrzesuwKg).toBeGreaterThan(0)
+    expect(z.balastPrzewracanieKg).toBeGreaterThan(0)
+    expect(z.balastOderwanieKg).toBeNull()
+    expect(z.ostrzezenia).toContain(t("pl", "WP30-STATECZNOSC-SZACUNEK", { mu: 0.5, h: 2, b: 1 }))
+    bezBrakujacegoKlucza([...z.ostrzezenia, ...z.zalozenia])
+  })
 })

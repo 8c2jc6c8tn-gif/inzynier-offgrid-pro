@@ -26,6 +26,9 @@ export const ZlotySrodekToolInput = z.object({
   wspolczynnikPhi: z.number().min(0).max(1).describe("Zabudowa pod stelażem: 0 = pusto, 1 = zapełnione do krawędzi"),
   wysokoscNpmM: z.number().optional().describe("Wysokość terenu n.p.m. [m]; brak → z PVGIS"),
   masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża bez balastu [kg] — tylko z karty katalogowej/wagi podanej przez usera, nigdy nie zgaduj; pomiń → pominięta (po stronie bezpiecznej)"),
+  dlugoscWzdluzSpaduM: z.number().optional().describe("Długość pola paneli wzdłuż spadku L [m] — tylko od usera; razem ze współczynnikiem tarcia włącza sprawdzenie przesuwu i przewracania"),
+  wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ — tylko od usera, nigdy nie zgaduj"),
+  glebokoscPodstawyM: z.number().optional().describe("Głębokość podstawy stelaża w kierunku wiatru [m] — tylko od usera; puste = L·cos α; przy 90° konieczna"),
   cenaBalastuZlKg: z.number().optional().describe("Cena balastu [zł/kg]; brak → podpowiedź 1 zł/kg (wykonanie własne)"),
   mocInstalacjiKwp: z.number().optional(),
   wspolczynnikPr: z.number().optional().describe("PR (0–1] — tylko jeśli user podał, nie zgaduj"),
@@ -44,6 +47,7 @@ const Punkt = z.object({
   mu1Snieg: z.number(),
   bilansZl: z.number().nullable(),
   szacunekPozaNorma: z.boolean().describe("true = kąt powyżej 30° do 89°: siła wiatru i balast to szacunek aplikacji, nie wynik normy; kąt ustawia użytkownik na własną odpowiedzialność"),
+  statecznosc: z.boolean().describe("true = w balastKg sprawdzono też przesuw i przewracanie (dane usera) — szacunek aplikacji także do 30°"),
 })
 
 export const ZlotySrodekToolOutput = z.object({
@@ -71,8 +75,9 @@ export function utworzZlotySrodekTool(
       "Porównuje kąty pochylenia stelaża naziemnego 0–90°: energia roczna (PVGIS), siła wiatru odrywająca " +
       "stelaż wg PN-EN 1991-1-4 (0–30° z normy, pion 90° jako siła pozioma, kąty powyżej 30° do 89° jako SZACUNEK aplikacji poza normą — użytkownik ustawia taki kąt na własną odpowiedzialność), balast w kg i jego koszt, śnieg μ1. Wskazuje " +
       "najlepszy kąt (wartość energii minus koszt balastu), gdy user podał moc, PR, cenę kWh i liczbę lat. " +
-      "Balast projektowy wg PN-EN 1990 (EQU, γQ = 1,5, γG,inf = 0,9) — tylko przeciw oderwaniu; przesuwu i " +
-      "wywracania nie sprawdza — zawsze to przekaż. Użyj, gdy user pyta o kąt " +
+      "Balast projektowy wg PN-EN 1990 (EQU, γQ = 1,5, γG,inf = 0,9) — domyślnie tylko przeciw oderwaniu; " +
+      "gdy user poda długość spadku L i współczynnik tarcia μ (a przy 90° także głębokość podstawy), sprawdza też przesuw i przewracanie " +
+      "(szacunek aplikacji, norma nie podaje tarcia) — zawsze przekaż, co sprawdzono, a czego nie. Użyj, gdy user pyta o kąt " +
       "a wiatr, balast, bloczki betonowe albo kompromis produkcja–bezpieczeństwo.",
     inputSchema: ZlotySrodekToolInput,
     outputSchema: ZlotySrodekToolOutput,
@@ -104,6 +109,9 @@ export function utworzZlotySrodekTool(
         powierzchniaPaneliM2: input.powierzchniaPaneliM2,
         wspolczynnikPhi: input.wspolczynnikPhi,
         masaPaneliStelazaKg: input.masaPaneliStelazaKg ?? null,
+        dlugoscWzdluzSpaduM: input.dlugoscWzdluzSpaduM ?? null,
+        wspolczynnikTarcia: input.wspolczynnikTarcia ?? null,
+        glebokoscPodstawyM: input.glebokoscPodstawyM ?? null,
         cenaBalastuZlKg: input.cenaBalastuZlKg ?? CENA_BALASTU_PODPOWIEDZ_ZL_KG,
         mocInstalacjiKwp: input.mocInstalacjiKwp ?? null,
         wspolczynnikPr: input.wspolczynnikPr ?? null,
@@ -144,6 +152,7 @@ export function utworzZlotySrodekTool(
             mu1Snieg: p.mu1,
             bilansZl: p.bilansZl,
             szacunekPozaNorma: p.szacunek,
+            statecznosc: p.statecznosc,
           }
         }),
         zrodloDanych,

@@ -292,3 +292,64 @@ describe("calculateRegulowany (M3/E2, D26)", () => {
     expect(calculateRegulowany({ ...bazowe, katMaxDeg: null }).status).toBe("INCOMPLETE")
   })
 })
+
+describe("przesuw i przewracanie stelaża (szacunek, tarcie od użytkownika)", () => {
+  const g = PRZYSPIESZENIE_ZIEMSKIE_M_S2
+  const dach: DachPlaskiInput = { ...wiatr, miejsce: "grunt", nachylenieDeg: 30, dlugoscWzdluzSpaduM: 2, szerokoscStelazaM: 5, wysokoscDolnejKrawedziM: 0.5, masaPaneliStelazaKg: null }
+
+  it("dach płaski 30° z tarciem: geometria z L i α, balast = największy z oderwania, przesuwu i przewracania", () => {
+    const v = calculateDachPlaski({ ...dach, wspolczynnikTarcia: 0.5 }).value!
+    const F = 1.8 * qp * 10
+    const Fh = F * Math.sin(Math.PI / 6)
+    const Fv = F * Math.cos(Math.PI / 6)
+    const h = 0.5 + 1 * Math.sin(Math.PI / 6) // h0 + L/2·sin α
+    const b = 2 * Math.cos(Math.PI / 6) // L·cos α
+    expect(v.statecznosc).toBe(true)
+    expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (Fh / 0.5 + Fv)) / (0.9 * g), 6)
+    expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * (Fv + (2 * Fh * h) / b)) / (0.9 * g), 6)
+    expect(v.balastKg).toBeCloseTo(Math.max(v.balastOderwanieKg!, v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
+  })
+
+  it("bez tarcia nic się nie zmienia: tylko oderwanie, stary komunikat", () => {
+    const r = calculateDachPlaski(dach)
+    expect(r.value!.statecznosc).toBe(false)
+    expect(r.value!.balastPrzesuwKg).toBeNull()
+    expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
+  })
+
+  it("z tarciem ostrzeżenie mówi o szacunku, a założenie zapisuje geometrię użytą w obliczeniu", () => {
+    const r = calculateDachPlaski({ ...dach, wspolczynnikTarcia: 0.5 })
+    expect(kody(r)).toContain("WP30-STATECZNOSC-SZACUNEK")
+    expect(kody(r)).not.toContain("ZS-BALAST-EQU-TYLKO-ODRYWANIE")
+    expect(r.assumptions).toContainEqual({ kod: "WP30-ZALOZENIE-STATECZNOSC", params: { mu: 0.5, h: 1, b: 1.73 } })
+  })
+
+  it("pion 90°: z głębokością podstawy jest balast, bez niej (rzut = 0) nadal null z wyjaśnieniem", () => {
+    const pion = { ...dach, nachylenieDeg: 90, wspolczynnikTarcia: 0.5 }
+    const z = calculateDachPlaski({ ...pion, glebokoscPodstawyM: 0.8 }).value!
+    const F = 1.8 * qp * 10
+    expect(z.balastOderwanieKg).toBeNull()
+    expect(z.balastPrzesuwKg!).toBeCloseTo((1.5 * (F / 0.5)) / (0.9 * g), 6)
+    expect(z.balastPrzewracanieKg!).toBeCloseTo((1.5 * ((2 * F * 1.5) / 0.8)) / (0.9 * g), 6)
+    const bez = calculateDachPlaski(pion)
+    expect(bez.value!.balastKg).toBeNull()
+    expect(kody(bez)).toContain("ZS-PION-SILA-POZIOMA")
+  })
+
+  it("niedodatnie tarcie albo głębokość → INVALID_INPUT", () => {
+    expect(calculateDachPlaski({ ...dach, wspolczynnikTarcia: 0 }).status).toBe("INVALID_INPUT")
+    expect(calculateDachPlaski({ ...dach, wspolczynnikTarcia: 0.5, glebokoscPodstawyM: -1 }).status).toBe("INVALID_INPUT")
+  })
+
+  it("regulowany z tarciem: składniki dla każdego miesiąca, balast wymagany = największy, ostrzeżenie o szacunku", () => {
+    const reg: RegulowanyInput = { ...wiatr, tabela, katMinDeg: 0, katMaxDeg: 30, dlugoscWzdluzSpaduM: 2, szerokoscStelazaM: 5, wysokoscDolnejKrawedziM: 0.5, masaPaneliStelazaKg: null, wspolczynnikTarcia: 0.5 }
+    const r = calculateRegulowany(reg)
+    const v = r.value!
+    expect(v.miesiace.every((m) => m.statecznosc)).toBe(true)
+    expect(v.balastWymaganyKg).toBe(Math.max(...v.miesiace.map((m) => m.balastKg!)))
+    expect(kody(r)).toContain("WP30-STATECZNOSC-SZACUNEK")
+    expect(kody(r)).not.toContain("ZS-BALAST-EQU-TYLKO-ODRYWANIE")
+    const bez = calculateRegulowany({ ...reg, wspolczynnikTarcia: null }).value!
+    expect(v.balastWymaganyKg!).toBeGreaterThanOrEqual(bez.balastWymaganyKg!)
+  })
+})

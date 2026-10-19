@@ -11,16 +11,16 @@ import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/const
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { KAT_NORMOWY_MAX_DEG } from "./constants"
-import { silaIBalastWiatru } from "./sila-i-balast"
+import { silaIBalastWiatru, skladStatecznosc } from "./sila-i-balast"
 import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
-import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, szacunekPozaNorma } from "./warnings"
+import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, statecznoscNiekompletna, statecznoscSzacunek, szacunekPozaNorma } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.1.0"
+export const CALCULATOR_VERSION = "1.2.0"
 
 const FORMULA =
   "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad " +
-  "F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)"
+  "F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_h/\\mu + F_v)}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 export type WiatrPowyzej30Result = {
   /** Bazowe ciśnienie prędkości q_b [Pa] (Tablica NA.1). */
@@ -39,8 +39,12 @@ export type WiatrPowyzej30Result = {
   /** Współczynnik siły |c_f| i siła wiatru na stelaż z panelami [N] — tylko gdy wpisano powierzchnię i φ; powyżej 30° do 89° szacunek, 90° siła pozioma. */
   cf: number | null
   silaWiatruN: number | null
-  /** Balast przeciw oderwaniu wg PN-EN 1990 (EQU) [kg]; `null` bez powierzchni i φ albo dla 90° (siła pozioma). */
+  /** Balast projektowy wg PN-EN 1990 (EQU) [kg] = największy ze sprawdzonych warunków; `null` bez powierzchni i φ albo dla 90° bez danych stateczności. */
   balastProjektowyKg: number | null
+  /** Składniki balastu [kg]: oderwanie, przesuw, przewracanie; `null` = warunek niesprawdzony. Przesuw i przewracanie wymagają μ, wysokości i podstawy. */
+  balastOderwanieKg: number | null
+  balastPrzesuwKg: number | null
+  balastPrzewracanieKg: number | null
 }
 
 const CP_ZERO: CpNetWiaty = { dociskSrodek: 0, dociskKrawedz: 0, odrywanieSrodek: 0, odrywanieKrawedz: 0 }
@@ -56,6 +60,9 @@ const PUSTY: WiatrPowyzej30Result = {
   cf: null,
   silaWiatruN: null,
   balastProjektowyKg: null,
+  balastOderwanieKg: null,
+  balastPrzesuwKg: null,
+  balastPrzewracanieKg: null,
 }
 
 /**
@@ -102,9 +109,21 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
   if (powierzchniaM2 !== null) inputs.powierzchniaM2 = powierzchniaM2
   if (wspolczynnikPhi !== null) inputs.wspolczynnikPhi = wspolczynnikPhi
   if (masaPaneliStelazaKg !== null) inputs.masaPaneliStelazaKg = masaPaneliStelazaKg
-  const sila = powierzchniaM2 !== null && wspolczynnikPhi !== null ? silaIBalastWiatru(input.nachylenieDeg, wspolczynnikPhi, qpPa, powierzchniaM2, masaPaneliStelazaKg ?? 0) : null
+  const { statecznosc, niekompletna } = skladStatecznosc(input.wspolczynnikTarcia, input.wysokoscSrodkaParciaM, input.szerokoscPodstawyM)
+  if (input.wspolczynnikTarcia != null) inputs.wspolczynnikTarcia = input.wspolczynnikTarcia
+  if (input.wysokoscSrodkaParciaM != null) inputs.wysokoscSrodkaParciaM = input.wysokoscSrodkaParciaM
+  if (input.szerokoscPodstawyM != null) inputs.szerokoscPodstawyM = input.szerokoscPodstawyM
+  const sila =
+    powierzchniaM2 !== null && wspolczynnikPhi !== null
+      ? silaIBalastWiatru(input.nachylenieDeg, wspolczynnikPhi, qpPa, powierzchniaM2, masaPaneliStelazaKg ?? 0, statecznosc)
+      : null
   if (sila !== null) {
-    warnings.push(sila.balastKg === null ? pionSilaPozioma() : balastProjektowyEqu())
+    if (sila.statecznosc && statecznosc !== null) {
+      warnings.push(statecznoscSzacunek(statecznosc.wspolczynnikTarcia, statecznosc.wysokoscSrodkaParciaM, statecznosc.szerokoscPodstawyM))
+    } else {
+      warnings.push(sila.balastKg === null ? pionSilaPozioma() : balastProjektowyEqu())
+      if (niekompletna) warnings.push(statecznoscNiekompletna())
+    }
     warnings.push(katNaWlasnaOdpowiedzialnosc(input.nachylenieDeg, KAT_NORMOWY_MAX_DEG))
     assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
     assumptions.push({ kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } })
@@ -112,6 +131,9 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
       assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
       assumptions.push(zalozenieMasyWlasnej(masaPaneliStelazaKg))
+    }
+    if (sila.statecznosc && statecznosc !== null) {
+      assumptions.push({ kod: "WP30-ZALOZENIE-STATECZNOSC", params: { mu: statecznosc.wspolczynnikTarcia, h: statecznosc.wysokoscSrodkaParciaM, b: statecznosc.szerokoscPodstawyM } })
     }
   }
 
@@ -129,6 +151,9 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       cf: sila?.cf ?? null,
       silaWiatruN: sila?.silaN ?? null,
       balastProjektowyKg: sila?.balastKg ?? null,
+      balastOderwanieKg: sila?.balastOderwanieKg ?? null,
+      balastPrzesuwKg: sila?.balastPrzesuwKg ?? null,
+      balastPrzewracanieKg: sila?.balastPrzewracanieKg ?? null,
     },
     status: "ESTIMATE",
     assumptions,

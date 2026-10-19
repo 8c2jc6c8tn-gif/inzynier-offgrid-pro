@@ -130,8 +130,8 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string; wspolczynnikTarcia: string; glebokoscPodstawyM: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "", wspolczynnikTarcia: "", glebokoscPodstawyM: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
@@ -140,7 +140,24 @@ export function stelazZSeeda(s: StelazSeed) {
     wysokoscDolnejKrawedziM: n(s.wysokoscDolnejKrawedziM),
     // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
     masaPaneliStelazaKg: n(s.masaPaneliStelazaKg ?? ""),
+    // Drafts saved before the stability check have no friction / footprint depth — treat as empty.
+    wspolczynnikTarcia: n(s.wspolczynnikTarcia ?? ""),
+    glebokoscPodstawyM: n(s.glebokoscPodstawyM ?? ""),
   }
+}
+
+/** Ballast breakdown (uplift / sliding / overturning) when the stability check ran, otherwise a hint what to enter. */
+export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+  if (!w.statecznosc || w.balastPrzesuwKg === null || w.balastPrzewracanieKg === null) return <li className="text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</li>
+  return (
+    <li>
+      {t("UI-TYPMON-COMWSP-BALAST-SKLADNIKI", {
+        oderwanie: w.balastOderwanieKg === null ? "—" : `${f(w.balastOderwanieKg)} kg`,
+        przesuw: `${f(w.balastPrzesuwKg)} kg`,
+        przewracanie: `${f(w.balastPrzewracanieKg)} kg`,
+      })}
+    </li>
+  )
 }
 
 /** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
@@ -192,6 +209,26 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         value={s.masaPaneliStelazaKg ?? ""}
         onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
+      />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-TARCIE")}
+        type="number"
+        inputMode="decimal"
+        min={0}
+        step={0.05}
+        value={s.wspolczynnikTarcia ?? ""}
+        onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+      />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY")}
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.glebokoscPodstawyM ?? ""}
+        onChange={(e) => ustaw("glebokoscPodstawyM", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
       />
     </div>
   )

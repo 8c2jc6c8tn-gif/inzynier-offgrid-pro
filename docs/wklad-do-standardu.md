@@ -1257,3 +1257,12 @@ Status: 🔎 nowe
 - **Specyficzne dla offgrida (do zmiany przy kopiowaniu):** ścieżki `lib/core/modules` i `lib/i18n/ui/formuly.ts`, prefiks `UI-FORMULA-`, wyjątek `-STAWKI`. Skrypt można skopiować do `docs/przyklady/i18n/` jako przykład referencyjny — decyzja sesji nad `new-app-standards`.
 
 Status: 🔎 nowe
+
+## [19.10.2026] Brak danych w normie: pole użytkownika bez wartości domyślnej + status szacunku + założenie z użytymi danymi (D94–D96)
+
+**Problem:** kalkulator inżynierski trafia na obszar, w którym norma milczy (u nas: wiatr dla paneli powyżej 30°, a potem balast przeciw przesuwowi i przewracaniu — brak współczynnika tarcia i punktu przyłożenia siły). Dwie złe reakcje: wynik `null` bez wyjaśnienia (użytkownik czyta to jako błąd — tak się stało przy balaście dla 90°) albo „rozsądna” wartość domyślna wpisana w kod (liczba bezpieczeństwa z niczego).
+**Rozwiązanie, które zadziałało trzy razy z rzędu:** (1) wielkość, której norma nie podaje, to jawne pole wejścia użytkownika, bez wartości domyślnej; (2) bez kompletu pól liczymy tylko to, co norma daje, i mówimy wprost, czego nie sprawdzono (ostrzeżenie informacyjne zamiast cichego `null`); (3) z kompletem pól wynik niesie status/flagę szacunku (`ESTIMATE` dla całego wyniku albo flaga per punkt, gdy reszta wyniku jest normowa), ostrzeżenie „to nasze oszacowanie” i założenie wypisujące dokładnie użyte dane; (4) wszystkie kalkulatory liczą to jedną wspólną funkcją, więc reguła nie rozjeżdża się między ekranami; (5) w teście odniesienia liczone skryptem, nie z głowy.
+**Pułapka:** geometria wyprowadzana z istniejących pól może się zdegenerować (pion: rzut paneli = 0) — wtedy zwracamy brak wyniku z wyjaśnieniem, nie podstawiamy wartości.
+Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny liczący fizykę napotka lukę normy; ten wzorzec odpowiada na standard 3.3 (`ESTIMATE`) konkretną praktyką dla pól wejściowych i komunikatów.
+
+Status: 🔎 nowe

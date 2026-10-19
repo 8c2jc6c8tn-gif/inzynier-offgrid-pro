@@ -2917,3 +2917,13 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Zmiany kontraktu AI:** `liczbaMiesiecyBezDanychWiatru` → `liczbaMiesiecySzacunekWiatru` (typ montażu, tryb regulowany); nowe pola `szacunekPozaNorma` (typ montażu: dach płaski; „Złoty środek”: punkty), `szacunekLepszyDeg`; wiatr powyżej 30° dostał wejścia powierzchnia/φ/masa i wyjścia siła/balast.
 - Usunięte jako martwe: klucze `ZS-KAT-BEZ-DANYCH-WIATRU`, `TM-MIESIACE-BEZ-DANYCH-WIATRU` (słowniki, funkcje ostrzeżeń) i `UI-ZLOSRO-WIATR-BRAK-DANYCH`; `UI-TYPMON-COMTRYREG-DO-30` zastąpiony `…-SZACUNEK-POWYZEJ-30` (stara nazwa kłamałaby).
 - **Pułapka:** dwa stare testy twierdziły wprost „brak cf w normie: bez siły i balastu” — zamienione na testy nowego zachowania, nie usunięte (zasada: zmieniamy świadomie, z tą samą siłą pilnowania).
+
+## Balast przeciw przesuwowi i przewracaniu dla wszystkich kątów (wersja 3.38.0, D96, 19.10.2026)
+
+- Pytanie właściciela: „dlaczego zwraca null” (balast przy 90°). Odpowiedź: norma (7.4.3) daje tylko siłę poziomą cf = 1,8; balast zależy od tarcia i przewracania, a tego ani norma, ani źródło nie podają. Decyzja: nie zgadywać — dane (μ, wysokość punktu przyłożenia siły, podstawa) wpisuje użytkownik, wynik jest zawsze szacunkiem aplikacji. Rozszerzona ta sama funkcja `silaIBalastWiatru` (6. argument `stateczność`), pomocnicze `balastPrzesuwuEquKg`/`balastPrzewracaniaEquKg` w `eurokod-0/rownowaga.ts`.
+- **Pułapka (geometria):** dla 90° rzut paneli na poziom to L·cos 90° = 0, więc przewracanie bez jawnej głębokości podstawy nie ma sensu fizycznego — `statecznoscZGeometrii` zwraca `null` (nie podstawiamy „rozsądnej” wartości). Podobnie w „Złotym środku”, gdy środek paneli (ze − L/2·sin α) wypada pod gruntem.
+- **Pułapka (oderwanie):** oderwanie nadal liczone CAŁĄ siłą prostopadłą jako pionową (zachowawczo, jak dotąd), a przesuw/przewracanie z jej składowych; balast = max z trzech, więc włączenie stateczności nigdy nie obniża balastu.
+- **Pułapka (test):** moje liczby odniesienia w teście `rownowaga.test.ts` były źle zaokrąglone (764,9 zamiast 764,79) — odniesienia liczyć skryptem, nie z głowy (Dyrektywa #3).
+- Dryf formuły: dopisanie członów m_sl i m_ov do `FORMULA` wymaga `node scripts/generuj-formuly.mjs --write` (strażnik `check:i18n-guard` go wyłapuje).
+- Dla standardu (kandydat do `docs/wklad-do-standardu.md`): wzorzec „brak danych w normie → pole użytkownika bez wartości domyślnej + status szacunku + założenie opisujące użyte dane” zadziałał trzy razy z rzędu (D94, D95, D96).
+

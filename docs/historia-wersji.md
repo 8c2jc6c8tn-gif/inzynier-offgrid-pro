@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.38.0] — 19.10.2026
+
+Balast przeciw przesuwowi i przewracaniu dla wszystkich kątów, także 90° (D96, polecenie właściciela: „zamknąć ten system i wszystko podłączyć”):
+- nowe funkcje `balastPrzesuwuEquKg` i `balastPrzewracaniaEquKg` (PN-EN 1990, te same współczynniki częściowe co oderwanie: γQ = 1,5, γG,inf = 0,9); siła wiatru prostopadła do paneli rozkładana na składowe (Fh = F·sin α, Fv = F·cos α, przy 90° cała pozioma); balast = największy z trzech warunków (oderwanie, przesuw, przewracanie),
+- dane od użytkownika, bez wartości domyślnych: współczynnik tarcia o podłoże μ oraz, zależnie od ekranu, wysokość punktu przyłożenia siły i szerokość/głębokość podstawy; norma nie podaje ani tarcia, ani punktu przyłożenia siły, więc wynik jest szacunkiem aplikacji także do 30° (ostrzeżenie i założenie opisują użyte dane),
+- wiatr powyżej 30° (silnik 1.2.0): trzy nowe pola, składniki balastu na ekranie; dla 90° jest teraz liczba zamiast `null`, o ile podano komplet danych,
+- typ montażu (dach płaski/grunt i stelaż regulowany): geometria wynika z L, α i wysokości dolnej krawędzi (środek paneli, podstawa L·cos α albo podana głębokość); „Złoty środek” (silnik 1.3.0): opcjonalna długość spadku, tarcie i głębokość, balast i jego koszt liczone dla każdego kąta z uwzględnieniem przesuwu i przewracania,
+- narzędzia AI (wiatr powyżej 30°, typ montażu, „Złoty środek”) przyjmują dane stateczności i zwracają składniki balastu oraz flagę `statecznosc`; pomoc „?” i tłumaczenia PL/EN/RU.
+
+Wpływ na liczby: tylko po wpisaniu współczynnika tarcia (i pozostałych danych stateczności). Wtedy balast może wzrosnąć względem samego oderwania, a w „Złotym środku” rośnie koszt balastu i może się zmienić rekomendowany kąt. Bez tych danych wszystkie liczby bez zmian (oderwanie, 90° bez balastu).
+
 ## [3.37.0] — 19.10.2026
 
 Balast i konstrukcja dla kątów powyżej 30° w kalkulatorach zmiany kąta (D95, polecenie właściciela: kąt powyżej 30° użytkownik ustawia i zabezpiecza na własną odpowiedzialność według naszych obliczeń):

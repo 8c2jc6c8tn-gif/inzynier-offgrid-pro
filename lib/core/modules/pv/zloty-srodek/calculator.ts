@@ -9,8 +9,8 @@ import {
   wspolczynnikEkspozycji,
 } from "../eurokod-1/wiatr"
 import { obliczProdukcjeKwh } from "../kat-i-azymut/calculator"
-import { silaIBalastWiatru } from "../wiatr-powyzej-30/sila-i-balast"
-import { katNaWlasnaOdpowiedzialnosc } from "../wiatr-powyzej-30/warnings"
+import { silaIBalastWiatru, statecznoscZGeometrii } from "../wiatr-powyzej-30/sila-i-balast"
+import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunekKaty } from "../wiatr-powyzej-30/warnings"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "./constants"
 import type { ZlotySrodekInput } from "./input"
 import { validateInput } from "./validation"
@@ -23,7 +23,7 @@ import {
   szacunekLepszyBilans,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 export type PunktKata = {
   nachylenieDeg: number
@@ -42,6 +42,8 @@ export type PunktKata = {
   balastKg: number | null
   /** `true` = siła i balast tego kąta to szacunek aplikacji (powyżej 30° do 89°), nie wynik normy; kąt ustawia użytkownik na własną odpowiedzialność. */
   szacunek: boolean
+  /** `true` = w `balastKg` sprawdzono też przesuw i przewracanie (dane użytkownika: tarcie, długość, podstawa) — to szacunek aplikacji także do 30°. */
+  statecznosc: boolean
   kosztBalastuZl: number | null
   produkcjaRocznaKwh: number | null
   wartoscEnergiiZl: number | null
@@ -115,16 +117,20 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
 
   const surowe = tabela.katyDeg.map((kat, i) => {
     const h = suma(tabela.miesiace[i]!)
-    const w = silaIBalastWiatru(kat, wspolczynnikPhi, qpPa, powierzchniaPaneliM2, input.masaPaneliStelazaKg ?? 0)
+    const { dlugoscWzdluzSpaduM: dl, wspolczynnikTarcia: mu, glebokoscPodstawyM: gl } = input
+    // Force acts at the panel centre: top edge height minus half of the vertical extent of the slope length.
+    const stateczn = dl == null ? null : statecznoscZGeometrii(kat, dl, wysokoscKonstrukcjiM - (dl / 2) * Math.sin((kat * Math.PI) / 180), mu, gl)
+    const w = silaIBalastWiatru(kat, wspolczynnikPhi, qpPa, powierzchniaPaneliM2, input.masaPaneliStelazaKg ?? 0, stateczn)
     const cf = w?.cf ?? null
     const sila = w?.silaN ?? null
     const balastKg = w?.balastKg ?? null
     const szacunek = w?.szacunek ?? false
+    const statecznosc = w?.statecznosc ?? false
     const kosztBalastuZl = balastKg === null ? null : balastKg * cenaBalastuZlKg
     const produkcjaRocznaKwh = zWycena ? obliczProdukcjeKwh(h, p, pr) : null
     const wartoscEnergiiZl = produkcjaRocznaKwh === null ? null : produkcjaRocznaKwh * lata! * cenaKwh!
     const bilansZl = wartoscEnergiiZl === null || kosztBalastuZl === null ? null : wartoscEnergiiZl - kosztBalastuZl
-    return { kat, h, cf, sila, balastKg, szacunek, kosztBalastuZl, produkcjaRocznaKwh, wartoscEnergiiZl, bilansZl }
+    return { kat, h, cf, sila, balastKg, szacunek, statecznosc, kosztBalastuZl, produkcjaRocznaKwh, wartoscEnergiiZl, bilansZl }
   })
   const silaMaks = Math.max(...surowe.map((s) => s.sila ?? 0))
   const punkty: PunktKata[] = surowe.map((s) => ({
@@ -136,6 +142,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     procentSilyMaks: s.sila === null || silaMaks <= 0 ? null : (100 * s.sila) / silaMaks,
     balastKg: s.balastKg,
     szacunek: s.szacunek,
+    statecznosc: s.statecznosc,
     kosztBalastuZl: s.kosztBalastuZl,
     produkcjaRocznaKwh: s.produkcjaRocznaKwh,
     wartoscEnergiiZl: s.wartoscEnergiiZl,
@@ -152,14 +159,16 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
   const szacunekLepszy = rekomendacja !== null && najlepszySzacunek !== null && najlepszySzacunek.bilansZl! > rekomendacja.bilansZl! ? najlepszySzacunek : null
 
   const wybranyDeg = input.nachylenieDeg === null ? null : Math.round(input.nachylenieDeg)
-  const warnings: Warning[] = [balastProjektowyEqu()]
+  const stateczne = punkty.filter((q) => q.statecznosc)
+  const warnings: Warning[] = [stateczne.length > 0 ? statecznoscSzacunekKaty(input.wspolczynnikTarcia!, input.dlugoscWzdluzSpaduM!) : balastProjektowyEqu()]
   if (!zWycena) warnings.push(rekomendacjaWymagaWyceny())
   if (optimumEnergii.nachylenieDeg > CF_WIATA_MAX_KAT_DEG) warnings.push(optimumPozaZakresemWiatru(optimumEnergii.nachylenieDeg))
   if (szacunekLepszy !== null && rekomendacja !== null) {
     warnings.push(szacunekLepszyBilans(szacunekLepszy.nachylenieDeg, szacunekLepszy.bilansZl! - rekomendacja.bilansZl!, szacunekLepszy.balastKg!))
   }
   if (wybranyDeg !== null && wybranyDeg > CF_WIATA_MAX_KAT_DEG) {
-    warnings.push(wybranyDeg === KAT_PIONOWY_DEG ? pionSilaPozioma() : katNaWlasnaOdpowiedzialnosc(wybranyDeg, CF_WIATA_MAX_KAT_DEG))
+    const wybrany = punkty.find((q) => q.nachylenieDeg === wybranyDeg)
+    warnings.push(wybranyDeg === KAT_PIONOWY_DEG && wybrany?.balastKg == null ? pionSilaPozioma() : katNaWlasnaOdpowiedzialnosc(wybranyDeg, CF_WIATA_MAX_KAT_DEG))
   }
 
   const assumptions: Assumption[] = [
@@ -170,6 +179,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     ...(punkty.some((q) => q.szacunek) ? [{ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: CF_WIATA_MAX_KAT_DEG } }] : []),
     { kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } },
     { kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } },
+    ...(stateczne.length > 0 ? [{ kod: "WP30-ZALOZENIE-STATECZNOSC-KATY", params: { mu: input.wspolczynnikTarcia!, dlugosc: input.dlugoscWzdluzSpaduM! } }] : []),
     zalozenieMasyWlasnej(input.masaPaneliStelazaKg),
     { kod: "ZS-ZALOZENIE-CENA-BALASTU", params: { cena: cenaBalastuZlKg } },
     { kod: "ZS-ZALOZENIE-SNIEG-MU1" },

@@ -33,6 +33,9 @@ type FormularzStan = {
   powierzchniaM2: string
   phi: string
   masaPaneliStelaza: string
+  dlugoscSpadku: string
+  wspolczynnikTarcia: string
+  glebokoscPodstawy: string
   cenaBalastu: string
   mocKwp: string
   pr: string
@@ -50,6 +53,9 @@ const STAN_POCZATKOWY: FormularzStan = {
   powierzchniaM2: "",
   phi: "",
   masaPaneliStelaza: "",
+  dlugoscSpadku: "",
+  wspolczynnikTarcia: "",
+  glebokoscPodstawy: "",
   cenaBalastu: String(CENA_BALASTU_PODPOWIEDZ_ZL_KG),
   mocKwp: "",
   pr: "",
@@ -178,6 +184,10 @@ export default function ZlotySrodekPage() {
         wspolczynnikPhi: n(stan.phi),
         // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
         masaPaneliStelazaKg: n(stan.masaPaneliStelaza ?? ""),
+        // Drafts saved before the stability check have no slope length / friction / footprint depth — treat as empty.
+        dlugoscWzdluzSpaduM: n(stan.dlugoscSpadku ?? ""),
+        wspolczynnikTarcia: n(stan.wspolczynnikTarcia ?? ""),
+        glebokoscPodstawyM: n(stan.glebokoscPodstawy ?? ""),
         cenaBalastuZlKg: n(stan.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
@@ -312,6 +322,37 @@ export default function ZlotySrodekPage() {
           onChange={(e) => ustaw("masaPaneliStelaza", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
         />
+        <Pole
+          label={t("UI-ZLOSRO-DLUGOSC-SPADKU")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.dlugoscSpadku ?? ""}
+          onChange={(e) => ustaw("dlugoscSpadku", e.target.value)}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="dlugoscL" />}
+        />
+        <Pole
+          label={t("UI-ZLOSRO-TARCIE")}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step={0.05}
+          value={stan.wspolczynnikTarcia ?? ""}
+          onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+        />
+        <Pole
+          label={t("UI-ZLOSRO-GLEBOKOSC-PODSTAWY")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.glebokoscPodstawy ?? ""}
+          onChange={(e) => ustaw("glebokoscPodstawy", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
+        />
+        <p className="text-small text-muted-foreground">{t("UI-ZLOSRO-STATECZNOSC-OPIS")}</p>
         <Pole
           label={t("UI-ZLOSRO-CENA-BALASTU")}
           unit={t("UI-ZLOSRO-ZL-KG")}

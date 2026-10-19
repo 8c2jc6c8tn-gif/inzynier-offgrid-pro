@@ -42,6 +42,13 @@ export type GeometriaStelazaInput = {
    * domyślna (D29). Liczona jako siła utrzymująca z γG,inf = 0,90; `null` = pominięta (po stronie bezpiecznej).
    */
   masaPaneliStelazaKg: number | null
+  /**
+   * Współczynnik tarcia stelaża/balastu o podłoże μ — opcjonalnie (bez wartości domyślnej). Z nim aplikacja sprawdza też
+   * przesuw i przewracanie (szacunek); wysokość punktu przyłożenia siły wynika z L, α i wysokości dolnej krawędzi.
+   */
+  wspolczynnikTarcia?: number | null
+  /** Głębokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie; puste = L·cos α. Konieczna przy 90° (L·cos α = 0). */
+  glebokoscPodstawyM?: number | null
 }
 
 export type MiejsceMontazu = "grunt" | "dach"

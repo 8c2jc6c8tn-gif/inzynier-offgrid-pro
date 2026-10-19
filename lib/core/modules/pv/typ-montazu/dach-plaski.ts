@@ -6,12 +6,12 @@ import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/const
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
-import { katNaWlasnaOdpowiedzialnosc } from "../wiatr-powyzej-30/warnings"
+import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunek } from "../wiatr-powyzej-30/warnings"
 import { PROG_SSANIA_OD_SPODU_DEG, PROG_ZALEGANIA_SNIEGU_DEG } from "./constants"
 import type { DachPlaskiInput } from "./input"
 import { validateDachPlaski } from "./validation"
 import { dachPozaModelemWiaty, sniegZalegaPonizejProgu, ssanieOdSpodu } from "./warnings"
-import { katPosredniTablicy, podniesienieKrawedziM, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
+import { katPosredniTablicy, podniesienieKrawedziM, statecznoscStelazaDlaKata, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
 import { fabrykaWyniku, statusZOstrzezen } from "./wynik"
 
 export type DachPlaskiResult = WiatrDlaKata & {
@@ -54,10 +54,13 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
 
   const podniesienieM = podniesienieKrawedziM(L, kat)
   const powierzchniaM2 = L * B
-  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0)
+  const statecznosc = statecznoscStelazaDlaKata(L, kat, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)
+  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznosc)
 
   const warnings: Warning[] = []
-  if (wiatr.balastKg !== null) warnings.push(balastProjektowyEqu())
+  if (wiatr.statecznosc && statecznosc !== null) {
+    warnings.push(statecznoscSzacunek(statecznosc.wspolczynnikTarcia, statecznosc.wysokoscSrodkaParciaM, statecznosc.szerokoscPodstawyM))
+  } else if (wiatr.balastKg !== null) warnings.push(balastProjektowyEqu())
   else if (kat === KAT_PIONOWY_DEG) warnings.push(pionSilaPozioma())
   if (wiatr.szacunek) warnings.push(katNaWlasnaOdpowiedzialnosc(kat, KAT_NORMOWY_MAX_DEG))
   if (kat >= PROG_SSANIA_OD_SPODU_DEG) warnings.push(ssanieOdSpodu(kat, PROG_SSANIA_OD_SPODU_DEG))
@@ -76,6 +79,9 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
     assumptions.push(zalozenieMasyWlasnej(input.masaPaneliStelazaKg))
+  }
+  if (wiatr.statecznosc && statecznosc !== null) {
+    assumptions.push({ kod: "WP30-ZALOZENIE-STATECZNOSC", params: { mu: statecznosc.wspolczynnikTarcia, h: Math.round(statecznosc.wysokoscSrodkaParciaM * 100) / 100, b: Math.round(statecznosc.szerokoscPodstawyM * 100) / 100 } })
   }
   assumptions.push({ kod: "ZS-ZALOZENIE-SNIEG-MU1" })
   if (kat >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })

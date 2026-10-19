@@ -121,5 +121,73 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
       expect(r.status).toBe("OUT_OF_SCOPE")
       expect(r.value.silaWiatruN).toBeNull()
     })
+
+    it("rejects non-positive friction, height and footprint", () => {
+      const baza = { ...PELNY, powierzchniaM2: 5, wspolczynnikPhi: 0 }
+      expect(calculateWiatrPowyzej30({ ...baza, wspolczynnikTarcia: 0 }).status).toBe("INVALID_INPUT")
+      expect(calculateWiatrPowyzej30({ ...baza, wysokoscSrodkaParciaM: -1 }).status).toBe("INVALID_INPUT")
+      expect(calculateWiatrPowyzej30({ ...baza, szerokoscPodstawyM: 0 }).status).toBe("INVALID_INPUT")
+    })
+  })
+
+  describe("przesuw i przewracanie (szacunek, dane od użytkownika)", () => {
+    const g = PRZYSPIESZENIE_ZIEMSKIE_M_S2
+    const stan = { wspolczynnikTarcia: 0.5, wysokoscSrodkaParciaM: 2, szerokoscPodstawyM: 1 }
+    const bazaWiatru = { ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 0 }
+
+    it("vertical 90° gets a ballast from sliding and overturning instead of null", () => {
+      const v = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan }).value
+      const F = v.silaWiatruN!
+      expect(v.balastOderwanieKg).toBeNull()
+      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (F / 0.5)) / (0.9 * g), 6)
+      expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * ((2 * F * 2) / 1)) / (0.9 * g), 6)
+      expect(v.balastProjektowyKg).toBeCloseTo(Math.max(v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
+    })
+
+    it("tilted panel: the force splits into sin/cos components; ballast = the largest of three", () => {
+      const v = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 45, ...stan }).value
+      const F = v.silaWiatruN!
+      const Fh = F * Math.sin(Math.PI / 4)
+      const Fv = F * Math.cos(Math.PI / 4)
+      expect(v.balastOderwanieKg!).toBeCloseTo((1.5 * F) / (0.9 * g), 6)
+      expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (Fh / 0.5 + Fv)) / (0.9 * g), 6)
+      expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * (Fv + (2 * Fh * 2) / 1)) / (0.9 * g), 6)
+      expect(v.balastProjektowyKg).toBeCloseTo(Math.max(v.balastOderwanieKg!, v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
+    })
+
+    it("own weight is subtracted from every component and never goes below zero", () => {
+      const v = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan, masaPaneliStelazaKg: 1e7 }).value
+      expect(v.balastPrzesuwKg).toBe(0)
+      expect(v.balastPrzewracanieKg).toBe(0)
+    })
+
+    it("a wider base and a higher friction need less ballast", () => {
+      const wezsza = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan }).value
+      const szersza = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, ...stan, szerokoscPodstawyM: 3, wspolczynnikTarcia: 0.9 }).value
+      expect(szersza.balastPrzewracanieKg!).toBeLessThan(wezsza.balastPrzewracanieKg!)
+      expect(szersza.balastPrzesuwKg!).toBeLessThan(wezsza.balastPrzesuwKg!)
+    })
+
+    it("marks the stability as an estimate and records the user's data as an assumption", () => {
+      const r = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 60, ...stan })
+      expect(r.status).toBe("ESTIMATE")
+      expect(r.warnings.map((w) => w.code)).toContain("WP30-STATECZNOSC-SZACUNEK")
+      expect(r.warnings.map((w) => w.code)).not.toContain("ZS-BALAST-EQU-TYLKO-ODRYWANIE")
+      expect(r.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toContain("WP30-ZALOZENIE-STATECZNOSC")
+    })
+
+    it("partial data: only uplift is calculated and the user is told what is missing", () => {
+      const r = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 60, wspolczynnikTarcia: 0.5 })
+      expect(r.value.balastPrzesuwKg).toBeNull()
+      expect(r.value.balastPrzewracanieKg).toBeNull()
+      expect(r.value.balastOderwanieKg).not.toBeNull()
+      expect(r.warnings.map((w) => w.code)).toContain("WP30-STATECZNOSC-NIEKOMPLETNA")
+    })
+
+    it("90° with partial data still has no ballast number (norm gives none) and says why", () => {
+      const r = calculateWiatrPowyzej30({ ...bazaWiatru, nachylenieDeg: 90, wspolczynnikTarcia: 0.5 })
+      expect(r.value.balastProjektowyKg).toBeNull()
+      expect(r.warnings.map((w) => w.code)).toContain("ZS-PION-SILA-POZIOMA")
+    })
   })
 })

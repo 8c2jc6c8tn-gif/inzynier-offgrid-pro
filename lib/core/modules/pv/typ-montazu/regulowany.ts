@@ -8,9 +8,9 @@ import { LICZBA_MIESIECY, PROG_SSANIA_OD_SPODU_DEG } from "./constants"
 import type { RegulowanyInput } from "./input"
 import { validateRegulowany } from "./validation"
 import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
-import { miesiaceNaWlasnaOdpowiedzialnosc } from "../wiatr-powyzej-30/warnings"
+import { miesiaceNaWlasnaOdpowiedzialnosc, statecznoscSzacunek } from "../wiatr-powyzej-30/warnings"
 import { ssanieOdSpodu } from "./warnings"
-import { katPosredniTablicy, podniesienieKrawedziM, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
+import { katPosredniTablicy, podniesienieKrawedziM, statecznoscStelazaDlaKata, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
 import { fabrykaWyniku, statusZOstrzezen } from "./wynik"
 
 export type MiesiacRegulowany = WiatrDlaKata & {
@@ -88,7 +88,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
       katDeg,
       napromieniowanieKwhM2: tabela.miesiace[iNaj]![m]!,
       podniesienieM,
-      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0),
+      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznoscStelazaDlaKata(L, katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)),
     }
   })
   const iStaly = indeksy.reduce((a, i) => (suma(tabela.miesiace[i]!) > suma(tabela.miesiace[a]!) ? i : a))
@@ -100,11 +100,16 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
   const katMaksUzyty = Math.max(...miesiace.map((x) => x.katDeg))
 
   const warnings: Warning[] = []
-  if (balasty.length > 0) warnings.push(balastProjektowyEqu())
+  const miesiaceStatecznosc = miesiace.filter((x) => x.statecznosc)
+  // Geometry of the month that needs the most ballast — the one the warning and the assumption describe.
+  const najgorszyMiesiac = miesiaceStatecznosc.length > 0 ? miesiaceStatecznosc.reduce((a, x) => ((x.balastKg ?? 0) > (a.balastKg ?? 0) ? x : a)) : null
+  const stateczneNajgorsze = najgorszyMiesiac && statecznoscStelazaDlaKata(L, najgorszyMiesiac.katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)
+  if (stateczneNajgorsze) warnings.push(statecznoscSzacunek(stateczneNajgorsze.wspolczynnikTarcia, stateczneNajgorsze.wysokoscSrodkaParciaM, stateczneNajgorsze.szerokoscPodstawyM))
+  if (balasty.length > 0 && miesiaceStatecznosc.length === 0) warnings.push(balastProjektowyEqu())
   if (miesiaceSzacunek.length > 0) {
     warnings.push(miesiaceNaWlasnaOdpowiedzialnosc(miesiaceSzacunek.length, Math.max(...miesiaceSzacunek.map((x) => x.katDeg)), KAT_NORMOWY_MAX_DEG))
   }
-  if (miesiace.some((x) => x.katDeg === KAT_PIONOWY_DEG)) warnings.push(pionSilaPozioma())
+  if (miesiace.some((x) => x.katDeg === KAT_PIONOWY_DEG && x.balastKg === null)) warnings.push(pionSilaPozioma())
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) warnings.push(ssanieOdSpodu(katMaksUzyty, PROG_SSANIA_OD_SPODU_DEG))
 
   const assumptions: Assumption[] = [
@@ -121,6 +126,9 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
     assumptions.push(zalozenieMasyWlasnej(input.masaPaneliStelazaKg))
+  }
+  if (stateczneNajgorsze !== null) {
+    assumptions.push({ kod: "WP30-ZALOZENIE-STATECZNOSC", params: { mu: stateczneNajgorsze.wspolczynnikTarcia, h: Math.round(stateczneNajgorsze.wysokoscSrodkaParciaM * 100) / 100, b: Math.round(stateczneNajgorsze.szerokoscPodstawyM * 100) / 100 } })
   }
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })
 
