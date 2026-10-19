@@ -17,6 +17,8 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
+import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
+import type { MetodaCf } from "@/lib/core/modules/pv/wiatr-powyzej-30/sila-i-balast"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -35,6 +37,7 @@ type FormularzStan = {
   wspolczynnikTarcia: string
   wysokoscSrodkaParciaM: string
   szerokoscPodstawyM: string
+  metodaCf: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
@@ -49,6 +52,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   wspolczynnikTarcia: "",
   wysokoscSrodkaParciaM: "",
   szerokoscPodstawyM: "",
+  metodaCf: "",
 }
 
 const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number(s)) ? null : Number(s))
@@ -67,6 +71,7 @@ export default function WiatrPowyzej30Page() {
   const wspolczynnikTarcia = stan.wspolczynnikTarcia ?? ""
   const wysokoscSrodkaParciaM = stan.wysokoscSrodkaParciaM ?? ""
   const szerokoscPodstawyM = stan.szerokoscPodstawyM ?? ""
+  const metodaCf: MetodaCf = stan.metodaCf === "trend" ? "trend" : "liniowa"
   const ustaw = (pole: keyof FormularzStan, wartosc: string) => setStan((prev) => ({ ...prev, [pole]: wartosc }))
 
   const result = useMemo(
@@ -83,8 +88,9 @@ export default function WiatrPowyzej30Page() {
         wspolczynnikTarcia: liczbaLubNull(wspolczynnikTarcia),
         wysokoscSrodkaParciaM: liczbaLubNull(wysokoscSrodkaParciaM),
         szerokoscPodstawyM: liczbaLubNull(szerokoscPodstawyM),
+        metodaCf,
       }),
-    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM, powierzchniaM2, phi, masaPaneliStelazaKg, wspolczynnikTarcia, wysokoscSrodkaParciaM, szerokoscPodstawyM],
+    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM, powierzchniaM2, phi, masaPaneliStelazaKg, wspolczynnikTarcia, wysokoscSrodkaParciaM, szerokoscPodstawyM, metodaCf],
   )
   const v = result.value
 
@@ -185,6 +191,7 @@ export default function WiatrPowyzej30Page() {
           onChange={(e) => ustaw("phi", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="zabudowa" />}
         />
+        <WyborMetodyCf metoda={metodaCf} onChange={(m) => ustaw("metodaCf", m)} t={t} f={f2} />
         <Pole
           label={t("UI-NAPWIA-MASA-PANELU-STELAZA")}
           unit="kg"

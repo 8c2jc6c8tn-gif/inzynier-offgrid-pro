@@ -10,7 +10,7 @@ import {
 } from "../eurokod-1/wiatr"
 import { obliczProdukcjeKwh } from "../kat-i-azymut/calculator"
 import type { PodejscieEc7 } from "../eurokod-7/przesuw"
-import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
+import { kodZalozeniaCf, silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunekKaty } from "../wiatr-powyzej-30/warnings"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "./constants"
 import type { ZlotySrodekInput } from "./input"
@@ -124,12 +124,13 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
   const { mocInstalacjiKwp: p, wspolczynnikPr: pr, cenaEnergiiZlKwh: cenaKwh, liczbaLat: lata } = input
   const zWycena = p !== null && pr !== null && cenaKwh !== null && lata !== null
 
+  const metodaCf = input.metodaCf ?? "liniowa"
   const surowe = tabela.katyDeg.map((kat, i) => {
     const h = suma(tabela.miesiace[i]!)
     const { dlugoscWzdluzSpaduM: dl, wspolczynnikTarcia: mu, glebokoscPodstawyM: gl } = input
     // Force acts at the panel centre: top edge height minus half of the vertical extent of the slope length.
     const stateczn = dl == null ? null : statecznoscZGeometrii(kat, dl, wysokoscKonstrukcjiM - (dl / 2) * Math.sin((kat * Math.PI) / 180), mu, gl)
-    const w = silaIBalastWiatru(kat, wspolczynnikPhi, qpPa, powierzchniaPaneliM2, input.masaPaneliStelazaKg ?? 0, stateczn)
+    const w = silaIBalastWiatru(kat, wspolczynnikPhi, qpPa, powierzchniaPaneliM2, input.masaPaneliStelazaKg ?? 0, stateczn, metodaCf)
     const cf = w?.cf ?? null
     const sila = w?.silaN ?? null
     const balastKg = w?.balastKg ?? null
@@ -191,7 +192,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     { kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } },
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
     { kod: "ZS-ZALOZENIE-KAT-POSREDNI" },
-    ...(punkty.some((q) => q.szacunek) ? [{ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: CF_WIATA_MAX_KAT_DEG } }] : []),
+    ...(punkty.some((q) => q.szacunek) ? [{ kod: kodZalozeniaCf(metodaCf), params: { max: CF_WIATA_MAX_KAT_DEG } }] : []),
     { kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } },
     { kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } },
     ...(stateczne.length > 0 ? [{ kod: "WP30-ZALOZENIE-STATECZNOSC-KATY", params: { mu: input.wspolczynnikTarcia!, dlugosc: input.dlugoscWzdluzSpaduM! } }] : []),

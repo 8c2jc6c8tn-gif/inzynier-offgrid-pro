@@ -22,6 +22,7 @@ export const WiatrPowyzej30ToolInput = z.object({
   wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ = tan δk (charakterystyczny) — tylko od usera, nigdy nie zgaduj; razem z wysokością punktu przyłożenia siły i szerokością podstawy włącza sprawdzenie przesuwu i przewracania"),
   wysokoscSrodkaParciaM: z.number().optional().describe("Wysokość punktu przyłożenia siły wiatru nad terenem [m] (środek paneli) — tylko od usera"),
   szerokoscPodstawyM: z.number().optional().describe("Szerokość podstawy stelaża w kierunku wiatru [m] — tylko od usera"),
+  metodaCf: z.enum(["liniowa", "trend"]).optional().describe("Metoda szacunku współczynnika siły cf dla kątów 31–89° (norma podaje tylko do 30° i 1,80 dla pionu): liniowa (domyślna) albo trend (ostrożniejsza). Użyj, gdy user pyta o inny sposób oszacowania albo chce porównać; pomiń → liniowa"),
 })
 export type WiatrPowyzej30ToolInputT = z.infer<typeof WiatrPowyzej30ToolInput>
 
@@ -74,6 +75,7 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
       wspolczynnikTarcia: input.wspolczynnikTarcia ?? null,
       wysokoscSrodkaParciaM: input.wysokoscSrodkaParciaM ?? null,
       szerokoscPodstawyM: input.szerokoscPodstawyM ?? null,
+      metodaCf: input.metodaCf ?? "liniowa",
     })
     const v = wynik.value
     return {

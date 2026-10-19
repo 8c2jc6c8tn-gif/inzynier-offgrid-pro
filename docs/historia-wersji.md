@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.42.0] — 19.10.2026
+
+Wybór metody szacunku współczynnika siły cf dla kątów 31–89° (D101, polecenie właściciela: dwie opcje do wyboru i pokazanie danych):
+- „Liniowa” (domyślna, jak w 3.39.0): prosta od cf(30°) z Tablicy 7.6 do 1,80 przy 90° (p. 7.4.3). „Trend” (ostrożniejsza): przyrost na stopień z ostatniego kroku Tablicy 7.6 (25°→30°) kontynuowany do limitu 1,80, nie mniej niż liniowa. Limit 1,80 to założenie aplikacji, nie wynik normy,
+- przy polu φ w wiatrze >30°, typie montażu (dach płaski, stelaż regulowany) i „Złotym środku” jest wybór metody oraz rozwijana tabela cf co 5° dla φ = 0; 0,5; 1 i obu metod (0–30° norma, 31–89° szacunek 🔎),
+- nowe założenie `WP30-ZALOZENIE-CF-TREND`, pomoc „?” i narzędzia AI (`metodaCf`), PL/EN/RU; szkice sprzed zmiany liczą liniowo.
+
+Wpływ na liczby: brak przy domyślnej metodzie. Wybór „trend” daje w kątach 31–89° cf nie mniejsze niż liniowa (np. φ = 0,5, 35°: 1,62 → 1,70), więc balast jest wyższy lub równy; przy φ = 0 obie metody dają 1,80.
+
 ## [3.41.0] — 19.10.2026
 
 Kalkulator próby na miejscu dla współczynnika tarcia μ (D99; użytkownik bez dokumentacji geotechnicznej nie musi zgadywać):

@@ -25,6 +25,12 @@ export const pl = {
         "gdzie": "Wysokość środka paneli nad gruntem lub dachem.",
         "zakres": "{min}–{max} m."
       },
+      "metodaCf": {
+        "nazwa": "Metoda szacunku współczynnika siły powyżej {maxKat}°",
+        "cel": "Norma podaje współczynnik siły tylko do {maxKat}°, a dla pionu 1,80. Dla kątów pośrednich wybierasz sposób oszacowania — od niego zależy balast.",
+        "gdzie": "Liniowa (domyślna): prosta od wartości z Tablicy 7.6 przy {maxKat}° do 1,80 przy 90°. Trend (ostrożniejsza): przyrost na stopień z ostatniego kroku Tablicy 7.6 kontynuowany do limitu 1,80, nie mniej niż liniowa. Tabela pod polem pokazuje współczynnik dla każdego kąta obu metod. Limit 1,80 to założenie aplikacji, nie wynik normy.",
+        "zakres": "Liniowa albo trend. Puste = liniowa."
+      },
       "tarcie": {
         "nazwa": "Współczynnik tarcia o podłoże μ",
         "cel": "Od niego zależy, ile balastu potrzeba, by stelaż nie przesunął się pod parciem wiatru. Norma go nie podaje — to Twoja wartość dla konkretnego podłoża.",
@@ -104,6 +110,12 @@ export const en: Tlumaczenie<typeof pl> = {
         "gdzie": "Height of the panel centre above the ground or roof.",
         "zakres": "{min}–{max} m."
       },
+      "metodaCf": {
+        "nazwa": "Method for estimating the force coefficient above {maxKat}°",
+        "cel": "The standard gives the force coefficient only up to {maxKat}°, and 1.80 for vertical. For intermediate angles you choose how to estimate it — the ballast depends on it.",
+        "gdzie": "Linear (default): a straight line from the Table 7.6 value at {maxKat}° to 1.80 at 90°. Trend (more conservative): the per-degree increase of the last step of Table 7.6 continued up to the 1.80 limit, and not lower than linear. The table under the field shows the coefficient for every angle for both methods. The 1.80 limit is an app assumption, not a result of the standard.",
+        "zakres": "Linear or trend. Empty = linear."
+      },
       "tarcie": {
         "nazwa": "Friction coefficient with the ground μ",
         "cel": "It decides how much ballast is needed so the frame does not slide under the wind load. The standard does not give it — it is your value for the specific ground.",
@@ -182,6 +194,12 @@ export const ru: Tlumaczenie<typeof pl> = {
         "cel": "Выше ветер сильнее (коэффициент экспозиции c_e).",
         "gdzie": "Высота центра панелей над землёй или крышей.",
         "zakres": "{min}–{max} м."
+      },
+      "metodaCf": {
+        "nazwa": "Метод оценки коэффициента силы выше {maxKat}°",
+        "cel": "Норма даёт коэффициент силы только до {maxKat}°, а для вертикали — 1,80. Для промежуточных углов вы выбираете способ оценки — от него зависит балласт.",
+        "gdzie": "Линейный (по умолчанию): прямая от значения таблицы 7.6 при {maxKat}° до 1,80 при 90°. Тренд (более консервативный): прирост на градус из последнего шага таблицы 7.6 продолжается до предела 1,80, но не ниже линейного. Таблица под полем показывает коэффициент для каждого угла обоими методами. Предел 1,80 — допущение приложения, а не результат нормы.",
+        "zakres": "Линейный или тренд. Пусто = линейный."
       },
       "tarcie": {
         "nazwa": "Коэффициент трения о основание μ",

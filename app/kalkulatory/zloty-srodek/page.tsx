@@ -10,6 +10,7 @@ import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { BalastWarunki, ETYKIETA_WARUNKU } from "@/components/wzorce/balast-warunki"
 import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
+import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -38,6 +39,7 @@ type FormularzStan = {
   dlugoscSpadku: string
   wspolczynnikTarcia: string
   glebokoscPodstawy: string
+  metodaCf?: string
   cenaBalastu: string
   mocKwp: string
   pr: string
@@ -58,6 +60,7 @@ const STAN_POCZATKOWY: FormularzStan = {
   dlugoscSpadku: "",
   wspolczynnikTarcia: "",
   glebokoscPodstawy: "",
+  metodaCf: "",
   cenaBalastu: String(CENA_BALASTU_PODPOWIEDZ_ZL_KG),
   mocKwp: "",
   pr: "",
@@ -207,6 +210,7 @@ export default function ZlotySrodekPage() {
         dlugoscWzdluzSpaduM: n(stan.dlugoscSpadku ?? ""),
         wspolczynnikTarcia: n(stan.wspolczynnikTarcia ?? ""),
         glebokoscPodstawyM: n(stan.glebokoscPodstawy ?? ""),
+        metodaCf: stan.metodaCf === "trend" ? "trend" : "liniowa",
         cenaBalastuZlKg: n(stan.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
@@ -372,6 +376,7 @@ export default function ZlotySrodekPage() {
           onChange={(e) => ustaw("glebokoscPodstawy", e.target.value)}
           pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
         />
+        <WyborMetodyCf metoda={stan.metodaCf === "trend" ? "trend" : "liniowa"} onChange={(m) => ustaw("metodaCf", m)} t={t} f={f2} />
         <p className="text-small text-muted-foreground">{t("UI-ZLOSRO-STATECZNOSC-OPIS")}</p>
         <Pole
           label={t("UI-ZLOSRO-CENA-BALASTU")}
