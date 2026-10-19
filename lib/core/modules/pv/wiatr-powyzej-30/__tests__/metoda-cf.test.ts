@@ -38,6 +38,6 @@ describe("metoda szacunku cf powyżej 30° (D101)", () => {
     const tr = calculateWiatrPowyzej30({ ...baza, metodaCf: "trend" })
     expect(dom.value?.silaWiatruN).toBe(lin.value?.silaWiatruN)
     expect(tr.value!.silaWiatruN!).toBeGreaterThanOrEqual(lin.value!.silaWiatruN!)
-    expect(tr.assumptions.some((z) => z.kod === "WP30-ZALOZENIE-CF-TREND")).toBe(true)
+    expect(tr.assumptions.map((a) => (typeof a === "string" ? a : a.kod)).includes("WP30-ZALOZENIE-CF-TREND")).toBe(true)
   })
 })
