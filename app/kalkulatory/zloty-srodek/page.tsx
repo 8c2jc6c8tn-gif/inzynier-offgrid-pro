@@ -9,6 +9,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { BalastWarunki, ETYKIETA_WARUNKU } from "@/components/wzorce/balast-warunki"
+import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -91,6 +92,7 @@ function BalastPunktu({ p, t, f }: { p: PunktKata; t: (kod: string, params?: Rec
         t={t}
         f={f}
         oderwanieNieDotyczy={p.balastOderwanieKg === null}
+        podejscieEc7={p.podejscieEc7Przesuw}
       />
     </div>
   )
@@ -359,6 +361,7 @@ export default function ZlotySrodekPage() {
           onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
           pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
         />
+        <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
         <Pole
           label={t("UI-ZLOSRO-GLEBOKOSC-PODSTAWY")}
           unit="m"

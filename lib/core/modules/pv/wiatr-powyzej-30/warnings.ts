@@ -91,7 +91,7 @@ export function statecznoscSzacunek(mu: number, wysokoscM: number, szerokoscM: n
     level: "warning",
     i18nKey: "WP30-STATECZNOSC-SZACUNEK",
     params: { mu, h: wysokoscM, b: szerokoscM },
-    technicalMessage: `przesuw i przewracanie z μ = ${mu}, h = ${wysokoscM} m, b = ${szerokoscM} m — szacunek aplikacji (EQU, γQ i γG,inf z PN-EN 1990), norma nie podaje tarcia ani punktu przyłożenia siły`,
+    technicalMessage: `przesuw (PN-EN 1997-1 p. 6.5.3, obwiednia podejść 1–3) i przewracanie (EQU, Tablica A.1) z μ = ${mu}, h = ${wysokoscM} m, b = ${szerokoscM} m — szacunek aplikacji, norma nie podaje punktu przyłożenia siły ani tarcia dla pary materiałów`,
   }
 }
 
@@ -112,6 +112,6 @@ export function statecznoscSzacunekKaty(mu: number, dlugoscM: number): Warning {
     level: "warning",
     i18nKey: "WP30-STATECZNOSC-SZACUNEK-KATY",
     params: { mu, dlugosc: dlugoscM },
-    technicalMessage: `przesuw i przewracanie dla każdego kąta z μ = ${mu} i L = ${dlugoscM} m — szacunek aplikacji (EQU, γQ i γG,inf z PN-EN 1990), norma nie podaje tarcia ani punktu przyłożenia siły`,
+    technicalMessage: `przesuw (PN-EN 1997-1 p. 6.5.3, obwiednia podejść 1–3) i przewracanie (EQU, Tablica A.1) dla każdego kąta z μ = ${mu} i L = ${dlugoscM} m — szacunek aplikacji, norma nie podaje punktu przyłożenia siły ani tarcia dla pary materiałów`,
   }
 }

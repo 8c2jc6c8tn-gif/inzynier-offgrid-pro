@@ -50,6 +50,7 @@ const Punkt = z.object({
   balastOderwanieKg: z.number().nullable(),
   balastPrzesuwKg: z.number().nullable(),
   balastPrzewracanieKg: z.number().nullable(),
+  podejscieEc7Przesuw: z.enum(["PO1-K1", "PO1-K2", "PO2", "PO3"]).nullable().describe("Podejście obliczeniowe PN-EN 1997-1 (p. 2.4.7.3.4), które daje największy balast przesuwu wg p. 6.5.3 — obwiednia czterech kombinacji, bo brak Załącznika krajowego; null bez danych stateczności. Przekaż userowi, że przesuw liczony jest wg Eurokodu 7, a nie wg EQU"),
   warunekRozstrzygajacy: z.enum(["oderwanie", "przesuw", "przewracanie"]).nullable().describe("Który ze sprawdzonych warunków daje największy balast i wyznacza balastKg/balastProjektowyKg — przekaż userowi, który to warunek"),
   statecznosc: z.boolean().describe("true = w balastKg sprawdzono też przesuw i przewracanie (dane usera) — szacunek aplikacji także do 30°"),
 })
@@ -80,7 +81,7 @@ export function utworzZlotySrodekTool(
       "stelaż wg PN-EN 1991-1-4 (0–30° z normy, pion 90° jako siła pozioma, kąty powyżej 30° do 89° jako SZACUNEK aplikacji poza normą — użytkownik ustawia taki kąt na własną odpowiedzialność), balast w kg i jego koszt, śnieg μ1. Wskazuje " +
       "najlepszy kąt (wartość energii minus koszt balastu), gdy user podał moc, PR, cenę kWh i liczbę lat. " +
       "Balast projektowy wg PN-EN 1990 (EQU, γQ = 1,5, γG,inf = 0,9) — domyślnie tylko przeciw oderwaniu; " +
-      "gdy user poda długość spadku L i współczynnik tarcia μ (a przy 90° także głębokość podstawy), sprawdza też przesuw i przewracanie " +
+      "gdy user poda długość spadku L i współczynnik tarcia μ (a przy 90° także głębokość podstawy), sprawdza też przesuw (wg PN-EN 1997-1 p. 6.5.3, obwiednia podejść) i przewracanie (EQU) — " +
       "(szacunek aplikacji, norma nie podaje tarcia) — zawsze przekaż, co sprawdzono, a czego nie. Użyj, gdy user pyta o kąt " +
       "a wiatr, balast, bloczki betonowe albo kompromis produkcja–bezpieczeństwo.",
     inputSchema: ZlotySrodekToolInput,
@@ -160,6 +161,7 @@ export function utworzZlotySrodekTool(
             balastPrzesuwKg: p.balastPrzesuwKg,
             balastPrzewracanieKg: p.balastPrzewracanieKg,
             warunekRozstrzygajacy: p.warunekRozstrzygajacy,
+            podejscieEc7Przesuw: p.podejscieEc7Przesuw,
             statecznosc: p.statecznosc,
           }
         }),

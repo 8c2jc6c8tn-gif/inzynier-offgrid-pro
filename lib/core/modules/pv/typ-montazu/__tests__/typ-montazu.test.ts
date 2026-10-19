@@ -305,7 +305,7 @@ describe("przesuw i przewracanie stelaża (szacunek, tarcie od użytkownika)", (
     const h = 0.5 + 1 * Math.sin(Math.PI / 6) // h0 + L/2·sin α
     const b = 2 * Math.cos(Math.PI / 6) // L·cos α
     expect(v.statecznosc).toBe(true)
-    expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * (Fh / 0.5 + Fv)) / (0.9 * g), 6)
+    expect(v.balastPrzesuwKg!).toBeCloseTo((1.5 * ((Fh * 1.25) / 0.5 + Fv)) / g, 6)
     expect(v.balastPrzewracanieKg!).toBeCloseTo((1.5 * (Fv + (2 * Fh * h) / b)) / (0.9 * g), 6)
     expect(v.balastKg).toBeCloseTo(Math.max(v.balastOderwanieKg!, v.balastPrzesuwKg!, v.balastPrzewracanieKg!), 9)
   })
@@ -329,7 +329,7 @@ describe("przesuw i przewracanie stelaża (szacunek, tarcie od użytkownika)", (
     const z = calculateDachPlaski({ ...pion, glebokoscPodstawyM: 0.8 }).value!
     const F = 1.8 * qp * 10
     expect(z.balastOderwanieKg).toBeNull()
-    expect(z.balastPrzesuwKg!).toBeCloseTo((1.5 * (F / 0.5)) / (0.9 * g), 6)
+    expect(z.balastPrzesuwKg!).toBeCloseTo((1.5 * ((F * 1.25) / 0.5)) / g, 6)
     expect(z.balastPrzewracanieKg!).toBeCloseTo((1.5 * ((2 * F * 1.5) / 0.8)) / (0.9 * g), 6)
     const bez = calculateDachPlaski(pion)
     expect(bez.value!.balastKg).toBeNull()

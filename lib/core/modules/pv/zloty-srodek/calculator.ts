@@ -9,6 +9,7 @@ import {
   wspolczynnikEkspozycji,
 } from "../eurokod-1/wiatr"
 import { obliczProdukcjeKwh } from "../kat-i-azymut/calculator"
+import type { PodejscieEc7 } from "../eurokod-7/przesuw"
 import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunekKaty } from "../wiatr-powyzej-30/warnings"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "./constants"
@@ -23,7 +24,7 @@ import {
   szacunekLepszyBilans,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.4.0"
+export const CALCULATOR_VERSION = "1.5.0"
 
 export type PunktKata = {
   nachylenieDeg: number
@@ -48,6 +49,8 @@ export type PunktKata = {
   balastPrzewracanieKg: number | null
   /** Który ze sprawdzonych warunków wyznacza `balastKg` (najcięższy). */
   warunekRozstrzygajacy: WarunekBalastu | null
+  /** Podejście EC7 dające największy balast przesuwu (p. 6.5.3); `null` bez danych stateczności. */
+  podejscieEc7Przesuw: PodejscieEc7 | null
   /** `true` = w `balastKg` sprawdzono też przesuw i przewracanie (dane użytkownika: tarcie, długość, podstawa) — to szacunek aplikacji także do 30°. */
   statecznosc: boolean
   kosztBalastuZl: number | null
@@ -132,7 +135,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     const balastKg = w?.balastKg ?? null
     const szacunek = w?.szacunek ?? false
     const statecznosc = w?.statecznosc ?? false
-    const skladniki = { balastOderwanieKg: w?.balastOderwanieKg ?? null, balastPrzesuwKg: w?.balastPrzesuwKg ?? null, balastPrzewracanieKg: w?.balastPrzewracanieKg ?? null, warunekRozstrzygajacy: w?.warunekRozstrzygajacy ?? null }
+    const skladniki = { balastOderwanieKg: w?.balastOderwanieKg ?? null, balastPrzesuwKg: w?.balastPrzesuwKg ?? null, balastPrzewracanieKg: w?.balastPrzewracanieKg ?? null, warunekRozstrzygajacy: w?.warunekRozstrzygajacy ?? null, podejscieEc7Przesuw: w?.podejscieEc7Przesuw ?? null }
     const kosztBalastuZl = balastKg === null ? null : balastKg * cenaBalastuZlKg
     const produkcjaRocznaKwh = zWycena ? obliczProdukcjeKwh(h, p, pr) : null
     const wartoscEnergiiZl = produkcjaRocznaKwh === null ? null : produkcjaRocznaKwh * lata! * cenaKwh!
@@ -154,6 +157,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     balastPrzesuwKg: s.balastPrzesuwKg,
     balastPrzewracanieKg: s.balastPrzewracanieKg,
     warunekRozstrzygajacy: s.warunekRozstrzygajacy,
+    podejscieEc7Przesuw: s.podejscieEc7Przesuw,
     kosztBalastuZl: s.kosztBalastuZl,
     produkcjaRocznaKwh: s.produkcjaRocznaKwh,
     wartoscEnergiiZl: s.wartoscEnergiiZl,

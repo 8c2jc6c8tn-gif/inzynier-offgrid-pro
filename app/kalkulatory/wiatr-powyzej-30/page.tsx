@@ -16,6 +16,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { BalastWarunki } from "@/components/wzorce/balast-warunki"
+import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -204,6 +205,7 @@ export default function WiatrPowyzej30Page() {
           onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
           pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
         />
+        <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
         <Pole
           label={t("UI-WIAPOW30-WYSOKOSC-PARCIA")}
           unit="m"
@@ -266,6 +268,7 @@ export default function WiatrPowyzej30Page() {
                   t={t}
                   f={f0}
                   oderwanieNieDotyczy={v.balastOderwanieKg === null}
+                  podejscieEc7={v.podejscieEc7Przesuw}
                 />
               )}
               {v.balastPrzesuwKg === null && v.balastProjektowyKg !== null && <p className="text-small text-muted-foreground">{t("UI-WIAPOW30-BALAST-NIESPRAWDZONE")}</p>}

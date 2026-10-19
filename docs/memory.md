@@ -2934,3 +2934,10 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - **Załączony PDF Eurokodu 7 (slajdy KPOIIB, 12.01.2012) to tylko rozdziały 1–3** (zakres, założenia, podstawy projektowania, kategorie geotechniczne, klasyfikacja gruntów). NIE zawiera rozdziału 6 (fundamenty bezpośrednie, p. 6.5.3 opór na przesunięcie), podejść obliczeniowych (2.4.7.3), Załącznika A (współczynniki częściowe) ani Załącznika krajowego — więc tarcie μ zostaje daną użytkownika, bez wartości domyślnej. Do zamknięcia tematu potrzebny jest tekst tych fragmentów normy (nie slajdy).
 - Trend Tablicy 7.6 (0–30°) rośnie szybciej niż interpolacja do 1,80 przy 90° — zapisane w D97 jako znana słabość.
 
+## Przesuw wg Eurokodu 7 (wersja 3.40.0, D98, 19.10.2026)
+
+- Właściciel dostarczył skany PN-EN 1997-1:2008 (3 części po 50 s. + Załącznik J); notatka z weryfikacji: `docs/zrodla/norma-PN-EN-1997-1-eurokod-7/00-INDEKS.md`. Czytanie skanów: w pliku `-2.pdf` strony 5–12 to s. 53–60 normy (p. 6.5.3 na s. 56–57), w `-3.pdf` Załącznik A (s. 114–121) to PDF 16–23, p. 2.4.7 (s. 27–30) w `-1.pdf` to PDF 29–32. Brak warstwy tekstowej, więc tylko czytanie wzrokowe.
+- **Pułapka:** w D96 liczyłem przesuw „jak EQU” (γ_G,inf = 0,9), a norma robi to jako GEO (γ_G = 1,0, współczynnik na tarcie wg podejścia). Dla samej siły poziomej dawało to ~12% mniej balastu niż podejście 3. Wniosek ogólny: przy przenoszeniu wzoru do nowej dziedziny sprawdzić, który STAN GRANICZNY norma przypisuje danemu mechanizmowi, a nie tylko dobrać „te same współczynniki”.
+- Przy wartościach zalecanych podejście 3 zawsze daje największy balast przesuwu (wszystkie jego współczynniki ≥ pozostałych), więc obwiednia jest dziś równoważna podejściu 3; trzymamy cztery dla wygody zmiany po otrzymaniu Załącznika krajowego.
+- Do zrobienia: Załącznik krajowy PN-EN 1997-1 (wskazuje podejście) — lista zadań.
+
