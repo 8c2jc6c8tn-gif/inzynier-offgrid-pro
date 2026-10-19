@@ -1,6 +1,6 @@
 import { balastPrzewracaniaEquKg, balastProjektowyEquKg, type StatecznoscStelaza } from "../eurokod-0/rownowaga"
 import { przesuwEc7, type PodejscieEc7 } from "../eurokod-7/przesuw"
-import { CF_TABLICA_PIONOWA, cfOdrywaniaWiaty, silaWiatruN } from "../eurokod-1/wiatr"
+import { CF_TABLICA_PIONOWA, CF_WIATA_KROK_DEG, cfOdrywaniaWiaty, silaWiatruN } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
 import { KAT_MAX_DEG, KAT_NORMOWY_MAX_DEG } from "./constants"
 
@@ -47,14 +47,40 @@ export type SilaIBalastWiatru = {
 }
 
 /**
- * Współczynnik siły dla kąta powyżej 30° do 90° (wyłącznie): liniowa interpolacja między cf(30°, φ) (Tablica 7.6, norma) a cf(90°) = 1,80
- * (7.4.3, norma). Obie wartości to nasze dane; sama interpolacja jest szacunkiem aplikacji, bo norma nie podaje nic pomiędzy
- * (i dla siły prostopadłej do paneli, i dla siły poziomej na pionowej tablicy to różne wielkości — traktujemy je jako moduł siły netto).
+ * Metoda szacunku współczynnika siły dla kąta powyżej 30° do 90° (wyłącznie) — wybór użytkownika (D101):
+ *  - `liniowa`: prosta między cf(30°, φ) z Tablicy 7.6 a cf(90°) = 1,80 z 7.4.3 (D97);
+ *  - `trend`: kontynuacja przyrostu z ostatniego kroku Tablicy 7.6 (25°→30°, na stopień) do limitu 1,80, nie mniej niż `liniowa`
+ *    (ostrożniejsza; bez ograniczenia „nie mniej niż liniowa” przy φ = 1 trend jest płaski, a przy 90° norma daje 1,80 — skok).
+ * Obie to szacunki aplikacji; limit 1,80 to założenie (najwyższa wartość cf w naszych danych), nie wynik normy.
  */
-export function cfSzacunekPozaNorma(katDeg: number, phi: number): number | null {
+export type MetodaCf = "liniowa" | "trend"
+export const METODY_CF: readonly MetodaCf[] = ["liniowa", "trend"]
+
+/** Kod założenia opisującego wybraną metodę (słownik silnika). */
+export const kodZalozeniaCf = (metoda: MetodaCf) => (metoda === "trend" ? "WP30-ZALOZENIE-CF-TREND" : "WP30-ZALOZENIE-CF-INTERPOLACJA")
+
+/** Przyrost |cf| na stopień w ostatnim kroku Tablicy 7.6 (25°→30°) dla danego φ; nie ujemny. */
+export function przyrostCfTablicyNaStopien(phi: number): number | null {
+  const k = KAT_NORMOWY_MAX_DEG
+  const dolny = cfOdrywaniaWiaty(k - CF_WIATA_KROK_DEG, phi)
+  const gorny = cfOdrywaniaWiaty(k, phi)
+  if (dolny === null || gorny === null) return null
+  return Math.max(0, (gorny - dolny) / CF_WIATA_KROK_DEG)
+}
+
+/**
+ * Współczynnik siły dla kąta powyżej 30° do 90° (wyłącznie) wg wybranej metody (domyślnie liniowa, D97). Obie wartości graniczne
+ * (cf(30°, φ) z Tablicy 7.6 i cf(90°) = 1,80 z 7.4.3) to nasze dane; sam przebieg pomiędzy jest szacunkiem aplikacji, bo norma nie podaje nic
+ * pomiędzy (i dla siły prostopadłej do paneli, i dla siły poziomej na pionowej tablicy to różne wielkości — traktujemy je jako moduł siły netto).
+ */
+export function cfSzacunekPozaNorma(katDeg: number, phi: number, metoda: MetodaCf = "liniowa"): number | null {
   const cf30 = cfOdrywaniaWiaty(KAT_NORMOWY_MAX_DEG, phi)
   if (cf30 === null) return null
-  return cf30 + ((CF_TABLICA_PIONOWA - cf30) * (katDeg - KAT_NORMOWY_MAX_DEG)) / (KAT_MAX_DEG - KAT_NORMOWY_MAX_DEG)
+  const liniowa = cf30 + ((CF_TABLICA_PIONOWA - cf30) * (katDeg - KAT_NORMOWY_MAX_DEG)) / (KAT_MAX_DEG - KAT_NORMOWY_MAX_DEG)
+  if (metoda === "liniowa") return liniowa
+  const przyrost = przyrostCfTablicyNaStopien(phi)
+  if (przyrost === null) return null
+  return Math.max(liniowa, Math.min(CF_TABLICA_PIONOWA, cf30 + przyrost * (katDeg - KAT_NORMOWY_MAX_DEG)))
 }
 
 /** Kąty, dla których współczynnik siły jest szacunkiem aplikacji: powyżej 30° i poniżej 90°. */
@@ -82,11 +108,12 @@ export function silaIBalastWiatru(
   powierzchniaM2: number,
   masaWlasnaKg = 0,
   statecznosc: StatecznoscStelaza | null = null,
+  metodaCf: MetodaCf = "liniowa",
 ): SilaIBalastWiatru | null {
   if (!Number.isFinite(katDeg) || katDeg < 0 || katDeg > KAT_MAX_DEG) return null
   const pion = katDeg === KAT_MAX_DEG
   const szacunek = czySzacunekWiatru(katDeg)
-  const cf = pion ? CF_TABLICA_PIONOWA : szacunek ? cfSzacunekPozaNorma(katDeg, phi) : cfOdrywaniaWiaty(katDeg, phi)
+  const cf = pion ? CF_TABLICA_PIONOWA : szacunek ? cfSzacunekPozaNorma(katDeg, phi, metodaCf) : cfOdrywaniaWiaty(katDeg, phi)
   if (cf === null) return null
   const silaN = silaWiatruN(CSCD_STELAZ, cf, qpPa, powierzchniaM2)
   // Siła prostopadła do panelu; przy 90° cała jest pozioma (7.4.3), przy mniejszych kątach rozkład na składowe.

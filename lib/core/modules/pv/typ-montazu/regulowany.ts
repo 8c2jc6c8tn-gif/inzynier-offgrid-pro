@@ -8,6 +8,7 @@ import { LICZBA_MIESIECY, PROG_SSANIA_OD_SPODU_DEG } from "./constants"
 import type { RegulowanyInput } from "./input"
 import { validateRegulowany } from "./validation"
 import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
+import { kodZalozeniaCf } from "../wiatr-powyzej-30/sila-i-balast"
 import { miesiaceNaWlasnaOdpowiedzialnosc, statecznoscSzacunek } from "../wiatr-powyzej-30/warnings"
 import { ssanieOdSpodu } from "./warnings"
 import { katPosredniTablicy, podniesienieKrawedziM, statecznoscStelazaDlaKata, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
@@ -79,6 +80,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
 
   const powierzchniaM2 = L * B
   const daneWiatru = { strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }
+  const metodaCf = input.metodaCf ?? "liniowa"
   const miesiace: MiesiacRegulowany[] = Array.from({ length: LICZBA_MIESIECY }, (_, m) => {
     const iNaj = indeksy.reduce((a, i) => (tabela.miesiace[i]![m]! > tabela.miesiace[a]![m]! ? i : a))
     const katDeg = tabela.katyDeg[iNaj]!
@@ -88,7 +90,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
       katDeg,
       napromieniowanieKwhM2: tabela.miesiace[iNaj]![m]!,
       podniesienieM,
-      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznoscStelazaDlaKata(L, katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)),
+      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznoscStelazaDlaKata(L, katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM), metodaCf),
     }
   })
   const iStaly = indeksy.reduce((a, i) => (suma(tabela.miesiace[i]!) > suma(tabela.miesiace[a]!) ? i : a))
@@ -121,7 +123,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (miesiace.some((x) => katPosredniTablicy(x.katDeg))) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
-  if (miesiaceSzacunek.length > 0) assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
+  if (miesiaceSzacunek.length > 0) assumptions.push({ kod: kodZalozeniaCf(metodaCf), params: { max: KAT_NORMOWY_MAX_DEG } })
   if (balasty.length > 0) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })

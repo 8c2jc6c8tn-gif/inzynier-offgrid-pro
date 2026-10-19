@@ -6,6 +6,7 @@ import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/const
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
+import { kodZalozeniaCf } from "../wiatr-powyzej-30/sila-i-balast"
 import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunek } from "../wiatr-powyzej-30/warnings"
 import { PROG_SSANIA_OD_SPODU_DEG, PROG_ZALEGANIA_SNIEGU_DEG } from "./constants"
 import type { DachPlaskiInput } from "./input"
@@ -54,8 +55,9 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
 
   const podniesienieM = podniesienieKrawedziM(L, kat)
   const powierzchniaM2 = L * B
+  const metodaCf = input.metodaCf ?? "liniowa"
   const statecznosc = statecznoscStelazaDlaKata(L, kat, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)
-  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznosc)
+  const wiatr = wiatrDlaKata({ strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }, kat, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznosc, metodaCf)
 
   const warnings: Warning[] = []
   if (wiatr.statecznosc && statecznosc !== null) {
@@ -74,7 +76,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (katPosredniTablicy(kat)) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
-  if (wiatr.szacunek) assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
+  if (wiatr.szacunek) assumptions.push({ kod: kodZalozeniaCf(metodaCf), params: { max: KAT_NORMOWY_MAX_DEG } })
   if (wiatr.balastKg !== null) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })

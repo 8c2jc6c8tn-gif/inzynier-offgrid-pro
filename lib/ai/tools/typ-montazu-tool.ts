@@ -37,6 +37,7 @@ export const TypMontazuToolInput = z.object({
   masaPaneliStelazaKg: z.number().optional().describe("Masa paneli i stelaża bez balastu [kg] — tylko z karty katalogowej/wagi podanej przez usera, nigdy nie zgaduj; pomiń → pominięta (po stronie bezpiecznej)"),
   wspolczynnikTarcia: z.number().optional().describe("Współczynnik tarcia stelaża/balastu o podłoże μ — tylko od usera, nigdy nie zgaduj; włącza sprawdzenie przesuwu i przewracania (szacunek aplikacji)"),
   glebokoscPodstawyM: z.number().optional().describe("Głębokość podstawy stelaża w kierunku wiatru [m] — tylko od usera; puste = L·cos α; przy 90° konieczna"),
+  metodaCf: z.enum(["liniowa", "trend"]).optional().describe("Metoda szacunku współczynnika siły cf dla kątów 31–89° (norma podaje tylko do 30° i 1,80 dla pionu): liniowa (domyślna) albo trend (ostrożniejsza). Użyj, gdy user pyta o inny sposób oszacowania albo chce porównać; pomiń → liniowa"),
   strefaWiatrowa: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional().describe("Strefa wiatrowa NA.1 PN-EN 1991-1-4 — tylko jeśli user podał"),
   kategoriaTerenu: z.enum(KATEGORIE_TERENU as unknown as [string, ...string[]]).optional().describe("0, I, II, III, IV — tylko jeśli user podał lub opisał teren jednoznacznie"),
   wysokoscNpmM: z.number().optional().describe("Wysokość terenu n.p.m. [m]; brak → z PVGIS (tylko tryby z PVGIS)"),
@@ -159,6 +160,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         masaPaneliStelazaKg: n(input.masaPaneliStelazaKg),
         wspolczynnikTarcia: n(input.wspolczynnikTarcia),
         glebokoscPodstawyM: n(input.glebokoscPodstawyM),
+        metodaCf: input.metodaCf ?? "liniowa",
       }
 
       if (input.tryb === "wiata") {

@@ -8,6 +8,7 @@ import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
+import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
@@ -134,8 +135,8 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string; wspolczynnikTarcia: string; glebokoscPodstawyM: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "", wspolczynnikTarcia: "", glebokoscPodstawyM: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string; wspolczynnikTarcia: string; glebokoscPodstawyM: string; metodaCf?: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "", wspolczynnikTarcia: "", glebokoscPodstawyM: "", metodaCf: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
@@ -147,6 +148,8 @@ export function stelazZSeeda(s: StelazSeed) {
     // Drafts saved before the stability check have no friction / footprint depth — treat as empty.
     wspolczynnikTarcia: n(s.wspolczynnikTarcia ?? ""),
     glebokoscPodstawyM: n(s.glebokoscPodstawyM ?? ""),
+    // Drafts saved before D101 have no method — linear.
+    metodaCf: s.metodaCf === "trend" ? ("trend" as const) : ("liniowa" as const),
   }
 }
 
@@ -175,6 +178,7 @@ export function dopiskMasyWlasnej(s: StelazSeed, t: (kod: string, params?: Recor
 
 export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; poleKrawedzi: "krawedzRegulowany" | "krawedzDachPlaski" }) {
   const t = useTranslate()
+  const { f2 } = useFormaty()
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       <Pole
@@ -239,6 +243,9 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
       />
       <div className="sm:col-span-3">
         <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
+      </div>
+      <div className="sm:col-span-3">
+        <WyborMetodyCf metoda={s.metodaCf === "trend" ? "trend" : "liniowa"} onChange={(m) => ustaw("metodaCf", m)} t={t} f={f2} />
       </div>
     </div>
   )

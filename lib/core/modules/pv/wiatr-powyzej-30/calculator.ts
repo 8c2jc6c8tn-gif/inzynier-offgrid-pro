@@ -12,7 +12,7 @@ import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { KAT_NORMOWY_MAX_DEG } from "./constants"
 import type { PodejscieEc7 } from "../eurokod-7/przesuw"
-import { silaIBalastWiatru, skladStatecznosc, type WarunekBalastu } from "./sila-i-balast"
+import { kodZalozeniaCf, silaIBalastWiatru, skladStatecznosc, type WarunekBalastu } from "./sila-i-balast"
 import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
 import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, statecznoscNiekompletna, statecznoscSzacunek, szacunekPozaNorma } from "./warnings"
@@ -120,9 +120,10 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
   if (input.wspolczynnikTarcia != null) inputs.wspolczynnikTarcia = input.wspolczynnikTarcia
   if (input.wysokoscSrodkaParciaM != null) inputs.wysokoscSrodkaParciaM = input.wysokoscSrodkaParciaM
   if (input.szerokoscPodstawyM != null) inputs.szerokoscPodstawyM = input.szerokoscPodstawyM
+  const metodaCf = input.metodaCf ?? "liniowa"
   const sila =
     powierzchniaM2 !== null && wspolczynnikPhi !== null
-      ? silaIBalastWiatru(input.nachylenieDeg, wspolczynnikPhi, qpPa, powierzchniaM2, masaPaneliStelazaKg ?? 0, statecznosc)
+      ? silaIBalastWiatru(input.nachylenieDeg, wspolczynnikPhi, qpPa, powierzchniaM2, masaPaneliStelazaKg ?? 0, statecznosc, metodaCf)
       : null
   if (sila !== null) {
     if (sila.statecznosc && statecznosc !== null) {
@@ -132,7 +133,7 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       if (niekompletna) warnings.push(statecznoscNiekompletna())
     }
     warnings.push(katNaWlasnaOdpowiedzialnosc(input.nachylenieDeg, KAT_NORMOWY_MAX_DEG))
-    assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
+    assumptions.push({ kod: kodZalozeniaCf(metodaCf), params: { max: KAT_NORMOWY_MAX_DEG } })
     assumptions.push({ kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } })
     if (sila.balastKg !== null) {
       assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })

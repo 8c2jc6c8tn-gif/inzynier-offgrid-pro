@@ -9,7 +9,7 @@ import {
 } from "../eurokod-1/wiatr"
 import type { StatecznoscStelaza } from "../eurokod-0/rownowaga"
 import type { PodejscieEc7 } from "../eurokod-7/przesuw"
-import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
+import { silaIBalastWiatru, statecznoscZGeometrii, type MetodaCf, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 
 export type WiatrPelny = {
   strefaWiatrowa: StrefaWiatrowa
@@ -64,9 +64,10 @@ export function wiatrDlaKata(
   powierzchniaM2: number,
   masaWlasnaKg = 0,
   statecznosc: StatecznoscStelaza | null = null,
+  metodaCf: MetodaCf = "liniowa",
 ): WiatrDlaKata {
   const qpPa = szczytoweCisnieniePa(bazoweCisnienieWiatruPa(w.strefaWiatrowa, w.wysokoscNpmM), wspolczynnikEkspozycji(w.kategoriaTerenu, zeM))
-  const s = silaIBalastWiatru(katDeg, w.wspolczynnikPhi, qpPa, powierzchniaM2, masaWlasnaKg, statecznosc)
+  const s = silaIBalastWiatru(katDeg, w.wspolczynnikPhi, qpPa, powierzchniaM2, masaWlasnaKg, statecznosc, metodaCf)
   return { zeM, qpPa, cf: s?.cf ?? null, silaWiatruN: s?.silaN ?? null, balastKg: s?.balastKg ?? null,
     szacunek: s?.szacunek ?? false,
     balastOderwanieKg: s?.balastOderwanieKg ?? null,

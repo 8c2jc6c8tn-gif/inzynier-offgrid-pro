@@ -7,6 +7,7 @@
  * więc szacunkiem aplikacji (status `ESTIMATE`, standard 3.3), nigdy wynikiem normowym.
  */
 import type { KategoriaTerenu, StrefaWiatrowa } from "../eurokod-1/wiatr"
+import type { MetodaCf } from "./sila-i-balast"
 
 export type WiatrPowyzej30Input = {
   /** Nachylenie paneli [°]. 0 = jeszcze nie wpisano. Zakres obsługiwany: powyżej 30° do 90°; do 30° jest norma (Tablica 7.6). */
@@ -31,4 +32,6 @@ export type WiatrPowyzej30Input = {
   wysokoscSrodkaParciaM?: number | null
   /** Szerokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie (przewracanie wokół krawędzi zawietrznej). */
   szerokoscPodstawyM?: number | null
+  /** Metoda szacunku cf dla kątów powyżej 30° do 89°: `liniowa` (domyślna, D97) albo `trend` (ostrożniejsza, D101). */
+  metodaCf?: MetodaCf | null
 }
