@@ -2236,4 +2236,11 @@ export const dictionaryEn = {
   "ODRZ-ZAL-NA-M2-GRUNTU": "Energy per 1 m² of ground = energy per 1 m² of panel after shading × table length / row pitch, i.e. for one row's strip of ground — without paths, borders and access.",
   "ODRZ-ZAL-RZEDY": "The loss applies to the second and further rows; the first row on the sun side is not shaded. With {n} rows the array average is loss × (n − 1)/n.",
   "ODRZ-ZAL-RZEDY-NIEZNANE": "The loss applies to the second and further rows (the first row is not shaded). The number of rows is not given, so for the whole array I apply this loss to all rows — a cautious overestimate. Enter the number of rows and I will compute the average.",
+  "POLE-WP30-NACHYLENIE": "panel tilt",
+  "POLE-WP30-WYSOKOSC-NPM": "height above sea level",
+  "POLE-WP30-WYSOKOSC-KONSTRUKCJI": "structure height above ground",
+  "WP30-KAT-OBJETY-NORMA": "For a tilt of {kat}° (up to {max}°) the standard covers wind on panels on a support structure (Eurocode, Table 7.6). This calculator gives no number of its own in that range — use the PV panel comparer (“Loads” tab) or the “Sweet spot” screen.",
+  "WP30-SZACUNEK-POZA-NORMA": "🔎 This is an estimate by the app, not a result of the standard. Eurocode Table 7.6 ends at {max}°, and for a tilt of {kat}° no standard or document gives coefficients. The values at {max}° are kept for larger angles — treat the result as indicative and confirm it with a structural engineer.",
+  "WP30-ZALOZENIE-CP-Z-30": "The net pressure coefficients c_p,net are kept from {max}° of Table 7.6 for all larger angles (a decision of the app owner). This is our assumption, not a value from the standard.",
+  "WP30-ZALOZENIE-NAJGORSZY-PRZYPADEK": "From Table 7.6 we take the most unfavourable case: the worse of the two extreme flow-blockage factors, and for the edges the worse of fields B and C. The weight of the frame and the favourable weight of the panels are ignored (safe side).",
 } satisfies Record<KluczTlumaczenia, string>

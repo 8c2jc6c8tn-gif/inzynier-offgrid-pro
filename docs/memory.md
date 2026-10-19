@@ -2896,3 +2896,16 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - `useFormaty()` (`f0…f3`, `useMemo`) zastąpił 69 lokalnych bloków `const formatLiczbe = useFormatLiczby()` + `f0…f3` w 58 ekranach (skrypt na drzewie składni; hak `useFormatLiczby` zostaje tam, gdzie `formatLiczbe` jest używane też inaczej). Ekran „typ montażu” ma `useFormatyMontazu` (dokłada `fMasa`, `znak`). 23 definicje z `minimumFractionDigits` świadomie bez zmian.
 - Audyt JSX: oba wpisy listy zapadkowej były fałszywymi trafieniami (ciąg klas Tailwind w `werdykt.tsx`, statyczny SVG w `definicje-symboli.tsx`); poprawiony strażnik (`isClassListOrMarkup`, testy w `ui.test.ts`), baseline `{}`.
 - **`ESTIMATE`:** brak kalkulatora, którego cały wynik leży poza normą. Wiatr 30–90° to fragment wyniku Porównywarki; zmiana statusu całej Porównywarki byłaby błędna (uzysk i koszty nie są szacunkiem spoza normy). Zostawione z jawnym opisem na ekranie; opcje w liście zadań.
+
+## E2E Service Worker w CI: dwa niezwiązane z kodem objawy przy PR #327 (18.10.2026)
+
+- Pierwszy przebieg: wszystkie 9 testów padło w `next build` (Turbopack nie pobrał czcionki Google: `next/font/google queries have exactly one entry`). Drugi (po jednym ponownym uruchomieniu): testy 1–2 przeszły, potem zawieszenie ok. 28 min i anulowanie przez limit zadania (30 min), bez nieudanego testu. Audyt podatności i „Lint, typecheck, test, build” zielone w obu przebiegach.
+- Lokalnie ten sam kod: `PW_CHROMIUM_PATH=<chrome> node --test --test-concurrency=1 "e2e/*.test.mjs"` → 9/9, 169 s (w tej sesji Chromium leży w `/opt/pw-browsers/chromium-1194/…`, domyślna ścieżka Playwrighta nie istnieje). PR scalono na wyraźne, powtórzone polecenie właściciela mimo niezielonego E2E w CI; ryzyko: zmiana dotyczy tylko formatowania liczb w ekranach.
+- **Do obserwacji:** jeśli hang E2E powtórzy się na kolejnych PR, szukać go w teście 3 (kill-switch) lub w `czekajNaSw`; samo zadanie nie ma limitu poniżej 30 min, więc zawieszenie zjada cały limit. Wzorzec do rozważenia: limit czasu na pojedynczy test E2E.
+
+## Wiatr dla paneli powyżej 30° — osobny kalkulator, pierwszy `ESTIMATE` (wersja 3.36.0, D94, 19.10.2026)
+
+- Pytanie właściciela („czy nie można osobnego kalkulatora?”) rozwiązało problem: wiatr 30–90° nie miał własnego `CalcResult`, więc `ESTIMATE` nie miał gdzie wylądować. Nowy moduł `pv/wiatr-powyzej-30` zwraca cały wynik jako szacunek; Porównywarka deleguje do niego tylko przypadek `wlasne`.
+- **Kompletność ekranu:** autosave (`usePersistedDraft`), PL/EN/RU (część UI `m03-wiatr-powyzej-30`, słowniki silnika `WP30-*`, pomoc `m03d`), „?” przy polach (strefa, wysokość n.p.m. i teren korzystają z pomocy `typ-montazu-pola`), „i” przy tytule, narzędzie AI z „Użyj, gdy…”, wpis w pulpicie i `check-i18n-guard`.
+- **Pułapka:** starszy test dryfu wzorów (`formuly.test.ts`) szuka `formulaKey: "UI-FORMULA-…"` jako literału — klucz trzymany w stałej jest dla niego „nieużywany”; generator (`generuj-formuly.mjs`) potrafi stałą, ale klucz w kalkulatorze zapisano literałem.
+- **Nie zrobione (decyzja właściciela):** stelaż regulowany i „Złoty środek” nadal bez wiatru powyżej 30°.

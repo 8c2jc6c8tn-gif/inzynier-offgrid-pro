@@ -2248,6 +2248,13 @@ export const dictionaryPl = {
   "ODRZ-ZAL-NA-M2-GRUNTU": "Energia na 1 m² gruntu = energia na 1 m² panelu po cieniu × długość stołu / odstęp rzędów, czyli dla pasa gruntu jednego rzędu — bez dróg, obrzeży i dojść.",
   "ODRZ-ZAL-RZEDY": "Strata dotyczy rzędu drugiego i kolejnych; pierwszy rząd od strony słońca nie jest zacieniany. Przy {n} rzędach średnia tablicy to strata × (n − 1)/n.",
   "ODRZ-ZAL-RZEDY-NIEZNANE": "Strata dotyczy rzędu drugiego i kolejnych (pierwszy rząd nie jest zacieniany). Liczba rzędów nie jest podana, więc dla całej tablicy przyjmuję tę stratę dla wszystkich rzędów — to ostrożne zawyżenie. Wpisz liczbę rzędów, a policzę średnią.",
+  "POLE-WP30-NACHYLENIE": "nachylenie paneli",
+  "POLE-WP30-WYSOKOSC-NPM": "wysokość n.p.m.",
+  "POLE-WP30-WYSOKOSC-KONSTRUKCJI": "wysokość konstrukcji nad terenem",
+  "WP30-KAT-OBJETY-NORMA": "Dla nachylenia {kat}° (do {max}°) wiatr dla paneli na konstrukcji podaje norma (Eurokod, Tablica 7.6). Ten kalkulator nie podaje własnej liczby w tym zakresie — użyj Porównywarki paneli (zakładka „Obciążenia”) albo ekranu „Złoty środek”.",
+  "WP30-SZACUNEK-POZA-NORMA": "🔎 To jest szacunek aplikacji, nie wynik normy. Tablica 7.6 Eurokodu kończy się na {max}°, a dla nachylenia {kat}° żadna norma ani dokument nie podaje współczynników. Wartości z {max}° zachowane dla większych kątów — traktuj wynik orientacyjnie i potwierdź go z konstruktorem.",
+  "WP30-ZALOZENIE-CP-Z-30": "Współczynniki ciśnienia netto c_p,net zachowane z {max}° Tablicy 7.6 dla wszystkich większych kątów (decyzja właściciela aplikacji). To nasze założenie, nie wartość z normy.",
+  "WP30-ZALOZENIE-NAJGORSZY-PRZYPADEK": "Z Tablicy 7.6 bierzemy przypadek najbardziej niekorzystny: gorszy z dwóch skrajnych współczynników blokowania przepływu, a dla krawędzi gorsze z pól B i C. Ciężar stelaża i korzystny ciężar paneli pomijamy (strona bezpieczna).",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.36.0] — 19.10.2026
+
+Wiatr dla paneli pod kątem powyżej 30° jako osobny kalkulator — pierwsze użycie statusu `ESTIMATE` (D94):
+- nowy ekran „Wiatr dla paneli pod kątem powyżej 30°” (silnik `pv/wiatr-powyzej-30` 1.0.0): nachylenie, strefa wiatrowa, wysokość n.p.m., kategoria terenu i wysokość konstrukcji → szczytowe ciśnienie wiatru oraz docisk i odrywanie (środek i krawędź); cały wynik ma status `ESTIMATE` z oznaczeniem 🔎 i jawnymi założeniami, bo Tablica 7.6 Eurokodu kończy się na 30°, a współczynniki z 30° zachowujemy dla większych kątów (D90); do 30° zwraca `OUT_OF_SCOPE` i odsyła do wyniku normowego,
+- narzędzie AI `policz_wiatr_na_panele_powyzej_30_stopni`, kafel w Module 3, pomoc „?” i „i” oraz tłumaczenia PL/EN/RU,
+- Porównywarka paneli (zakładka „Obciążenia”) bierze wiatr dla paneli na konstrukcji powyżej 30° z tego kalkulatora; zakresy wysokości mają jedno źródło,
+- generator słownika wzorów rozpoznaje klucz wzoru zapisany jako stała.
+
+Wpływ na liczby: brak (Porównywarka daje te same ciśnienia; test zgodności w `wiatr-powyzej-30.test.ts`). Nowe: ekran i jego liczby.
+
 ## [3.35.1] — 18.10.2026
 
 Wspólny hak formatowania liczb i domknięcie audytu JSX (zadania z listy po 3.35.0):

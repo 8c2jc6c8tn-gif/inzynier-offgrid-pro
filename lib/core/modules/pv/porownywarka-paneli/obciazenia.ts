@@ -14,6 +14,7 @@
 import { GAMMA_G_SUP_STR, GAMMA_Q_STR, PSI0_WIATR, psi0Sniegu } from "@/lib/core/modules/pv/eurokod-0/kombinacje"
 import { WSPOLCZYNNIK_EKSPOZYCJI_CE, WSPOLCZYNNIK_TERMICZNY_CT, obciazenieSniegiemGruntuSk, wspolczynnikKsztaltuMu1 } from "@/lib/core/modules/pv/eurokod-1/snieg"
 import { cpeDachuDlaPaneluRownoleglego } from "@/lib/core/modules/pv/eurokod-1/wiatr-dachy"
+import { calculateWiatrPowyzej30 } from "@/lib/core/modules/pv/wiatr-powyzej-30/calculator"
 import { CF_WIATA_MAX_KAT_DEG, KAT_PIONOWY_DEG, bazoweCisnienieWiatruPa, cpNetWiatyJednospadowej, szczytoweCisnieniePa, wspolczynnikEkspozycji, type CpNetWiaty } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
 import type { DanePanelu, ObciazeniePaneluKarta, WarunkiObciazen } from "./input"
@@ -116,10 +117,21 @@ export function obciazeniaMiejsca(w: WarunkiObciazen, nachylenieDeg: number): Ob
   if (rownolegly && !w.typDachu) powodBrakuWiatru = "brak-typu-dachu"
   else if (cp === null) powodBrakuWiatru = "kat-poza-zakresem"
   else if (w.strefaWiatrowa === null || w.wysokoscNpmM === null || w.kategoriaTerenu === null || w.wysokoscKonstrukcjiM === null) powodBrakuWiatru = "brak-danych"
-  else {
+  else if (wlasne) {
+    // Panels on a structure above 30°: the estimate lives in its own calculator (status ESTIMATE); here only its pressures are reused.
+    const r = calculateWiatrPowyzej30({
+      nachylenieDeg,
+      strefaWiatrowa: w.strefaWiatrowa,
+      wysokoscNpmM: w.wysokoscNpmM,
+      kategoriaTerenu: w.kategoriaTerenu,
+      wysokoscKonstrukcjiM: w.wysokoscKonstrukcjiM,
+    })
+    if (r.status === "ESTIMATE") wiatr = { qbPa: r.value.qbPa, ceZ: r.value.ce, qpPa: r.value.qpPa, cp: r.value.cp, zrodloCp: "wlasne" }
+    else powodBrakuWiatru = "brak-danych"
+  } else {
     const qbPa = bazoweCisnienieWiatruPa(w.strefaWiatrowa, w.wysokoscNpmM)
     const ceZ = wspolczynnikEkspozycji(w.kategoriaTerenu, w.wysokoscKonstrukcjiM)
-    wiatr = { qbPa, ceZ, qpPa: szczytoweCisnieniePa(qbPa, ceZ), cp, zrodloCp: rownolegly ? "polac" : wlasne ? "wlasne" : "wiata" }
+    wiatr = { qbPa, ceZ, qpPa: szczytoweCisnieniePa(qbPa, ceZ), cp, zrodloCp: rownolegly ? "polac" : "wiata" }
   }
   if (snieg === null && wiatr === null) return null
   return { nachylenieDeg, snieg, wiatr, powodBrakuWiatru }
