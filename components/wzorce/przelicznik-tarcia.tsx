@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
+import { katTarciaPhiU, type GrupaGruntuNiespoistego } from "@/lib/core/modules/pv/eurokod-7/grunty-pn-b-03020"
 import { parsujListeLiczb, UlamekKataTarcia, wspolczynnikTarciaZKataGruntu, wspolczynnikTarciaZProby, type RodzajPodstawy } from "@/lib/core/modules/pv/eurokod-7/przesuw"
 import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
 import { useFormaty, useTranslate } from "@/lib/i18n/language-context"
@@ -15,7 +16,8 @@ type Props = {
 
 /**
  * Pomocnik: μ z kąta tarcia gruntu wg PN-EN 1997-1 p. 6.5.3 (10) — δ = 2/3·φ′_cv (gładki prefabrykat, np. bloczki) albo δ = φ′_cv
- * (beton formowany na gruncie). Kąt φ′_cv użytkownik bierze z dokumentacji geotechnicznej; nic tu nie jest podpowiadane z góry.
+ * (beton formowany na gruncie). Kąt φ′_cv użytkownik bierze z dokumentacji geotechnicznej; opcjonalna podpowiedź Φu z PN-B-03020 jest
+ * tylko szacunkiem (nie φ′_cv) i trafia do pola wyłącznie po kliknięciu.
  * Jedno miejsce dla wszystkich kalkulatorów balastu (wiatr >30°, typ montażu, „Złoty środek”).
  */
 export function PrzelicznikTarcia({ onUzyj }: Props) {
@@ -25,6 +27,10 @@ export function PrzelicznikTarcia({ onUzyj }: Props) {
   const [rodzaj, setRodzaj] = useState<RodzajPodstawy>("prefabrykat")
   const phi = kat.trim() === "" ? NaN : Number(kat)
   const mu = wspolczynnikTarciaZKataGruntu(phi, rodzaj)
+  // Optional PN-B-03020 hint (non-cohesive soils): an estimate of Φu, never written to the field without the user's click.
+  const [grupa, setGrupa] = useState<GrupaGruntuNiespoistego | "">("")
+  const [id, setId] = useState("")
+  const phiU = grupa === "" || id.trim() === "" ? null : katTarciaPhiU(grupa, Number(id.replace(",", ".")))
   // Own on-site test: a block of known mass pulled over the real ground, force read at the moment it starts to move.
   const [masa, setMasa] = useState("")
   const [sily, setSily] = useState("")
@@ -37,6 +43,38 @@ export function PrzelicznikTarcia({ onUzyj }: Props) {
       <summary className="cursor-pointer font-medium">{t("UI-TARCIE-PRZELICZNIK-TYTUL")}</summary>
       <div className="mt-3 flex flex-col gap-3">
         <p className="text-muted-foreground">{t("UI-TARCIE-UWAGA")}</p>
+        <div className="flex flex-col gap-2 rounded-md bg-muted/40 p-2">
+          <p className="font-medium">{t("UI-TARCIE-PHIU-TYTUL")}</p>
+          <p className="text-muted-foreground">{t("UI-TARCIE-PHIU-OPIS")}</p>
+          <PoleSelect
+            label={t("UI-TARCIE-PHIU-GRUPA")}
+            value={grupa}
+            onChange={(e) => setGrupa(e.target.value as GrupaGruntuNiespoistego | "")}
+            pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="grupaGruntuPhiU" />}
+          >
+            <option value="">{t("UI-TARCIE-PHIU-GRUPA-BRAK")}</option>
+            <option value="zwir-pospolka">{t("UI-TARCIE-PHIU-GRUPA-ZWIR")}</option>
+            <option value="pr-ps">{t("UI-TARCIE-PHIU-GRUPA-PR")}</option>
+            <option value="pd-ppi">{t("UI-TARCIE-PHIU-GRUPA-PD")}</option>
+          </PoleSelect>
+          <Pole
+            label={t("UI-TARCIE-PHIU-ID")}
+            type="text"
+            inputMode="decimal"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="stopienZageszczeniaId" />}
+          />
+          {phiU !== null && (
+            <div className="flex flex-col gap-2">
+              <p>{t("UI-TARCIE-PHIU-WYNIK", { phi: f1(phiU) })}</p>
+              <Button type="button" variant="outline" onClick={() => setKat(String(Math.round(phiU * 10) / 10))}>
+                {t("UI-TARCIE-PHIU-UZYJ")}
+              </Button>
+            </div>
+          )}
+          {grupa !== "" && id.trim() !== "" && phiU === null && <p className="text-muted-foreground">{t("UI-TARCIE-PHIU-POZA")}</p>}
+        </div>
         <Pole
           label={t("UI-TARCIE-KAT")}
           unit="°"
