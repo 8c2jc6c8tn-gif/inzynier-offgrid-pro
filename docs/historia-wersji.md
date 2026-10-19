@@ -2,6 +2,15 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.37.0] — 19.10.2026
+
+Balast i konstrukcja dla kątów powyżej 30° w kalkulatorach zmiany kąta (D95, polecenie właściciela: kąt powyżej 30° użytkownik ustawia i zabezpiecza na własną odpowiedzialność według naszych obliczeń):
+- jedno źródło reguły `silaIBalastWiatru`: 0–30° wg normy (Tablica 7.6), powyżej 30° do 89° SZACUNEK aplikacji (współczynnik siły z 30°) z balastem z tego samego wzoru EQU, 90° siła pozioma bez balastu,
+- „Złoty środek”, stelaż regulowany i dach płaski/grunt liczą teraz siłę wiatru i balast także powyżej 30° (wcześniej „brak danych wiatru”), z oznaczeniem 🔎, ostrzeżeniem o własnej odpowiedzialności i jawnym założeniem; rekomendacja „Złotego środka” zostaje w zakresie normy, a kąt z szacunkiem o wyższym bilansie to tylko informacja,
+- ekran „Wiatr dla paneli powyżej 30°” liczy po wpisaniu powierzchni, φ i masy własnej siłę na stelaż i balast (silnik 1.1.0); narzędzia AI (wiatr, „Złoty środek”, typ montażu) zwracają flagę szacunku, a pole `liczbaMiesiecyBezDanychWiatru` zmieniło się na `liczbaMiesiecySzacunekWiatru`.
+
+Wpływ na liczby: tak. Dla kątów 31–89° w „Złotym środku”, stelażu regulowanym i dachu płaskim pojawiają się siła wiatru i balast (wcześniej brak), a w stelażu regulowanym „balast wymagany” może wzrosnąć, bo obejmuje też miesiące z kątem powyżej 30°; koszt balastu i bilans „Złotego środka” liczą się dla tych kątów. Wyniki dla 0–30° i 90° bez zmian.
+
 ## [3.36.0] — 19.10.2026
 
 Wiatr dla paneli pod kątem powyżej 30° jako osobny kalkulator — pierwsze użycie statusu `ESTIMATE` (D94):

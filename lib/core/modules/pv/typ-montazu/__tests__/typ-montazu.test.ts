@@ -103,11 +103,28 @@ describe("calculateDachPlaski (M3/E2, dawne 2.5)", () => {
     expect(calculateDachPlaski({ ...bazowe, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
   })
 
-  it("35° — brak cf w normie: bez siły i balastu, bez zgadywania", () => {
+  it("35° — poza normą: siła i balast jako SZACUNEK (cf z 30°), kąt na własną odpowiedzialność użytkownika", () => {
     const r = calculateDachPlaski({ ...bazowe, nachylenieDeg: 35 })
-    expect(r.value!.silaWiatruN).toBeNull()
-    expect(r.value!.balastKg).toBeNull()
-    expect(kody(r)).toEqual(["ZS-KAT-BEZ-DANYCH-WIATRU"])
+    const v = r.value!
+    expect(v.szacunek).toBe(true)
+    expect(v.cf).toBe(1.8) // cf odrywania z 30° Tablicy 7.6 dla φ = 0
+    expect(v.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
+    expect(v.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
+    expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC"])
+    expect(r.assumptions.some((a) => typeof a !== "string" && a.kod === "WP30-ZALOZENIE-CF-Z-30")).toBe(true)
+  })
+
+  it("szacunek obejmuje 31–89° tym samym współczynnikiem; do 30° to norma (szacunek = false), 90° to siła pozioma bez balastu", () => {
+    for (const kat of [31, 60, 89]) {
+      const v = calculateDachPlaski({ ...bazowe, nachylenieDeg: kat }).value!
+      expect(v.szacunek).toBe(true)
+      expect(v.cf).toBe(1.8)
+      expect(v.balastKg).not.toBeNull()
+    }
+    expect(calculateDachPlaski({ ...bazowe, nachylenieDeg: 30 }).value!.szacunek).toBe(false)
+    const pion = calculateDachPlaski({ ...bazowe, nachylenieDeg: 90 }).value!
+    expect(pion.szacunek).toBe(false)
+    expect(pion.balastKg).toBeNull()
   })
 
   it("próg ssania od spodu 45° (źródło ~45°) — critical; 44° bez niego", () => {
@@ -238,20 +255,25 @@ describe("calculateRegulowany (M3/E2, D26)", () => {
     expect(v.zyskRegulacjiPct).toBeGreaterThan(0)
   })
 
-  it("ustawienia > 30° bez danych normowych: balast tylko z ustawień 0–30°, ostrzeżenie z liczbą miesięcy", () => {
+  it("ustawienia > 30°: szacunek wiatru i balastu liczony, ostrzeżenie o własnej odpowiedzialności z liczbą miesięcy", () => {
     const r = calculateRegulowany({ ...bazowe, katMinDeg: 20, katMaxDeg: 50 })
     const v = r.value!
-    const bezDanych = v.miesiace.filter((m) => m.katDeg > 30).length
-    expect(v.liczbaMiesiecyBezDanychWiatru).toBe(bezDanych)
-    expect(r.warnings.find((w) => w.code === "TM-MIESIACE-BEZ-DANYCH-WIATRU")!.params).toEqual({ liczba: bezDanych })
-    expect(v.miesiace.filter((m) => m.katDeg > 30).every((m) => m.balastKg === null)).toBe(true)
+    const powyzej = v.miesiace.filter((m) => m.katDeg > 30)
+    expect(powyzej.length).toBeGreaterThan(0)
+    expect(v.liczbaMiesiecySzacunekWiatru).toBe(powyzej.length)
+    const ostrzezenie = r.warnings.find((w) => w.code === "WP30-MIESIACE-NA-WLASNA-ODPOWIEDZIALNOSC")!
+    expect(ostrzezenie.params).toEqual({ liczba: powyzej.length, katMaks: Math.max(...powyzej.map((m) => m.katDeg)), max: 30 })
+    expect(powyzej.every((m) => m.szacunek && m.balastKg !== null && m.silaWiatruN !== null)).toBe(true)
+    expect(v.miesiace.filter((m) => m.katDeg <= 30).every((m) => !m.szacunek)).toBe(true)
+    // wymagany balast uwzględnia także miesiące z szacunkiem (najgorszy miesiąc wyznacza stelaż)
+    expect(v.balastWymaganyKg).toBe(Math.max(...v.miesiace.map((m) => m.balastKg!)))
     expect(kody(r)).toContain("TM-SSANIE-OD-SPODU")
   })
 
   it("zakres 0–30°: balast wymagany = największy z miesięcy, bez ostrzeżenia o brakach", () => {
     const r = calculateRegulowany(bazowe)
     const v = r.value!
-    expect(v.liczbaMiesiecyBezDanychWiatru).toBe(0)
+    expect(v.liczbaMiesiecySzacunekWiatru).toBe(0)
     expect(v.balastWymaganyKg).toBe(Math.max(...v.miesiace.map((m) => m.balastKg!)))
     expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE"])
   })

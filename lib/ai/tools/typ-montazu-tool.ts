@@ -61,7 +61,13 @@ export const TypMontazuToolOutput = z.object({
     })
     .nullable(),
   dachPlaski: z
-    .object({ podniesienieM: z.number(), silaWiatruN: z.number().nullable(), balastKg: z.number().nullable(), mu1Snieg: z.number() })
+    .object({
+      podniesienieM: z.number(),
+      silaWiatruN: z.number().nullable(),
+      balastKg: z.number().nullable(),
+      szacunekPozaNorma: z.boolean().describe("true = kąt powyżej 30° do 89°: siła wiatru i balast to szacunek aplikacji, nie wynik normy; kąt na własną odpowiedzialność użytkownika"),
+      mu1Snieg: z.number(),
+    })
     .nullable(),
   wiata: z
     .object({ liczbaPaneli: z.number(), mocKwp: z.number(), uklad: z.array(z.string()).describe("bloki: kolumny × rzędy, orientacja") })
@@ -72,7 +78,7 @@ export const TypMontazuToolOutput = z.object({
       zyskRegulacjiPct: z.number(),
       katStalyDeg: z.number(),
       balastWymaganyKg: z.number().nullable(),
-      liczbaMiesiecyBezDanychWiatru: z.number(),
+      liczbaMiesiecySzacunekWiatru: z.number().describe("Miesiące z kątem powyżej 30° (do 89°): siła wiatru i balast to szacunek aplikacji, nie wynik normy — kąt na własną odpowiedzialność użytkownika"),
     })
     .nullable(),
   zrodloDanych: z.string().nullable(),
@@ -123,9 +129,9 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
     description:
       "Ekran 'Typ montażu' paneli PV. Tryby: 'pionowy' (pion vs najlepszy kąt stały miesiąc po miesiącu z PVGIS, " +
       "trawa/zaspy pod panelami), 'dach_plaski_grunt' (podniesienie krawędzi h = L·sin α, siła wiatru i balast wg " +
-      "PN-EN 1991-1-4 tylko dla 0–30° i 90°, śnieg), 'wiata' (ile paneli zmieści się na wiacie/carporcie, kWp, kąt " +
+      "PN-EN 1991-1-4 dla 0–30° i 90°, a dla kątów powyżej 30° do 89° jako SZACUNEK aplikacji poza normą (współczynnik z 30°; użytkownik ustawia taki kąt na własną odpowiedzialność), śnieg), 'wiata' (ile paneli zmieści się na wiacie/carporcie, kWp, kąt " +
       "samooczyszczania 5–10°), 'regulowany' (stelaż z ręczną zmianą kąta: kąt na każdy miesiąc w zakresie regulacji, " +
-      "zysk vs kąt stały, balast dla najgorszego ustawienia). Balast projektowy wg PN-EN 1990 (EQU) tylko przeciw oderwaniu, bez przesuwu i wywracania — zawsze to przekaż. " +
+      "zysk vs kąt stały, balast dla najgorszego ustawienia, także miesięcy z kątem powyżej 30° jako szacunek). Balast projektowy wg PN-EN 1990 (EQU) tylko przeciw oderwaniu, bez przesuwu i wywracania — zawsze to przekaż. " +
       "Dla oceny połaci dachu z modelu budynku użyj 'ocen_orientacje_powierzchni'. Użyj, gdy user wybiera sposób montażu paneli (pionowo, na dachu płaskim/gruncie, na wiacie, stelaż regulowany) i pyta o kąt, uzysk, wiatr lub balast.",
     inputSchema: TypMontazuToolInput,
     outputSchema: TypMontazuToolOutput,
@@ -168,7 +174,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         const w = calculateDachPlaski({ ...wiatr, ...geometria, wysokoscNpmM: n(input.wysokoscNpmM), miejsce: input.miejsce ?? null, nachylenieDeg: n(input.nachylenieDeg) })
         const v = w.value
         return odpowiedz(input, w, {
-          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, mu1Snieg: v.mu1 },
+          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, szacunekPozaNorma: v.szacunek, mu1Snieg: v.mu1 },
         })
       }
 
@@ -212,7 +218,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
             zyskRegulacjiPct: v.zyskRegulacjiPct,
             katStalyDeg: v.katStalyDeg,
             balastWymaganyKg: v.balastWymaganyKg,
-            liczbaMiesiecyBezDanychWiatru: v.liczbaMiesiecyBezDanychWiatru,
+            liczbaMiesiecySzacunekWiatru: v.liczbaMiesiecySzacunekWiatru,
           },
         },
         { ...extra, zalozenia: input.wysokoscNpmM === undefined ? [`Wysokość n.p.m. z PVGIS: ${t.wysokoscNpmM} m.`] : [] },

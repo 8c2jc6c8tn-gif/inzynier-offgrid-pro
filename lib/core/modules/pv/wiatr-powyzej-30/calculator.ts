@@ -6,14 +6,21 @@ import {
   wspolczynnikEkspozycji,
   type CpNetWiaty,
 } from "../eurokod-1/wiatr"
+import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
+import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
+import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
+import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { KAT_NORMOWY_MAX_DEG } from "./constants"
+import { silaIBalastWiatru } from "./sila-i-balast"
 import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
-import { katObjetyNorma, szacunekPozaNorma } from "./warnings"
+import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, szacunekPozaNorma } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
-const FORMULA = "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ)"
+const FORMULA =
+  "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad " +
+  "F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 export type WiatrPowyzej30Result = {
   /** Bazowe ciśnienie prędkości q_b [Pa] (Tablica NA.1). */
@@ -29,6 +36,11 @@ export type WiatrPowyzej30Result = {
   dociskKrawedzPa: number
   odrywanieSrodekPa: number
   odrywanieKrawedzPa: number
+  /** Współczynnik siły |c_f| i siła wiatru na stelaż z panelami [N] — tylko gdy wpisano powierzchnię i φ; powyżej 30° do 89° szacunek, 90° siła pozioma. */
+  cf: number | null
+  silaWiatruN: number | null
+  /** Balast przeciw oderwaniu wg PN-EN 1990 (EQU) [kg]; `null` bez powierzchni i φ albo dla 90° (siła pozioma). */
+  balastProjektowyKg: number | null
 }
 
 const CP_ZERO: CpNetWiaty = { dociskSrodek: 0, dociskKrawedz: 0, odrywanieSrodek: 0, odrywanieKrawedz: 0 }
@@ -41,6 +53,9 @@ const PUSTY: WiatrPowyzej30Result = {
   dociskKrawedzPa: 0,
   odrywanieSrodekPa: 0,
   odrywanieKrawedzPa: 0,
+  cf: null,
+  silaWiatruN: null,
+  balastProjektowyKg: null,
 }
 
 /**
@@ -82,6 +97,24 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
     { kod: "WP30-ZALOZENIE-NAJGORSZY-PRZYPADEK" },
   ]
 
+  // Siła na stelaż i balast: tylko gdy wpisano powierzchnię i φ. Ta sama reguła co w kalkulatorach zmiany kąta (`silaIBalastWiatru`).
+  const { powierzchniaM2 = null, wspolczynnikPhi = null, masaPaneliStelazaKg = null } = input
+  if (powierzchniaM2 !== null) inputs.powierzchniaM2 = powierzchniaM2
+  if (wspolczynnikPhi !== null) inputs.wspolczynnikPhi = wspolczynnikPhi
+  if (masaPaneliStelazaKg !== null) inputs.masaPaneliStelazaKg = masaPaneliStelazaKg
+  const sila = powierzchniaM2 !== null && wspolczynnikPhi !== null ? silaIBalastWiatru(input.nachylenieDeg, wspolczynnikPhi, qpPa, powierzchniaM2, masaPaneliStelazaKg ?? 0) : null
+  if (sila !== null) {
+    warnings.push(sila.balastKg === null ? pionSilaPozioma() : balastProjektowyEqu())
+    warnings.push(katNaWlasnaOdpowiedzialnosc(input.nachylenieDeg, KAT_NORMOWY_MAX_DEG))
+    assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
+    assumptions.push({ kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } })
+    if (sila.balastKg !== null) {
+      assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
+      assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
+      assumptions.push(zalozenieMasyWlasnej(masaPaneliStelazaKg))
+    }
+  }
+
   return {
     ...baza,
     value: {
@@ -93,6 +126,9 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       dociskKrawedzPa: qpPa * cp.dociskKrawedz,
       odrywanieSrodekPa: qpPa * cp.odrywanieSrodek,
       odrywanieKrawedzPa: qpPa * cp.odrywanieKrawedz,
+      cf: sila?.cf ?? null,
+      silaWiatruN: sila?.silaN ?? null,
+      balastProjektowyKg: sila?.balastKg ?? null,
     },
     status: "ESTIMATE",
     assumptions,

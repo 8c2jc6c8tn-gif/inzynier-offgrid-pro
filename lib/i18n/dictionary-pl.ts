@@ -1094,10 +1094,9 @@ export const dictionaryPl = {
   "WZ-ZALOZENIE-ODNIESIENIE": "Odniesienie: panele skierowane na południe (180°) pod najlepszym kątem stałym dla tej lokalizacji — {kat}°.",
   "WZ-ZALOZENIE-UDZIAL-MOCY": "Moc paneli: {wschod}% na wschodzie, {zachod}% na zachodzie — ta sama technologia paneli na obu połaciach (nasłonecznienie ważone mocą).",
   "ZS-WYSOKOSC-POZA-WZOREM-STREFY-3": "Wzór strefy 3 (PN-EN 1991-1-4, Tablica NA.1) działa tylko dla wysokości poniżej 20 000 m n.p.m. — sprawdź wpisaną wysokość.",
-  "ZS-KAT-BEZ-DANYCH-WIATRU": "Dla kąta {kat}° norma PN-EN 1991-1-4 nie podaje współczynnika siły dla wiaty (Tablica 7.6 kończy się na 30°, dla pionu jest tylko 90°). Aplikacja nie zgaduje tej wartości — siła wiatru i balast nie są policzone.",
   "ZS-PION-SILA-POZIOMA": "Przy 90° wiatr pcha panel poziomo (współczynnik 1,80, PN-EN 1991-1-4, p. 7.4.3). Masa balastu zależy wtedy od tarcia o podłoże i od przewracania — norma tego nie podaje, więc aplikacja nie liczy kg balastu dla pionu. Przy pionie praktyczniejsze są słupki kotwiczące w gruncie.",
   "ZS-REKOMENDACJA-WYMAGA-WYCENY": "Żeby wskazać najlepszy kąt, wpisz moc paneli, współczynnik PR, cenę 1 kWh i liczbę lat. Aplikacja porównuje wtedy wartość energii z kosztem balastu dla każdego kąta. Bez tych danych widzisz wykresy i możesz sprawdzić dowolny kąt.",
-  "ZS-OPTIMUM-ENERGII-POZA-ZAKRESEM-WIATRU": "Najwięcej energii daje kąt {kat}°, ale dla kątów powyżej 30° norma nie podaje siły wiatru na wiatę. Dlatego rekomendacja jest wybierana tylko spośród kątów 0–30°.",
+  "ZS-OPTIMUM-ENERGII-POZA-ZAKRESEM-WIATRU": "Najwięcej energii daje kąt {kat}°, ale dla kątów powyżej 30° norma nie podaje siły wiatru na wiatę. Rekomendacja jest więc wybierana tylko spośród kątów 0–30°. Dla większych kątów aplikacja podaje SZACUNEK siły i balastu (🔎) — wybierasz je na własną odpowiedzialność.",
   "ZS-ZALOZENIE-STELAZ-WIATA": "Stelaż traktowany jak wiata jednospadowa (PN-EN 1991-1-4, Tablica 7.6) — przyjęte w decyzji D26, to praktyka inżynierska, nie zapis normy.",
   "ZS-ZALOZENIE-CSCD": "Współczynnik konstrukcyjny cscd = {cscd} — norma dopuszcza go dla niskich, sztywnych konstrukcji (p. 6.2); dla stelaża to założenie.",
   "ZS-ZALOZENIE-CDIR-CSEASON": "Współczynnik kierunkowy i sezonowy = 1,0 (najbardziej niekorzystne; Tablica NA.2, NA.4) — bez znajomości kierunku wiatru względem stelaża.",
@@ -1172,7 +1171,6 @@ export const dictionaryPl = {
   "TM-WIATA-ZERO-PANELI": "Panel nie mieści się na połaci w żadnym ułożeniu — sprawdź wymiary wiaty i panelu.",
   "TM-POWIERZCHNIA-NIEZNANA": "Powierzchni „{nazwa}” nie ma w ostatniej ocenie z Modułu 1 — oceń powierzchnie ponownie.",
   "TM-ZAKRES-REGULACJI-ODWROCONY": "Najmniejszy kąt regulacji ({min}°) jest większy od największego ({max}°) — zamień wartości.",
-  "TM-MIESIACE-BEZ-DANYCH-WIATRU": "W {liczba} mies. stelaż stoi pod kątem ponad 30°, a dla takich kątów norma PN-EN 1991-1-4 nie podaje siły wiatru na wiatę. Balast dla tych ustawień jest nieznany — podany balast wymagany dotyczy tylko ustawień do 30°. Ogranicz regulację do 30° albo skonsultuj stelaż z konstruktorem.",
   "TM-ZALOZENIE-PION-VS-OPTIMUM": "Pion porównany z najlepszym stałym kątem przy tym samym azymucie ({kat}°), wyznaczonym z danych PVGIS — nie z przyjętym z góry kątem dachu.",
   "TM-ZALOZENIE-NAPROMIENIOWANIE": "Porównanie nasłonecznienia płaszczyzny (kWh/m²). Temperatura ogniw i odbicia przy dużych kątach padania nie są uwzględnione.",
   "TM-ZALOZENIE-ZE": "Wysokość odniesienia wiatru ze = {ze} m — dolna krawędź paneli nad terenem plus podniesienie h (PN-EN 1991-1-4, p. 7.3 (8)).",
@@ -2255,6 +2253,12 @@ export const dictionaryPl = {
   "WP30-SZACUNEK-POZA-NORMA": "🔎 To jest szacunek aplikacji, nie wynik normy. Tablica 7.6 Eurokodu kończy się na {max}°, a dla nachylenia {kat}° żadna norma ani dokument nie podaje współczynników. Wartości z {max}° zachowane dla większych kątów — traktuj wynik orientacyjnie i potwierdź go z konstruktorem.",
   "WP30-ZALOZENIE-CP-Z-30": "Współczynniki ciśnienia netto c_p,net zachowane z {max}° Tablicy 7.6 dla wszystkich większych kątów (decyzja właściciela aplikacji). To nasze założenie, nie wartość z normy.",
   "WP30-ZALOZENIE-NAJGORSZY-PRZYPADEK": "Z Tablicy 7.6 bierzemy przypadek najbardziej niekorzystny: gorszy z dwóch skrajnych współczynników blokowania przepływu, a dla krawędzi gorsze z pól B i C. Ciężar stelaża i korzystny ciężar paneli pomijamy (strona bezpieczna).",
+  "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC": "🔎 Kąt {kat}° leży poza zakresem normy (Tablica 7.6 Eurokodu kończy się na {max}°). Siła wiatru i balast są SZACUNKIEM aplikacji, nie wynikiem normy: współczynnik siły z {max}° zachowany dla większych kątów. Ustawiając taki kąt, robisz to na własną odpowiedzialność i zabezpieczasz konstrukcję według tych obliczeń — potwierdź je z konstruktorem.",
+  "WP30-MIESIACE-NA-WLASNA-ODPOWIEDZIALNOSC": "🔎 W {liczba} mies. stelaż stoi pod kątem powyżej {max}° (do {katMaks}°), czyli poza zakresem normy. Siła wiatru i balast dla tych miesięcy są SZACUNKIEM aplikacji: współczynnik siły z {max}° zachowany dla większych kątów. Regulując stelaż do takich kątów, robisz to na własną odpowiedzialność i zabezpieczasz konstrukcję według tych obliczeń — potwierdź je z konstruktorem.",
+  "WP30-ZALOZENIE-CF-Z-30": "Współczynnik siły cf (odrywanie) zachowany z {max}° Tablicy 7.6 dla kątów powyżej {max}° do 89° (szacunek aplikacji, nie wartość z normy); balast z tego samego wzoru EQU (PN-EN 1990) co do {max}°.",
+  "ZS-SZACUNEK-LEPSZY-BILANS": "Kąt {kat}° (szacunek poza normą 🔎) dałby bilans wyższy o około {roznica} zł niż rekomendacja normowa, przy balaście {balast} kg. To informacja, nie rekomendacja: wybierając taki kąt, robisz to na własną odpowiedzialność.",
+  "POLE-WP30-POWIERZCHNIA": "powierzchnia paneli",
+  "POLE-WP30-PHI": "współczynnik zabudowy pod stelażem φ",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

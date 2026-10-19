@@ -102,14 +102,3 @@ export function zakresRegulacjiOdwrocony(min: number, max: number): Warning {
     field: "katMinDeg",
   }
 }
-
-/** Regulowany: część miesięcy ustawiona powyżej 30° (poza pionem) — brak cf w normie, brak balastu. */
-export function miesiaceBezDanychWiatru(liczba: number): Warning {
-  return {
-    code: "TM-MIESIACE-BEZ-DANYCH-WIATRU",
-    level: "warning",
-    i18nKey: "TM-MIESIACE-BEZ-DANYCH-WIATRU",
-    params: { liczba },
-    technicalMessage: `${liczba} mies. z kątem 31–89° — Tablica 7.6 kończy się na 30°, balast dla tych ustawień nieznany`,
-  }
-}

@@ -422,8 +422,9 @@ export default function ZlotySrodekPage() {
           {wyb && (
             <p className="text-small">
               {t("UI-ZLOSRO-ENERGIA-MAKSIMUM-SNIEG", { nachylenieDeg: wyb.nachylenieDeg, p: f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax), mu1: f2(wyb.mu1) })}
-              {wyb.silaWiatruN !== null ? t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) }) : t("UI-ZLOSRO-WIATR-BRAK-DANYCH")}
+              {wyb.silaWiatruN !== null && t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) })}
               {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(wyb.balastKg), p: f0(wyb.kosztBalastuZl!) }) : ""}.
+              {wyb.szacunek && t("UI-ZLOSRO-SZACUNEK-ZNACZNIK")}
             </p>
           )}
 
@@ -474,7 +475,7 @@ export default function ZlotySrodekPage() {
                   const p = r.punkty[k]!
                   return (
                     <tr key={k} className={`border-b last:border-0 ${k === r.rekomendacjaDeg ? "font-semibold" : ""}`}>
-                      <td className="p-2">{k}°</td>
+                      <td className="p-2">{k}°{p.szacunek ? " 🔎" : ""}</td>
                       <td className="p-2 text-right font-mono">{f1((100 * p.napromieniowanieRoczneKwhM2) / hMax)}%</td>
                       <td className="p-2 text-right font-mono">{p.silaWiatruN === null ? "—" : f0(p.silaWiatruN)}</td>
                       <td className="p-2 text-right font-mono">{p.balastKg === null ? "—" : f0(p.balastKg)}</td>
@@ -485,6 +486,7 @@ export default function ZlotySrodekPage() {
               </tbody>
             </table>
           </div>
+          {r.punkty.some((p) => p.szacunek) && <p className="text-caption">{t("UI-ZLOSRO-LEGENDA-SZACUNEK")}</p>}
           <p className="text-caption">
             {t("UI-ZLOSRO-CISNIENIE-WIATRU-STELAZU", { qpPa: f0(r.qpPa), qbPa: f0(r.qbPa), ce: f2(r.ce) })}
           </p>

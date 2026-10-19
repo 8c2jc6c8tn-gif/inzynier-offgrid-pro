@@ -14,6 +14,12 @@ export const pl = {
   "UI-WIAPOW30-QP": "Szczytowe ciśnienie prędkości wiatru q_p: {qp} Pa (q_b = {qb} Pa, c_e = {ce}).",
   "UI-WIAPOW30-DOCISK": "Docisk (w dół): środek {srodek} Pa, krawędź {krawedz} Pa.",
   "UI-WIAPOW30-ODRYWANIE": "Odrywanie (ssanie): środek {srodek} Pa, krawędź {krawedz} Pa.",
+  "UI-WIAPOW30-POWIERZCHNIA": "Powierzchnia paneli (opcjonalnie)",
+  "UI-WIAPOW30-PODAJ-POWIERZCHNIE": "Wpisz powierzchnię paneli i współczynnik φ (oraz masę własną), a policzę też siłę wiatru na stelaż i balast przeciw oderwaniu.",
+  "UI-WIAPOW30-SILA": "Siła wiatru na stelaż z panelami: {sila} N (≈ {kg} kg), współczynnik siły c_f = {cf}.",
+  "UI-WIAPOW30-BALAST": "Balast projektowy (PN-EN 1990, przeciw oderwaniu): {balast} kg na stelaż{stelaz}. Przesuw i przewracanie nie są sprawdzone.",
+  "UI-WIAPOW30-PION-POZIOMA": "Siła pozioma {sila} N (pion, 90°): balast zależy od tarcia o podłoże i przewracania — norma tego nie podaje, więc aplikacja nie liczy kg balastu dla pionu.",
+  "UI-WIAPOW30-PONAD-CIEZAR": "ponad ciężar paneli i stelaża",
 }
 
 export const en: Record<keyof typeof pl, string> = {
@@ -28,6 +34,12 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-WIAPOW30-QP": "Peak wind velocity pressure q_p: {qp} Pa (q_b = {qb} Pa, c_e = {ce}).",
   "UI-WIAPOW30-DOCISK": "Pressure (downwards): centre {srodek} Pa, edge {krawedz} Pa.",
   "UI-WIAPOW30-ODRYWANIE": "Uplift (suction): centre {srodek} Pa, edge {krawedz} Pa.",
+  "UI-WIAPOW30-POWIERZCHNIA": "Panel area (optional)",
+  "UI-WIAPOW30-PODAJ-POWIERZCHNIE": "Enter the panel area and the factor φ (and the own mass) and I will also calculate the wind force on the frame and the ballast against uplift.",
+  "UI-WIAPOW30-SILA": "Wind force on the frame with panels: {sila} N (≈ {kg} kg), force coefficient c_f = {cf}.",
+  "UI-WIAPOW30-BALAST": "Design ballast (EN 1990, against uplift): {balast} kg per frame{stelaz}. Sliding and overturning are not checked.",
+  "UI-WIAPOW30-PION-POZIOMA": "Horizontal force {sila} N (vertical, 90°): the ballast depends on friction with the ground and on overturning — the standard does not give it, so the app does not calculate kg of ballast for a vertical panel.",
+  "UI-WIAPOW30-PONAD-CIEZAR": "on top of the weight of panels and frame",
 }
 
 export const ru: Record<keyof typeof pl, string> = {
@@ -42,4 +54,10 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-WIAPOW30-QP": "Пиковое скоростное давление ветра q_p: {qp} Па (q_b = {qb} Па, c_e = {ce}).",
   "UI-WIAPOW30-DOCISK": "Прижим (вниз): центр {srodek} Па, край {krawedz} Па.",
   "UI-WIAPOW30-ODRYWANIE": "Отрыв (всасывание): центр {srodek} Па, край {krawedz} Па.",
+  "UI-WIAPOW30-POWIERZCHNIA": "Площадь панелей (необязательно)",
+  "UI-WIAPOW30-PODAJ-POWIERZCHNIE": "Введите площадь панелей и коэффициент φ (и собственную массу), и я посчитаю также силу ветра на каркас и балласт против отрыва.",
+  "UI-WIAPOW30-SILA": "Сила ветра на каркас с панелями: {sila} Н (≈ {kg} кг), коэффициент силы c_f = {cf}.",
+  "UI-WIAPOW30-BALAST": "Расчётный балласт (EN 1990, против отрыва): {balast} кг на каркас{stelaz}. Сдвиг и опрокидывание не проверяются.",
+  "UI-WIAPOW30-PION-POZIOMA": "Горизонтальная сила {sila} Н (вертикаль, 90°): балласт зависит от трения о грунт и опрокидывания — норма этого не даёт, поэтому приложение не считает кг балласта для вертикали.",
+  "UI-WIAPOW30-PONAD-CIEZAR": "сверх веса панелей и каркаса",
 }

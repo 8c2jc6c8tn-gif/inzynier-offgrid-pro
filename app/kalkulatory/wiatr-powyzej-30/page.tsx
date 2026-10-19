@@ -9,6 +9,7 @@ import {
   WYSOKOSC_NPM_ZAKRES_M,
 } from "@/lib/core/modules/pv/wiatr-powyzej-30/constants"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
+import { PHI_MAX, PHI_MIN, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "@/lib/core/modules/pv/zloty-srodek/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -26,9 +27,21 @@ type FormularzStan = {
   wysokoscNpmM: string
   kategoria: string
   wysokoscKonstrukcjiM: string
+  powierzchniaM2: string
+  phi: string
+  masaPaneliStelazaKg: string
 }
 
-const STAN_POCZATKOWY: FormularzStan = { nachylenieDeg: "", strefa: "", wysokoscNpmM: "", kategoria: "", wysokoscKonstrukcjiM: "" }
+const STAN_POCZATKOWY: FormularzStan = {
+  nachylenieDeg: "",
+  strefa: "",
+  wysokoscNpmM: "",
+  kategoria: "",
+  wysokoscKonstrukcjiM: "",
+  powierzchniaM2: "",
+  phi: "",
+  masaPaneliStelazaKg: "",
+}
 
 const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number(s)) ? null : Number(s))
 
@@ -40,6 +53,9 @@ export default function WiatrPowyzej30Page() {
   // Drafts saved before a field existed carry no value for it — treat as empty.
   const strefa = stan.strefa ?? ""
   const kategoria = stan.kategoria ?? ""
+  const powierzchniaM2 = stan.powierzchniaM2 ?? ""
+  const phi = stan.phi ?? ""
+  const masaPaneliStelazaKg = stan.masaPaneliStelazaKg ?? ""
   const ustaw = (pole: keyof FormularzStan, wartosc: string) => setStan((prev) => ({ ...prev, [pole]: wartosc }))
 
   const result = useMemo(
@@ -50,8 +66,11 @@ export default function WiatrPowyzej30Page() {
         wysokoscNpmM: liczbaLubNull(wysokoscNpmM),
         kategoriaTerenu: (KATEGORIE_TERENU as readonly string[]).includes(kategoria) ? (kategoria as KategoriaTerenu) : null,
         wysokoscKonstrukcjiM: liczbaLubNull(wysokoscKonstrukcjiM),
+        powierzchniaM2: liczbaLubNull(powierzchniaM2),
+        wspolczynnikPhi: liczbaLubNull(phi),
+        masaPaneliStelazaKg: liczbaLubNull(masaPaneliStelazaKg),
       }),
-    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM],
+    [nachylenieDeg, strefa, wysokoscNpmM, kategoria, wysokoscKonstrukcjiM, powierzchniaM2, phi, masaPaneliStelazaKg],
   )
   const v = result.value
 
@@ -131,6 +150,37 @@ export default function WiatrPowyzej30Page() {
             />
           }
         />
+        <Pole
+          label={t("UI-WIAPOW30-POWIERZCHNIA")}
+          unit="m²"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={powierzchniaM2}
+          onChange={(e) => ustaw("powierzchniaM2", e.target.value)}
+          pomoc={<PomocPola ekran="napor-wiatru" pole="powierzchnia" />}
+        />
+        <Pole
+          label={t("UI-TYPMON-COMWSP-ZABUDOWA-POD-STELAZEM")}
+          type="number"
+          inputMode="decimal"
+          min={PHI_MIN}
+          max={PHI_MAX}
+          step={0.1}
+          value={phi}
+          onChange={(e) => ustaw("phi", e.target.value)}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="zabudowa" />}
+        />
+        <Pole
+          label={t("UI-NAPWIA-MASA-PANELU-STELAZA")}
+          unit="kg"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={masaPaneliStelazaKg}
+          onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
+          pomoc={<PomocPola ekran="napor-wiatru" pole="masa" />}
+        />
       </div>
 
       {result.status === "INVALID_INPUT" ? (
@@ -149,6 +199,25 @@ export default function WiatrPowyzej30Page() {
           <p className="text-small">{t("UI-WIAPOW30-QP", { qp: f0(v.qpPa), qb: f0(v.qbPa), ce: f2(v.ce) })}</p>
           <p className="text-small">{t("UI-WIAPOW30-DOCISK", { srodek: f0(v.dociskSrodekPa), krawedz: f0(v.dociskKrawedzPa) })}</p>
           <p className="text-small">{t("UI-WIAPOW30-ODRYWANIE", { srodek: f0(v.odrywanieSrodekPa), krawedz: f0(v.odrywanieKrawedzPa) })}</p>
+          {v.silaWiatruN === null ? (
+            <p className="text-small text-muted-foreground">{t("UI-WIAPOW30-PODAJ-POWIERZCHNIE")}</p>
+          ) : (
+            <>
+              <p className="text-small">
+                {v.balastProjektowyKg === null
+                  ? t("UI-WIAPOW30-PION-POZIOMA", { sila: f0(v.silaWiatruN) })
+                  : t("UI-WIAPOW30-SILA", { sila: f0(v.silaWiatruN), kg: f0(v.silaWiatruN / PRZYSPIESZENIE_ZIEMSKIE_M_S2), cf: f2(v.cf!) })}
+              </p>
+              {v.balastProjektowyKg !== null && (
+                <p className="text-small font-medium">
+                  {t("UI-WIAPOW30-BALAST", {
+                    balast: f0(Math.ceil(v.balastProjektowyKg)),
+                    stelaz: masaPaneliStelazaKg !== "" ? ` ${t("UI-WIAPOW30-PONAD-CIEZAR")}` : "",
+                  })}
+                </p>
+              )}
+            </>
+          )}
           <WynikSzczegoly
             assumptions={result.assumptions}
             warnings={result.warnings}

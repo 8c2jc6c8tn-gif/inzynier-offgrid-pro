@@ -106,7 +106,7 @@ export const pl = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-AUTONOMIA": "t_{h} = \\dfrac{C_{uzyteczna}[kWh] \\times 1000 \\times DoD}{P_{standby}[W]}",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{rok}[kWh] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Koszt = E_{rok} \\times cena",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{uzyteczna} = \\dfrac{(E_{standby} \\times eliminacja\\%) \\times d_{autonomii}}{\\eta_{falownika} \\times DoD}",
-  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ)",
+  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
 } as const
 
 type Klucz = keyof typeof pl
@@ -213,7 +213,7 @@ export const en: Record<Klucz, string> = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-AUTONOMIA": "t_{h} = \\dfrac{C_{usable}[kWh] \\times 1000 \\times DoD}{P_{standby}[W]}",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{year}[kWh] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Cost = E_{year} \\times price",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{usable} = \\dfrac{(E_{standby} \\times elimination\\%) \\times d_{autonomy}}{\\eta_{inverter} \\times DoD}",
-  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ)",
+  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -318,6 +318,6 @@ export const ru: Record<Klucz, string> = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-AUTONOMIA": "t_{ч} = \\dfrac{C_{полезная}[кВтч] \\times 1000 \\times DoD}{P_{standby}[Вт]}",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-KOSZT": "E_{год}[кВтч] = \\dfrac{P_{standby} \\times 8760}{1000}; \\quad Стоимость = E_{год} \\times цена",
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{полезная} = \\dfrac{(E_{standby} \\times устранение\\%) \\times d_{автономии}}{\\eta_{инвертора} \\times DoD}",
-  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ)",
+  "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
 }
 

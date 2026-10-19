@@ -62,12 +62,19 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(calculateZlotySrodek({ ...bazowe, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
   })
 
-  it("31–89° bez danych wiatru; 90° — siła pozioma cf = 1,80, bez balastu", () => {
+  it("31–89°: siła i balast jako SZACUNEK (cf z 30°, 🔎); 90° — siła pozioma cf = 1,80, bez balastu", () => {
     const r = calculateZlotySrodek(bazowe).value!
-    expect(r.punkty[45]!.silaWiatruN).toBeNull()
+    expect(r.punkty[30]!.szacunek).toBe(false) // do 30° to norma
+    expect(r.punkty[45]!.szacunek).toBe(true)
+    expect(r.punkty[45]!.cf).toBe(1.8)
+    expect(r.punkty[45]!.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
+    expect(r.punkty[45]!.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
+    expect(r.punkty[89]!.szacunek).toBe(true)
+    expect(r.punkty[90]!.szacunek).toBe(false)
     expect(r.punkty[90]!.cf).toBe(1.8)
     expect(r.punkty[90]!.balastKg).toBeNull()
     expect(r.punkty[90]!.procentSilyMaks).toBeCloseTo(100, 9)
+    expect(r.punkty[45]!.procentSilyMaks).toBeCloseTo(100, 9) // ten sam cf co przy 90°, ten sam qp
     expect(r.punkty[0]!.procentSilyMaks).toBeCloseTo((100 * 0.5) / 1.8, 9)
   })
 
@@ -101,9 +108,25 @@ describe("calculateZlotySrodek (M3/E9, D27)", () => {
     expect(p.bilansZl).toBe(najlepszy)
   })
 
-  it("wybrany kąt 45° → info o braku danych; 90° → info o sile poziomej", () => {
-    expect(kody(calculateZlotySrodek({ ...bazowe, nachylenieDeg: 45 }))).toContain("ZS-KAT-BEZ-DANYCH-WIATRU")
+  it("wybrany kąt 45° → ostrzeżenie o szacunku i własnej odpowiedzialności; 90° → info o sile poziomej", () => {
+    const k45 = kody(calculateZlotySrodek({ ...bazowe, nachylenieDeg: 45 }))
+    expect(k45).toContain("WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC")
+    expect(k45).not.toContain("ZS-PION-SILA-POZIOMA")
     expect(kody(calculateZlotySrodek({ ...bazowe, nachylenieDeg: 90 }))).toContain("ZS-PION-SILA-POZIOMA")
+    expect(kody(calculateZlotySrodek({ ...bazowe, nachylenieDeg: 20 }))).not.toContain("WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC")
+  })
+
+  it("rekomendacja zostaje w zakresie normy; kąt z szacunkiem o wyższym bilansie to tylko informacja", () => {
+    const wycena = { mocInstalacjiKwp: 2, wspolczynnikPr: 0.8, cenaEnergiiZlKwh: 1, liczbaLat: 10 }
+    const r = calculateZlotySrodek({ ...bazowe, ...wycena, cenaBalastuZlKg: 0 })
+    const v = r.value!
+    expect(v.rekomendacjaDeg).toBe(30) // 38° dałoby więcej, ale to szacunek poza normą
+    expect(v.szacunekLepszyDeg).toBe(38)
+    const info = r.warnings.find((w) => w.code === "ZS-SZACUNEK-LEPSZY-BILANS")!
+    expect(info.level).toBe("info")
+    expect(info.params!.kat).toBe(38)
+    // bez wyceny nie ma bilansu, więc i porównania
+    expect(calculateZlotySrodek(bazowe).value!.szacunekLepszyDeg).toBeNull()
   })
 
   it("błędne dane → INVALID_INPUT", () => {
