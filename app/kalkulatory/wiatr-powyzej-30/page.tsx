@@ -15,6 +15,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
+import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -258,17 +259,16 @@ export default function WiatrPowyzej30Page() {
                   })}
                 </p>
               )}
-              {v.balastPrzesuwKg !== null && v.balastPrzewracanieKg !== null ? (
-                <p className="text-small">
-                  {t("UI-WIAPOW30-BALAST-SKLADNIKI", {
-                    oderwanie: v.balastOderwanieKg === null ? "—" : `${f0(Math.ceil(v.balastOderwanieKg))} kg`,
-                    przesuw: `${f0(Math.ceil(v.balastPrzesuwKg))} kg`,
-                    przewracanie: `${f0(Math.ceil(v.balastPrzewracanieKg))} kg`,
-                  })}
-                </p>
-              ) : (
-                v.balastProjektowyKg !== null && <p className="text-small text-muted-foreground">{t("UI-WIAPOW30-BALAST-NIESPRAWDZONE")}</p>
+              {(v.balastOderwanieKg !== null || v.balastPrzesuwKg !== null) && (
+                <BalastWarunki
+                  warunki={{ oderwanie: v.balastOderwanieKg, przesuw: v.balastPrzesuwKg, przewracanie: v.balastPrzewracanieKg }}
+                  rozstrzyga={v.warunekRozstrzygajacy}
+                  t={t}
+                  f={f0}
+                  oderwanieNieDotyczy={v.balastOderwanieKg === null}
+                />
               )}
+              {v.balastPrzesuwKg === null && v.balastProjektowyKg !== null && <p className="text-small text-muted-foreground">{t("UI-WIAPOW30-BALAST-NIESPRAWDZONE")}</p>}
             </>
           )}
           <WynikSzczegoly

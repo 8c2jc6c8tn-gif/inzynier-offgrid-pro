@@ -71,6 +71,7 @@ export const TypMontazuToolOutput = z.object({
       balastOderwanieKg: z.number().nullable().describe("Składnik: przeciw oderwaniu [kg]; null dla 90°"),
       balastPrzesuwKg: z.number().nullable().describe("Składnik: przeciw przesuwowi [kg]; null bez μ"),
       balastPrzewracanieKg: z.number().nullable().describe("Składnik: przeciw przewróceniu [kg]; null bez μ"),
+      warunekRozstrzygajacy: z.enum(["oderwanie", "przesuw", "przewracanie"]).nullable().describe("Który ze sprawdzonych warunków daje największy balast i wyznacza balastKg/balastProjektowyKg — przekaż userowi, który to warunek"),
       statecznosc: z.boolean().describe("true = balast obejmuje przesuw i przewracanie (dane usera) — szacunek aplikacji także do 30°"),
       mu1Snieg: z.number(),
     })
@@ -182,7 +183,7 @@ export function utworzTypMontazuTool(fetchImpl: typeof fetch = fetch): AiToolDef
         const w = calculateDachPlaski({ ...wiatr, ...geometria, wysokoscNpmM: n(input.wysokoscNpmM), miejsce: input.miejsce ?? null, nachylenieDeg: n(input.nachylenieDeg) })
         const v = w.value
         return odpowiedz(input, w, {
-          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, szacunekPozaNorma: v.szacunek, balastOderwanieKg: v.balastOderwanieKg, balastPrzesuwKg: v.balastPrzesuwKg, balastPrzewracanieKg: v.balastPrzewracanieKg, statecznosc: v.statecznosc, mu1Snieg: v.mu1 },
+          dachPlaski: v && { podniesienieM: v.podniesienieM, silaWiatruN: v.silaWiatruN, balastKg: v.balastKg, szacunekPozaNorma: v.szacunek, balastOderwanieKg: v.balastOderwanieKg, balastPrzesuwKg: v.balastPrzesuwKg, balastPrzewracanieKg: v.balastPrzewracanieKg, warunekRozstrzygajacy: v.warunekRozstrzygajacy, statecznosc: v.statecznosc, mu1Snieg: v.mu1 },
         })
       }
 

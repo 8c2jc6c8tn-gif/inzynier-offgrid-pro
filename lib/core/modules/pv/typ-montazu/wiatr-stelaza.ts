@@ -8,7 +8,7 @@ import {
   type StrefaWiatrowa,
 } from "../eurokod-1/wiatr"
 import type { StatecznoscStelaza } from "../eurokod-0/rownowaga"
-import { silaIBalastWiatru, statecznoscZGeometrii } from "../wiatr-powyzej-30/sila-i-balast"
+import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 
 export type WiatrPelny = {
   strefaWiatrowa: StrefaWiatrowa
@@ -35,6 +35,8 @@ export type WiatrDlaKata = {
   balastOderwanieKg: number | null
   balastPrzesuwKg: number | null
   balastPrzewracanieKg: number | null
+  /** Który ze sprawdzonych warunków wyznacza `balastKg`. */
+  warunekRozstrzygajacy: WarunekBalastu | null
   statecznosc: boolean
 }
 
@@ -67,6 +69,7 @@ export function wiatrDlaKata(
     balastOderwanieKg: s?.balastOderwanieKg ?? null,
     balastPrzesuwKg: s?.balastPrzesuwKg ?? null,
     balastPrzewracanieKg: s?.balastPrzewracanieKg ?? null,
+    warunekRozstrzygajacy: s?.warunekRozstrzygajacy ?? null,
     statecznosc: s?.statecznosc ?? false,
   }
 }

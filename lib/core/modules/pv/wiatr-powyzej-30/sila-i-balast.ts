@@ -15,6 +15,9 @@ import { KAT_MAX_DEG, KAT_NORMOWY_MAX_DEG } from "./constants"
  *    kąta sprawdzamy też przesuw i przewracanie tymi samymi współczynnikami częściowymi (D96). To szacunek aplikacji,
  *    także dla kątów normowych: norma nie podaje ani tarcia, ani punktu przyłożenia siły. Balast = największy ze sprawdzonych warunków.
  */
+/** Warunek stateczności, który wyznacza balast (najcięższy z sprawdzonych). */
+export type WarunekBalastu = "oderwanie" | "przesuw" | "przewracanie"
+
 export type SilaIBalastWiatru = {
   /** |cf|: odrywanie (0–90° wyłącznie) albo siła pozioma (90°). */
   cf: number
@@ -28,6 +31,8 @@ export type SilaIBalastWiatru = {
   balastOderwanieKg: number | null
   balastPrzesuwKg: number | null
   balastPrzewracanieKg: number | null
+  /** Który ze sprawdzonych warunków daje największy balast (przy remisie: oderwanie, potem przesuw); `null` = nic nie sprawdzono. */
+  warunekRozstrzygajacy: WarunekBalastu | null
   /** `true` = sprawdzono przesuw i przewracanie — to SZACUNEK aplikacji (norma nie daje tarcia ani punktu przyłożenia siły). */
   statecznosc: boolean
   /** `true` = współczynnik z szacunku aplikacji (powyżej 30° do 90° wyłącznie), nie z normy. */
@@ -39,9 +44,17 @@ export function czySzacunekWiatru(katDeg: number): boolean {
   return katDeg > KAT_NORMOWY_MAX_DEG && katDeg < KAT_MAX_DEG
 }
 
-const maksimum = (xs: (number | null)[]): number | null => {
-  const liczby = xs.filter((x): x is number => x !== null)
-  return liczby.length > 0 ? Math.max(...liczby) : null
+/** Najcięższy ze sprawdzonych warunków (kolejność = priorytet przy remisie). */
+export function warunekRozstrzygajacy(oderwanieKg: number | null, przesuwKg: number | null, przewracanieKg: number | null): WarunekBalastu | null {
+  const kandydaci = (
+    [
+      ["oderwanie", oderwanieKg],
+      ["przesuw", przesuwKg],
+      ["przewracanie", przewracanieKg],
+    ] as const
+  ).filter((k): k is readonly [WarunekBalastu, number] => k[1] !== null)
+  if (kandydaci.length === 0) return null
+  return kandydaci.reduce((a, b) => (b[1] > a[1] ? b : a))[0]
 }
 
 export function silaIBalastWiatru(
@@ -69,10 +82,12 @@ export function silaIBalastWiatru(
   const balastPrzewracanieKg = statecznosc
     ? balastPrzewracaniaEquKg(silaPoziomaN, silaPionowaN, statecznosc.wysokoscSrodkaParciaM, statecznosc.szerokoscPodstawyM, PRZYSPIESZENIE_ZIEMSKIE_M_S2, masaWlasnaKg)
     : null
+  const sprawdzone = [balastOderwanieKg, balastPrzesuwKg, balastPrzewracanieKg].filter((x): x is number => x !== null)
   return {
     cf,
     silaN,
-    balastKg: maksimum([balastOderwanieKg, balastPrzesuwKg, balastPrzewracanieKg]),
+    balastKg: sprawdzone.length > 0 ? Math.max(...sprawdzone) : null,
+    warunekRozstrzygajacy: warunekRozstrzygajacy(balastOderwanieKg, balastPrzesuwKg, balastPrzewracanieKg),
     balastOderwanieKg,
     balastPrzesuwKg,
     balastPrzewracanieKg,

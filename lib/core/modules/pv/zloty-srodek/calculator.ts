@@ -9,7 +9,7 @@ import {
   wspolczynnikEkspozycji,
 } from "../eurokod-1/wiatr"
 import { obliczProdukcjeKwh } from "../kat-i-azymut/calculator"
-import { silaIBalastWiatru, statecznoscZGeometrii } from "../wiatr-powyzej-30/sila-i-balast"
+import { silaIBalastWiatru, statecznoscZGeometrii, type WarunekBalastu } from "../wiatr-powyzej-30/sila-i-balast"
 import { katNaWlasnaOdpowiedzialnosc, statecznoscSzacunekKaty } from "../wiatr-powyzej-30/warnings"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "./constants"
 import type { ZlotySrodekInput } from "./input"
@@ -42,6 +42,12 @@ export type PunktKata = {
   balastKg: number | null
   /** `true` = siła i balast tego kąta to szacunek aplikacji (powyżej 30° do 89°), nie wynik normy; kąt ustawia użytkownik na własną odpowiedzialność. */
   szacunek: boolean
+  /** Składniki `balastKg` [kg]: oderwanie, przesuw, przewracanie; `null` = warunek niesprawdzony. */
+  balastOderwanieKg: number | null
+  balastPrzesuwKg: number | null
+  balastPrzewracanieKg: number | null
+  /** Który ze sprawdzonych warunków wyznacza `balastKg` (najcięższy). */
+  warunekRozstrzygajacy: WarunekBalastu | null
   /** `true` = w `balastKg` sprawdzono też przesuw i przewracanie (dane użytkownika: tarcie, długość, podstawa) — to szacunek aplikacji także do 30°. */
   statecznosc: boolean
   kosztBalastuZl: number | null
@@ -126,11 +132,12 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     const balastKg = w?.balastKg ?? null
     const szacunek = w?.szacunek ?? false
     const statecznosc = w?.statecznosc ?? false
+    const skladniki = { balastOderwanieKg: w?.balastOderwanieKg ?? null, balastPrzesuwKg: w?.balastPrzesuwKg ?? null, balastPrzewracanieKg: w?.balastPrzewracanieKg ?? null, warunekRozstrzygajacy: w?.warunekRozstrzygajacy ?? null }
     const kosztBalastuZl = balastKg === null ? null : balastKg * cenaBalastuZlKg
     const produkcjaRocznaKwh = zWycena ? obliczProdukcjeKwh(h, p, pr) : null
     const wartoscEnergiiZl = produkcjaRocznaKwh === null ? null : produkcjaRocznaKwh * lata! * cenaKwh!
     const bilansZl = wartoscEnergiiZl === null || kosztBalastuZl === null ? null : wartoscEnergiiZl - kosztBalastuZl
-    return { kat, h, cf, sila, balastKg, szacunek, statecznosc, kosztBalastuZl, produkcjaRocznaKwh, wartoscEnergiiZl, bilansZl }
+    return { kat, h, cf, sila, balastKg, szacunek, statecznosc, ...skladniki, kosztBalastuZl, produkcjaRocznaKwh, wartoscEnergiiZl, bilansZl }
   })
   const silaMaks = Math.max(...surowe.map((s) => s.sila ?? 0))
   const punkty: PunktKata[] = surowe.map((s) => ({
@@ -143,6 +150,10 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     balastKg: s.balastKg,
     szacunek: s.szacunek,
     statecznosc: s.statecznosc,
+    balastOderwanieKg: s.balastOderwanieKg,
+    balastPrzesuwKg: s.balastPrzesuwKg,
+    balastPrzewracanieKg: s.balastPrzewracanieKg,
+    warunekRozstrzygajacy: s.warunekRozstrzygajacy,
     kosztBalastuZl: s.kosztBalastuZl,
     produkcjaRocznaKwh: s.produkcjaRocznaKwh,
     wartoscEnergiiZl: s.wartoscEnergiiZl,

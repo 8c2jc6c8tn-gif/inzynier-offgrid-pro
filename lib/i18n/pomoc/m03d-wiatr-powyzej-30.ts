@@ -28,7 +28,7 @@ export const pl = {
       "tarcie": {
         "nazwa": "Współczynnik tarcia o podłoże μ",
         "cel": "Od niego zależy, ile balastu potrzeba, by stelaż nie przesunął się pod parciem wiatru. Norma go nie podaje — to Twoja wartość dla konkretnego podłoża.",
-        "gdzie": "Dla zestawu stelaż/balast i podłoża (beton, kostka, grunt, membrana dachowa). Źródłem jest karta materiału lub próba na miejscu.",
+        "gdzie": "Dla pary: spód stelaża/bloczka i podłoże (beton, kostka, grunt, membrana dachowa). Skąd wziąć: (1) karta producenta bloczków, podkładek lub mat antypoślizgowych; (2) próba na miejscu — przeciągnij dynamometrem bloczek o znanym ciężarze po tym podłożu, μ = siła w chwili ruszenia ÷ ciężar bloczka; (3) konstruktor. Aplikacja nie podaje wartości domyślnej, bo zależy od materiałów, wilgoci i zabrudzenia — wpisz wartość dla najgorszych warunków (mokre, zabrudzone podłoże).",
         "zakres": "Większe od 0. Puste = przesuw i przewracanie nie są liczone."
       },
       "wysokoscParcia": {
@@ -77,7 +77,7 @@ export const en: Tlumaczenie<typeof pl> = {
       "tarcie": {
         "nazwa": "Friction coefficient with the ground μ",
         "cel": "It decides how much ballast is needed so the frame does not slide under the wind load. The standard does not give it — it is your value for the specific ground.",
-        "gdzie": "For the frame/ballast pair and the ground (concrete, paving, soil, roof membrane). The source is the material datasheet or an on-site test.",
+        "gdzie": "For the pair: underside of the frame/block and the ground (concrete, paving, soil, roof membrane). Where to get it: (1) the datasheet of the blocks, pads or anti-slip mats; (2) an on-site test — drag a block of known weight over that ground with a force gauge, μ = force at the moment it starts to move ÷ weight of the block; (3) a structural engineer. The app gives no default because it depends on materials, moisture and dirt — enter the value for the worst conditions (wet, dirty ground).",
         "zakres": "Greater than 0. Empty = sliding and overturning are not calculated."
       },
       "wysokoscParcia": {
@@ -126,7 +126,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       "tarcie": {
         "nazwa": "Коэффициент трения о основание μ",
         "cel": "От него зависит, сколько балласта нужно, чтобы каркас не сдвинулся под давлением ветра. Норма его не даёт — это ваше значение для конкретного основания.",
-        "gdzie": "Для пары каркас/балласт и основания (бетон, плитка, грунт, кровельная мембрана). Источник — паспорт материала или проба на месте.",
+        "gdzie": "Для пары: низ каркаса/блока и основание (бетон, плитка, грунт, кровельная мембрана). Где взять: (1) паспорт блоков, подкладок или противоскользящих матов; (2) проба на месте — протащите динамометром блок известного веса по этому основанию, μ = сила в момент начала движения ÷ вес блока; (3) конструктор. Приложение не даёт значения по умолчанию, так как оно зависит от материалов, влажности и загрязнения — введите значение для худших условий (мокрое, загрязнённое основание).",
         "zakres": "Больше 0. Пусто = сдвиг и опрокидывание не считаются."
       },
       "wysokoscParcia": {

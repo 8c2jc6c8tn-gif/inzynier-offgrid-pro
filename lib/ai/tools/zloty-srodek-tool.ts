@@ -47,6 +47,10 @@ const Punkt = z.object({
   mu1Snieg: z.number(),
   bilansZl: z.number().nullable(),
   szacunekPozaNorma: z.boolean().describe("true = kąt powyżej 30° do 89°: siła wiatru i balast to szacunek aplikacji, nie wynik normy; kąt ustawia użytkownik na własną odpowiedzialność"),
+  balastOderwanieKg: z.number().nullable(),
+  balastPrzesuwKg: z.number().nullable(),
+  balastPrzewracanieKg: z.number().nullable(),
+  warunekRozstrzygajacy: z.enum(["oderwanie", "przesuw", "przewracanie"]).nullable().describe("Który ze sprawdzonych warunków daje największy balast i wyznacza balastKg/balastProjektowyKg — przekaż userowi, który to warunek"),
   statecznosc: z.boolean().describe("true = w balastKg sprawdzono też przesuw i przewracanie (dane usera) — szacunek aplikacji także do 30°"),
 })
 
@@ -152,6 +156,10 @@ export function utworzZlotySrodekTool(
             mu1Snieg: p.mu1,
             bilansZl: p.bilansZl,
             szacunekPozaNorma: p.szacunek,
+            balastOderwanieKg: p.balastOderwanieKg,
+            balastPrzesuwKg: p.balastPrzesuwKg,
+            balastPrzewracanieKg: p.balastPrzewracanieKg,
+            warunekRozstrzygajacy: p.warunekRozstrzygajacy,
             statecznosc: p.statecznosc,
           }
         }),

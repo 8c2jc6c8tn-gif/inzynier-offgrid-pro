@@ -8,6 +8,7 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
+import { BalastWarunki, ETYKIETA_WARUNKU } from "@/components/wzorce/balast-warunki"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -79,6 +80,22 @@ const OPIS_TERENU: Record<KategoriaTerenu, string> = {
  * Jedna wielkość w funkcji kąta 0–90° (mała seria wykresów zamiast jednego z trzema osiami — produkcja,
  * wiatr i śnieg mają różne jednostki). `null` = brak danych normowych: przerwa w linii, nie zero.
  */
+/** Ballast of one angle under each condition, the heaviest highlighted — the same view as in the other wind/ballast calculators. */
+function BalastPunktu({ p, t, f }: { p: PunktKata; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+  if (p.balastKg === null) return null
+  return (
+    <div className="mt-1">
+      <BalastWarunki
+        warunki={{ oderwanie: p.balastOderwanieKg, przesuw: p.balastPrzesuwKg, przewracanie: p.balastPrzewracanieKg }}
+        rozstrzyga={p.warunekRozstrzygajacy}
+        t={t}
+        f={f}
+        oderwanieNieDotyczy={p.balastOderwanieKg === null}
+      />
+    </div>
+  )
+}
+
 function WykresKatowy({
   tytul,
   wartosci,
@@ -430,8 +447,9 @@ export default function ZlotySrodekPage() {
               <p className="text-small">
                 {t("UI-ZLOSRO-MASZ-ENERGII-NAJLEPSZEGO", { nachylenieDeg: rek.nachylenieDeg, p: f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax), optimumEnergiiDeg: r.optimumEnergiiDeg, p2: f0(rek.silaWiatruN!) })}
                 {stan.masaPaneliStelaza ? ` ${t("UI-ZLOSRO-PONAD-CIEZAR-PANELI")}` : ""}{" "}
-                <strong>{f0(rek.balastKg!)} kg</strong> {t("UI-ZLOSRO-BILANS-OKRESIE-ANALIZY", { p: f0(rek.kosztBalastuZl!), p2: f0(rek.bilansZl!) })}
+                <strong>{f0(Math.ceil(rek.balastKg!))} kg</strong> {t("UI-ZLOSRO-BILANS-OKRESIE-ANALIZY", { p: f0(rek.kosztBalastuZl!), p2: f0(rek.bilansZl!) })}
               </p>
+              <BalastPunktu p={rek} t={t} f={f0} />
             </>
           ) : (
             <p className="text-small">{t("UI-ZLOSRO-NAJWIECEJ-ENERGII-DAJE", { optimumEnergiiDeg: r.optimumEnergiiDeg })}</p>
@@ -464,10 +482,11 @@ export default function ZlotySrodekPage() {
             <p className="text-small">
               {t("UI-ZLOSRO-ENERGIA-MAKSIMUM-SNIEG", { nachylenieDeg: wyb.nachylenieDeg, p: f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax), mu1: f2(wyb.mu1) })}
               {wyb.silaWiatruN !== null && t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) })}
-              {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(wyb.balastKg), p: f0(wyb.kosztBalastuZl!) }) : ""}.
+              {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(Math.ceil(wyb.balastKg)), p: f0(wyb.kosztBalastuZl!) }) : ""}.
               {wyb.szacunek && t("UI-ZLOSRO-SZACUNEK-ZNACZNIK")}
             </p>
           )}
+          {wyb && wyb !== rek && <BalastPunktu p={wyb} t={t} f={f0} />}
 
           <div className="mt-3 flex flex-col gap-4">
             <WykresKatowy
@@ -508,6 +527,7 @@ export default function ZlotySrodekPage() {
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-ENERGIA")}</th>
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-WIATR")}</th>
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-BALAST-PROJ")}</th>
+                  {r.punkty.some((q) => q.statecznosc) && <th className="p-2 text-left font-medium">{t("UI-ZLOSRO-ROZSTRZYGA")}</th>}
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-KOSZT")}</th>
                 </tr>
               </thead>
@@ -519,7 +539,10 @@ export default function ZlotySrodekPage() {
                       <td className="p-2">{k}°{p.szacunek ? " 🔎" : ""}</td>
                       <td className="p-2 text-right font-mono">{f1((100 * p.napromieniowanieRoczneKwhM2) / hMax)}%</td>
                       <td className="p-2 text-right font-mono">{p.silaWiatruN === null ? "—" : f0(p.silaWiatruN)}</td>
-                      <td className="p-2 text-right font-mono">{p.balastKg === null ? "—" : f0(p.balastKg)}</td>
+                      <td className="p-2 text-right font-mono">{p.balastKg === null ? "—" : f0(Math.ceil(p.balastKg))}</td>
+                      {r.punkty.some((q) => q.statecznosc) && (
+                        <td className="p-2">{p.statecznosc && p.warunekRozstrzygajacy !== null ? t(ETYKIETA_WARUNKU[p.warunekRozstrzygajacy]) : "—"}</td>
+                      )}
                       <td className="p-2 text-right font-mono">{p.kosztBalastuZl === null ? "—" : f0(p.kosztBalastuZl)}</td>
                     </tr>
                   )

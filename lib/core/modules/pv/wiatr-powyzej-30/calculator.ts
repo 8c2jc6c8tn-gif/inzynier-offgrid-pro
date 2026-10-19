@@ -11,7 +11,7 @@ import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/const
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { KAT_NORMOWY_MAX_DEG } from "./constants"
-import { silaIBalastWiatru, skladStatecznosc } from "./sila-i-balast"
+import { silaIBalastWiatru, skladStatecznosc, type WarunekBalastu } from "./sila-i-balast"
 import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
 import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, statecznoscNiekompletna, statecznoscSzacunek, szacunekPozaNorma } from "./warnings"
@@ -45,6 +45,8 @@ export type WiatrPowyzej30Result = {
   balastOderwanieKg: number | null
   balastPrzesuwKg: number | null
   balastPrzewracanieKg: number | null
+  /** Który warunek wyznacza `balastProjektowyKg` (najcięższy z sprawdzonych). */
+  warunekRozstrzygajacy: WarunekBalastu | null
 }
 
 const CP_ZERO: CpNetWiaty = { dociskSrodek: 0, dociskKrawedz: 0, odrywanieSrodek: 0, odrywanieKrawedz: 0 }
@@ -63,6 +65,7 @@ const PUSTY: WiatrPowyzej30Result = {
   balastOderwanieKg: null,
   balastPrzesuwKg: null,
   balastPrzewracanieKg: null,
+  warunekRozstrzygajacy: null,
 }
 
 /**
@@ -154,6 +157,7 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       balastOderwanieKg: sila?.balastOderwanieKg ?? null,
       balastPrzesuwKg: sila?.balastPrzesuwKg ?? null,
       balastPrzewracanieKg: sila?.balastPrzewracanieKg ?? null,
+      warunekRozstrzygajacy: sila?.warunekRozstrzygajacy ?? null,
     },
     status: "ESTIMATE",
     assumptions,

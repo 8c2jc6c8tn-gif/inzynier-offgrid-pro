@@ -141,7 +141,6 @@ export const pl = {
   "UI-TYPMON-COMWSP-TARCIE": "Współczynnik tarcia o podłoże μ (opcjonalnie)",
   "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Głębokość podstawy stelaża (opcjonalnie)",
   "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Sprawdzono tylko oderwanie. Żeby sprawdzić też przesuw i przewracanie, wpisz współczynnik tarcia o podłoże (głębokość podstawy opcjonalnie; przy 90° jest konieczna).",
-  "UI-TYPMON-COMWSP-BALAST-SKLADNIKI": "Składniki balastu: oderwanie {oderwanie}, przesuw {przesuw}, przewracanie {przewracanie} — bierzemy największy.",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — pozioma, bez balastu w kg.",
 } as const
 
@@ -286,7 +285,6 @@ export const en: Record<Klucz, string> = {
   "UI-TYPMON-COMWSP-TARCIE": "Friction coefficient with the ground μ (optional)",
   "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Footprint depth of the frame (optional)",
   "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Only uplift was checked. To check sliding and overturning too, enter the friction coefficient (footprint depth is optional; at 90° it is required).",
-  "UI-TYPMON-COMWSP-BALAST-SKLADNIKI": "Ballast components: uplift {oderwanie}, sliding {przesuw}, overturning {przewracanie} — the largest is used.",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — horizontal, no ballast in kg.",
 }
 
@@ -430,6 +428,5 @@ export const ru: Record<Klucz, string> = {
   "UI-TYPMON-COMWSP-TARCIE": "Коэффициент трения о основание μ (необязательно)",
   "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Глубина основания каркаса (необязательно)",
   "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Проверен только отрыв. Чтобы проверить также сдвиг и опрокидывание, введите коэффициент трения (глубина основания необязательна; при 90° она обязательна).",
-  "UI-TYPMON-COMWSP-BALAST-SKLADNIKI": "Составляющие балласта: отрыв {oderwanie}, сдвиг {przesuw}, опрокидывание {przewracanie} — берётся наибольшая.",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — горизонтальная, без балласта в кг.",
 }

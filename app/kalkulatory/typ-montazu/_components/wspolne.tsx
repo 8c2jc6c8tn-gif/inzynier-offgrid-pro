@@ -6,9 +6,11 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { BalastWarunki } from "@/components/wzorce/balast-warunki"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
+import type { WarunekBalastu } from "@/lib/core/modules/pv/wiatr-powyzej-30/sila-i-balast"
 import { useFormatLiczby, useFormaty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
@@ -146,16 +148,18 @@ export function stelazZSeeda(s: StelazSeed) {
   }
 }
 
-/** Ballast breakdown (uplift / sliding / overturning) when the stability check ran, otherwise a hint what to enter. */
-export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
-  if (!w.statecznosc || w.balastPrzesuwKg === null || w.balastPrzewracanieKg === null) return <li className="text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</li>
+/** Ballast for each condition with the governing one highlighted, or a hint what to enter when only uplift was checked. */
+export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null; warunekRozstrzygajacy: WarunekBalastu | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
   return (
     <li>
-      {t("UI-TYPMON-COMWSP-BALAST-SKLADNIKI", {
-        oderwanie: w.balastOderwanieKg === null ? "—" : `${f(w.balastOderwanieKg)} kg`,
-        przesuw: `${f(w.balastPrzesuwKg)} kg`,
-        przewracanie: `${f(w.balastPrzewracanieKg)} kg`,
-      })}
+      <BalastWarunki
+        warunki={{ oderwanie: w.balastOderwanieKg, przesuw: w.balastPrzesuwKg, przewracanie: w.balastPrzewracanieKg }}
+        rozstrzyga={w.warunekRozstrzygajacy}
+        t={t}
+        f={f}
+        oderwanieNieDotyczy={w.balastOderwanieKg === null}
+      />
+      {!w.statecznosc && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</p>}
     </li>
   )
 }
