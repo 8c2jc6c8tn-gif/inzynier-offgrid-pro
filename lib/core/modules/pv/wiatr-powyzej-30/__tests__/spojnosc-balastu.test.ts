@@ -15,7 +15,7 @@ const B = 5
 const H0 = 0.5
 const MU = 0.5
 const MASA = 80
-const wiatr = { strefaWiatrowa: 1 as const, wysokoscNpmM: 100, kategoriaTerenu: "III" as const, wspolczynnikPhi: 0 }
+const wiatrZPhi = (wspolczynnikPhi: number) => ({ strefaWiatrowa: 1 as const, wysokoscNpmM: 100, kategoriaTerenu: "III" as const, wspolczynnikPhi })
 const tabela: TabelaNapromieniowania = {
   azymutDeg: 180,
   albedo: 0.2,
@@ -27,8 +27,10 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 const zeGorneJ = (kat: number) => H0 + L * Math.sin(rad(kat))
 
 describe("spójność balastu między kalkulatorami", () => {
-  for (const kat of [20, 35, 60]) {
-    it(`${kat}°: wiatr >30° / dach płaski / regulowany / Złoty środek dają to samo`, () => {
+  // φ = 1 sprawdza też interpolację współczynnika siły (D97): przy φ = 0 cf(30°) = cf(90°) = 1,8, więc jest płaski.
+  for (const [phi, kat] of [[0, 20], [0, 35], [1, 35], [1, 60], [0.5, 80]] as const) {
+    const wiatr = wiatrZPhi(phi)
+    it(`φ = ${phi}, ${kat}°: wiatr >30° / dach płaski / regulowany / Złoty środek dają to samo`, () => {
       const dach = calculateDachPlaski({
         ...wiatr,
         miejsce: "grunt",
@@ -46,7 +48,7 @@ describe("spójność balastu między kalkulatorami", () => {
         kategoriaTerenu: "III",
         wysokoscKonstrukcjiM: zeGorneJ(kat),
         powierzchniaPaneliM2: L * B,
-        wspolczynnikPhi: 0,
+        wspolczynnikPhi: phi,
         masaPaneliStelazaKg: MASA,
         dlugoscWzdluzSpaduM: L,
         wspolczynnikTarcia: MU,
@@ -80,7 +82,7 @@ describe("spójność balastu między kalkulatorami", () => {
           ...{ strefaWiatrowa: 1, wysokoscNpmM: 100, kategoriaTerenu: "III" },
           wysokoscKonstrukcjiM: zeGorneJ(kat),
           powierzchniaM2: L * B,
-          wspolczynnikPhi: 0,
+          wspolczynnikPhi: phi,
           masaPaneliStelazaKg: MASA,
           wspolczynnikTarcia: MU,
           wysokoscSrodkaParciaM: H0 + (L / 2) * Math.sin(rad(kat)),
@@ -97,6 +99,7 @@ describe("spójność balastu między kalkulatorami", () => {
   }
 
   it("90° z głębokością podstawy: wszystkie cztery zgodne, oderwanie nie dotyczy, rozstrzyga przesuw albo przewracanie", () => {
+    const wiatr = wiatrZPhi(0)
     const GL = 0.8
     const dach = calculateDachPlaski({ ...wiatr, miejsce: "grunt", nachylenieDeg: 90, dlugoscWzdluzSpaduM: L, szerokoscStelazaM: B, wysokoscDolnejKrawedziM: H0, masaPaneliStelazaKg: null, wspolczynnikTarcia: MU, glebokoscPodstawyM: GL }).value!
     const w30 = calculateWiatrPowyzej30({

@@ -23,7 +23,7 @@ import {
   szacunekLepszyBilans,
 } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.3.0"
+export const CALCULATOR_VERSION = "1.4.0"
 
 export type PunktKata = {
   nachylenieDeg: number
@@ -187,7 +187,7 @@ export function calculateZlotySrodek(input: ZlotySrodekInput): CalcResult<ZlotyS
     { kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } },
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
     { kod: "ZS-ZALOZENIE-KAT-POSREDNI" },
-    ...(punkty.some((q) => q.szacunek) ? [{ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: CF_WIATA_MAX_KAT_DEG } }] : []),
+    ...(punkty.some((q) => q.szacunek) ? [{ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: CF_WIATA_MAX_KAT_DEG } }] : []),
     { kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } },
     { kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } },
     ...(stateczne.length > 0 ? [{ kod: "WP30-ZALOZENIE-STATECZNOSC-KATY", params: { mu: input.wspolczynnikTarcia!, dlugosc: input.dlugoscWzdluzSpaduM! } }] : []),

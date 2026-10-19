@@ -85,16 +85,36 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
       expect(r.value.balastProjektowyKg).toBeCloseTo((1.5 * sila) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2) - 50, 6)
       expect(r.warnings.map((w) => w.code)).toEqual(["WP30-SZACUNEK-POZA-NORMA", "ZS-BALAST-EQU-TYLKO-ODRYWANIE", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC"])
       expect(r.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toEqual(
-        expect.arrayContaining(["WP30-ZALOZENIE-CF-Z-30", "ZS-ZALOZENIE-BALAST-EQU", "ZS-ZALOZENIE-MASA-WLASNA"]),
+        expect.arrayContaining(["WP30-ZALOZENIE-CF-INTERPOLACJA", "ZS-ZALOZENIE-BALAST-EQU", "ZS-ZALOZENIE-MASA-WLASNA"]),
       )
     })
 
-    it("φ lowers the force coefficient (cf 1,8 at φ = 0, 1,4 at φ = 1) and the ballast with it", () => {
+    it("φ lowers the force coefficient (45°: cf 1,8 at φ = 0, 1,4 + (1,8 − 1,4)·15/60 = 1,5 at φ = 1) and the ballast with it", () => {
       const a = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 0 }).value
       const b = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 1 }).value
       expect(a.cf).toBeCloseTo(1.8, 9)
-      expect(b.cf).toBeCloseTo(1.4, 9)
+      expect(b.cf).toBeCloseTo(1.5, 9)
       expect(b.balastProjektowyKg!).toBeLessThan(a.balastProjektowyKg!)
+    })
+
+    it("D97: the force coefficient is computed for EVERY degree 31–89 by linear interpolation between cf(30°, φ) and cf(90°) = 1,8", () => {
+      const cf30 = cfOdrywaniaWiaty(30, 1)!
+      expect(cf30).toBeCloseTo(1.4, 9)
+      let poprzedni = cf30
+      for (let kat = 31; kat <= 89; kat++) {
+        const cf = calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: kat, powierzchniaM2: 10, wspolczynnikPhi: 1 }).value.cf!
+        expect(cf).toBeCloseTo(cf30 + ((1.8 - cf30) * (kat - 30)) / 60, 9)
+        expect(cf).toBeGreaterThan(poprzedni) // strictly rising: continuous at 30° and heading to 1,8 at 90°
+        expect(cf).toBeLessThan(1.8)
+        poprzedni = cf
+      }
+      expect(calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: 90, powierzchniaM2: 10, wspolczynnikPhi: 1 }).value.cf).toBe(1.8)
+    })
+
+    it("D97: the ballast follows the per-degree force — it rises with the angle when φ > 0 (it no longer stays flat from 30° to 89°)", () => {
+      const balast = (kat: number) => calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: kat, powierzchniaM2: 10, wspolczynnikPhi: 1 }).value.balastProjektowyKg!
+      expect(balast(31)).toBeLessThan(balast(60))
+      expect(balast(60)).toBeLessThan(balast(89))
     })
 
     it("ballast never goes negative when the own weight exceeds the need", () => {

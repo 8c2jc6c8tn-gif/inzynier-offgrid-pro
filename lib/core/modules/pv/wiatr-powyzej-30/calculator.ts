@@ -16,11 +16,11 @@ import type { WiatrPowyzej30Input } from "./input"
 import { validateInput } from "./validation"
 import { katNaWlasnaOdpowiedzialnosc, katObjetyNorma, statecznoscNiekompletna, statecznoscSzacunek, szacunekPozaNorma } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 const FORMULA =
   "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad " +
-  "F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_h/\\mu + F_v)}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)"
+  "c_f(\\alpha,\\varphi) = c_f(30^\\circ,\\varphi) + \\left(c_f(90^\\circ) - c_f(30^\\circ,\\varphi)\\right)\\frac{\\alpha - 30^\\circ}{60^\\circ};\\quad F_w = c_sc_d \\cdot c_f(\\alpha,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{sl} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_h/\\mu + F_v)}{\\gamma_{G,inf}\\, g} - G\\right);\\quad m_{ov} = \\max\\left(0,\\ \\frac{\\gamma_Q (F_v + 2 F_h h / b)}{\\gamma_{G,inf}\\, g} - G\\right)"
 
 export type WiatrPowyzej30Result = {
   /** Bazowe ciśnienie prędkości q_b [Pa] (Tablica NA.1). */
@@ -29,7 +29,7 @@ export type WiatrPowyzej30Result = {
   ce: number
   /** Szczytowe ciśnienie prędkości q_p(z) = c_e·q_b [Pa]. */
   qpPa: number
-  /** Współczynniki c_p,net z 30° Tablicy 7.6, zachowane dla większych kątów (D90). */
+  /** Współczynniki c_p,net z 30° Tablicy 7.6, zachowane dla większych kątów (D90; ciśnienie lokalne — bez interpolacji, w przeciwieństwie do współczynnika siły cf, D97). */
   cp: CpNetWiaty
   /** Ciśnienie netto na panel [Pa]: docisk i odrywanie, pole środkowe i krawędziowe. */
   dociskSrodekPa: number
@@ -128,7 +128,7 @@ export function calculateWiatrPowyzej30(input: WiatrPowyzej30Input): CalcResult<
       if (niekompletna) warnings.push(statecznoscNiekompletna())
     }
     warnings.push(katNaWlasnaOdpowiedzialnosc(input.nachylenieDeg, KAT_NORMOWY_MAX_DEG))
-    assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
+    assumptions.push({ kod: "WP30-ZALOZENIE-CF-INTERPOLACJA", params: { max: KAT_NORMOWY_MAX_DEG } })
     assumptions.push({ kod: "ZS-ZALOZENIE-CSCD", params: { cscd: CSCD_STELAZ } })
     if (sila.balastKg !== null) {
       assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })

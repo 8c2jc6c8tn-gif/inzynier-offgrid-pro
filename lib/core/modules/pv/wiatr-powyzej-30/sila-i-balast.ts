@@ -7,8 +7,10 @@ import { KAT_MAX_DEG, KAT_NORMOWY_MAX_DEG } from "./constants"
  * Siła wiatru na stelaż z panelami i balast przeciw oderwaniu dla DOWOLNEGO kąta — jedno źródło reguły dla wszystkich
  * kalkulatorów zmiany kąta (typ montażu, „Złoty środek”, wiatr powyżej 30°):
  *  - 0–30°: Tablica 7.6 Eurokodu (norma), balast z EQU (PN-EN 1990);
- *  - powyżej 30° do 90° (wyłącznie): SZACUNEK aplikacji — współczynnik siły z 30° zachowany (decyzja właściciela, D90/D95),
- *    balast z tego samego wzoru EQU; użytkownik zabezpiecza kąt na własną odpowiedzialność;
+ *  - powyżej 30° do 90° (wyłącznie): SZACUNEK aplikacji — współczynnik siły policzony dla KAŻDEGO kąta liniową interpolacją
+ *    między dwiema wartościami z naszych danych: cf(30°, φ) z Tablicy 7.6 i cf(90°) = 1,80 z 7.4.3 (D97, polecenie właściciela:
+ *    „przeliczone na bazie naszych danych”; zastępuje „zachowaj wartość z 30°” z D90/D95), balast z tego samego wzoru EQU;
+ *    użytkownik zabezpiecza kąt na własną odpowiedzialność;
  *  - 90° (panel pionowy): norma 7.4.3, cf = 1,80 to siła POZIOMA — balast zależy od tarcia i przewracania, norma tego nie podaje,
  *    więc bez danych użytkownika kg balastu nie liczymy (`null`);
  *  - z `stateczność` (tarcie, wysokość punktu przyłożenia siły, podstawa — dane użytkownika, bez wartości domyślnych) dla KAŻDEGO
@@ -37,6 +39,17 @@ export type SilaIBalastWiatru = {
   statecznosc: boolean
   /** `true` = współczynnik z szacunku aplikacji (powyżej 30° do 90° wyłącznie), nie z normy. */
   szacunek: boolean
+}
+
+/**
+ * Współczynnik siły dla kąta powyżej 30° do 90° (wyłącznie): liniowa interpolacja między cf(30°, φ) (Tablica 7.6, norma) a cf(90°) = 1,80
+ * (7.4.3, norma). Obie wartości to nasze dane; sama interpolacja jest szacunkiem aplikacji, bo norma nie podaje nic pomiędzy
+ * (i dla siły prostopadłej do paneli, i dla siły poziomej na pionowej tablicy to różne wielkości — traktujemy je jako moduł siły netto).
+ */
+export function cfSzacunekPozaNorma(katDeg: number, phi: number): number | null {
+  const cf30 = cfOdrywaniaWiaty(KAT_NORMOWY_MAX_DEG, phi)
+  if (cf30 === null) return null
+  return cf30 + ((CF_TABLICA_PIONOWA - cf30) * (katDeg - KAT_NORMOWY_MAX_DEG)) / (KAT_MAX_DEG - KAT_NORMOWY_MAX_DEG)
 }
 
 /** Kąty, dla których współczynnik siły jest szacunkiem aplikacji: powyżej 30° i poniżej 90°. */
@@ -68,7 +81,7 @@ export function silaIBalastWiatru(
   if (!Number.isFinite(katDeg) || katDeg < 0 || katDeg > KAT_MAX_DEG) return null
   const pion = katDeg === KAT_MAX_DEG
   const szacunek = czySzacunekWiatru(katDeg)
-  const cf = pion ? CF_TABLICA_PIONOWA : cfOdrywaniaWiaty(szacunek ? KAT_NORMOWY_MAX_DEG : katDeg, phi)
+  const cf = pion ? CF_TABLICA_PIONOWA : szacunek ? cfSzacunekPozaNorma(katDeg, phi) : cfOdrywaniaWiaty(katDeg, phi)
   if (cf === null) return null
   const silaN = silaWiatruN(CSCD_STELAZ, cf, qpPa, powierzchniaM2)
   // Siła prostopadła do panelu; przy 90° cała jest pozioma (7.4.3), przy mniejszych kątach rozkład na składowe.

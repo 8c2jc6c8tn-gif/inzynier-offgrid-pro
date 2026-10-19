@@ -111,7 +111,7 @@ describe("calculateDachPlaski (M3/E2, dawne 2.5)", () => {
     expect(v.silaWiatruN).toBeCloseTo(1.8 * qp * 10, 6)
     expect(v.balastKg).toBeCloseTo((1.5 * 1.8 * qp * 10) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2), 6)
     expect(kody(r)).toEqual(["ZS-BALAST-EQU-TYLKO-ODRYWANIE", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC"])
-    expect(r.assumptions.some((a) => typeof a !== "string" && a.kod === "WP30-ZALOZENIE-CF-Z-30")).toBe(true)
+    expect(r.assumptions.some((a) => typeof a !== "string" && a.kod === "WP30-ZALOZENIE-CF-INTERPOLACJA")).toBe(true)
   })
 
   it("szacunek obejmuje 31–89° tym samym współczynnikiem; do 30° to norma (szacunek = false), 90° to siła pozioma bez balastu", () => {

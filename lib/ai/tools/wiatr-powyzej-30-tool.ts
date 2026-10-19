@@ -49,7 +49,7 @@ export const wiatrPowyzej30Tool: AiToolDefinition<WiatrPowyzej30ToolInputT, Wiat
   description:
     "Szacuje ciśnienie wiatru na panele PV na konstrukcji pod kątem powyżej 30° do 90° (Moduł 3). Norma (Eurokod, " +
     "Tablica 7.6) kończy się na 30°, więc wynik jest SZACUNKIEM aplikacji (status ESTIMATE), nie wynikiem normowym: " +
-    "współczynniki z 30° zachowane dla większych kątów. Do 30° zwraca OUT_OF_SCOPE i odsyła do wyniku normowego " +
+    "współczynniki ciśnienia z 30° zachowane dla większych kątów, a współczynnik siły (stelaż) liczony dla każdego kąta interpolacją liniową między 30° (Tablica 7.6) a 90° (cf = 1,80). Do 30° zwraca OUT_OF_SCOPE i odsyła do wyniku normowego " +
     "(Porównywarka paneli, „Złoty środek”). Strefa wiatrowa, wysokość n.p.m., kategoria terenu i wysokość konstrukcji " +
     "podaje user — nie zgaduj. Gdy user poda też powierzchnię paneli i φ (opcjonalnie masę własną), liczy siłę wiatru na " +
     "stelaż i balast przeciw oderwaniu (EQU) — tym samym wzorem co do 30°; użytkownik ustawia taki kąt i zabezpiecza " +
