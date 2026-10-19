@@ -59,13 +59,14 @@ export function balastProjektowyEqu(): Warning {
   }
 }
 
-export function wybranyKatBezDanychWiatru(kat: number): Warning {
+/** Kąt powyżej 30° (szacunek) dałby wyższy bilans niż rekomendacja normowa — informacja, kąt wybiera użytkownik na własną odpowiedzialność. */
+export function szacunekLepszyBilans(kat: number, roznicaZl: number, balastKg: number): Warning {
   return {
-    code: "ZS-KAT-BEZ-DANYCH-WIATRU",
+    code: "ZS-SZACUNEK-LEPSZY-BILANS",
     level: "info",
-    i18nKey: "ZS-KAT-BEZ-DANYCH-WIATRU",
-    params: { kat },
-    technicalMessage: `nachylenieDeg = ${kat}: Tablica 7.6 obejmuje 0–30°, 7.4.3 tylko pion 90°`,
+    i18nKey: "ZS-SZACUNEK-LEPSZY-BILANS",
+    params: { kat, roznica: Math.round(roznicaZl), balast: Math.ceil(balastKg) },
+    technicalMessage: `kąt ${kat}° (szacunek poza normą) dałby bilans wyższy o ${roznicaZl.toFixed(0)} zł; balast ${balastKg.toFixed(0)} kg`,
     field: "nachylenieDeg",
   }
 }

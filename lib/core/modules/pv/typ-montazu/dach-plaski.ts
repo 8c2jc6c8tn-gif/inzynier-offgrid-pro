@@ -4,7 +4,9 @@ import { wspolczynnikKsztaltuMu1 } from "../eurokod-1/snieg"
 import { KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
-import { balastProjektowyEqu, pionSilaPozioma, wybranyKatBezDanychWiatru } from "../zloty-srodek/warnings"
+import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
+import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
+import { katNaWlasnaOdpowiedzialnosc } from "../wiatr-powyzej-30/warnings"
 import { PROG_SSANIA_OD_SPODU_DEG, PROG_ZALEGANIA_SNIEGU_DEG } from "./constants"
 import type { DachPlaskiInput } from "./input"
 import { validateDachPlaski } from "./validation"
@@ -57,7 +59,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
   const warnings: Warning[] = []
   if (wiatr.balastKg !== null) warnings.push(balastProjektowyEqu())
   else if (kat === KAT_PIONOWY_DEG) warnings.push(pionSilaPozioma())
-  else warnings.push(wybranyKatBezDanychWiatru(kat))
+  if (wiatr.szacunek) warnings.push(katNaWlasnaOdpowiedzialnosc(kat, KAT_NORMOWY_MAX_DEG))
   if (kat >= PROG_SSANIA_OD_SPODU_DEG) warnings.push(ssanieOdSpodu(kat, PROG_SSANIA_OD_SPODU_DEG))
   if (kat < PROG_ZALEGANIA_SNIEGU_DEG) warnings.push(sniegZalegaPonizejProgu(kat, PROG_ZALEGANIA_SNIEGU_DEG))
   if (miejsce === "dach") warnings.push(dachPozaModelemWiaty())
@@ -69,6 +71,7 @@ export function calculateDachPlaski(input: DachPlaskiInput): CalcResult<DachPlas
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (katPosredniTablicy(kat)) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
+  if (wiatr.szacunek) assumptions.push({ kod: "WP30-ZALOZENIE-CF-Z-30", params: { max: KAT_NORMOWY_MAX_DEG } })
   if (wiatr.balastKg !== null) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })

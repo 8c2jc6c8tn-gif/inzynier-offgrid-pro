@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
-import { bazoweCisnienieWiatruPa, cpNetWiatyJednospadowej, szczytoweCisnieniePa, wspolczynnikEkspozycji } from "../../eurokod-1/wiatr"
+import { bazoweCisnienieWiatruPa, cfOdrywaniaWiaty, cpNetWiatyJednospadowej, szczytoweCisnieniePa, wspolczynnikEkspozycji } from "../../eurokod-1/wiatr"
+import { PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../../zloty-srodek/constants"
 import { calculateWiatrPowyzej30, CALCULATOR_VERSION } from "../calculator"
 import type { WiatrPowyzej30Input } from "../input"
 
@@ -62,5 +63,63 @@ describe("wiatr dla paneli na konstrukcji powyżej 30° (szacunek poza normą)",
     expect(calculateWiatrPowyzej30({ ...PELNY, wysokoscNpmM: 3000 }).status).toBe("INVALID_INPUT")
     expect(calculateWiatrPowyzej30({ ...PELNY, wysokoscKonstrukcjiM: 0 }).status).toBe("INVALID_INPUT")
     expect(calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: -1 }).status).toBe("INVALID_INPUT")
+  })
+
+  describe("siła na stelaż i balast (powierzchnia + φ)", () => {
+    const qp = () => szczytoweCisnieniePa(bazoweCisnienieWiatruPa(2, 120), wspolczynnikEkspozycji("II", 4))
+
+    it("without area and φ the force and ballast stay empty", () => {
+      const v = calculateWiatrPowyzej30(PELNY).value
+      expect(v.cf).toBeNull()
+      expect(v.silaWiatruN).toBeNull()
+      expect(v.balastProjektowyKg).toBeNull()
+    })
+
+    it("force = cf(30°, φ)·qp·A and ballast = EQU (1,5·F / (0,9·g) − G), the same chain as up to 30°", () => {
+      const r = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 0, masaPaneliStelazaKg: 50 })
+      const cf = cfOdrywaniaWiaty(30, 0)!
+      const sila = cf * qp() * 10
+      expect(r.status).toBe("ESTIMATE")
+      expect(r.value.cf).toBe(cf)
+      expect(r.value.silaWiatruN).toBeCloseTo(sila, 6)
+      expect(r.value.balastProjektowyKg).toBeCloseTo((1.5 * sila) / (0.9 * PRZYSPIESZENIE_ZIEMSKIE_M_S2) - 50, 6)
+      expect(r.warnings.map((w) => w.code)).toEqual(["WP30-SZACUNEK-POZA-NORMA", "ZS-BALAST-EQU-TYLKO-ODRYWANIE", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC"])
+      expect(r.assumptions.map((a) => (typeof a === "string" ? a : a.kod))).toEqual(
+        expect.arrayContaining(["WP30-ZALOZENIE-CF-Z-30", "ZS-ZALOZENIE-BALAST-EQU", "ZS-ZALOZENIE-MASA-WLASNA"]),
+      )
+    })
+
+    it("φ lowers the force coefficient (cf 1,8 at φ = 0, 1,4 at φ = 1) and the ballast with it", () => {
+      const a = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 0 }).value
+      const b = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 10, wspolczynnikPhi: 1 }).value
+      expect(a.cf).toBeCloseTo(1.8, 9)
+      expect(b.cf).toBeCloseTo(1.4, 9)
+      expect(b.balastProjektowyKg!).toBeLessThan(a.balastProjektowyKg!)
+    })
+
+    it("ballast never goes negative when the own weight exceeds the need", () => {
+      const v = calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 1, wspolczynnikPhi: 1, masaPaneliStelazaKg: 100000 }).value
+      expect(v.balastProjektowyKg).toBe(0)
+    })
+
+    it("vertical panel (90°): horizontal force, no uplift ballast", () => {
+      const r = calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: 90, powierzchniaM2: 10, wspolczynnikPhi: 0 })
+      expect(r.value.cf).toBe(1.8)
+      expect(r.value.silaWiatruN).toBeCloseTo(1.8 * qp() * 10, 6)
+      expect(r.value.balastProjektowyKg).toBeNull()
+      expect(r.warnings.map((w) => w.code)).toContain("ZS-PION-SILA-POZIOMA")
+    })
+
+    it("rejects an empty area, φ outside 0–1 and a negative mass", () => {
+      expect(calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 0, wspolczynnikPhi: 0 }).status).toBe("INVALID_INPUT")
+      expect(calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 5, wspolczynnikPhi: 1.5 }).status).toBe("INVALID_INPUT")
+      expect(calculateWiatrPowyzej30({ ...PELNY, powierzchniaM2: 5, wspolczynnikPhi: 0, masaPaneliStelazaKg: -1 }).status).toBe("INVALID_INPUT")
+    })
+
+    it("up to 30° there is still no own number, even with area and φ", () => {
+      const r = calculateWiatrPowyzej30({ ...PELNY, nachylenieDeg: 20, powierzchniaM2: 10, wspolczynnikPhi: 0 })
+      expect(r.status).toBe("OUT_OF_SCOPE")
+      expect(r.value.silaWiatruN).toBeNull()
+    })
   })
 })

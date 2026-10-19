@@ -16,6 +16,7 @@ import { utworzZlotySrodekTool, zlotySrodekTool } from "../zloty-srodek-tool"
 import { liczbaPaneliTool, utworzLiczbaPaneliTool } from "../liczba-paneli-tool"
 import { trackerVsStalyTool } from "../tracker-vs-staly-tool"
 import { typMontazuTool, utworzTypMontazuTool } from "../typ-montazu-tool"
+import { wiatrPowyzej30Tool } from "../wiatr-powyzej-30-tool"
 
 const bezBrakujacegoKlucza = (teksty: string[]) => {
   for (const tekst of teksty) expect(tekst.startsWith("⚠")).toBe(false)
@@ -256,6 +257,27 @@ describe("zlotySrodekTool (M3/E9)", () => {
     expect(w.rekomendacjaDeg!).toBeLessThanOrEqual(30)
   })
 
+  it("kąty powyżej 30° do 89° mają siłę i balast jako szacunek poza normą; pion i kąty normowe nie; rekomendacja zostaje normowa", async () => {
+    const json = odpowiedzPvgis()
+    const w = await utworzZlotySrodekTool((async () => new Response(JSON.stringify(json))) as unknown as typeof fetch).handler({
+      ...wejscie,
+      nachylenieDeg: 45,
+      mocInstalacjiKwp: 2,
+      wspolczynnikPr: 0.8,
+      cenaEnergiiZlKwh: 1,
+      liczbaLat: 10,
+    })
+    const p45 = w.punkty.find((p) => p.nachylenieDeg === 45)!
+    expect(p45.szacunekPozaNorma).toBe(true)
+    expect(p45.silaWiatruN).not.toBeNull()
+    expect(p45.balastKg).not.toBeNull()
+    expect(w.punkty.find((p) => p.nachylenieDeg === 90)!.szacunekPozaNorma).toBe(false)
+    expect(w.punkty.find((p) => p.nachylenieDeg === 30)!.szacunekPozaNorma).toBe(false)
+    expect(w.rekomendacjaDeg!).toBeLessThanOrEqual(30)
+    expect(w.ostrzezenia).toContain(t("pl", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC", { kat: 45, max: 30 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
   it("PVGIS odrzuca → INCOMPLETE z komunikatem", async () => {
     const zly = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
     const w = await utworzZlotySrodekTool(zly).handler(wejscie)
@@ -351,5 +373,39 @@ describe("typMontazuTool (M3/E2)", () => {
     const b = await utworzTypMontazuTool(zly).handler({ tryb: "pionowy", ...lok })
     expect(b.status).toBe("INCOMPLETE")
     expect(b.ostrzezenia).toEqual([KOMUNIKAT_PVGIS["PVGIS-ODRZUCIL-ZAPYTANIE"]])
+  })
+})
+
+describe("wiatrPowyzej30Tool (wiatr powyżej 30°, szacunek poza normą)", () => {
+  const wejscie = { nachylenieDeg: 45, strefaWiatrowa: 2 as const, wysokoscNpmM: 120, kategoriaTerenu: "II" as const, wysokoscKonstrukcjiM: 4 }
+
+  it("kontrakt 9.3 i opis z „Użyj, gdy”", () => {
+    expect(() => validateAiToolDefinition(wiatrPowyzej30Tool)).not.toThrow()
+    expect(wiatrPowyzej30Tool.description).toMatch(/Użyj, gdy/)
+  })
+
+  it("zwraca ESTIMATE z ciśnieniami; bez powierzchni i φ siła i balast są puste", async () => {
+    const w = await wiatrPowyzej30Tool.handler(wejscie)
+    expect(w.status).toBe("ESTIMATE")
+    expect(w.szczytoweCisnienieWiatruPa).toBeGreaterThan(0)
+    expect(w.odrywanie.krawedzPa).toBeGreaterThan(w.odrywanie.srodekPa)
+    expect(w.silaWiatruN).toBeNull()
+    expect(w.balastProjektowyKg).toBeNull()
+    expect(w.ostrzezenia).toContain(t("pl", "WP30-SZACUNEK-POZA-NORMA", { kat: 45, max: 30 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("z powierzchnią i φ liczy siłę i balast; ostrzeżenie o własnej odpowiedzialności jest w wyniku", async () => {
+    const w = await wiatrPowyzej30Tool.handler({ ...wejscie, powierzchniaM2: 10, wspolczynnikPhi: 0, masaPaneliStelazaKg: 40 })
+    expect(w.silaWiatruN).toBeGreaterThan(0)
+    expect(w.balastProjektowyKg).toBeGreaterThan(0)
+    expect(w.ostrzezenia).toContain(t("pl", "WP30-KAT-NA-WLASNA-ODPOWIEDZIALNOSC", { kat: 45, max: 30 }))
+    bezBrakujacegoKlucza([...w.ostrzezenia, ...w.zalozenia])
+  })
+
+  it("do 30° nie podaje własnej liczby (norma)", async () => {
+    const w = await wiatrPowyzej30Tool.handler({ ...wejscie, nachylenieDeg: 25, powierzchniaM2: 10, wspolczynnikPhi: 0 })
+    expect(w.status).toBe("OUT_OF_SCOPE")
+    expect(w.silaWiatruN).toBeNull()
   })
 })

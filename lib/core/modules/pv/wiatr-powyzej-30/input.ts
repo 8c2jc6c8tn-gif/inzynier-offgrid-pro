@@ -19,4 +19,10 @@ export type WiatrPowyzej30Input = {
   kategoriaTerenu: KategoriaTerenu | null
   /** Wysokość konstrukcji (środka paneli) nad terenem [m]; `null` = nie wpisano. */
   wysokoscKonstrukcjiM: number | null
+  /** Powierzchnia grupy paneli na konstrukcji [m²] — opcjonalnie; razem ze współczynnikiem φ pozwala policzyć siłę wiatru na stelaż i balast. */
+  powierzchniaM2?: number | null
+  /** Współczynnik ograniczenia przepływu pod stelażem φ (0–1) — opcjonalnie, razem z powierzchnią. */
+  wspolczynnikPhi?: number | null
+  /** Masa paneli i stelaża dla tej powierzchni [kg], bez balastu (D29) — opcjonalnie; puste = pomijamy (bezpieczniej). */
+  masaPaneliStelazaKg?: number | null
 }
