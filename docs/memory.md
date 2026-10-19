@@ -2941,3 +2941,4 @@ Polecenie właściciela: logowanie twarzą lub odciskiem palca. Stan wyjściowy 
 - Przy wartościach zalecanych podejście 3 zawsze daje największy balast przesuwu (wszystkie jego współczynniki ≥ pozostałych), więc obwiednia jest dziś równoważna podejściu 3; trzymamy cztery dla wygody zmiany po otrzymaniu Załącznika krajowego.
 - Do zrobienia: Załącznik krajowy PN-EN 1997-1 (wskazuje podejście) — lista zadań.
 
+**19.10.2026 — D100: Eurokod 7 bez Załącznika krajowego.** Właściciel: brak dokumentu krajowego oznacza, że bierzemy dane z normy. Obwiednia czterech kombinacji (D98) zostaje; zadanie „Załącznik krajowy” na liście zamknięte decyzją. Tablica gruntów (PN-B-03020): czeka na wybór wariantu A/B (Φu to wartość charakterystyczna z korelacji, nie φ′cv z p. 6.5.3 (10)).

@@ -1,6 +1,6 @@
 # Rejestr decyzji — Inżynier Offgrid Pro
 
-**Wersja:** 1.71 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 19.10.2026 | **Status:** Stabilny (rosnący)
+**Wersja:** 1.72 | **Filar:** C | **Data utworzenia:** 04.09.2026 | **Ostatnia aktualizacja:** 19.10.2026 | **Status:** Stabilny (rosnący)
 **Powiązane dokumenty:** `00_Biblia.md`, `docs/memory.md`, `USTALENIA.md` (historyczny, Część II)
 
 TL;DR: D1, D2, D3… — decyzje **strategiczne/fundamentalne** (blokujące wiele innych rzeczy naraz, Krok 4 GOD BOOK), ponumerowane, nigdy nie kasowane, tylko unieważniane jawnie (F.5). **Nie duplikuje `docs/memory.md`**: tam żyje pełna, szczegółowa historia każdej sesji (setki drobnych decyzji implementacyjnych per ekran) — tu tylko decyzje, które zmieniły kierunek/regułę obowiązującą cały projekt. Gdy wpis niżej odsyła do `docs/memory.md`, tam jest pełne uzasadnienie i przykłady.
@@ -413,6 +413,8 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 
 **D99 (19.10.2026) — μ z próby na miejscu: bierzemy najniższy wynik z prób.** Koszt cofnięcia: tani (jedna funkcja `wspolczynnikTarciaZProby` i pomocnik w interfejsie). Polecenie właściciela: „Tak dawaj kalkulator próby”, po pytaniu, skąd użytkownik ma wziąć μ, gdy nie ma dokumentacji geotechnicznej. Ustalenia: (1) μ = F/(m·g), F = siła w chwili ruszenia (tarcie statyczne, bo o nim decyduje początek przesuwu); (2) z kilku prób bierzemy najniższy wynik — rozrzut jest normalny, a zawyżone μ daje za mały balast; (3) to nie norma, tylko pomiar użytkownika dla jego pary bloczek–grunt, więc bez współczynników częściowych poza tymi, które silnik i tak stosuje do μ (D98); (4) dynamometr w N albo kgf (1 kgf = g N, g = 9,80665); (5) tablicy typowych gruntów nie robimy bez cytowalnego źródła (brak w repo i w dostarczonych normach) — czeka na dostarczenie PN-B-03020 albo rozdz. 4 poradnika ITB; (6) wersja programu 3.41.0.
 
+**D100 (19.10.2026) — Eurokod 7: brak Załącznika krajowego nie blokuje; trzymamy się wartości z normy.** Koszt cofnięcia: tani (jedna tabela `PODEJSCIA_EC7` w `lib/core/modules/pv/eurokod-7/przesuw.ts`). Właściciel: „Jeśli brak krajowego załącznika, znaczy że może nie istnieć, więc biorą się dane z normy, więc tego się trzymajmy”. Ustalenia: (1) źródłem współczynników częściowych są wartości zalecane z PN-EN 1997-1 (Załącznik A, Tablice A.3–A.5), bez dalszego czekania na dokument krajowy; (2) obwiednia czterech kombinacji (D98) zostaje — przy wartościach zalecanych rozstrzyga podejście 3, więc to wybór zachowawczy; (3) gdyby Załącznik krajowy kiedyś się pojawił, zmiana to edycja jednej tabeli; (4) pozycja z listy zadań zamknięta jako rozstrzygnięta decyzją; (5) kalkulator ogrodzenia PV korzysta z tego samego wyboru.
+
 **D86 (16.10.2026) — Układ pulpitu: Ustawienia obok Trybu Live, kafle sieci na końcu pod czerwonym separatorem.** Koszt cofnięcia: tani (jedna grupa w `app/page.tsx` i klasa CSS). Decyzja właściciela: kafel Ustawienia (14) stoi zaraz po kaflu 13 (Tryb Live); kafle „Dom – sieć” i „Firma – sieć” (15, 16) są zwykłymi kaflami jak pozostałe (bez szerokiego układu i opisu, pole `duzy` usunięte z `KafelEntry`) i tworzą osobną grupę na samym końcu pulpitu. Grupy rozdziela cienka czerwona linia, która zwęża się na końcach i zanika 1 cm od krawędzi ekranu (`.pulpit-separator`); kolor jest dekoracyjny, nie jest kolorem werdyktu. Poprawia D85 w części „ostatni element siatki” (Ustawienia zamykają teraz grupę główną, nie cały pulpit). Separator znika, gdy oba kafle sieci są ukryte.
 
 ## Założenia robocze (F.7 GOD BOOK)
@@ -501,3 +503,4 @@ Obie sprawy należą do decyzji o modelu freemium (rozdz. 12 standardu), która 
 | 19.10.2026 | Dodano D97 (współczynnik siły dla kątów 31–89° liczony dla każdego stopnia, interpolacja 30°→90°) — polecenie właściciela projektu. Wersja 1.68→1.69. |
 | 19.10.2026 | Dodano D98 (przesuw stelaża wg PN-EN 1997-1 p. 6.5.3, obwiednia czterech kombinacji podejść obliczeniowych) — polecenie właściciela projektu. Wersja 1.69→1.70. |
 | 19.10.2026 | Dodano D99 (μ z próby na miejscu, najniższy wynik z prób) — polecenie właściciela projektu. Wersja 1.70→1.71. |
+| 19.10.2026 | Dodano D100 (Eurokod 7: bez Załącznika krajowego trzymamy się wartości z normy, obwiednia zostaje) — polecenie właściciela projektu. Wersja 1.71→1.72. |
