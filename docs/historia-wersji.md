@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.44.0] — 19.10.2026
+
+Nowy kalkulator „Ogrodzenie z paneli PV” (D103, polecenie właściciela: system sam dobiera i liczy odstępy, wysokości, rury i zagłębienie):
+- układ: liczba rzędów mieszcząca się pod limitem wysokości bez pozwolenia (albo wpisana), wysokość całkowita, prześwit pod najniższym panelem (min. kontrola kurzu i rozbryzgów), rozstaw słupków z długości panelu, liczba słupków i paneli dla wpisanej długości, sprawdzenie licowania (słupek–rura poprzeczna–panel),
+- wiatr wg PN-EN 1991-1-4 7.4.3 (tablica wolno stojąca albo ściana wolno stojąca, gdy z_g < h/4 i b/h > 1), siła na słupek i moment u podstawy; dobór najlżejszego profilu słupka i rygla z katalogu rur prostokątnych (nośność w zginaniu, ugięcie), stal S235/S355,
+- grunt z tablicy PN-B-03020 (wybór użytkownika, jak w pomocniku μ): kąt Φu i ciężar objętościowy; fundament słupka (sztywny krótki pal w gruncie niespoistym) w dwóch metodach obok siebie (zachowawcza c = 1/6 i Broms c = 1/2), obwiednia czterech podejść PN-EN 1997-1, zagłębienie nie mniejsze niż głębokość przemarzania wpisana przez użytkownika, tabela zagłębień dla kilku średnic,
+- zalecenie podsypki pod panelami (geowłóknina, piasek, żwir), autosave, PL/EN/RU, „?” przy każdym polu, narzędzie AI `policz_ogrodzenie_z_paneli_pv`, kafel w pulpicie, nowe twarde stopy w rejestrze (przesuw zbyt mały prześwit, przekroczona wysokość, brak profilu).
+
+Wpływ na liczby: brak dla istniejących kalkulatorów (nowy moduł, nic z dotychczasowych silników nie zmieniło wyników). Wynik ogrodzenia to szacunek aplikacji (`ESTIMATE`): stal (fy, E), wzór Bromsa i głębokość przemarzania nie pochodzą z dostarczonych źródeł — oznaczone „do potwierdzenia”.
+
 ## [3.43.0] — 19.10.2026
 
 Podpowiedź kąta tarcia Φu z PN-B-03020 dla gruntów niespoistych (D102, wariant A wybrany przez właściciela):

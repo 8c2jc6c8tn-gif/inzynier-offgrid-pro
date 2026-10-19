@@ -96,6 +96,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/porownywarka-paneli", label: "Porównywarka paneli PV" },
       { href: "/kalkulatory/odstep-rzedow", label: "Odstęp rzędów paneli" },
       { href: "/kalkulatory/wiatr-powyzej-30", label: "Wiatr dla paneli powyżej 30°" },
+      { href: "/kalkulatory/ogrodzenie-pv", label: "Ogrodzenie z paneli PV" },
     ],
   },
   {

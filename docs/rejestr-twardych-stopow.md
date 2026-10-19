@@ -487,6 +487,12 @@ nie do audytu poprawności formularza webowego.
   (M7/E22 — `rozmrazanieOgniem`, kod `ZAMARZ-ROZMRAZANIE-OGIEN`.)
 - **[29.09.2026] Nachylenie montażu ≥ 45° — ssanie wiatru od spodu może zerwać panele (skonsultuj z konstruktorem)**
   (M3/E2 — `lib/core/modules/pv/typ-montazu/warnings.ts`, `ssanieOdSpodu`, kod `TM-SSANIE-OD-SPODU`)
+- **[19.10.2026] Ogrodzenie z paneli PV: prześwit pod najniższym panelem mniejszy od minimum** — kurz i rozbryzgi deszczu brudzą panele od dołu.
+  (M3 „Ogrodzenie z paneli PV” — `lib/core/modules/pv/ogrodzenie-pv/warnings.ts`, `przeswitZaMaly`, kod `OG-PRZESWIT-ZA-MALY`)
+- **[19.10.2026] Ogrodzenie z paneli PV: wysokość całkowita ponad limit bez pozwolenia podany przez użytkownika** — wymagałoby pozwolenia na budowę.
+  (M3 „Ogrodzenie z paneli PV” — `ogrodzenie-pv/warnings.ts`, `wysokoscPrzekroczona`, kod `OG-WYSOKOSC-PRZEKROCZONA`)
+- **[19.10.2026] Ogrodzenie z paneli PV: żaden profil z katalogu nie przenosi momentu u podstawy słupka / nie spełnia nośności lub ugięcia rygla** — zmniejsz wysokość, rozstaw albo liczbę rzędów.
+  (M3 „Ogrodzenie z paneli PV” — `ogrodzenie-pv/warnings.ts`, `brakProfiluSlupka` i `brakProfiluRygla`, kody `OG-BRAK-PROFILU-SLUPKA`, `OG-BRAK-PROFILU-RYGLA`)
 
 
 ## M14 „Dom – sieć” / „Firma – sieć” — ~~zaplanowane w Biblii, jeszcze bez kodu~~ **[28.09.2026] w kodzie** (28.09.2026)
