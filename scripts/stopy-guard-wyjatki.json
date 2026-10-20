@@ -3,6 +3,7 @@
   "walidacja": {
     "walidacja-danych": [
       "MOBIEKT-OTWORY-WIEKSZE-NIZ-SCIANY",
+      "ZJK-NIEZNANY-ZESTAW",
       "MOBIEKT-WARTOSC-UJEMNA",
       "MOBIEKT-WYMIAR-NIEDODATNI",
       "PROGNOZY-WARTOSC-UJEMNA",

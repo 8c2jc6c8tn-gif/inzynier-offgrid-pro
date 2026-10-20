@@ -2,6 +2,17 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.45.0] — 20.10.2026
+
+Nowy ekran „Zestawy ustawień JK BMS od autorów” (D105, polecenie właściciela z 17.10.2026: zbierać ustawienia różnych autorów, przechodzić między nimi i analizować):
+- katalog zestawów jako dane z podanym autorem i źródłem (na start: „Pozytywnie nauczeni”, LiFePO4 314 Ah 16S, 18 parametrów); dodanie kolejnego autora to wpis w katalogu i dwie etykiety, bez zmian w silniku i ekranie,
+- wybór autora (autosave), wartości 1:1 jak w aplikacji JK, napięcie całego pakietu (ogniwo × liczba ogniw), prąd ciągły w C, histereza OVP i UVP,
+- porównanie z zakresami ze źródła aplikacji (Moduł 11, krok 3.3: OVP 3,60–3,65 V, UVP 2,50–2,80 V, prąd ładowania 0,2–0,5 C, start balansu 3,40 V) wyłącznie dla parametrów o potwierdzonym znaczeniu; pięć parametrów z niepotwierdzonym znaczeniem (RCV, RFV, SOC-100%, SOC-0%, Smart Sleep) jest oznaczonych i nie porównywanych,
+- kontrola kolejności progów (OVPR < OVP, UVP < UVPR, Power Off < UVP) i histerezy temperatury (UTPR > UTP) z ostrzeżeniami,
+- „?” przy polu, „i” przy tytule, PL/EN/RU, narzędzie AI `pokaz_zestaw_ustawien_jk_bms`, kafel w Module 4.
+
+Wpływ na liczby: brak (nowy moduł, żaden istniejący silnik nie zmienił wyników). Zestaw jest danymi autora, nie rekomendacją aplikacji — aplikacja niczego w nim nie poprawia.
+
 ## [3.44.1] — 20.10.2026
 
 Decyzja o domenach aplikacji (D104, tylko dokumentacja):

@@ -274,6 +274,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/ai/prognoza-miesieczna",
   "lib/core/modules/ai/prognoza-soc",
   "lib/core/modules/baterie/komunikacja-bms",
+  "lib/core/modules/baterie/zestawy-ustawien-jk-bms",
   "lib/core/modules/baterie/porownanie-technologii",
   "lib/core/modules/bezpieczenstwo/audyt-pozarowy",
   "lib/core/modules/bezpieczenstwo/zamki-drzwi-ewakuacyjnych",
