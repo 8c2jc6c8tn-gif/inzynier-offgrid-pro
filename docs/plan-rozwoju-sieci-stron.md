@@ -62,7 +62,7 @@ Wszystkie poniżej wolne w rejestrze 20.10.2026, wybrane przez właściciela, ni
 | `poradnik-dom-szkieletowy.pl` | poradnik | Szkieletowy | |
 | `jak-budowac-dom-szkieletowy.pl` | „jak budować” | Szkieletowy | zapytanie wpisywane wprost |
 
-Tematy z wielu domen o jednym zakresie (rachunki, dobór paneli PV) wymagają decyzji, czy to jedna strona z kilkoma adresami, czy osobne strony z odrębną treścią. Tego nie rozstrzygnięto.
+Rozstrzygnięte 20.10.2026 (właściciel): domeny o zbliżonym temacie (rachunki, dobór paneli PV, dom bez prądu / poza siecią, tożsamość „niezależni”) to osobne strony z odrębną, unikalną treścią — każda z innym kątem i własnymi artykułami, bez kopiowania i bez przekierowań między sobą. Ryzyko (wiedza ogólna, niezweryfikowana): strony o zbliżonym temacie i podobnej treści mogą się nawzajem kanibalizować w wyszukiwarce, więc każda potrzebuje jasno zdefiniowanego kąta, zanim zostanie kupiona; kupujemy dopiero z pierwszym artykułem.
 
 ## D. Do uzupełnienia
 
