@@ -1266,3 +1266,21 @@ Status: 🔎 nowe
 Dlaczego warto zgłosić do new-app-standards: każdy projekt rodziny liczący fizykę napotka lukę normy; ten wzorzec odpowiada na standard 3.3 (`ESTIMATE`) konkretną praktyką dla pól wejściowych i komunikatów.
 
 Status: 🔎 nowe
+
+## [20.10.2026] Domeny rodziny aplikacji PWA: angielska domena-kotwica jako jedyny origin, krajowe domeny jako landingi reklamowe
+
+**Problem:** rodzina aplikacji PWA obsługuje wiele rynków i języków, a właściciel chce reklamy z lokalnymi domenami (druk, koszulki, kampanie). Dane lokalne (IndexedDB), Service Worker, klucze passkey, adresy powrotu logowania i płatności są przypisane do **origin**, więc dwie równorzędne domeny dawałyby dwie osobne bazy z autosave i podwójną konfigurację, a późniejsza zmiana domeny kosztowałaby użytkowników ich dane.
+**Rozwiązanie (zapisane w D104 w tym repo i D205 w Szkieletowym):** (1) jedna **kotwica** na aplikację: angielska domena, język domyślny angielski, pozostałe języki opcjonalne w jednej aplikacji; do niej przywiązane dane, logowanie, passkeys i maile transakcyjne; (2) krajowe domeny to **landingi reklamowe** (na start przekierowanie 301 na `<kotwica>/<język>` z zachowaniem ścieżki i parametrów `utm_`, osobny landing dopiero przy kampanii), z linkiem do kotwicy na końcu i u góry strony; (3) w druku i QR używa się adresu ASCII, a znaki diakrytyczne tylko w nazwie marki; wersja domeny ze znakiem diakrytycznym (IDN) obowiązkowo kupiona i przekierowana; (4) kotwica kupiona i zabezpieczona (auto-odnowienie, registrar lock, 2FA, wieloletnia opłata) **przed** drukiem i wdrożeniem publicznym; (5) kolejność dystrybucji: PWA z kotwicy, potem Capacitor do sklepów z tymi samymi adresami `/privacy`, `/support`, `/terms` oraz plikami powiązania (`assetlinks.json`, `apple-app-site-association`) pod kotwicą; (6) strona rodziny jako wizytówka na bezpiecznym TLD (`.com`; `.io` tylko jako przekierowanie, bo status domeny krajowej `.io` jest niepewny).
+**Pułapka do sprawdzenia przed cenami:** sklepy wymagają własnego systemu zakupów w aplikacji i prowizji za treści cyfrowe — może zmienić model cen wersji ze sklepu.
+Dlaczego warto zgłosić do new-app-standards: każda kolejna apka rodziny staje przed tym samym wyborem domeny, a zmiana po publicznym wdrożeniu jest droga; wzorzec dałby się wpisać do rozdziału o wdrożeniu/PWA jako lista kontrolna „zanim kupisz domenę”.
+
+Status: 🔎 nowe
+
+## [20.10.2026] Sprawdzanie dostępności domeny przez RDAP: liczy się kod odpowiedzi, nie treść, a „wolna” to nie „da się kupić”
+
+**Problem:** przy weryfikacji dostępności domen przez RDAP (rejestry `.pl`, `.com`, `.pro`, `.io`) odpowiedź „nie ma wpisu” (404) też zwraca ciało JSON z uwagami i regulaminem; przy ucięciu wyniku do początku treści łatwo wziąć je za rekord zajętej domeny. Tak ogłoszono domenę „zajętą”, choć rejestr mówił 404. Dodatkowo rejestry odpowiadają kodem 429 przy większej liczbie zapytań, a sama „wolna” domena może być u rejestratora niedostępna (premium, rezerwacja, rejestracja w międzyczasie).
+**Rozwiązanie:** zawsze czytać kod HTTP (404 = brak wpisu, 200 = zarejestrowana, 429 = ponowić po przerwie, nie oceniać), nigdy nie wnioskować z treści; sprawdzać domenę kontrolną (znana zajęta i znana wolna); traktować wynik jako wstępny, a wiążący jest koszyk rejestratora; kupować od razu po sprawdzeniu.
+Dlaczego warto zgłosić do new-app-standards: lekcja uogólnia się na każde sprawdzanie stanu przez API (nie czytaj sukcesu z obecności ciała odpowiedzi) i dotyczy każdego projektu rodziny wybierającego nazwę i domenę.
+
+Status: 🔎 nowe
+

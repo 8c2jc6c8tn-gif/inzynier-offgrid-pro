@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.2] — 20.10.2026
+
+Wkład do standardu (tylko dokumentacja): `docs/wklad-do-standardu.md` — wzorzec domen rodziny aplikacji PWA (angielska domena-kotwica, krajowe landingi, kolejność PWA → Capacitor) oraz pułapka sprawdzania dostępności domeny przez RDAP.
+
+Wpływ na liczby: brak.
+
 ## [3.46.1] — 20.10.2026
 
 Pomoc „?” w ekranie „Pierwsze uruchomienie” (PL/EN/RU): dopisane wyjaśnienie, że top balancing to jednorazowe wyrównanie przy pierwszym uruchomieniu, a nie próg startu balansera w BMS (ten pracuje na bieżąco i ma własne ustawienie).
