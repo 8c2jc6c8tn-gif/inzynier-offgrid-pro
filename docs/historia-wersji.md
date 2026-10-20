@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.4] — 20.10.2026
+
+Domeny aplikacji (tylko dokumentacja): uzupełnienie 4 do D104 w `rejestr-decyzji.md` (obowiązkowy zestaw czterech domen `.pl` „PL-4” na aplikację, w tym `inżynieroffgrid.pl`; domeny polskie tylko po polsku, kotwica `.pro` wielojęzyczna; otwarte pytanie: przekierowania 301 czy cztery osobne strony) oraz zaktualizowane zadanie zakupu domen w `docs/lista-do-zrobienia.md`.
+
+Wpływ na liczby: brak.
+
 ## [3.46.3] — 20.10.2026
 
 Domeny aplikacji (tylko dokumentacja): uzupełnienie 3 do D104 w `rejestr-decyzji.md` (zabezpieczenia domen bez myślnika, kolejność zakupu, dystrybucja PWA → Capacitor, wymagania sklepów, kandydaci na markę) oraz dwa zadania w `docs/lista-do-zrobienia.md` (zakup domen — zadanie właściciela; strony pod sklepy).
