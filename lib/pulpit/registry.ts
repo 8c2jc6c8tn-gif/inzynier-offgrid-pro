@@ -131,6 +131,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/topologia-bms", label: "Topologia BMS (Common Port vs Separate Port)" },
       { href: "/kalkulatory/komunikacja-bms", label: "Komunikacja BMS — CAN/RS485/Modbus" },
       { href: "/kalkulatory/zestawy-ustawien-jk-bms", label: "Zestawy ustawień JK BMS od autorów" },
+      { href: "/kalkulatory/czas-balansowania", label: "Czas balansowania" },
       { href: "/kalkulatory/vehicle-to-home", label: "Vehicle-to-Home (V2H)" },
       { href: "/kalkulatory/ochrona-wilgoc", label: "Ochrona przed wilgocią i kondensacją" },
       { href: "/kalkulatory/slabe-ogniwo", label: "Symulacja Słabego Ogniwa (Cell Drift & Balancing)" },

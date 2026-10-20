@@ -2,6 +2,16 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.0] — 20.10.2026
+
+Nowy ekran „Czas balansowania” (Moduł 4, pozycja 1 listy „Braki wykryte przy ocenie ustawień BMS”):
+- ładunek do przeniesienia (pojemność ogniwa × rozjazd w %) i czas pracy balansera (Ah ÷ A); po wpisaniu, ile godzin na dobę ogniwa są powyżej progu startu balansowania, także liczba dób okna,
+- rozjazd i prąd balansera wpisuje użytkownik — aplikacja ich nie zna i niczego nie zakłada; ostrzeżenie, gdy balansowanie wymaga więcej niż jednej doby okna (zimą pakiet rzadko dochodzi do progu startu),
+- założenia modelu podane wprost: stały prąd (balanser pasywny w rzeczywistości zwalnia), stały rozjazd, jedno najbardziej rozjechane ogniwo,
+- „?” przy polach, „i” przy tytule, PL/EN/RU, narzędzie AI `oblicz_czas_balansowania`, kafel w Module 4.
+
+Wpływ na liczby: brak (nowy moduł, żaden istniejący silnik nie zmienił wyników).
+
 ## [3.45.0] — 20.10.2026
 
 Nowy ekran „Zestawy ustawień JK BMS od autorów” (D105, polecenie właściciela z 17.10.2026: zbierać ustawienia różnych autorów, przechodzić między nimi i analizować):

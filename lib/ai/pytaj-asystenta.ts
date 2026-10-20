@@ -256,6 +256,7 @@ import { wampiryRekomendacjeTool } from "./tools/wampiry-rekomendacje-tool"
 import { wampirySymulacjeTool } from "./tools/wampiry-symulacje-tool"
 import { komunikacjaBmsTool } from "./tools/komunikacja-bms-tool"
 import { zestawyUstawienJkBmsTool } from "./tools/zestawy-ustawien-jk-bms-tool"
+import { czasBalansowaniaTool } from "./tools/czas-balansowania-tool"
 import { porownanieTechnologiiTool } from "./tools/porownanie-technologii-tool"
 import { czystoscISniegTool } from "./tools/czystosc-i-snieg-tool"
 import { prognozyTool } from "./tools/prognozy-tool"
@@ -549,6 +550,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   wampirySymulacjeTool,
   komunikacjaBmsTool,
   zestawyUstawienJkBmsTool,
+  czasBalansowaniaTool,
   porownanieTechnologiiTool,
   czystoscISniegTool,
   prognozyTool,
