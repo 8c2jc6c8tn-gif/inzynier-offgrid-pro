@@ -92,7 +92,7 @@ export const pl = {
         "Pierwsze ładowanie to nie jest „włącz i zapomnij” — to moment, kiedy BMS uczy się Twojego pakietu i wyrównuje różnice między ogniwami z fabryki.",
       jakDziala:
         "Aplikacja liczy prąd testowy ładowania ({cRate}C × pojemność przez {czas} minut) i sprawdza, czy najwyżej naładowane ogniwo osiągnęło próg top balancing ({prog} V).",
-      poCo: "Bez wyrównania na górze pakiet nigdy nie naładuje się do pełna — BMS odetnie ładowanie na pierwszym „szybszym” ogniwie.",
+      poCo: "Bez wyrównania na górze pakiet nigdy nie naładuje się do pełna — BMS odetnie ładowanie na pierwszym „szybszym” ogniwie. Uwaga: top balancing to jednorazowe wyrównanie przy pierwszym uruchomieniu — to nie jest próg startu balansera w BMS, który działa na bieżąco podczas normalnej pracy i ma własne ustawienie.",
       fizyka: "I_test = {cRate}C × C_Ah.",
     },
     pola: {
@@ -462,7 +462,7 @@ export const en: Tlumaczenie<typeof pl> = {
         "The first charge is not “switch on and forget” — it's the moment the BMS learns your pack and evens out the factory differences between cells.",
       jakDziala:
         "The app calculates the test charging current ({cRate}C × capacity for {czas} minutes) and checks whether the highest-charged cell reached the top balancing threshold ({prog} V).",
-      poCo: "Without top balancing the pack never fully charges — the BMS cuts off charging at the first “faster” cell.",
+      poCo: "Without top balancing the pack never fully charges — the BMS cuts off charging at the first “faster” cell. Note: top balancing is a one-off equalisation at first start-up — it is not the BMS balancer start threshold, which works continuously during normal operation and has its own setting.",
       fizyka: "I_test = {cRate}C × C_Ah.",
     },
     pola: {
@@ -832,7 +832,7 @@ export const ru: Tlumaczenie<typeof pl> = {
         "Первая зарядка — это не «включил и забыл»: в этот момент BMS изучает ваш пакет и выравнивает заводские различия между элементами.",
       jakDziala:
         "Приложение считает тестовый ток зарядки ({cRate}C × ёмкость в течение {czas} минут) и проверяет, достиг ли самый заряженный элемент порога top balancing ({prog} В).",
-      poCo: "Без выравнивания сверху пакет никогда не зарядится полностью — BMS прервёт зарядку на первом «быстром» элементе.",
+      poCo: "Без выравнивания сверху пакет никогда не зарядится полностью — BMS прервёт зарядку на первом «быстром» элементе. Важно: top balancing — это разовое выравнивание при первом запуске, а не порог старта балансира в BMS, который работает постоянно в обычной эксплуатации и имеет собственную настройку.",
       fizyka: "I_тест = {cRate}C × C_А·ч.",
     },
     pola: {

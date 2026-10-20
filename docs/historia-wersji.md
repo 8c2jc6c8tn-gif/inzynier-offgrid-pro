@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.1] — 20.10.2026
+
+Pomoc „?” w ekranie „Pierwsze uruchomienie” (PL/EN/RU): dopisane wyjaśnienie, że top balancing to jednorazowe wyrównanie przy pierwszym uruchomieniu, a nie próg startu balansera w BMS (ten pracuje na bieżąco i ma własne ustawienie).
+
+Wpływ na liczby: brak (same teksty).
+
 ## [3.46.0] — 20.10.2026
 
 Nowy ekran „Czas balansowania” (Moduł 4, pozycja 1 listy „Braki wykryte przy ocenie ustawień BMS”):
