@@ -2,6 +2,13 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.44.1] — 20.10.2026
+
+Decyzja o domenach aplikacji (D104, tylko dokumentacja):
+- `rejestr-decyzji.md`: D104 — polskie domeny `inżynier-offgrid.pl` i `inzynier-offgrid.pl`, wersja międzynarodowa `offgrid-engineer.pro` jako domena główna aplikacji, polskie domeny jako landingi reklamowe; rejestracja do wykonania przez właściciela; domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
+
+Wpływ na liczby: brak.
+
 ## [3.44.0] — 19.10.2026
 
 Nowy kalkulator „Ogrodzenie z paneli PV” (D103, polecenie właściciela: system sam dobiera i liczy odstępy, wysokości, rury i zagłębienie):
