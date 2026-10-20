@@ -17,7 +17,7 @@ import {
   type BezpieczenstwoAgregatuStan,
 } from "@/components/agregat/pola-bezpieczenstwa-agregatu"
 import { DIESEL_ROZRUCH_MROZ_C, DIESEL_ZWYKLY_RYZYKO_C, DIESEL_ZWYKLY_WYSOKIE_RYZYKO_C, DLUGI_POSTOJ_DNI } from "@/lib/core/modules/stress-test/agregat-w-mrozie/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type PoleLiczbowe = Exclude<keyof AgregatWMrozieInput, "paliwo" | keyof BezpieczenstwoAgregatuStan>
 type FormularzStan = { paliwo: PaliwoAgregatu | "" } & BezpieczenstwoAgregatuStan & Record<PoleLiczbowe, string>
@@ -39,8 +39,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function AgregatWMroziePage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-w-mrozie", STAN_POCZATKOWY)
   const ustaw = (pole: PoleLiczbowe) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))

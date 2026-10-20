@@ -16,7 +16,7 @@ import { budynekWPunkcie, dzialkaPoIdentyfikatorze, dzialkaWPunkcie, type KodBle
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
 import type { PunktGps } from "@/lib/core/modules/lokalizacja/skaner-dzialki/input"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { etykietaPowierzchni } from "@/lib/lokalizacja/nazwa-powierzchni"
 import {
   elewacje,
@@ -51,9 +51,7 @@ const KOMUNIKAT_ULDK: Record<KodBleduUldk, string> = {
 
 export default function SkanerDzialkiPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f1 } = useFormaty()
   const online = useOnline()
   const gps = useGps()
   const [model, setModel] = usePersistedDraft<ModelDzialki>(KLUCZ_MODELU_DZIALKI, MODEL_PUSTY)

@@ -20,7 +20,7 @@ export const pl = {
   "UI-TYPMON-COMTRYDACPLA-GORNA-KRAWEDZ-NAD":
     "Górna krawędź {zeM} m nad terenem, powierzchnia paneli {powierzchniaM2} m².",
   "UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990":
-    "Balast projektowy (PN-EN 1990, przeciw oderwaniu): {balastKg} kg na stelaż{stelaz}.",
+    "Balast projektowy (PN-EN 1990){szacunek}: {balastKg} kg na stelaż{stelaz}.",
   "UI-TYPMON-COMTRYDACPLA-SNIEG-PANELACH-ZOSTAJE":
     "Śnieg: na panelach zostaje {p}% obciążenia śniegiem gruntu (μ1 = {mu1}).",
   "UI-TYPMON-COMTRYDACPLA-POROWNANIE-WSZYSTKICH-KATOW":
@@ -31,6 +31,7 @@ export const pl = {
   "UI-TYPMON-COMTRYDACPLA-KAT-PODNIESIENIE-GORNEJ": "Kąt {nachylenieDeg}° — podniesienie górnej krawędzi",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU-BRAK": "Siła wiatru: brak danych normowych dla tego kąta.",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU": "Siła wiatru: {silaWiatruN} N (≈ {p} kg){p2}",
+  "UI-TYPMON-COMTRYDACPLA-SZACUNEK": " 🔎 szacunek poza normą",
   "UI-TYPMON-COMTRYPIO-PANELE-OGRODZENIU-SCIANIE":
     "Panele na ogrodzeniu, ścianie albo pionowym stelażu. Zimą słońce jest nisko, więc pion łapie je pod lepszym kątem niż panele pochylone — latem odwrotnie. Aplikacja porównuje pion z najlepszym stałym kątem dla tego samego kierunku, miesiąc po miesiącu.",
   "UI-TYPMON-COMTRYPIO-WPISZ-AZYMUT-POLICZ": "Wpisz azymut i policz nasłonecznienie, żeby zobaczyć bilans.",
@@ -95,7 +96,7 @@ export const pl = {
   "UI-TYPMON-COMTRYREG-REGULACJA-MIESIAC-STALY": "Regulacja co miesiąc vs stały kąt {katStalyDeg}°",
   "UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH": "Balast: brak danych normowych dla żadnego z ustawień.",
   "UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990":
-    "Balast projektowy (PN-EN 1990, przeciw oderwaniu) dla najgorszego ustawienia{p}: {balastWymaganyKg} kg{stelaz}.",
+    "Balast projektowy (PN-EN 1990) dla najgorszego ustawienia{p}: {balastWymaganyKg} kg{stelaz}.",
   "UI-TYPMON-COMTRYWIA-WIATA-ALBO-CARPORT":
     "Wiata albo carport z panelami zamiast pokrycia. Aplikacja szuka ułożenia, które zmieści najwięcej paneli na prostokątnej połaci, i sprawdza, czy spadek wystarczy, żeby deszcz sam mył panele.",
   "UI-TYPMON-COMTRYWIA-UZUPELNIJ-WYMIARY-MOC": "Uzupełnij wymiary, moc panelu i kąt.",
@@ -134,9 +135,12 @@ export const pl = {
   "UI-TYPMON-COMWSP-POLICZ-NASLONECZNIENIE": "Policz nasłonecznienie",
   "UI-TYPMON-COMWSP-ZMIENILA-LOKALIZACJA-AZYMUT": "Zmieniła się lokalizacja lub azymut — policz ponownie.",
   "UI-TYPMON-COMTRYREG-BRAK-DANYCH": "brak danych",
-  "UI-TYPMON-COMTRYREG-DO-30": " do 30°",
+  "UI-TYPMON-COMTRYREG-SZACUNEK-POWYZEJ-30": " (w tym 🔎 szacunek dla kątów powyżej 30°)",
   "UI-TYPMON-COMWSP-MORZE": "0 — morze, brzeg otwarty na morze",
   "UI-TYPMON-COMWSP-PONAD-CIEZAR": "ponad ciężar paneli i stelaża ({masa} kg)",
+  "UI-TYPMON-COMWSP-TARCIE": "Współczynnik tarcia o podłoże μ (opcjonalnie)",
+  "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Głębokość podstawy stelaża (opcjonalnie)",
+  "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Sprawdzono tylko oderwanie. Żeby sprawdzić też przesuw i przewracanie, wpisz współczynnik tarcia o podłoże (głębokość podstawy opcjonalnie; przy 90° jest konieczna).",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — pozioma, bez balastu w kg.",
 } as const
 
@@ -160,7 +164,7 @@ export const en: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYDACPLA-UZUPELNIJ-WSZYSTKIE-POLA": "Complete all fields to see the result.",
   "UI-TYPMON-COMTRYDACPLA-GORNA-KRAWEDZ-NAD": "Top edge {zeM} m above ground, panel area {powierzchniaM2} m².",
   "UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990":
-    "Design ballast (EN 1990, against uplift): {balastKg} kg per frame{stelaz}.",
+    "Design ballast (EN 1990){szacunek}: {balastKg} kg per frame{stelaz}.",
   "UI-TYPMON-COMTRYDACPLA-SNIEG-PANELACH-ZOSTAJE":
     "Snow: {p}% of the ground snow load stays on the panels (μ1 = {mu1}).",
   "UI-TYPMON-COMTRYDACPLA-POROWNANIE-WSZYSTKICH-KATOW":
@@ -171,6 +175,7 @@ export const en: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYDACPLA-KAT-PODNIESIENIE-GORNEJ": "Angle {nachylenieDeg}° — rise of the top edge",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU-BRAK": "Wind force: no code data for this angle.",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU": "Wind force: {silaWiatruN} N (≈ {p} kg){p2}",
+  "UI-TYPMON-COMTRYDACPLA-SZACUNEK": " 🔎 estimate outside the standard",
   "UI-TYPMON-COMTRYPIO-PANELE-OGRODZENIU-SCIANIE":
     "Panels on a fence, wall or vertical frame. In winter the sun is low, so a vertical panel catches it at a better angle than tilted panels — in summer the reverse. The app compares vertical with the best fixed angle for the same orientation, month by month.",
   "UI-TYPMON-COMTRYPIO-WPISZ-AZYMUT-POLICZ": "Enter the azimuth and calculate the irradiation to see the balance.",
@@ -235,7 +240,7 @@ export const en: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYREG-REGULACJA-MIESIAC-STALY": "Monthly adjustment vs fixed {katStalyDeg}° angle",
   "UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH": "Ballast: no code data for any of the settings.",
   "UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990":
-    "Design ballast (EN 1990, against uplift) for the worst setting{p}: {balastWymaganyKg} kg{stelaz}.",
+    "Design ballast (EN 1990) for the worst setting{p}: {balastWymaganyKg} kg{stelaz}.",
   "UI-TYPMON-COMTRYWIA-WIATA-ALBO-CARPORT":
     "A shelter or carport with panels instead of roofing. The app looks for the layout that fits the most panels on a rectangular roof plane and checks whether the slope is enough for rain to wash the panels by itself.",
   "UI-TYPMON-COMTRYWIA-UZUPELNIJ-WYMIARY-MOC": "Complete the dimensions, panel power and angle.",
@@ -274,9 +279,12 @@ export const en: Record<Klucz, string> = {
   "UI-TYPMON-COMWSP-POLICZ-NASLONECZNIENIE": "Calculate irradiation",
   "UI-TYPMON-COMWSP-ZMIENILA-LOKALIZACJA-AZYMUT": "The location or azimuth has changed — calculate again.",
   "UI-TYPMON-COMTRYREG-BRAK-DANYCH": "no data",
-  "UI-TYPMON-COMTRYREG-DO-30": " up to 30°",
+  "UI-TYPMON-COMTRYREG-SZACUNEK-POWYZEJ-30": " (including 🔎 an estimate for angles above 30°)",
   "UI-TYPMON-COMWSP-MORZE": "0 — sea, coast open to the sea",
   "UI-TYPMON-COMWSP-PONAD-CIEZAR": "on top of the weight of panels and frame ({masa} kg)",
+  "UI-TYPMON-COMWSP-TARCIE": "Friction coefficient with the ground μ (optional)",
+  "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Footprint depth of the frame (optional)",
+  "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Only uplift was checked. To check sliding and overturning too, enter the friction coefficient (footprint depth is optional; at 90° it is required).",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — horizontal, no ballast in kg.",
 }
 
@@ -298,7 +306,7 @@ export const ru: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYDACPLA-UZUPELNIJ-WSZYSTKIE-POLA": "Заполните все поля, чтобы увидеть результат.",
   "UI-TYPMON-COMTRYDACPLA-GORNA-KRAWEDZ-NAD": "Верхний край {zeM} м над землёй, площадь панелей {powierzchniaM2} м².",
   "UI-TYPMON-COMTRYDACPLA-BALAST-PROJEKTOWY-1990":
-    "Расчётный балласт (EN 1990, против отрыва): {balastKg} кг на каркас{stelaz}.",
+    "Расчётный балласт (EN 1990){szacunek}: {balastKg} кг на каркас{stelaz}.",
   "UI-TYPMON-COMTRYDACPLA-SNIEG-PANELACH-ZOSTAJE":
     "Снег: на панелях остаётся {p}% снеговой нагрузки на грунт (μ1 = {mu1}).",
   "UI-TYPMON-COMTRYDACPLA-POROWNANIE-WSZYSTKICH-KATOW":
@@ -309,6 +317,7 @@ export const ru: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYDACPLA-KAT-PODNIESIENIE-GORNEJ": "Угол {nachylenieDeg}° — подъём верхнего края",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU-BRAK": "Сила ветра: нет нормативных данных для этого угла.",
   "UI-TYPMON-COMTRYDACPLA-SILA-WIATRU": "Сила ветра: {silaWiatruN} Н (≈ {p} кг){p2}",
+  "UI-TYPMON-COMTRYDACPLA-SZACUNEK": " 🔎 оценка вне нормы",
   "UI-TYPMON-COMTRYPIO-PANELE-OGRODZENIU-SCIANIE":
     "Панели на заборе, стене или вертикальном каркасе. Зимой солнце низко, поэтому вертикальная панель ловит его под лучшим углом, чем наклонные, — летом наоборот. Приложение сравнивает вертикаль с лучшим фиксированным углом для того же направления, месяц за месяцем.",
   "UI-TYPMON-COMTRYPIO-WPISZ-AZYMUT-POLICZ": "Введите азимут и рассчитайте инсоляцию, чтобы увидеть баланс.",
@@ -373,7 +382,7 @@ export const ru: Record<Klucz, string> = {
   "UI-TYPMON-COMTRYREG-REGULACJA-MIESIAC-STALY": "Ежемесячная регулировка или фиксированный угол {katStalyDeg}°",
   "UI-TYPMON-COMTRYREG-BALAST-BRAK-DANYCH": "Балласт: нет нормативных данных ни для одного из положений.",
   "UI-TYPMON-COMTRYREG-BALAST-PROJEKTOWY-1990":
-    "Расчётный балласт (EN 1990, против отрыва) для худшего положения{p}: {balastWymaganyKg} кг{stelaz}.",
+    "Расчётный балласт (EN 1990) для худшего положения{p}: {balastWymaganyKg} кг{stelaz}.",
   "UI-TYPMON-COMTRYWIA-WIATA-ALBO-CARPORT":
     "Навес или карпорт с панелями вместо кровли. Приложение ищет раскладку, при которой на прямоугольном скате поместится больше всего панелей, и проверяет, достаточно ли уклона, чтобы дождь сам мыл панели.",
   "UI-TYPMON-COMTRYWIA-UZUPELNIJ-WYMIARY-MOC": "Заполните размеры, мощность панели и угол.",
@@ -413,8 +422,11 @@ export const ru: Record<Klucz, string> = {
   "UI-TYPMON-COMWSP-POLICZ-NASLONECZNIENIE": "Рассчитать инсоляцию",
   "UI-TYPMON-COMWSP-ZMIENILA-LOKALIZACJA-AZYMUT": "Изменилось местоположение или азимут — рассчитайте снова.",
   "UI-TYPMON-COMTRYREG-BRAK-DANYCH": "нет данных",
-  "UI-TYPMON-COMTRYREG-DO-30": " до 30°",
+  "UI-TYPMON-COMTRYREG-SZACUNEK-POWYZEJ-30": " (включая 🔎 оценку для углов свыше 30°)",
   "UI-TYPMON-COMWSP-MORZE": "0 — море, побережье, открытое морю",
   "UI-TYPMON-COMWSP-PONAD-CIEZAR": "сверх веса панелей и каркаса ({masa} кг)",
+  "UI-TYPMON-COMWSP-TARCIE": "Коэффициент трения о основание μ (необязательно)",
+  "UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY": "Глубина основания каркаса (необязательно)",
+  "UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE": "Проверен только отрыв. Чтобы проверить также сдвиг и опрокидывание, введите коэффициент трения (глубина основания необязательна; при 90° она обязательна).",
   "UI-TYPMON-COMTRYDACPLA-POZIOMA-BEZ-BALASTU": " — горизонтальная, без балласта в кг.",
 }

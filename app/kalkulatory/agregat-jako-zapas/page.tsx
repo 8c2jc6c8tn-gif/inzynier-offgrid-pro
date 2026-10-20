@@ -22,7 +22,7 @@ import { liczba, poziomWerdyktu } from "@/components/siec/wspolne"
 import { useDaneBilansu, wejscieBilansu } from "@/components/siec/pv-magazyn"
 import { KLUCZE_MIESIECY } from "@/components/siec/zuzycie-miesieczne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type Stan = BezpieczenstwoAgregatuStan & { moc: string; zuzycieLH: string; cena: string; bms: boolean }
 
@@ -35,8 +35,7 @@ const POCZATKOWY: Stan = { moc: "", zuzycieLH: "", cena: "", bms: false, miejsce
  */
 export default function AgregatJakoZapasPage() {
   const t = useTranslate(true)
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
   const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)

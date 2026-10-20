@@ -3,14 +3,13 @@
  * ciemnym motywie (`currentColor`). Tylko rysowanie wyników kalkulatora.
  */
 
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 export const MIESIACE = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 
 export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; prognoza: number[] | null }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const max = Math.max(1, ...obecnie, ...(prognoza ?? []))
   const W = 360
   const H = 140
@@ -48,8 +47,7 @@ export function WykresMiesiecy({ obecnie, prognoza }: { obecnie: number[]; progn
 /** Profil horyzontu przeszkód: kąt wzniesienia [°] w funkcji azymutu (co 1°, od północy). */
 export function WykresHoryzontu({ profilDeg }: { profilDeg: number[] }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const max = Math.max(10, ...profilDeg)
   const W = 360
   const H = 130

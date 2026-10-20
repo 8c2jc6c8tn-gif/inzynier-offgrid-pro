@@ -7,6 +7,7 @@
  * domyślnych, Dyrektywa #1).
  */
 import type { KategoriaTerenu, StrefaWiatrowa } from "../eurokod-1/wiatr"
+import type { MetodaCf } from "../wiatr-powyzej-30/sila-i-balast"
 import type { TabelaNapromieniowania } from "../kat-i-azymut/input"
 
 /** Tryb "Pionowy" (dawne 2.4). */
@@ -42,6 +43,15 @@ export type GeometriaStelazaInput = {
    * domyślna (D29). Liczona jako siła utrzymująca z γG,inf = 0,90; `null` = pominięta (po stronie bezpiecznej).
    */
   masaPaneliStelazaKg: number | null
+  /**
+   * Współczynnik tarcia stelaża/balastu o podłoże μ — opcjonalnie (bez wartości domyślnej). Z nim aplikacja sprawdza też
+   * przesuw i przewracanie (szacunek); wysokość punktu przyłożenia siły wynika z L, α i wysokości dolnej krawędzi.
+   */
+  wspolczynnikTarcia?: number | null
+  /** Głębokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie; puste = L·cos α. Konieczna przy 90° (L·cos α = 0). */
+  glebokoscPodstawyM?: number | null
+  /** Metoda szacunku cf dla kątów powyżej 30° (D101): `liniowa` (domyślna) albo `trend` (ostrożniejsza). */
+  metodaCf?: MetodaCf | null
 }
 
 export type MiejsceMontazu = "grunt" | "dach"

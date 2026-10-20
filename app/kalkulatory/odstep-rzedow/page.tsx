@@ -17,7 +17,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import { calculateOdstepRzedow, type OdstepRzedowResult } from "@/lib/core/modules/pv/odstep-rzedow/calculator"
 import { OKNO_PROJEKTOWE_DOMYSLNE } from "@/lib/core/modules/pv/odstep-rzedow/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 /** Solar-time hour 9.5 → "9:30". */
@@ -69,8 +69,7 @@ const ETYKIETY: Record<Zakladka, string> = {
 /** Cross-section of two rows to scale: the ray of the sun that sets the pitch starts at the first row's upper edge. */
 function Schemat({ v, odstepM }: { v: OdstepRzedowResult; odstepM: number }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const d = v.rzutPoziomyM
   const h = v.wysokoscGornejKrawedziM
   const zasieg = v.wspolczynnikCienia * h
@@ -111,8 +110,7 @@ function Schemat({ v, odstepM }: { v: OdstepRzedowResult; odstepM: number }) {
 export default function OdstepRzedowPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<Stan>("odstep-rzedow", STAN_POCZATKOWY)

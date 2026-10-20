@@ -8,7 +8,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculatePionowy } from "@/lib/core/modules/pv/typ-montazu/pionowy"
-import { BledyDanych, MIESIACE, n, PoleAzymutu, poziomZOstrzezen, useTabelaNapromieniowania, useFormaty } from "./wspolne"
+import { BledyDanych, MIESIACE, n, PoleAzymutu, poziomZOstrzezen, useTabelaNapromieniowania, useFormatyMontazu } from "./wspolne"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type Seed = { azymutDeg: string; wysokoscDolnejKrawedziM: string; wysokoscTrawySnieguCm: string }
@@ -17,7 +17,7 @@ const PUSTY: Seed = { azymutDeg: "", wysokoscDolnejKrawedziM: "", wysokoscTrawyS
 /** Słupki różnicy pion − najlepszy kąt stały [%] dla 12 miesięcy; w górę = pion zbiera więcej. */
 function WykresRoznicy({ wartosci }: { wartosci: (number | null)[] }) {
   const t = useTranslate()
-  const { znak } = useFormaty()
+  const { znak } = useFormatyMontazu()
   const W = 360
   const H = 150
   const max = Math.max(...wartosci.map((v) => Math.abs(v ?? 0)), 1)
@@ -46,7 +46,7 @@ function WykresRoznicy({ wartosci }: { wartosci: (number | null)[] }) {
 
 export function TrybPionowy() {
   const t = useTranslate()
-  const { f0, f1, znak } = useFormaty()
+  const { f0, f1, znak } = useFormatyMontazu()
   const [s, setS] = usePersistedDraft<Seed>("typ-montazu-pionowy", PUSTY)
   const ustaw = (p: keyof Seed, v: string) => setS((prev) => ({ ...prev, [p]: v }))
   const tab = useTabelaNapromieniowania(s.azymutDeg)

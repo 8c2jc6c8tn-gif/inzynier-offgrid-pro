@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useOnline } from "@/lib/lokalizacja/use-online"
-import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { formatujDate } from "@/lib/i18n/liczby"
 
 /**
@@ -15,8 +15,7 @@ import { formatujDate } from "@/lib/i18n/liczby"
 export function TemperaturyZPvgis({ onWstaw }: { onWstaw: (temperatury: number[]) => void }) {
   const t = useTranslate()
   const jezyk = useLanguage()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const online = useOnline()
   if (!wczytano) return null

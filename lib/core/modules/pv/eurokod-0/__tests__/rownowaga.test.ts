@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { balastProjektowyEquKg, GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../rownowaga"
+import { balastPrzewracaniaEquKg, balastProjektowyEquKg, GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../rownowaga"
 
 describe("PN-EN 1990 — EQU (Tablica A1.2(A), wartości zalecane, NB bez zmian krajowych)", () => {
   it("współczynniki częściowe zweryfikowane z oryginałem: γG,inf = 0,90, γQ,1 = 1,50", () => {
@@ -25,5 +25,17 @@ describe("PN-EN 1990 — EQU (Tablica A1.2(A), wartości zalecane, NB bez zmian 
 
   it("masa własna większa niż wymagana → balast dodatkowy 0 (nie ujemny)", () => {
     expect(balastProjektowyEquKg(1000, 9.80665, 200)).toBe(0)
+  })
+})
+
+describe("PN-EN 1997-1 Tablica A.1 (EQU) — przewracanie (współczynniki jak przy oderwaniu; h, b od użytkownika)", () => {
+  // References computed independently in Python (Directive #3), g = 9,80665, Fh = 1000 N, Fv = 500 N.
+  it("przewracanie: h = 2 m, b = 1 m → (1,5·(500 + 2·1000·2/1))/(0,9·g) = 764,79 kg", () => {
+    expect(balastPrzewracaniaEquKg(1000, 500, 2, 1, 9.80665)).toBeCloseTo(764.79, 1)
+  })
+
+  it("masa własna pomniejsza balast, nigdy poniżej zera", () => {
+    expect(balastPrzewracaniaEquKg(1000, 500, 2, 1, 9.80665, 100)).toBeCloseTo(664.79, 1)
+    expect(balastPrzewracaniaEquKg(1000, 500, 2, 1, 9.80665, 1e6)).toBe(0)
   })
 })

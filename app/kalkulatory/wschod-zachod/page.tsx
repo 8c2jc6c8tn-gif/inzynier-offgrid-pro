@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/calculator"
 import type { DaneWschodZachod } from "@/lib/core/modules/pv/wschod-zachod/input"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -80,9 +80,7 @@ function WykresDoby({ wz, poludnie }: { wz: number[]; poludnie: number[] }) {
 
 export default function WschodZachodPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("wschod-zachod", STAN_POCZATKOWY)
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()

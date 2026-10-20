@@ -14,7 +14,7 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { MAKS_SCENARIUSZY } from "@/lib/core/modules/stress-test/symulacja-mrozu/constants"
 import type { WynikScenariusza } from "@/lib/core/modules/stress-test/symulacja-mrozu/calculator"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { useWynikSymulacjiMrozu } from "@/lib/stress-test/use-symulacja-mrozu"
 import {
   KLUCZ_DRAFTU_SYMULACJI_MROZU,
@@ -47,9 +47,7 @@ const POLA_MAGAZYNU: { pole: PoleStanu; label: string; unit: string }[] = [
 
 export default function SymulacjaMrozuPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f1 } = useFormaty()
   const [stan, setStan, , wczytano] = usePersistedDraft<StanSymulacjiMrozu>(KLUCZ_DRAFTU_SYMULACJI_MROZU, STAN_POCZATKOWY_SYMULACJI)
   const { lokalizacja, dane, tmy, ekran1, produkcja, result } = useWynikSymulacjiMrozu(stan)
 
@@ -222,9 +220,7 @@ export default function SymulacjaMrozuPage() {
 
 function KartaScenariusza({ s, liczbaDni, ogrzewanieWPopycie }: { s: WynikScenariusza; liczbaDni: number; ogrzewanieWPopycie: boolean }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0, f1 } = useFormaty()
   return (
     <section className="flex flex-col gap-1 text-small">
       <h3 className="font-medium">{t("UI-M7-SYMMR-KARTA-TYTUL", { temperatura: f1(s.temperaturaC) })}</h3>

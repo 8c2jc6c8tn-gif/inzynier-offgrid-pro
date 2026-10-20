@@ -33,6 +33,8 @@ export function validateWiatr(input: DaneWiatruInput & GeometriaStelazaInput): W
   if (!dodatnia(input.szerokoscStelazaM)) e.push(wartoscNiedodatnia("szerokoscStelazaM", "POLE-SZEROKOSC-STELAZA", input.szerokoscStelazaM!))
   if (!nieujemna(input.wysokoscDolnejKrawedziM)) e.push(wartoscUjemna("wysokoscDolnejKrawedziM", "POLE-WYSOKOSC-DOLNEJ-KRAWEDZI", input.wysokoscDolnejKrawedziM!))
   if (!nieujemna(input.masaPaneliStelazaKg)) e.push(wartoscUjemna("masaPaneliStelazaKg", "POLE-MASA-PANELI-STELAZA", input.masaPaneliStelazaKg!))
+  if (!dodatnia(input.wspolczynnikTarcia ?? null)) e.push(wartoscNiedodatnia("wspolczynnikTarcia", "POLE-WP30-TARCIE", input.wspolczynnikTarcia!))
+  if (!dodatnia(input.glebokoscPodstawyM ?? null)) e.push(wartoscNiedodatnia("glebokoscPodstawyM", "POLE-WP30-SZEROKOSC-PODSTAWY", input.glebokoscPodstawyM!))
   return e
 }
 

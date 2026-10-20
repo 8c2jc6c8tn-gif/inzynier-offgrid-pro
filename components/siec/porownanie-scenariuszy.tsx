@@ -24,7 +24,7 @@ import { uzyskZeStanu } from "./uzysk-pv"
 import { liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
 import { useZl } from "@/lib/waluta/use-waluta"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type StanScenariusza = { inwestycja: string; dotacja: string; moc: string; pojemnosc: string; kosztMagazynu: string; serwis: string }
 
@@ -86,8 +86,7 @@ const num = (s: string) => (s === "" ? 0 : Number(s))
  */
 export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   const t = useTranslate(true)
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
+  const { f0 } = useFormaty()
   const zl = useZl()
   const firma = segment === "firma"
   const [stan, setStan] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY)

@@ -5,6 +5,7 @@
  * śnieg: PN-EN 1991-1-3 Tablica 5.2 (`../eurokod-1/snieg.ts`), produkcja: tabela M3/E1.
  */
 import type { KategoriaTerenu, StrefaWiatrowa } from "../eurokod-1/wiatr"
+import type { MetodaCf } from "../wiatr-powyzej-30/sila-i-balast"
 import type { TabelaNapromieniowania } from "../kat-i-azymut/input"
 
 export type ZlotySrodekInput = {
@@ -27,6 +28,17 @@ export type ZlotySrodekInput = {
    * Siła utrzymująca z γG,inf = 0,90; balast i jego koszt liczone ponad tę masę. `null` = pominięta.
    */
   masaPaneliStelazaKg: number | null
+  /**
+   * Długość pola paneli wzdłuż spadku L [m] — opcjonalnie; razem ze współczynnikiem tarcia pozwala sprawdzić przesuw i przewracanie
+   * (punkt przyłożenia siły = środek paneli: ze − L/2·sin α; podstawa: L·cos α albo podana głębokość).
+   */
+  dlugoscWzdluzSpaduM?: number | null
+  /** Współczynnik tarcia stelaża/balastu o podłoże μ — opcjonalnie, bez wartości domyślnej. */
+  wspolczynnikTarcia?: number | null
+  /** Głębokość podstawy stelaża w kierunku wiatru [m] — opcjonalnie; puste = L·cos α; przy 90° konieczna. */
+  glebokoscPodstawyM?: number | null
+  /** Metoda szacunku cf dla kątów powyżej 30° (D101): `liniowa` (domyślna) albo `trend` (ostrożniejsza). */
+  metodaCf?: MetodaCf | null
   /** Cena balastu [zł/kg] — podpowiedź 1 zł/kg (D27, wykonanie własne), użytkownik wpisuje swoją. */
   cenaBalastuZlKg: number | null
   /** Do wyceny energii (kryterium D27) — wszystkie cztery albo brak rekomendacji. */

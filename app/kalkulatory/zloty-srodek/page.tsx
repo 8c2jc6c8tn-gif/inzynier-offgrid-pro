@@ -8,6 +8,9 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
+import { BalastWarunki, ETYKIETA_WARUNKU } from "@/components/wzorce/balast-warunki"
+import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
+import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
@@ -19,7 +22,7 @@ import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/l
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateZlotySrodek, type PunktKata } from "@/lib/core/modules/pv/zloty-srodek/calculator"
 import { CENA_BALASTU_PODPOWIEDZ_ZL_KG } from "@/lib/core/modules/pv/zloty-srodek/constants"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -33,6 +36,10 @@ type FormularzStan = {
   powierzchniaM2: string
   phi: string
   masaPaneliStelaza: string
+  dlugoscSpadku: string
+  wspolczynnikTarcia: string
+  glebokoscPodstawy: string
+  metodaCf?: string
   cenaBalastu: string
   mocKwp: string
   pr: string
@@ -50,6 +57,10 @@ const STAN_POCZATKOWY: FormularzStan = {
   powierzchniaM2: "",
   phi: "",
   masaPaneliStelaza: "",
+  dlugoscSpadku: "",
+  wspolczynnikTarcia: "",
+  glebokoscPodstawy: "",
+  metodaCf: "",
   cenaBalastu: String(CENA_BALASTU_PODPOWIEDZ_ZL_KG),
   mocKwp: "",
   pr: "",
@@ -73,6 +84,23 @@ const OPIS_TERENU: Record<KategoriaTerenu, string> = {
  * Jedna wielkość w funkcji kąta 0–90° (mała seria wykresów zamiast jednego z trzema osiami — produkcja,
  * wiatr i śnieg mają różne jednostki). `null` = brak danych normowych: przerwa w linii, nie zero.
  */
+/** Ballast of one angle under each condition, the heaviest highlighted — the same view as in the other wind/ballast calculators. */
+function BalastPunktu({ p, t, f }: { p: PunktKata; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+  if (p.balastKg === null) return null
+  return (
+    <div className="mt-1">
+      <BalastWarunki
+        warunki={{ oderwanie: p.balastOderwanieKg, przesuw: p.balastPrzesuwKg, przewracanie: p.balastPrzewracanieKg }}
+        rozstrzyga={p.warunekRozstrzygajacy}
+        t={t}
+        f={f}
+        oderwanieNieDotyczy={p.balastOderwanieKg === null}
+        podejscieEc7={p.podejscieEc7Przesuw}
+      />
+    </div>
+  )
+}
+
 function WykresKatowy({
   tytul,
   wartosci,
@@ -135,10 +163,7 @@ function WykresKatowy({
 
 export default function ZlotySrodekPage() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f0, f1, f2 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const denominacja = useDenominacja()
   const [stan, setStan, info] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, PRZELICZ_KWOTY)
@@ -181,6 +206,11 @@ export default function ZlotySrodekPage() {
         wspolczynnikPhi: n(stan.phi),
         // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
         masaPaneliStelazaKg: n(stan.masaPaneliStelaza ?? ""),
+        // Drafts saved before the stability check have no slope length / friction / footprint depth — treat as empty.
+        dlugoscWzdluzSpaduM: n(stan.dlugoscSpadku ?? ""),
+        wspolczynnikTarcia: n(stan.wspolczynnikTarcia ?? ""),
+        glebokoscPodstawyM: n(stan.glebokoscPodstawy ?? ""),
+        metodaCf: stan.metodaCf === "trend" ? "trend" : "liniowa",
         cenaBalastuZlKg: n(stan.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
@@ -316,6 +346,39 @@ export default function ZlotySrodekPage() {
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
         />
         <Pole
+          label={t("UI-ZLOSRO-DLUGOSC-SPADKU")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.dlugoscSpadku ?? ""}
+          onChange={(e) => ustaw("dlugoscSpadku", e.target.value)}
+          pomoc={<PomocPola ekran="typ-montazu-pola" pole="dlugoscL" />}
+        />
+        <Pole
+          label={t("UI-ZLOSRO-TARCIE")}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step={0.05}
+          value={stan.wspolczynnikTarcia ?? ""}
+          onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+        />
+        <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
+        <Pole
+          label={t("UI-ZLOSRO-GLEBOKOSC-PODSTAWY")}
+          unit="m"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan.glebokoscPodstawy ?? ""}
+          onChange={(e) => ustaw("glebokoscPodstawy", e.target.value)}
+          pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
+        />
+        <WyborMetodyCf metoda={stan.metodaCf === "trend" ? "trend" : "liniowa"} onChange={(m) => ustaw("metodaCf", m)} t={t} f={f2} />
+        <p className="text-small text-muted-foreground">{t("UI-ZLOSRO-STATECZNOSC-OPIS")}</p>
+        <Pole
           label={t("UI-ZLOSRO-CENA-BALASTU")}
           unit={t("UI-ZLOSRO-ZL-KG")}
           type="number"
@@ -392,8 +455,9 @@ export default function ZlotySrodekPage() {
               <p className="text-small">
                 {t("UI-ZLOSRO-MASZ-ENERGII-NAJLEPSZEGO", { nachylenieDeg: rek.nachylenieDeg, p: f1((100 * rek.napromieniowanieRoczneKwhM2) / hMax), optimumEnergiiDeg: r.optimumEnergiiDeg, p2: f0(rek.silaWiatruN!) })}
                 {stan.masaPaneliStelaza ? ` ${t("UI-ZLOSRO-PONAD-CIEZAR-PANELI")}` : ""}{" "}
-                <strong>{f0(rek.balastKg!)} kg</strong> {t("UI-ZLOSRO-BILANS-OKRESIE-ANALIZY", { p: f0(rek.kosztBalastuZl!), p2: f0(rek.bilansZl!) })}
+                <strong>{f0(Math.ceil(rek.balastKg!))} kg</strong> {t("UI-ZLOSRO-BILANS-OKRESIE-ANALIZY", { p: f0(rek.kosztBalastuZl!), p2: f0(rek.bilansZl!) })}
               </p>
+              <BalastPunktu p={rek} t={t} f={f0} />
             </>
           ) : (
             <p className="text-small">{t("UI-ZLOSRO-NAJWIECEJ-ENERGII-DAJE", { optimumEnergiiDeg: r.optimumEnergiiDeg })}</p>
@@ -425,10 +489,12 @@ export default function ZlotySrodekPage() {
           {wyb && (
             <p className="text-small">
               {t("UI-ZLOSRO-ENERGIA-MAKSIMUM-SNIEG", { nachylenieDeg: wyb.nachylenieDeg, p: f1((100 * wyb.napromieniowanieRoczneKwhM2) / hMax), mu1: f2(wyb.mu1) })}
-              {wyb.silaWiatruN !== null ? t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) }) : t("UI-ZLOSRO-WIATR-BRAK-DANYCH")}
-              {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(wyb.balastKg), p: f0(wyb.kosztBalastuZl!) }) : ""}.
+              {wyb.silaWiatruN !== null && t("UI-ZLOSRO-WIATR-NAJGORSZEGO-USTAWIENIA", { silaWiatruN: f0(wyb.silaWiatruN), p: f0(wyb.procentSilyMaks!) })}
+              {wyb.balastKg !== null ? t("UI-ZLOSRO-BALAST", { balastKg: f0(Math.ceil(wyb.balastKg)), p: f0(wyb.kosztBalastuZl!) }) : ""}.
+              {wyb.szacunek && t("UI-ZLOSRO-SZACUNEK-ZNACZNIK")}
             </p>
           )}
+          {wyb && wyb !== rek && <BalastPunktu p={wyb} t={t} f={f0} />}
 
           <div className="mt-3 flex flex-col gap-4">
             <WykresKatowy
@@ -469,6 +535,7 @@ export default function ZlotySrodekPage() {
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-ENERGIA")}</th>
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-WIATR")}</th>
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-BALAST-PROJ")}</th>
+                  {r.punkty.some((q) => q.statecznosc) && <th className="p-2 text-left font-medium">{t("UI-ZLOSRO-ROZSTRZYGA")}</th>}
                   <th className="p-2 text-right font-medium">{t("UI-ZLOSRO-KOSZT")}</th>
                 </tr>
               </thead>
@@ -477,10 +544,13 @@ export default function ZlotySrodekPage() {
                   const p = r.punkty[k]!
                   return (
                     <tr key={k} className={`border-b last:border-0 ${k === r.rekomendacjaDeg ? "font-semibold" : ""}`}>
-                      <td className="p-2">{k}°</td>
+                      <td className="p-2">{k}°{p.szacunek ? " 🔎" : ""}</td>
                       <td className="p-2 text-right font-mono">{f1((100 * p.napromieniowanieRoczneKwhM2) / hMax)}%</td>
                       <td className="p-2 text-right font-mono">{p.silaWiatruN === null ? "—" : f0(p.silaWiatruN)}</td>
-                      <td className="p-2 text-right font-mono">{p.balastKg === null ? "—" : f0(p.balastKg)}</td>
+                      <td className="p-2 text-right font-mono">{p.balastKg === null ? "—" : f0(Math.ceil(p.balastKg))}</td>
+                      {r.punkty.some((q) => q.statecznosc) && (
+                        <td className="p-2">{p.statecznosc && p.warunekRozstrzygajacy !== null ? t(ETYKIETA_WARUNKU[p.warunekRozstrzygajacy]) : "—"}</td>
+                      )}
                       <td className="p-2 text-right font-mono">{p.kosztBalastuZl === null ? "—" : f0(p.kosztBalastuZl)}</td>
                     </tr>
                   )
@@ -488,6 +558,7 @@ export default function ZlotySrodekPage() {
               </tbody>
             </table>
           </div>
+          {r.punkty.some((p) => p.szacunek) && <p className="text-caption">{t("UI-ZLOSRO-LEGENDA-SZACUNEK")}</p>}
           <p className="text-caption">
             {t("UI-ZLOSRO-CISNIENIE-WIATRU-STELAZU", { qpPa: f0(r.qpPa), qbPa: f0(r.qbPa), ce: f2(r.ce) })}
           </p>

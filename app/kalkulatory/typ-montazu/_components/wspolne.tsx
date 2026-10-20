@@ -6,28 +6,34 @@ import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
+import { BalastWarunki } from "@/components/wzorce/balast-warunki"
+import { PrzelicznikTarcia } from "@/components/wzorce/przelicznik-tarcia"
+import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
 import type { Warning } from "@/lib/core/calc-result"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
-import { useFormatLiczby, useTranslate } from "@/lib/i18n/language-context"
+import type { PodejscieEc7 } from "@/lib/core/modules/pv/eurokod-7/przesuw"
+import type { WarunekBalastu } from "@/lib/core/modules/pv/wiatr-powyzej-30/sila-i-balast"
+import { useFormatLiczby, useFormaty, useTranslate } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
 
 /** Short month names — `UI-MIESIAC-SKR-*` keys, render through `t()`. */
 export const MIESIACE = Array.from({ length: 12 }, (_, i) => `UI-MIESIAC-SKR-${i + 1}`)
-/** Number formatters bound to the UI language, one hook for all modes of the screen. */
-export function useFormaty() {
+/** Montaż-specific formatters on top of the shared roundings: a signed one-decimal value and a mass with the default precision. */
+export function useFormatyMontazu() {
   const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1, f2 } = useFormaty()
   return {
-    fMasa: (x: number) => formatLiczbe(x),
-    f0: (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 }),
+    f0,
     f1,
-    f2: (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 }),
+    f2,
+    fMasa: (x: number) => formatLiczbe(x),
     znak: (x: number) => (x > 0 ? "+" : x < 0 ? "−" : "") + f1(Math.abs(x)),
   }
 }
+
 /** Pole tekstowe → liczba albo `null` (puste/niepoprawne = nie wpisano, bez wartości domyślnej). */
 export const n = (s: string) => liczba(s) ?? null
 
@@ -64,7 +70,7 @@ export function wiatrZSeeda(s: WiatrSeed, wysokoscPvgis: number | undefined) {
   }
 }
 
-const OPIS_TERENU: Record<KategoriaTerenu, string> = {
+export const OPIS_TERENU: Record<KategoriaTerenu, string> = {
   "0": "UI-TYPMON-COMWSP-MORZE",
   I: "UI-TYPMON-COMWSP-JEZIORA-TEREN-PLASKI",
   II: "UI-TYPMON-COMWSP-NISKA-ROSLINNOSC-POJEDYNCZE",
@@ -129,8 +135,8 @@ export function PolaWiatru({ s, ustaw, wysokoscPvgis }: { s: WiatrSeed; ustaw: (
   )
 }
 
-export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string }
-export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "" }
+export type StelazSeed = { dlugoscWzdluzSpaduM: string; szerokoscStelazaM: string; wysokoscDolnejKrawedziM: string; masaPaneliStelazaKg: string; wspolczynnikTarcia: string; glebokoscPodstawyM: string; metodaCf?: string }
+export const STELAZ_PUSTY: StelazSeed = { dlugoscWzdluzSpaduM: "", szerokoscStelazaM: "", wysokoscDolnejKrawedziM: "", masaPaneliStelazaKg: "", wspolczynnikTarcia: "", glebokoscPodstawyM: "", metodaCf: "" }
 
 export function stelazZSeeda(s: StelazSeed) {
   return {
@@ -139,7 +145,29 @@ export function stelazZSeeda(s: StelazSeed) {
     wysokoscDolnejKrawedziM: n(s.wysokoscDolnejKrawedziM),
     // Drafts saved before D29 (28.09.2026) have no mass — treat as empty.
     masaPaneliStelazaKg: n(s.masaPaneliStelazaKg ?? ""),
+    // Drafts saved before the stability check have no friction / footprint depth — treat as empty.
+    wspolczynnikTarcia: n(s.wspolczynnikTarcia ?? ""),
+    glebokoscPodstawyM: n(s.glebokoscPodstawyM ?? ""),
+    // Drafts saved before D101 have no method — linear.
+    metodaCf: s.metodaCf === "trend" ? ("trend" as const) : ("liniowa" as const),
   }
+}
+
+/** Ballast for each condition with the governing one highlighted, or a hint what to enter when only uplift was checked. */
+export function BalastSkladniki({ w, t, f }: { w: { statecznosc: boolean; balastOderwanieKg: number | null; balastPrzesuwKg: number | null; balastPrzewracanieKg: number | null; warunekRozstrzygajacy: WarunekBalastu | null; podejscieEc7Przesuw: PodejscieEc7 | null }; t: (kod: string, params?: Record<string, string | number>) => string; f: (x: number) => string }) {
+  return (
+    <li>
+      <BalastWarunki
+        warunki={{ oderwanie: w.balastOderwanieKg, przesuw: w.balastPrzesuwKg, przewracanie: w.balastPrzewracanieKg }}
+        rozstrzyga={w.warunekRozstrzygajacy}
+        t={t}
+        f={f}
+        oderwanieNieDotyczy={w.balastOderwanieKg === null}
+        podejscieEc7={w.podejscieEc7Przesuw}
+      />
+      {!w.statecznosc && <p className="text-small text-muted-foreground">{t("UI-TYPMON-COMWSP-BALAST-TYLKO-ODERWANIE")}</p>}
+    </li>
+  )
 }
 
 /** Result suffix: the ballast is on top of the entered panels + frame weight (D29). */
@@ -150,6 +178,7 @@ export function dopiskMasyWlasnej(s: StelazSeed, t: (kod: string, params?: Recor
 
 export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: (p: keyof StelazSeed, v: string) => void; poleKrawedzi: "krawedzRegulowany" | "krawedzDachPlaski" }) {
   const t = useTranslate()
+  const { f2 } = useFormaty()
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       <Pole
@@ -192,6 +221,32 @@ export function PolaStelaza({ s, ustaw, poleKrawedzi }: { s: StelazSeed; ustaw: 
         onChange={(e) => ustaw("masaPaneliStelazaKg", e.target.value)}
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="masa" />}
       />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-TARCIE")}
+        type="number"
+        inputMode="decimal"
+        min={0}
+        step={0.05}
+        value={s.wspolczynnikTarcia ?? ""}
+        onChange={(e) => ustaw("wspolczynnikTarcia", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="tarcie" />}
+      />
+      <Pole
+        label={t("UI-TYPMON-COMWSP-GLEBOKOSC-PODSTAWY")}
+        unit="m"
+        type="number"
+        inputMode="decimal"
+        min={0}
+        value={s.glebokoscPodstawyM ?? ""}
+        onChange={(e) => ustaw("glebokoscPodstawyM", e.target.value)}
+        pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="glebokoscPodstawy" />}
+      />
+      <div className="sm:col-span-3">
+        <PrzelicznikTarcia onUzyj={(mu) => ustaw("wspolczynnikTarcia", String(mu))} />
+      </div>
+      <div className="sm:col-span-3">
+        <WyborMetodyCf metoda={s.metodaCf === "trend" ? "trend" : "liniowa"} onChange={(m) => ustaw("metodaCf", m)} t={t} f={f2} />
+      </div>
     </div>
   )
 }

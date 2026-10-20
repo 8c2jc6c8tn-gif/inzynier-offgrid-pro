@@ -37,6 +37,8 @@ import { katIAzymutTool } from "./tools/kat-i-azymut-tool"
 import { wschodZachodTool } from "./tools/wschod-zachod-tool"
 import { porownajPaneleTool } from "./tools/porownaj-panele-tool"
 import { odstepRzedowTool } from "./tools/odstep-rzedow-tool"
+import { wiatrPowyzej30Tool } from "./tools/wiatr-powyzej-30-tool"
+import { ogrodzeniePvTool } from "./tools/ogrodzenie-pv-tool"
 import { zlotySrodekTool } from "./tools/zloty-srodek-tool"
 import { liczbaPaneliTool } from "./tools/liczba-paneli-tool"
 import { trackerVsStalyTool } from "./tools/tracker-vs-staly-tool"
@@ -327,6 +329,8 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   wschodZachodTool,
   porownajPaneleTool,
   odstepRzedowTool,
+  wiatrPowyzej30Tool,
+  ogrodzeniePvTool,
   zlotySrodekTool,
   liczbaPaneliTool,
   trackerVsStalyTool,

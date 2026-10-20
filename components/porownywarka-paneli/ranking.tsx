@@ -8,7 +8,7 @@ import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import type { RekordGodzinowy } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/input"
 import type { DanePanelu, MiejsceInput, WymiaryMiejsca } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 import { posortujRanking, przefiltrujKatalog, rankingKatalogu, type SortowanieRankingu } from "@/lib/core/modules/pv/porownywarka-paneli/ranking"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 
 /** Katalog jako dane silnika: cena jest polem użytkownika (U6), więc w rankingu jej nie ma. */
@@ -29,9 +29,7 @@ export function RankingKatalogu(p: {
   onWstaw: (idKatalogu: string[]) => void
 }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 0 })
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
+  const { f0, f1 } = useFormaty()
   const [mocMin, setMocMin] = useState("")
   const [mocMax, setMocMax] = useState("")
   const [maxBok, setMaxBok] = useState("")

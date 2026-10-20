@@ -24,3 +24,27 @@ export const GAMMA_Q_EQU = 1.5
 export function balastProjektowyEquKg(silaOdrywajacaN: number, przyspieszenieZiemskieMS2: number, masaWlasnaKg = 0): number {
   return Math.max(0, (GAMMA_Q_EQU * silaOdrywajacaN) / (GAMMA_G_INF_EQU * przyspieszenieZiemskieMS2) - masaWlasnaKg)
 }
+
+/**
+ * Stability of a free-standing frame against overturning — static equilibrium (EQU) with the SAME partial factors as the uplift
+ * check (PN-EN 1997-1 Table A.1 = EN 1990 Table A1.2(A): γQ = 1,50 wind, γG;stb = 0,90 ballast and self-weight). Sliding is NOT here: it
+ * is a GEO check per PN-EN 1997-1 p. 6.5.3 (`../eurokod-7/przesuw.ts`). The norm gives no point of application of the wind force nor the
+ * friction of a given pair of materials, so those are user inputs (no defaults) and the result is an application ESTIMATE. Wind force on a
+ * tilted panel is perpendicular to it: F_h = F·sin α, F_v = F·cos α (uplift). At 90° F_h = F, F_v = 0.
+ */
+export type StatecznoscStelaza = {
+  /** Friction coefficient between frame/ballast and ground, μ > 0 (user input, depends on ground). */
+  wspolczynnikTarcia: number
+  /** Height of the wind force application point above the ground [m], h > 0. */
+  wysokoscSrodkaParciaM: number
+  /** Footprint width of the frame in the wind direction [m], b > 0 (overturning about the leeward edge). */
+  szerokoscPodstawyM: number
+}
+
+/**
+ * Overturning about the leeward edge, weight at b/2 and uplift reducing the restoring moment:
+ * γQ·Fh·h ≤ (γG,inf·(m + G)·g − γQ·Fv)·b/2  →  m = max(0, γQ·(Fv + 2·Fh·h/b)/(γG,inf·g) − G).
+ */
+export function balastPrzewracaniaEquKg(silaPoziomaN: number, silaPionowaN: number, wysokoscSrodkaParciaM: number, szerokoscPodstawyM: number, przyspieszenieZiemskieMS2: number, masaWlasnaKg = 0): number {
+  return Math.max(0, (GAMMA_Q_EQU * (silaPionowaN + (2 * silaPoziomaN * wysokoscSrodkaParciaM) / szerokoscPodstawyM)) / (GAMMA_G_INF_EQU * przyspieszenieZiemskieMS2) - masaWlasnaKg)
+}

@@ -11,7 +11,7 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
   pradA: string
@@ -42,9 +42,7 @@ const liczba = (s: string) => (s === "" ? 0 : Number(s))
 /** Form + verdict shared by M12/E2 (small installation) and M12/E15 (camper/vehicle, `pojazd`). */
 export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu: string; pojazd: boolean }) {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f1 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f1, f2 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY)
   const idWlasny = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>

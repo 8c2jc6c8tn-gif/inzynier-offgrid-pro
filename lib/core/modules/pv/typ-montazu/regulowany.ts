@@ -1,14 +1,17 @@
 import type { Assumption, CalcResult, Warning } from "@/lib/core/calc-result"
 import { GAMMA_G_INF_EQU, GAMMA_Q_EQU } from "../eurokod-0/rownowaga"
-import { CF_WIATA_MAX_KAT_DEG, KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
+import { KAT_PIONOWY_DEG } from "../eurokod-1/wiatr"
 import { CSCD_STELAZ, PRZYSPIESZENIE_ZIEMSKIE_M_S2 } from "../zloty-srodek/constants"
 import { zalozenieMasyWlasnej } from "../zloty-srodek/zalozenia"
 import { balastProjektowyEqu, pionSilaPozioma } from "../zloty-srodek/warnings"
 import { LICZBA_MIESIECY, PROG_SSANIA_OD_SPODU_DEG } from "./constants"
 import type { RegulowanyInput } from "./input"
 import { validateRegulowany } from "./validation"
-import { miesiaceBezDanychWiatru, ssanieOdSpodu } from "./warnings"
-import { katPosredniTablicy, podniesienieKrawedziM, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
+import { KAT_NORMOWY_MAX_DEG } from "../wiatr-powyzej-30/constants"
+import { kodZalozeniaCf } from "../wiatr-powyzej-30/sila-i-balast"
+import { miesiaceNaWlasnaOdpowiedzialnosc, statecznoscSzacunek } from "../wiatr-powyzej-30/warnings"
+import { ssanieOdSpodu } from "./warnings"
+import { katPosredniTablicy, podniesienieKrawedziM, statecznoscStelazaDlaKata, wiatrDlaKata, type WiatrDlaKata } from "./wiatr-stelaza"
 import { fabrykaWyniku, statusZOstrzezen } from "./wynik"
 
 export type MiesiacRegulowany = WiatrDlaKata & {
@@ -32,7 +35,8 @@ export type RegulowanyResult = {
   /** Największy balast spośród ustawień z danymi normowymi — stelaż stoi w każdym ustawieniu [kg]. */
   balastWymaganyKg: number | null
   /** Miesiące z kątem 31–89° — brak cf w Tablicy 7.6. */
-  liczbaMiesiecyBezDanychWiatru: number
+  /** Liczba miesięcy z kątem powyżej 30° (do 89°): siła wiatru i balast to szacunek aplikacji, nie wynik normy. */
+  liczbaMiesiecySzacunekWiatru: number
 }
 
 const FORMULA =
@@ -76,6 +80,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
 
   const powierzchniaM2 = L * B
   const daneWiatru = { strefaWiatrowa, wysokoscNpmM, kategoriaTerenu, wspolczynnikPhi }
+  const metodaCf = input.metodaCf ?? "liniowa"
   const miesiace: MiesiacRegulowany[] = Array.from({ length: LICZBA_MIESIECY }, (_, m) => {
     const iNaj = indeksy.reduce((a, i) => (tabela.miesiace[i]![m]! > tabela.miesiace[a]![m]! ? i : a))
     const katDeg = tabela.katyDeg[iNaj]!
@@ -85,7 +90,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
       katDeg,
       napromieniowanieKwhM2: tabela.miesiace[iNaj]![m]!,
       podniesienieM,
-      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0),
+      ...wiatrDlaKata(daneWiatru, katDeg, h0 + podniesienieM, powierzchniaM2, input.masaPaneliStelazaKg ?? 0, statecznoscStelazaDlaKata(L, katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM), metodaCf),
     }
   })
   const iStaly = indeksy.reduce((a, i) => (suma(tabela.miesiace[i]!) > suma(tabela.miesiace[a]!) ? i : a))
@@ -93,13 +98,20 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
   const napromieniowanieRegulowaneKwhM2 = suma(miesiace.map((x) => x.napromieniowanieKwhM2))
 
   const balasty = miesiace.map((x) => x.balastKg).filter((b): b is number => b !== null)
-  const bezDanych = miesiace.filter((x) => x.katDeg > CF_WIATA_MAX_KAT_DEG && x.katDeg !== KAT_PIONOWY_DEG).length
+  const miesiaceSzacunek = miesiace.filter((x) => x.szacunek)
   const katMaksUzyty = Math.max(...miesiace.map((x) => x.katDeg))
 
   const warnings: Warning[] = []
-  if (balasty.length > 0) warnings.push(balastProjektowyEqu())
-  if (bezDanych > 0) warnings.push(miesiaceBezDanychWiatru(bezDanych))
-  if (miesiace.some((x) => x.katDeg === KAT_PIONOWY_DEG)) warnings.push(pionSilaPozioma())
+  const miesiaceStatecznosc = miesiace.filter((x) => x.statecznosc)
+  // Geometry of the month that needs the most ballast — the one the warning and the assumption describe.
+  const najgorszyMiesiac = miesiaceStatecznosc.length > 0 ? miesiaceStatecznosc.reduce((a, x) => ((x.balastKg ?? 0) > (a.balastKg ?? 0) ? x : a)) : null
+  const stateczneNajgorsze = najgorszyMiesiac && statecznoscStelazaDlaKata(L, najgorszyMiesiac.katDeg, h0, input.wspolczynnikTarcia, input.glebokoscPodstawyM)
+  if (stateczneNajgorsze) warnings.push(statecznoscSzacunek(stateczneNajgorsze.wspolczynnikTarcia, stateczneNajgorsze.wysokoscSrodkaParciaM, stateczneNajgorsze.szerokoscPodstawyM))
+  if (balasty.length > 0 && miesiaceStatecznosc.length === 0) warnings.push(balastProjektowyEqu())
+  if (miesiaceSzacunek.length > 0) {
+    warnings.push(miesiaceNaWlasnaOdpowiedzialnosc(miesiaceSzacunek.length, Math.max(...miesiaceSzacunek.map((x) => x.katDeg)), KAT_NORMOWY_MAX_DEG))
+  }
+  if (miesiace.some((x) => x.katDeg === KAT_PIONOWY_DEG && x.balastKg === null)) warnings.push(pionSilaPozioma())
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) warnings.push(ssanieOdSpodu(katMaksUzyty, PROG_SSANIA_OD_SPODU_DEG))
 
   const assumptions: Assumption[] = [
@@ -111,10 +123,14 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
     { kod: "ZS-ZALOZENIE-CDIR-CSEASON" },
   ]
   if (miesiace.some((x) => katPosredniTablicy(x.katDeg))) assumptions.push({ kod: "ZS-ZALOZENIE-KAT-POSREDNI" })
+  if (miesiaceSzacunek.length > 0) assumptions.push({ kod: kodZalozeniaCf(metodaCf), params: { max: KAT_NORMOWY_MAX_DEG } })
   if (balasty.length > 0) {
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-PIONOWO", params: { g: PRZYSPIESZENIE_ZIEMSKIE_M_S2 } })
     assumptions.push({ kod: "ZS-ZALOZENIE-BALAST-EQU", params: { gammaQ: GAMMA_Q_EQU, gammaG: GAMMA_G_INF_EQU } })
     assumptions.push(zalozenieMasyWlasnej(input.masaPaneliStelazaKg))
+  }
+  if (stateczneNajgorsze !== null) {
+    assumptions.push({ kod: "WP30-ZALOZENIE-STATECZNOSC", params: { mu: stateczneNajgorsze.wspolczynnikTarcia, h: Math.round(stateczneNajgorsze.wysokoscSrodkaParciaM * 100) / 100, b: Math.round(stateczneNajgorsze.szerokoscPodstawyM * 100) / 100 } })
   }
   if (katMaksUzyty >= PROG_SSANIA_OD_SPODU_DEG) assumptions.push({ kod: "TM-ZALOZENIE-PROG-SSANIA", params: { prog: PROG_SSANIA_OD_SPODU_DEG } })
 
@@ -128,7 +144,7 @@ export function calculateRegulowany(input: RegulowanyInput): CalcResult<Regulowa
       zyskRegulacjiPct: napromieniowanieStaleKwhM2 > 0 ? (100 * (napromieniowanieRegulowaneKwhM2 - napromieniowanieStaleKwhM2)) / napromieniowanieStaleKwhM2 : 0,
       powierzchniaM2,
       balastWymaganyKg: balasty.length > 0 ? Math.max(...balasty) : null,
-      liczbaMiesiecyBezDanychWiatru: bezDanych,
+      liczbaMiesiecySzacunekWiatru: miesiaceSzacunek.length,
     },
     warnings,
     assumptions,

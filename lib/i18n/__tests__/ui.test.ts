@@ -46,6 +46,15 @@ describe("check-i18n-ui-guard", () => {
     expect(isUserText("  ")).toBe(false)
   })
 
+  it("isUserText: a Tailwind class list and a static markup string are not text, a hyphenated phrase still is", () => {
+    expect(isUserText("border-werdykt-uwaga-border bg-werdykt-uwaga-bg text-werdykt-uwaga-foreground")).toBe(false)
+    expect(isUserText("hover:bg-muted/50 md:p-4 text-sm")).toBe(false)
+    expect(isUserText('<svg width="0" height="0"><defs id="x"></defs></svg>')).toBe(false)
+    expect(isUserText("off-grid")).toBe(true)
+    expect(isUserText("Zobacz więcej")).toBe(true)
+    expect(isUserText("text sample")).toBe(true)
+  })
+
   it("counts JSX text, text in JSX expressions and text attributes", () => {
     const src = `export const A = ({ ok }) => (
       <div>

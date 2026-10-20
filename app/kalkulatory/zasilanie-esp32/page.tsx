@@ -11,7 +11,7 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
+import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
 
 type PoleLiczbowe = Exclude<keyof ZasilanieEsp32Input, "sposob">
 type FormularzStan = Record<PoleLiczbowe, string> & { sposob: SposobZasilania | "" }
@@ -41,8 +41,7 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function ZasilanieEsp32Page() {
   const t = useTranslate()
-  const formatLiczbe = useFormatLiczby()
-  const f2 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 2 })
+  const { f2 } = useFormaty()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("zasilanie-esp32", STAN_POCZATKOWY)
   const result = useMemo(() => {
     const { sposob, ...liczby } = stan

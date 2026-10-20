@@ -44,10 +44,21 @@ const TEXT_NAMES = new Set([
   "uwaga", "powod", "tresc", "pytanie", "odpowiedz",
 ])
 
+/** Tailwind utility prefixes: a string where every token is a hyphenated/variant class and one starts with one of these is a class list. */
+const CLASS_PREFIX = /^(?:[a-z0-9-]+:)*!?-?(?:bg|text|border|ring|fill|stroke|p[xytrbl]?|m[xytrbl]?|w|h|size|gap|rounded|shadow|font|opacity|z|top|left|right|bottom|inset|translate|rotate|scale|grid|col|row|space|divide|outline|decoration|animate|transition|duration|ease|cursor|select|pointer|flex|items|justify|overflow|leading|tracking)-/
+
+/** Not text for the reader: a Tailwind class list (`border-x bg-y text-z`) or a static markup string (`<svg …>…</svg>`). */
+function isClassListOrMarkup(text) {
+  if (/^<[a-zA-Z!][\s\S]*>$/.test(text)) return true
+  const tokens = text.split(/\s+/)
+  return tokens.every((k) => /^[a-z0-9:!\-\[\]\/_.%()#,]+$/.test(k) && /[-:]/.test(k)) && tokens.some((k) => CLASS_PREFIX.test(k))
+}
+
 export function isUserText(raw) {
   const text = raw.trim()
   if (text === "") return false
-  if (POLISH.test(text)) return true
+  if (POLISH.test(text)) return !isClassListOrMarkup(text)
+  if (isClassListOrMarkup(text)) return false
   return (text.match(/\p{L}+/gu) ?? []).some((w) => w.length >= 3 && /\p{Ll}/u.test(w) && !UNITS.has(w))
 }
 

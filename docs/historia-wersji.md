@@ -2,12 +2,111 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
-## [3.35.1] — 18.10.2026
+## [3.44.1] — 20.10.2026
 
-Decyzja o domenach na polski rynek (D94, tylko dokumentacja):
-- `rejestr-decyzji.md`: D94 — `inżynier-offgrid.pl` i `inzynier-offgrid.pl` (bez „ż”), jedna kanoniczna z przekierowaniem 301; rejestracja do wykonania przez właściciela; wersja międzynarodowa `offgrid-engineer.pro` jako domena główna aplikacji, polskie domeny jako landingi reklamowe; domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
+Decyzja o domenach aplikacji (D104, tylko dokumentacja):
+- `rejestr-decyzji.md`: D104 — polskie domeny `inżynier-offgrid.pl` i `inzynier-offgrid.pl`, wersja międzynarodowa `offgrid-engineer.pro` jako domena główna aplikacji, polskie domeny jako landingi reklamowe; rejestracja do wykonania przez właściciela; domena rodziny, marka i znak towarowy zapisane jako pytania otwarte.
 
 Wpływ na liczby: brak.
+
+## [3.44.0] — 19.10.2026
+
+Nowy kalkulator „Ogrodzenie z paneli PV” (D103, polecenie właściciela: system sam dobiera i liczy odstępy, wysokości, rury i zagłębienie):
+- układ: liczba rzędów mieszcząca się pod limitem wysokości bez pozwolenia (albo wpisana), wysokość całkowita, prześwit pod najniższym panelem (min. kontrola kurzu i rozbryzgów), rozstaw słupków z długości panelu, liczba słupków i paneli dla wpisanej długości, sprawdzenie licowania (słupek–rura poprzeczna–panel),
+- wiatr wg PN-EN 1991-1-4 7.4.3 (tablica wolno stojąca albo ściana wolno stojąca, gdy z_g < h/4 i b/h > 1), siła na słupek i moment u podstawy; dobór najlżejszego profilu słupka i rygla z katalogu rur prostokątnych (nośność w zginaniu, ugięcie), stal S235/S355,
+- grunt z tablicy PN-B-03020 (wybór użytkownika, jak w pomocniku μ): kąt Φu i ciężar objętościowy; fundament słupka (sztywny krótki pal w gruncie niespoistym) w dwóch metodach obok siebie (zachowawcza c = 1/6 i Broms c = 1/2), obwiednia czterech podejść PN-EN 1997-1, zagłębienie nie mniejsze niż głębokość przemarzania wpisana przez użytkownika, tabela zagłębień dla kilku średnic,
+- zalecenie podsypki pod panelami (geowłóknina, piasek, żwir), autosave, PL/EN/RU, „?” przy każdym polu, narzędzie AI `policz_ogrodzenie_z_paneli_pv`, kafel w pulpicie, nowe twarde stopy w rejestrze (przesuw zbyt mały prześwit, przekroczona wysokość, brak profilu).
+
+Wpływ na liczby: brak dla istniejących kalkulatorów (nowy moduł, nic z dotychczasowych silników nie zmieniło wyników). Wynik ogrodzenia to szacunek aplikacji (`ESTIMATE`): stal (fy, E), wzór Bromsa i głębokość przemarzania nie pochodzą z dostarczonych źródeł — oznaczone „do potwierdzenia”.
+
+## [3.43.0] — 19.10.2026
+
+Podpowiedź kąta tarcia Φu z PN-B-03020 dla gruntów niespoistych (D102, wariant A wybrany przez właściciela):
+- w pomocniku „Nie znasz μ?” (wiatr >30°, typ montażu, „Złoty środek”) można wybrać grupę gruntu (Ż/Po, Pr/Ps, Pd/Pπ) i wpisać stopień zagęszczenia I_D 0,20–1,00; aplikacja podaje Φu z wykresu normy (interpolacja liniowa, odczyt ±0,5°, szacunek 🔎, bez ekstrapolacji poza wykresem),
+- Φu to wartość charakterystyczna z korelacji, a NIE φ′cv z Eurokodu 7 (p. 6.5.3 (10)) — ostrzeżenie przy podpowiedzi; wartość trafia do pola kąta tylko po kliknięciu, nigdy automatycznie; grunty spoiste pominięte,
+- nowy moduł `eurokod-7/grunty-pn-b-03020.ts` z testem kontrolnym z normy (Pr, I_D = 0,5 → 33°), pomoc „?” i teksty PL/EN/RU.
+
+Wpływ na liczby: brak (silniki bez zmian; nowa podpowiedź przy wprowadzaniu μ — zbyt wysokie Φu może zawyżyć μ i zaniżyć balast, stąd ostrzeżenie).
+
+## [3.42.0] — 19.10.2026
+
+Wybór metody szacunku współczynnika siły cf dla kątów 31–89° (D101, polecenie właściciela: dwie opcje do wyboru i pokazanie danych):
+- „Liniowa” (domyślna, jak w 3.39.0): prosta od cf(30°) z Tablicy 7.6 do 1,80 przy 90° (p. 7.4.3). „Trend” (ostrożniejsza): przyrost na stopień z ostatniego kroku Tablicy 7.6 (25°→30°) kontynuowany do limitu 1,80, nie mniej niż liniowa. Limit 1,80 to założenie aplikacji, nie wynik normy,
+- przy polu φ w wiatrze >30°, typie montażu (dach płaski, stelaż regulowany) i „Złotym środku” jest wybór metody oraz rozwijana tabela cf co 5° dla φ = 0; 0,5; 1 i obu metod (0–30° norma, 31–89° szacunek 🔎),
+- nowe założenie `WP30-ZALOZENIE-CF-TREND`, pomoc „?” i narzędzia AI (`metodaCf`), PL/EN/RU; szkice sprzed zmiany liczą liniowo.
+
+Wpływ na liczby: brak przy domyślnej metodzie. Wybór „trend” daje w kątach 31–89° cf nie mniejsze niż liniowa (np. φ = 0,5, 35°: 1,62 → 1,70), więc balast jest wyższy lub równy; przy φ = 0 obie metody dają 1,80.
+
+## [3.41.0] — 19.10.2026
+
+Kalkulator próby na miejscu dla współczynnika tarcia μ (D99; użytkownik bez dokumentacji geotechnicznej nie musi zgadywać):
+- przy polu μ w wiatrze >30°, typie montażu i „Złotym środku” (jeden wspólny pomocnik) można wpisać masę bloczka i siły w chwili ruszenia z kolejnych prób dynamometrem (w N albo kgf); aplikacja liczy μ = F/(m·g) z NAJNIŻSZEGO wyniku (po stronie bezpiecznej) i wpisuje je jednym przyciskiem,
+- to czysta fizyka, bez normy i bez tablic: wynik jest szacunkiem użytkownika dla jego pary bloczek–grunt; opis próby (poziomo, narastająca siła, co najmniej trzy powtórzenia, także na mokrym podłożu) i pomoc „?” przy każdym polu, PL/EN/RU,
+- funkcje `wspolczynnikTarciaZProby` i `parsujListeLiczb` w `eurokod-7/przesuw.ts` z testami (wartość odniesienia z Pythona).
+
+Wpływ na liczby: brak (nowy sposób wprowadzenia μ; silniki bez zmian).
+
+## [3.40.0] — 19.10.2026
+
+Przesuw stelaża wg Eurokodu 7 (D98, polecenie właściciela: wdrożyć z rekomendacji po sprawdzeniu dostarczonej normy PN-EN 1997-1:2008):
+- balast przeciw przesuwowi liczony wg p. 6.5.3 (stan GEO), a nie wg EQU: `H_d ≤ V_d′·tan δ_k/(γ_φ′·γ_R;h)` z oddziaływaniami wg Tablic A.3–A.5 Załącznika A; ciężar korzystny γ_G = 1,0 (wcześniej 0,9), parcie bierne gruntu pominięte,
+- brak Załącznika krajowego (wskazuje podejście obliczeniowe), więc liczymy wszystkie cztery kombinacje (podejście 1 komb. 1 i 2, podejście 2, podejście 3) i bierzemy najcięższą; przy wartościach zalecanych zawsze rozstrzyga podejście 3; tabela współczynników w jednym miejscu (`eurokod-7/przesuw.ts`), więc zmiana po otrzymaniu Załącznika krajowego to edycja tabeli,
+- oderwanie i przewracanie zostają EQU: Tablica A.1 normy daje te same wartości (γ_Q = 1,5, γ_G;stb = 0,9),
+- ekrany pokazują przy wierszu przesuwu, które podejście rozstrzyga; nowy pomocnik „Nie znasz μ? Policz z kąta tarcia gruntu” (δ = 2/3·φ′cv dla gładkich prefabrykatów, φ′cv dla betonu formowanego na gruncie, p. 6.5.3 (10)) przy polu μ w wiatrze >30°, typie montażu i „Złotym środku”; nic nie jest podpowiadane z góry,
+- narzędzia AI zwracają `podejscieEc7Przesuw`; teksty, pomoc i wzór (silniki: wiatr >30° 1.4.0, „Złoty środek” 1.5.0) zaktualizowane PL/EN/RU,
+- notatka ze źródła: `docs/zrodla/norma-PN-EN-1997-1-eurokod-7/00-INDEKS.md`.
+
+Wpływ na liczby: tak, tylko po wpisaniu tarcia. Składnik przesuwu dla samej siły poziomej wzrósł o ok. 12% względem 3.39.0 (np. 10 kN, μ = 0,5: 3399 → 3824 kg); przy dużej składowej odrywającej składnik przesuwu może być o kilka procent niższy (γ_Q·F_v = 1,5 zamiast 1,5/0,9), ale balast całkowity to nadal największy z trzech warunków, więc oderwanie ogranicza go od dołu. Oderwanie i przewracanie bez zmian.
+
+## [3.39.0] — 19.10.2026
+
+Współczynnik siły wiatru dla kątów 31–89° liczony dla każdego stopnia (D97, polecenie właściciela: „przeliczone na bazie naszych danych”):
+- zamiast stałej wartości z 30° (D90/D95) współczynnik siły cf jest interpolowany liniowo między dwiema wartościami z normy: cf(30°, φ) z Tablicy 7.6 i cf(90°) = 1,80 z p. 7.4.3; wynik to szacunek aplikacji (norma nie podaje nic pomiędzy),
+- balast (oderwanie, przesuw, przewracanie) rośnie więc z kątem, jeśli φ > 0; przy φ = 0 cf(30°) = cf(90°) = 1,8, więc współczynnik jest płaski i liczby się nie zmieniają,
+- zmiana obejmuje wiatr powyżej 30° (silnik 1.3.0), dach płaski, stelaż regulowany i „Złoty środek” (1.4.0) naraz, bo wszystkie wołają `silaIBalastWiatru`; test spójności sprawdza teraz także φ = 1 i φ = 0,5,
+- ciśnienia lokalne c_p,net (docisk i odrywanie w Pa na ekranie wiatru powyżej 30° oraz w Porównywarce paneli) zostają z 30° — norma nie podaje ich dla pionu, więc nie ma drugiego punktu do interpolacji,
+- klucz założenia `WP30-ZALOZENIE-CF-Z-30` → `WP30-ZALOZENIE-CF-INTERPOLACJA`, teksty ostrzeżeń, pomoc, opis narzędzia AI i wzór zaktualizowane (PL/EN/RU).
+
+Wpływ na liczby: tak. Dla kątów 31–89° i φ > 0 siła wiatru i balast są większe niż w 3.38.0 (np. φ = 1, 45°: cf 1,5 zamiast 1,4); przy φ = 0 bez zmian. Wyniki dla 0–30° i 90° bez zmian.
+
+## [3.38.0] — 19.10.2026
+
+Balast przeciw przesuwowi i przewracaniu dla wszystkich kątów, także 90° (D96, polecenie właściciela: „zamknąć ten system i wszystko podłączyć”):
+- nowe funkcje `balastPrzesuwuEquKg` i `balastPrzewracaniaEquKg` (PN-EN 1990, te same współczynniki częściowe co oderwanie: γQ = 1,5, γG,inf = 0,9); siła wiatru prostopadła do paneli rozkładana na składowe (Fh = F·sin α, Fv = F·cos α, przy 90° cała pozioma); balast = największy z trzech warunków (oderwanie, przesuw, przewracanie),
+- dane od użytkownika, bez wartości domyślnych: współczynnik tarcia o podłoże μ oraz, zależnie od ekranu, wysokość punktu przyłożenia siły i szerokość/głębokość podstawy; norma nie podaje ani tarcia, ani punktu przyłożenia siły, więc wynik jest szacunkiem aplikacji także do 30° (ostrzeżenie i założenie opisują użyte dane),
+- wiatr powyżej 30° (silnik 1.2.0): trzy nowe pola, składniki balastu na ekranie; dla 90° jest teraz liczba zamiast `null`, o ile podano komplet danych,
+- typ montażu (dach płaski/grunt i stelaż regulowany): geometria wynika z L, α i wysokości dolnej krawędzi (środek paneli, podstawa L·cos α albo podana głębokość); „Złoty środek” (silnik 1.3.0): opcjonalna długość spadku, tarcie i głębokość, balast i jego koszt liczone dla każdego kąta z uwzględnieniem przesuwu i przewracania,
+- każdy ekran pokazuje balast wg KAŻDEGO z trzech warunków (oderwanie, przesuw, przewracanie) i wyróżnia najcięższy, który wyznacza wynik (wspólny komponent `BalastWarunki`; w „Złotym środku” także kolumna „Rozstrzyga” w tabeli kątów); test spójności pilnuje, że wiatr powyżej 30°, dach płaski, stelaż regulowany i „Złoty środek” dają dla tej samej konstrukcji identyczny balast i warunek,
+- narzędzia AI (wiatr powyżej 30°, typ montażu, „Złoty środek”) przyjmują dane stateczności i zwracają składniki balastu, warunek rozstrzygający i flagę `statecznosc`; pomoc „?” (w tym skąd wziąć współczynnik tarcia — bez wartości domyślnej) i tłumaczenia PL/EN/RU.
+
+Wpływ na liczby: tylko po wpisaniu współczynnika tarcia (i pozostałych danych stateczności). Wtedy balast może wzrosnąć względem samego oderwania, a w „Złotym środku” rośnie koszt balastu i może się zmienić rekomendowany kąt. Bez tych danych wszystkie liczby bez zmian (oderwanie, 90° bez balastu).
+
+## [3.37.0] — 19.10.2026
+
+Balast i konstrukcja dla kątów powyżej 30° w kalkulatorach zmiany kąta (D95, polecenie właściciela: kąt powyżej 30° użytkownik ustawia i zabezpiecza na własną odpowiedzialność według naszych obliczeń):
+- jedno źródło reguły `silaIBalastWiatru`: 0–30° wg normy (Tablica 7.6), powyżej 30° do 89° SZACUNEK aplikacji (współczynnik siły z 30°) z balastem z tego samego wzoru EQU, 90° siła pozioma bez balastu,
+- „Złoty środek”, stelaż regulowany i dach płaski/grunt liczą teraz siłę wiatru i balast także powyżej 30° (wcześniej „brak danych wiatru”), z oznaczeniem 🔎, ostrzeżeniem o własnej odpowiedzialności i jawnym założeniem; rekomendacja „Złotego środka” zostaje w zakresie normy, a kąt z szacunkiem o wyższym bilansie to tylko informacja,
+- ekran „Wiatr dla paneli powyżej 30°” liczy po wpisaniu powierzchni, φ i masy własnej siłę na stelaż i balast (silnik 1.1.0); narzędzia AI (wiatr, „Złoty środek”, typ montażu) zwracają flagę szacunku, a pole `liczbaMiesiecyBezDanychWiatru` zmieniło się na `liczbaMiesiecySzacunekWiatru`.
+
+Wpływ na liczby: tak. Dla kątów 31–89° w „Złotym środku”, stelażu regulowanym i dachu płaskim pojawiają się siła wiatru i balast (wcześniej brak), a w stelażu regulowanym „balast wymagany” może wzrosnąć, bo obejmuje też miesiące z kątem powyżej 30°; koszt balastu i bilans „Złotego środka” liczą się dla tych kątów. Wyniki dla 0–30° i 90° bez zmian.
+
+## [3.36.0] — 19.10.2026
+
+Wiatr dla paneli pod kątem powyżej 30° jako osobny kalkulator — pierwsze użycie statusu `ESTIMATE` (D94):
+- nowy ekran „Wiatr dla paneli pod kątem powyżej 30°” (silnik `pv/wiatr-powyzej-30` 1.0.0): nachylenie, strefa wiatrowa, wysokość n.p.m., kategoria terenu i wysokość konstrukcji → szczytowe ciśnienie wiatru oraz docisk i odrywanie (środek i krawędź); cały wynik ma status `ESTIMATE` z oznaczeniem 🔎 i jawnymi założeniami, bo Tablica 7.6 Eurokodu kończy się na 30°, a współczynniki z 30° zachowujemy dla większych kątów (D90); do 30° zwraca `OUT_OF_SCOPE` i odsyła do wyniku normowego,
+- narzędzie AI `policz_wiatr_na_panele_powyzej_30_stopni`, kafel w Module 3, pomoc „?” i „i” oraz tłumaczenia PL/EN/RU,
+- Porównywarka paneli (zakładka „Obciążenia”) bierze wiatr dla paneli na konstrukcji powyżej 30° z tego kalkulatora; zakresy wysokości mają jedno źródło,
+- generator słownika wzorów rozpoznaje klucz wzoru zapisany jako stała.
+
+Wpływ na liczby: brak (Porównywarka daje te same ciśnienia; test zgodności w `wiatr-powyzej-30.test.ts`). Nowe: ekran i jego liczby.
+
+## [3.35.1] — 18.10.2026
+
+Wspólny hak formatowania liczb i domknięcie audytu JSX (zadania z listy po 3.35.0):
+- `useFormaty()` w `lib/i18n/language-context.tsx` zwraca `f0`…`f3` (do 0…3 miejsc po przecinku, stabilne między renderami); 69 lokalnych definicji tych samych domknięć w 58 ekranach zastąpionych jednym wywołaniem, ekran „typ montażu” buduje swój zestaw (`useFormatyMontazu`) na wspólnym; 23 definicje ze stałą liczbą miejsc (`minimumFractionDigits`) zostają, bo mają inną semantykę,
+- strażnik tekstów w interfejsie rozpoznaje listy klas Tailwind i statyczny kod SVG jako nie-tekst; lista zapadkowa spadła z 2 plików / 2 tekstów do zera (oba trafienia były fałszywe, nie brakujące tłumaczenia).
+
+Wpływ na liczby: brak (wartości i zaokrąglenia te same).
 
 ## [3.35.0] — 18.10.2026
 
