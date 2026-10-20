@@ -4,7 +4,7 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 ## [3.46.5] — 20.10.2026
 
-Domeny aplikacji (tylko dokumentacja): w uzupełnieniu 4 do D104 właściciel rozstrzygnął wariant A (jedna polska strona na `inzynier-offgrid.pl`, przekierowania 301 z pozostałych trzech domen PL-4); dodano listę pomysłów na domeny tematyczne ze statusem rejestru z 20.10.2026; zapisano wybór 10 domen tematycznych (ASCII).
+Domeny aplikacji (tylko dokumentacja): w uzupełnieniu 4 do D104 właściciel rozstrzygnął wariant A (jedna polska strona na `inzynier-offgrid.pl`, przekierowania 301 z pozostałych trzech domen PL-4); dodano listę pomysłów na domeny tematyczne ze statusem rejestru z 20.10.2026; zapisano wybór 21 domen tematycznych (ASCII) i dodano `docs/plan-rozwoju-sieci-stron.md` (tablica sieci domen dla całej rodziny).
 
 Wpływ na liczby: brak.
 
