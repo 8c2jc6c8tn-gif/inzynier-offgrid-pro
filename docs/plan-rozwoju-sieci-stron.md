@@ -34,6 +34,7 @@ Wszystkie poniżej wolne w rejestrze 20.10.2026, wybrane przez właściciela, ni
 |---|---|---|---|
 | `energetyczna-niezaleznosc.pl` | niezależność energetyczna, ogólnie | Offgrid | szeroki temat, wejście dla początkujących |
 | `energetycznie-niezalezni.pl` | tożsamość: „energetycznie niezależni” | Offgrid | |
+| `niezalezni-energetycznie.pl` | tożsamość: „niezależni energetycznie” | Offgrid | odwrócony szyk poprzedniej |
 | `wolni-niezalezni.pl` | tożsamość: wolność i niezależność | Offgrid | szerszy styl życia, nie tylko energia |
 | `offgridowcy.pl` | nazwa własna społeczności | Offgrid | kandydat na portal/forum |
 | `zero-rachunkow.pl` | życie bez rachunków | Offgrid | krótsza wersja `zycie-bez-rachunkow.pl` |
@@ -53,6 +54,10 @@ Wszystkie poniżej wolne w rejestrze 20.10.2026, wybrane przez właściciela, ni
 | `magazyn-lifepo4.pl` | akumulatory LiFePO4 | Offgrid | |
 | `kalkulator-lifepo4.pl` | kalkulator akumulatorów | Offgrid | |
 | `lifepo4-poradnik.pl` | poradnik LiFePO4 | Offgrid | |
+| `zycie-poza-siecia.pl` | życie poza siecią | Offgrid | |
+| `dom-poza-siecia.pl` | dom poza siecią | Offgrid | pokrywa się tematem z `dom-bez-pradu.pl` |
+| `offgrid-polacy.pl` | społeczność offgrid w Polsce | Offgrid | |
+| `wolnosc-energetyczna.pl` | wolność energetyczna | Offgrid | właściciel wpisał „emergetyczna” (literówka) |
 | `dom-szkieletowy-kalkulator.pl` | kalkulator domu szkieletowego | Szkieletowy | |
 | `poradnik-dom-szkieletowy.pl` | poradnik | Szkieletowy | |
 | `jak-budowac-dom-szkieletowy.pl` | „jak budować” | Szkieletowy | zapytanie wpisywane wprost |
