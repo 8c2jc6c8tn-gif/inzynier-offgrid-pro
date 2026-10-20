@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.5] — 20.10.2026
+
+Domeny aplikacji (tylko dokumentacja): w uzupełnieniu 4 do D104 właściciel rozstrzygnął wariant A (jedna polska strona na `inzynier-offgrid.pl`, przekierowania 301 z pozostałych trzech domen PL-4); dodano listę pomysłów na domeny tematyczne ze statusem rejestru z 20.10.2026.
+
+Wpływ na liczby: brak.
+
 ## [3.46.4] — 20.10.2026
 
 Domeny aplikacji (tylko dokumentacja): uzupełnienie 4 do D104 w `rejestr-decyzji.md` (obowiązkowy zestaw czterech domen `.pl` „PL-4” na aplikację, w tym `inżynieroffgrid.pl`; domeny polskie tylko po polsku, kotwica `.pro` wielojęzyczna; otwarte pytanie: przekierowania 301 czy cztery osobne strony) oraz zaktualizowane zadanie zakupu domen w `docs/lista-do-zrobienia.md`.
