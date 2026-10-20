@@ -720,6 +720,41 @@ export const pl = {
       },
     },
   },
+  "czas-balansowania": {
+    migawka: {
+      oCoChodzi: "Balanser BMS przenosi ładunek z najbardziej naładowanego ogniwa bardzo małym prądem. Ten ekran liczy, ile godzin (i dób okna) potrzeba, żeby wyrównać rozjazd.",
+      jakDziala:
+        "Aplikacja mnoży pojemność ogniwa przez rozjazd (w %), co daje ładunek do przeniesienia w Ah, i dzieli go przez prąd balansera. Gdy wpiszesz, ile godzin na dobę ogniwa są powyżej progu startu balansowania, pokaże też liczbę dób.",
+      poCo: "Zimą pakiet rzadko dochodzi do progu startu balansowania, więc nawet poprawny balanser może nie mieć okna, żeby wyrównać rozjazd. Ten ekran pokazuje skalę problemu.",
+      fizyka: "t = (Q · r / 100) / I_bal;  n_dni = t / t_okno.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Pojemność ogniwa [Ah]",
+        cel: "Podstawa do obliczenia ładunku, który trzeba przenieść.",
+        gdzie: "Z karty ogniwa.",
+        zakres: "Zakres z karty katalogowej — aplikacja nie przyjmuje typowej wartości za Ciebie.",
+      },
+      rozjazd: {
+        nazwa: "Rozjazd ogniw przy górze [%]",
+        cel: "Ile pojemności ogniwa musi przenieść balanser, żeby wyrównać najbardziej rozjechane ogniwo.",
+        gdzie: "Z własnego pomiaru: różnica napięć lub stanu naładowania ogniw przy górze, przeliczona na % pojemności ogniwa. Aplikacja go nie zna.",
+        zakres: "Od 0 do 100%.",
+      },
+      prad: {
+        nazwa: "Prąd balansera [A]",
+        cel: "Z jakim prądem balanser odprowadza ładunek z ogniwa.",
+        gdzie: "Z karty BMS lub jego ustawień (parametr „Balance Current”).",
+        zakres: "Wartość z karty BMS.",
+      },
+      okno: {
+        nazwa: "Okno powyżej progu startu [h/dobę]",
+        cel: "Ile godzin na dobę napięcie ogniw jest powyżej progu startu balansowania — tylko wtedy balanser pracuje.",
+        gdzie: "Z własnych obserwacji (zapis napięć z BMS); próg startu jest w ustawieniach BMS.",
+        zakres: "Od 0 do 24 h; puste = nie podano, wtedy pokazany jest sam czas pracy.",
+      },
+    },
+  },
   "pozycjonowanie-ogniw": {
     migawka: {
       oCoChodzi:
@@ -1809,6 +1844,41 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "czas-balansowania": {
+    migawka: {
+      oCoChodzi: "The BMS balancer moves charge out of the fullest cell with a very small current. This screen calculates how many hours (and days of the window) it takes to even out the mismatch.",
+      jakDziala:
+        "The app multiplies the cell capacity by the mismatch (in %), which gives the charge to move in Ah, and divides it by the balancer current. If you enter how many hours per day the cells are above the balance start voltage, it also shows the number of days.",
+      poCo: "In winter the pack rarely reaches the balance start voltage, so even a working balancer may have no window to even out the mismatch. This screen shows the scale of the problem.",
+      fizyka: "t = (Q · r / 100) / I_bal;  n_days = t / t_window.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Cell capacity [Ah]",
+        cel: "The basis for calculating the charge to move.",
+        gdzie: "From the cell datasheet.",
+        zakres: "Range from the datasheet — the app does not assume a typical value for you.",
+      },
+      rozjazd: {
+        nazwa: "Cell mismatch near the top [%]",
+        cel: "How much of the cell capacity the balancer has to move to even out the most mismatched cell.",
+        gdzie: "From your own measurement: the difference in voltage or state of charge of the cells near the top, converted to % of cell capacity. The app does not know it.",
+        zakres: "From 0 to 100%.",
+      },
+      prad: {
+        nazwa: "Balancer current [A]",
+        cel: "The current with which the balancer drains charge from the cell.",
+        gdzie: "From the BMS datasheet or its settings (the “Balance Current” parameter).",
+        zakres: "Value from the BMS datasheet.",
+      },
+      okno: {
+        nazwa: "Window above the start voltage [h/day]",
+        cel: "How many hours per day the cell voltage is above the balance start voltage — only then does the balancer work.",
+        gdzie: "From your own observations (BMS voltage log); the start voltage is in the BMS settings.",
+        zakres: "From 0 to 24 h; empty = not given, then only the run time is shown.",
+      },
+    },
+  },
   "pozycjonowanie-ogniw": {
     migawka: {
       oCoChodzi:
@@ -2895,6 +2965,41 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Выбирает набор настроек JK BMS, который приложение показывает и проверяет.",
         gdzie: "Из списка — у каждого набора указаны автор и источник.",
         zakres: "Варианты из списка; переключение между авторами не меняет ваши данные.",
+      },
+    },
+  },
+  "czas-balansowania": {
+    migawka: {
+      oCoChodzi: "Балансир BMS переносит заряд из самой заряженной ячейки очень малым током. Этот экран считает, сколько часов (и суток окна) нужно, чтобы выровнять разброс.",
+      jakDziala:
+        "Приложение умножает ёмкость ячейки на разброс (в %), получая заряд для переноса в Ач, и делит его на ток балансира. Если вы введёте, сколько часов в сутки ячейки выше порога старта балансировки, оно покажет и число суток.",
+      poCo: "Зимой пакет редко доходит до порога старта балансировки, поэтому даже исправный балансир может не иметь окна для выравнивания разброса. Этот экран показывает масштаб проблемы.",
+      fizyka: "t = (Q · r / 100) / I_бал;  n_сут = t / t_окно.",
+    },
+    pola: {
+      pojemnosc: {
+        nazwa: "Ёмкость ячейки [Ач]",
+        cel: "Основа для расчёта заряда, который нужно перенести.",
+        gdzie: "Из паспорта ячейки.",
+        zakres: "Диапазон из паспорта — приложение не подставляет типовое значение за вас.",
+      },
+      rozjazd: {
+        nazwa: "Разброс ячеек у верхнего предела [%]",
+        cel: "Какую часть ёмкости ячейки балансир должен перенести, чтобы выровнять самую разошедшуюся ячейку.",
+        gdzie: "Из собственного измерения: разница напряжений или уровня заряда ячеек у верхнего предела, пересчитанная в % ёмкости ячейки. Приложение его не знает.",
+        zakres: "От 0 до 100%.",
+      },
+      prad: {
+        nazwa: "Ток балансира [А]",
+        cel: "Каким током балансир отводит заряд из ячейки.",
+        gdzie: "Из паспорта BMS или его настроек (параметр «Balance Current»).",
+        zakres: "Значение из паспорта BMS.",
+      },
+      okno: {
+        nazwa: "Окно выше порога старта [ч/сутки]",
+        cel: "Сколько часов в сутки напряжение ячеек выше порога старта балансировки — только тогда балансир работает.",
+        gdzie: "Из собственных наблюдений (журнал напряжений BMS); порог старта — в настройках BMS.",
+        zakres: "От 0 до 24 ч; пусто = не указано, тогда показано только время работы.",
       },
     },
   },
