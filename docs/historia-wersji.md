@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.46.3] — 20.10.2026
+
+Domeny aplikacji (tylko dokumentacja): uzupełnienie 3 do D104 w `rejestr-decyzji.md` (zabezpieczenia domen bez myślnika, kolejność zakupu, dystrybucja PWA → Capacitor, wymagania sklepów, kandydaci na markę) oraz dwa zadania w `docs/lista-do-zrobienia.md` (zakup domen — zadanie właściciela; strony pod sklepy).
+
+Wpływ na liczby: brak.
+
 ## [3.46.2] — 20.10.2026
 
 Wkład do standardu (tylko dokumentacja): `docs/wklad-do-standardu.md` — wzorzec domen rodziny aplikacji PWA (angielska domena-kotwica, krajowe landingi, kolejność PWA → Capacitor) oraz pułapka sprawdzania dostępności domeny przez RDAP.
