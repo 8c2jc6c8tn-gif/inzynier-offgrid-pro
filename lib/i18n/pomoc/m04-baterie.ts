@@ -702,6 +702,24 @@ export const pl = {
       },
     },
   },
+  "zestawy-ustawien-jk-bms": {
+    migawka: {
+      oCoChodzi:
+        "Autorzy poradników publikują swoje ustawienia BMS. Ten ekran zbiera je w jednym miejscu: wybierasz autora i widzisz jego wartości razem z tym, co z nich wynika dla całego pakietu.",
+      jakDziala:
+        "Aplikacja pokazuje wartości zestawu 1:1, mnoży napięcia ogniwa przez liczbę ogniw, dzieli prądy ciągłe przez pojemność (prąd w C) i porównuje parametry o potwierdzonym znaczeniu z zakresami ze źródła aplikacji (Moduł 11, krok 3.3). Sprawdza też kolejność progów (np. powrót po OVP poniżej OVP) i histerezę temperatury.",
+      poCo: "Zamiast ślepo przepisywać ustawienia z filmu, widzisz, co one znaczą dla Twojego pakietu i gdzie autor odbiega od źródła. Zestaw to dane autora, nie rekomendacja aplikacji — nic w nim nie poprawiamy.",
+      fizyka: "U_pakiet = U_ogniwo · n;  C = I / Q.",
+    },
+    pola: {
+      zestawId: {
+        nazwa: "Autor i zestaw ustawień",
+        cel: "Wybiera zestaw ustawień JK BMS, który aplikacja ma pokazać i sprawdzić.",
+        gdzie: "Z listy — każdy zestaw ma podanego autora i źródło.",
+        zakres: "Opcje z listy; przełączanie między autorami nie zmienia Twoich danych.",
+      },
+    },
+  },
   "pozycjonowanie-ogniw": {
     migawka: {
       oCoChodzi:
@@ -1773,6 +1791,24 @@ export const en: Tlumaczenie<typeof pl> = {
       },
     },
   },
+  "zestawy-ustawien-jk-bms": {
+    migawka: {
+      oCoChodzi:
+        "Tutorial authors publish their BMS settings. This screen gathers them in one place: you pick an author and see their values together with what follows from them for the whole pack.",
+      jakDziala:
+        "The app shows the set's values 1:1, multiplies the cell voltages by the number of cells, divides the continuous currents by the capacity (current in C) and compares the parameters with a confirmed meaning with the ranges from the app's source (Module 11, step 3.3). It also checks the threshold order (e.g. recovery after OVP below OVP) and the temperature hysteresis.",
+      poCo: "Instead of blindly copying settings from a video, you see what they mean for your pack and where the author departs from the source. The set is the author's data, not an app recommendation — nothing in it is corrected.",
+      fizyka: "U_pack = U_cell · n;  C = I / Q.",
+    },
+    pola: {
+      zestawId: {
+        nazwa: "Author and setting set",
+        cel: "Chooses the JK BMS setting set the app shows and checks.",
+        gdzie: "From the list — each set names its author and source.",
+        zakres: "Options from the list; switching between authors does not change your data.",
+      },
+    },
+  },
   "pozycjonowanie-ogniw": {
     migawka: {
       oCoChodzi:
@@ -2841,6 +2877,24 @@ export const ru: Tlumaczenie<typeof pl> = {
         cel: "Какой протокол ожидает инвертор.",
         gdzie: "Из инструкции инвертора — список поддерживаемых BMS.",
         zakres: "Варианты из списка.",
+      },
+    },
+  },
+  "zestawy-ustawien-jk-bms": {
+    migawka: {
+      oCoChodzi:
+        "Авторы обучающих материалов публикуют свои настройки BMS. Этот экран собирает их в одном месте: вы выбираете автора и видите его значения вместе с тем, что из них следует для всей батареи.",
+      jakDziala:
+        "Приложение показывает значения набора 1:1, умножает напряжения элемента на число элементов, делит непрерывные токи на ёмкость (ток в C) и сравнивает параметры с подтверждённым значением с диапазонами из источника приложения (Модуль 11, шаг 3.3). Также проверяет порядок порогов (например, возврат после OVP ниже OVP) и гистерезис температуры.",
+      poCo: "Вместо слепого копирования настроек из видео вы видите, что они означают для вашей батареи и где автор отходит от источника. Набор — это данные автора, а не рекомендация приложения: в нём ничего не исправляется.",
+      fizyka: "U_батареи = U_элемента · n;  C = I / Q.",
+    },
+    pola: {
+      zestawId: {
+        nazwa: "Автор и набор настроек",
+        cel: "Выбирает набор настроек JK BMS, который приложение показывает и проверяет.",
+        gdzie: "Из списка — у каждого набора указаны автор и источник.",
+        zakres: "Варианты из списка; переключение между авторами не меняет ваши данные.",
       },
     },
   },
