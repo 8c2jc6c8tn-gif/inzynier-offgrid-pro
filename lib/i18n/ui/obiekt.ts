@@ -17,6 +17,9 @@ export const pl = {
   "UI-OBIEKT-NAPIECIE": "Napięcie układu (opcjonalnie)",
   "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Z profilu obiektu: napięcie układu {v} V.",
   "UI-OBIEKT-NAPIECIE-UZYJ": "Wpisz {v} V",
+  "UI-OBIEKT-UKRYTO-EKRANY": "Część ekranów dotyczących budynku jest ukryta, bo rodzaj obiektu to kamper. Nadal otworzysz je z odnośników na innych ekranach.",
+  "UI-OBIEKT-UKRYTO-POLA": "Pola dotyczące budynku są ukryte, bo rodzaj obiektu to kamper.",
+  "UI-OBIEKT-UKRYTO-USTAWIENIA": "Rodzaj obiektu zmienisz w Ustawieniach.",
 } as const
 
 type Klucz = keyof typeof pl
@@ -37,6 +40,9 @@ export const en: Record<Klucz, string> = {
   "UI-OBIEKT-NAPIECIE": "System voltage (optional)",
   "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "From the site profile: system voltage {v} V.",
   "UI-OBIEKT-NAPIECIE-UZYJ": "Enter {v} V",
+  "UI-OBIEKT-UKRYTO-EKRANY": "Some screens about a building are hidden because the site type is a camper. You can still open them from links on other screens.",
+  "UI-OBIEKT-UKRYTO-POLA": "Fields about a building are hidden because the site type is a camper.",
+  "UI-OBIEKT-UKRYTO-USTAWIENIA": "You can change the site type in Settings.",
 }
 
 export const ru: Record<Klucz, string> = {
@@ -55,4 +61,7 @@ export const ru: Record<Klucz, string> = {
   "UI-OBIEKT-NAPIECIE": "Напряжение системы (необязательно)",
   "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Из профиля объекта: напряжение системы {v} В.",
   "UI-OBIEKT-NAPIECIE-UZYJ": "Ввести {v} В",
+  "UI-OBIEKT-UKRYTO-EKRANY": "Часть экранов о здании скрыта, потому что тип объекта — кемпер. Их по-прежнему можно открыть по ссылкам на других экранах.",
+  "UI-OBIEKT-UKRYTO-POLA": "Поля о здании скрыты, потому что тип объекта — кемпер.",
+  "UI-OBIEKT-UKRYTO-USTAWIENIA": "Тип объекта можно изменить в Настройках.",
 }

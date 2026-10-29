@@ -1,6 +1,6 @@
 # Tryb mikroinstalacji — kamper, altana lub domek ROD, garaż (specyfikacja)
 
-**Status:** etap O1 wykonany 09.10.2026; pytania z sekcji 6 rozstrzygnięte 11.10.2026 (sekcja 7); kolejne etapy: O4, O5 (sekcja 5).
+**Status:** etap O1 wykonany 09.10.2026; pytania z sekcji 6 rozstrzygnięte 11.10.2026 (sekcja 7); O4 (ukrywanie dla kampera) wykonane 29.10.2026 (sekcja 9); kolejne etapy: patrz sekcja 5.
 **Źródło:** prośba właściciela 09.10.2026 i jego wybór na karcie decyzji: „Rodzaj obiektu” (jedna aplikacja, wybór rodzaju obiektu zmienia dane w całej aplikacji), z dopiskiem „altana lub domek ROD”.
 
 ## 1. Problem (audyt stanu z 09.10.2026)
@@ -64,3 +64,10 @@ Przenikania ciepła i strat budynku. Cele mikroinstalacji to: naładowanie akumu
 - **Bilans ciepła obiektu (decyzja z 10.10.2026: „oba” — własny ekran i wejście do bilansu zimy PV):** ekran „Bilans ciepła małego obiektu” (kafel 12) i doliczanie ogrzewania w Porównywarce paneli dla mikroinstalacji (spec 58 Porównywarki). To zmienia zapis z sekcji 4 („mikroinstalacja nie liczy przenikania ciepła”): zapis dotyczył pierwotnej prośby (cele: akumulator, woda latem, Webasto), a późniejsze ustalenie właściciela z 10.10.2026 dodaje opcjonalny bilans ciepła obiektu — ekran jest opcjonalny, bez niego mikroinstalacja liczy jak dotąd z listy odbiorników.
 - **Nowe ekrany użyteczne w mikroinstalacji:** „Tryb wyjazdu i tryb nocny” (czyta tę samą listę odbiorników i filtruje po obiekcie), „Terminarz przeglądów i serwisu”.
 
+## 9. Aktualizacja 29.10.2026 (wersja 3.49.0) — O4: ukrywanie dla kampera
+
+- **Decyzja właściciela (karta „Dla kogo ukryć ekrany budynkowe”):** tylko kamper. Altana/ROD i garaż mają dach, działkę i często piorunochron, więc zostają z pełnym zestawem. Podstawa: `analizy/przeglad-pol-budynku-mikroinstalacja-2026-10-12.md` (tabela A).
+- **Zrobione:** listy modułów 1 i 8 (4 ekrany), pole sezonu grzewczego w „Ile paneli potrzebujesz”, trzy pola o piorunochronie w „Ochrona SPD”. Wspólny kod: `lib/obiekt/ukrywanie-dla-kampera.ts` (lista ekranów i funkcje), `useRodzajObiektu`, `ListaEkranowModulu`, `PolaBudynkuUkryteInfo`.
+- **Zasada:** ukrywanie to wygoda, nie blokada; ukryte pole = „nie dotyczy” (wartość neutralna do silnika, nic nie zgadujemy); brak wyboru rodzaju = nic nie ukryte; wpisane wcześniej wartości zostają w szkicu.
+- **Pułapka:** w aplikacji nie ma globalnej wyszukiwarki ekranów (karta zapowiadała „link lub wyszukiwarka”). Ukryty ekran otwiera się z odnośników na innych ekranach (np. analiza zacienienia, skaner działki, typ montażu, Porównywarka) i z adresu; komunikat pod listą mówi dokładnie to.
+- **Zostaje w O4:** audyt pozostałych modułów spoza pulpitu „Kamper, altana lub garaż” (M2, M6, M7, M11 i inne) — osobno, jeśli właściciel zechce.
