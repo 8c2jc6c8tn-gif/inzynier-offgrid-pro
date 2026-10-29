@@ -27,7 +27,7 @@ export const DoborZrodelZasilaniaToolOutput = z.object({
   status: z.enum(STATUSY),
   zrodlo: z.enum(["PV", "AGREGAT", "SIEC", "BRAK"]),
   pozniejSocPonizejProgu: z.boolean(),
-  strefa: z.enum(["blokada", "limit-01c", "limit-02c", "luka-zrodla", "pelny-prad"]).nullable(),
+  strefa: z.enum(["blokada", "limit-02c", "luka-zrodla", "pelny-prad"]).nullable(),
   maxPradA: z.number().nullable(),
   pradLadowaniaA: z.number().nullable(),
   ostrzezenia: z.array(z.string()),
@@ -40,7 +40,7 @@ export const doborZrodelZasilaniaTool: AiToolDefinition<DoborZrodelZasilaniaTool
   name: "dobierz_zrodlo_zasilania_i_prad_ladowania",
   description:
     "Które źródło ma teraz ładować baterię (PV, agregat, sieć albo nic — wg hierarchii Modułu 4) i jakim prądem, " +
-    "z limitem prądu w zimnie wg temperatury ogniw (blokada w silnym mrozie, niższy prąd w chłodzie — progi Modułu 4). Użyj, gdy user " +
+    "z limitem prądu w zimnie wg temperatury ogniw (blokada poniżej 0 °C, niższy prąd w chłodzie — progi Modułu 4). Użyj, gdy user " +
     "pyta, czy włączyć agregat, z czego teraz ładować, jaki prąd ładowania ustawić przy mrozie albo co system powinien " +
     "zrobić przy danym SoC i pogodzie.",
   inputSchema: DoborZrodelZasilaniaToolInput,

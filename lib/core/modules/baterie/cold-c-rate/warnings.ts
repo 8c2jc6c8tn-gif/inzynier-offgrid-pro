@@ -7,18 +7,7 @@ export function blokadaCalkowita(temperaturaC: number): Warning {
     level: "critical",
     i18nKey: "BLOKADA-LADOWANIA-MROZ",
     params: { temp: temperaturaC.toFixed(1) },
-    technicalMessage: `temperaturaOgniwaC = ${temperaturaC} < -10`,
-    field: "temperaturaOgniwaC",
-  }
-}
-
-export function limitZimno(temperaturaC: number, maxPradA: number): Warning {
-  return {
-    code: "LIMIT-PRADU-ZIMNO",
-    level: "warning",
-    i18nKey: "LIMIT-PRADU-ZIMNO",
-    params: { temp: temperaturaC.toFixed(1), maxPrad: maxPradA.toFixed(1) },
-    technicalMessage: `-10 <= temperaturaOgniwaC = ${temperaturaC} < 0`,
+    technicalMessage: `temperaturaOgniwaC = ${temperaturaC} < 0`,
     field: "temperaturaOgniwaC",
   }
 }

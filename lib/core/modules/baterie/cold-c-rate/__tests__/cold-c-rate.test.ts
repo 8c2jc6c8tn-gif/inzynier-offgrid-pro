@@ -2,10 +2,17 @@ import { describe, expect, it } from "vitest"
 import { calculateColdCRate } from "../calculator"
 
 describe("calculateColdCRate", () => {
-  it("przykład ze źródła: -5°C, 280Ah -> strefa limit-01c, maxPradA=28A (zweryfikowane niezależnie w Pythonie)", () => {
+  it("-5°C, 280Ah -> strefa blokada (jedna reguła: zakaz ładowania poniżej 0°C), maxPradA=0, ostrzeżenie critical", () => {
     const result = calculateColdCRate({ temperaturaOgniwaC: -5, pojemnoscAh: 280 })
-    expect(result.value.strefa).toBe("limit-01c")
-    expect(result.value.maxPradA).toBe(28)
+    expect(result.value.strefa).toBe("blokada")
+    expect(result.value.maxPradA).toBe(0)
+    expect(result.warnings[0].level).toBe("critical")
+  })
+
+  it("2°C, 280Ah -> strefa limit-02c, maxPradA=56A", () => {
+    const result = calculateColdCRate({ temperaturaOgniwaC: 2, pojemnoscAh: 280 })
+    expect(result.value.strefa).toBe("limit-02c")
+    expect(result.value.maxPradA).toBeCloseTo(56, 9)
     expect(result.warnings[0].level).toBe("warning")
   })
 
@@ -16,13 +23,13 @@ describe("calculateColdCRate", () => {
     expect(result.warnings[0].level).toBe("critical")
   })
 
-  it("dokładnie -10°C (próg włącznie) -> strefa limit-01c, nie blokada", () => {
-    const result = calculateColdCRate({ temperaturaOgniwaC: -10, pojemnoscAh: 100 })
-    expect(result.value.strefa).toBe("limit-01c")
-    expect(result.value.maxPradA).toBe(10)
+  it("-0,1°C -> strefa blokada (tuż poniżej progu 0°C)", () => {
+    const result = calculateColdCRate({ temperaturaOgniwaC: -0.1, pojemnoscAh: 100 })
+    expect(result.value.strefa).toBe("blokada")
+    expect(result.value.maxPradA).toBe(0)
   })
 
-  it("dokładnie 0°C -> strefa limit-02c (0°C wchodzi do przedziału 0-5°C, nie -10-0)", () => {
+  it("dokładnie 0°C -> strefa limit-02c (0°C wchodzi do przedziału 0-5°C, blokada jest ściśle poniżej 0°C)", () => {
     const result = calculateColdCRate({ temperaturaOgniwaC: 0, pojemnoscAh: 100 })
     expect(result.value.strefa).toBe("limit-02c")
     expect(result.value.maxPradA).toBe(20)
@@ -72,9 +79,9 @@ describe("calculateColdCRate", () => {
     expect(blokada.warnings[0].i18nKey).toBe("BLOKADA-LADOWANIA-MROZ")
     expect(blokada.warnings[0].message).toBeUndefined()
 
-    const limitZimno = calculateColdCRate({ temperaturaOgniwaC: -5, pojemnoscAh: 280 })
-    expect(limitZimno.warnings[0].i18nKey).toBe("LIMIT-PRADU-ZIMNO")
-    expect(limitZimno.warnings[0].params).toEqual({ temp: "-5.0", maxPrad: "28.0" })
+    const limitChlodno = calculateColdCRate({ temperaturaOgniwaC: 2, pojemnoscAh: 280 })
+    expect(limitChlodno.warnings[0].i18nKey).toBe("LIMIT-PRADU-CHLODNO")
+    expect(limitChlodno.warnings[0].params).toEqual({ temp: "2.0", maxPrad: "56.0" })
 
     const luka = calculateColdCRate({ temperaturaOgniwaC: 5, pojemnoscAh: 100 })
     expect(luka.warnings[0].i18nKey).toBe("LUKA-TABELI-ZRODLA")

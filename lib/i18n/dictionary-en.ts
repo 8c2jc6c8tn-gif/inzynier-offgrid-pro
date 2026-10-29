@@ -48,9 +48,8 @@ export const dictionaryEn = {
     "separate screens (Cold C-Rate, Cold Cranking Amps).",
   "TEMPERATURA-W-ZAKRESIE": "Cell temperature ({temp}°C) is within the allowed operating range of {min}–{max}°C.",
   "BLOKADA-LADOWANIA-MROZ":
-    "Cell temperature {temp}°C — below -10°C charging is completely blocked. Charging under these " +
+    "Cell temperature {temp}°C — below 0°C charging is completely blocked. Charging under these " +
     "conditions permanently damages the cells (lithium metal plating).",
-  "LIMIT-PRADU-ZIMNO": "Cell temperature {temp}°C — maximum charge current limited to 0.1C ({maxPrad} A).",
   "LIMIT-PRADU-CHLODNO": "Cell temperature {temp}°C — maximum charge current limited to 0.2C ({maxPrad} A).",
   "LUKA-TABELI-ZRODLA":
     "Cell temperature {temp}°C — the source doesn't provide a C-rate limit for the 5–10°C range (gap " +

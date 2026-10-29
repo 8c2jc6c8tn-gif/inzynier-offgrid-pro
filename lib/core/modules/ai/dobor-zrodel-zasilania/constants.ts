@@ -5,9 +5,7 @@
  */
 export {
   LIMIT_C_RATE_CHLODNO,
-  LIMIT_C_RATE_ZIMNO,
   PROG_BLOKADY_C,
-  PROG_LIMITU_02C,
   PROG_LUKI_GORNY_C,
   PROG_PELNEGO_PRADU_C,
 } from "../../baterie/cold-c-rate/constants"

@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.47.0] — 29.10.2026
+
+Jedna reguła ładowania LiFePO4 w mrozie (decyzja właściciela 29.10.2026, wariant „zakaz od 0 °C”): `baterie/cold-c-rate` (wersja silnika 1.1.0) blokuje ładowanie poniżej 0 °C, zgodnie z Biblią §2.15 i ekranem okna słonecznego. Usunięto przedział −10…0 °C z limitem 0,1 C (strefa, ostrzeżenie `LIMIT-PRADU-ZIMNO`, napis ekranu i wpisy w słownikach); teksty pomocy „i” i ostrzeżenie `BLOKADA-LADOWANIA-MROZ` (PL/EN/RU) mówią o progu 0 °C. Zmiana przechodzi też do ekranu doboru źródeł zasilania i do obu narzędzi AI.
+
+Wpływ na liczby: dla temperatury ogniwa od −10 °C do poniżej 0 °C ekran „Ograniczenie prądu ładowania w mrozie”, dobór źródeł zasilania i ich narzędzia AI podają teraz blokadę (0 A) zamiast 0,1 C; przy −10 °C i pojemności 100 Ah było 10 A, jest 0 A. Pozostałe strefy (0…5 °C: 0,2 C; 5…10 °C: brak danych w źródle; powyżej 10 °C: brak limitu) bez zmian.
+
 ## [3.46.5] — 20.10.2026
 
 Domeny aplikacji (tylko dokumentacja): w uzupełnieniu 4 do D104 właściciel rozstrzygnął wariant A (jedna polska strona na `inzynier-offgrid.pl`, przekierowania 301 z pozostałych trzech domen PL-4); dodano listę pomysłów na domeny tematyczne ze statusem rejestru z 20.10.2026; zapisano wybór 26 domen tematycznych (ASCII) i dodano `docs/plan-rozwoju-sieci-stron.md` (tablica sieci domen dla całej rodziny).

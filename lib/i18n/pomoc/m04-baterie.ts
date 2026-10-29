@@ -419,7 +419,7 @@ export const pl = {
       oCoChodzi:
         "W zimnie jony litu poruszają się wolniej — zbyt szybkie ładowanie trwale uszkadza ogniwa (osadzanie litu metalicznego).",
       jakDziala:
-        "Aplikacja ustala dopuszczalny prąd ładowania z temperatury ogniwa: poniżej {blokada} °C ładowanie zablokowane, od {blokada} do {limit02} °C najwyżej {cZimno}C, od {limit02} do {luka} °C najwyżej {cChlodno}C, od {pelny} °C pełny prąd. Zakres {luka}–{pelny} °C nie jest zgadywany — źródło go nie opisuje.",
+        "Aplikacja ustala dopuszczalny prąd ładowania z temperatury ogniwa: poniżej {blokada} °C ładowanie zablokowane, od {blokada} do {luka} °C najwyżej {cChlodno}C, od {pelny} °C pełny prąd. Zakres {luka}–{pelny} °C nie jest zgadywany — źródło go nie opisuje.",
       poCo: "Uszkodzenie od ładowania na mrozie jest nieodwracalne i nie widać go od razu — pojemność spada z każdym takim cyklem.",
     },
     pola: {
@@ -1543,7 +1543,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "In the cold lithium ions move more slowly — charging too fast permanently damages cells (lithium plating).",
       jakDziala:
-        "The app sets the allowed charging current from the cell temperature: below {blokada} °C charging is blocked, from {blokada} to {limit02} °C at most {cZimno}C, from {limit02} to {luka} °C at most {cChlodno}C, from {pelny} °C full current. The {luka}–{pelny} °C range is not guessed — the source doesn't describe it.",
+        "The app sets the allowed charging current from the cell temperature: below {blokada} °C charging is blocked, from {blokada} to {luka} °C at most {cChlodno}C, from {pelny} °C full current. The {luka}–{pelny} °C range is not guessed — the source doesn't describe it.",
       poCo: "Damage from charging in frost is irreversible and not visible right away — capacity falls with every such cycle.",
     },
     pola: {
@@ -2667,7 +2667,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "В холоде ионы лития движутся медленнее — слишком быстрая зарядка необратимо повреждает элементы (осаждение металлического лития).",
       jakDziala:
-        "Приложение устанавливает допустимый ток зарядки по температуре элемента: ниже {blokada} °C зарядка заблокирована, от {blokada} до {limit02} °C не более {cZimno}C, от {limit02} до {luka} °C не более {cChlodno}C, от {pelny} °C полный ток. Диапазон {luka}–{pelny} °C не угадывается — источник его не описывает.",
+        "Приложение устанавливает допустимый ток зарядки по температуре элемента: ниже {blokada} °C зарядка заблокирована, от {blokada} до {luka} °C не более {cChlodno}C, от {pelny} °C полный ток. Диапазон {luka}–{pelny} °C не угадывается — источник его не описывает.",
       poCo: "Повреждение от зарядки на морозе необратимо и не видно сразу — ёмкость падает с каждым таким циклом.",
     },
     pola: {
