@@ -114,6 +114,10 @@ export const dictionaryPl = {
   "EKSTRAPOLACJA-POZA-KALIBRACJA":
     "To napięcie na ogniwo wykracza poza zakres 2,625–2,750V, na którym skalibrowany jest model (dwa " +
     "punkty danych ze źródła) — wynik jest ekstrapolacją, nie zweryfikowaną kalibracją.",
+  "MODEL-ORIENTACYJNY-PLASKA-KRZYWA":
+    "Model orientacyjny: krzywa napięcia LiFePO4 jest płaska, więc napięcie odcięcia może słabo odzwierciedlać " +
+    "faktyczną głębokość rozładowania (DoD) — realny DoD zależy też od limitów SoC w BMS i falowniku. Liczbę " +
+    "cykli traktuj jako szacunek z dwóch punktów danych źródła, nie jako obietnicę producenta.",
   "MODEL-LIFEPO4-DWA-PUNKTY-KALIBRACJI":
     "Model liniowy skalibrowany na dwóch punktach danych LiFePO4 ze źródła (42,0V/16S→100% DoD→2000 " +
     "cykli; 44,0V/16S→80% DoD→5000 cykli) — nie na pełnej krzywej producenta.",

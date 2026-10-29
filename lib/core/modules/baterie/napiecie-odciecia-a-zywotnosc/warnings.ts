@@ -28,3 +28,13 @@ export function ekstrapolacjaPozaKalibracje(napiecieOgniwaV: number): Warning {
     technicalMessage: `napiecieOgniwaV = ${napiecieOgniwaV.toFixed(3)}, kalibracja modelu obejmuje tylko 2,625–2,750V`,
   }
 }
+
+/** Zawsze przy policzonym wyniku: model z dwóch punktów źródła nie rozróżnia napięcia odcięcia od realnego DoD (płaska krzywa LiFePO4). */
+export function modelOrientacyjny(): Warning {
+  return {
+    code: "MODEL-ORIENTACYJNY-PLASKA-KRZYWA",
+    level: "warning",
+    i18nKey: "MODEL-ORIENTACYJNY-PLASKA-KRZYWA",
+    technicalMessage: "model liniowy z dwóch punktów kalibracji; napięcie odcięcia nie wyznacza jednoznacznie DoD",
+  }
+}

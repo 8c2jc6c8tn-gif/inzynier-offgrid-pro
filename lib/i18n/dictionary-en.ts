@@ -108,6 +108,10 @@ export const dictionaryEn = {
   "EKSTRAPOLACJA-POZA-KALIBRACJA":
     "This per-cell voltage is outside the 2.625–2.750V range the model is calibrated on (two data points " +
     "from the source) — the result is an extrapolation, not a verified calibration.",
+  "MODEL-ORIENTACYJNY-PLASKA-KRZYWA":
+    "Indicative model: the LiFePO4 voltage curve is flat, so the cutoff voltage may reflect the actual depth " +
+    "of discharge (DoD) only weakly — the real DoD also depends on the SoC limits in the BMS and inverter. " +
+    "Treat the cycle count as an estimate from two data points of the source, not as a manufacturer's promise.",
   "MODEL-LIFEPO4-DWA-PUNKTY-KALIBRACJI":
     "Linear model calibrated on two LiFePO4 data points from the source (42.0V/16S→100% DoD→2000 cycles; " +
     "44.0V/16S→80% DoD→5000 cycles) — not the full manufacturer curve.",

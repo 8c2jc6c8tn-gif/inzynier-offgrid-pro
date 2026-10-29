@@ -4,7 +4,7 @@ import { calculateNapiecieOdciecia } from "../calculator"
 describe("calculateNapiecieOdciecia", () => {
   it("punkt kalibracji 1 ze źródła: 42,0V/16S -> 100% DoD, 2000 cykli", () => {
     const result = calculateNapiecieOdciecia({ napiecieOdcieciaV: 42.0, liczbaOgniwSzeregowo: 16 })
-    expect(result.status).toBe("VALID")
+    expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value.napiecieOgniwaV).toBeCloseTo(2.625, 9)
     expect(result.value.dodPct).toBeCloseTo(100, 6)
     expect(result.value.cykleZycia).toBe(2000)
@@ -13,7 +13,7 @@ describe("calculateNapiecieOdciecia", () => {
 
   it("punkt kalibracji 2 ze źródła: 44,0V/16S -> 80% DoD, 5000 cykli (+150% życia)", () => {
     const result = calculateNapiecieOdciecia({ napiecieOdcieciaV: 44.0, liczbaOgniwSzeregowo: 16 })
-    expect(result.status).toBe("VALID")
+    expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value.napiecieOgniwaV).toBeCloseTo(2.75, 9)
     expect(result.value.dodPct).toBeCloseTo(80, 6)
     expect(result.value.cykleZycia).toBe(5000)
@@ -26,12 +26,19 @@ describe("calculateNapiecieOdciecia", () => {
     expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value.wewnatrzKalibracji).toBe(false)
     expect(result.value.dodPct).toBe(100)
-    expect(result.warnings.map((w) => w.code)).toContain("EKSTRAPOLACJA-POZA-KALIBRACJA")
+    expect(result.warnings.map((w) => w.code)).toEqual(["EKSTRAPOLACJA-POZA-KALIBRACJA", "MODEL-ORIENTACYJNY-PLASKA-KRZYWA"])
+  })
+
+  it("w kalibracji tylko 🟡 modelu orientacyjnego (płaska krzywa LiFePO4), bez ostrzeżenia o ekstrapolacji", () => {
+    const result = calculateNapiecieOdciecia({ napiecieOdcieciaV: 43.0, liczbaOgniwSzeregowo: 16 })
+    expect(result.warnings.map((w) => w.code)).toEqual(["MODEL-ORIENTACYJNY-PLASKA-KRZYWA"])
+    expect(result.warnings[0]?.level).toBe("warning")
+    expect(result.value.cykleZycia).toBe(3500)
   })
 
   it("inna liczba ogniw (8S/24V) generalizuje po napięciu na ogniwo", () => {
     const result = calculateNapiecieOdciecia({ napiecieOdcieciaV: 21.0, liczbaOgniwSzeregowo: 8 })
-    expect(result.status).toBe("VALID")
+    expect(result.status).toBe("VALID_WITH_WARNINGS")
     expect(result.value.napiecieOgniwaV).toBeCloseTo(2.625, 9)
     expect(result.value.dodPct).toBeCloseTo(100, 6)
   })
