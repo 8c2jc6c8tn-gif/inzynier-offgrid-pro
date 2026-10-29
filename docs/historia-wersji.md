@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.49.0] — 29.10.2026
+
+Tryb mikroinstalacji O4 (decyzja właściciela 29.10.2026: ukrywanie tylko dla kampera): gdy rodzaj obiektu w Ustawieniach to „Kamper lub przyczepa”, listy modułów 1 i 8 nie pokazują czterech ekranów o budynku (Bryła budynku i orientacja ścian, Klapy pożarowe, Zamki drzwi ewakuacyjnych, Oświetlenie awaryjne), a ekran „Ile paneli potrzebujesz” chowa pole dodatkowego zużycia w sezonie grzewczym z miesiącami, ekran „Ochrona przeciwprzepięciowa SPD” — trzy pola o piorunochronie budynku. Pod listą i pod formularzem stoi jedno zdanie z odnośnikiem do Ustawień. Ekrany nie są zablokowane: otwierają się z odnośników na innych ekranach i z adresu. Altana, ROD, garaż, budynek i brak wyboru działają jak dotąd. Silniki bez zmian.
+
+Wpływ na liczby: tylko dla kampera. Ukryte pola liczą się jako „nie dotyczy”: „Ile paneli potrzebujesz” liczy z dodatkowym zużyciem zimowym równym zero (wcześniej wpisana wartość by je zwiększała), a „Ochrona SPD” — jak dla obiektu bez piorunochronu. Wpisane wcześniej wartości zostają w szkicu i wracają po zmianie rodzaju obiektu.
+
 ## [3.48.0] — 29.10.2026
 
 Ekran „Napięcie odcięcia vs żywotność” (`baterie/napiecie-odciecia-a-zywotnosc`, wersja silnika 1.1.0): każdy policzony wynik niesie teraz żółte ostrzeżenie 🟡 `MODEL-ORIENTACYJNY-PLASKA-KRZYWA` (decyzja właściciela 29.10.2026, wariant „dodaj ostrzeżenie”): krzywa napięcia LiFePO4 jest płaska, więc napięcie odcięcia może słabo odzwierciedlać faktyczny DoD, a liczba cykli to szacunek z dwóch punktów danych źródła. Dopisany ten sam zastrzeżony opis w pomocy „i” (PL/EN/RU). Model i kalibracja bez zmian.

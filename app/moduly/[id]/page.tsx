@@ -5,7 +5,8 @@ import { IkonaKafla } from "@/components/ui/ikona-modulu"
 import { BANER_MODULU_PO_ID_KAFLA, MASKOTKA_PO_ID_KAFLA } from "@/lib/pulpit/maskotki"
 import { KAFLE, znajdzKafel } from "@/lib/pulpit/registry"
 import { TekstUi } from "@/components/ui/tekst-ui"
-import { EtykietaEkranu, OpisKafla, TytulModulu } from "@/components/tekst-rejestru"
+import { OpisKafla, TytulModulu } from "@/components/tekst-rejestru"
+import { ListaEkranowModulu } from "@/components/lista-ekranow-modulu"
 
 export function generateStaticParams() {
   return KAFLE.map((k) => ({ id: String(k.id) }))
@@ -35,21 +36,7 @@ export default async function ModulPage({ params }: { params: Promise<{ id: stri
         <p className="mt-1 text-small text-muted-foreground"><OpisKafla kafel={kafel} /></p>
       </div>
 
-      <ul className="flex flex-col gap-2">
-        {kafel.ekrany.map((ekran) => (
-          <li key={ekran.href}>
-            <Link
-              href={ekran.href}
-              className="flex min-h-11 items-center justify-between rounded-md border p-3 text-small font-medium transition-colors hover:border-foreground/20 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
-            >
-              <EtykietaEkranu kafel={kafel} ekran={ekran} />
-              <span aria-hidden="true" className="text-muted-foreground">
-                →
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <ListaEkranowModulu kafelId={kafel.id} />
     </main>
   )
 }

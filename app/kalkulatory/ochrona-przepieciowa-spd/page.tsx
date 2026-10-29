@@ -13,6 +13,9 @@ import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { SekcjaCrl } from "./sekcja-crl"
 import { MIN_ODLEGLOSC_OD_ZWODU_M, WSPOLCZYNNIK_MARGINESU_UC } from "@/lib/core/modules/okablowanie/ochrona-przepieciowa-spd/constants"
 import { useTranslate } from "@/lib/i18n/language-context"
+import { PolaBudynkuUkryteInfo } from "@/components/pola-budynku-ukryte-info"
+import { czyUkryjPolaBudynku } from "@/lib/obiekt/ukrywanie-dla-kampera"
+import { useRodzajObiektu } from "@/lib/obiekt/use-rodzaj-obiektu"
 
 type FormularzStan = {
   vocMaxStringuV: string
@@ -35,7 +38,11 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function OchronaPrzepieciowaSpdPage() {
   const t = useTranslate()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-przepieciowa-spd", STAN_POCZATKOWY)
-  const { vocMaxStringuV, maInstalacjeOdgromowa, odlegloscOdZwoduM, maZainstalowanySpdTyp1, ucSpdV, uziemienieViaGsw } = stan
+  const { vocMaxStringuV, odlegloscOdZwoduM, ucSpdV, uziemienieViaGsw } = stan
+  // A camper has no building and no lightning rod: the three building fields are hidden and count as "no lightning protection".
+  const ukryjPolaBudynku = czyUkryjPolaBudynku(useRodzajObiektu())
+  const maInstalacjeOdgromowa = !ukryjPolaBudynku && stan.maInstalacjeOdgromowa
+  const maZainstalowanySpdTyp1 = !ukryjPolaBudynku && stan.maZainstalowanySpdTyp1
 
   function setPole<K extends keyof FormularzStan>(
     pole: K,
@@ -108,12 +115,14 @@ export default function OchronaPrzepieciowaSpdPage() {
           onChange={(e) => setVocMaxStringuV(e.target.value)}
           pomoc={<PomocPola ekran="ochrona-przepieciowa-spd" pole="voc" />}
         />
-        <PoleCheckbox
-          id="ma-instalacje-odgromowa"
-          label={t("UI-OCHPRZSPD-BUDYNEK-INSTALACJE-ODGROMOWA")}
-          checked={maInstalacjeOdgromowa}
-          onChange={(e) => setMaInstalacjeOdgromowa(e.target.checked)}
-        />
+        {!ukryjPolaBudynku && (
+          <PoleCheckbox
+            id="ma-instalacje-odgromowa"
+            label={t("UI-OCHPRZSPD-BUDYNEK-INSTALACJE-ODGROMOWA")}
+            checked={maInstalacjeOdgromowa}
+            onChange={(e) => setMaInstalacjeOdgromowa(e.target.checked)}
+          />
+        )}
         {maInstalacjeOdgromowa && (
           <>
             <Pole
@@ -150,6 +159,7 @@ export default function OchronaPrzepieciowaSpdPage() {
           checked={uziemienieViaGsw}
           onChange={(e) => setUziemienieViaGsw(e.target.checked)}
         />
+        {ukryjPolaBudynku && <PolaBudynkuUkryteInfo />}
       </div>
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>

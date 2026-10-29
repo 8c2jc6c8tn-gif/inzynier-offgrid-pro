@@ -16,6 +16,9 @@ import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/
 import { calculateLiczbaPaneli } from "@/lib/core/modules/pv/liczba-paneli/calculator"
 import { type IdOkresu, LIMIT_MONTAZOWY_PODPOWIEDZ_SZT } from "@/lib/core/modules/pv/liczba-paneli/constants"
 import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
+import { PolaBudynkuUkryteInfo } from "@/components/pola-budynku-ukryte-info"
+import { czyUkryjPolaBudynku } from "@/lib/obiekt/ukrywanie-dla-kampera"
+import { useRodzajObiektu } from "@/lib/obiekt/use-rodzaj-obiektu"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -59,6 +62,8 @@ export default function LiczbaPaneliPage() {
   const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan] = usePersistedDraft<FormularzStan>("liczba-paneli", STAN_POCZATKOWY)
+  // A camper has no heating season of a building: the extra-consumption field and its months are hidden and count as zero.
+  const ukryjSezonGrzewczy = czyUkryjPolaBudynku(useRodzajObiektu())
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null } | null>(null)
   const ustaw = (pole: keyof FormularzStan, v: string | boolean) => setStan((prev) => ({ ...prev, [pole]: v }))
@@ -99,11 +104,11 @@ export default function LiczbaPaneliPage() {
         powierzchniaPaneluM2: n(stan.powierzchniaPaneluM2),
         wspolczynnikPr: n(stan.pr),
         zapotrzebowanieDoboweKwh: n(stan.zapotrzebowanieKwh),
-        dodatkoweZimaKwhDzien: n(stan.zimaKwh),
-        miesiaceGrzewcze: stan.miesiaceGrzewcze,
+        dodatkoweZimaKwhDzien: ukryjSezonGrzewczy ? 0 : n(stan.zimaKwh),
+        miesiaceGrzewcze: ukryjSezonGrzewczy ? [] : stan.miesiaceGrzewcze,
         limitMontazowy: n(stan.limit),
       }),
-    [aktualna, stan],
+    [aktualna, stan, ukryjSezonGrzewczy],
   )
 
   if (!wczytano) return <StanLadowania linie={6} />
@@ -209,31 +214,37 @@ export default function LiczbaPaneliPage() {
           onChange={(e) => ustaw("zapotrzebowanieKwh", e.target.value)}
           pomoc={<PomocPola ekran="liczba-paneli" pole="zuzycie" />}
         />
-        <Pole
-          label={t("UI-LICPAN-DODATKOWE-ZUZYCIE-SEZONIE")}
-          unit={t("UI-LICPAN-KWH-DZIEN")}
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={stan.zimaKwh}
-          onChange={(e) => ustaw("zimaKwh", e.target.value)}
-          pomoc={<PomocPola ekran="liczba-paneli" pole="ogrzewanie" />}
-        />
-        <fieldset className="flex flex-col gap-2">
-          <legend className="text-small font-medium">{t("UI-LICPAN-MIESIACE-KTORYCH-GRZEJESZ")}</legend>
-          <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-            {MIESIACE.map((nazwa, m) => (
-              <PoleCheckbox
-                key={m}
-                id={`grzanie-${m}`}
-                label={t(nazwa)}
-                className="p-2"
-                checked={stan.miesiaceGrzewcze.includes(m)}
-                onChange={() => przelaczMiesiac(m)}
-              />
-            ))}
-          </div>
-        </fieldset>
+        {ukryjSezonGrzewczy ? (
+          <PolaBudynkuUkryteInfo />
+        ) : (
+          <>
+            <Pole
+              label={t("UI-LICPAN-DODATKOWE-ZUZYCIE-SEZONIE")}
+              unit={t("UI-LICPAN-KWH-DZIEN")}
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={stan.zimaKwh}
+              onChange={(e) => ustaw("zimaKwh", e.target.value)}
+              pomoc={<PomocPola ekran="liczba-paneli" pole="ogrzewanie" />}
+            />
+            <fieldset className="flex flex-col gap-2">
+              <legend className="text-small font-medium">{t("UI-LICPAN-MIESIACE-KTORYCH-GRZEJESZ")}</legend>
+              <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+                {MIESIACE.map((nazwa, m) => (
+                  <PoleCheckbox
+                    key={m}
+                    id={`grzanie-${m}`}
+                    label={t(nazwa)}
+                    className="p-2"
+                    checked={stan.miesiaceGrzewcze.includes(m)}
+                    onChange={() => przelaczMiesiac(m)}
+                  />
+                ))}
+              </div>
+            </fieldset>
+          </>
+        )}
         <Pole
           label={t("UI-LICPAN-ILE-PANELI-REALNIE")}
           unit={t("UI-J-SZT")}
