@@ -992,7 +992,7 @@ export const pl = {
       oCoChodzi:
         "Nie wyciskaj baterii do ostatniej kropli — wyższe napięcie odcięcia (mały zapas) radykalnie wydłuża jej życie, kosztem niewielkiej części dostępnej pojemności.",
       jakDziala:
-        "Z napięcia odcięcia i liczby ogniw aplikacja liczy napięcie na ogniwo, a z punktów kalibracyjnych źródła — przybliżony DoD i liczbę cykli (interpolacja liniowa między {vMin} V/ogniwo ≈ 100% DoD i {vMax} V/ogniwo ≈ 80% DoD).",
+        "Z napięcia odcięcia i liczby ogniw aplikacja liczy napięcie na ogniwo, a z punktów kalibracyjnych źródła — przybliżony DoD i liczbę cykli (interpolacja liniowa między {vMin} V/ogniwo ≈ 100% DoD i {vMax} V/ogniwo ≈ 80% DoD). To model orientacyjny: krzywa napięcia LiFePO4 jest płaska, więc napięcie odcięcia może słabo odzwierciedlać faktyczny DoD, a liczba cykli to szacunek.",
       poCo: "Podniesienie odcięcia o kilka dziesiątych wolta może podwoić liczbę cykli — i przedłużyć życie magazynu o lata.",
     },
     pola: {
@@ -2116,7 +2116,7 @@ export const en: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Don't squeeze the battery to the last drop — a higher cut-off voltage (a small reserve) radically extends its life at the cost of a small part of the available capacity.",
       jakDziala:
-        "From the cut-off voltage and number of cells the app calculates the voltage per cell and, from the source's calibration points, the approximate DoD and number of cycles (linear interpolation between {vMin} V/cell ≈ 100% DoD and {vMax} V/cell ≈ 80% DoD).",
+        "From the cut-off voltage and number of cells the app calculates the voltage per cell and, from the source's calibration points, the approximate DoD and number of cycles (linear interpolation between {vMin} V/cell ≈ 100% DoD and {vMax} V/cell ≈ 80% DoD). This is an indicative model: the LiFePO4 voltage curve is flat, so the cut-off voltage may reflect the actual DoD only weakly, and the cycle count is an estimate.",
       poCo: "Raising the cut-off by a few tenths of a volt can double the number of cycles — and extend the storage life by years.",
     },
     pola: {
@@ -3240,7 +3240,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       oCoChodzi:
         "Не выжимайте батарею до последней капли — более высокое напряжение отсечки (небольшой запас) радикально продлевает её жизнь ценой небольшой части доступной ёмкости.",
       jakDziala:
-        "По напряжению отсечки и числу элементов приложение считает напряжение на элемент, а по калибровочным точкам источника — приблизительный DoD и число циклов (линейная интерполяция между {vMin} В/элемент ≈ 100% DoD и {vMax} В/элемент ≈ 80% DoD).",
+        "По напряжению отсечки и числу элементов приложение считает напряжение на элемент, а по калибровочным точкам источника — приблизительный DoD и число циклов (линейная интерполяция между {vMin} В/элемент ≈ 100% DoD и {vMax} В/элемент ≈ 80% DoD). Это ориентировочная модель: кривая напряжения LiFePO4 плоская, поэтому напряжение отсечки может слабо отражать фактический DoD, а число циклов — оценка.",
       poCo: "Поднятие отсечки на несколько десятых вольта может удвоить число циклов — и продлить жизнь накопителя на годы.",
     },
     pola: {

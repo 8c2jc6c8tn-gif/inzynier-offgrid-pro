@@ -9,9 +9,9 @@ import {
   KALIBRACJA_NAPIECIE_OGNIWO_MIN_V,
 } from "./constants"
 import { validateInput } from "./validation"
-import { ekstrapolacjaPozaKalibracje } from "./warnings"
+import { ekstrapolacjaPozaKalibracje, modelOrientacyjny } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 export type NapiecieOdcieciaResult = {
   napiecieOgniwaV: number
@@ -43,6 +43,8 @@ function interpolacjaLiniowa(x: number, x1: number, y1: number, x2: number, y2: 
  * Poza tym zakresem napięcia ogniwa (2,625–2,750V) wynik jest ekstrapolacją modelu kalibrowanego
  * tylko na dwóch punktach — ostrzeżenie EKSTRAPOLACJA-POZA-KALIBRACJA, nie twardy błąd (napięcie
  * odcięcia poza tym zakresem jest fizycznie możliwe, tylko model traci tu pewność).
+ * Od 1.1.0 każdy policzony wynik niesie 🟡 MODEL-ORIENTACYJNY-PLASKA-KRZYWA (decyzja właściciela 29.10.2026):
+ * krzywa napięcia LiFePO4 jest płaska, więc napięcie odcięcia może słabo odzwierciedlać faktyczny DoD.
  */
 function symuluj(input: NapiecieOdcieciaInput): NapiecieOdcieciaResult {
   const napiecieOgniwaV = input.napiecieOdcieciaV / input.liczbaOgniwSzeregowo
@@ -106,12 +108,15 @@ export function calculateNapiecieOdciecia(input: NapiecieOdcieciaInput): CalcRes
 
   const value = symuluj(input)
   const assumptions: Assumption[] = [{ kod: "MODEL-LIFEPO4-DWA-PUNKTY-KALIBRACJI" }]
-  const warnings = value.wewnatrzKalibracji ? [] : [ekstrapolacjaPozaKalibracje(value.napiecieOgniwaV)]
+  const warnings = [
+    ...(value.wewnatrzKalibracji ? [] : [ekstrapolacjaPozaKalibracje(value.napiecieOgniwaV)]),
+    modelOrientacyjny(),
+  ]
 
   return {
     value,
     unit: "cykli",
-    status: warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID",
+    status: "VALID_WITH_WARNINGS",
     formula: FORMULA,
     inputs,
     assumptions,

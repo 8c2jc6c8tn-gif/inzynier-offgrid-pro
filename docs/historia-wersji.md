@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.48.0] — 29.10.2026
+
+Ekran „Napięcie odcięcia vs żywotność” (`baterie/napiecie-odciecia-a-zywotnosc`, wersja silnika 1.1.0): każdy policzony wynik niesie teraz żółte ostrzeżenie 🟡 `MODEL-ORIENTACYJNY-PLASKA-KRZYWA` (decyzja właściciela 29.10.2026, wariant „dodaj ostrzeżenie”): krzywa napięcia LiFePO4 jest płaska, więc napięcie odcięcia może słabo odzwierciedlać faktyczny DoD, a liczba cykli to szacunek z dwóch punktów danych źródła. Dopisany ten sam zastrzeżony opis w pomocy „i” (PL/EN/RU). Model i kalibracja bez zmian.
+
+Wpływ na liczby: brak zmiany liczb (DoD i liczba cykli takie same); zmienia się ocena: status wyniku w zakresie kalibracji to teraz „z ostrzeżeniem” zamiast „poprawny”.
+
 ## [3.47.0] — 29.10.2026
 
 Jedna reguła ładowania LiFePO4 w mrozie (decyzja właściciela 29.10.2026, wariant „zakaz od 0 °C”): `baterie/cold-c-rate` (wersja silnika 1.1.0) blokuje ładowanie poniżej 0 °C, zgodnie z Biblią §2.15 i ekranem okna słonecznego. Usunięto przedział −10…0 °C z limitem 0,1 C (strefa, ostrzeżenie `LIMIT-PRADU-ZIMNO`, napis ekranu i wpisy w słownikach); teksty pomocy „i” i ostrzeżenie `BLOKADA-LADOWANIA-MROZ` (PL/EN/RU) mówią o progu 0 °C. Zmiana przechodzi też do ekranu doboru źródeł zasilania i do obu narzędzi AI.
