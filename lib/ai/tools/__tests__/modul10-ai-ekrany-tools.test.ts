@@ -37,7 +37,7 @@ describe("doborZrodelZasilaniaTool (M10/E4, dawne 12.7 + 12.8)", () => {
     expect(() => validateAiToolDefinition(doborZrodelZasilaniaTool)).not.toThrow()
   })
 
-  it("PV przy −5 °C, 100 Ah, możliwe 30 A → 10 A, tekst PL ograniczenia", async () => {
+  it("PV przy 2 °C, 100 Ah, możliwe 30 A → 20 A (0,2C), tekst PL ograniczenia", async () => {
     const w = await doborZrodelZasilaniaTool.handler({
       produkcjaPvDostepnaTeraz: true,
       socAktualnyPct: 50,
@@ -46,13 +46,13 @@ describe("doborZrodelZasilaniaTool (M10/E4, dawne 12.7 + 12.8)", () => {
       agregatDostepny: false,
       siecDostepna: false,
       taniaTaryfaNocna: false,
-      temperaturaOgniwaC: -5,
+      temperaturaOgniwaC: 2,
       pojemnoscAh: 100,
       pradMozliwyA: 30,
     })
     expect(w.zrodlo).toBe("PV")
-    expect(w.pradLadowaniaA).toBeCloseTo(10, 9)
-    expect(w.ostrzezenia).toContain(t("pl", "AIZR-PRAD-OGRANICZONY", { mozliwy: 30, max: 10, t: -5 }))
+    expect(w.pradLadowaniaA).toBeCloseTo(20, 9)
+    expect(w.ostrzezenia).toContain(t("pl", "AIZR-PRAD-OGRANICZONY", { mozliwy: 30, max: 20, t: 2 }))
   })
 })
 

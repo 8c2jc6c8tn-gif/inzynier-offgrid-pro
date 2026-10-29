@@ -24,16 +24,16 @@ describe("dobór źródeł zasilania (M10/E4, dawne 12.7–12.9) — echo M4/E32
     expect(r.value.pradLadowaniaA).toBe(30)
   })
 
-  it("przykład źródła: PV ładuje z ograniczeniem prądu przy niskiej temperaturze — −5 °C, 100 Ah → 0,1C = 10 A", () => {
-    const r = calculateDoborZrodelZasilania({ ...baza, temperaturaOgniwaC: -5 })
-    expect(r.value.maxPradA).toBeCloseTo(10, 9)
-    expect(r.value.pradLadowaniaA).toBeCloseTo(10, 9)
-    expect(r.warnings.map((w) => w.code)).toEqual(["LIMIT-PRADU-ZIMNO", "AIZR-PRAD-OGRANICZONY"])
+  it("PV ładuje z ograniczeniem prądu przy niskiej temperaturze — 2 °C, 100 Ah → 0,2C = 20 A", () => {
+    const r = calculateDoborZrodelZasilania({ ...baza, temperaturaOgniwaC: 2 })
+    expect(r.value.maxPradA).toBeCloseTo(20, 9)
+    expect(r.value.pradLadowaniaA).toBeCloseTo(20, 9)
+    expect(r.warnings.map((w) => w.code)).toEqual(["LIMIT-PRADU-CHLODNO", "AIZR-PRAD-OGRANICZONY"])
     expect(r.status).toBe("VALID_WITH_WARNINGS")
   })
 
-  it("poniżej −10 °C → ładowanie zablokowane (0 A) z 🔴 M4/E12", () => {
-    const r = calculateDoborZrodelZasilania({ ...baza, temperaturaOgniwaC: -15 })
+  it("poniżej 0 °C → ładowanie zablokowane (0 A) z 🔴 M4/E12", () => {
+    const r = calculateDoborZrodelZasilania({ ...baza, temperaturaOgniwaC: -5 })
     expect(r.value.pradLadowaniaA).toBe(0)
     expect(r.warnings[0]!.code).toBe("BLOKADA-LADOWANIA-MROZ")
   })

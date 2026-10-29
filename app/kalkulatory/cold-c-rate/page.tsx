@@ -11,11 +11,10 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate, useFormatLiczby } from "@/lib/i18n/language-context"
-import { LIMIT_C_RATE_CHLODNO, LIMIT_C_RATE_ZIMNO, PROG_BLOKADY_C, PROG_LIMITU_02C, PROG_LUKI_GORNY_C, PROG_PELNEGO_PRADU_C } from "@/lib/core/modules/baterie/cold-c-rate/constants"
+import { LIMIT_C_RATE_CHLODNO, PROG_BLOKADY_C, PROG_LUKI_GORNY_C, PROG_PELNEGO_PRADU_C } from "@/lib/core/modules/baterie/cold-c-rate/constants"
 
 const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
   blokada: "blad",
-  "limit-01c": "uwaga",
   "limit-02c": "uwaga",
   "luka-zrodla": "uwaga",
   "pelny-prad": "ok",
@@ -23,7 +22,6 @@ const POZIOM_ZE_STREFY: Record<string, WerdyktPoziom> = {
 
 const ETYKIETA_ZE_STREFY: Record<string, string> = {
   blokada: "UI-COLCRAT-LADOWANIE-ZABLOKOWANE-ZIMNO",
-  "limit-01c": "UI-COLCRAT-LADOWANIE-OGRANICZONE",
   "limit-02c": "UI-COLCRAT-LADOWANIE-OGRANICZONE-2",
   "luka-zrodla": "UI-COLCRAT-ZAKRES-NIEOKRESLONY-ZRODLE",
   "pelny-prad": "UI-COLCRAT-BRAK-OGRANICZENIA",
@@ -70,7 +68,7 @@ export default function ColdCRatePage() {
         tytul={t("UI-COLCRAT-OGRANICZENIE-PRADU-LADOWANIA")}
         ekran="cold-c-rate"
         wynik={result}
-        parametry={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }}
+        parametry={{ blokada: PROG_BLOKADY_C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cChlodno: LIMIT_C_RATE_CHLODNO }}
       >
         {t("UI-COLCRAT-LODOWCE-MIOD-LEDWO")}
       </NaglowekEkranu>
@@ -84,7 +82,7 @@ export default function ColdCRatePage() {
           step="0.1"
           value={temperaturaOgniwaC}
           onChange={(e) => setTemperaturaOgniwaC(e.target.value)}
-          pomoc={<PomocPola ekran="cold-c-rate" pole="temperatura" params={{ blokada: PROG_BLOKADY_C, limit02: PROG_LIMITU_02C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cZimno: LIMIT_C_RATE_ZIMNO, cChlodno: LIMIT_C_RATE_CHLODNO }} />}
+          pomoc={<PomocPola ekran="cold-c-rate" pole="temperatura" params={{ blokada: PROG_BLOKADY_C, luka: PROG_LUKI_GORNY_C, pelny: PROG_PELNEGO_PRADU_C, cChlodno: LIMIT_C_RATE_CHLODNO }} />}
         />
         <Pole
           label={t("UI-COLCRAT-POJEMNOSC-PAKIETU")}

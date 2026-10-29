@@ -1,19 +1,17 @@
 import type { Assumption, CalcResult } from "@/lib/core/calc-result"
 import type { ColdCRateInput } from "./input"
 import { validateInput } from "./validation"
-import { blokadaCalkowita, limitChlodno, limitZimno, lukaZrodla } from "./warnings"
+import { blokadaCalkowita, limitChlodno, lukaZrodla } from "./warnings"
 import {
   LIMIT_C_RATE_CHLODNO,
-  LIMIT_C_RATE_ZIMNO,
   PROG_BLOKADY_C,
-  PROG_LIMITU_02C,
   PROG_LUKI_GORNY_C,
   PROG_PELNEGO_PRADU_C,
 } from "./constants"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
-export type StrefaCRate = "blokada" | "limit-01c" | "limit-02c" | "luka-zrodla" | "pelny-prad"
+export type StrefaCRate = "blokada" | "limit-02c" | "luka-zrodla" | "pelny-prad"
 
 export type ColdCRateResult = {
   temperaturaC: number
@@ -24,8 +22,9 @@ export type ColdCRateResult = {
 
 /**
  * Ekran 12, Moduł 4 — "Ograniczenie prądu ładowania w mrozie (Cold C-Rate)" (dawne 3.13,
- * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md, Sekcja B). Cztery strefy 1:1 z tabeli źródła +
- * jawnie oznaczona piąta strefa (5–10°C) — źródło NIE definiuje limitu dla tego zakresu (luka
+ * docs/zrodla/Tresc_Modul_4_Baterie_Ekrany.md, Sekcja B). Strefy z tabeli źródła (od 1.1.0 bez przedziału
+ * −10…0°C z 0,1C — poniżej 0°C ładowanie jest zablokowane, decyzja właściciela 29.10.2026) +
+ * jawnie oznaczona strefa 5–10°C — źródło NIE definiuje limitu dla tego zakresu (luka
  * w tabeli oryginalnej), zamiast interpolować wymyśloną wartość, kalkulator zwraca informację
  * o luce. Podobnie "pełny prąd" (>10°C) nie ma podanej liczby C-rate w źródle — tylko status
  * "brak ograniczenia od strony temperatury", bez wymyślonego maksimum.
@@ -73,20 +72,6 @@ export function calculateColdCRate(input: ColdCRateInput): CalcResult<ColdCRateR
       inputs,
       assumptions: [],
       warnings: [blokadaCalkowita(temperaturaC)],
-      calculatorVersion: CALCULATOR_VERSION,
-    }
-  }
-
-  if (temperaturaC < PROG_LIMITU_02C) {
-    const maxPradA = pojemnoscAh * LIMIT_C_RATE_ZIMNO
-    return {
-      value: { temperaturaC, strefa: "limit-01c", maxPradA },
-      unit: "A",
-      status: "VALID_WITH_WARNINGS",
-      formula: "I_{max} = Pojemność \\times C_{rate}(T)", formulaKey: "UI-FORMULA-BATERIE-COLD-C-RATE",
-      inputs,
-      assumptions: [],
-      warnings: [limitZimno(temperaturaC, maxPradA)],
       calculatorVersion: CALCULATOR_VERSION,
     }
   }

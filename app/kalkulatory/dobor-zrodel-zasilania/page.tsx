@@ -5,9 +5,7 @@ import { useMemo } from "react"
 import { calculateDoborZrodelZasilania } from "@/lib/core/modules/ai/dobor-zrodel-zasilania/calculator"
 import {
   LIMIT_C_RATE_CHLODNO,
-  LIMIT_C_RATE_ZIMNO,
   PROG_BLOKADY_C,
-  PROG_LIMITU_02C,
   PROG_LUKI_GORNY_C,
   PROG_PELNEGO_PRADU_C,
 } from "@/lib/core/modules/ai/dobor-zrodel-zasilania/constants"
@@ -57,10 +55,8 @@ const ETYKIETA_ZRODLA: Record<string, string> = {
 }
 const PARAMS_ZIMNO = {
   blokada: PROG_BLOKADY_C,
-  limit02: PROG_LIMITU_02C,
   luka: PROG_LUKI_GORNY_C,
   pelny: PROG_PELNEGO_PRADU_C,
-  cZimno: LIMIT_C_RATE_ZIMNO,
   cChlodno: LIMIT_C_RATE_CHLODNO,
 }
 const r1 = (x: number) => Math.round(x * 10) / 10

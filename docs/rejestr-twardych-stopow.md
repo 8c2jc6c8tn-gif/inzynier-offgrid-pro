@@ -48,7 +48,7 @@ nie do audytu poprawności formularza webowego.
   gromadzący się wodór grozi wybuchem.
   (M11/B2 — `lib/core/modules/montaz-baterii/montaz-mechaniczny-olow/constants.ts`,
   `OSTRZEZENIA_STALE`)
-- **Ładowanie ogniwa LiFePO4 poniżej -10°C** — całkowicie zablokowane w źródle; ładowanie w tych
+- **Ładowanie ogniwa LiFePO4 poniżej 0°C** — całkowicie zablokowane (od 3.47.0 jedna reguła w całej aplikacji; wcześniej próg −10°C); ładowanie w tych
   warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).
   (M4/E12 — `lib/core/modules/baterie/cold-c-rate/warnings.ts`, `blokadaCalkowita`, kod
   `BLOKADA-LADOWANIA-MROZ`)

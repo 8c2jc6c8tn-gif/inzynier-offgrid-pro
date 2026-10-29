@@ -56,9 +56,8 @@ export const dictionaryPl = {
     "osobnych ekranach (Cold C-Rate, Cold Cranking Amps).",
   "TEMPERATURA-W-ZAKRESIE": "Temperatura ogniw ({temp}°C) mieści się w dopuszczalnym zakresie pracy {min}–{max}°C.",
   "BLOKADA-LADOWANIA-MROZ":
-    "Temperatura ogniwa {temp}°C — poniżej -10°C ładowanie jest całkowicie zablokowane. Ładowanie w " +
+    "Temperatura ogniwa {temp}°C — poniżej 0°C ładowanie jest całkowicie zablokowane. Ładowanie w " +
     "tych warunkach trwale uszkadza ogniwa (osadzanie litu metalicznego).",
-  "LIMIT-PRADU-ZIMNO": "Temperatura ogniwa {temp}°C — maksymalny prąd ładowania ograniczony do 0,1C ({maxPrad} A).",
   "LIMIT-PRADU-CHLODNO": "Temperatura ogniwa {temp}°C — maksymalny prąd ładowania ograniczony do 0,2C ({maxPrad} A).",
   "LUKA-TABELI-ZRODLA":
     "Temperatura ogniwa {temp}°C — źródło nie podaje limitu C-rate dla zakresu 5–10°C (luka w tabeli " +

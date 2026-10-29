@@ -18,7 +18,7 @@ export type ColdCRateToolInputT = z.infer<typeof ColdCRateToolInput>
 export const ColdCRateToolOutput = z.object({
   status: z.enum(STATUSY),
   temperaturaC: z.number(),
-  strefa: z.enum(["blokada", "limit-01c", "limit-02c", "luka-zrodla", "pelny-prad"]),
+  strefa: z.enum(["blokada", "limit-02c", "luka-zrodla", "pelny-prad"]),
   maxPradA: z.number().nullable(),
   ostrzezenia: z.array(z.string()),
   zalozenia: z.array(z.string()),
@@ -30,7 +30,7 @@ export const coldCRateTool: AiToolDefinition<ColdCRateToolInputT, ColdCRateToolO
   name: "sprawdz_limit_pradu_ladowania_w_mrozie",
   description:
     "Liczy maksymalny dopuszczalny prąd ładowania pakietu LiFePO4 w zależności od temperatury ogniwa " +
-    "(Moduł 4, Ekran 12, Cold C-Rate) — blokada poniżej progu, ograniczony C-rate w chłodzie, pełny prąd " +
+    "(Moduł 4, Ekran 12, Cold C-Rate) — blokada poniżej 0 °C, ograniczony C-rate w chłodzie, pełny prąd " +
     "w normalnej temperaturze. Temperatura MUSI pochodzić z pomiaru/BMS — nie zgaduj. Użyj, gdy user pyta, " +
     "ile prądu można wpompować w baterię zimą.",
   inputSchema: ColdCRateToolInput,

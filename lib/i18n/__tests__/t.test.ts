@@ -143,7 +143,6 @@ describe("t — klucze zmigrowane 18.09.2026, partia 3 (baterie: chlodzenie-late
     "TEMPERATURA-PONIZEJ-ZAKRESU": { temp: "5.0", min: 15 },
     "TEMPERATURA-W-ZAKRESIE": { temp: "25.0", min: 15, max: 35 },
     "BLOKADA-LADOWANIA-MROZ": { temp: "-15.0" },
-    "LIMIT-PRADU-ZIMNO": { temp: "-5.0", maxPrad: "28.0" },
     "LIMIT-PRADU-CHLODNO": { temp: "2.0", maxPrad: "20.0" },
     "LUKA-TABELI-ZRODLA": { temp: "7.0" },
     "FALOWNIK-SIE-WYLACZY": { vSag: "40.8", minNap: "44.0" },
