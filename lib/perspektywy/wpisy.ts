@@ -14,7 +14,35 @@ export type SekcjaPerspektywy = {
   punkty: string[]
   /** true = bulleted list, false = paragraphs. */
   lista: boolean
+  /** Optional interactive block shown after the paragraphs (the P-001 scenario comparison table). */
+  tabela?: "porownanie-aircela"
+  /** Keys of paragraphs shown after the block above. */
+  poTabeli?: string[]
 }
+
+/** Keys the comparison table (`components/perspektywy/porownanie-aircela.tsx`) uses besides the section's own paragraphs. */
+export const KLUCZE_POROWNANIA = [
+  "UI-PERSP-POR-OPIS-TABELI",
+  "UI-PERSP-POR-KOL-RYNEK",
+  "UI-PERSP-POR-KOL-LITRY",
+  "UI-PERSP-POR-KOL-URZADZENIE",
+  "UI-PERSP-POR-KOL-ENERGIA",
+  "UI-PERSP-POR-KOL-RAZEM",
+  "UI-PERSP-POR-KOL-STACJA",
+  "UI-PERSP-POR-KOL-WNIOSEK",
+  "UI-PERSP-POR-SC-CIAGLY",
+  "UI-PERSP-POR-SC-PV",
+  "UI-PERSP-POR-KRAJ-PL",
+  "UI-PERSP-POR-KRAJ-NO",
+  "UI-PERSP-POR-KRAJ-NL",
+  "UI-PERSP-POR-OCENA-TAK",
+  "UI-PERSP-POR-OCENA-GRANICA",
+  "UI-PERSP-POR-OCENA-NIE",
+  "UI-PERSP-POR-LITRY-JEDEN",
+  "UI-PERSP-POR-LITRY-ZAKRES",
+  "UI-PERSP-POR-CENA-JEDNA",
+  "UI-PERSP-POR-CENA-ZAKRES",
+]
 
 export type WpisPerspektywy = {
   id: string
@@ -79,6 +107,13 @@ export const WPISY_PERSPEKTYW: WpisPerspektywy[] = [
         lista: false,
       },
       {
+        naglowek: "UI-PERSP-H-POROWNANIE",
+        punkty: ["UI-PERSP-AIRCELA-POR-WSTEP", "UI-PERSP-AIRCELA-POR-ZALOZENIA"],
+        lista: false,
+        tabela: "porownanie-aircela",
+        poTabeli: ["UI-PERSP-AIRCELA-POR-WNIOSEK"],
+      },
+      {
         naglowek: "UI-PERSP-H-OFFGRID",
         punkty: ["UI-PERSP-AIRCELA-OFFGRID-1", "UI-PERSP-AIRCELA-OFFGRID-2"],
         lista: false,
@@ -105,5 +140,14 @@ export function znajdzWpisPerspektywy(id: string): WpisPerspektywy | undefined {
 
 /** Every `UI-PERSP-*` key an entry uses (for the translation test). */
 export function kluczeWpisu(wpis: WpisPerspektywy): string[] {
-  return [wpis.tytul, wpis.karta, wpis.ocena, wpis.lead, wpis.zrodlaOpis, ...wpis.sekcje.flatMap((s) => [s.naglowek, ...s.punkty])]
+  const zTabela = wpis.sekcje.some((s) => s.tabela)
+  return [
+    wpis.tytul,
+    wpis.karta,
+    wpis.ocena,
+    wpis.lead,
+    wpis.zrodlaOpis,
+    ...wpis.sekcje.flatMap((s) => [s.naglowek, ...s.punkty, ...(s.poTabeli ?? [])]),
+    ...(zTabela ? KLUCZE_POROWNANIA : []),
+  ]
 }

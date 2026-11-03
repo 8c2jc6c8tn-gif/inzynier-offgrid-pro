@@ -165,6 +165,23 @@ Czyli **na własnym PV maszyna jest 1,7–4 razy droższa od stacji**, w obu kra
 
 **Luki:** LCOE PV w NL i NO nie sprawdzono (użyto niemieckiego zakresu); nie wiadomo, czy maszyna może pracować przerywanie bez utraty sprawności i trwałości katalizatora (Aircela nie podała); wykorzystanie u i część obciętej energii η to uproszczenie (godzinowej symulacji nie liczono); rozkład miesięczny uzysku NL nie został znaleziony, tylko dane norweskie.
 
+### 5c. Oba scenariusze obok siebie (dopisane 03.11.2026 na prośbę właściciela: „oba scenariusze”)
+
+**Co porównujemy (🧮):** ta sama maszyna (1 gal/dobę, 15–20 tys. USD, 10 lat) w dwóch sposobach zasilania. **A. Praca ciągła** na prądzie z sieci albo po stałej cenie (90% czasu w roku → ok. 1 240 l/rok). **B. Tylko własne PV** (maszyna pracuje wyłącznie w słońcu, paneli 2–4 razy mocniejszych od maszyny, 18–33% pełnego rocznego wykorzystania → ok. 255–455 l/rok). Rachunek w jednej walucie: **€**, a w nawiasie zł po 4,0 zł/€ (❓ kursu nie sprawdzałem). Obliczenie jest w kodzie `lib/perspektywy/e-paliwo.ts` (z testem), tabela poniżej to jego wynik; zakresy to najlepszy i najgorszy układ założeń (15 vs 20 tys. USD, 75 vs 100 kWh/gal, krańce ceny energii).
+
+**Cena energii w scenariuszu A (❓):** Polska 0,20 zł/kWh (0,05 €/kWh) — to parametr z sekcji 5, nie taryfa (taryfy domowe są wyższe); Norwegia 0,037 €/kWh (Norgespris 0,40 NOK/kWh bez VAT, bez opłat sieciowych); Holandia 0,24–0,28 €/kWh (cena domowa). **Scenariusz B:** koszt energii z PV 0,04–0,09 €/kWh (zakres dla Niemiec, patrz 5b), uzysk 900 kWh/kWp rocznie przyjęty tak samo dla wszystkich trzech krajów (dla Polski to wartość ostrożna).
+
+| Scenariusz i rynek | Litrów rocznie | Urządzenie, €/l (zł/l) | Energia, €/l (zł/l) | Razem, €/l (zł/l) | Stacja, €/l (zł/l) | Wniosek |
+|---|---|---|---|---|---|---|
+| A. Ciągła, Polska | ok. 1 240 | 1,11–1,48 (4,4–5,9) | 0,99–1,32 (4,0–5,3) | **2,10–2,80 (8,4–11,2)** | 1,71–1,89 (6,85–7,55) | nie opłaca się |
+| A. Ciągła, Norwegia | ok. 1 240 | 1,11–1,48 (4,4–5,9) | 0,73–0,98 (2,9–3,9) | **1,84–2,46 (7,4–9,8)** | 2,42 (9,7) | na granicy (opłaca się tylko w wariancie optymistycznym) |
+| A. Ciągła, Holandia | ok. 1 240 | 1,11–1,48 (4,4–5,9) | 4,76–7,40 (19,0–29,6) | **5,86–8,88 (23,5–35,5)** | 2,31 (9,3) | nie opłaca się |
+| B. Własne PV, Polska | 255–455 | 3,04–7,20 (12,2–28,8) | 0,88–2,97 (3,5–11,9) | **4,03–9,84 (16,1–39,4)** | 1,71–1,89 (6,85–7,55) | nie opłaca się |
+| B. Własne PV, Norwegia | 255–455 | 3,04–7,20 (12,2–28,8) | 0,88–2,97 (3,5–11,9) | **4,03–9,84 (16,1–39,4)** | 2,42 (9,7) | nie opłaca się |
+| B. Własne PV, Holandia | 255–455 | 3,04–7,20 (12,2–28,8) | 0,88–2,97 (3,5–11,9) | **4,03–9,84 (16,1–39,4)** | 2,31 (9,3) | nie opłaca się |
+
+**Jak to czytać:** przy zasilaniu ciągłym decyduje cena energii (Norwegia na granicy, bo energia kosztuje tam niewiele; Holandia i Polska nie), a przy własnym PV decyduje urządzenie, bo pracuje kilka razy mniej godzin i jego koszt rozkłada się na kilka razy mniej litrów. Wniosek właściciela (w Holandii i Norwegii się opłaca; z własnego PV oczywiście też) **potwierdza się częściowo**: tylko Norwegia przy stałej cenie z elektrowni wodnych i optymistycznych założeniach, na granicy. Scenariusz Holandii potwierdziłby się dopiero przy cenie hurtowej poniżej ok. 0,03–0,06 €/kWh przez całą dobę (sekcja 5a) albo przy urządzeniu wielokrotnie tańszym (sekcja 5b). **Luki:** te z sekcji 5a i 5b; dodatkowo scenariusz mieszany (PV w dzień, sieć w nocy) nie został policzony.
+
 ### 6. Porównanie z alternatywami
 
 **A. Samochód:** zakładając spalanie 7 l/100 km (❓) benzyna syntetyczna z tej maszyny kosztuje w energii 139 kWh/100 km przy 75 kWh/gal i 185 kWh/100 km przy 100 kWh/gal. Samochód elektryczny zużywa ok. 18 kWh/100 km (❓ typowa wartość; do sprawdzenia dla konkretnego modelu), czyli **7,7–10 razy mniej**. Dlatego każdy, kto może jeździć na prąd, wygrywa wielokrotnie; sens e-paliwa dotyczy tylko zastosowań bez alternatywy elektrycznej (lotnictwo, statki, istniejące maszyny).
@@ -228,3 +245,4 @@ Czyli **na własnym PV maszyna jest 1,7–4 razy droższa od stacji**, w obu kra
 | 03.11.2026 | Utworzono rozdział; wpis P-001 (Aircela). |
 | 03.11.2026 | P-001: sekcja 5a (Norwegia, Holandia — próg opłacalności) po uwadze właściciela; rozdział opublikowany w aplikacji jako zakładka „Perspektywy” (`/perspektywy`). |
 | 03.11.2026 | P-001: sekcja 5b (własne PV, wykorzystanie maszyny) po odpowiedzi właściciela; wniosek: na własnym PV nie opłaca się w NL ani NO przy cenie urządzenia z deklaracji. |
+| 03.11.2026 | P-001: sekcja 5c — oba scenariusze (praca ciągła vs tylko własne PV) w jednej tabeli, w € i zł, z litrami rocznie; ta sama tabela w aplikacji (PL/EN/RU), rachunek w `lib/perspektywy/e-paliwo.ts`. |

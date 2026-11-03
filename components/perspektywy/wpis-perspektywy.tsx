@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { TekstUi } from "@/components/ui/tekst-ui"
+import { PorownanieAircela } from "@/components/perspektywy/porownanie-aircela"
 import type { WpisPerspektywy } from "@/lib/perspektywy/wpisy"
 
 /** One article of the "Project outlook" section: lead, sections with paragraphs or lists, sources. Text comes from `UI-PERSP-*` keys. */
@@ -47,6 +48,12 @@ export function WpisPerspektywyArtykul({ wpis }: { wpis: WpisPerspektywy }) {
               </p>
             ))
           )}
+          {sekcja.tabela === "porownanie-aircela" && <PorownanieAircela />}
+          {sekcja.poTabeli?.map((klucz) => (
+            <p key={klucz} className="text-body">
+              <TekstUi kod={klucz} />
+            </p>
+          ))}
         </section>
       ))}
 

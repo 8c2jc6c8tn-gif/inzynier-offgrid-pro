@@ -322,7 +322,7 @@ funkcjonalny bez nowej zależności; realne przeciąganie można dodać późnie
 
 ## Perspektywy projektów (strony informacyjne, 03.11.2026, wersja 3.50.0)
 
-Zakładka „Perspektywy” w pasku górnym pulpitu: `app/perspektywy/page.tsx` (lista wpisów), `app/perspektywy/aircela/page.tsx` (wpis P-001 Aircela, bez formularza i bez obliczeń w kodzie — liczby i założenia w `docs/perspektywy-projektow.md`), dane `lib/perspektywy/wpisy.ts`, teksty PL/EN/RU `lib/i18n/ui/perspektywy.ts`, test `lib/perspektywy/__tests__/wpisy.test.ts`. To nie jest kalkulator: reguły „?” przy polach, autosave i narzędzia AI z „Użyj, gdy…” nie dotyczą (brak pól). Poza kaflami pulpitu (bez presetów, bez rozróżnienia FREE/PRO).
+Zakładka „Perspektywy” w pasku górnym pulpitu: `app/perspektywy/page.tsx` (lista wpisów), `app/perspektywy/aircela/page.tsx` (wpis P-001 Aircela, bez formularza; tabela porównania dwóch scenariuszy liczy się w `lib/perspektywy/e-paliwo.ts` (test `e-paliwo.test.ts`, komponent `components/perspektywy/porownanie-aircela.tsx`) — liczby i założenia w `docs/perspektywy-projektow.md`), dane `lib/perspektywy/wpisy.ts`, teksty PL/EN/RU `lib/i18n/ui/perspektywy.ts`, test `lib/perspektywy/__tests__/wpisy.test.ts`. To nie jest kalkulator: reguły „?” przy polach, autosave i narzędzia AI z „Użyj, gdy…” nie dotyczą (brak pól). Poza kaflami pulpitu (bez presetów, bez rozróżnienia FREE/PRO).
 
 ## Pozostałe moduły (6, 7, 10, 11, 12, 13 — reszta ekranów)
 

@@ -56,6 +56,33 @@ export const pl = {
     "Samochód elektryczny zużywa 7–10 razy mniej energii na kilometr niż auto na taką benzynę, a łańcuch prąd → benzyna → agregat → prąd odzyskuje tylko 7–13% energii.",
   "UI-PERSP-AIRCELA-OFFGRID-2":
     "Dla zwykłej instalacji off-grid taniej dołożyć paneli i kupić paliwo do agregatu. E-paliwo ma sens tam, gdzie paliwa nie da się zastąpić prądem, i tam, gdzie prąd jest bardzo tani.",
+  "UI-PERSP-H-POROWNANIE": "Oba scenariusze obok siebie",
+  "UI-PERSP-AIRCELA-POR-WSTEP":
+    "Ta sama maszyna (1 galon na dobę, 15–20 tys. USD, 10 lat życia) w dwóch sposobach zasilania. A. Praca ciągła na prądzie z sieci albo po stałej cenie (90% czasu w roku). B. Tylko własne PV: maszyna pracuje wyłącznie w słońcu, przy panelach 2–4 razy mocniejszych od niej. Wszystko w euro, a w nawiasie w złotych po 4,0 zł/€.",
+  "UI-PERSP-AIRCELA-POR-ZALOZENIA":
+    "Cena energii w scenariuszu A: Polska 0,20 zł/kWh (parametr, nie taryfa), Norwegia 0,037 €/kWh (cena stała Norgespris, bez opłat sieciowych), Holandia 0,24–0,28 €/kWh (cena domowa). Scenariusz B: energia z PV 0,04–0,09 €/kWh, uzysk 900 kWh/kWp rocznie. Zakres to najlepszy i najgorszy układ założeń. Kursów walut nie sprawdzano.",
+  "UI-PERSP-AIRCELA-POR-WNIOSEK":
+    "Przy pracy ciągłej decyduje cena energii: Norwegia jest na granicy, Holandia i Polska odpadają. Na własnym PV decyduje urządzenie, bo pracuje kilka razy mniej godzin i jego koszt rozkłada się na kilka razy mniej litrów, więc nie opłaca się w żadnym z trzech krajów. Uwaga, że w Holandii i Norwegii się opłaca, a z własnego PV oczywiście też, potwierdza się więc tylko częściowo.",
+  "UI-PERSP-POR-OPIS-TABELI": "Koszt litra benzyny z maszyny w dwóch scenariuszach, w euro (w nawiasie w złotych), obok ceny na stacji.",
+  "UI-PERSP-POR-KOL-RYNEK": "Scenariusz i rynek",
+  "UI-PERSP-POR-KOL-LITRY": "Litrów rocznie",
+  "UI-PERSP-POR-KOL-URZADZENIE": "Urządzenie na litr",
+  "UI-PERSP-POR-KOL-ENERGIA": "Energia na litr",
+  "UI-PERSP-POR-KOL-RAZEM": "Razem na litr",
+  "UI-PERSP-POR-KOL-STACJA": "Stacja, litr",
+  "UI-PERSP-POR-KOL-WNIOSEK": "Wniosek",
+  "UI-PERSP-POR-SC-CIAGLY": "A. Praca ciągła",
+  "UI-PERSP-POR-SC-PV": "B. Własne PV",
+  "UI-PERSP-POR-KRAJ-PL": "Polska",
+  "UI-PERSP-POR-KRAJ-NO": "Norwegia",
+  "UI-PERSP-POR-KRAJ-NL": "Holandia",
+  "UI-PERSP-POR-OCENA-TAK": "opłaca się",
+  "UI-PERSP-POR-OCENA-GRANICA": "na granicy",
+  "UI-PERSP-POR-OCENA-NIE": "nie opłaca się",
+  "UI-PERSP-POR-LITRY-JEDEN": "ok. {l}",
+  "UI-PERSP-POR-LITRY-ZAKRES": "{min}–{max}",
+  "UI-PERSP-POR-CENA-JEDNA": "{eur} € ({zl} zł)",
+  "UI-PERSP-POR-CENA-ZAKRES": "{eurMin}–{eurMax} € ({zlMin}–{zlMax} zł)",
   "UI-PERSP-AIRCELA-ZRODLA-OPIS":
     "Deklaracje producenta pochodzą z mediów, nie z pomiarów. Ceny paliw: tygodniowy biuletyn UE; ceny prądu i liczby o energii wychwytu CO₂ i elektrolizerów pochodzą ze streszczeń wyszukiwań i trzeba je sprawdzić w oryginałach. Pełny rachunek i luki: docs/perspektywy-projektow.md.",
 }
@@ -112,6 +139,33 @@ export const en: Record<keyof typeof pl, string> = {
     "An electric car uses 7–10 times less energy per kilometre than a car running on such petrol, and the chain electricity → petrol → generator → electricity recovers only 7–13% of the energy.",
   "UI-PERSP-AIRCELA-OFFGRID-2":
     "For an ordinary off-grid system it is cheaper to add panels and buy fuel for the generator. E-fuel makes sense where fuel cannot be replaced by electricity, and where electricity is very cheap.",
+  "UI-PERSP-H-POROWNANIE": "Both scenarios side by side",
+  "UI-PERSP-AIRCELA-POR-WSTEP":
+    "The same machine (1 gallon a day, USD 15–20 thousand, 10-year life) powered two ways. A. Continuous operation on grid power or at a fixed price (90% of the year). B. Own PV only: the machine runs only in the sun, with panels 2–4 times its own power. Everything in euro, with zloty in brackets at 4.0 PLN/EUR.",
+  "UI-PERSP-AIRCELA-POR-ZALOZENIA":
+    "Energy price in scenario A: Poland 0.20 PLN/kWh (a parameter, not a tariff), Norway EUR 0.037/kWh (fixed Norgespris price, no grid fees), the Netherlands EUR 0.24–0.28/kWh (household price). Scenario B: PV energy EUR 0.04–0.09/kWh, yield 900 kWh/kWp a year. The range is the best and the worst combination of assumptions. Exchange rates were not checked.",
+  "UI-PERSP-AIRCELA-POR-WNIOSEK":
+    "With continuous operation the energy price decides: Norway is borderline, the Netherlands and Poland are out. On own PV the machine decides, because it runs several times fewer hours and its cost is spread over several times fewer litres, so it does not pay in any of the three countries. The remark that it pays in the Netherlands and Norway, and on own PV obviously too, is only partly confirmed.",
+  "UI-PERSP-POR-OPIS-TABELI": "Cost of a litre of petrol from the machine in the two scenarios, in euro (zloty in brackets), next to the pump price.",
+  "UI-PERSP-POR-KOL-RYNEK": "Scenario and market",
+  "UI-PERSP-POR-KOL-LITRY": "Litres a year",
+  "UI-PERSP-POR-KOL-URZADZENIE": "Machine per litre",
+  "UI-PERSP-POR-KOL-ENERGIA": "Energy per litre",
+  "UI-PERSP-POR-KOL-RAZEM": "Total per litre",
+  "UI-PERSP-POR-KOL-STACJA": "Pump, per litre",
+  "UI-PERSP-POR-KOL-WNIOSEK": "Verdict",
+  "UI-PERSP-POR-SC-CIAGLY": "A. Continuous operation",
+  "UI-PERSP-POR-SC-PV": "B. Own PV",
+  "UI-PERSP-POR-KRAJ-PL": "Poland",
+  "UI-PERSP-POR-KRAJ-NO": "Norway",
+  "UI-PERSP-POR-KRAJ-NL": "Netherlands",
+  "UI-PERSP-POR-OCENA-TAK": "pays off",
+  "UI-PERSP-POR-OCENA-GRANICA": "borderline",
+  "UI-PERSP-POR-OCENA-NIE": "does not pay",
+  "UI-PERSP-POR-LITRY-JEDEN": "about {l}",
+  "UI-PERSP-POR-LITRY-ZAKRES": "{min}–{max}",
+  "UI-PERSP-POR-CENA-JEDNA": "€{eur} ({zl} PLN)",
+  "UI-PERSP-POR-CENA-ZAKRES": "€{eurMin}–{eurMax} ({zlMin}–{zlMax} PLN)",
   "UI-PERSP-AIRCELA-ZRODLA-OPIS":
     "The manufacturer's claims come from the media, not from measurements. Fuel prices: the EU weekly bulletin; electricity prices and the figures on CO₂ capture and electrolyser energy come from search summaries and must be checked in the originals. Full calculation and gaps: docs/perspektywy-projektow.md.",
 }
@@ -168,6 +222,33 @@ export const ru: Record<keyof typeof pl, string> = {
     "Электромобиль расходует в 7–10 раз меньше энергии на километр, чем машина на таком бензине, а цепочка электричество → бензин → генератор → электричество возвращает лишь 7–13% энергии.",
   "UI-PERSP-AIRCELA-OFFGRID-2":
     "Для обычной системы off-grid дешевле добавить панелей и купить топливо для генератора. Э-топливо имеет смысл там, где топливо нельзя заменить электричеством, и там, где электричество очень дёшево.",
+  "UI-PERSP-H-POROWNANIE": "Оба сценария рядом",
+  "UI-PERSP-AIRCELA-POR-WSTEP":
+    "Одна и та же машина (1 галлон в сутки, 15–20 тыс. USD, срок службы 10 лет) при двух способах питания. A. Непрерывная работа от сети или по фиксированной цене (90% времени в году). B. Только своя ФЭС: машина работает лишь при солнце, панели в 2–4 раза мощнее машины. Всё в евро, в скобках в злотых по 4,0 зл/€.",
+  "UI-PERSP-AIRCELA-POR-ZALOZENIA":
+    "Цена энергии в сценарии A: Польша 0,20 зл/кВт·ч (параметр, не тариф), Норвегия 0,037 €/кВт·ч (фиксированная цена Norgespris, без сетевых платежей), Нидерланды 0,24–0,28 €/кВт·ч (бытовая цена). Сценарий B: энергия ФЭС 0,04–0,09 €/кВт·ч, выработка 900 кВт·ч/кВт·пик в год. Диапазон — лучшее и худшее сочетание допущений. Курсы валют не проверялись.",
+  "UI-PERSP-AIRCELA-POR-WNIOSEK":
+    "При непрерывной работе решает цена энергии: Норвегия на грани, Нидерланды и Польша не подходят. На своей ФЭС решает сама машина: она работает в несколько раз меньше часов, и её стоимость делится на в несколько раз меньше литров, поэтому не окупается ни в одной из трёх стран. Замечание, что в Нидерландах и Норвегии это окупается, а на своей ФЭС тем более, подтверждается лишь частично.",
+  "UI-PERSP-POR-OPIS-TABELI": "Стоимость литра бензина из машины в двух сценариях, в евро (в скобках в злотых), рядом с ценой на заправке.",
+  "UI-PERSP-POR-KOL-RYNEK": "Сценарий и рынок",
+  "UI-PERSP-POR-KOL-LITRY": "Литров в год",
+  "UI-PERSP-POR-KOL-URZADZENIE": "Машина на литр",
+  "UI-PERSP-POR-KOL-ENERGIA": "Энергия на литр",
+  "UI-PERSP-POR-KOL-RAZEM": "Итого на литр",
+  "UI-PERSP-POR-KOL-STACJA": "Заправка, литр",
+  "UI-PERSP-POR-KOL-WNIOSEK": "Вывод",
+  "UI-PERSP-POR-SC-CIAGLY": "A. Непрерывная работа",
+  "UI-PERSP-POR-SC-PV": "B. Своя ФЭС",
+  "UI-PERSP-POR-KRAJ-PL": "Польша",
+  "UI-PERSP-POR-KRAJ-NO": "Норвегия",
+  "UI-PERSP-POR-KRAJ-NL": "Нидерланды",
+  "UI-PERSP-POR-OCENA-TAK": "окупается",
+  "UI-PERSP-POR-OCENA-GRANICA": "на грани",
+  "UI-PERSP-POR-OCENA-NIE": "не окупается",
+  "UI-PERSP-POR-LITRY-JEDEN": "около {l}",
+  "UI-PERSP-POR-LITRY-ZAKRES": "{min}–{max}",
+  "UI-PERSP-POR-CENA-JEDNA": "{eur} € ({zl} зл)",
+  "UI-PERSP-POR-CENA-ZAKRES": "{eurMin}–{eurMax} € ({zlMin}–{zlMax} зл)",
   "UI-PERSP-AIRCELA-ZRODLA-OPIS":
     "Заявления производителя взяты из СМИ, а не из измерений. Цены на топливо: недельный бюллетень ЕС; цены на электричество и данные об энергии улавливания CO₂ и электролизёров — из кратких выдержек поиска, их нужно проверить по первоисточникам. Полный расчёт и пробелы: docs/perspektywy-projektow.md.",
 }
