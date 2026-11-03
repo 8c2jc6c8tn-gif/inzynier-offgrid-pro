@@ -22,7 +22,7 @@ export const pl = {
   "UI-PERSP-AIRCELA-KARTA": "Maszyna wielkości lodówki robi benzynę z CO₂ z powietrza, wody i prądu. Ile to kosztuje energii i gdzie się opłaca.",
   "UI-PERSP-AIRCELA-OCENA": "obserwować, nie budować",
   "UI-PERSP-AIRCELA-LEAD":
-    "Technicznie wykonalne, bo każdy etap jest znaną technologią. Opłacalność zależy od ceny prądu i ceny paliwa: wg tego rachunku w Polsce się nie opłaca, w Norwegii jest na granicy, w Holandii tylko przy nadwyżkowym prądzie.",
+    "Technicznie wykonalne, bo każdy etap jest znaną technologią. Opłacalność zależy od ceny prądu, ceny paliwa i od tego, jak często maszyna pracuje: wg tego rachunku nie opłaca się w Polsce ani na własnych panelach w Norwegii i Holandii; w Norwegii jest na granicy tylko przy stałej cenie prądu z elektrowni wodnych przez całą dobę.",
   "UI-PERSP-AIRCELA-JAK-1": "Wychwyt CO₂ z powietrza ciekłym sorbentem, który jest regenerowany w maszynie.",
   "UI-PERSP-AIRCELA-JAK-2": "Elektroliza wody: wodór zostaje w maszynie, tlen wychodzi na zewnątrz.",
   "UI-PERSP-AIRCELA-JAK-3": "Synteza metanolu z CO₂ i wodoru.",
@@ -44,8 +44,14 @@ export const pl = {
     "Norwegia: stacja 2,42 €/l (średnia tygodniowa UE, wrzesień 2026). Próg: ok. 0,036–0,066 €/kWh. Cena stała Norgespris to 0,40 NOK/kWh bez VAT (ok. 0,037 €/kWh, bez opłat sieciowych). Na granicy: koszt bliski cenie na stacji, bez zysku.",
   "UI-PERSP-AIRCELA-RYNKI-NL":
     "Holandia: stacja 2,31 €/l (koniec października 2026). Próg: ok. 0,031–0,061 €/kWh. Prąd domowy to ok. 0,24–0,28 €/kWh, czyli 4–8 razy za drogo. Wychodzi tylko w godzinach z hurtową ceną poniżej progu, ale wtedy maszyna pracuje część doby.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-1":
+    "Własne PV zamiast sieci: energia z paneli kosztuje ok. 0,04–0,09 €/kWh (zakres dla instalacji naziemnych w Niemczech, jako przybliżenie), ale maszyna pracuje tylko przy słońcu. Przy panelach 2–4 razy mocniejszych od maszyny działa ok. 18–33% czasu w roku (uzysk ok. 900 kWh/kWp, zimą w Norwegii niemal zero).",
+  "UI-PERSP-AIRCELA-RYNKI-PV-2":
+    "Wtedy dominuje koszt urządzenia, nie energii: samo urządzenie (15–20 tys. USD, 10 lat) to 3,0–7,2 €/l, energia 0,9–3,0 €/l, razem 4,0–9,8 €/l, wobec 2,31 €/l (Holandia) i 2,42 €/l (Norwegia) na stacji. Nawet przy darmowej energii samo urządzenie kosztuje więcej niż litr na stacji.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-3":
+    "Opłacałoby się dopiero, gdyby urządzenie kosztowało ok. 1–6 tys. USD (kilka do kilkunastu razy taniej) albo pracowało całą dobę przez cały rok na tanim prądzie, jak w Norwegii przy stałej cenie z elektrowni wodnych.",
   "UI-PERSP-AIRCELA-RYNKI-WNIOSEK":
-    "Przy pracy przez połowę doby koszt urządzenia na litr rośnie prawie dwukrotnie i wynik się pogarsza. Opłacalność zależy więc od taniego prądu przez całą dobę.",
+    "Przy pracy przez część doby koszt urządzenia na litr rośnie wielokrotnie. Opłacalność zależy więc od taniego prądu przez całą dobę, a nie tylko od ceny energii.",
   "UI-PERSP-AIRCELA-OFFGRID-1":
     "Samochód elektryczny zużywa 7–10 razy mniej energii na kilometr niż auto na taką benzynę, a łańcuch prąd → benzyna → agregat → prąd odzyskuje tylko 7–13% energii.",
   "UI-PERSP-AIRCELA-OFFGRID-2":
@@ -72,7 +78,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-PERSP-AIRCELA-KARTA": "A fridge-sized machine makes petrol from CO₂ in the air, water and electricity. How much energy it takes and where it pays.",
   "UI-PERSP-AIRCELA-OCENA": "watch, do not build",
   "UI-PERSP-AIRCELA-LEAD":
-    "Technically feasible, because every step is a known technology. Whether it pays depends on the electricity and fuel prices: by this calculation not in Poland, borderline in Norway, in the Netherlands only with surplus electricity.",
+    "Technically feasible, because every step is a known technology. Whether it pays depends on the electricity price, the fuel price and how often the machine runs: by this calculation it does not pay in Poland, nor on own panels in Norway and the Netherlands; in Norway it is borderline only with a fixed hydro-power electricity price around the clock.",
   "UI-PERSP-AIRCELA-JAK-1": "CO₂ is captured from the air by a liquid sorbent that is regenerated inside the machine.",
   "UI-PERSP-AIRCELA-JAK-2": "Water electrolysis: the hydrogen stays in the machine, the oxygen is released.",
   "UI-PERSP-AIRCELA-JAK-3": "Methanol synthesis from CO₂ and hydrogen.",
@@ -94,8 +100,14 @@ export const en: Record<keyof typeof pl, string> = {
     "Norway: pump 2.42 €/l (EU weekly average, September 2026). Threshold: about 0.036–0.066 €/kWh. The fixed Norgespris is 0.40 NOK/kWh excluding VAT (about 0.037 €/kWh, without grid fees). Borderline: cost close to the pump price, no profit.",
   "UI-PERSP-AIRCELA-RYNKI-NL":
     "Netherlands: pump 2.31 €/l (end of October 2026). Threshold: about 0.031–0.061 €/kWh. Household electricity is about 0.24–0.28 €/kWh, 4–8 times too dear. It works only in hours when the wholesale price is below the threshold, but then the machine runs part of the day.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-1":
+    "Own PV instead of the grid: panel electricity costs about 0.04–0.09 €/kWh (a range for ground-mounted plants in Germany, used as an approximation), but the machine runs only in the sun. With panels 2–4 times the machine's power it runs about 18–33% of the year (yield about 900 kWh/kWp, almost nothing in winter in Norway).",
+  "UI-PERSP-AIRCELA-RYNKI-PV-2":
+    "Then the machine cost dominates, not the energy: the machine alone (USD 15,000–20,000, 10 years) is 3.0–7.2 €/l, energy 0.9–3.0 €/l, together 4.0–9.8 €/l, against 2.31 €/l (Netherlands) and 2.42 €/l (Norway) at the pump. Even with free energy the machine alone costs more than a litre at the pump.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-3":
+    "It would pay only if the machine cost about USD 1,000–6,000 (several to over ten times cheaper) or ran around the clock all year on cheap electricity, as in Norway with the fixed hydro-power price.",
   "UI-PERSP-AIRCELA-RYNKI-WNIOSEK":
-    "If the machine runs half of the day, the machine cost per litre almost doubles and the result gets worse. So it pays only with cheap electricity around the clock.",
+    "If the machine runs only part of the day, the machine cost per litre multiplies. So it pays only with cheap electricity around the clock, not just a low energy price.",
   "UI-PERSP-AIRCELA-OFFGRID-1":
     "An electric car uses 7–10 times less energy per kilometre than a car running on such petrol, and the chain electricity → petrol → generator → electricity recovers only 7–13% of the energy.",
   "UI-PERSP-AIRCELA-OFFGRID-2":
@@ -122,7 +134,7 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-PERSP-AIRCELA-KARTA": "Машина размером с холодильник делает бензин из CO₂ воздуха, воды и электричества. Сколько это стоит энергии и где окупается.",
   "UI-PERSP-AIRCELA-OCENA": "наблюдать, не строить",
   "UI-PERSP-AIRCELA-LEAD":
-    "Технически осуществимо, потому что каждый этап — известная технология. Окупаемость зависит от цен на электричество и топливо: по этому расчёту в Польше не окупается, в Норвегии на грани, в Нидерландах — только при избытке электричества.",
+    "Технически осуществимо, потому что каждый этап — известная технология. Окупаемость зависит от цены электричества, цены топлива и от того, как часто работает машина: по этому расчёту не окупается в Польше и на собственных панелях в Норвегии и Нидерландах; в Норвегии на грани только при фиксированной цене электричества от ГЭС круглые сутки.",
   "UI-PERSP-AIRCELA-JAK-1": "CO₂ извлекается из воздуха жидким сорбентом, который регенерируется внутри машины.",
   "UI-PERSP-AIRCELA-JAK-2": "Электролиз воды: водород остаётся в машине, кислород выходит наружу.",
   "UI-PERSP-AIRCELA-JAK-3": "Синтез метанола из CO₂ и водорода.",
@@ -144,8 +156,14 @@ export const ru: Record<keyof typeof pl, string> = {
     "Норвегия: заправка 2,42 €/л (недельное среднее по ЕС, сентябрь 2026). Порог: около 0,036–0,066 €/кВт·ч. Фиксированная цена Norgespris — 0,40 NOK/кВт·ч без НДС (около 0,037 €/кВт·ч, без сетевых платежей). На грани: стоимость близка к цене на заправке, без прибыли.",
   "UI-PERSP-AIRCELA-RYNKI-NL":
     "Нидерланды: заправка 2,31 €/л (конец октября 2026). Порог: около 0,031–0,061 €/кВт·ч. Бытовое электричество стоит около 0,24–0,28 €/кВт·ч, то есть в 4–8 раз дороже. Получается только в часы, когда оптовая цена ниже порога, но тогда машина работает часть суток.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-1":
+    "Собственные панели вместо сети: электричество от панелей стоит около 0,04–0,09 €/кВт·ч (диапазон для наземных станций в Германии, как приближение), но машина работает только при солнце. При панелях в 2–4 раза мощнее машины она работает около 18–33% времени в году (выработка около 900 кВт·ч/кВт, зимой в Норвегии почти ноль).",
+  "UI-PERSP-AIRCELA-RYNKI-PV-2":
+    "Тогда преобладает стоимость устройства, а не энергии: само устройство (15–20 тыс. USD, 10 лет) — 3,0–7,2 €/л, энергия 0,9–3,0 €/л, вместе 4,0–9,8 €/л, против 2,31 €/л (Нидерланды) и 2,42 €/л (Норвегия) на заправке. Даже при бесплатной энергии само устройство стоит дороже литра на заправке.",
+  "UI-PERSP-AIRCELA-RYNKI-PV-3":
+    "Окупилось бы лишь при цене устройства около 1–6 тыс. USD (в несколько раз и более дешевле) или при работе круглые сутки весь год на дешёвом электричестве, как в Норвегии при фиксированной цене от ГЭС.",
   "UI-PERSP-AIRCELA-RYNKI-WNIOSEK":
-    "Если машина работает полсуток, стоимость устройства на литр растёт почти вдвое, и результат ухудшается. Окупаемость зависит от дешёвого электричества круглые сутки.",
+    "Если машина работает лишь часть суток, стоимость устройства на литр растёт в разы. Окупаемость зависит от дешёвого электричества круглые сутки, а не только от цены энергии.",
   "UI-PERSP-AIRCELA-OFFGRID-1":
     "Электромобиль расходует в 7–10 раз меньше энергии на километр, чем машина на таком бензине, а цепочка электричество → бензин → генератор → электричество возвращает лишь 7–13% энергии.",
   "UI-PERSP-AIRCELA-OFFGRID-2":

@@ -24,7 +24,7 @@ Dział powstał jako nowy plik, bo w repo nie było wcześniej rozdziału o taki
 
 ## P-001 — Aircela: benzyna syntetyczna z powietrza (e-paliwo w skrzynce)
 
-**Data oceny:** 03.11.2026. **Ocena skrótowo:** technicznie wykonalne (każdy etap jest znaną technologią), ale dla użytkownika off-grid w Polsce **nie ma sensu ekonomicznego ani energetycznego** — jeden egzemplarz potrzebuje ok. 3 kW ciągłej mocy (26–29 kWp paneli przy średniorocznym uzysku), żeby dać około 1,4 tys. litrów paliwa rocznie, a paliwo wychodzi o kilkanaście do kilkudziesięciu procent drożej niż na stacji, nawet przy bardzo tanim prądzie z PV (0,20 zł/kWh). Status: **obserwować, nie budować**. Rynki Norwegii i Holandii (sekcja 5a): Norwegia na granicy opłacalności, Holandia tylko przy nadwyżkowym prądzie.
+**Data oceny:** 03.11.2026. **Ocena skrótowo:** technicznie wykonalne (każdy etap jest znaną technologią), ale dla użytkownika off-grid w Polsce **nie ma sensu ekonomicznego ani energetycznego** — jeden egzemplarz potrzebuje ok. 3 kW ciągłej mocy (26–29 kWp paneli przy średniorocznym uzysku), żeby dać około 1,4 tys. litrów paliwa rocznie, a paliwo wychodzi o kilkanaście do kilkudziesięciu procent drożej niż na stacji, nawet przy bardzo tanim prądzie z PV (0,20 zł/kWh). Status: **obserwować, nie budować**. Rynki Norwegii i Holandii (sekcje 5a i 5b): przy prądzie sieciowym Norwegia na granicy opłacalności (stała cena z wodnych elektrowni), Holandia tylko w godzinach taniego hurtu; na własnym PV maszyna jest 1,7–4 razy droższa od stacji w obu krajach, bo dominuje koszt urządzenia przy pracy tylko w słońcu.
 
 ### 1. Co to jest
 
@@ -134,6 +134,37 @@ Obliczenie progu: Norwegia (2,424 − 1,11)/19,8 = 0,066 i (2,424 − 1,48)/26,4
 
 **Luki tej sekcji:** ceny prądu to wyniki wyszukiwania ([Keuze.nl](https://www.keuze.nl/en/energy/electricity-price), [Fjordkraft](https://www.fjordkraft.no/strom/stromregning/nettleie-strom/norgespris-english/)) i pojedyncze dni z euenergy.live, nie średnie roczne z CBS/ACM/NVE/Nord Pool; nie sprawdzono limitu zużycia Norgespris ani opłat sieciowych w obu krajach; nie sprawdzono podatków od paliwa własnej produkcji (w Norwegii akcyza na benzynę to według budżetu 2026 ok. 8,05 NOK/l plus 25% VAT — jeśli paliwo własne byłoby od niej wolne, rachunek się poprawia).
 
+### 5b. Scenariusz własnego PV (dopisane 03.11.2026 po odpowiedzi właściciela: „prąd z PV to oczywiste, więc opłacalne”)
+
+**Pytanie:** czy maszyna zasilana własnymi panelami (nie siecią) wychodzi taniej niż litr na stacji w Holandii i Norwegii. Zwykle intuicja mówi, że prąd z PV jest najtańszy, więc rachunek powinien się domykać; sprawdzamy, czy tak jest.
+
+**Dlaczego sama cena energii nie wystarcza (🧮):** maszyna pracuje tylko wtedy, gdy świeci słońce, więc koszt urządzenia rozkłada się na mniej litrów. Wykorzystanie `u` = energia z PV oddana maszynie / (moc maszyny × 8 760 h). Dla paneli N razy mocniejszych od maszyny i uzysku Y: `u = N · Y · η / 8 760`, gdzie η to część energii z paneli, która nie jest obcinana przez moc maszyny.
+
+**Założenia (❓, wszystkie do zmiany):**
+
+- uzysk Y = 900 kWh/kWp rocznie. Źródła: Holandia: CBS stosuje stałe 875 kWh/kWp, obserwacje 838–946 kWh/kWp w latach 2016–2017 (✅ [arXiv 2003.01728](https://arxiv.org/pdf/2003.01728), streszczenie wyszukiwania); Norwegia południowa: ok. 900–950 kWh/kWp przy nachyleniu 30° lub więcej, np. Ås 931,6 (✅ [NMBU](https://nmbu.brage.unit.no/nmbu-xmlui/handle/11250/219256), streszczenie), w styczniu niemal zero (0,02–0,04 kWh/kWp na dobę wobec 4,5–4,8 w lipcu);
+- koszt energii z PV (LCOE) 0,04 / 0,065 / 0,09 €/kWh: zakres dla instalacji naziemnych w Niemczech 4,1–9,2 ct/kWh (✅ [Fraunhofer ISE 2024 przez pv magazine](https://www.pv-magazine.com/2024/10/07/germany-has-solar-lcoe-ranging-from-e0-041-kwh-to-0-144-kwh/) i inne omówienia, streszczenia wyszukiwania), przyjęty jako przybliżenie także dla NL i NO — nie sprawdzano kosztów instalacji PV w tych krajach;
+- panele N = 2, 3, 4 × moc maszyny (część energii ponad moc maszyny jest obcinana: η = 0,90 / 0,85 / 0,80), co daje wykorzystanie u = 18% / 26% / 33%;
+- urządzenie 15–20 tys. USD, 10 lat życia, kurs 0,92 €/USD, bez serwisu, sorbentu i bez akumulatora (maszyna ma w sobie bufor wodoru wg Dezeen, ale jego wielkości i zdolności pracy przerywanej nie znamy);
+- energia na litr 19,8 (75 kWh/gal) albo 26,4 kWh/l (100 kWh/gal); stacje: Holandia 2,313 €/l, Norwegia 2,424 €/l.
+
+**Wynik:**
+
+| Składnik na litr | Zakres |
+|---|---|
+| samo urządzenie (amortyzacja przy u = 18–33%) | 3,0–7,2 €/l |
+| energia z PV (0,04–0,09 €/kWh, 19,8–26,4 kWh/l) | 0,9–3,0 €/l |
+| razem | **4,0–9,8 €/l** |
+| litr na stacji | 2,31 €/l (NL), 2,42 €/l (NO) |
+
+Czyli **na własnym PV maszyna jest 1,7–4 razy droższa od stacji**, w obu krajach. Nawet przy energii darmowej (LCOE = 0) samo urządzenie kosztuje 3,0–7,2 €/l, więcej niż litr na stacji. Wąskim gardłem nie jest cena energii, tylko liczba godzin pracy maszyny w roku.
+
+**Co musiałoby się zmienić (🧮, przy N = 3, u = 26%):** urządzenie musiałoby kosztować ok. 1,2–5,9 tys. USD zamiast 15–20 tys. (kilka do kilkunastu razy taniej; dolna granica to LCOE 0,065 €/kWh i 100 kWh/gal, górna LCOE 0,04 €/kWh i 75 kWh/gal), albo pracować całą dobę przez cały rok na tanim prądzie. To drugie jest realne tylko w Norwegii (cena stała z elektrowni wodnych, sekcja 5a, na granicy opłacalności), nie na własnym PV, bo zimą w Norwegii i w Holandii panele dają w grudniu i styczniu ułamek letniej produkcji, a magazyn sezonowy nie istnieje poza samym paliwem.
+
+**Wniosek:** uwaga właściciela „PV jest oczywiście opłacalne” **nie potwierdza się rachunkiem** przy cenie urządzenia z deklaracji producenta. Potwierdzałaby się, gdyby cena urządzenia spadła kilkakrotnie (produkcja seryjna — producent mówi o obniżce „nieco”, bez liczb) albo gdyby maszyna pracowała nieprzerwanie. **Do wyjaśnienia z właścicielem:** czy wnioskuje z innej ceny urządzenia albo z innego sposobu pracy (np. praca ciągła z magazynu i bufora wodoru), których tu nie uwzględniono; zmieni to wynik.
+
+**Luki:** LCOE PV w NL i NO nie sprawdzono (użyto niemieckiego zakresu); nie wiadomo, czy maszyna może pracować przerywanie bez utraty sprawności i trwałości katalizatora (Aircela nie podała); wykorzystanie u i część obciętej energii η to uproszczenie (godzinowej symulacji nie liczono); rozkład miesięczny uzysku NL nie został znaleziony, tylko dane norweskie.
+
 ### 6. Porównanie z alternatywami
 
 **A. Samochód:** zakładając spalanie 7 l/100 km (❓) benzyna syntetyczna z tej maszyny kosztuje w energii 139 kWh/100 km przy 75 kWh/gal i 185 kWh/100 km przy 100 kWh/gal. Samochód elektryczny zużywa ok. 18 kWh/100 km (❓ typowa wartość; do sprawdzenia dla konkretnego modelu), czyli **7,7–10 razy mniej**. Dlatego każdy, kto może jeździć na prąd, wygrywa wielokrotnie; sens e-paliwa dotyczy tylko zastosowań bez alternatywy elektrycznej (lotnictwo, statki, istniejące maszyny).
@@ -196,3 +227,4 @@ Obliczenie progu: Norwegia (2,424 − 1,11)/19,8 = 0,066 i (2,424 − 1,48)/26,4
 |---|---|
 | 03.11.2026 | Utworzono rozdział; wpis P-001 (Aircela). |
 | 03.11.2026 | P-001: sekcja 5a (Norwegia, Holandia — próg opłacalności) po uwadze właściciela; rozdział opublikowany w aplikacji jako zakładka „Perspektywy” (`/perspektywy`). |
+| 03.11.2026 | P-001: sekcja 5b (własne PV, wykorzystanie maszyny) po odpowiedzi właściciela; wniosek: na własnym PV nie opłaca się w NL ani NO przy cenie urządzenia z deklaracji. |
