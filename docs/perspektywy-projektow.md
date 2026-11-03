@@ -6,7 +6,7 @@
 
 Tu trafiają technologie, patenty i urządzenia, które ktoś pokazuje jako „przyszłość energetyki” i które **mogłyby** kiedyś dotyczyć użytkownika aplikacji, ale dziś nie są ani w kodzie, ani w `backlog-poza-v1.md`. Każdy wpis ma odpowiedzieć na trzy pytania: (1) co to jest i jak działa, (2) ile to naprawdę kosztuje w energii i w pieniądzach, (3) czy ma sens dla off-grid i kiedy warto wrócić do tematu. To nie jest lista zadań (od tego jest `docs/lista-do-zrobienia.md`) ani decyzja o zakresie (od tego `rejestr-decyzji.md`); wpis tutaj niczego nie obiecuje użytkownikowi.
 
-Dział powstał jako nowy plik, bo w repo nie było wcześniej rozdziału o takiej nazwie: `backlog-poza-v1.md` zbiera odłożone ekrany i obszary produktu, a nie oceny cudzych technologii. Wskaźnik do tego pliku dopisano w backlogu.
+Dział powstał jako nowy plik, bo w repo nie było wcześniej rozdziału o takiej nazwie: `backlog-poza-v1.md` zbiera odłożone ekrany i obszary produktu, a nie oceny cudzych technologii. Wskaźnik do tego pliku dopisano w backlogu. **Publikacja w aplikacji (od 3.50.0):** każdy wpis ma krótką wersję w zakładce „Perspektywy” w pasku górnym pulpitu (`app/perspektywy`, dane `lib/perspektywy/wpisy.ts`, teksty `lib/i18n/ui/perspektywy.ts` w PL/EN/RU); pełny rachunek i luki zostają tutaj.
 
 ## Zasady wpisu
 
@@ -24,7 +24,7 @@ Dział powstał jako nowy plik, bo w repo nie było wcześniej rozdziału o taki
 
 ## P-001 — Aircela: benzyna syntetyczna z powietrza (e-paliwo w skrzynce)
 
-**Data oceny:** 03.11.2026. **Ocena skrótowo:** technicznie wykonalne (każdy etap jest znaną technologią), ale dla użytkownika off-grid w Polsce **nie ma sensu ekonomicznego ani energetycznego** — jeden egzemplarz potrzebuje ok. 3 kW ciągłej mocy (26–29 kWp paneli przy średniorocznym uzysku), żeby dać około 1,4 tys. litrów paliwa rocznie, a paliwo wychodzi o kilkanaście do kilkudziesięciu procent drożej niż na stacji, nawet przy bardzo tanim prądzie z PV (0,20 zł/kWh). Status: **obserwować, nie budować**.
+**Data oceny:** 03.11.2026. **Ocena skrótowo:** technicznie wykonalne (każdy etap jest znaną technologią), ale dla użytkownika off-grid w Polsce **nie ma sensu ekonomicznego ani energetycznego** — jeden egzemplarz potrzebuje ok. 3 kW ciągłej mocy (26–29 kWp paneli przy średniorocznym uzysku), żeby dać około 1,4 tys. litrów paliwa rocznie, a paliwo wychodzi o kilkanaście do kilkudziesięciu procent drożej niż na stacji, nawet przy bardzo tanim prądzie z PV (0,20 zł/kWh). Status: **obserwować, nie budować**. Rynki Norwegii i Holandii (sekcja 5a): Norwegia na granicy opłacalności, Holandia tylko przy nadwyżkowym prądzie.
 
 ### 1. Co to jest
 
@@ -112,6 +112,28 @@ Deklaracja Aircela (1,50 USD/gal) odpowiada ok. 0,02 USD/kWh, czyli ok. 0,07 zł
 
 **Cena na stacji w Polsce (✅):** prognoza BM Reflex na 5–9 października 2026: Pb95 średnio 6,85 zł/l; odczyt e-petrol z 5 sierpnia 2026: 7,55 zł/l ([strefainwestorow.pl](https://strefainwestorow.pl/wiadomosci/20261002/co-dalej-z-cenami-paliw-sa-nowe-prognozy-analitykow), [autocentrum.pl](https://www.autocentrum.pl/publikacje/eksploatacja-auta/aktualizacja-cen-paliw-5-08-2026-ile-dzis-kosztuje-paliwo/); z wyniku wyszukiwania, nie otwierałem). Cena na stacji zawiera podatki; jak potraktowano by paliwo wytworzone u siebie (akcyza, rejestracja wytwórcy), **nie sprawdzałem** — to osobne pytanie prawne.
 
+### 5a. Rynki: Norwegia i Holandia (dopisane 03.11.2026 po uwadze właściciela: „w Polsce się nie opłaca, w Holandii czy Norwegii przy obecnych cenach już tak”)
+
+**Metoda (🧮):** zamiast zgadywać, liczymy **próg** — cenę energii elektrycznej, przy której litr z maszyny kosztuje tyle, co na stacji. Próg = (cena na stacji − amortyzacja urządzenia na litr) / (kWh na litr).
+
+**Założenia (❓):** urządzenie 15–20 tys. USD służy 10 lat i pracuje 90% czasu (daje 4,5–6,1 USD/gal, czyli 1,21–1,61 USD/l); kurs 0,92 €/USD (czyli 1,11–1,48 €/l) oraz 4,0 zł/€ — kursów nie sprawdzałem w tej sesji; energia 19,8 kWh/l (75 kWh/gal, wariant optymistyczny) albo 26,4 kWh/l (100 kWh/gal, realistyczny); bez serwisu, sorbentu, wymiany stosu elektrolizera, opłat sieciowych i bez podatków od paliwa własnej produkcji.
+
+**Ceny na stacji (✅, EU Weekly Oil Bulletin przez [fuel-prices.eu](https://www.fuel-prices.eu/Netherlands/26-10-2026/), średnia krajowa tygodnia, nie cena z konkretnej stacji):** Holandia 2,313 €/l (tydzień 26.10.2026; 12.10.2026 było 2,462 €/l), Norwegia 2,424 €/l ([tydzień 1.09.2026](https://www.fuel-prices.eu/Norway/26-10-2026/), strona oznaczona jako nieświeża; jej przeliczenie na NOK jest niespójne, więc go nie używam), Polska 6,85–7,55 zł/l, czyli ok. 1,7–1,9 €/l po założonym kursie.
+
+**Wynik — próg energii, poniżej którego maszyna wychodzi na zero względem stacji:**
+
+| Rynek | Próg (wariant pesymistyczny – optymistyczny) | Realna cena energii | Wniosek |
+|---|---|---|---|
+| Polska | ok. 0,01–0,04 €/kWh (0,03–0,16 zł/kWh) | prąd z PV z magazynem wyraźnie wyżej | nie opłaca się |
+| Norwegia | ok. 0,036–0,066 €/kWh | cena stała Norgespris 0,40 NOK/kWh bez VAT (ok. 0,037 €/kWh po 10,8 NOK/€) — samo paliwo prądowe, bez opłat sieciowych | na granicy: koszt bliski stacji, bez zysku |
+| Holandia | ok. 0,031–0,061 €/kWh | prąd domowy 0,24–0,28 €/kWh (4–8 razy za drogo); hurt dzienny od ok. 0,03 do ok. 0,17 €/kWh zależnie od godziny | tylko w godzinach z hurtem poniżej progu |
+
+Obliczenie progu: Norwegia (2,424 − 1,11)/19,8 = 0,066 i (2,424 − 1,48)/26,4 = 0,036; Holandia (2,313 − 1,11)/19,8 = 0,061 i (2,313 − 1,48)/26,4 = 0,031; Polska (1,7 − 1,48)/26,4 ≈ 0,01 i (1,9 − 1,11)/19,8 = 0,04.
+
+**Co z tego wynika:** uwaga właściciela jest **częściowo potwierdzona**. W Norwegii przy stałej cenie energii wodnej maszyna jest na granicy opłacalności (nie z zyskiem). W Holandii wychodzi tylko wtedy, gdy ktoś ma prąd po cenie poniżej ok. 0,03–0,06 €/kWh, a to zdarza się w wybranych godzinach hurtu (nadwyżki PV), nie w rachunku domowym. Praca tylko przez część doby podnosi amortyzację na litr (np. przy 50% czasu pracy: 2,0–2,7 €/l samej amortyzacji, więcej niż cena na stacji), więc maszyna na prądzie „tylko z nadwyżek” nie zamyka rachunku. Żeby uzasadnić wniosek „w Holandii się opłaca”, potrzebne są założenia, których tu nie ma: np. własna elektrownia PV z bardzo niskim kosztem energii i dużym buforem albo umowa na prąd po cenie hurtowej przez całą dobę. **Do wyjaśnienia z właścicielem:** na jakiej cenie prądu i jakim uzysku opiera się wniosek o Holandii i Norwegii.
+
+**Luki tej sekcji:** ceny prądu to wyniki wyszukiwania ([Keuze.nl](https://www.keuze.nl/en/energy/electricity-price), [Fjordkraft](https://www.fjordkraft.no/strom/stromregning/nettleie-strom/norgespris-english/)) i pojedyncze dni z euenergy.live, nie średnie roczne z CBS/ACM/NVE/Nord Pool; nie sprawdzono limitu zużycia Norgespris ani opłat sieciowych w obu krajach; nie sprawdzono podatków od paliwa własnej produkcji (w Norwegii akcyza na benzynę to według budżetu 2026 ok. 8,05 NOK/l plus 25% VAT — jeśli paliwo własne byłoby od niej wolne, rachunek się poprawia).
+
 ### 6. Porównanie z alternatywami
 
 **A. Samochód:** zakładając spalanie 7 l/100 km (❓) benzyna syntetyczna z tej maszyny kosztuje w energii 139 kWh/100 km przy 75 kWh/gal i 185 kWh/100 km przy 100 kWh/gal. Samochód elektryczny zużywa ok. 18 kWh/100 km (❓ typowa wartość; do sprawdzenia dla konkretnego modelu), czyli **7,7–10 razy mniej**. Dlatego każdy, kto może jeździć na prąd, wygrywa wielokrotnie; sens e-paliwa dotyczy tylko zastosowań bez alternatywy elektrycznej (lotnictwo, statki, istniejące maszyny).
@@ -132,7 +154,7 @@ Deklaracja Aircela (1,50 USD/gal) odpowiada ok. 0,02 USD/kWh, czyli ok. 0,07 zł
 
 ### 8. Sens dla Offgrid (apki)
 
-**Dziś: brak.** Nie dodajemy ekranu ani wzorów; nie obiecujemy użytkownikowi tej technologii. Gdyby użytkownik zapytał w narzędziu AI, odpowiedź powinna wynikać z powyższych liczb (ze wskazaniem, że to szacunek 🧮 oparty na założeniach), a nie z reklamy.
+**Dziś: brak jako kalkulator.** Wpis jest publikowany jako ciekawostka w zakładce „Perspektywy” aplikacji (`/perspektywy`, wersja 3.50.0); nie dodajemy kalkulatora ani wzorów; nie obiecujemy użytkownikowi tej technologii. Gdyby użytkownik zapytał w narzędziu AI, odpowiedź powinna wynikać z powyższych liczb (ze wskazaniem, że to szacunek 🧮 oparty na założeniach), a nie z reklamy.
 
 **Co z tego zostaje użyteczne w apce:** pytanie „czy magazynować sezonowo” sprowadza się dziś do trzech dróg (więcej paneli + pojemność akumulatora, agregat na paliwo kupowane, zimowe ogrzewanie z innego źródła). Ten rachunek istnieje w aplikacji w kalkulatorach modułu 7 i w modułach o agregacie; liczby z sekcji 6 B/C można w przyszłości zamienić na „Kalkulator e-paliwa (perspektywa)” w trybie szacunku 🔎 (status `ESTIMATE`, D94) — ale tylko po spełnieniu kryteriów z sekcji 9. Wpis na listę zadań ma niski priorytet (patrz `docs/lista-do-zrobienia.md`).
 
@@ -142,7 +164,7 @@ Deklaracja Aircela (1,50 USD/gal) odpowiada ok. 0,02 USD/kWh, czyli ok. 0,07 zł
 2. Cena urządzenia spadnie poniżej ok. 1/3 obecnego celu **albo** pojawi się model dzierżawy lub współdzielenia na wiele gospodarstw (wtedy kosztuje 1/3 zamiast całości).
 3. Urządzenie będzie sprzedawane w UE z deklaracją zgodności, a nie tylko w wybranych stanach USA.
 4. Otworzy się jasna ścieżka prawna dla paliwa wytwarzanego u siebie (akcyza, wytwórca paliwa).
-5. Rynkowa cena paliwa w Polsce wzrośnie w sposób trwały powyżej ok. 10 zł/l (przy obecnych założeniach wtedy rachunek się zbliża).
+5. Rynkowa cena paliwa w Polsce wzrośnie w sposób trwały powyżej ok. 10 zł/l (przy obecnych założeniach wtedy rachunek się zbliża). Dla Norwegii i Holandii: potwierdzona cena energii poniżej progu z sekcji 5a przez całą dobę (np. umowa lub własna elektrownia), plus ujęte opłaty sieciowe i podatki.
 
 ### 10. Luki i niezweryfikowane
 
@@ -163,6 +185,7 @@ Deklaracja Aircela (1,50 USD/gal) odpowiada ok. 0,02 USD/kWh, czyli ok. 0,07 zł
 - [Aircela](https://www.aircela.com) (strona główna: tylko opis, bez liczb)
 - [DOE AFDC — Fuel properties](https://afdc.energy.gov/fuels/properties) (energia paliwa w Btu/gal)
 - Przeglądy DAC i elektrolizerów: wyniki wyszukiwania (Coal Science and Technology 2023; An i in. 2023; Frontiers in Sustainability 2023; BNEF 2025 przez blog producenta; NREL 2017) — tylko streszczenia, patrz sekcja 10.
+- Rynki NO/NL: [fuel-prices.eu NL](https://www.fuel-prices.eu/Netherlands/26-10-2026/), [fuel-prices.eu NO](https://www.fuel-prices.eu/Norway/26-10-2026/), [Keuze.nl](https://www.keuze.nl/en/energy/electricity-price), [Fjordkraft — Norgespris](https://www.fjordkraft.no/strom/stromregning/nettleie-strom/norgespris-english/), [Storting — akcyza 2026](https://www.stortinget.no/globalassets/pdf/dokumentserien/2025-2026/dok15-202526-0478-vedlegg.pdf) (ceny energii: streszczenia wyszukiwań, patrz 5a).
 - [inzynierbudownictwa.pl — uzysk PV w Polsce](https://inzynierbudownictwa.pl/?p=37592); ceny paliw: [strefainwestorow.pl](https://strefainwestorow.pl/wiadomosci/20261002/co-dalej-z-cenami-paliw-sa-nowe-prognozy-analitykow), [autocentrum.pl](https://www.autocentrum.pl/publikacje/eksploatacja-auta/aktualizacja-cen-paliw-5-08-2026-ile-dzis-kosztuje-paliwo/).
 
 ---
@@ -172,3 +195,4 @@ Deklaracja Aircela (1,50 USD/gal) odpowiada ok. 0,02 USD/kWh, czyli ok. 0,07 zł
 | Data | Zmiana |
 |---|---|
 | 03.11.2026 | Utworzono rozdział; wpis P-001 (Aircela). |
+| 03.11.2026 | P-001: sekcja 5a (Norwegia, Holandia — próg opłacalności) po uwadze właściciela; rozdział opublikowany w aplikacji jako zakładka „Perspektywy” (`/perspektywy`). |

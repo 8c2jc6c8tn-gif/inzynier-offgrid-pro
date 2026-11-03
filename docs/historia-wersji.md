@@ -2,11 +2,11 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
-## [3.49.1] — 03.11.2026
+## [3.50.0] — 03.11.2026
 
-Tylko dokumentacja: nowy rozdział `docs/perspektywy-projektow.md` (rejestr technologii i patentów do obserwowania, z oznaczeniem pochodzenia każdej liczby) z pierwszym wpisem P-001 — Aircela (benzyna syntetyczna z powietrza): opis łańcucha DAC, elektroliza, metanol, MTG, bilans masy i energii na galon, koszt za litr i koszt urządzenia przy cenach prądu z PV, porównanie z benzyną, samochodem elektrycznym i agregatem, ocena realności i kryteria powrotu. Wskaźnik w `backlog-poza-v1.md` (1.7→1.8), wpis na `docs/lista-do-zrobienia.md`, wpis w `docs/memory.md` i w `docs/wklad-do-standardu.md`. Kod bez zmian.
+Nowa zakładka „Perspektywy” w pasku górnym pulpitu (`/perspektywy`): ciekawostki o technologiach i patentach, każda z rachunkiem energii i kosztu, oceną realności i podziałem na „sprawdzone” i „deklaracja producenta”. Pierwszy wpis: Aircela, benzyna syntetyczna z powietrza (`/perspektywy/aircela`, PL/EN/RU): jak działa, bilans energii na galon (ok. 73–94 kWh, realnie 85–100), próg opłacalności dla Polski, Norwegii i Holandii (Norwegia na granicy, Holandia tylko przy nadwyżkowym prądzie, Polska nie), sens dla off-grid. Nowe wpisy dodaje się danymi (`lib/perspektywy/wpisy.ts`) i kluczami tłumaczeń. Pełny rachunek, założenia i luki: nowy rozdział `docs/perspektywy-projektow.md` (wpis P-001); wskaźnik w `backlog-poza-v1.md` (1.7→1.8), wpisy w `docs/lista-do-zrobienia.md`, `docs/memory.md`, `docs/wklad-do-standardu.md`, `docs/rejestr-pokrycia.md`. Silniki i kalkulatory bez zmian.
 
-Wpływ na liczby: brak.
+Wpływ na liczby: brak (strony informacyjne, nie zmieniają żadnego wyniku ani zapisu użytkownika).
 
 ## [3.49.0] — 29.10.2026
 
