@@ -1284,3 +1284,11 @@ Dlaczego warto zgłosić do new-app-standards: lekcja uogólnia się na każde s
 
 Status: 🔎 nowe
 
+
+## [03.11.2026] Rejestr „perspektyw” cudzych technologii: każda liczba z oznaczeniem pochodzenia i kryteriami powrotu
+
+**Problem:** w projektach rodziny regularnie pojawia się „rewolucyjna technologia” z rolki lub artykułu (tu: urządzenie wytwarzające benzynę z powietrza). Bez wspólnego miejsca ocena ginie w rozmowie, a gdy wraca, liczy się ją od nowa; w mediach liczby producenta (cele, deklaracje) mieszają się z pomiarami, a galony z litrami (galon amerykański 3,785 l, imperialny 4,55 l) rozjeżdżają wynik o 20%.
+**Rozwiązanie:** osobny plik `docs/perspektywy-projektow.md` z szablonem wpisu (opis procesu → deklaracje producenta → bilans masy i energii → koszt za jednostkę → porównanie z alternatywami → realność → sens dla apki → kryteria powrotu → luki) i obowiązkowym oznaczeniem każdej liczby: źródło odczytane / deklaracja producenta / wyliczenie własne / założenie / wiedza ogólna. Rachunek najpierw od dołu (stechiometria i fizyka), dopiero potem porównanie z deklaracją — pokazuje, czy deklaracja leży w zakresie, czy na jego skraju.
+Dlaczego warto zgłosić do new-app-standards: każda apka rodziny dostaje takie pytania od użytkowników, a oznaczenie pochodzenia liczby jest tym samym mechanizmem co status obliczenia (`ESTIMATE`) w kodzie, tylko dla dokumentacji.
+
+Status: 🔎 nowe

@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.49.1] — 03.11.2026
+
+Tylko dokumentacja: nowy rozdział `docs/perspektywy-projektow.md` (rejestr technologii i patentów do obserwowania, z oznaczeniem pochodzenia każdej liczby) z pierwszym wpisem P-001 — Aircela (benzyna syntetyczna z powietrza): opis łańcucha DAC, elektroliza, metanol, MTG, bilans masy i energii na galon, koszt za litr i koszt urządzenia przy cenach prądu z PV, porównanie z benzyną, samochodem elektrycznym i agregatem, ocena realności i kryteria powrotu. Wskaźnik w `backlog-poza-v1.md` (1.7→1.8), wpis na `docs/lista-do-zrobienia.md`, wpis w `docs/memory.md` i w `docs/wklad-do-standardu.md`. Kod bez zmian.
+
+Wpływ na liczby: brak.
+
 ## [3.49.0] — 29.10.2026
 
 Tryb mikroinstalacji O4 (decyzja właściciela 29.10.2026: ukrywanie tylko dla kampera): gdy rodzaj obiektu w Ustawieniach to „Kamper lub przyczepa”, listy modułów 1 i 8 nie pokazują czterech ekranów o budynku (Bryła budynku i orientacja ścian, Klapy pożarowe, Zamki drzwi ewakuacyjnych, Oświetlenie awaryjne), a ekran „Ile paneli potrzebujesz” chowa pole dodatkowego zużycia w sezonie grzewczym z miesiącami, ekran „Ochrona przeciwprzepięciowa SPD” — trzy pola o piorunochronie budynku. Pod listą i pod formularzem stoi jedno zdanie z odnośnikiem do Ustawień. Ekrany nie są zablokowane: otwierają się z odnośników na innych ekranach i z adresu. Altana, ROD, garaż, budynek i brak wyboru działają jak dotąd. Silniki bez zmian.
