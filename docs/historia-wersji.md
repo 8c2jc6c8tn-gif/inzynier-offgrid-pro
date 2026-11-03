@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.49.1] — 03.11.2026
+
+Aktualizacja zależności po audycie bezpieczeństwa (bramka CI 11.5 była czerwona): `next` 16.3.8 → 16.4.5 (łatka dwóch podatności krytycznych — zdalne wykonanie kodu w optymalizacji obrazów z SVG i w funkcjach `use cache` — oraz jednej wysokiej, DoS w Server Actions; wersje 16.4.2–16.4.5 dokładają jeszcze poprawki cache i obrazów SVG), `eslint-config-next` zgodnie z `next`, `zod` 4.6.5 → 4.6.7 (łatka wysokiej podatności: wyczerpanie pamięci przy walidacji zbyt dużych kolekcji z ograniczeniami; 4.6.6 niesie poprawkę), `shadcn` 4.21.0 → 4.23.0 (usuwa drugą, starą kopię `zod` 3.25 sprowadzaną przez zależność narzędziową, którą bramka też zaliczała do podatnych). Bez zmian w kodzie aplikacji. Lint, typecheck, strażniki, 4134 testy, build i E2E (9/9) zielone, `pnpm audit:gate` zielony.
+
+Wpływ na liczby: brak.
+
 ## [3.49.0] — 29.10.2026
 
 Tryb mikroinstalacji O4 (decyzja właściciela 29.10.2026: ukrywanie tylko dla kampera): gdy rodzaj obiektu w Ustawieniach to „Kamper lub przyczepa”, listy modułów 1 i 8 nie pokazują czterech ekranów o budynku (Bryła budynku i orientacja ścian, Klapy pożarowe, Zamki drzwi ewakuacyjnych, Oświetlenie awaryjne), a ekran „Ile paneli potrzebujesz” chowa pole dodatkowego zużycia w sezonie grzewczym z miesiącami, ekran „Ochrona przeciwprzepięciowa SPD” — trzy pola o piorunochronie budynku. Pod listą i pod formularzem stoi jedno zdanie z odnośnikiem do Ustawień. Ekrany nie są zablokowane: otwierają się z odnośników na innych ekranach i z adresu. Altana, ROD, garaż, budynek i brak wyboru działają jak dotąd. Silniki bez zmian.
