@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next"
 import { headers } from "next/headers"
 import { negocjujJezyk } from "@/lib/i18n/language"
 import { t } from "@/lib/i18n/t"
+import { zaladujJezyk } from "@/lib/i18n/rejestr-slownikow"
 
 /**
  * Next.js Metadata File convention — generuje /manifest.webmanifest, link w <head> dołączany
@@ -10,6 +11,7 @@ import { t } from "@/lib/i18n/t"
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
   // Name/description per Accept-Language (reading headers makes the route dynamic, not cached).
   const jezyk = negocjujJezyk((await headers()).get("accept-language"))
+  await zaladujJezyk(jezyk)
   return {
     lang: jezyk,
     name: t(jezyk, "UI-META-NAZWA"),

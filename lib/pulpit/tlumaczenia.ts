@@ -5,7 +5,7 @@
  * `lib/i18n/ui/pulpit-rejestr.ts` (a test generated from the registry fails when one is missing).
  * A screen key is scoped by the tile: the same href appears in several tiles under different labels.
  */
-import { dictionaries } from "@/lib/i18n/dictionaries"
+import { slownik } from "@/lib/i18n/rejestr-slownikow"
 import type { Language } from "@/lib/i18n/language"
 
 export function kluczKafelNazwa(kafelId: number): string {
@@ -23,5 +23,5 @@ export function kluczEkranu(kafelId: number, href: string): string {
 
 /** Text under `klucz` in the language; the Polish registry text when the key is not defined (never empty). */
 export function tekstRejestru(language: Language, klucz: string, fallbackPl: string): string {
-  return dictionaries[language][klucz] ?? fallbackPl
+  return slownik(language)?.[klucz] ?? fallbackPl
 }

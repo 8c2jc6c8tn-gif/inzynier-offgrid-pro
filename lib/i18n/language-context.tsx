@@ -7,24 +7,52 @@
  * kontekst tylko udostępnia rozwiązaną wartość przez Reacta, żeby `useTranslate()`/`useLanguage()`
  * nie musiały wywoływać `useSyncExternalStore` w każdym z ~130 miejsc użycia.
  */
-import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react"
+import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react"
 import { DEFAULT_LANGUAGE, type Language } from "./language"
 import { getServerSnapshot, getSnapshot, subscribe } from "./storage"
 import { formatujLiczbe } from "./liczby"
 import { t } from "./t"
+import { czyZaladowany, subskrybujSlowniki, zaladujJezyk } from "./rejestr-slownikow"
 import { kursEfektywny, symbolWaluty } from "@/lib/waluta/przelicz"
 import { getServerSnapshot as walutaServer, getSnapshot as walutaSnapshot, subscribe as walutaSubscribe } from "@/lib/waluta/storage"
 import { WALUTA_BAZOWA } from "@/lib/waluta/waluty"
 
 const LanguageContext = createContext<Language>(DEFAULT_LANGUAGE)
+const WybranyJezykContext = createContext<Language>(DEFAULT_LANGUAGE)
 
+// Start fetching the stored language's dictionary as soon as the client bundle runs — before hydration and the first
+// effect — so a non-Polish user waits as little as possible on the Polish texts.
+if (typeof window !== "undefined") void zaladujJezyk(getSnapshot())
+
+/**
+ * `useLanguage()` is the language the texts are shown in: the chosen one once its dictionary (a lazy chunk, except
+ * Polish) has arrived, Polish until then. `useWybranyJezyk()` is the choice itself (the language switcher shows it).
+ */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
-  return <LanguageContext.Provider value={language}>{children}</LanguageContext.Provider>
+  const wybrany = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const gotowy = useSyncExternalStore(
+    subskrybujSlowniki,
+    () => czyZaladowany(wybrany),
+    () => true, // the server and the hydration pass render the default (Polish) texts
+  )
+  useEffect(() => {
+    void zaladujJezyk(wybrany)
+  }, [wybrany])
+  const wyswietlany = gotowy ? wybrany : DEFAULT_LANGUAGE
+  return (
+    <WybranyJezykContext.Provider value={wybrany}>
+      <LanguageContext.Provider value={wyswietlany}>{children}</LanguageContext.Provider>
+    </WybranyJezykContext.Provider>
+  )
 }
 
 export function useLanguage(): Language {
   return useContext(LanguageContext)
+}
+
+/** The language the user chose, even while its dictionary is still loading (use `useLanguage()` for texts). */
+export function useWybranyJezyk(): Language {
+  return useContext(WybranyJezykContext)
 }
 
 /** Symbol of the currency the user displays money in (PLN when the chosen currency has no known rate yet — same rule as `useZl`). */

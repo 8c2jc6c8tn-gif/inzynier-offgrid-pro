@@ -11,12 +11,33 @@
  * Components nie renderują dziś tłumaczonego tekstu wprost (jedyny taki przypadek,
  * app/kalkulatory/prognozy/page.tsx, został wydzielony do Client Component, docs/memory.md).
  */
-import { dictionaries } from "./dictionaries"
+import { slownik } from "./rejestr-slownikow"
 import { consoleReporter } from "@/lib/core/reporter"
-import type { Language } from "./language"
+import { DEFAULT_LANGUAGE, type Language } from "./language"
+
+const zgloszoneNiezaladowane = new Set<Language>()
+
+/**
+ * Dictionary used for `language`. English and Russian are lazy chunks (`rejestr-slownikow.ts`): `LanguageProvider`
+ * makes the UI wait for them, and server code awaits `zaladujJezyk`. A call before that is a bug in the caller — reported
+ * once per language, and answered with the Polish text so the user never sees a wall of `⚠ [KEY]`.
+ */
+function slownikDla(language: Language): Record<string, string> {
+  const gotowy = slownik(language)
+  if (gotowy) return gotowy
+  if (!zgloszoneNiezaladowane.has(language)) {
+    zgloszoneNiezaladowane.add(language)
+    consoleReporter.reportError({
+      userMessage: "Tłumaczenia jeszcze się wczytują — pokazany język polski.",
+      technicalDetails: `t() wywołane dla "${language}" przed wczytaniem słownika (lib/i18n/rejestr-slownikow.ts: zaladujJezyk).`,
+      source: "lib/i18n/t",
+    })
+  }
+  return slownik(DEFAULT_LANGUAGE)!
+}
 
 export function t(language: Language, kod: string, params?: Record<string, string | number>): string {
-  const szablon = dictionaries[language][kod]
+  const szablon = slownikDla(language)[kod]
   if (szablon === undefined) {
     consoleReporter.reportError({
       userMessage: "Brak tłumaczenia dla części komunikatu.",

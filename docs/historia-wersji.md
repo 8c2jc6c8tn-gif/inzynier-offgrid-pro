@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.52.3] — 04.11.2026
+
+Wydajność (bez zmiany funkcji), krok B: słowniki silnika w języku angielskim (≈ 103 KB po kompresji) i rosyjskim (≈ 129 KB) nie są już we wspólnym pakiecie każdej strony — to osobne kawałki ładowane, gdy język użytkownika ich potrzebuje; polski (domyślny, to on jest w HTML z serwera) zostaje we wspólnym pakiecie. `t()` pozostaje synchroniczne: `LanguageProvider` pokazuje polski, dopóki słownik wybranego języka nie dotrze (ładowanie rusza już przy starcie pakietu, a po pierwszej wizycie kawałki są w prekeszu Service Workera), a kod serwerowy (metadane strony i manifest) czeka na słownik przez `zaladujJezyk`. Przełącznik języka pokazuje wybór użytkownika także w trakcie ładowania. Test E2E sprawdza przełączenie PL → EN → RU → PL przy zatrzymanym serwerze oraz po przeładowaniu. Teksty ekranów (`lib/i18n/ui/*.ts`, ≈ 624 KB po kompresji w trzech językach) zostają na razie we wspólnym pakiecie, bo każdy plik trzyma `pl`, `en` i `ru` razem, a bundler nie rozdziela pliku na eksporty (sprawdzone, w tym z `sideEffects: false`); rozdzielenie ich wymaga podziału plików per język i czeka na decyzję właściciela (lista zadań).
+
+Wpływ na liczby: brak.
+
 ## [3.52.2] — 04.11.2026
 
 Wydajność (bez zmiany funkcji): treści „?” przy polach i „i” przy tytułach ekranów (≈ 662 KB po kompresji, trzy języki, wszystkie ekrany) przestały być częścią wspólnego pakietu każdej strony. Każdy plik modułu pomocy (`lib/i18n/pomoc/*.ts`) jest teraz osobnym kawałkiem ładowanym w chwili otwarcia ekranu, który z niego korzysta; do tego czasu przycisk „?”/„i” jest już na miejscu z neutralną etykietą, więc układ się nie przesuwa. Mapa „ekran → plik modułu” (`lib/i18n/pomoc/ladowanie.ts`) jest generowana (`pnpm pomoc:napraw`) i sprawdzana w `pnpm check:i18n-guard` oraz w teście, więc nie da się dodać ekranu pomocy bez wpisu w mapie. Kawałki są w prekeszu Service Workera (całe `.next/static`), a nowy test E2E sprawdza, że „?” działa offline przy zatrzymanym serwerze. Zostaje wspólny pakiet słowników ≈ 957 KB gz (krok B na liście zadań, czeka na decyzję właściciela).
