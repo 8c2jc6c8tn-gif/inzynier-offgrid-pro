@@ -83,7 +83,7 @@ Stan kodu: gałąź `claude/aktualizacja-standardu-18-10` na `main` @ `b8e85f4c`
 
 ## Przebieg 4 — 04.11.2026 (na żądanie właściciela: „sprawdź także zgodność ze standardami”)
 
-Stan kodu: `main` @ `39c4733a` (3.50.0) + PR #351 (3.51.0). Pozycje 1–11 ponowione od nowa. Rejestr świadomych wyjątków — pusty. `new-app-standards` niedostępne w tej sesji (repozytorium poza zakresem dostępu), więc pozycja 4 tylko lokalnie. Kodu poza opisanym w historii wersji nie zmieniano (Y.11).
+Stan kodu: `main` @ `39c4733a` (3.50.0) + PR #351 (3.52.0). Pozycje 1–11 ponowione od nowa. Rejestr świadomych wyjątków — pusty. `new-app-standards` niedostępne w tej sesji (repozytorium poza zakresem dostępu), więc pozycja 4 tylko lokalnie. Kodu poza opisanym w historii wersji nie zmieniano (Y.11).
 
 | # | Reguła | Wynik | Dowód (odtwarzalny) |
 |---|---|---|---|

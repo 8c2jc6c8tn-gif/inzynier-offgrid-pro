@@ -2,11 +2,23 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
-## [3.51.0] — 04.11.2026
+## [3.52.0] — 04.11.2026
 
-Przegląd jakości całego repozytorium (bez nowych funkcji) i uzgodnienie wersji silnika. Silnik doboru źródeł zasilania (`ai/dobor-zrodel-zasilania`) dostaje wersję 1.1.0: od 3.47.0 jego wynik w mrozie jest inny (blokada 0 A poniżej 0 °C zamiast 0,1C dla −10…0 °C, bo korzysta z `baterie/cold-c-rate` 1.1.0), a oznaczenie wersji zostało wtedy na 1.0.0 (decyzja właściciela 04.11.2026; wg `docs/wersjonowanie.md` pkt 5 zmiana drugiej cyfry silnika wymusza drugą cyfrę programu, stąd 3.51.0). Poza tym: poprawiony nieaktualny komentarz tego silnika (mówił jeszcze o blokadzie poniżej −10 °C i 0,1C), pięć ostrzeżeń lintu `no-img-element` zamknięte komentarzem z uzasadnieniem (`images.unoptimized` jest włączone, więc `next/image` nic by nie dał; obrazy dekoracyjne ze statycznych plików), poprawiony odsyłacz w nagłówku listy zadań (wskazywał nieistniejący plik GOD BOOK v2_39), adnotacja przy wierszu INFRA-1 w rejestrze pokrycia, przeliczona „Mapa wdrożenia” (275 z 312 pozycji), uzupełniony akapit o synchronizacji standardu w `CLAUDE.md` i nowy przebieg 4 audytu zgodności Y.11 (`docs/audyt-zgodnosci-kodu.md`: brak nowych naruszeń). Lint (0 ostrzeżeń), typecheck, strażniki i testy zielone.
+Przegląd jakości całego repozytorium (bez nowych funkcji) i uzgodnienie wersji silnika. Silnik doboru źródeł zasilania (`ai/dobor-zrodel-zasilania`) dostaje wersję 1.1.0: od 3.47.0 jego wynik w mrozie jest inny (blokada 0 A poniżej 0 °C zamiast 0,1C dla −10…0 °C, bo korzysta z `baterie/cold-c-rate` 1.1.0), a oznaczenie wersji zostało wtedy na 1.0.0 (decyzja właściciela 04.11.2026; wg `docs/wersjonowanie.md` pkt 5 zmiana drugiej cyfry silnika wymusza drugą cyfrę programu, stąd 3.52.0). Poza tym: poprawiony nieaktualny komentarz tego silnika (mówił jeszcze o blokadzie poniżej −10 °C i 0,1C), pięć ostrzeżeń lintu `no-img-element` zamknięte komentarzem z uzasadnieniem (`images.unoptimized` jest włączone, więc `next/image` nic by nie dał; obrazy dekoracyjne ze statycznych plików), poprawiony odsyłacz w nagłówku listy zadań (wskazywał nieistniejący plik GOD BOOK v2_39), adnotacja przy wierszu INFRA-1 w rejestrze pokrycia, przeliczona „Mapa wdrożenia” (275 z 312 pozycji), uzupełniony akapit o synchronizacji standardu w `CLAUDE.md` i nowy przebieg 4 audytu zgodności Y.11 (`docs/audyt-zgodnosci-kodu.md`: brak nowych naruszeń). Lint (0 ostrzeżeń), typecheck, strażniki i testy zielone.
 
 Wpływ na liczby: brak zmiany liczb. Zmienia się tylko oznaczenie wersji silnika doboru źródeł zasilania na wydrukach i w zapisanych wynikach (1.0.0 → 1.1.0); wyniki z wersji 3.47.0 i nowszych były już liczone według nowej reguły mrozu.
+
+## [3.51.0] — 04.11.2026
+
+Nowy ekran „Tor słońca i energia PV godzina po godzinie” (`/kalkulatory/tor-slonca`, Moduł 3): łuki słońca dla 21 czerwca, 23 września, 21 grudnia i 15. dnia wybranego miesiąca, suwak godziny z animacją, wschód, zachód i górowanie, energia PV godzina po godzinie (typowy dzień miesiąca z danych PVGIS oraz dzień przy czystym niebie) i średnia doba w każdym miesiącu. Silnik `pv/tor-slonca` (29 testów) korzysta z istniejących obliczeń pozycji słońca i nasłonecznienia płaszczyzny; wykresy są w SVG i działają offline. Narzędzie AI `tor_slonca_i_energia_pv`. Etap 1 oceny `docs/tor-slonca-ar-ocena.md`; horyzont ze zdjęcia i AR to Etapy 2–3.
+
+Wpływ na liczby: brak dla istniejących ekranów (nowy ekran i nowy silnik, nic nie zmienia w obliczeniach innych modułów ani w zapisach).
+
+## [3.50.1] — 04.11.2026
+
+Dokumentacja (bez kodu): ocena wykonalności „Tor słońca z nakładką PV, horyzont ze zdjęcia/drona i AR na żywo” (`docs/tor-slonca-ar-ocena.md`), wpis na liście zadań, krótki wpis P-002 w perspektywach i notatka w `docs/memory.md`.
+
+Wpływ na liczby: brak.
 
 ## [3.50.0] — 03.11.2026
 
