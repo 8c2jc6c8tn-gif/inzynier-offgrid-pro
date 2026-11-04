@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.51.0] — 04.11.2026
+
+Nowy ekran „Tor słońca i energia PV godzina po godzinie” (`/kalkulatory/tor-slonca`, Moduł 3): łuki słońca dla 21 czerwca, 23 września, 21 grudnia i 15. dnia wybranego miesiąca, suwak godziny z animacją, wschód, zachód i górowanie, energia PV godzina po godzinie (typowy dzień miesiąca z danych PVGIS oraz dzień przy czystym niebie) i średnia doba w każdym miesiącu. Silnik `pv/tor-slonca` (29 testów) korzysta z istniejących obliczeń pozycji słońca i nasłonecznienia płaszczyzny; wykresy są w SVG i działają offline. Narzędzie AI `tor_slonca_i_energia_pv`. Etap 1 oceny `docs/tor-slonca-ar-ocena.md`; horyzont ze zdjęcia i AR to Etapy 2–3.
+
+Wpływ na liczby: brak dla istniejących ekranów (nowy ekran i nowy silnik, nic nie zmienia w obliczeniach innych modułów ani w zapisach).
+
 ## [3.50.1] — 04.11.2026
 
 Dokumentacja (bez kodu): ocena wykonalności „Tor słońca z nakładką PV, horyzont ze zdjęcia/drona i AR na żywo” (`docs/tor-slonca-ar-ocena.md`), wpis na liście zadań, krótki wpis P-002 w perspektywach i notatka w `docs/memory.md`.

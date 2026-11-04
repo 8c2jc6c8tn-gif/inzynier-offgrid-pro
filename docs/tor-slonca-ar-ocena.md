@@ -1,6 +1,6 @@
 # Tor słońca z nakładką na kamerę/zdjęcie/dron — ocena wykonalności
 
-**Utworzono:** 04.11.2026, na prośbę właściciela (wątek „Dodać ścieżkę słońca z kamerą i PV”) po zrzutach z grupy „Fotowoltaika w Polsce” (widok AR toru słońca na tle domu i lasu). **Status:** ocena i propozycja kolejności, **nic nie zbudowane**; budowa dopiero po zatwierdzeniu planu przez właściciela (sekcja 9). Oznaczenia pochodzenia jak w `docs/perspektywy-projektow.md`: ✅ odczytane w kodzie/źródle w tej sesji · 🧮 wyliczenie własne · ❓ założenie lub szacunek · 🧠 wiedza ogólna, nie sprawdzona w tej sesji (do weryfikacji przed użyciem w kodzie).
+**Utworzono:** 04.11.2026, na prośbę właściciela (wątek „Dodać ścieżkę słońca z kamerą i PV”) po zrzutach z grupy „Fotowoltaika w Polsce” (widok AR toru słońca na tle domu i lasu). **Status:** ocena i propozycja kolejności; właściciel zatwierdził ją 04.11.2026 („Kontynuuj”). **Etap 1 zbudowany** (wersja 3.51.0: ekran `/kalkulatory/tor-slonca`), Etapy 2–3 czekają na pliki z drona i telefony testowe (sekcja 9). Oznaczenia pochodzenia jak w `docs/perspektywy-projektow.md`: ✅ odczytane w kodzie/źródle w tej sesji · 🧮 wyliczenie własne · ❓ założenie lub szacunek · 🧠 wiedza ogólna, nie sprawdzona w tej sesji (do weryfikacji przed użyciem w kodzie).
 
 ## 1. Co to za aplikacja i do czego służy
 
