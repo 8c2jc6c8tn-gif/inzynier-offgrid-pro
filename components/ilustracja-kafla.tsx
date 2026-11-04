@@ -19,11 +19,13 @@ export function IlustracjaKafla({ kafelId, wariant }: { kafelId: number; wariant
   if (wariant === "kafel") {
     return (
       <span className="block aspect-square w-full min-w-(--ikona-min) max-w-(--ikona-kafel) overflow-hidden rounded-md" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative static asset from /public; images.unoptimized is on, so next/image would add nothing */}
         <img src={src} alt="" className={`h-full w-full ${dopasowanie}`} />
       </span>
     )
   }
   return (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative static asset from /public; images.unoptimized is on, so next/image would add nothing
     <img
       src={src}
       alt=""

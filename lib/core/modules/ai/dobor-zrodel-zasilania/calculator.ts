@@ -34,7 +34,7 @@ const PUSTY: DoborZrodelZasilaniaResult = {
  * Moduł 10, Ekran 4 — the executive layer over two Moduł 4 rules (Dyrektywa #8 — echo, no new logic):
  * 12.7 the source now = `hierarchia-ladowania` (M4/E32: PV first, generator below the critical SoC without sun
  * tomorrow, grid on a cheap tariff); 12.8 the charge current = the possible current capped by `cold-c-rate`
- * (M4/E12: blocked below −10 °C, 0,1C / 0,2C in the cold, no source limit above 10 °C and the 5–10 °C gap kept as a
+ * (M4/E12: blocked below 0 °C, 0,2C at 0–5 °C, no source limit above 10 °C and the 5–10 °C gap kept as a
  * gap). 12.9 (shifting tasks to the PV peak) is Ekran 5 `przesuwanie-zadan` — linked, not duplicated here.
  */
 export function calculateDoborZrodelZasilania(input: DoborZrodelZasilaniaInput): CalcResult<DoborZrodelZasilaniaResult> {

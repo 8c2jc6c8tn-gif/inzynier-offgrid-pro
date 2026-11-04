@@ -39,6 +39,7 @@ export function IkonyKafliWybor() {
             checked={stan.ikonyKafli === o.id}
             onChange={() => ustawIkonyKafli(o.id)}
           />
+          {/* eslint-disable-next-line @next/next/no-img-element -- decorative static asset from /public; images.unoptimized is on, so next/image would add nothing */}
           <img
             src={o.podglad}
             alt=""

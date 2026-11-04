@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.49.2] — 04.11.2026
+
+Przegląd jakości całego repozytorium (bez nowych funkcji): poprawiony nieaktualny komentarz w silniku doboru źródeł zasilania (mówił jeszcze o blokadzie poniżej −10 °C i 0,1C, a od 3.47.0 reguła to zakaz od 0 °C i 0,2C dla 0…5 °C — sam kod liczył już dobrze), pięć ostrzeżeń lintu `no-img-element` zamknięte komentarzem z uzasadnieniem (`images.unoptimized` jest włączone, więc `next/image` nic by nie dał; dekoracyjne obrazy ze statycznych plików), poprawiony odsyłacz w nagłówku listy zadań (wskazywał nieistniejący plik GOD BOOK v2_39) i adnotacja przy wierszu INFRA-1 w rejestrze pokrycia. Bez zmian w zachowaniu aplikacji. Lint (0 ostrzeżeń), typecheck, strażniki i testy zielone.
+
+Wpływ na liczby: brak.
+
 ## [3.49.1] — 03.11.2026
 
 Aktualizacja zależności po audycie bezpieczeństwa (bramka CI 11.5 była czerwona): `next` 16.3.8 → 16.4.5 (łatka dwóch podatności krytycznych — zdalne wykonanie kodu w optymalizacji obrazów z SVG i w funkcjach `use cache` — oraz jednej wysokiej, DoS w Server Actions; wersje 16.4.2–16.4.5 dokładają jeszcze poprawki cache i obrazów SVG), `eslint-config-next` zgodnie z `next`, `zod` 4.6.5 → 4.6.7 (łatka wysokiej podatności: wyczerpanie pamięci przy walidacji zbyt dużych kolekcji z ograniczeniami; 4.6.6 niesie poprawkę), `shadcn` 4.21.0 → 4.23.0 (usuwa drugą, starą kopię `zod` 3.25 sprowadzaną przez zależność narzędziową, którą bramka też zaliczała do podatnych). Bez zmian w kodzie aplikacji. Lint, typecheck, strażniki, 4134 testy, build i E2E (9/9) zielone, `pnpm audit:gate` zielony.
