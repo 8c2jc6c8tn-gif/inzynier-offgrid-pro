@@ -238,6 +238,18 @@ Czyli **na własnym PV maszyna jest 1,7–4 razy droższa od stacji**, w obu kra
 
 ---
 
+## P-002 — Tor słońca z AR, zdjęcie z drona i podgląd z drona na żywo (funkcja, nie cudza technologia)
+
+**Dopisane 04.11.2026** po zrzutach właściciela z aplikacji typu Sun Surveyor. To nie technologia do obserwowania, tylko kandydat na własną funkcję; pełna ocena w osobnym pliku `docs/tor-slonca-ar-ocena.md` (źródła, tabela „mamy/nie mamy”, wartość i ryzyko, FREE/PRO). **W zakładce „Perspektywy” aplikacji go nie publikujemy** (wpis P-001 ma rachunek energii i kosztu cudzego produktu; tu rachunku nie ma, jest plan budowy).
+
+- **Co jest już w repo (✅):** pozycja słońca (Meeus/NOAA), kąt padania, Meinel, godzinowy uzysk panelu (Muneer + TMY), strata zacienienia z profilu horyzontu. Brak: wykres toru, wejście „zmierzony profil horyzontu”, kamera i czujniki.
+- **Wykonalne:** wykres toru 2D z godzinowym PV (offline); horyzont ze zdjęcia z kalibracją słońcem (czas + GPS z EXIF); AR na żywo (kamera + `DeviceOrientation`, ryzyko: kompas, FOV, iOS).
+- **Niewykonalne w PWA:** odbiór strumienia RTMP/RTSP z drona, SDK DJI, telemetria po USB (🧠, do sprawdzenia przy realizacji). Nakładka na film klatka po klatce — nieopłacalna: zacienienie jest statyczne.
+- **Kryteria powrotu do tematu „podgląd z drona na żywo”:** decyzja o aplikacji natywnej (Capacitor) i własnym serwerze mediów oraz udokumentowana ścieżka RODO dla obrazu cudzych posesji.
+- **Status:** czeka na zatwierdzenie planu przez właściciela; wpis na liście zadań z tą samą datą.
+
+---
+
 ## Log zmian
 
 | Data | Zmiana |
@@ -246,3 +258,4 @@ Czyli **na własnym PV maszyna jest 1,7–4 razy droższa od stacji**, w obu kra
 | 03.11.2026 | P-001: sekcja 5a (Norwegia, Holandia — próg opłacalności) po uwadze właściciela; rozdział opublikowany w aplikacji jako zakładka „Perspektywy” (`/perspektywy`). |
 | 03.11.2026 | P-001: sekcja 5b (własne PV, wykorzystanie maszyny) po odpowiedzi właściciela; wniosek: na własnym PV nie opłaca się w NL ani NO przy cenie urządzenia z deklaracji. |
 | 03.11.2026 | P-001: sekcja 5c — oba scenariusze (praca ciągła vs tylko własne PV) w jednej tabeli, w € i zł, z litrami rocznie; ta sama tabela w aplikacji (PL/EN/RU), rachunek w `lib/perspektywy/e-paliwo.ts`. |
+| 04.11.2026 | Dodano P-002 (tor słońca z AR/drona) — krótki wpis z odesłaniem do `docs/tor-slonca-ar-ocena.md`; bez publikacji w aplikacji. |
