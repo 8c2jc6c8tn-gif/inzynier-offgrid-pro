@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.53.1] — 04.11.2026
+
+Wydajność (bez zmiany funkcji), krok B: słowniki silnika w języku angielskim (≈ 103 KB po kompresji) i rosyjskim (≈ 129 KB) nie są już we wspólnym pakiecie każdej strony — to osobne kawałki ładowane, gdy język użytkownika ich potrzebuje; polski (domyślny, to on jest w HTML z serwera) zostaje we wspólnym pakiecie. `t()` pozostaje synchroniczne: `LanguageProvider` pokazuje polski, dopóki słownik wybranego języka nie dotrze (ładowanie rusza już przy starcie pakietu, a po pierwszej wizycie kawałki są w prekeszu Service Workera), a kod serwerowy (metadane strony i manifest) czeka na słownik przez `zaladujJezyk`. Przełącznik języka pokazuje wybór użytkownika także w trakcie ładowania. Test E2E sprawdza przełączenie PL → EN → RU → PL przy zatrzymanym serwerze oraz po przeładowaniu. Teksty ekranów (`lib/i18n/ui/*.ts`, ≈ 624 KB po kompresji w trzech językach) zostają na razie we wspólnym pakiecie, bo każdy plik trzyma `pl`, `en` i `ru` razem, a bundler nie rozdziela pliku na eksporty (sprawdzone, w tym z `sideEffects: false`); rozdzielenie ich wymaga podziału plików per język i czeka na decyzję właściciela (lista zadań).
+
+Wpływ na liczby: brak.
+
 ## [3.53.0] — 04.11.2026
 
 Nowy ekran „Horyzont ze zdjęcia” (`/kalkulatory/horyzont-ze-zdjecia`, Moduł 1): zdjęcie z telefonu robione w miejscu montażu paneli zamienia się na profil horyzontu (kąt wzniesienia drzew, budynków i wzgórz co 1° azymutu). Kierunek aparatu ustala się z położenia słońca zaznaczonego na zdjęciu (czas, GPS i ogniskowa z EXIF, własny czytnik JPEG, bez wysyłania zdjęcia gdziekolwiek) albo z kompasu; linię horyzontu wykrywa się automatycznie (granica nieba) lub rysuje ręcznie. Zapisywany jest tylko profil, scalany z kolejnych zdjęć. Profil wchodzi do silnika zacienienia (`analiza-zacienienia` 1.3.0: nowe opcjonalne wejście `horyzontZmierzonyDeg`, nieprzezroczysta przeszkoda, osobny udział w stracie), do ekranu „Analiza zacienienia”, jako szary obszar na wykresie „Tor słońca” oraz do narzędzia AI `policz_zacienienie` (pole `horyzont` z punktów azymut–wysokość). Silnik `lokalizacja/horyzont-ze-zdjecia` (29 testów) + 8 testów zacienienia z horyzontem. Etap 2 oceny `docs/tor-slonca-ar-ocena.md`; Etap 3 (AR na żywo) czeka na telefony testowe.

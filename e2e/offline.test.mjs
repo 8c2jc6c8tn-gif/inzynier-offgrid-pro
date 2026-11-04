@@ -140,6 +140,26 @@ test('field help „?” loads its lazy module offline and shows the full text',
   assert.deepEqual(bledy, [])
 })
 
+// Lazy dictionaries (3.53.0): English and Russian are separate chunks loaded when the language needs them. Switching
+// the language must work with the server down (the chunks come from the precache) and survive a reload.
+test('language switch to English and Russian works offline and survives a reload', async () => {
+  const bledy = []
+  const naBlad = (e) => bledy.push(`pageerror ${String(e).slice(0, 200)}`)
+  page.on('pageerror', naBlad)
+  await page.goto(ADRES + '/ustawienia')
+  await page.getByRole('radiogroup', { name: 'Wybór języka' }).waitFor({ timeout: 15_000 })
+  await page.getByRole('radio', { name: 'English' }).click()
+  await page.getByRole('radiogroup', { name: 'Language selection' }).waitFor({ timeout: 10_000 })
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await page.getByRole('radiogroup', { name: 'Language selection' }).waitFor({ timeout: 15_000 })
+  await page.getByRole('radio', { name: 'Русский' }).click()
+  await page.getByRole('radiogroup', { name: 'Выбор языка' }).waitFor({ timeout: 10_000 })
+  await page.getByRole('radio', { name: 'Polski' }).click()
+  await page.getByRole('radiogroup', { name: 'Wybór języka' }).waitFor({ timeout: 10_000 })
+  page.off('pageerror', naBlad)
+  assert.deepEqual(bledy, [])
+})
+
 test('precache size (reported, standard 5.8 — stage 2 budget)', async () => {
   const bajty = await page.evaluate(async () => {
     const nazwa = (await caches.keys()).find((k) => k.startsWith('offgrid-precache-'))

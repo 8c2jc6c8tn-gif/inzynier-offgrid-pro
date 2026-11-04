@@ -9,6 +9,7 @@ import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { SUPPORTED_LANGUAGES, negocjujJezyk } from '@/lib/i18n/language'
 import { t } from '@/lib/i18n/t'
+import { zaladujJezyk } from '@/lib/i18n/rejestr-slownikow'
 import { STORAGE_KEY } from '@/lib/i18n/storage'
 import { generujCssStylow, schematyStylow } from '@/lib/wyglad/style'
 import './globals.css'
@@ -35,6 +36,7 @@ const STYLE_WYGLADU_CSS = generujCssStylow()
 // before any script runs (title, description, PWA name).
 export async function generateMetadata(): Promise<Metadata> {
   const jezyk = negocjujJezyk((await headers()).get('accept-language'))
+  await zaladujJezyk(jezyk)
   return {
   title: t(jezyk, 'UI-META-NAZWA'),
   description: t(jezyk, 'UI-META-OPIS'),

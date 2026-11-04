@@ -7,13 +7,13 @@
  * useSyncExternalStore od razu po zapisie.
  */
 import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES, type Language } from "@/lib/i18n/language"
-import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { useTranslate, useWybranyJezyk } from "@/lib/i18n/language-context"
 import { zapiszJezyk } from "@/lib/i18n/storage"
 import { cn } from "@/lib/utils"
 
 export function JezykWybor() {
   const t = useTranslate()
-  const jezyk = useLanguage()
+  const jezyk = useWybranyJezyk()
 
   function wybierz(nastepny: Language) {
     if (nastepny === jezyk) return
