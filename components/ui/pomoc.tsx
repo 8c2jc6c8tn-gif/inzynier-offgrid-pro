@@ -4,7 +4,8 @@ import { useState } from "react"
 import { Chmurka, PomocPole } from "@/components/ui/chmurka"
 import { ZalozeniaLista } from "@/components/zalozenia-lista"
 import type { CalcResult } from "@/lib/core/calc-result"
-import { pomoc, type EkranPomocy, type GrupaPomocy, type PolePomocy } from "@/lib/i18n/pomoc"
+import type { EkranPomocy, GrupaPomocy, PolePomocy } from "@/lib/i18n/pomoc"
+import { usePomocEkranu } from "@/lib/i18n/pomoc/uzyj-pomocy"
 import type { MigawkaTresc, PomocPolaTresc } from "@/lib/i18n/pomoc/typy"
 import { useLanguage, useSymbolWaluty, useTranslate } from "@/lib/i18n/language-context"
 import { podstaw } from "@/lib/i18n/t"
@@ -14,8 +15,13 @@ import { cn } from "@/lib/utils"
  * Translated help, standard 8.4 + decisions D34/D51. Two levels that complement each other:
  * `PomocPola` — the „?” of one field (name, what for, where to find it, typical range);
  * `MigawkaInfo` — the „i” of the whole screen (what it is about, how it calculates, why, physics).
- * Content: `lib/i18n/pomoc/<module>.ts`, typed per screen, so a wrong screen/field id does not compile.
+ * Content: `lib/i18n/pomoc/<module>.ts`, typed per screen, so a wrong screen/field id does not compile. It is loaded
+ * per module file, on mount (`usePomocEkranu`), not shipped in the common bundle; until it arrives the trigger
+ * („?”/„i”) is already there with a neutral label, so the layout does not move.
  */
+
+/** Shown in the popup if it is opened before the module file arrived (milliseconds from the precache or the network). */
+const Wczytywanie = () => <p className="text-muted-foreground">…</p>
 
 function TrescPola({ tresc }: { tresc: PomocPolaTresc }) {
   const t = useTranslate()
@@ -55,7 +61,9 @@ export function PomocPola<G extends GrupaPomocy>({
   const t = useTranslate()
   const waluta = useSymbolWaluty()
   const parametry = { waluta, ...params }
-  const surowa = (pomoc[language][ekran].pola as Record<string, PomocPolaTresc>)[pole]!
+  const dane = usePomocEkranu(language, ekran)
+  const surowa = dane ? (dane.pola as Record<string, PomocPolaTresc>)[pole] : undefined
+  if (!surowa) return <PomocPole tresc={<Wczytywanie />} />
   const tresc: PomocPolaTresc = {
     nazwa: podstaw(language, surowa.nazwa, parametry),
     cel: podstaw(language, surowa.cel, parametry),
@@ -90,18 +98,23 @@ export function MigawkaInfo({
   const waluta = useSymbolWaluty()
   const parametry = { waluta, ...params }
   const [zakladka, setZakladka] = useState<Zakladka>("po-ludzku")
-  const surowa = (pomoc[language][ekran] as { migawka: MigawkaTresc }).migawka
-  const m: MigawkaTresc = {
-    oCoChodzi: podstaw(language, surowa.oCoChodzi, parametry),
-    jakDziala: podstaw(language, surowa.jakDziala, parametry),
-    poCo: podstaw(language, surowa.poCo, parametry),
-    fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, parametry),
-  }
+  const dane = usePomocEkranu(language, ekran)
+  const surowa = dane ? (dane as { migawka: MigawkaTresc }).migawka : undefined
+  const m: MigawkaTresc | null = surowa
+    ? {
+        oCoChodzi: podstaw(language, surowa.oCoChodzi, parametry),
+        jakDziala: podstaw(language, surowa.jakDziala, parametry),
+        poCo: podstaw(language, surowa.poCo, parametry),
+        fizyka: surowa.fizyka && podstaw(language, surowa.fizyka, parametry),
+      }
+    : null
   const wzor = wynik?.formulaKey ? t(wynik.formulaKey, wynik.formulaParams) : wynik?.formula
   const zalozenia = wynik?.assumptions ?? []
-  const fizykaDostepna = Boolean(wzor || zalozenia.length > 0 || m.fizyka)
+  const fizykaDostepna = Boolean(wzor || zalozenia.length > 0 || m?.fizyka)
 
-  const tresc = (
+  const tresc = !m ? (
+    <Wczytywanie />
+  ) : (
     <div className="flex flex-col gap-2 leading-relaxed">
       {fizykaDostepna && (
         <div role="tablist" className="flex gap-1 border-b pb-1">
