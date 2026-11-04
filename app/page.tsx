@@ -103,6 +103,13 @@ export default function PulpitPage() {
             {t("UI-PUL-TRYB-LIVE")}
           </Link>
           <Link
+            href="/perspektywy"
+            className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            <Ikona nazwa={IKONA.flask} className="mr-1 inline size-4 align-text-bottom" />
+            {t("UI-PERSP-LINK")}
+          </Link>
+          <Link
             href={USTAWIENIA_KAFEL.href}
             className="rounded-md px-2 py-1.5 transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
