@@ -103,7 +103,7 @@ export default function UrzadzeniaZmiennePage() {
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
-                  className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                  className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
                   checked={u.wybrane}
                   onChange={() => aktualizuj(u.id, { wybrane: !u.wybrane })}
                   id={`urz-${u.id}`}
@@ -162,7 +162,7 @@ export default function UrzadzeniaZmiennePage() {
         <label className="flex items-center gap-3">
           <input
             type="checkbox"
-            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
             checked={plytaIndukcyjnaWybrana}
             onChange={(e) => setPlytaIndukcyjnaWybrana(e.target.checked)}
           />

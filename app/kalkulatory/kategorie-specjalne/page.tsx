@@ -102,6 +102,7 @@ export default function KategorieSpecjalnePage() {
             <input
               type="text"
               placeholder={t("UI-KATSPE-NAZWA-URZADZENIA")}
+              aria-label={t("UI-KATSPE-NAZWA-URZADZENIA")}
               value={p.nazwa}
               onChange={(e) => aktualizuj(p.id, { nazwa: e.target.value })}
               className="min-h-10 flex-1 min-w-24 rounded-md border border-input bg-background px-2"

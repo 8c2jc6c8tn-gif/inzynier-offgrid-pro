@@ -19,6 +19,7 @@ export function BobStanu({ stan, className }: { stan: BobStan; className?: strin
   const bezBoba = useBezBoba()
   if (bezBoba) return null
   return (
+    // eslint-disable-next-line @next/next/no-img-element -- decorative static asset from /public; images.unoptimized is on, so next/image would add nothing
     <img
       src={BOB_STANY[stan]}
       alt=""

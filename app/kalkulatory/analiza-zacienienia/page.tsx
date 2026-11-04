@@ -277,7 +277,7 @@ export default function AnalizaZacienieniaPage() {
                       <label className="flex items-center gap-3">
                         <input
                           type="checkbox"
-                          className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                          className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
                           checked={stan.prognoza.lisciaste?.[p.nazwa] ?? false}
                           onChange={(e) => ustawPrognoze({ lisciaste: { ...stan.prognoza.lisciaste, [p.nazwa]: e.target.checked } })}
                         />
@@ -298,7 +298,7 @@ export default function AnalizaZacienieniaPage() {
                         <label key={nazwa} className="flex items-center gap-2">
                           <input
                             type="checkbox"
-                            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none"
+                            className="h-5 w-5 shrink-0 cursor-pointer accent-primary outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
                             checked={stan.prognoza.miesiaceBezlisci?.includes(m) ?? false}
                             onChange={(e) => przelaczMiesiac(m, e.target.checked)}
                           />
