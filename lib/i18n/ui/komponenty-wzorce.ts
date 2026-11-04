@@ -1,6 +1,7 @@
 /**
  * komponenty-wzorce — screen text migrated from JSX (D58, ratchet list). Screens: components/wzorce/ekran-checklisty-chemii.tsx, components/wzorce/ekran-kabli-malej-instalacji.tsx.
  */
+// English: ./komponenty-wzorce.en.ts, Russian: ./komponenty-wzorce.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-EKRCHECHE-AGM-VRLA-SZCZELNY": "AGM (VRLA, szczelny)",
   "UI-EKRCHECHE-KWASOWY-ZALEWOWY": "Kwasowy (zalewowy)",
@@ -33,71 +34,3 @@ export const pl = {
   "UI-EKRKABMALINS-MINIMUM": "· minimum {wymaganyMm2} mm²",
   "UI-EKRCHECHE-LIFEPO4": "LiFePO4",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-EKRCHECHE-AGM-VRLA-SZCZELNY": "AGM (VRLA, sealed)",
-  "UI-EKRCHECHE-KWASOWY-ZALEWOWY": "Lead-acid (flooded)",
-  "UI-EKRCHECHE-WYBIERZ-TYP-AKUMULATORA": "Choose the battery type to see the checklist.",
-  "UI-EKRCHECHE-TYP-AKUMULATORA": "Battery type",
-  "UI-EKRCHECHE-POTWIERDZONO": "Confirmed {potwierdzone} / {razem}",
-  "UI-EKRCHECHE-POTWIERDZONO-POZYCJI": "Confirmed {potwierdzone} / {razem} items",
-  "UI-EKRKABMALINS-SWOBODNIE-SCIANIE-POWIETRZU": "Free air (on a wall, in air)",
-  "UI-EKRKABMALINS-PESZLU-RURZE-INSTALACYJNEJ": "In conduit / installation pipe",
-  "UI-EKRKABMALINS-ZIEMI": "In the ground",
-  "UI-EKRKABMALINS-WIAZCE-INNYMI-KABLAMI": "In a bundle with other cables",
-  "UI-EKRKABMALINS-WYPELNIJ-PRAD-NAPIECIE": "Fill in the current, voltage, length, temperature and permissible drop.",
-  "UI-EKRKABMALINS-BEZPIECZNIK": "{przekrojMm2} mm² · fuse ≥ {bezpiecznikMinA} A",
-  "UI-EKRKABMALINS-OBCIAZALNOSC-SPADEK-NAPIECIA":
-    "Current-carrying capacity {obciazalnoscA} A · voltage drop {spadekNapieciaPct}%",
-  "UI-EKRKABMALINS-PRAD-OBCIAZENIA": "Load current",
-  "UI-EKRKABMALINS-NAPIECIE-INSTALACJI": "Installation voltage",
-  "UI-EKRKABMALINS-DLUGOSC-TRASY-JEDNA": "Route length (one way)",
-  "UI-EKRKABMALINS-SPOSOB-ULOZENIA": "Installation method",
-  "UI-EKRKABMALINS-LICZBA-KABLI-WIAZCE": "Number of cables in the bundle",
-  "UI-EKRKABMALINS-TEMPERATURA-OTOCZENIA": "Ambient temperature",
-  "UI-EKRKABMALINS-DOPUSZCZALNY-SPADEK-NAPIECIA": "Permissible voltage drop",
-  "UI-EKRKABMALINS-SPRAWDZ-MOJ-PRZEKROJ": "Check my cross-section instead of selecting automatically",
-  "UI-EKRKABMALINS-MOJ-PRZEKROJ": "My cross-section",
-  "UI-EKRKABMALINS-POLICZYC-SPRAWDZ-WPISANE": "Cannot calculate — check the data entered",
-  "UI-EKRKABMALINS-POZA-ZAKRESEM-TABLIC": "Outside the table range",
-  "UI-EKRKABMALINS-PRZEKROJ-PONIZEJ-MINIMUM": "Cross-section below the minimum",
-  "UI-EKRKABMALINS-PRZEKROJ": "Your cross-section",
-  "UI-EKRKABMALINS-MINIMALNY-PRZEKROJ": "Minimum cross-section",
-  "UI-EKRKABMALINS-MINIMUM": "· minimum {wymaganyMm2} mm²",
-  "UI-EKRCHECHE-LIFEPO4": "LiFePO4",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-EKRCHECHE-AGM-VRLA-SZCZELNY": "AGM (VRLA, герметичный)",
-  "UI-EKRCHECHE-KWASOWY-ZALEWOWY": "Свинцово-кислотный (заливной)",
-  "UI-EKRCHECHE-WYBIERZ-TYP-AKUMULATORA": "Выберите тип аккумулятора, чтобы увидеть контрольный список.",
-  "UI-EKRCHECHE-TYP-AKUMULATORA": "Тип аккумулятора",
-  "UI-EKRCHECHE-POTWIERDZONO": "Подтверждено {potwierdzone} / {razem}",
-  "UI-EKRCHECHE-POTWIERDZONO-POZYCJI": "Подтверждено {potwierdzone} / {razem} пунктов",
-  "UI-EKRKABMALINS-SWOBODNIE-SCIANIE-POWIETRZU": "Свободно (на стене, в воздухе)",
-  "UI-EKRKABMALINS-PESZLU-RURZE-INSTALACYJNEJ": "В гофротрубе / монтажной трубе",
-  "UI-EKRKABMALINS-ZIEMI": "В земле",
-  "UI-EKRKABMALINS-WIAZCE-INNYMI-KABLAMI": "В пучке с другими кабелями",
-  "UI-EKRKABMALINS-WYPELNIJ-PRAD-NAPIECIE": "Заполните ток, напряжение, длину, температуру и допустимое падение.",
-  "UI-EKRKABMALINS-BEZPIECZNIK": "{przekrojMm2} мм² · предохранитель ≥ {bezpiecznikMinA} А",
-  "UI-EKRKABMALINS-OBCIAZALNOSC-SPADEK-NAPIECIA":
-    "Допустимый ток {obciazalnoscA} А · падение напряжения {spadekNapieciaPct}%",
-  "UI-EKRKABMALINS-PRAD-OBCIAZENIA": "Ток нагрузки",
-  "UI-EKRKABMALINS-NAPIECIE-INSTALACJI": "Напряжение установки",
-  "UI-EKRKABMALINS-DLUGOSC-TRASY-JEDNA": "Длина трассы (в одну сторону)",
-  "UI-EKRKABMALINS-SPOSOB-ULOZENIA": "Способ прокладки",
-  "UI-EKRKABMALINS-LICZBA-KABLI-WIAZCE": "Количество кабелей в пучке",
-  "UI-EKRKABMALINS-TEMPERATURA-OTOCZENIA": "Температура окружающей среды",
-  "UI-EKRKABMALINS-DOPUSZCZALNY-SPADEK-NAPIECIA": "Допустимое падение напряжения",
-  "UI-EKRKABMALINS-SPRAWDZ-MOJ-PRZEKROJ": "Проверить моё сечение вместо автоматического выбора",
-  "UI-EKRKABMALINS-MOJ-PRZEKROJ": "Моё сечение",
-  "UI-EKRKABMALINS-POLICZYC-SPRAWDZ-WPISANE": "Невозможно рассчитать — проверьте введённые данные",
-  "UI-EKRKABMALINS-POZA-ZAKRESEM-TABLIC": "Вне диапазона таблиц",
-  "UI-EKRKABMALINS-PRZEKROJ-PONIZEJ-MINIMUM": "Сечение ниже минимума",
-  "UI-EKRKABMALINS-PRZEKROJ": "Ваше сечение",
-  "UI-EKRKABMALINS-MINIMALNY-PRZEKROJ": "Минимальное сечение",
-  "UI-EKRKABMALINS-MINIMUM": "· минимум {wymaganyMm2} мм²",
-  "UI-EKRCHECHE-LIFEPO4": "LiFePO4",
-}

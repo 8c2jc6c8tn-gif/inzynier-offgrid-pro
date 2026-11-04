@@ -9,7 +9,7 @@
  *   node scripts/migracja-i18n-ui.mjs zastosuj <grupa> <tlumaczenia.json> <plik…>
  *
  * `tlumaczenia.json` = { "UI-…": ["en", "ru"] }. `zastosuj` rewrites the files, writes
- * `lib/i18n/ui/<grupa>.ts` (pl/en/ru), adds the import to `lib/i18n/ui/index.ts` and lowers the ratchet.
+ * `lib/i18n/ui/<grupa>.ts` (pl) with `<grupa>.en.ts` and `<grupa>.ru.ts`, regenerates the aggregators (`pnpm slowniki:napraw`) and lowers the ratchet.
  *
  * Rewrites:
  *  - a run of JSX children (text + value expressions) with user text → one `{t("KEY", {params})}`,
@@ -21,6 +21,7 @@
  * `const t = useTranslate()` is added at the top of every component that got a `t(` call.
  */
 import ts from "typescript"
+import { execFileSync } from "node:child_process"
 import { readFileSync, writeFileSync, existsSync } from "node:fs"
 import path from "node:path"
 import { countFile, isUserText } from "./check-i18n-ui-guard.mjs"
@@ -408,37 +409,29 @@ function writeGroup(grupa, entries, tr, header) {
       const one = `  ${tsString(k)}: ${tsString(v)},`
       return one.length <= 120 ? one : `  ${tsString(k)}:\n    ${tsString(v)},`
     })
-  const out = `${header}
+  writeFileSync(
+    `${UI_DIR}/${grupa}.ts`,
+    `${header}
+// English: ./${grupa}.en.ts, Russian: ./${grupa}.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
 ${lines("pl").join("\n")}
 } as const
+`,
+  )
+  for (const [kod, nazwa] of [["en", "English"], ["ru", "Russian"]]) {
+    writeFileSync(
+      `${UI_DIR}/${grupa}.${kod}.ts`,
+      `// ${nazwa} texts of ./${grupa}.ts — the same keys as \`pl\` (a missing or an extra key is a compile error).
+import type { pl } from "./${grupa}"
 
 type Klucz = keyof typeof pl
 
-export const en: Record<Klucz, string> = {
-${lines("en").join("\n")}
+export const ${kod}: Record<Klucz, string> = {
+${lines(kod).join("\n")}
 }
-
-export const ru: Record<Klucz, string> = {
-${lines("ru").join("\n")}
-}
-`
-  writeFileSync(`${UI_DIR}/${grupa}.ts`, out)
-}
-
-function camel(grupa) {
-  return grupa.replace(/-(\w)/g, (_, c) => c.toUpperCase())
-}
-
-function addToIndex(grupa) {
-  const p = `${UI_DIR}/index.ts`
-  let src = readFileSync(p, "utf8")
-  const name = camel(grupa)
-  if (src.includes(`from "./${grupa}"`)) return
-  src = src.replace(/(import \* as pwa from "\.\/pwa"\n)/, `import * as ${name} from "./${grupa}"\n$1`)
-  // append at the end of `czesciUi` — the array no longer ends with `pwa`, so anchor on `] as const`
-  src = src.replace(/\] as const/, `, ${name}] as const`)
-  writeFileSync(p, src)
+`,
+    )
+  }
 }
 
 async function main() {
@@ -503,7 +496,7 @@ async function main() {
     if (existsSync(groupFile)) throw new Error(`${groupFile} już istnieje — użyj nowej grupy`)
     const header = `/**\n * ${grupa} — screen text migrated from JSX (D58, ratchet list). Screens: ${files.map((f) => f.replace(/^app\/kalkulatory\/|\/page\.tsx$/g, "")).join(", ")}.\n */`
     writeGroup(grupa, entries, tr, header)
-    addToIndex(grupa)
+    execFileSync("node", ["scripts/generuj-slowniki-ui.mjs", "--write"], { stdio: "inherit" })
     writeFileSync(BASELINE_PATH, JSON.stringify(Object.fromEntries(Object.entries(baseline).sort()), null, 2) + "\n")
     if (manual.length) console.error("RĘCZNIE:\n" + manual.join("\n"))
     console.log(`zapisano ${entries.length} kluczy → ${groupFile}`)

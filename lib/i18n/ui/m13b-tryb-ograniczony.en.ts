@@ -1,0 +1,31 @@
+// English texts of ./m13b-tryb-ograniczony.ts — the same keys as `pl` (a missing or an extra key is a compile error).
+import type { pl } from "./m13b-tryb-ograniczony"
+
+export const en: Record<keyof typeof pl, string> = {
+  "UI-TOGR-TYTUL": "Trip mode and night mode",
+  "UI-TOGR-OPIS": "Choose which appliances from your list stay on and I calculate how much energy you use during a trip or at night and how long the battery lasts. You decide what stays (fridge, alarm, pump) — the app does not judge safety.",
+  "UI-TOGR-TRYB": "Mode",
+  "UI-TOGR-TRYB-WYJAZD": "Trip (absence in days)",
+  "UI-TOGR-TRYB-NOC": "Night (night window in hours)",
+  "UI-TOGR-DNI": "Number of days away",
+  "UI-TOGR-GODZINY": "Length of the night window",
+  "UI-TOGR-POJEMNOSC": "Usable battery energy (optional)",
+  "UI-TOGR-ODBIORNIKI": "Appliances — tick those that stay on",
+  "UI-TOGR-ZOSTAJE": "stays on",
+  "UI-TOGR-DOBA-WH": "{wh} Wh/day",
+  "UI-TOGR-PUSTA-LISTA": "No appliances with consumption. Enter them on the “Energy use per device” screen — this screen reads the same list.",
+  "UI-TOGR-PUSTA-LISTA-LINK": "Open the appliance list",
+  "UI-TOGR-WERDYKT": "Consumption in the limited mode",
+  "UI-TOGR-DOBA": "Per day: {ogr} kWh instead of {norm} kWh — you save {opt} kWh ({pct}%).",
+  "UI-TOGR-OKRES": "Over {dni} days: {ogr} kWh instead of {norm} kWh.",
+  "UI-TOGR-NOC": "In a {h} h window: {ogr} kWh instead of {norm} kWh (I assume uniform use through the day).",
+  "UI-TOGR-BATERIA-WYJAZD": "The battery lasts {ogr} days in trip mode (normally: {norm}) — without charging from the panels.",
+  "UI-TOGR-BATERIA-NOC": "The battery lasts {ogr} nights in night mode (normally: {norm}) — without charging from the panels.",
+  "UI-TOGR-ZOSTAJA": "Stay on: {lista}.",
+  "UI-TOGR-WYLACZONE": "Switched off: {lista}.",
+  "UI-TOGR-BRAK": "none",
+  "UI-TOGR-UZUPELNIJ-WYJAZD": "Enter the number of days away to calculate the consumption over the whole period.",
+  "UI-TOGR-UZUPELNIJ-NOC": "Enter the length of the night window (hours) to calculate the night consumption.",
+  "UI-TOGR-SPRAWDZ": "Check the data",
+  "UI-TOGR-DOBA-JEDN": "day",
+}

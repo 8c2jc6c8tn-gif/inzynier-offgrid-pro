@@ -1,7 +1,9 @@
 import { readdirSync, readFileSync, statSync } from "node:fs"
 import path from "node:path"
 import { describe, expect, it } from "vitest"
-import { en, pl, ru } from "../ui/formuly"
+import { en } from "../ui/formuly.en"
+import { pl } from "../ui/formuly"
+import { ru } from "../ui/formuly.ru"
 
 const MODULES = path.resolve(import.meta.dirname, "../../core/modules")
 

@@ -2,6 +2,7 @@
  * m13-podsumowanie — screen text of "Podsumowanie i eksport pomiarów" (Module 13, items 7.50, 7.30): per-series
  * statistics, energy from power and CSV export. Quantity names reuse UI-M13-TEL-W-*.
  */
+// English: ./m13-podsumowanie.en.ts, Russian: ./m13-podsumowanie.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-M13-POD-TYTUL": "Podsumowanie i eksport pomiarów",
   "UI-M13-POD-OPIS": "Min, max, średnia i energia z mocy dla każdej serii w wybranym zakresie oraz eksport próbek do pliku CSV. Moduł 13.",
@@ -26,56 +27,4 @@ export const pl = {
   "UI-M13-POD-EKSPORT-TYTUL": "Eksport CSV",
   "UI-M13-POD-EKSPORT-OPIS": "Plik zawiera wszystkie próbki z zakresu (czas ISO, kanał, wielkość, wartość w jednostce podstawowej, jakość). Braki są puste, nigdy zerem.",
   "UI-M13-POD-EKSPORT-PRZYCISK": "Pobierz CSV",
-}
-
-export const en: Record<keyof typeof pl, string> = {
-  "UI-M13-POD-TYTUL": "Measurement summary and export",
-  "UI-M13-POD-OPIS": "Min, max, mean and energy from power for each series in the selected range, plus export of the samples to a CSV file. Module 13.",
-  "UI-M13-POD-BRAK-ZRODEL": "No data sources",
-  "UI-M13-POD-BRAK-ZRODEL-OPIS": "First add a source on the “Telemetry data sources” screen and collect or import measurements.",
-  "UI-M13-POD-ZAKRES-TYTUL": "Source and range",
-  "UI-M13-POD-ZRODLO": "Data source",
-  "UI-M13-POD-OKNO": "Range",
-  "UI-M13-POD-OKNO-24": "Last 24 hours",
-  "UI-M13-POD-OKNO-168": "Last 7 days",
-  "UI-M13-POD-OKNO-720": "Last 30 days",
-  "UI-M13-POD-MAX-PRZERWA": "Longest gap counted into energy",
-  "UI-M13-POD-BRAK-PROBEK": "No samples in this range",
-  "UI-M13-POD-BRAK-PROBEK-OPIS": "The source has no stored measurements in the selected range.",
-  "UI-M13-POD-SERIE": "Measurement series",
-  "UI-M13-POD-STATY": "Min {min}, max {max}, mean {srednia} {jednostka}",
-  "UI-M13-POD-PROBKI": "Valid samples: {n}, skipped (missing, out of range): {pominiete}",
-  "UI-M13-POD-ENERGIA": "Energy from power: {kwh} kWh",
-  "UI-M13-POD-ENERGIA-LUKI": "Skipped gaps longer than the limit: {n}",
-  "UI-M13-POD-ENERGIA-BEZ-LIMITU": "Enter the longest gap to compute energy — without it the app does not guess whether missing samples mean standstill or failure.",
-  "UI-M13-POD-BRAK-WARTOSCI": "no valid samples",
-  "UI-M13-POD-EKSPORT-TYTUL": "CSV export",
-  "UI-M13-POD-EKSPORT-OPIS": "The file holds all samples of the range (ISO time, channel, quantity, value in the base unit, quality). Missing values are empty, never zero.",
-  "UI-M13-POD-EKSPORT-PRZYCISK": "Download CSV",
-}
-
-export const ru: Record<keyof typeof pl, string> = {
-  "UI-M13-POD-TYTUL": "Сводка и экспорт измерений",
-  "UI-M13-POD-OPIS": "Мин., макс., среднее и энергия из мощности для каждой серии в выбранном диапазоне, а также экспорт выборок в CSV. Модуль 13.",
-  "UI-M13-POD-BRAK-ZRODEL": "Нет источников данных",
-  "UI-M13-POD-BRAK-ZRODEL-OPIS": "Сначала добавьте источник на экране «Источники данных телеметрии» и соберите или импортируйте измерения.",
-  "UI-M13-POD-ZAKRES-TYTUL": "Источник и диапазон",
-  "UI-M13-POD-ZRODLO": "Источник данных",
-  "UI-M13-POD-OKNO": "Диапазон",
-  "UI-M13-POD-OKNO-24": "Последние 24 часа",
-  "UI-M13-POD-OKNO-168": "Последние 7 дней",
-  "UI-M13-POD-OKNO-720": "Последние 30 дней",
-  "UI-M13-POD-MAX-PRZERWA": "Наибольший пропуск, учитываемый в энергии",
-  "UI-M13-POD-BRAK-PROBEK": "Нет выборок в этом диапазоне",
-  "UI-M13-POD-BRAK-PROBEK-OPIS": "В источнике нет сохранённых измерений за выбранный диапазон.",
-  "UI-M13-POD-SERIE": "Серии измерений",
-  "UI-M13-POD-STATY": "Мин. {min}, макс. {max}, среднее {srednia} {jednostka}",
-  "UI-M13-POD-PROBKI": "Корректных выборок: {n}, пропущено (отсутствуют, вне диапазона): {pominiete}",
-  "UI-M13-POD-ENERGIA": "Энергия из мощности: {kwh} кВт·ч",
-  "UI-M13-POD-ENERGIA-LUKI": "Пропущено пауз длиннее лимита: {n}",
-  "UI-M13-POD-ENERGIA-BEZ-LIMITU": "Укажите наибольший пропуск, чтобы посчитать энергию — без него приложение не гадает, означает ли отсутствие выборок простой или сбой.",
-  "UI-M13-POD-BRAK-WARTOSCI": "нет корректных выборок",
-  "UI-M13-POD-EKSPORT-TYTUL": "Экспорт CSV",
-  "UI-M13-POD-EKSPORT-OPIS": "Файл содержит все выборки диапазона (время ISO, канал, величина, значение в базовой единице, качество). Пропуски пустые, не ноль.",
-  "UI-M13-POD-EKSPORT-PRZYCISK": "Скачать CSV",
 }

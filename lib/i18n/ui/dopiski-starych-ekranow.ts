@@ -4,6 +4,7 @@
  * screen goes through `t()` from day one; when the whole screen is migrated, move its keys to the
  * screen's own file. Also the shared generator-safety block (D48), used by M2/E17, M7/E8 and M14/D11.
  */
+// English: ./dopiski-starych-ekranow.en.ts, Russian: ./dopiski-starych-ekranow.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-AGB-TYTUL": "Bezpieczeństwo agregatu",
   "UI-AGB-MIEJSCE": "Gdzie pracuje agregat",
@@ -37,73 +38,3 @@ export const pl = {
   "UI-CRL-ZALECENIE-S": "Zalecenie, nie wymóg normy:",
   "UI-CRL-ZALECENIE": "SPD typu 2 kosztuje niewiele w porównaniu z chronionym sprzętem — warto go zamontować.",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-AGB-TYTUL": "Generator safety",
-  "UI-AGB-MIEJSCE": "Where the generator runs",
-  "UI-AGB-M-ZEWNATRZ": "Outdoors (shelter, under a roof)",
-  "UI-AGB-M-WYDZIELONE": "Separate plant room with the exhaust led outside",
-  "UI-AGB-M-BUDYNEK": "Inside the building (basement, attached garage, boiler room)",
-  "UI-AGB-PODLACZENIE": "How the generator supplies the loads",
-  "UI-AGB-P-PRZELACZNIK": "Into the installation through an I–0–II changeover switch",
-  "UI-AGB-P-BEZ": "Into the installation without a switch (socket, plug)",
-  "UI-AGB-P-FALOWNIK": "Through the distribution board to the AC input of the inverter / charger",
-  "UI-AGB-P-ODBIORNIKI": "Emergency loads from a board supplied only by the generator",
-  "UI-AGB-JAK-PRZELACZNIK": "What the switch should look like (position 0, interlock, N conductor):",
-  "UI-AGB-L-PRZELACZNIK": "Grid/island switch and safety",
-  "UI-ZDE-F-AWARYJNE": "The lock has backup power (UPS or battery)",
-  "UI-ZDE-F-RECZNE": "The door can be opened by hand without power",
-  "UI-ZDE-F-RECZNE-HINT":
-    "Mechanically, from the inside and without a key: a handle, a panic bar. An electric button does not count.",
-  "UI-ZDE-F-ALARM": "The fire alarm releases the lock",
-  "UI-ZDE-F-PRZYCISK": "There is an emergency exit button",
-  "UI-ZDE-F-KONTAKTRON": "A reed switch confirms the door is open",
-  "UI-GZ-NAZWA": "Name",
-  "UI-GZ-MOC": "Power [W]",
-  "UI-OSW-MIEJSCE": "Location",
-  "UI-OSW-STAN": "Condition",
-  "UI-CRL-K-1": "LV overhead → LV cable → MV overhead → MV cable",
-  "UI-CRL-K-2": "LV overhead → LV cable → MV cable → MV overhead",
-  "UI-CRL-K-3": "LV cable → LV overhead → MV overhead → MV cable",
-  "UI-CRL-K-4": "LV cable → LV overhead → MV cable → MV overhead",
-  "UI-CRL-KOLEJNOSC": "Order of sections from the building",
-  "UI-CRL-K-NIE-WIEM": "I don't know — calculate conservatively",
-  "UI-CRL-ZALECENIE-S": "A recommendation, not a requirement of the standard:",
-  "UI-CRL-ZALECENIE": "A type 2 SPD costs little compared with the equipment it protects — it is worth installing.",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-AGB-TYTUL": "Безопасность генератора",
-  "UI-AGB-MIEJSCE": "Где работает генератор",
-  "UI-AGB-M-ZEWNATRZ": "На улице (навес, под крышей)",
-  "UI-AGB-M-WYDZIELONE": "Отдельное техническое помещение с выводом выхлопа наружу",
-  "UI-AGB-M-BUDYNEK": "В здании (подвал, пристроенный гараж, котельная)",
-  "UI-AGB-PODLACZENIE": "Как генератор питает потребителей",
-  "UI-AGB-P-PRZELACZNIK": "В электроустановку через переключатель I–0–II",
-  "UI-AGB-P-BEZ": "В электроустановку без переключателя (розетка, вилка)",
-  "UI-AGB-P-FALOWNIK": "Через распределительный щит на вход AC инвертора / зарядного устройства",
-  "UI-AGB-P-ODBIORNIKI": "Аварийные потребители от щита, питаемого только от генератора",
-  "UI-AGB-JAK-PRZELACZNIK": "Каким должен быть переключатель (положение 0, блокировка, проводник N):",
-  "UI-AGB-L-PRZELACZNIK": "Переключатель сеть/остров и безопасность",
-  "UI-ZDE-F-AWARYJNE": "У замка есть резервное питание (ИБП или аккумулятор)",
-  "UI-ZDE-F-RECZNE": "Дверь можно открыть вручную без электричества",
-  "UI-ZDE-F-RECZNE-HINT":
-    "Механически, изнутри и без ключа: ручка, антипаниковая штанга. Электрическая кнопка не считается.",
-  "UI-ZDE-F-ALARM": "Пожарная сигнализация разблокирует замок",
-  "UI-ZDE-F-PRZYCISK": "Есть кнопка аварийного выхода",
-  "UI-ZDE-F-KONTAKTRON": "Геркон подтверждает открытие двери",
-  "UI-GZ-NAZWA": "Название",
-  "UI-GZ-MOC": "Мощность [Вт]",
-  "UI-OSW-MIEJSCE": "Место",
-  "UI-OSW-STAN": "Состояние",
-  "UI-CRL-K-1": "НН воздушная → НН кабель → СН воздушная → СН кабель",
-  "UI-CRL-K-2": "НН воздушная → НН кабель → СН кабель → СН воздушная",
-  "UI-CRL-K-3": "НН кабель → НН воздушная → СН воздушная → СН кабель",
-  "UI-CRL-K-4": "НН кабель → НН воздушная → СН кабель → СН воздушная",
-  "UI-CRL-KOLEJNOSC": "Порядок участков от здания",
-  "UI-CRL-K-NIE-WIEM": "Не знаю — считать с запасом",
-  "UI-CRL-ZALECENIE-S": "Рекомендация, а не требование стандарта:",
-  "UI-CRL-ZALECENIE": "УЗИП типа 2 стоит немного по сравнению с защищаемым оборудованием — его стоит установить.",
-}

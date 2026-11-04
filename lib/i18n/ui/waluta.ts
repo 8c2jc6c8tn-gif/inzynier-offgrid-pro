@@ -1,4 +1,5 @@
 /** Currency settings (`components/waluta-wybor.tsx`, section in `app/ustawienia/page.tsx`). */
+// English: ./waluta.en.ts, Russian: ./waluta.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-WAL-TYTUL": "Waluta wyświetlania",
   "UI-WAL-OPIS": "Kwoty wyników (koszty, rachunki, zwroty) pokazujemy w wybranej walucie, przeliczone z PLN. Stawki i opłaty w danych to polskie stawki w PLN — zmienia się tylko sposób pokazania wyniku. Kwoty wpisane w polach przeliczamy przy zmianie waluty po kursie z dnia pobrania.",
@@ -17,41 +18,3 @@ export const pl = {
   "UI-WAL-PRZELICZONO-RECZNY": "Kwoty w polach przeliczono z {z} na {na} zgodnie z Twoim własnym kursem{narzut}.",
   "UI-WAL-NARZUT-DOPISEK": ", z narzutem {narzut}%",
 } as const
-
-export const en: Record<keyof typeof pl, string> = {
-  "UI-WAL-TYTUL": "Display currency",
-  "UI-WAL-OPIS": "Result amounts (costs, bills, refunds) are shown in the chosen currency, converted from PLN. The rates and fees in the data are Polish PLN rates — only how the result is displayed changes. Amounts typed in fields are converted when you change the currency, at the rate of the fetch date.",
-  "UI-WAL-WYBOR": "Currency",
-  "UI-WAL-NARZUT": "Rate markup (%)",
-  "UI-WAL-NARZUT-OPIS": "Widens the rate like a card or exchange-office spread (rate × (1 + markup)). Default 0 — the plain reference rate.",
-  "UI-WAL-KURS-RECZNY": "Own rate: how many {waluta} per 1 PLN (empty = automatic rate)",
-  "UI-WAL-ZRODLO": "Automatic rates: European Central Bank reference rates (api.frankfurter.dev). The app server fetches and permanently stores them (with history); when you are online the app downloads the current data and saves it on the device — offline it uses the last saved rates (date of last update below). Want a different rate (e.g. your bank's)? Enter it by hand above (optionally add a markup).",
-  "UI-WAL-STAN-KURSOW": "Rates of {data} (fetched {pobrano}).",
-  "UI-WAL-BRAK-KURSU": "No rate for {waluta} — amounts are shown in PLN. Go online or enter a rate by hand.",
-  "UI-WAL-ODSWIEZ": "Refresh rates",
-  "UI-WAL-ODSWIEZONO": "Rates refreshed.",
-  "UI-WAL-ODSWIEZ-BLAD": "Could not fetch rates (offline?) — using the last saved ones.",
-  "UI-WAL-RECZNY-TYLKO": "There is no automatic rate for {waluta} — enter one by hand.",
-  "UI-WAL-PRZELICZONO-ECB": "Amounts in the fields were converted from {z} to {na} at the European Central Bank rate (Frankfurter) of {data}{narzut}.",
-  "UI-WAL-PRZELICZONO-RECZNY": "Amounts in the fields were converted from {z} to {na} at your own rate{narzut}.",
-  "UI-WAL-NARZUT-DOPISEK": ", with a {narzut}% markup",
-}
-
-export const ru: Record<keyof typeof pl, string> = {
-  "UI-WAL-TYTUL": "Валюта отображения",
-  "UI-WAL-OPIS": "Суммы результатов (затраты, счета, возвраты) показываются в выбранной валюте, пересчитанной из PLN. Ставки и платежи в данных — польские, в PLN; меняется только способ показа результата. Суммы, введённые в полях, пересчитываются при смене валюты по курсу на дату загрузки.",
-  "UI-WAL-WYBOR": "Валюта",
-  "UI-WAL-NARZUT": "Наценка на курс (%)",
-  "UI-WAL-NARZUT-OPIS": "Расширяет курс, как спред карты или обменного пункта (курс × (1 + наценка)). По умолчанию 0 — чистый справочный курс.",
-  "UI-WAL-KURS-RECZNY": "Свой курс: сколько {waluta} за 1 PLN (пусто = автоматический курс)",
-  "UI-WAL-ZRODLO": "Автоматические курсы: справочные курсы Европейского центрального банка (api.frankfurter.dev). Курсы загружает и постоянно хранит сервер приложения (с историей); когда вы онлайн, приложение скачивает актуальные данные и сохраняет их на устройстве — офлайн используются последние сохранённые (дата последнего обновления ниже). Нужен другой курс (например, вашего банка)? Введите его вручную выше (при желании добавьте наценку).",
-  "UI-WAL-STAN-KURSOW": "Курсы на {data} (загружены {pobrano}).",
-  "UI-WAL-BRAK-KURSU": "Нет курса для {waluta} — суммы показаны в PLN. Подключитесь к интернету или введите курс вручную.",
-  "UI-WAL-ODSWIEZ": "Обновить курсы",
-  "UI-WAL-ODSWIEZONO": "Курсы обновлены.",
-  "UI-WAL-ODSWIEZ-BLAD": "Не удалось загрузить курсы (офлайн?) — используются последние сохранённые.",
-  "UI-WAL-RECZNY-TYLKO": "Для {waluta} нет автоматического курса — введите курс вручную.",
-  "UI-WAL-PRZELICZONO-ECB": "Суммы в полях пересчитаны из {z} в {na} по курсу Европейского центрального банка (Frankfurter) на {data}{narzut}.",
-  "UI-WAL-PRZELICZONO-RECZNY": "Суммы в полях пересчитаны из {z} в {na} по вашему собственному курсу{narzut}.",
-  "UI-WAL-NARZUT-DOPISEK": ", с наценкой {narzut}%",
-}

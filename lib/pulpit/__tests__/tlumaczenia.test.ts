@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest"
-import { en, pl, ru } from "@/lib/i18n/ui/pulpit-rejestr"
+import { pl } from "@/lib/i18n/ui/pulpit-rejestr"
+import { en } from "@/lib/i18n/ui/pulpit-rejestr.en"
+import { ru } from "@/lib/i18n/ui/pulpit-rejestr.ru"
 import { KAFLE } from "../registry"
 import { kluczEkranu, kluczKafelNazwa, kluczKafelOpis, tekstRejestru } from "../tlumaczenia"
 

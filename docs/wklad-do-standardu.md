@@ -1292,3 +1292,12 @@ Status: 🔎 nowe
 Dlaczego warto zgłosić do new-app-standards: każda apka rodziny dostaje takie pytania od użytkowników, a oznaczenie pochodzenia liczby jest tym samym mechanizmem co status obliczenia (`ESTIMATE`) w kodzie, tylko dla dokumentacji.
 
 Status: 🔎 nowe
+
+## [04.11.2026] Teksty ekranów: jeden plik na język, nie jeden plik z trzema językami (wydajność pierwszego ładowania)
+
+**Problem:** standard 17.1a każe trzymać teksty ekranu w słowniku UI, a w tym projekcie wzorzec „jeden plik na grupę ekranów z `pl`, `en` i `ru`” sprawił, że do wspólnego pakietu każdej strony szło ≈ 624 KB (po kompresji) tekstów w trzech językach, choć użytkownik używa jednego. Bundler (Turbopack 16.4.5) nie rozdziela modułu na eksporty — sprawdzone buildem, także z `sideEffects: false` — więc leniwe ładowanie języka nie działa, dopóki języki leżą w jednym pliku.
+**Rozwiązanie (3.53.2 tego repo):** grupa = `<grupa>.ts` (język domyślny, źródło), `<grupa>.<język>.ts` dla pozostałych, typowane kluczami źródła (`Record<keyof typeof pl, string>` z `import type`), agregaty per język generowane skryptem i sprawdzane przez strażnika; język domyślny w pakiecie wspólnym, pozostałe jako leniwe kawałki w prekeszu Service Workera; `t()` pozostaje synchroniczne (wybrany język czeka na swój słownik, do tego czasu widać domyślny). Wynik: wspólny pakiet słowników z ≈ 957 KB do ≈ 437 KB po kompresji, bez utraty pracy offline.
+**Pułapka:** pliki w starym układzie z innych gałęzi dają konflikty przy scalaniu; skrypt rozdzielający stary plik na trzy (`scripts/podziel-plik-ui.mjs`) rozwiązuje to w sekundy.
+Dlaczego warto zgłosić do new-app-standards: każda apka rodziny z i18n z 17.1a ma ten sam wzorzec i wyrośnie na ten sam problem; lepiej wpisać układ „plik na język” w 17.1a, zanim kolejne projekty zbudują setki plików w układzie, który trzeba potem rozdzielać.
+
+Status: 🔎 nowe

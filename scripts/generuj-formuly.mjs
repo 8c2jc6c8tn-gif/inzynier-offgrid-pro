@@ -4,7 +4,7 @@
  * then a copy into the dictionary by script).
  *
  * The module's `formula` literal (Polish, stable contract for AI tools and tests) is the source of truth.
- * `lib/i18n/ui/formuly.ts` holds one key per formula; its `pl` object must mirror the literal, with every
+ * `lib/i18n/ui/formuly.ts` (Polish; English and Russian in `formuly.en.ts` / `formuly.ru.ts`) holds one key per formula; its `pl` object must mirror the literal, with every
  * `${...}` substitution written as `{p1}`, `{p2}`, ... (numbered in order of appearance).
  *
  *   node scripts/generuj-formuly.mjs            check only, exit 1 on any problem (also run by the Vitest test)
@@ -36,6 +36,7 @@ const ts = require("typescript")
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const MODULES = path.join(ROOT, "lib/core/modules")
 const SLOWNIK = path.join(ROOT, "lib/i18n/ui/formuly.ts")
+const PLIKI_SLOWNIKA = { pl: SLOWNIK, en: SLOWNIK.replace(/\.ts$/, ".en.ts"), ru: SLOWNIK.replace(/\.ts$/, ".ru.ts") }
 const PREFIKS = /^UI-FORMULA-[A-Z0-9-]+$/
 const DYNAMICZNE = /-STAWKI$/
 const STERUJACE = /[\u0000-\u001f]/
@@ -128,26 +129,30 @@ export function zbierzZModulow() {
   return uzycia
 }
 
-/** `pl`, `en`, `ru` objects of the dictionary (evaluated from the source with the same AST, values are plain literals). */
+/** `pl`, `en`, `ru` objects of the dictionary (one file per language; evaluated from the source with the same AST, values are plain literals). */
 export function wczytajSlownik() {
-  const src = readFileSync(SLOWNIK, "utf8")
-  const sf = ts.createSourceFile(SLOWNIK, src, ts.ScriptTarget.Latest, true)
   const wynik = {}
   const wezly = {}
-  for (const s of sf.statements) {
-    if (!ts.isVariableStatement(s)) continue
-    for (const d of s.declarationList.declarations) {
-      if (!ts.isIdentifier(d.name) || !["pl", "en", "ru"].includes(d.name.text) || !d.initializer) continue
-      let obj = d.initializer
-      if (ts.isAsExpression(obj)) obj = obj.expression
-      if (!ts.isObjectLiteralExpression(obj)) continue
-      wynik[d.name.text] = Object.fromEntries(
-        obj.properties.filter((p) => ts.isPropertyAssignment(p) && ts.isStringLiteral(p.initializer)).map((p) => [nazwa(p), p.initializer.text]),
-      )
-      wezly[d.name.text] = { obj, wlasciwosci: new Map(obj.properties.filter((p) => ts.isPropertyAssignment(p)).map((p) => [nazwa(p), p])) }
+  const zrodla = {}
+  for (const [jezyk, plik] of Object.entries(PLIKI_SLOWNIKA)) {
+    const src = readFileSync(plik, "utf8")
+    zrodla[jezyk] = src
+    const sf = ts.createSourceFile(plik, src, ts.ScriptTarget.Latest, true)
+    for (const s of sf.statements) {
+      if (!ts.isVariableStatement(s)) continue
+      for (const d of s.declarationList.declarations) {
+        if (!ts.isIdentifier(d.name) || d.name.text !== jezyk || !d.initializer) continue
+        let obj = d.initializer
+        if (ts.isAsExpression(obj)) obj = obj.expression
+        if (!ts.isObjectLiteralExpression(obj)) continue
+        wynik[jezyk] = Object.fromEntries(
+          obj.properties.filter((p) => ts.isPropertyAssignment(p) && ts.isStringLiteral(p.initializer)).map((p) => [nazwa(p), p.initializer.text]),
+        )
+        wezly[jezyk] = { obj, wlasciwosci: new Map(obj.properties.filter((p) => ts.isPropertyAssignment(p)).map((p) => [nazwa(p), p])) }
+      }
     }
   }
-  return { src, wezly, ...wynik }
+  return { zrodla, wezly, ...wynik }
 }
 
 export function sprawdz() {
@@ -179,15 +184,15 @@ export function sprawdz() {
   return { problemy, kluczy: uzycia.size }
 }
 
-/** Edits by AST positions (not by searching for braces): drifted `pl` values are replaced in place, new keys are appended to each of the three objects. */
+/** Edits by AST positions (not by searching for braces): drifted `pl` values are replaced in place, new keys are appended to each of the three objects (one file per language). */
 function napraw(problemy) {
-  const { src, wezly } = wczytajSlownik()
-  const edycje = []
+  const { zrodla, wezly } = wczytajSlownik()
+  const edycje = { pl: [], en: [], ru: [] }
   const poprawione = []
   for (const p of problemy.filter((x) => x.rodzaj === "DRIFT")) {
     const w = wezly.pl.wlasciwosci.get(p.klucz)
     if (!w || poprawione.includes(p.klucz)) continue
-    edycje.push({ start: w.initializer.getStart(), end: w.initializer.getEnd(), text: JSON.stringify(p.nowy) })
+    edycje.pl.push({ start: w.initializer.getStart(), end: w.initializer.getEnd(), text: JSON.stringify(p.nowy) })
     poprawione.push(p.klucz)
   }
   const nowe = []
@@ -198,12 +203,15 @@ function napraw(problemy) {
       const ostatnia = obj.properties[obj.properties.length - 1]
       const koniec = obj.properties.hasTrailingComma ? obj.properties.end : ostatnia.getEnd()
       const linie = nowe.map((p) => `  ${JSON.stringify(p.klucz)}: ${JSON.stringify(jezyk === "pl" ? p.nowy : SZKIC + p.nowy)},`).join("\n")
-      edycje.push({ start: koniec, end: koniec, text: (obj.properties.hasTrailingComma ? "" : ",") + "\n" + linie })
+      edycje[jezyk].push({ start: koniec, end: koniec, text: (obj.properties.hasTrailingComma ? "" : ",") + "\n" + linie })
     }
   }
-  let out = src
-  for (const e of edycje.sort((x, y) => y.start - x.start)) out = out.slice(0, e.start) + e.text + out.slice(e.end)
-  writeFileSync(SLOWNIK, out)
+  for (const jezyk of ["pl", "en", "ru"]) {
+    if (edycje[jezyk].length === 0) continue
+    let out = zrodla[jezyk]
+    for (const e of edycje[jezyk].sort((x, y) => y.start - x.start)) out = out.slice(0, e.start) + e.text + out.slice(e.end)
+    writeFileSync(PLIKI_SLOWNIKA[jezyk], out)
+  }
   return { poprawione, dodane: nowe.map((p) => p.klucz) }
 }
 
