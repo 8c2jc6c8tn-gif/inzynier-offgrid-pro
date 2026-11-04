@@ -16,6 +16,7 @@ import { STATUSY } from "@/lib/core/calc-result"
 import { NadpisanieTmyPola, pobierzTmyZNadpisaniem } from "./nadpisanie-tmy"
 import { calculateAnalizaZacienienia } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/calculator"
 import type { Przeszkoda, Punkt2D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
+import { profilZPunktow } from "@/lib/core/modules/lokalizacja/horyzont-ze-zdjecia/profil"
 import { KOMUNIKAT_PVGIS } from "@/lib/lokalizacja/dane-tmy"
 import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
@@ -58,6 +59,17 @@ export const AnalizaZacienieniaToolInput = z.object({
   wysokoscPaneliM: z.number().describe("Wysokość środka pola paneli nad gruntem [m] (ten sam poziom co wysokości przeszkód)"),
   przeszkody: z.array(z.discriminatedUnion("typ", [Drzewo, Budynek])),
   latPrognozy: z.number().optional().describe("Za ile lat jest wysokoscPrognozowanaM drzew"),
+  horyzont: z
+    .array(
+      z.object({
+        azymutDeg: z.number().min(0).max(360).describe("Kierunek N=0, E=90, S=180, W=270 [°]"),
+        wysokoscDeg: z.number().min(0).max(90).describe("Kąt wzniesienia linii horyzontu (górna krawędź wzgórz, lasu, zabudowy) w tym kierunku [°]"),
+      }),
+    )
+    .optional()
+    .describe(
+      "Zmierzony horyzont jako punkty (azymut, wysokość) — tylko jeśli user je podał lub zmierzył; między punktami interpoluję liniowo, poza zakresem punktów horyzont jest nieznany (brak zasłonięcia). Nie zgaduj wysokości.",
+    ),
   miesiaceBezlisci: z
     .array(z.number())
     .optional()
@@ -70,6 +82,7 @@ const Scenariusz = z.object({
   strataRocznaProcent: z.number(),
   strataMiesiecznaProcent: z.array(z.number()).describe("Indeks 0 = styczeń"),
   udzialPrzeszkod: z.array(z.object({ nazwa: z.string(), procent: z.number() })),
+  udzialHoryzontuProcent: z.number().describe("Udział zmierzonego horyzontu w rocznej stracie [p.p.]; 0, gdy horyzontu nie podano"),
 })
 
 export const AnalizaZacienieniaToolOutput = z.object({
@@ -109,10 +122,16 @@ export function przeszkodaLokalna(p: PrzeszkodaWejscia): Przeszkoda {
   return { typ: "bryla", nazwa: p.nazwa, obrys: [w(d0, -s), w(d0, s), w(d1, s), w(d1, -s)], wysokoscM: p.wysokoscM }
 }
 
-const scenariusz = (s: { strataRocznaProcent: number; strataMiesiecznaProcent: number[]; udzialPrzeszkod: { nazwa: string; procent: number }[] }) => ({
+const scenariusz = (s: {
+  strataRocznaProcent: number
+  strataMiesiecznaProcent: number[]
+  udzialPrzeszkod: { nazwa: string; procent: number }[]
+  udzialHoryzontuProcent: number
+}) => ({
   strataRocznaProcent: s.strataRocznaProcent,
   strataMiesiecznaProcent: s.strataMiesiecznaProcent,
   udzialPrzeszkod: s.udzialPrzeszkod,
+  udzialHoryzontuProcent: s.udzialHoryzontuProcent,
 })
 
 /** Fabryka — `fetchImpl` wstrzykiwany w testach (jak w narzędziu Ekranu 4). */
@@ -124,7 +143,7 @@ export function utworzAnalizaZacienieniaTool(
     description:
       "Pobiera dane nasłonecznienia PVGIS (typowy rok) i liczy roczną i miesięczną stratę energii na " +
       "panelach od drzew i budynków w okolicy, udział każdej przeszkody w stracie oraz — jeśli user poda " +
-      "przyszłą wysokość drzew — prognozę. Użyj, gdy user pyta, ile zabierze cień drzewa/budynku, czy " +
+      "przyszłą wysokość drzew — prognozę; user może też podać zmierzony horyzont (kąty wzniesienia w wybranych kierunkach). Użyj, gdy user pyta, ile zabierze cień drzewa/budynku, czy " +
       "przeszkoda zacienia panele zimą, albo jak zmieni się zacienienie, gdy drzewo urośnie.",
     inputSchema: AnalizaZacienieniaToolInput,
     outputSchema: AnalizaZacienieniaToolOutput,
@@ -142,6 +161,7 @@ export function utworzAnalizaZacienieniaTool(
         przeszkody: input.przeszkody.map(przeszkodaLokalna),
         latPrognozy: input.latPrognozy,
         miesiaceBezlisci: input.miesiaceBezlisci,
+        ...(input.horyzont?.length ? { horyzontZmierzonyDeg: profilZPunktow(input.horyzont) } : {}),
         daneGodzinowe: tmy.ok ? tmy.dane.rekordy : undefined,
       })
       return {

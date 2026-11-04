@@ -12,6 +12,8 @@ export type ScenariuszPowierzchni = {
   strataMiesiecznaProcent: number[]
   /** Średni udział przeszkód [p.p.], od największego; przeszkody z zerowym udziałem pominięte. */
   udzialPrzeszkod: { nazwa: string; procent: number }[]
+  /** Średni udział zmierzonego horyzontu (zdjęcie) [p.p.]; 0 bez zmierzonego horyzontu. */
+  udzialHoryzontuProcent: number
 }
 
 export type PodsumowaniePowierzchni = {
@@ -32,6 +34,7 @@ function srednia(scenariusze: ScenariuszZacienienia[]): ScenariuszPowierzchni {
   for (const s of scenariusze) for (const u of s.udzialPrzeszkod) udzialy.set(u.nazwa, (udzialy.get(u.nazwa) ?? 0) + u.procent / n)
   return {
     strataRocznaProcent: scenariusze.reduce((a, s) => a + s.strataRocznaProcent, 0) / n,
+    udzialHoryzontuProcent: scenariusze.reduce((a, s) => a + s.udzialHoryzontuProcent, 0) / n,
     strataMiesiecznaProcent: miesiace,
     udzialPrzeszkod: [...udzialy]
       .map(([nazwa, procent]) => ({ nazwa, procent }))

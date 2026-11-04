@@ -66,3 +66,14 @@ export function brakOkresuBezlisci(nazwy: string): Warning {
     field: "miesiaceBezlisci",
   }
 }
+
+/** The measured horizon is not a list of 360 elevations (null or a number in 0–90°). */
+export function horyzontZmierzonyNiepoprawny(powod: string): Warning {
+  return {
+    code: "ZACIENIENIE-HORYZONT-NIEPOPRAWNY",
+    level: "critical",
+    i18nKey: "ZACIENIENIE-HORYZONT-NIEPOPRAWNY",
+    technicalMessage: `horyzontZmierzonyDeg: ${powod}`,
+    field: "horyzontZmierzonyDeg",
+  }
+}

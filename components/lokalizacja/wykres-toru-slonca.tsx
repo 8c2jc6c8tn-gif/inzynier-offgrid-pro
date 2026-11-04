@@ -3,6 +3,7 @@
  * (`currentColor`, zmienne `--seria-*`). Tylko rysowanie wyników kalkulatora `pv/tor-slonca`.
  */
 import type { GodzinaEnergii, IdLuku, LukSlonca } from "@/lib/core/modules/pv/tor-slonca/calculator"
+import type { ProfilHoryzontu } from "@/lib/core/modules/lokalizacja/horyzont-ze-zdjecia/profil"
 import { useFormaty, useTranslate } from "@/lib/i18n/language-context"
 
 /** Styl łuku: kolor ORAZ wzór linii (kolor nie jest jedynym nośnikiem informacji). */
@@ -35,6 +36,7 @@ export function WykresToruSlonca({
   polozenie,
   teraz,
   etykietyLukow,
+  horyzontDeg,
 }: {
   luki: LukSlonca[]
   zakresAzymutuDeg: { od: number; do: number } | null
@@ -43,6 +45,8 @@ export function WykresToruSlonca({
   /** Słońce w tej chwili (zegar urządzenia); `null` = pod horyzontem albo jeszcze nieznane. */
   teraz: Polozenie | null
   etykietyLukow: Record<IdLuku, string>
+  /** Measured horizon (screen "Horyzont ze zdjęcia"): elevation per whole degree of azimuth, null = unknown. */
+  horyzontDeg?: ProfilHoryzontu
 }) {
   const t = useTranslate()
   const W = 360
@@ -65,9 +69,30 @@ export function WykresToruSlonca({
     az % 360 === 0 ? t("UI-TORS-KIERUNEK-N") : az === 90 ? t("UI-TORS-KIERUNEK-E") : az === 180 ? t("UI-TORS-KIERUNEK-S") : az === 270 ? t("UI-TORS-KIERUNEK-W") : null
   const sciezka = (l: LukSlonca) => l.punkty.map((p, i) => `${i === 0 ? "M" : "L"}${x(p.azymutDeg).toFixed(1)},${y(p.wysokoscDeg).toFixed(1)}`).join(" ")
 
+  // Measured horizon: one filled strip per contiguous run of known degrees inside the visible azimuth range.
+  const pasyHoryzontu: string[] = []
+  if (horyzontDeg) {
+    let i = Math.ceil(xMin)
+    const koniec = Math.min(Math.floor(xMax), horyzontDeg.length - 1)
+    while (i <= koniec) {
+      if (horyzontDeg[i] === null || horyzontDeg[i] === undefined) {
+        i++
+        continue
+      }
+      let j = i
+      while (j + 1 <= koniec && horyzontDeg[j + 1] !== null && horyzontDeg[j + 1] !== undefined) j++
+      const gorna = horyzontDeg.slice(i, j + 1).map((h, k) => `L${x(i + k).toFixed(1)},${y(Math.min(yMax, h!)).toFixed(1)}`)
+      pasyHoryzontu.push(`M${x(i).toFixed(1)},${y(0).toFixed(1)} ${gorna.join(" ")} L${x(j).toFixed(1)},${y(0).toFixed(1)} Z`)
+      i = j + 1
+    }
+  }
+
   return (
     <figure className="flex flex-col gap-2">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full text-foreground" role="img" aria-label={t("UI-TORS-WYKRES-ARIA")}>
+        {pasyHoryzontu.map((d, k) => (
+          <path key={`hor${k}`} d={d} fill="currentColor" fillOpacity={0.16} stroke="currentColor" strokeOpacity={0.5} strokeWidth={0.8} />
+        ))}
         {pionowe.map((a) => (
           <g key={`v${a}`}>
             <line x1={x(a)} x2={x(a)} y1={gora} y2={y(0)} stroke="currentColor" strokeOpacity={0.12} />
@@ -129,6 +154,7 @@ export function WykresToruSlonca({
         ))}
       </ul>
       <figcaption className="text-caption text-muted-foreground">{t("UI-TORS-WYKRES-OPIS")}</figcaption>
+      {pasyHoryzontu.length > 0 && <p className="text-caption text-muted-foreground">{t("UI-TORS-HORYZONT-OPIS")}</p>}
     </figure>
   )
 }

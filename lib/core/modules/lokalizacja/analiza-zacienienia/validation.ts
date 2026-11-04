@@ -4,18 +4,22 @@ import {
   AZYMUT_MIN_DEG,
   DLUGOSC_MAX,
   DLUGOSC_MIN,
+  KROK_PROFILU_HORYZONTU_DEG,
   MIESIECY,
   MIN_WIERZCHOLKOW_OBRYSU,
   NACHYLENIE_MAX_DEG,
   NACHYLENIE_MIN_DEG,
+  PELNY_KAT_DEG,
   SZEROKOSC_MAX,
   SZEROKOSC_MIN,
+  WYSOKOSC_HORYZONTU_MAX_DEG,
 } from "./constants"
 import { bledyDanychGodzinowych } from "@/lib/core/modules/lokalizacja/orientacja-powierzchni/validation"
 import type { AnalizaZacienieniaInput } from "./input"
 import { punktWewnatrzPrzeszkody as punktWPrzeszkodzieGeom } from "./przeszkody"
 import {
   brakOkresuBezlisci,
+  horyzontZmierzonyNiepoprawny,
   outOfRange,
   prognozaNizszaNizObecna,
   przeszkodaNiepoprawna,
@@ -49,6 +53,15 @@ export function validateInput(input: AnalizaZacienieniaInput): ValidationResult 
   zakres(errors, "azymutPowierzchniDeg", "POLE-AZYMUT-POWIERZCHNI", input.azymutPowierzchniDeg, AZYMUT_MIN_DEG, AZYMUT_MAX_DEG)
 
   errors.push(...bledyDanychGodzinowych(input.daneGodzinowe))
+
+  const horyzont = input.horyzontZmierzonyDeg
+  if (horyzont) {
+    if (horyzont.length !== PELNY_KAT_DEG / KROK_PROFILU_HORYZONTU_DEG) {
+      errors.push(horyzontZmierzonyNiepoprawny(`długość ${horyzont.length}, oczekiwano ${PELNY_KAT_DEG / KROK_PROFILU_HORYZONTU_DEG}`))
+    } else if (horyzont.some((v) => v !== null && !(Number.isFinite(v) && v >= 0 && v <= WYSOKOSC_HORYZONTU_MAX_DEG))) {
+      errors.push(horyzontZmierzonyNiepoprawny(`wartość poza 0–${WYSOKOSC_HORYZONTU_MAX_DEG}°`))
+    }
+  }
 
   for (const m of input.miesiaceBezlisci ?? []) {
     if (!Number.isInteger(m) || m < 0 || m >= MIESIECY) {

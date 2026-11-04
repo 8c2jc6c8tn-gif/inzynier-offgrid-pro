@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.52.0] — 04.11.2026
+
+Nowy ekran „Horyzont ze zdjęcia” (`/kalkulatory/horyzont-ze-zdjecia`, Moduł 1): zdjęcie z telefonu robione w miejscu montażu paneli zamienia się na profil horyzontu (kąt wzniesienia drzew, budynków i wzgórz co 1° azymutu). Kierunek aparatu ustala się z położenia słońca zaznaczonego na zdjęciu (czas, GPS i ogniskowa z EXIF, własny czytnik JPEG, bez wysyłania zdjęcia gdziekolwiek) albo z kompasu; linię horyzontu wykrywa się automatycznie (granica nieba) lub rysuje ręcznie. Zapisywany jest tylko profil, scalany z kolejnych zdjęć. Profil wchodzi do silnika zacienienia (`analiza-zacienienia` 1.3.0: nowe opcjonalne wejście `horyzontZmierzonyDeg`, nieprzezroczysta przeszkoda, osobny udział w stracie), do ekranu „Analiza zacienienia”, jako szary obszar na wykresie „Tor słońca” oraz do narzędzia AI `policz_zacienienie` (pole `horyzont` z punktów azymut–wysokość). Silnik `lokalizacja/horyzont-ze-zdjecia` (29 testów) + 8 testów zacienienia z horyzontem. Etap 2 oceny `docs/tor-slonca-ar-ocena.md`; Etap 3 (AR na żywo) czeka na telefony testowe.
+
+Wpływ na liczby: brak zmian dla istniejących wyników — nowe wejście silnika zacienienia jest opcjonalne i bez niego wynik jest identyczny jak w 3.51.0; zmierzony horyzont zmienia stratę zacienienia tylko tam, gdzie użytkownik go dodał.
+
 ## [3.51.0] — 04.11.2026
 
 Nowy ekran „Tor słońca i energia PV godzina po godzinie” (`/kalkulatory/tor-slonca`, Moduł 3): łuki słońca dla 21 czerwca, 23 września, 21 grudnia i 15. dnia wybranego miesiąca, suwak godziny z animacją, wschód, zachód i górowanie, energia PV godzina po godzinie (typowy dzień miesiąca z danych PVGIS oraz dzień przy czystym niebie) i średnia doba w każdym miesiącu. Silnik `pv/tor-slonca` (29 testów) korzysta z istniejących obliczeń pozycji słońca i nasłonecznienia płaszczyzny; wykresy są w SVG i działają offline. Narzędzie AI `tor_slonca_i_energia_pv`. Etap 1 oceny `docs/tor-slonca-ar-ocena.md`; horyzont ze zdjęcia i AR to Etapy 2–3.

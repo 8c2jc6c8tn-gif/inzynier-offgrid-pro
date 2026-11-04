@@ -19,11 +19,12 @@ import {
   ROK_REFERENCYJNY,
 } from "./constants"
 import type { AnalizaZacienieniaInput, Punkt3D, Przeszkoda } from "./input"
+import { wysokoscHoryzontuDeg } from "@/lib/core/modules/lokalizacja/horyzont-ze-zdjecia/profil"
 import { katPrzeszkodyDeg, profilHoryzontuDeg } from "./przeszkody"
 import { validateInput } from "./validation"
 import { powierzchniaNieoswietlona } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.2.0"
+export const CALCULATOR_VERSION = "1.3.0"
 
 const FORMULA =
   "S = \\dfrac{\\sum_t \\big(1 - \\prod_{p:\\,h_s < h_p} \\tau_p(t)\\big)\\big(G_T(t) - G_T^{cień}(t)\\big)}{\\sum_t G_T(t)},\\quad h_p = \\arctan\\dfrac{H - z}{d}"
@@ -39,6 +40,8 @@ export type ScenariuszZacienienia = {
   udzialPrzeszkod: UdzialPrzeszkody[]
   /** Kąt wzniesienia horyzontu przeszkód co KROK_PROFILU_HORYZONTU_DEG, od azymutu 0° [°]. */
   profilHoryzontuDeg: number[]
+  /** Udział zmierzonego horyzontu (zdjęcie) w rocznej stracie [p.p.]; 0 bez zmierzonego horyzontu. Wchodzi do sumy `strataRocznaProcent`. */
+  udzialHoryzontuProcent: number
 }
 
 export type AnalizaZacienieniaResult = {
@@ -104,10 +107,12 @@ function scenariusz(
   przeszkody: Przeszkoda[],
   wysokosci: number[],
   bezlisci: ReadonlySet<number>,
+  horyzont: (number | null)[] | undefined,
 ): ScenariuszZacienienia {
   const sumaMies = new Array<number>(MIESIECY).fill(0)
   const zablokMies = new Array<number>(MIESIECY).fill(0)
-  const zablokPrzeszkod = new Array<number>(przeszkody.length).fill(0)
+  // Ostatni element: zmierzony horyzont (zdjęcie), osobno od przeszkód z modelu działki.
+  const zablokPrzeszkod = new Array<number>(przeszkody.length + 1).fill(0)
   let suma = 0
 
   for (const s of probki) {
@@ -131,6 +136,17 @@ function scenariusz(
         sprawcaKat = kat
       }
     }
+    if (horyzont) {
+      const kat = wysokoscHoryzontuDeg(horyzont, s.azymutDeg)
+      if (kat !== null && kat > s.wysokoscDeg) {
+        tau = 0
+        if (sprawca < 0 || sprawcaTau > 0 || kat > sprawcaKat) {
+          sprawca = przeszkody.length
+          sprawcaTau = 0
+          sprawcaKat = kat
+        }
+      }
+    }
     if (sprawca >= 0) {
       const strata = (1 - tau) * (s.waga - s.wagaZacieniona)
       zablokMies[s.miesiac]! += strata
@@ -146,6 +162,7 @@ function scenariusz(
     strataMiesiecznaProcent: sumaMies.map((s, m) => procent(zablokMies[m]!, s)),
     udzialPrzeszkod: przeszkody.map((p, i) => ({ nazwa: p.nazwa, procent: procent(zablokPrzeszkod[i]!, suma) })),
     profilHoryzontuDeg: profilHoryzontuDeg(punkt, przeszkody, wysokosci),
+    udzialHoryzontuProcent: procent(zablokPrzeszkod[przeszkody.length]!, suma),
   }
 }
 
@@ -182,7 +199,7 @@ export function calculateAnalizaZacienienia(
   const zrodloPromieniowania = input.daneGodzinowe?.length ? "pvgis-tmy" : "czyste-niebo"
   const pusty: AnalizaZacienieniaResult = {
     zrodloPromieniowania,
-    obecnie: { strataRocznaProcent: 0, strataMiesiecznaProcent: [], udzialPrzeszkod: [], profilHoryzontuDeg: [] },
+    obecnie: { strataRocznaProcent: 0, strataMiesiecznaProcent: [], udzialPrzeszkod: [], profilHoryzontuDeg: [], udzialHoryzontuProcent: 0 },
     prognoza: null,
   }
   const wynik = (
@@ -224,6 +241,7 @@ export function calculateAnalizaZacienienia(
     przeszkody,
     przeszkody.map((p) => p.wysokoscM),
     bezlisci,
+    input.horyzontZmierzonyDeg,
   )
   const maPrognoze = przeszkody.some((p) => p.typ === "drzewo" && p.wysokoscPrognozowanaM !== undefined)
   const prognoza = maPrognoze
@@ -233,6 +251,7 @@ export function calculateAnalizaZacienienia(
         przeszkody,
         przeszkody.map((p) => (p.typ === "drzewo" ? (p.wysokoscPrognozowanaM ?? p.wysokoscM) : p.wysokoscM)),
         bezlisci,
+        input.horyzontZmierzonyDeg,
       )
     : null
 
@@ -257,6 +276,10 @@ export function calculateAnalizaZacienienia(
     })
   }
   if (drzewa.length > przepuszczajace.length) assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-DRZEWA-NIEPRZEZROCZYSTE" })
+  if (input.horyzontZmierzonyDeg) {
+    const znane = input.horyzontZmierzonyDeg.filter((v) => v !== null).length
+    assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-HORYZONT-ZMIERZONY", params: { procent: Math.round((100 * znane) / input.horyzontZmierzonyDeg.length) } })
+  }
   if (prognoza) assumptions.push({ kod: "ZACIENIENIE-ZALOZENIE-PROGNOZA", params: { lata: input.latPrognozy ?? "?" } })
 
   return wynik(warnings.length > 0 ? "VALID_WITH_WARNINGS" : "VALID", { zrodloPromieniowania, obecnie, prognoza }, warnings, assumptions)
