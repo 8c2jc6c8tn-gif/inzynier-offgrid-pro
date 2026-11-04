@@ -30,6 +30,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/lokalizacja-i-klimat", label: "Lokalizacja i dane klimatyczne" },
       { href: "/kalkulatory/skaner-dzialki", label: "Skaner działki" },
       { href: "/kalkulatory/analiza-zacienienia", label: "Analiza zacienienia" },
+      { href: "/kalkulatory/horyzont-ze-zdjecia", label: "Horyzont ze zdjęcia" },
       { href: "/kalkulatory/orientacja-powierzchni", label: "Bryła budynku i orientacja ścian" },
     ],
   },

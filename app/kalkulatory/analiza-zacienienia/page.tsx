@@ -15,6 +15,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WerdyktPanel } from "@/components/werdykt"
 import { ZalozeniaLista } from "@/components/zalozenia-lista"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { KLUCZ_HORYZONTU, profilZDraftu } from "@/lib/lokalizacja/horyzont-zmierzony"
 import type { Assumption, Warning } from "@/lib/core/calc-result"
 import type { Punkt3D } from "@/lib/core/modules/lokalizacja/analiza-zacienienia/input"
 import { calculateSkanerDzialki } from "@/lib/core/modules/lokalizacja/skaner-dzialki/calculator"
@@ -104,6 +105,12 @@ export default function AnalizaZacienieniaPage() {
   /** Prognoza wzrostu tylko dla drzew (walców) — bryły budynków nie rosną. */
   const drzewa = useMemo(() => w.przeszkody.filter((p) => p.typ === "walec"), [w])
 
+  /** Przyczyny straty: przeszkody z modelu działki + zmierzony horyzont (zdjęcie), od największej. */
+  const przyczyny = (sc: { udzialPrzeszkod: { nazwa: string; procent: number }[]; udzialHoryzontuProcent: number }) =>
+    [...sc.udzialPrzeszkod, ...(sc.udzialHoryzontuProcent > 0 ? [{ nazwa: t("UI-ANAZAC-HORYZONT-ZDJECIE"), procent: sc.udzialHoryzontuProcent }] : [])].sort(
+      (a, b) => b.procent - a.procent,
+    )
+
   const powierzchnie: Powierzchnia[] = useMemo(() => {
     const polacie = polacieLokalne(model, w)
     const h = liczba(stan.dach.wysokoscM)
@@ -113,9 +120,18 @@ export default function AnalizaZacienieniaPage() {
     return [...polacie, ...(dach ? [dach] : [])].map((polac) => ({ polac, punkty: punktyProbkowania(polac, SIATKA) }))
   }, [model, w, stan.dach])
 
+  // Horyzont zmierzony ze zdjęcia (ekran "Horyzont ze zdjęcia") — dokładany do przeszkód z modelu działki.
+  const horyzontDraft = useOdczytDraftu<{ profil?: unknown }>(KLUCZ_HORYZONTU)
+  const horyzont = useMemo(() => profilZDraftu(horyzontDraft.dane), [horyzontDraft.dane])
   const wejscia = useMemo(
-    () => powierzchnie.map((p) => p.punkty.map((pt) => wejscieZacienienia(w, stan.prognoza, p.polac, pt))),
-    [powierzchnie, w, stan.prognoza],
+    () =>
+      powierzchnie.map((p) =>
+        p.punkty.map((pt) => {
+          const wejscie = wejscieZacienienia(w, stan.prognoza, p.polac, pt)
+          return horyzont ? { ...wejscie, horyzontZmierzonyDeg: horyzont } : wejscie
+        }),
+      ),
+    [powierzchnie, w, stan.prognoza, horyzont],
   )
   // Dane TMY (te same co Ekran 4) — brak → wariant zapasowy clear-sky (TD14, decyzja właściciela).
   const odn = w.odniesienie
@@ -357,11 +373,11 @@ export default function AnalizaZacienieniaPage() {
                   etykieta={t("UI-ANAZAC-STRATA-ROCZNIE", { nazwa: etykietaPowierzchni(polaczone[wybor]!.nazwa, t), strataRocznaProcent: f1(pod.obecnie.strataRocznaProcent) })}
                 >
                   <div className="mt-2 flex flex-col gap-3 text-small">
-                    {pod.obecnie.udzialPrzeszkod.length > 0 ? (
+                    {przyczyny(pod.obecnie).length > 0 ? (
                       <p>
-                        {t("UI-ANAZAC-GLOWNA-PRZYCZYNA", { nazwa: pod.obecnie.udzialPrzeszkod[0]!.nazwa, procent: f1(pod.obecnie.udzialPrzeszkod[0]!.procent) })}
-                        {pod.obecnie.udzialPrzeszkod.length > 1 &&
-                          t("UI-ANAZAC-DALEJ", { p: pod.obecnie.udzialPrzeszkod
+                        {t("UI-ANAZAC-GLOWNA-PRZYCZYNA", { nazwa: przyczyny(pod.obecnie)[0]!.nazwa, procent: f1(przyczyny(pod.obecnie)[0]!.procent) })}
+                        {przyczyny(pod.obecnie).length > 1 &&
+                          t("UI-ANAZAC-DALEJ", { p: przyczyny(pod.obecnie)
                             .slice(1)
                             .map((u) => `${u.nazwa} ${f1(u.procent)} p.p.`)
                             .join(", ") })}

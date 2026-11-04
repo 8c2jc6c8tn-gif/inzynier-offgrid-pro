@@ -25,6 +25,8 @@ export const NACHYLENIE_MAX_DEG = 90
 export const AZYMUT_MIN_DEG = 0
 export const AZYMUT_MAX_DEG = 360
 export const MIN_WIERZCHOLKOW_OBRYSU = 3
+export const PELNY_KAT_DEG = 360
+export const WYSOKOSC_HORYZONTU_MAX_DEG = 90
 
 /**
  * Przepuszczalność korony drzewa liściastego bez liści dla promieniowania bezpośredniego [-].

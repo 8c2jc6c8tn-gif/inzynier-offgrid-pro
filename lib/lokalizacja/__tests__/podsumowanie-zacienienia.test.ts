@@ -8,6 +8,7 @@ const scen = (roczna: number, udzial: { nazwa: string; procent: number }[], prof
   strataMiesiecznaProcent: Array.from({ length: 12 }, () => roczna),
   udzialPrzeszkod: udzial,
   profilHoryzontuDeg: Array.from({ length: 360 }, () => profil),
+  udzialHoryzontuProcent: 0,
 })
 
 const wynik = (

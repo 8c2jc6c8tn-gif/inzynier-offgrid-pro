@@ -13,7 +13,9 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wysokoscHoryzontuDeg } from "@/lib/core/modules/lokalizacja/horyzont-ze-zdjecia/profil"
+import { KLUCZ_HORYZONTU, profilZDraftu } from "@/lib/lokalizacja/horyzont-zmierzony"
 import { pozycjaSlonca } from "@/lib/core/modules/lokalizacja/geometria-slonca/pozycja-slonca"
 import { calculateTorSlonca, pozycjaLokalna, type IdLuku } from "@/lib/core/modules/pv/tor-slonca/calculator"
 import { DZIEN_WYBRANEGO_MIESIACA, GODZIN_W_DOBIE, MIESIECY, MIN_W_GODZINIE } from "@/lib/core/modules/pv/tor-slonca/constants"
@@ -55,6 +57,9 @@ export default function TorSloncaPage() {
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
   const [godzina, setGodzina] = useState(GODZINA_POCZATKOWA_H)
+  // Measured horizon (screen "Horyzont ze zdjęcia"), if the user made one: drawn on the chart and used for the "behind an obstacle" note.
+  const horyzontDraft = useOdczytDraftu<{ profil?: unknown }>(KLUCZ_HORYZONTU)
+  const horyzont = useMemo(() => profilZDraftu(horyzontDraft.dane), [horyzontDraft.dane])
   const [gra, setGra] = useState(false)
   const [teraz, setTeraz] = useState<{ azymutDeg: number; wysokoscDeg: number } | null>(null)
 
@@ -276,6 +281,7 @@ export default function TorSloncaPage() {
               polozenie={polozenie}
               teraz={teraz}
               etykietyLukow={etykietyLukow}
+              horyzontDeg={horyzont}
             />
 
             <div className="flex flex-col gap-3 rounded-md border p-3">
@@ -297,6 +303,9 @@ export default function TorSloncaPage() {
                   {polozenie && polozenie.wysokoscDeg > 0
                     ? t("UI-TORS-ODCZYT-SLONCE", { czas: godz(godzina), wys: f1(polozenie.wysokoscDeg), az: f0(polozenie.azymutDeg) })
                     : t("UI-TORS-ODCZYT-POD-HORYZONTEM", { czas: godz(godzina) })}
+                  {polozenie && horyzont && polozenie.wysokoscDeg > 0 && (wysokoscHoryzontuDeg(horyzont, polozenie.azymutDeg) ?? 0) > polozenie.wysokoscDeg
+                    ? ` ${t("UI-TORS-ZA-HORYZONTEM", { wys: f1(wysokoscHoryzontuDeg(horyzont, polozenie.azymutDeg)!) })}`
+                    : ""}
                 </p>
               </div>
               {godzinaEnergii && (

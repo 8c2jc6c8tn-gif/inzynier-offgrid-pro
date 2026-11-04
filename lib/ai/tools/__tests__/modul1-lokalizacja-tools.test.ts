@@ -102,6 +102,20 @@ describe("analizaZacienieniaTool", () => {
     w.zalozenia.forEach(tekstBezBrakujacegoKlucza)
   })
 
+  it("zmierzony horyzont: wzgórze 20° na południu zabiera energię, a bez horyzontu strata jest zerowa", async () => {
+    const fetchImpl = (async () => new Response("location over the sea", { status: 400 })) as unknown as typeof fetch
+    const wejscie = { szerokoscGeograficzna: 52.23, dlugoscGeograficzna: 21.01, nachyleniePowierzchniDeg: 35, azymutPowierzchniDeg: 180, wysokoscPaneliM: 2, przeszkody: [] }
+    const bez = await utworzAnalizaZacienieniaTool(fetchImpl).handler(wejscie)
+    const z = await utworzAnalizaZacienieniaTool(fetchImpl).handler({
+      ...wejscie,
+      horyzont: [{ azymutDeg: 120, wysokoscDeg: 20 }, { azymutDeg: 240, wysokoscDeg: 20 }],
+    })
+    expect(bez.obecnie.strataRocznaProcent).toBe(0)
+    expect(z.obecnie.strataRocznaProcent).toBeGreaterThan(5)
+    expect(z.obecnie.udzialHoryzontuProcent).toBeCloseTo(z.obecnie.strataRocznaProcent, 9)
+    z.zalozenia.forEach(tekstBezBrakujacegoKlucza)
+  })
+
   it("z danymi PVGIS → strata całkowita (ta sama co kalkulator na tych danych)", async () => {
     const json = odpowiedzPvgis()
     const fetchImpl = (async () => new Response(JSON.stringify(json))) as unknown as typeof fetch

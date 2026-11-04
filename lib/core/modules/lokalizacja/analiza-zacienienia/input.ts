@@ -63,4 +63,10 @@ export type AnalizaZacienieniaInput = {
    * bezpośredniego przy bezchmurnym niebie (TD14, decyzja właściciela 24.09.2026).
    */
   daneGodzinowe?: RekordGodzinowy[]
+  /**
+   * Zmierzony horyzont (ekran "Horyzont ze zdjęcia"): kąt wzniesienia linii horyzontu [°] dla azymutów
+   * 0…359 (co 1°), `null` = brak danych dla tego kierunku (traktowane jak brak przeszkody, raportowane
+   * w założeniach). Słońce poniżej tej linii jest zasłonięte całkowicie — jak przez nieprzezroczystą przeszkodę.
+   */
+  horyzontZmierzonyDeg?: (number | null)[]
 }

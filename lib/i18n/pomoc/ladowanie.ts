@@ -14,6 +14,7 @@ export type ModulPomocy =
   | "m07"
   | "m06"
   | "m01"
+  | "m01b"
   | "m09"
   | "m10"
   | "m13"
@@ -46,6 +47,7 @@ export const LADUJ_MODUL_POMOCY: Record<ModulPomocy, () => Promise<TresciModulu>
   m07: () => import("./m07-stress-test"),
   m06: () => import("./m06-ogrzewanie"),
   m01: () => import("./m01-lokalizacja"),
+  m01b: () => import("./m01b-horyzont-ze-zdjecia"),
   m09: () => import("./m09-esp32"),
   m10: () => import("./m10-prognozy"),
   m13: () => import("./m13-live"),
@@ -319,6 +321,7 @@ export const MODUL_POMOCY_PO_EKRANIE: Record<string, ModulPomocy> = {
   "analiza-zacienienia": "m01",
   "orientacja-powierzchni": "m01",
   "nasloneczenie-miesieczne": "m01",
+  "horyzont-ze-zdjecia": "m01b",
   "wybor-plytki-esp32": "m09",
   "montaz-obudowa-esp32": "m09",
   "katalog-aktuatorow": "m09",
