@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.52.2] — 04.11.2026
+
+Wydajność (bez zmiany funkcji): treści „?” przy polach i „i” przy tytułach ekranów (≈ 662 KB po kompresji, trzy języki, wszystkie ekrany) przestały być częścią wspólnego pakietu każdej strony. Każdy plik modułu pomocy (`lib/i18n/pomoc/*.ts`) jest teraz osobnym kawałkiem ładowanym w chwili otwarcia ekranu, który z niego korzysta; do tego czasu przycisk „?”/„i” jest już na miejscu z neutralną etykietą, więc układ się nie przesuwa. Mapa „ekran → plik modułu” (`lib/i18n/pomoc/ladowanie.ts`) jest generowana (`pnpm pomoc:napraw`) i sprawdzana w `pnpm check:i18n-guard` oraz w teście, więc nie da się dodać ekranu pomocy bez wpisu w mapie. Kawałki są w prekeszu Service Workera (całe `.next/static`), a nowy test E2E sprawdza, że „?” działa offline przy zatrzymanym serwerze. Zostaje wspólny pakiet słowników ≈ 957 KB gz (krok B na liście zadań, czeka na decyzję właściciela).
+
+Wpływ na liczby: brak.
+
 ## [3.52.1] — 04.11.2026
 
 Audyt dostępności (bez nowych funkcji): cztery pola wyboru (ekrany „Analiza zacienienia” i „Urządzenia zmienne”) miały wyłączony obrys fokusa bez zamiennika, więc przy obsłudze klawiaturą nie było widać, które jest zaznaczone do przełączenia — dostały pierścień fokusa jak pozostałe pola (WCAG 2.4.7); dwa pola tekstowe z nazwą urządzenia („Kategorie specjalne”, zakładka pomiaru w „Wampirach energetycznych”) miały tylko tekst zastępczy, bez etykiety dla czytników ekranu — dostały `aria-label` z tego samego tekstu; globalna reguła `prefers-reduced-motion` wyłącza animacje i przejścia dla osób, które o to poprosiły w systemie (WCAG 2.2.2). Pomiar wydajności zapisany na liście zadań (bez zmian w kodzie): słowniki i teksty pomocy w trzech językach trafiają do wspólnego pakietu każdej strony.

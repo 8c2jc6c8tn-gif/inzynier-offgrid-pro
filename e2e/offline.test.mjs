@@ -124,6 +124,22 @@ test('map worker is served offline; 3D view falls back to a notice, not an error
   assert.deepEqual(bledy, [])
 })
 
+// Lazy help (3.52.2): the „?” texts are no longer in the common bundle — each screen loads its help module
+// chunk on mount. The chunk must come from the precache, otherwise the help would be empty offline.
+test('field help „?” loads its lazy module offline and shows the full text', async () => {
+  const bledy = []
+  const naBlad = (e) => bledy.push(`pageerror ${String(e).slice(0, 200)}`)
+  page.on('pageerror', naBlad)
+  await page.goto(ADRES + '/kalkulatory/mixing-rownolegle')
+  // the label changes from the neutral one to „Więcej informacji: <field name>” once the chunk has arrived
+  const przycisk = page.locator('button[aria-label^="Więcej informacji:"]').first()
+  await przycisk.waitFor({ timeout: 15_000 })
+  await przycisk.click()
+  await page.getByText('Do czego służy', { exact: false }).first().waitFor({ timeout: 10_000 })
+  page.off('pageerror', naBlad)
+  assert.deepEqual(bledy, [])
+})
+
 test('precache size (reported, standard 5.8 — stage 2 budget)', async () => {
   const bajty = await page.evaluate(async () => {
     const nazwa = (await caches.keys()).find((k) => k.startsWith('offgrid-precache-'))
