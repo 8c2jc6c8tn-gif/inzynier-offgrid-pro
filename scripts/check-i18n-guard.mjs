@@ -29,6 +29,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/lokalizacja/geometria-slonca",
   "lib/core/modules/lokalizacja/skaner-dzialki",
   "lib/core/modules/lokalizacja/analiza-zacienienia",
+  "lib/core/modules/lokalizacja/horyzont-ze-zdjecia",
   "lib/core/modules/lokalizacja/orientacja-powierzchni",
   "lib/core/modules/zapotrzebowanie/liczba-domownikow",
   "lib/core/modules/zapotrzebowanie/dni-autonomii",

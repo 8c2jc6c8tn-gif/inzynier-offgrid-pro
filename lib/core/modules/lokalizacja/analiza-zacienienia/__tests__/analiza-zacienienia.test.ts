@@ -291,3 +291,66 @@ describe("drzewa liściaste w miesiącach bez liści (TD19)", () => {
     expect(r.warnings[0]!.field).toBe("miesiaceBezlisci")
   })
 })
+
+describe("zmierzony horyzont (zdjęcie)", () => {
+  const profil = (f: (az: number) => number | null) => Array.from({ length: 360 }, (_, az) => f(az))
+
+  it("horyzont jak ściana: ten sam wynik co nieprzezroczysta przeszkoda o tym samym kącie", () => {
+    // Mur 1–2 m na południe: kąt wzniesienia zależy od azymutu; profil wzięty z silnika przeszkód, więc wyniki muszą się zgadzać.
+    const z = calculateAnalizaZacienienia({ ...baza, przeszkody: [scianaPoludniowa] })
+    const h = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profilHoryzontuDeg(baza.punkt!, [scianaPoludniowa]) })
+    // Profil co 1° przybliża krzywą — różnica małych rzędów, ale to ten sam mechanizm zasłaniania.
+    expect(Math.abs(h.value.obecnie.strataRocznaProcent - z.value.obecnie.strataRocznaProcent)).toBeLessThan(0.5)
+    expect(h.value.obecnie.udzialHoryzontuProcent).toBeCloseTo(h.value.obecnie.strataRocznaProcent, 9)
+    expect(z.value.obecnie.udzialHoryzontuProcent).toBe(0)
+  })
+
+  it("płaski horyzont 0° i pusty profil nie zasłaniają niczego", () => {
+    expect(calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil(() => 0) }).value.obecnie.strataRocznaProcent).toBe(0)
+    expect(calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil(() => null) }).value.obecnie.strataRocznaProcent).toBe(0)
+  })
+
+  it("horyzont 90° ze wszystkich stron zabiera całe promieniowanie bezpośrednie", () => {
+    const r = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil(() => 90) })
+    expect(r.value.obecnie.strataRocznaProcent).toBeCloseTo(100, 6)
+  })
+
+  it("wyższy horyzont na południu zabiera więcej niż niższy; zimą więcej niż latem", () => {
+    const niski = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil((az) => (az > 90 && az < 270 ? 10 : 0)) })
+    const wysoki = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil((az) => (az > 90 && az < 270 ? 25 : 0)) })
+    expect(wysoki.value.obecnie.strataRocznaProcent).toBeGreaterThan(niski.value.obecnie.strataRocznaProcent)
+    const m = wysoki.value.obecnie.strataMiesiecznaProcent
+    expect(m[11]!).toBeGreaterThan(m[5]!)
+  })
+
+  it("horyzont i drzewo razem: strata łączna większa od każdej z osobna, udziały sumują się do łącznej", () => {
+    const h = profil((az) => (az > 200 && az < 260 ? 20 : 0))
+    const sam = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: h })
+    const drzewo = calculateAnalizaZacienienia({ ...baza, przeszkody: [drzewoPoludnie] })
+    const razem = calculateAnalizaZacienienia({ ...baza, przeszkody: [drzewoPoludnie], horyzontZmierzonyDeg: h })
+    const o = razem.value.obecnie
+    expect(o.strataRocznaProcent).toBeGreaterThan(sam.value.obecnie.strataRocznaProcent)
+    expect(o.strataRocznaProcent).toBeGreaterThan(drzewo.value.obecnie.strataRocznaProcent)
+    expect(o.udzialPrzeszkod.reduce((a, u) => a + u.procent, 0) + o.udzialHoryzontuProcent).toBeCloseTo(o.strataRocznaProcent, 9)
+  })
+
+  it("zakłada: założenie z odsetkiem znanych kierunków", () => {
+    const r = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: profil((az) => (az < 90 ? 5 : null)) })
+    expect(r.assumptions).toContainEqual({ kod: "ZACIENIENIE-ZALOZENIE-HORYZONT-ZMIERZONY", params: { procent: 25 } })
+  })
+
+  it("niepoprawny horyzont: zła długość albo wartość spoza 0–90°", () => {
+    for (const h of [[1, 2, 3], profil(() => 95), profil(() => -1)]) {
+      const r = calculateAnalizaZacienienia({ ...baza, horyzontZmierzonyDeg: h })
+      expect(r.status).toBe("INVALID_INPUT")
+      expect(r.warnings[0]?.code).toBe("ZACIENIENIE-HORYZONT-NIEPOPRAWNY")
+    }
+  })
+
+  it("z danymi TMY horyzont też zabiera energię (strata całkowita, nie tylko bezpośrednia)", () => {
+    const rekordy = rokSyntetyczny(52.2297, 21.0122, 50)
+    const r = calculateAnalizaZacienienia({ ...baza, daneGodzinowe: rekordy, horyzontZmierzonyDeg: profil((az) => (az > 90 && az < 270 ? 30 : 0)) })
+    expect(r.value.zrodloPromieniowania).toBe("pvgis-tmy")
+    expect(r.value.obecnie.strataRocznaProcent).toBeGreaterThan(1)
+  })
+})
