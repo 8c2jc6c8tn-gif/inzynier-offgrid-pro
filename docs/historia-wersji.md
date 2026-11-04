@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.50.1] — 04.11.2026
+
+Dokumentacja (bez kodu): ocena wykonalności „Tor słońca z nakładką PV, horyzont ze zdjęcia/drona i AR na żywo” (`docs/tor-slonca-ar-ocena.md`), wpis na liście zadań, krótki wpis P-002 w perspektywach i notatka w `docs/memory.md`.
+
+Wpływ na liczby: brak.
+
 ## [3.50.0] — 03.11.2026
 
 Nowa zakładka „Perspektywy” w pasku górnym pulpitu (`/perspektywy`): ciekawostki o technologiach i patentach, każda z rachunkiem energii i kosztu, oceną realności i podziałem na „sprawdzone” i „deklaracja producenta”. Pierwszy wpis: Aircela, benzyna syntetyczna z powietrza (`/perspektywy/aircela`, PL/EN/RU): jak działa, bilans energii na galon (ok. 73–94 kWh, realnie 85–100), próg opłacalności dla Polski, Norwegii i Holandii (przy prądzie sieciowym Norwegia na granicy, Holandia tylko przy tanim hurcie, Polska nie), scenariusz własnego PV (urządzenie pracuje tylko w słońcu, więc jego koszt na litr dominuje: 4,0–9,8 €/l wobec 2,3–2,4 €/l na stacji, nie opłaca się w żadnym z trzech krajów przy deklarowanej cenie urządzenia), sens dla off-grid. Artykuł zawiera też tabelę „Oba scenariusze obok siebie” (praca ciągła na sieci albo stałej cenie vs tylko własne PV, w € i w nawiasie w zł, z litrami rocznie, kosztem urządzenia i energii na litr oraz ceną stacji w PL/NO/NL; rachunek w `lib/perspektywy/e-paliwo.ts`, komponent `components/perspektywy/porownanie-aircela.tsx`). Nowe wpisy dodaje się danymi (`lib/perspektywy/wpisy.ts`) i kluczami tłumaczeń. Pełny rachunek, założenia i luki: nowy rozdział `docs/perspektywy-projektow.md` (wpis P-001); wskaźnik w `backlog-poza-v1.md` (1.7→1.8), wpisy w `docs/lista-do-zrobienia.md`, `docs/memory.md`, `docs/wklad-do-standardu.md`, `docs/rejestr-pokrycia.md`. Silniki i kalkulatory bez zmian.
