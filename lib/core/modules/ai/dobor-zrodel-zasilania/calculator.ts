@@ -5,7 +5,7 @@ import type { DoborZrodelZasilaniaInput } from "./input"
 import { validateInput } from "./validation"
 import { bezTemperatury, pradOgraniczony } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 const FORMULA =
   "zrodlo = hierarchia_{M4/E32}(PV,\\ SoC,\\ prognoza,\\ agregat,\\ siec) \\quad I_{lad} = \\min(I_{mozliwy},\\ C_{Ah} \\times C_{rate}(T))"

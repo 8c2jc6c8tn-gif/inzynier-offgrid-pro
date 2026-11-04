@@ -2,11 +2,11 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
-## [3.49.2] — 04.11.2026
+## [3.50.0] — 04.11.2026
 
-Przegląd jakości całego repozytorium (bez nowych funkcji): poprawiony nieaktualny komentarz w silniku doboru źródeł zasilania (mówił jeszcze o blokadzie poniżej −10 °C i 0,1C, a od 3.47.0 reguła to zakaz od 0 °C i 0,2C dla 0…5 °C — sam kod liczył już dobrze), pięć ostrzeżeń lintu `no-img-element` zamknięte komentarzem z uzasadnieniem (`images.unoptimized` jest włączone, więc `next/image` nic by nie dał; dekoracyjne obrazy ze statycznych plików), poprawiony odsyłacz w nagłówku listy zadań (wskazywał nieistniejący plik GOD BOOK v2_39) i adnotacja przy wierszu INFRA-1 w rejestrze pokrycia. Bez zmian w zachowaniu aplikacji. Lint (0 ostrzeżeń), typecheck, strażniki i testy zielone.
+Przegląd jakości całego repozytorium (bez nowych funkcji) i uzgodnienie wersji silnika. Silnik doboru źródeł zasilania (`ai/dobor-zrodel-zasilania`) dostaje wersję 1.1.0: od 3.47.0 jego wynik w mrozie jest inny (blokada 0 A poniżej 0 °C zamiast 0,1C dla −10…0 °C, bo korzysta z `baterie/cold-c-rate` 1.1.0), a oznaczenie wersji zostało wtedy na 1.0.0 (decyzja właściciela 04.11.2026; wg `docs/wersjonowanie.md` pkt 5 zmiana drugiej cyfry silnika wymusza drugą cyfrę programu, stąd 3.50.0). Poza tym: poprawiony nieaktualny komentarz tego silnika (mówił jeszcze o blokadzie poniżej −10 °C i 0,1C), pięć ostrzeżeń lintu `no-img-element` zamknięte komentarzem z uzasadnieniem (`images.unoptimized` jest włączone, więc `next/image` nic by nie dał; obrazy dekoracyjne ze statycznych plików), poprawiony odsyłacz w nagłówku listy zadań (wskazywał nieistniejący plik GOD BOOK v2_39), adnotacja przy wierszu INFRA-1 w rejestrze pokrycia, przeliczona „Mapa wdrożenia” (275 z 312 pozycji) i uzupełniony akapit o synchronizacji standardu w `CLAUDE.md`. Lint (0 ostrzeżeń), typecheck, strażniki i testy zielone.
 
-Wpływ na liczby: brak.
+Wpływ na liczby: brak zmiany liczb. Zmienia się tylko oznaczenie wersji silnika doboru źródeł zasilania na wydrukach i w zapisanych wynikach (1.0.0 → 1.1.0); wyniki z wersji 3.47.0 i nowszych były już liczone według nowej reguły mrozu.
 
 ## [3.49.1] — 03.11.2026
 
