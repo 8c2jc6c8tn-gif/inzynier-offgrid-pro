@@ -95,6 +95,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/warunki-nadmorskie-pyliste", label: "Warunki nadmorskie i pyliste" },
       { href: "/kalkulatory/porownywarka-paneli", label: "Porównywarka paneli PV" },
       { href: "/kalkulatory/odstep-rzedow", label: "Odstęp rzędów paneli" },
+      { href: "/kalkulatory/tor-slonca", label: "Tor słońca i energia PV godzina po godzinie" },
       { href: "/kalkulatory/wiatr-powyzej-30", label: "Wiatr dla paneli powyżej 30°" },
       { href: "/kalkulatory/ogrodzenie-pv", label: "Ogrodzenie z paneli PV" },
     ],
