@@ -1,0 +1,92 @@
+// Russian texts of ./app-wzornik.ts — the same keys as `pl` (a missing or an extra key is a compile error).
+import type { pl } from "./app-wzornik"
+
+type Klucz = keyof typeof pl
+
+export const ru: Record<Klucz, string> = {
+  "UI-WZO-PULPIT": "← Панель",
+  "UI-WZO-WZORNIK": "Образец стиля",
+  "UI-WZO-WSZYSTKIE-IKONY-WERDYKTY":
+    "Все иконки, вердикты, подсказки и компоненты приложения на одной странице — для проверки единообразия цветов и шрифта. Изменения ниже сразу действуют во всём приложении (localStorage), потому что каждый компонент берёт цвета из одних и тех же CSS-токенов. Та же персонализация доступна и в",
+  "UI-WZO-USTAWIENIACH": "Настройках",
+  "UI-WZO-ZASTOSUJ": "Применить",
+  "UI-WZO-KLIKNIECIE-ZAPISUJE-WYBOR":
+    "Нажатие сохраняет выбор как цвет группы «акцент» — ровно тот же механизм, что и редактор ниже и в Настройках. Оттенок можно уточнить там вручную.",
+  "UI-WZO-BEZPIECZNIE-MARGINESEM-PRZYK": "Безопасно, с запасом. Пример содержимого панели.",
+  "UI-WZO-UZASADNIENIE-FIZYCZNE-JEDNYM": "Физическое обоснование одним предложением, без запугивания.",
+  "UI-WZO-RYZYKO-USZKODZENIA-SPRZETU": "Риск повреждения оборудования, пожара или поражения током.",
+  "UI-WZO-NAPIECIE-ROBOCZE": "Рабочее напряжение",
+  "UI-WZO-NAJEDZ-ZOBACZYC-MIGAWKE": "Наведите, чтобы увидеть обучающую справку",
+  "UI-WZO-BRAKUJE-INFORMACJI-KLASIE":
+    "«Не хватает информации о классе материала. Результат рассчитан ориентировочно для значения по умолчанию и не должен использоваться как рабочий проект.»",
+  "UI-WZO-DOMYSLNY": "По умолчанию",
+  "UI-WZO-OBRYS": "Контур",
+  "UI-WZO-DRUGORZEDNY": "Вторичная",
+  "UI-WZO-GHOST": "Ghost",
+  "UI-WZO-DESTRUKCYJNY": "Деструктивная",
+  "UI-WZO-LINK": "Ссылка",
+  "UI-WZO-WYLACZONY": "Отключена",
+  "UI-WZO-DISPLAY-ZAZOLC-GESLA": "Display — Съешь же ещё этих мягких французских булок",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA": "Заголовок H1 — Съешь же ещё этих мягких французских булок",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA-2": "Заголовок H2 — Съешь же ещё этих мягких французских булок",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA-3": "Заголовок H3 — Съешь же ещё этих мягких французских булок",
+  "UI-WZO-TRESC-BODY-ZAZOLC": "Текст (body) — Съешь же ещё этих мягких французских булок, ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ",
+  "UI-WZO-SMALL-ETYKIETY-POL": "Small — подписи полей, описания",
+  "UI-WZO-CAPTION-PODPISY-JEDNOSTKI": "Caption — подписи, единицы, версии",
+  "UI-WZO-WYGLADA-FOCUS-VISIBLE": "Выглядит как: focus-visible",
+  "UI-WZO-WYGLADA-HOVER": "Выглядит как: hover",
+  "UI-WZO-WYGLADA-DISABLED": "Выглядит как: disabled",
+  "UI-WZO-SZEREG": "Последовательно",
+  "UI-WZO-ROWNOLEGLE": "Параллельно",
+  "UI-WZO-NORMALNY-STAN-POCZATKOWY": "Обычное начальное состояние формы — нейтральное, не предупреждающее.",
+  "UI-WZO-DANE-NIESPOJNE-ALBO": "Данные есть, но они противоречивы или вне физического диапазона.",
+  "UI-WZO-TECHNICZNY-BLEKIT": "Технический синий",
+  "UI-WZO-OKLCH-245-DOMYSLNY": "oklch(0.52 0.18 245) — по умолчанию, 5,3:1 на фоне",
+  "UI-WZO-ENERGETYCZNY-CYJAN": "Энергичный циан",
+  "UI-WZO-OKLCH-205-ALTERNATYWA": "oklch(0.46 0.13 205) — альтернатива, 6,3:1 на фоне",
+  "UI-WZO-KOLOR-AKCENTU-PROPOZYCJE": "Цвет акцента — варианты",
+  "UI-WZO-NIEUSTALONE-BRIEFIE-SEKCJA":
+    "Не определено в брифе (раздел 3) — два варианта для сравнения вживую, вдали от оттенков вердиктов 🟢🟡🔴, чтобы «выбранное» никогда не выглядело как статус.",
+  "UI-WZO-PERSONALIZACJA-KOLOROW": "Персонализация цветов",
+  "UI-WZO-POJEDYNCZO-ALBO-GRUPOWO": "По одному или группой (отметьте несколько, примените один цвет сразу).",
+  "UI-WZO-CZCIONKA": "Шрифт",
+  "UI-WZO-CZTERY-FONTY-PELNYM": "Четыре шрифта с полной поддержкой польских диакритических знаков.",
+  "UI-WZO-WERDYKTY": "Вердикты 🟢🟡🔴",
+  "UI-WZO-DOCS-STANDARDS-WALIDACJA":
+    "docs/standards/04-walidacja-i-twarde-stopy.md — всегда с иконкой, не только цветом.",
+  "UI-WZO-DOPUSZCZALNE-BLISKO-LIMITU": "Допустимо, но близко к пределу",
+  "UI-WZO-CHMURKI-WSKAZOWKI": "Подсказки",
+  "UI-WZO-DYMEK-WYJASNIENIEM-DOCS": "Всплывающее пояснение (docs/standards/08-ui-ux.md, 8.4).",
+  "UI-WZO-NAPIECIE-MIERZONE-ZACISKACH":
+    "Напряжение, измеренное на клеммах батареи под нагрузкой. Типичный диапазон: 44–58 В для системы 48 В.",
+  "UI-WZO-MIGAWKA-EDUKACYJNA-KROTKIE":
+    "Обучающая справка — краткое объяснение «о чём речь» физического явления, взятое из поля formula/assumptions результата.",
+  "UI-WZO-STYL-KOMUNIKATOW": "Стиль сообщений",
+  "UI-WZO-KONKRETNE-BEZ-STRASZENIA": "Конкретно, без запугивания, без мнимой уверенности (8.8).",
+  "UI-WZO-PRZYCISKI": "Кнопки",
+  "UI-WZO-WARIANTY-STANY-COMPONENTS": "Варианты и состояния из components/ui/button.tsx.",
+  "UI-WZO-TYPOGRAFIA-SKALA-JAKO": "Типографика — шкала как токен",
+  "UI-WZO-APP-GLOBALS-CSS":
+    "app/globals.css: --text-display/h1/h2/h3/body/small/caption. Классы text-display…text-caption, а не ad-hoc text-sm/text-lg.",
+  "UI-WZO-STANY-HOVER-FOCUS": "Состояния: hover / focus-visible / disabled",
+  "UI-WZO-KAZDY-INTERAKTYWNY-ELEMENT":
+    "Каждый интерактивный элемент имеет три состояния, определённые один раз в components/ui/, — не на каждом экране (8.1–8.3).",
+  "UI-WZO-DOMYSLNE-POLE": "Поле по умолчанию",
+  "UI-WZO-POLE-BLEDEM": "Поле с ошибкой",
+  "UI-WZO-WARTOSC-POZA-ZAKRESEM": "Значение вне диапазона 0–100.",
+  "UI-WZO-POLE-WYLACZONE": "Отключённое поле",
+  "UI-WZO-POLA-FORMULARZA": "Поля формы",
+  "UI-WZO-POLE-POLESELECT-POLECHECKBOX":
+    "Pole / PoleSelect / PoleCheckbox — components/ui/pole.tsx, с необязательной подсказкой.",
+  "UI-WZO-NAPIECIE-MIERZONE-ZACISKACH-2": "Напряжение, измеренное на клеммах батареи под нагрузкой.",
+  "UI-WZO-TRYB": "Режим",
+  "UI-WZO-DESZCZ-PROGNOZOWANY-CIAGU": "Дождь в прогнозе на ближайшие несколько дней",
+  "UI-WZO-WPLYWA-REKOMENDACJE-MYCIA": "Влияет на рекомендацию по мойке панелей.",
+  "UI-WZO-STANY-PUSTKI-BLEDU": "Состояния: пусто / ошибка / загрузка",
+  "UI-WZO-COMPONENTS-STANY-TSX": "components/ui/stany.tsx — StanPusty, StanBledu, StanLadowania (8.5–8.7).",
+  "UI-WZO-UZUPELNIJ-DANE-ZOBACZYC": "Заполните данные, чтобы увидеть результат.",
+  "UI-WZO-POLICZYC-SPRAWDZ-DANE": "Невозможно рассчитать — проверьте входные данные.",
+  "UI-WZO-IKONY-NAWIGACJI": "Иконки навигации",
+  "UI-WZO-IKONY-MODULOW": "Иконки модулей",
+  "UI-WZO-EMOJI-LIB-PULPIT": "Линейные иконки модулей (components/ui/ikona-modulu.tsx) — по одной на плитку.",
+}

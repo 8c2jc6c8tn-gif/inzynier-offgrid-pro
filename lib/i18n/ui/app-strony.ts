@@ -1,6 +1,7 @@
 /**
  * app-strony — screen text migrated from JSX (D58, ratchet list). Screens: app/auth/login, app, app/ustawienia.
  */
+// English: ./app-strony.en.ts, Russian: ./app-strony.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-LOG-KONTO-WYMAGANE-PIERWSZEGO":
     "Konto jest wymagane od pierwszego uruchomienia (docs/standards/18-logowanie.md, 18.1) — po jednorazowym zalogowaniu apka działa w pełni offline.",
@@ -49,103 +50,3 @@ export const pl = {
   "UI-LOG-ZALOGUJ-KLUCZEM": "Zaloguj się kluczem dostępu (twarz lub odcisk palca)",
   "UI-LOG-KLUCZ-OCZEKIWANIE": "Czekam na potwierdzenie na urządzeniu…",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-LOG-KONTO-WYMAGANE-PIERWSZEGO":
-    "An account is required from the first launch (docs/standards/18-logowanie.md, 18.1) — after a one-time sign-in the app works fully offline.",
-  "UI-LOG-ZALOGUJ-GOOGLE": "Sign in with Google",
-  "UI-LOG-ZALOGUJ-APPLE": "Sign in with Apple",
-  "UI-LOG-ALBO-MAILEM-BEZ": "or by e-mail, without a password",
-  "UI-LOG-SPRAWDZ-SKRZYNKE": "Check your inbox",
-  "UI-LOG-WYSLALISMY-LINK-ZALOGOWANIA": "— we have sent you a sign-in link.",
-  "UI-LOG-ZALOGUJ": "Sign in",
-  "UI-LOG-ADRES-MAIL": "E-mail address",
-  "UI-LOG-WYSYLANIE": "Sending…",
-  "UI-LOG-WYSLIJ-LINK-ZALOGOWANIA": "Send a sign-in link",
-  "UI-PUL-INZYNIER-OFFGRID-PRO": "☰ Inżynier Offgrid Pro",
-  "UI-PUL-LOKALIZACJA-TEREN": "Location and terrain",
-  "UI-PUL-TRYB-LIVE": "Live mode",
-  "UI-PUL-USTAWIENIA": "Settings",
-  "UI-PUL-USTAWIENIA-KAFEL": "Settings",
-  "UI-PUL-PLAKIETKA-PRO": "PRO",
-  "UI-PUL-PLAKIETKA-PRO-OPIS": "PRO feature — available without limits for now",
-  "UI-PUL-PULPIT": "Dashboard",
-  "UI-PUL-MODULOW-WIDOCZNYCH": "{length} of {length2} modules visible.",
-  "UI-PUL-SKONFIGURUJ-PULPIT": "Configure the dashboard",
-  "UI-PUL-PRZYWROC-DOMYSLNE-USTAWIENIA": "Restore the defaults in the settings",
-  "UI-PUL-BRAK-POWIADOMIEN": "No notifications",
-  "UI-PUL-PRZEGLADY-PO-TERMINIE": "Inspections overdue: {n}. Open the schedule.",
-  "UI-PUL-WSZYSTKIE-KAFLE-UKRYTE": "All tiles are hidden.",
-  "UI-UST-PULPIT": "← Dashboard",
-  "UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI": "Settings — Configure the dashboard",
-  "UI-UST-POKAZ-UKRYJ-MODUL":
-    "Show/hide a module, change the order (↑/↓). Hiding does not delete a module — you can always restore it. Changes are saved automatically in this browser.",
-  "UI-UST-PRZYWROC-DOMYSLNE": "Restore defaults",
-  "UI-UST-PERSONALIZACJA-WYGLADU": "Appearance personalisation",
-  "UI-UST-MOTYW-KOLORY-CZCIONKA": "Theme, colours and font. Preview of all elements at once:",
-  "UI-UST-WZORNIK": "/wzornik",
-  "UI-UST-KOLORY": "Colours",
-  "UI-UST-CZCIONKA": "Font",
-  "UI-UST-JEZYK": "Language",
-  "UI-UST-DOTYCZY-KOMUNIKATOW-KTORE":
-    "Applies to messages that already have a translation (chapter 17 of the standard — the migration continues module by module). The remaining texts are still shown in Polish.",
-  "UI-UST-PRZENIES-WYZEJ": "Move up",
-  "UI-UST-PRZENIES-NIZEJ": "Move down",
-  "UI-UST-POKAZ": "Show",
-  "UI-UST-UKRYJ": "Hide",
-  "UI-MOD-PULPIT": "← Dashboard",
-  "UI-MOD-TYTUL": "Module {id} — {nazwa}",
-  "UI-LOG-ZALOGUJ-KLUCZEM": "Sign in with a passkey (face or fingerprint)",
-  "UI-LOG-KLUCZ-OCZEKIWANIE": "Waiting for confirmation on your device…",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-LOG-KONTO-WYMAGANE-PIERWSZEGO":
-    "Аккаунт требуется с первого запуска (docs/standards/18-logowanie.md, 18.1) — после однократного входа приложение полностью работает офлайн.",
-  "UI-LOG-ZALOGUJ-GOOGLE": "Войти через Google",
-  "UI-LOG-ZALOGUJ-APPLE": "Войти через Apple",
-  "UI-LOG-ALBO-MAILEM-BEZ": "или по e-mail, без пароля",
-  "UI-LOG-SPRAWDZ-SKRZYNKE": "Проверьте почту",
-  "UI-LOG-WYSLALISMY-LINK-ZALOGOWANIA": "— мы отправили ссылку для входа.",
-  "UI-LOG-ZALOGUJ": "Войти",
-  "UI-LOG-ADRES-MAIL": "Адрес e-mail",
-  "UI-LOG-WYSYLANIE": "Отправка…",
-  "UI-LOG-WYSLIJ-LINK-ZALOGOWANIA": "Отправить ссылку для входа",
-  "UI-PUL-INZYNIER-OFFGRID-PRO": "☰ Inżynier Offgrid Pro",
-  "UI-PUL-LOKALIZACJA-TEREN": "Местоположение и рельеф",
-  "UI-PUL-TRYB-LIVE": "Режим Live",
-  "UI-PUL-USTAWIENIA": "Настройки",
-  "UI-PUL-USTAWIENIA-KAFEL": "Настройки",
-  "UI-PUL-PLAKIETKA-PRO": "PRO",
-  "UI-PUL-PLAKIETKA-PRO-OPIS": "Функция PRO — пока доступна без ограничений",
-  "UI-PUL-PULPIT": "Панель",
-  "UI-PUL-MODULOW-WIDOCZNYCH": "Видимых модулей: {length} из {length2}.",
-  "UI-PUL-SKONFIGURUJ-PULPIT": "Настроить панель",
-  "UI-PUL-PRZYWROC-DOMYSLNE-USTAWIENIA": "Восстановить настройки по умолчанию",
-  "UI-PUL-BRAK-POWIADOMIEN": "Нет уведомлений",
-  "UI-PUL-PRZEGLADY-PO-TERMINIE": "Просроченных осмотров: {n}. Открыть график.",
-  "UI-PUL-WSZYSTKIE-KAFLE-UKRYTE": "Все плитки скрыты.",
-  "UI-UST-PULPIT": "← Панель",
-  "UI-UST-USTAWIENIA-SKONFIGURUJ-PULPI": "Настройки — Настроить панель",
-  "UI-UST-POKAZ-UKRYJ-MODUL":
-    "Показать/скрыть модуль, изменить порядок (↑/↓). Скрытие не удаляет модуль — его всегда можно вернуть. Изменения сохраняются автоматически в этом браузере.",
-  "UI-UST-PRZYWROC-DOMYSLNE": "Восстановить по умолчанию",
-  "UI-UST-PERSONALIZACJA-WYGLADU": "Персонализация внешнего вида",
-  "UI-UST-MOTYW-KOLORY-CZCIONKA": "Тема, цвета и шрифт. Предпросмотр всех элементов сразу:",
-  "UI-UST-WZORNIK": "/wzornik",
-  "UI-UST-KOLORY": "Цвета",
-  "UI-UST-CZCIONKA": "Шрифт",
-  "UI-UST-JEZYK": "Язык",
-  "UI-UST-DOTYCZY-KOMUNIKATOW-KTORE":
-    "Касается сообщений, у которых уже есть перевод (гл. 17 стандарта — миграция идёт модуль за модулем). Остальные тексты пока отображаются на польском.",
-  "UI-UST-PRZENIES-WYZEJ": "Переместить выше",
-  "UI-UST-PRZENIES-NIZEJ": "Переместить ниже",
-  "UI-UST-POKAZ": "Показать",
-  "UI-UST-UKRYJ": "Скрыть",
-  "UI-MOD-PULPIT": "← Панель",
-  "UI-MOD-TYTUL": "Модуль {id} — {nazwa}",
-  "UI-LOG-ZALOGUJ-KLUCZEM": "Войти с ключом доступа (лицо или отпечаток пальца)",
-  "UI-LOG-KLUCZ-OCZEKIWANIE": "Ожидание подтверждения на устройстве…",
-}

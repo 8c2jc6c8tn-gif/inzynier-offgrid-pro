@@ -15,13 +15,16 @@ describe("app code does not pull all dictionaries into the common bundle", () =>
     })
   }
 
-  it("only the registry reaches the English and Russian dictionaries, and nobody imports dictionaries.ts", () => {
+  it("only the registry reaches the English and Russian dictionaries, and nobody imports dictionaries.ts or ui/index.ts", () => {
     const winni: string[] = []
     for (const plik of ["app", "components", "lib"].flatMap((k) => pliki(path.join(KORZEN, k)))) {
       const tekst = readFileSync(plik, "utf8")
       const rel = path.relative(KORZEN, plik)
       if (/from ["'](@\/lib\/i18n|\.{1,2}(\/i18n)?)\/dictionaries["']/.test(tekst) && rel !== "lib/i18n/dictionaries.ts") winni.push(`${rel}: dictionaries`)
       if (/slownik-(en|ru)["']/.test(tekst) && rel !== "lib/i18n/rejestr-slownikow.ts" && !/^lib\/i18n\/dictionaries\.ts$/.test(rel)) winni.push(`${rel}: slownik-en/ru`)
+      // The per-language screen-text aggregators belong to their dictionary module; `ui/index.ts` (all languages) is for tests.
+      if (/from ["']\.\/ui-(pl|en|ru)["']/.test(tekst) && !/^lib\/i18n\/slownik-(pl|en|ru)\.ts$/.test(rel)) winni.push(`${rel}: ui-pl/en/ru`)
+      if (/from ["'](@\/lib\/i18n|\.{1,2}(\/i18n)?)\/ui["']/.test(tekst) || /from ["']\.\/ui["']/.test(tekst)) winni.push(`${rel}: ui/index (all languages)`)
     }
     expect(winni).toEqual([])
   })

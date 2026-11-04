@@ -1,6 +1,7 @@
 /**
  * Rodzaj obiektu projektu (Ustawienia, `components/obiekt-sekcja.tsx`; model: `lib/obiekt/profil-obiektu.ts`).
  */
+// English: ./obiekt.en.ts, Russian: ./obiekt.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-OBIEKT-TYTUL": "Rodzaj obiektu",
   "UI-OBIEKT-OPIS": "Wybierz, co zasilasz. Kamper, altana lub domek ROD i garaż to mikroinstalacje: aplikacja liczy je z listy odbiorników i miesięcy użytkowania, a nie ze strat ciepła budynku. Brak wyboru = aplikacja działa jak dotąd.",
@@ -21,47 +22,3 @@ export const pl = {
   "UI-OBIEKT-UKRYTO-POLA": "Pola dotyczące budynku są ukryte, bo rodzaj obiektu to kamper.",
   "UI-OBIEKT-UKRYTO-USTAWIENIA": "Rodzaj obiektu zmienisz w Ustawieniach.",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-OBIEKT-TYTUL": "Type of site",
-  "UI-OBIEKT-OPIS": "Choose what you are powering. A camper, a garden-plot cabin (ROD) and a garage are micro-installations: the app calculates them from your list of appliances and months of use, not from building heat losses. No choice = the app works as before.",
-  "UI-OBIEKT-RODZAJ": "Type of site",
-  "UI-OBIEKT-WYBIERZ": "— not chosen —",
-  "UI-OBIEKT-R-BUDYNEK": "Building (year-round house)",
-  "UI-OBIEKT-R-KAMPER": "Camper or trailer",
-  "UI-OBIEKT-R-ALTANA-ROD": "Garden-plot cabin or summerhouse (ROD, holiday cabin)",
-  "UI-OBIEKT-R-GARAZ": "Garage or small shed",
-  "UI-OBIEKT-MIESIACE": "Months in which the site is used",
-  "UI-OBIEKT-MIKRO-NOTA": "I calculate a micro-installation’s consumption from your list of appliances and the months you tick. Unticked months count as zero consumption.",
-  "UI-OBIEKT-LINK-ODBIORNIKI": "Fill in the list of appliances →",
-  "UI-OBIEKT-BRAK-MIESIECY": "Tick at least one month of use to calculate the consumption.",
-  "UI-OBIEKT-NAPIECIE": "System voltage (optional)",
-  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "From the site profile: system voltage {v} V.",
-  "UI-OBIEKT-NAPIECIE-UZYJ": "Enter {v} V",
-  "UI-OBIEKT-UKRYTO-EKRANY": "Some screens about a building are hidden because the site type is a camper. You can still open them from links on other screens.",
-  "UI-OBIEKT-UKRYTO-POLA": "Fields about a building are hidden because the site type is a camper.",
-  "UI-OBIEKT-UKRYTO-USTAWIENIA": "You can change the site type in Settings.",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-OBIEKT-TYTUL": "Тип объекта",
-  "UI-OBIEKT-OPIS": "Выберите, что вы питаете. Кемпер, дачный домик (ROD) и гараж — микроустановки: приложение считает их по списку потребителей и месяцам использования, а не по теплопотерям здания. Без выбора приложение работает как раньше.",
-  "UI-OBIEKT-RODZAJ": "Тип объекта",
-  "UI-OBIEKT-WYBIERZ": "— не выбрано —",
-  "UI-OBIEKT-R-BUDYNEK": "Здание (дом на весь год)",
-  "UI-OBIEKT-R-KAMPER": "Кемпер или прицеп",
-  "UI-OBIEKT-R-ALTANA-ROD": "Беседка или дачный домик (ROD, летний домик)",
-  "UI-OBIEKT-R-GARAZ": "Гараж или будка",
-  "UI-OBIEKT-MIESIACE": "Месяцы, когда объект используется",
-  "UI-OBIEKT-MIKRO-NOTA": "Потребление микроустановки я считаю по вашему списку потребителей и отмеченным месяцам. Неотмеченные месяцы считаются нулевым потреблением.",
-  "UI-OBIEKT-LINK-ODBIORNIKI": "Заполнить список потребителей →",
-  "UI-OBIEKT-BRAK-MIESIECY": "Отметьте хотя бы один месяц использования, чтобы посчитать потребление.",
-  "UI-OBIEKT-NAPIECIE": "Напряжение системы (необязательно)",
-  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Из профиля объекта: напряжение системы {v} В.",
-  "UI-OBIEKT-NAPIECIE-UZYJ": "Ввести {v} В",
-  "UI-OBIEKT-UKRYTO-EKRANY": "Часть экранов о здании скрыта, потому что тип объекта — кемпер. Их по-прежнему можно открыть по ссылкам на других экранах.",
-  "UI-OBIEKT-UKRYTO-POLA": "Поля о здании скрыты, потому что тип объекта — кемпер.",
-  "UI-OBIEKT-UKRYTO-USTAWIENIA": "Тип объекта можно изменить в Настройках.",
-}

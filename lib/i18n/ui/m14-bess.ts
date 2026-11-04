@@ -1,6 +1,7 @@
 /**
  * M14 — F7 „Magazyn (BESS) w firmie — strumienie korzyści” (`app/kalkulatory/magazyn-firmy/page.tsx`).
  */
+// English: ./m14-bess.en.ts, Russian: ./m14-bess.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-BESS-S-AUTOKONSUMPCJA": "Autokonsumpcja nadwyżek PV",
   "UI-BESS-S-ARBITRAZ": "Arbitraż cenowy",
@@ -41,89 +42,3 @@ export const pl = {
   "UI-BESS-ZUZYCIE": "Zużycie magazynu",
   "UI-BESS-ZWROT": "Prosty zwrot ceny magazynu z korzyści: {lat} roku (bez dyskonta i zmian cen).",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-BESS-S-AUTOKONSUMPCJA": "Self-consumption of PV surplus",
-  "UI-BESS-S-ARBITRAZ": "Price arbitrage",
-  "UI-BESS-S-MOCOWA": "Capacity fee (outside 7:00–22:00)",
-  "UI-BESS-S-MOC-UMOWNA": "Contracted capacity and overrun charges",
-  "UI-BESS-TYTUL": "Energy storage (BESS) in a business — benefit streams",
-  "UI-BESS-OPIS":
-    "Storage earns in five ways, but not every one is available to your business. We compare each stream with the storage wear cost per 1 kWh from the “Storage profitability analysis” (Module 4). M14 “Business – grid”, screen F7.",
-  "UI-BESS-KOSZT-KWH": "Cost of 1 kWh from storage:",
-  "UI-BESS-KOSZT-WARTOSC": "{koszt} PLN/kWh",
-  "UI-BESS-NIEPOLICZONY": "not calculated yet",
-  "UI-BESS-L-ZMIEN": "change price, capacity, cycles →",
-  "UI-BESS-L-POLICZ": "calculate it from offer prices →",
-  "UI-BESS-H-1": "1. Self-consumption of PV surplus",
-  "UI-BESS-ENERGIA": "Energy through storage",
-  "UI-BESS-ZYSK": "Gain per 1 kWh",
-  "UI-BESS-L-NADWYZKA": "How much surplus you have — PV in a business →",
-  "UI-BESS-H-2": "2. Price arbitrage",
-  "UI-BESS-ARBITRAZ-OPIS":
-    "Charging from the grid in cheap hours and using in expensive ones — makes sense with dynamic or time-of-use prices.",
-  "UI-BESS-ROZNICA": "Price difference",
-  "UI-BESS-H-3": "3. Capacity fee",
-  "UI-BESS-ODDANE": "Of which delivered on working days 7:00–22:00",
-  "UI-BESS-L-MOCOWA": "Capacity fee — shifting consumption →",
-  "UI-BESS-H-4": "4. Contracted capacity charges",
-  "UI-BESS-GRUPA": "Tariff group",
-  "UI-BESS-GRUPA-C1": "C11 / C12a / C12b (up to 40 kW)",
-  "UI-BESS-GRUPA-C2": "C21 / C22a / C22b (above 40 kW)",
-  "UI-BESS-OSZCZEDNOSC": "Savings on contracted capacity and overruns",
-  "UI-BESS-L-MOC-UMOWNA": "Contracted capacity — overruns →",
-  "UI-BESS-H-5": "5. System services",
-  "UI-BESS-USLUGI-OPIS":
-    "Balancing market and capacity market — practically unavailable to small storage without an aggregator. Information only, no amount.",
-  "UI-BESS-UZUPELNIJ": "Complete the data",
-  "UI-BESS-BILANS": "Annual storage balance",
-  "UI-BESS-PLUS-ROCZNIE": "+{kwota} per year",
-  "UI-BESS-MINUS-ROCZNIE": "{kwota} per year — the storage does not pay back",
-  "UI-BESS-ZUZYCIE": "Storage wear",
-  "UI-BESS-ZWROT":
-    "Simple payback of the storage price from the benefits: {lat} years (no discounting or price changes).",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-BESS-S-AUTOKONSUMPCJA": "Самопотребление излишков PV",
-  "UI-BESS-S-ARBITRAZ": "Ценовой арбитраж",
-  "UI-BESS-S-MOCOWA": "Плата за мощность (вне 7:00–22:00)",
-  "UI-BESS-S-MOC-UMOWNA": "Плата за договорную мощность и превышения",
-  "UI-BESS-TYTUL": "Накопитель энергии (BESS) в фирме — потоки выгод",
-  "UI-BESS-OPIS":
-    "Накопитель зарабатывает пятью способами, но не каждый доступен вашей фирме. Каждый поток мы сравниваем со стоимостью износа накопителя на 1 кВт·ч из «Анализа окупаемости накопителя» (модуль 4). M14 «Фирма – сеть», экран F7.",
-  "UI-BESS-KOSZT-KWH": "Стоимость 1 кВт·ч из накопителя:",
-  "UI-BESS-KOSZT-WARTOSC": "{koszt} зл/кВт·ч",
-  "UI-BESS-NIEPOLICZONY": "ещё не рассчитана",
-  "UI-BESS-L-ZMIEN": "изменить цену, ёмкость, циклы →",
-  "UI-BESS-L-POLICZ": "рассчитать по ценам предложений →",
-  "UI-BESS-H-1": "1. Самопотребление излишков PV",
-  "UI-BESS-ENERGIA": "Энергия через накопитель",
-  "UI-BESS-ZYSK": "Выгода на 1 кВт·ч",
-  "UI-BESS-L-NADWYZKA": "Сколько у вас излишков — PV в фирме →",
-  "UI-BESS-H-2": "2. Ценовой арбитраж",
-  "UI-BESS-ARBITRAZ-OPIS":
-    "Зарядка из сети в дешёвые часы и потребление в дорогие — имеет смысл при динамической или зонной цене.",
-  "UI-BESS-ROZNICA": "Разница цен",
-  "UI-BESS-H-3": "3. Плата за мощность",
-  "UI-BESS-ODDANE": "Из этого отдано в рабочие дни 7:00–22:00",
-  "UI-BESS-L-MOCOWA": "Плата за мощность — перенос потребления →",
-  "UI-BESS-H-4": "4. Плата за договорную мощность",
-  "UI-BESS-GRUPA": "Тарифная группа",
-  "UI-BESS-GRUPA-C1": "C11 / C12a / C12b (до 40 кВт)",
-  "UI-BESS-GRUPA-C2": "C21 / C22a / C22b (свыше 40 кВт)",
-  "UI-BESS-OSZCZEDNOSC": "Экономия на договорной мощности и превышениях",
-  "UI-BESS-L-MOC-UMOWNA": "Договорная мощность — превышения →",
-  "UI-BESS-H-5": "5. Системные услуги",
-  "UI-BESS-USLUGI-OPIS":
-    "Балансирующий рынок и рынок мощности — для небольших накопителей практически недоступны без агрегатора. Только информация, без суммы.",
-  "UI-BESS-UZUPELNIJ": "Дополните данные",
-  "UI-BESS-BILANS": "Годовой баланс накопителя",
-  "UI-BESS-PLUS-ROCZNIE": "+{kwota} в год",
-  "UI-BESS-MINUS-ROCZNIE": "{kwota} в год — накопитель не окупается",
-  "UI-BESS-ZUZYCIE": "Износ накопителя",
-  "UI-BESS-ZWROT":
-    "Простая окупаемость цены накопителя за счёт выгод: {lat} года (без дисконтирования и изменения цен).",
-}

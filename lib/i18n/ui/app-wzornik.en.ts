@@ -1,0 +1,92 @@
+// English texts of ./app-wzornik.ts — the same keys as `pl` (a missing or an extra key is a compile error).
+import type { pl } from "./app-wzornik"
+
+type Klucz = keyof typeof pl
+
+export const en: Record<Klucz, string> = {
+  "UI-WZO-PULPIT": "← Dashboard",
+  "UI-WZO-WZORNIK": "Style guide",
+  "UI-WZO-WSZYSTKIE-IKONY-WERDYKTY":
+    "All icons, verdicts, tooltips and components of the app on one page — for testing the consistency of colours and font. The changes below take effect immediately across the whole app (localStorage), because every component takes its colours from the same CSS tokens. The same personalisation is also available in",
+  "UI-WZO-USTAWIENIACH": "Settings",
+  "UI-WZO-ZASTOSUJ": "Apply",
+  "UI-WZO-KLIKNIECIE-ZAPISUJE-WYBOR":
+    "A click saves the choice as the colour of the “accent” group — exactly the same mechanism as the editor below and in Settings. The shade can be fine-tuned manually there.",
+  "UI-WZO-BEZPIECZNIE-MARGINESEM-PRZYK": "Safe, with a margin. Sample panel content.",
+  "UI-WZO-UZASADNIENIE-FIZYCZNE-JEDNYM": "The physical reason in one sentence, without scaring.",
+  "UI-WZO-RYZYKO-USZKODZENIA-SPRZETU": "Risk of equipment damage, fire or electric shock.",
+  "UI-WZO-NAPIECIE-ROBOCZE": "Operating voltage",
+  "UI-WZO-NAJEDZ-ZOBACZYC-MIGAWKE": "Hover to see the educational snapshot",
+  "UI-WZO-BRAKUJE-INFORMACJI-KLASIE":
+    "“Information about the material class is missing. The result was calculated as an estimate for the default value and should not be used as a construction design.”",
+  "UI-WZO-DOMYSLNY": "Default",
+  "UI-WZO-OBRYS": "Outline",
+  "UI-WZO-DRUGORZEDNY": "Secondary",
+  "UI-WZO-GHOST": "Ghost",
+  "UI-WZO-DESTRUKCYJNY": "Destructive",
+  "UI-WZO-LINK": "Link",
+  "UI-WZO-WYLACZONY": "Disabled",
+  "UI-WZO-DISPLAY-ZAZOLC-GESLA": "Display — The quick brown fox jumps over the lazy dog",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA": "Heading H1 — The quick brown fox jumps over the lazy dog",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA-2": "Heading H2 — The quick brown fox jumps over the lazy dog",
+  "UI-WZO-NAGLOWEK-ZAZOLC-GESLA-3": "Heading H3 — The quick brown fox jumps over the lazy dog",
+  "UI-WZO-TRESC-BODY-ZAZOLC": "Body text — The quick brown fox jumps over the lazy dog, ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ",
+  "UI-WZO-SMALL-ETYKIETY-POL": "Small — field labels, descriptions",
+  "UI-WZO-CAPTION-PODPISY-JEDNOSTKI": "Caption — captions, units, versions",
+  "UI-WZO-WYGLADA-FOCUS-VISIBLE": "Looks like: focus-visible",
+  "UI-WZO-WYGLADA-HOVER": "Looks like: hover",
+  "UI-WZO-WYGLADA-DISABLED": "Looks like: disabled",
+  "UI-WZO-SZEREG": "Series",
+  "UI-WZO-ROWNOLEGLE": "Parallel",
+  "UI-WZO-NORMALNY-STAN-POCZATKOWY": "The normal initial state of a form — neutral, not a warning.",
+  "UI-WZO-DANE-NIESPOJNE-ALBO": "The data is there, but it is inconsistent or outside the physical range.",
+  "UI-WZO-TECHNICZNY-BLEKIT": "Technical blue",
+  "UI-WZO-OKLCH-245-DOMYSLNY": "oklch(0.52 0.18 245) — default, 5.3:1 on the background",
+  "UI-WZO-ENERGETYCZNY-CYJAN": "Energetic cyan",
+  "UI-WZO-OKLCH-205-ALTERNATYWA": "oklch(0.46 0.13 205) — alternative, 6.3:1 on the background",
+  "UI-WZO-KOLOR-AKCENTU-PROPOZYCJE": "Accent colour — proposals",
+  "UI-WZO-NIEUSTALONE-BRIEFIE-SEKCJA":
+    "Not decided in the brief (section 3) — two variants to compare live, away from the hue of the verdicts 🟢🟡🔴, so that 'selected' never looks like a status.",
+  "UI-WZO-PERSONALIZACJA-KOLOROW": "Colour personalisation",
+  "UI-WZO-POJEDYNCZO-ALBO-GRUPOWO": "One by one or as a group (select several, apply one colour at once).",
+  "UI-WZO-CZCIONKA": "Font",
+  "UI-WZO-CZTERY-FONTY-PELNYM": "Four fonts with full support for Polish diacritics.",
+  "UI-WZO-WERDYKTY": "Verdicts 🟢🟡🔴",
+  "UI-WZO-DOCS-STANDARDS-WALIDACJA":
+    "docs/standards/04-walidacja-i-twarde-stopy.md — always with an icon, not colour alone.",
+  "UI-WZO-DOPUSZCZALNE-BLISKO-LIMITU": "Acceptable, but close to the limit",
+  "UI-WZO-CHMURKI-WSKAZOWKI": "Tooltips / hints",
+  "UI-WZO-DYMEK-WYJASNIENIEM-DOCS": "A bubble with an explanation (docs/standards/08-ui-ux.md, 8.4).",
+  "UI-WZO-NAPIECIE-MIERZONE-ZACISKACH":
+    "Voltage measured at the battery terminals under load. Typical range: 44–58 V for a 48 V system.",
+  "UI-WZO-MIGAWKA-EDUKACYJNA-KROTKIE":
+    "Educational snapshot — a short 'what it is about' explanation of the physical phenomenon, taken from the formula/assumptions field of the result.",
+  "UI-WZO-STYL-KOMUNIKATOW": "Message style",
+  "UI-WZO-KONKRETNE-BEZ-STRASZENIA": "Specific, without scaring, without pretending to be certain (8.8).",
+  "UI-WZO-PRZYCISKI": "Buttons",
+  "UI-WZO-WARIANTY-STANY-COMPONENTS": "Variants and states from components/ui/button.tsx.",
+  "UI-WZO-TYPOGRAFIA-SKALA-JAKO": "Typography — the scale as a token",
+  "UI-WZO-APP-GLOBALS-CSS":
+    "app/globals.css: --text-display/h1/h2/h3/body/small/caption. Classes text-display…text-caption, not ad-hoc text-sm/text-lg.",
+  "UI-WZO-STANY-HOVER-FOCUS": "States: hover / focus-visible / disabled",
+  "UI-WZO-KAZDY-INTERAKTYWNY-ELEMENT":
+    "Every interactive element has three states defined once in components/ui/ — not per screen (8.1–8.3).",
+  "UI-WZO-DOMYSLNE-POLE": "Default field",
+  "UI-WZO-POLE-BLEDEM": "Field with an error",
+  "UI-WZO-WARTOSC-POZA-ZAKRESEM": "Value outside the range 0–100.",
+  "UI-WZO-POLE-WYLACZONE": "Disabled field",
+  "UI-WZO-POLA-FORMULARZA": "Form fields",
+  "UI-WZO-POLE-POLESELECT-POLECHECKBOX":
+    "Pole / PoleSelect / PoleCheckbox — components/ui/pole.tsx, with an optional help tooltip.",
+  "UI-WZO-NAPIECIE-MIERZONE-ZACISKACH-2": "Voltage measured at the battery terminals under load.",
+  "UI-WZO-TRYB": "Mode",
+  "UI-WZO-DESZCZ-PROGNOZOWANY-CIAGU": "Rain forecast within the next few days",
+  "UI-WZO-WPLYWA-REKOMENDACJE-MYCIA": "Affects the panel-cleaning recommendation.",
+  "UI-WZO-STANY-PUSTKI-BLEDU": "Empty / error / loading states",
+  "UI-WZO-COMPONENTS-STANY-TSX": "components/ui/stany.tsx — StanPusty, StanBledu, StanLadowania (8.5–8.7).",
+  "UI-WZO-UZUPELNIJ-DANE-ZOBACZYC": "Fill in the data to see the result.",
+  "UI-WZO-POLICZYC-SPRAWDZ-DANE": "Cannot calculate — check the input data.",
+  "UI-WZO-IKONY-NAWIGACJI": "Navigation icons",
+  "UI-WZO-IKONY-MODULOW": "Module icons",
+  "UI-WZO-EMOJI-LIB-PULPIT": "Line icons of the modules (components/ui/ikona-modulu.tsx) — one per tile.",
+}

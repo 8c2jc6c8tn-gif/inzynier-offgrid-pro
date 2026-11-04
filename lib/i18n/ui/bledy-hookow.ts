@@ -3,6 +3,7 @@
  * calculations, account deletion, AI assistant). The hooks keep a key and translate it on return, so screens render
  * `blad` unchanged. EN/RU are drafts for native-speaker review.
  */
+// English: ./bledy-hookow.en.ts, Russian: ./bledy-hookow.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
   "UI-BLAD-GPS-BRAK-ZGODY": "Brak zgody na lokalizację — zezwól tej stronie na dostęp do położenia w ustawieniach przeglądarki.",
   "UI-BLAD-GPS-BRAK-POLOZENIA": "Urządzenie nie ustaliło położenia — wyjdź na otwartą przestrzeń i spróbuj ponownie.",
@@ -34,69 +35,3 @@ export const pl = {
   "UI-BLAD-PASSKEY-LISTA": "Nie udało się wczytać kluczy dostępu.",
   "UI-BLAD-PASSKEY-USUWANIE": "Nie udało się usunąć klucza dostępu.",
 } as const
-
-type Klucz = keyof typeof pl
-
-export const en: Record<Klucz, string> = {
-  "UI-BLAD-GPS-BRAK-ZGODY": "Location permission denied — allow this site to access your location in the browser settings.",
-  "UI-BLAD-GPS-BRAK-POLOZENIA": "The device could not determine its position — move to an open area and try again.",
-  "UI-BLAD-GPS-TIMEOUT": "Timed out waiting for a GPS signal — try again.",
-  "UI-BLAD-GPS-NIEDOSTEPNY": "This browser does not provide GPS.",
-  "UI-BLAD-GPS-INNY": "Could not read the GPS position.",
-  "UI-BLAD-PVGIS-PARAMETRY-NIEPOPRAWNE": "Invalid location coordinates.",
-  "UI-BLAD-PVGIS-ODRZUCIL-ZAPYTANIE": "PVGIS has no data for this place (e.g. a point at sea or outside the database coverage).",
-  "UI-BLAD-PVGIS-TIMEOUT": "PVGIS did not respond in time — try again in a moment.",
-  "UI-BLAD-PVGIS-NIEDOSTEPNY": "The PVGIS service is temporarily unavailable — try again later.",
-  "UI-BLAD-PVGIS-NIEOCZEKIWANY-FORMAT": "PVGIS returned data in an unexpected format.",
-  "UI-BLAD-PVGIS-SIEC": "No connection — irradiation data must be downloaded once online, then it works offline.",
-  "UI-BLAD-OBLICZENIA-NIEPOWODZENIE": "The calculation failed — try again.",
-  "UI-BLAD-KONTO-NIEZALOGOWANY": "You are not signed in.",
-  "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE": "Account deletion is not configured yet (missing service role key in .env.local).",
-  "UI-ASYAI-BLAD-PUSTE-PYTANIE": "Write a question.",
-  "UI-ASYAI-BLAD-NIESKONFIGUROWANY": "The AI assistant is not configured yet — add the ANTHROPIC_API_KEY to the server environment variables.",
-  "UI-ASYAI-BLAD-ODMOWA": "The assistant declined to answer this question.",
-  "UI-ASYAI-BLAD-ZA-DLUGO": "The assistant did not finish within a reasonable number of steps — try asking a simpler question.",
-  "UI-ASYAI-BLAD-OGOLNY": "The AI assistant ran into an error — try again.",
-  "UI-BLAD-PASSKEY-NIESKONFIGUROWANE": "Passkey sign-in is not configured yet.",
-  "UI-BLAD-PASSKEY-WYLACZONE": "Passkeys are not enabled yet in the sign-in service settings.",
-  "UI-BLAD-PASSKEY-NIEOBSLUGIWANE": "This browser does not support passkeys.",
-  "UI-BLAD-PASSKEY-ANULOWANO": "The confirmation on the device was cancelled or did not complete. Try again.",
-  "UI-BLAD-PASSKEY-CEREMONIA": "The device did not finish the confirmation. Try again or use the e-mail link.",
-  "UI-BLAD-PASSKEY-LOGOWANIE": "Could not sign in with a passkey. Try again or use the e-mail link.",
-  "UI-BLAD-PASSKEY-REJESTRACJA": "Could not add the passkey. Try again.",
-  "UI-BLAD-PASSKEY-LIMIT": "The maximum number of passkeys for this account has been reached. Remove one you no longer need and try again.",
-  "UI-BLAD-PASSKEY-LISTA": "Could not load your passkeys.",
-  "UI-BLAD-PASSKEY-USUWANIE": "Could not remove the passkey.",
-}
-
-export const ru: Record<Klucz, string> = {
-  "UI-BLAD-GPS-BRAK-ZGODY": "Нет разрешения на геолокацию — разрешите сайту доступ к местоположению в настройках браузера.",
-  "UI-BLAD-GPS-BRAK-POLOZENIA": "Устройство не определило положение — выйдите на открытое место и повторите попытку.",
-  "UI-BLAD-GPS-TIMEOUT": "Время ожидания сигнала GPS истекло — повторите попытку.",
-  "UI-BLAD-GPS-NIEDOSTEPNY": "Этот браузер не поддерживает GPS.",
-  "UI-BLAD-GPS-INNY": "Не удалось считать положение GPS.",
-  "UI-BLAD-PVGIS-PARAMETRY-NIEPOPRAWNE": "Неверные координаты местоположения.",
-  "UI-BLAD-PVGIS-ODRZUCIL-ZAPYTANIE": "У PVGIS нет данных для этого места (например, точка в море или вне зоны покрытия базы).",
-  "UI-BLAD-PVGIS-TIMEOUT": "PVGIS не ответил вовремя — повторите попытку через минуту.",
-  "UI-BLAD-PVGIS-NIEDOSTEPNY": "Сервис PVGIS временно недоступен — повторите попытку позже.",
-  "UI-BLAD-PVGIS-NIEOCZEKIWANY-FORMAT": "PVGIS вернул данные в неожиданном формате.",
-  "UI-BLAD-PVGIS-SIEC": "Нет соединения — данные об инсоляции нужно один раз загрузить онлайн, затем они работают офлайн.",
-  "UI-BLAD-OBLICZENIA-NIEPOWODZENIE": "Расчёт не удался — повторите попытку.",
-  "UI-BLAD-KONTO-NIEZALOGOWANY": "Вы не вошли в систему.",
-  "UI-BLAD-KONTO-USUWANIE-NIESKONFIGUROWANE": "Удаление аккаунта ещё не настроено (нет ключа service role в .env.local).",
-  "UI-ASYAI-BLAD-PUSTE-PYTANIE": "Напишите вопрос.",
-  "UI-ASYAI-BLAD-NIESKONFIGUROWANY": "ИИ-ассистент ещё не настроен — добавьте ключ ANTHROPIC_API_KEY в переменные окружения сервера.",
-  "UI-ASYAI-BLAD-ODMOWA": "Ассистент отказался отвечать на этот вопрос.",
-  "UI-ASYAI-BLAD-ZA-DLUGO": "Ассистент не завершил ответ за разумное число шагов — задайте вопрос проще.",
-  "UI-ASYAI-BLAD-OGOLNY": "ИИ-ассистент столкнулся с ошибкой — повторите попытку.",
-  "UI-BLAD-PASSKEY-NIESKONFIGUROWANE": "Вход по ключу доступа ещё не настроен.",
-  "UI-BLAD-PASSKEY-WYLACZONE": "Ключи доступа ещё не включены в настройках сервиса входа.",
-  "UI-BLAD-PASSKEY-NIEOBSLUGIWANE": "Этот браузер не поддерживает ключи доступа.",
-  "UI-BLAD-PASSKEY-ANULOWANO": "Подтверждение на устройстве отменено или не завершено. Попробуйте ещё раз.",
-  "UI-BLAD-PASSKEY-CEREMONIA": "Устройство не завершило подтверждение. Попробуйте ещё раз или воспользуйтесь ссылкой из письма.",
-  "UI-BLAD-PASSKEY-LOGOWANIE": "Не удалось войти с ключом доступа. Попробуйте ещё раз или воспользуйтесь ссылкой из письма.",
-  "UI-BLAD-PASSKEY-REJESTRACJA": "Не удалось добавить ключ доступа. Попробуйте ещё раз.",
-  "UI-BLAD-PASSKEY-LIMIT": "Достигнуто максимальное число ключей доступа для аккаунта. Удалите ненужный ключ и попробуйте ещё раз.",
-  "UI-BLAD-PASSKEY-LISTA": "Не удалось загрузить ключи доступа.",
-  "UI-BLAD-PASSKEY-USUWANIE": "Не удалось удалить ключ доступа.",
-}
