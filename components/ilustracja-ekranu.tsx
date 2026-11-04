@@ -11,5 +11,6 @@ import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/wyglad/storage"
 export function IlustracjaEkranu({ ikona }: { ikona: IkonaEkranu }) {
   const stan = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   if (stan.ikonyKafli !== "3d") return null
+  // eslint-disable-next-line @next/next/no-img-element -- decorative static asset from /public; images.unoptimized is on, so next/image would add nothing
   return <img src={IKONA_3D_EKRANOW[ikona]} alt="" aria-hidden="true" width={56} height={56} draggable={false} className="size-14 shrink-0 object-contain" />
 }

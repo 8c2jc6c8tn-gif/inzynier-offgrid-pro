@@ -78,3 +78,28 @@ Stan kodu: gałąź `claude/aktualizacja-standardu-18-10` na `main` @ `b8e85f4c`
 **[18.10.2026, wieczorem] Poz. 8 naprawiona w wersji 3.33.1** na polecenie właściciela (wariant A): `lib/i18n/liczby.ts` + `useFormatLiczby()`, 166 wywołań i 3 daty zmigrowane, 0 wywołań `toLocaleString("pl-PL")` poza dozwolonym tekstem listy kontrolnej momentu dokręcania; test `lib/i18n/__tests__/liczby.test.ts` pilnuje regresji. Zostają: `toLocaleLowerCase("pl-PL")` (porównanie nazw po polsku, nie formatowanie) i dwa `toLocaleString()` bez argumentu w `historia-zdarzen` i `waluta-wybor` (znacznik czasu w ustawieniach przeglądarki, nie w języku UI — do osobnej decyzji). Pakiet: typecheck, lint, `check:i18n-guard`, 4005 testów — zielone. Poz. 9 (`ESTIMATE`) i 10 (PVGIS) bez zmian: 10 odłożona przez właściciela do pracy po stronie bazy danych.
 
 **[18.10.2026, wieczorem] Poz. 9 naprawiona w wersji 3.35.0 (D93, wariant A wybrany przez właściciela):** `ESTIMATE` jest w unii `Status`; lista `STATUSY` w `lib/core/calc-result.ts`, schematy narzędzi AI z `z.enum(STATUSY)`; test `lib/core/__tests__/status-estimate.test.ts`. Żaden kalkulator jeszcze go nie zwraca — pierwsze użycie jest osobnym zadaniem (lista zadań).
+
+---
+
+## Przebieg 4 — 04.11.2026 (na żądanie właściciela: „sprawdź także zgodność ze standardami”)
+
+Stan kodu: `main` @ `39c4733a` (3.50.0) + PR #351 (3.52.0). Pozycje 1–11 ponowione od nowa. Rejestr świadomych wyjątków — pusty. `new-app-standards` niedostępne w tej sesji (repozytorium poza zakresem dostępu), więc pozycja 4 tylko lokalnie. Kodu poza opisanym w historii wersji nie zmieniano (Y.11).
+
+| # | Reguła | Wynik | Dowód (odtwarzalny) |
+|---|---|---|---|
+| 1a | 17.1a — mechanizm i18n | ✅ | `pnpm check:i18n-guard`: 285 zmigrowanych modułów bez regresji; 1801 wartości kluczy istnieje w PL/EN/RU; słowniki mają po 1873 klucze w każdym języku (porównanie zbiorów kluczy: 0 różnic w obu kierunkach) |
+| 1b | 17.1a — brak twardych stringów w UI | ✅ | `check:i18n-ui-guard`: lista zapadkowa 0 plików / 0 tekstów. Nowa zakładka „Perspektywy” (3.50.0) używa kluczy `UI-PERSP-*` |
+| 1c | 17.7b/17.7c — selektor języka | ✅ (faza przedpremierowa) | Bez zmian względem przebiegu 2. **Nadal do oceny przed premierą:** przegląd tłumaczeń EN/RU przez człowieka |
+| 2 | 5.7 — autosave | ✅ | 302 ekrany `app/kalkulatory/*/page.tsx`: 275 woła `usePersistedDraft` bezpośrednio, kolejne 13 przez komponent wspólny (skrypt śledzi importy do 2 poziomów). Pozostałe **14** to ekrany bez pól i bez `useState` (FAQ, dotacje, macierze, listy): `dotacje`, `dotacje-firma`, `faq-dom`, `faq-firma`, `halas-i-wibracje`, `matryca-alarmow-bms`, `przechowywanie-recykling`, `przechowywanie-recykling-olow`, `ratowanie-zasiarczenia`, `ryzyko-zamarzniecia-dolnego-zrodla`, `selektywnosc-zabezpieczen`, `separacja-emc`, `trasy-kablowe`, `tryb-live`. Sprawdzone: 0 wystąpień `useState` i pól formularza w każdym z nich |
+| 3 | 9.0a — rejestracja narzędzi AI | ✅ | `check:ai-tools-guard`: 286 narzędzi z „Użyj, gdy”, 282/282 kalkulatorów z narzędziem albo adnotacją „nie dotyczy” |
+| 4 | Część Y — kategorie plików | ✅ (tylko lokalnie) | `docs/standards/`, `docs/god-book/instrukcja-uniwersalna-biblii-projektu-v2_49.md`, `PROMPT_STARTOWY.md` obecne; porównanie ze źródłem niewykonalne w tej sesji. Rozjazd drobny: `CLAUDE.md` pkt 4 nie wymieniał synchronizacji z 18.10 — poprawione w tym PR |
+| 5 | K7 — czystość jądra | ✅ | Grep importów `@/app`, `@/components`, `react`, `next`, `window.`, `document.`, `localStorage` w `lib/core`: 2 trafienia, oba w komentarzach (słowo „window” = okno czasowe) |
+| 6 | 9.0 — AI żywe w UI | ✅ | Bez zmian względem przebiegu 2 (`components/asystent-ai.tsx` → `pytajAsystenta`, osadzony w `app/layout.tsx`); strażnik narzędzi AI zielony |
+| 7 | 18.1 — logowanie od pierwszego uruchomienia | ⚠️ (znane, zablokowane) | Mechanizm w `proxy.ts`; bramka nieaktywna do czasu podpięcia projektu Supabase (`.env.example` ma tylko wzorzec). Czeka na akcję właściciela (lista zadań, „Niezgodność #2”) |
+| 8 | 17.12 — waluta i kursy | ✅ | `lib/waluta/przelicz.ts` + `lib/i18n/liczby.ts`; poza nimi `toLocaleString("pl-PL")` tylko w tekście listy kontrolnej `moment-dokrecania-srub/constants.ts` (dozwolone), `toLocaleLowerCase("pl-PL")` (porównania nazw) oraz dwa `toLocaleString()` bez argumentu (`historia-zdarzen`, `waluta-wybor` — znane, niski priorytet, lista zadań) |
+| 9 | 3.3 — status `ESTIMATE` (część strukturalna) | ✅ | `lib/core/calc-result.ts`: `STATUSY` zawiera `ESTIMATE`; zwracany już przez 3 silniki (`porownywarka-paneli/obciazenia`, `wiatr-powyzej-30`, `ogrodzenie-pv`) |
+| 10 | Rozdz. 19 — dane środowiskowe | ➕ (odłożone decyzją właściciela 18.10) | Bez zmian: brak jawnej atrybucji i licencji PVGIS/JRC w UI (jest tylko wzmianka „PVGIS (Komisja Europejska)” przy polach); właściciel odłożył do prac nad bazą Supabase razem z rozdz. 19 |
+| 11 | 18.2 — klucz dostępu (passkey) | ✅ | Pliki na miejscu: `passkey-actions.ts`, `passkey-przegladarka.ts`, `components/konto-passkey.tsx`. Nadal nieprzetestowane na prawdziwym telefonie i projekcie Supabase; RP ID zależy od wyboru domeny (lista zadań) |
+
+**Podsumowanie:** 9 ✅, 1 ⚠️ (poz. 7 — znane), 1 ➕ (poz. 10 — odłożone). Brak nowych naruszeń. Reguły spoza rejestru Y.11, sprawdzone przy okazji: jeden lockfile (`pnpm-lock.yaml`, brak `package-lock.json`/`yarn.lock`), nagłówki bezpieczeństwa 7.3 w `next.config.mjs` i CSP z nonce w `proxy.ts`, CI 11.2 + 11.5 (lint, typecheck, strażniki, testy, build, E2E, audyt zależności), `audit:gate` zielony.
+
