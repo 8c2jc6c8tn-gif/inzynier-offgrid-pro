@@ -285,6 +285,19 @@
   }
 }
 
+/* WCAG 2.2.2 / 2.3.3: a person who asked the system for less motion gets none from the shadcn open/close animations
+   (tw-animate-css) or the skeleton pulse; the one component with its own rule (kafle-ikony.css) keeps it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Waga tekstu — preferencja z lib/wyglad/, przełączana klasą na <html> (ten sam wzorzec co .dark). */
 .czcionka-pogrubiona {
   --waga-tekstu: 550;
