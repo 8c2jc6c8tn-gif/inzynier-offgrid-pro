@@ -13,7 +13,8 @@ import { wczytajRejestr } from "@/lib/adapters/telemetria/rejestr-zrodel"
 import { epizodyAlarmow, ocenAlarmy, ostatnieWartosci, probkiDoChwili, type PriorytetAlarmu, type ProgAlarmu } from "@/lib/core/telemetria/alarmy"
 import { WIELKOSCI, type ProbkaTelemetrii, type Wielkosc } from "@/lib/core/telemetria/probka"
 import { pustyRejestr, type Rejestr } from "@/lib/core/telemetria/rejestr"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDateICzas } from "@/lib/i18n/liczby"
 import { cn } from "@/lib/utils"
 
 interface Szkic {
@@ -40,6 +41,7 @@ const formatuj = (x: number) => (Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(1
 
 export default function HistoriaZdarzenPage() {
   const t = useTranslate()
+  const language = useLanguage()
   // autosave: source, range and replay position; samples live in the sample store, thresholds in the live screen's draft.
   const [zapisany, setSzkic] = usePersistedDraft<Szkic>("historia-zdarzen", SZKIC_POCZATKOWY)
   const szkic = useMemo<Szkic>(() => ({ ...SZKIC_POCZATKOWY, ...zapisany }), [zapisany])
@@ -107,7 +109,7 @@ export default function HistoriaZdarzenPage() {
     const min = Math.round(s / 60)
     return min < 60 ? t("UI-M13-HIST-MIN", { n: String(min) }) : t("UI-M13-HIST-GODZ", { n: String(Math.floor(min / 60)), m: String(min % 60) })
   }
-  const godz = (ms: number) => new Date(ms).toLocaleString()
+  const godz = (ms: number) => formatujDateICzas(new Date(ms), language)
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">

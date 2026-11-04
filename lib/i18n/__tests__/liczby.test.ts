@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs"
 import path from "node:path"
 import { describe, expect, it } from "vitest"
-import { formatujDate, formatujLiczbe } from "../liczby"
+import { formatujDate, formatujDateICzas, formatujLiczbe } from "../liczby"
 
 describe("formatujLiczbe", () => {
   it("uses the decimal separator of the UI language", () => {
@@ -21,6 +21,14 @@ describe("formatujDate", () => {
     const d = new Date(2026, 9, 18)
     expect(formatujDate(d, "pl")).toBe("18.10.2026")
     expect(formatujDate(d, "en")).toBe("18/10/2026")
+  })
+})
+
+describe("formatujDateICzas", () => {
+  it("orders the date parts by the UI language and includes the time", () => {
+    const d = new Date(2026, 9, 18, 14, 5, 7)
+    expect(formatujDateICzas(d, "pl")).toMatch(/^18\.10\.2026,? 14:05:07$/)
+    expect(formatujDateICzas(d, "en")).toMatch(/^18\/10\/2026,? 14:05:07$/)
   })
 })
 
