@@ -7,13 +7,15 @@
  */
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useTranslate } from "@/lib/i18n/language-context"
+import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDateICzas } from "@/lib/i18n/liczby"
 import { odswiezKursy, zapiszPreferencje } from "@/lib/waluta/storage"
 import { useWaluta } from "@/lib/waluta/use-waluta"
 import { WALUTA_BAZOWA, WALUTY, czyKodWaluty } from "@/lib/waluta/waluty"
 
 export function WalutaWybor() {
   const t = useTranslate()
+  const language = useLanguage()
   const { stan, brakKursu } = useWaluta()
   const [komunikat, setKomunikat] = useState<string | null>(null)
   const { kod, narzutProc, reczne } = stan.preferencja
@@ -80,7 +82,7 @@ export function WalutaWybor() {
           {brakKursu && <p className="text-small text-destructive">{t("UI-WAL-BRAK-KURSU", { waluta: kod })}</p>}
           {stan.kursy && (
             <p className="text-small text-muted-foreground">
-              {t("UI-WAL-STAN-KURSOW", { data: stan.kursy.dataEcb, pobrano: new Date(stan.kursy.pobranoMs).toLocaleString() })}
+              {t("UI-WAL-STAN-KURSOW", { data: stan.kursy.dataEcb, pobrano: formatujDateICzas(new Date(stan.kursy.pobranoMs), language) })}
             </p>
           )}
           <div className="flex items-center gap-3">

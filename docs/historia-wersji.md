@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.49.3] — 04.11.2026
+
+Data i godzina wg języka interfejsu: `historia-zdarzen` (czasy zdarzeń) i `waluta-wybor` (czas pobrania kursów) używały ustawień przeglądarki; od teraz `formatujDateICzas` (`lib/i18n/liczby.ts`) wybiera format po języku UI (PL/EN/RU), z testem. Oczyszczone nieaktualne wpisy listy zadań (stan CI, „co zostało z 05.10”).
+
+Wpływ na liczby: brak (zmienia się tylko zapis daty i godziny).
+
 ## [3.49.2] — 04.11.2026
 
 Lista zadań (tylko dokumentacja): wpis o 19 ilustracjach Boba oznaczony jako zrobiony po sprawdzeniu plików w `public/maskotki-bob/` (22 pliki) i `public/ikony-3d/` (18 plików, w tym „pogoda” i „bojler”); otwarta zostaje tylko wymiana na wersje z napisem „BOB” (D84a).

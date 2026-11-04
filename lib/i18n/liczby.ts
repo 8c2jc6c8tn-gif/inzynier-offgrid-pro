@@ -10,3 +10,8 @@ export function formatujLiczbe(x: number, jezyk: Language, opcje?: Intl.NumberFo
 export function formatujDate(data: Date, jezyk: Language): string {
   return data.toLocaleDateString(LOCALE_INTL[jezyk])
 }
+
+/** Date and time by UI language (not by the browser's settings). */
+export function formatujDateICzas(data: Date, jezyk: Language): string {
+  return data.toLocaleString(LOCALE_INTL[jezyk])
+}
