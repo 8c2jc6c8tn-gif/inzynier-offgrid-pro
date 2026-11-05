@@ -15,7 +15,7 @@ function callbackUrl(origin: string, next: string): string {
 
 export async function signInWithMagicLink(origin: string, next: string, formData: FormData) {
   const email = String(formData.get("email") ?? "").trim()
-  if (!email) return { error: "Podaj adres e-mail." }
+  if (!email) return { errorKey: "UI-BLAD-LOGOWANIE-BRAK-EMAIL" }
 
   const supabase = await createSupabaseServerClient()
   const { error } = await supabase.auth.signInWithOtp({
@@ -23,7 +23,8 @@ export async function signInWithMagicLink(origin: string, next: string, formData
     options: { emailRedirectTo: callbackUrl(origin, next) },
   })
 
-  if (error) return { error: error.message }
+  // Surowy komunikat usługi nie trafia do użytkownika (bywa po angielsku i niesie szczegóły) — tylko klucz tłumaczenia.
+  if (error) return { errorKey: "UI-BLAD-LOGOWANIE-LINK" }
   return { sent: true }
 }
 
@@ -34,7 +35,7 @@ export async function signInWithGoogle(origin: string, next: string) {
     options: { redirectTo: callbackUrl(origin, next) },
   })
 
-  if (error || !data.url) return { error: error?.message ?? "Logowanie Google nieskonfigurowane." }
+  if (error || !data.url) return { errorKey: "UI-BLAD-LOGOWANIE-DOSTAWCA" }
   redirect(data.url)
 }
 
@@ -45,6 +46,6 @@ export async function signInWithApple(origin: string, next: string) {
     options: { redirectTo: callbackUrl(origin, next) },
   })
 
-  if (error || !data.url) return { error: error?.message ?? "Logowanie Apple nieskonfigurowane." }
+  if (error || !data.url) return { errorKey: "UI-BLAD-LOGOWANIE-DOSTAWCA" }
   redirect(data.url)
 }

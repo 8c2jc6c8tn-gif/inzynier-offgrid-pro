@@ -35,7 +35,10 @@ function LoginForm() {
 
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
-  const [error, setError] = useState<string | null>(null)
+  // Klucz tłumaczenia błędu (nie gotowy tekst): link e-mail, Google/Apple, powrót z /auth/callback.
+  const [error, setError] = useState<string | null>(
+    searchParams.get("error") ? "UI-BLAD-LOGOWANIE-NIEPOWODZENIE" : null,
+  )
   // Wykrycie po zamontowaniu, żeby HTML z serwera i pierwszy render w przeglądarce były zgodne.
   const [kluczeDostepne, setKluczeDostepne] = useState(false)
   const [kluczBlad, setKluczBlad] = useState<string | null>(null)
@@ -67,14 +70,21 @@ function LoginForm() {
     setKluczTrwa(false)
   }
 
+  async function handleDostawca(akcja: typeof signInWithGoogle) {
+    setError(null)
+    // Sukces kończy się przekierowaniem z poziomu Server Action; wracamy tu tylko z błędem.
+    const wynik = await akcja(window.location.origin, next)
+    if (wynik?.errorKey) setError(wynik.errorKey)
+  }
+
   async function handleMagicLink(formData: FormData) {
     setStatus("sending")
     setError(null)
     const origin = window.location.origin
     const result = await signInWithMagicLink(origin, next, formData)
-    if (result?.error) {
+    if (result?.errorKey) {
       setStatus("error")
-      setError(result.error)
+      setError(result.errorKey)
       return
     }
     setStatus("sent")
@@ -98,18 +108,24 @@ function LoginForm() {
         <Button
           variant="outline"
           size="lg"
-          onClick={() => signInWithGoogle(window.location.origin, next)}
+          onClick={() => handleDostawca(signInWithGoogle)}
         >
           {t("UI-LOG-ZALOGUJ-GOOGLE")}
         </Button>
         <Button
           variant="outline"
           size="lg"
-          onClick={() => signInWithApple(window.location.origin, next)}
+          onClick={() => handleDostawca(signInWithApple)}
         >
           {t("UI-LOG-ZALOGUJ-APPLE")}
         </Button>
       </div>
+
+      {error && (
+        <p role="alert" className="text-small text-destructive">
+          {t(error)}
+        </p>
+      )}
 
       <div className="flex items-center gap-3 text-caption text-muted-foreground">
         <span className="h-px flex-1 bg-border" />
@@ -131,7 +147,6 @@ function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          {error && <p className="text-small text-destructive">{error}</p>}
           <Button type="submit" size="lg" disabled={status === "sending"}>
             {status === "sending" ? t("UI-LOG-WYSYLANIE") : t("UI-LOG-WYSLIJ-LINK-ZALOGOWANIA")}
           </Button>
