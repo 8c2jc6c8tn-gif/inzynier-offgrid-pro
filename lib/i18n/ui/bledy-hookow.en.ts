@@ -33,4 +33,8 @@ export const en: Record<Klucz, string> = {
   "UI-BLAD-PASSKEY-LIMIT": "The maximum number of passkeys for this account has been reached. Remove one you no longer need and try again.",
   "UI-BLAD-PASSKEY-LISTA": "Could not load your passkeys.",
   "UI-BLAD-PASSKEY-USUWANIE": "Could not remove the passkey.",
+  "UI-BLAD-LOGOWANIE-BRAK-EMAIL": "Enter your e-mail address.",
+  "UI-BLAD-LOGOWANIE-LINK": "Could not send the sign-in link. Check the address and try again in a moment.",
+  "UI-BLAD-LOGOWANIE-DOSTAWCA": "Signing in with this account is not available yet or did not work. Use the e-mail link.",
+  "UI-BLAD-LOGOWANIE-NIEPOWODZENIE": "Sign-in failed or the link has expired. Try again.",
 }

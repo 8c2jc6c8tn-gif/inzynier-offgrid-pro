@@ -6,6 +6,8 @@ Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer 
 
 Testy bez zmiany funkcji, praca „bez bazy”: (1) nowy zestaw 34 testów bramki logowania na atrapach Supabase (`lib/adapters/supabase/__tests__/bramka-logowania.test.ts`): `proxy.ts` (bramka wyłączona bez kluczy i przy wartości z `.env.example`, przekierowanie niezalogowanych z `next`, wolny dostęp do `/auth/*`, nonce inny w każdym żądaniu, CSP produkcyjne bez `unsafe-eval`, `getUser()` zamiast niezweryfikowanej sesji, matcher omija `sw.js`/manifest/obrazy), trasa `/auth/callback` (wymiana kodu, open redirect `//host`, `https://…`, `javascript:`), akcje link e-mail / Google / Apple i wylogowanie. Ten sam zestaw zostaje kontraktem zachowania po podłączeniu prawdziwego projektu Supabase. (2) Dwa testy budżetu błędu kalibracji „Horyzontu ze zdjęcia”: pudło 15 px w kliknięciu słońca < 0,5°, zegar aparatu przesunięty o 10 min daje ≈ 2–3° azymutu i < 2° nachylenia (dlatego ekran pokazuje czas zdjęcia).
 
+Dodatkowo poprawka ekranu logowania znaleziona tymi testami: błąd powrotu z linku e-mail (`/auth/login?error=…`) nie był w ogóle pokazywany, błędy Google/Apple były gubione (przycisk ignorował wynik akcji), a błąd linku e-mail pokazywał polski tekst albo surowy komunikat usługi niezależnie od języka. Teraz akcje zwracają klucze tłumaczeń (`UI-BLAD-LOGOWANIE-*`, PL/EN/RU), a komunikat widać jednym miejscem pod przyciskami.
+
 Wpływ na liczby: brak.
 
 ## [3.53.2] — 04.11.2026

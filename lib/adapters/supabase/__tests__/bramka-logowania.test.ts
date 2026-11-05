@@ -187,7 +187,7 @@ describe("akcje logowania", () => {
   it("link e-mail: pusty adres nie woła usługi", async () => {
     const fd = new FormData()
     fd.set("email", "   ")
-    expect(await signInWithMagicLink(ORIGIN, "/", fd)).toEqual({ error: expect.any(String) })
+    expect(await signInWithMagicLink(ORIGIN, "/", fd)).toEqual({ errorKey: "UI-BLAD-LOGOWANIE-BRAK-EMAIL" })
     expect(sesja.signInWithOtp).not.toHaveBeenCalled()
   })
 
@@ -202,13 +202,13 @@ describe("akcje logowania", () => {
     })
   })
 
-  it("link e-mail: błąd usługi wraca jako błąd, bez 'sent'", async () => {
-    sesja.signInWithOtp.mockResolvedValue({ error: { message: "rate limit" } })
+  it("link e-mail: błąd usługi wraca jako klucz tłumaczenia — surowy komunikat nie trafia do użytkownika", async () => {
+    sesja.signInWithOtp.mockResolvedValue({ error: { message: "rate limit exceeded for user@secret" } })
     const fd = new FormData()
     fd.set("email", "jan@example.com")
     const wynik = await signInWithMagicLink(ORIGIN, "/", fd)
-    expect(wynik).toHaveProperty("error")
-    expect(wynik).not.toHaveProperty("sent")
+    expect(wynik).toEqual({ errorKey: "UI-BLAD-LOGOWANIE-LINK" })
+    expect(JSON.stringify(wynik)).not.toContain("secret")
   })
 
   it.each([
@@ -226,9 +226,17 @@ describe("akcje logowania", () => {
   it.each([
     ["google", signInWithGoogle],
     ["apple", signInWithApple],
+  ] as const)("%s: błąd usługi nie ujawnia surowego komunikatu", async (_p, akcja) => {
+    sesja.signInWithOAuth.mockResolvedValue({ data: { url: null }, error: { message: "provider is not enabled" } })
+    expect(await akcja(ORIGIN, "/")).toEqual({ errorKey: "UI-BLAD-LOGOWANIE-DOSTAWCA" })
+  })
+
+  it.each([
+    ["google", signInWithGoogle],
+    ["apple", signInWithApple],
   ] as const)("%s: dostawca nieskonfigurowany → błąd zamiast przekierowania", async (provider, akcja) => {
     sesja.signInWithOAuth.mockResolvedValue({ data: { url: null }, error: null })
-    expect(await akcja(ORIGIN, "/")).toEqual({ error: expect.any(String) })
+    expect(await akcja(ORIGIN, "/")).toEqual({ errorKey: "UI-BLAD-LOGOWANIE-DOSTAWCA" })
     expect(redirectMock).not.toHaveBeenCalled()
     expect(provider).toBeTruthy()
   })

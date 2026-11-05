@@ -34,4 +34,8 @@ export const pl = {
   "UI-BLAD-PASSKEY-LIMIT": "Osiągnięto największą liczbę kluczy dostępu na koncie. Usuń niepotrzebny klucz i spróbuj ponownie.",
   "UI-BLAD-PASSKEY-LISTA": "Nie udało się wczytać kluczy dostępu.",
   "UI-BLAD-PASSKEY-USUWANIE": "Nie udało się usunąć klucza dostępu.",
+  "UI-BLAD-LOGOWANIE-BRAK-EMAIL": "Podaj adres e-mail.",
+  "UI-BLAD-LOGOWANIE-LINK": "Nie udało się wysłać linku logowania. Sprawdź adres i spróbuj ponownie za chwilę.",
+  "UI-BLAD-LOGOWANIE-DOSTAWCA": "Logowanie tym kontem nie jest jeszcze dostępne albo się nie powiodło. Użyj linku z e-maila.",
+  "UI-BLAD-LOGOWANIE-NIEPOWODZENIE": "Logowanie nie powiodło się albo link wygasł. Spróbuj ponownie.",
 } as const
