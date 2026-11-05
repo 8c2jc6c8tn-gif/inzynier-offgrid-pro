@@ -1301,3 +1301,12 @@ Status: 🔎 nowe
 Dlaczego warto zgłosić do new-app-standards: każda apka rodziny z i18n z 17.1a ma ten sam wzorzec i wyrośnie na ten sam problem; lepiej wpisać układ „plik na język” w 17.1a, zanim kolejne projekty zbudują setki plików w układzie, który trzeba potem rozdzielać.
 
 Status: 🔎 nowe
+
+## [05.11.2026] Narzędzia konsumenta paczki środowiskowej: test na atrapie wydania i próba na prawdziwej paczce 0.1.0
+
+**Problem:** `docs/przyklady/dane-srodowiskowe/README.md` mówi, że narzędzia sprawdzono na paczce 0.1.0 tylko ręcznie i że nie ma testu automatycznego, który projekt mógłby od razu mieć w CI.
+**Rozwiązanie (3.53.4 tego repo):** `lib/__tests__/dane-srodowiskowe-narzedzia.test.ts` uruchamia oba skrypty w katalogu tymczasowym na atrapie wydania (manifest + `.json.gz` w kształcie schematu 1 z `skrypty/zbuduj_paczke.py`) przez `--zrodlo-lokalne`: 12 przypadków (przypięcie i lock, ponowna weryfikacja bez sieci, podmieniony plik w `vendor/`, ta sama wersja z inną sumą, uszkodzony `.gz`, odmowa nieznanego pola/lokalizacji/źródła/schematu, rozjazd vendor↔lock, brak danych = `null`, znaczniki jakości lokalizacji). Dodatkowo próba na prawdziwej paczce zbudowanej z `main` repo danych (`python3 skrypty/zbuduj_paczke.py --sprawdz`, ok. 50 s): pobranie, lock, generator dla 62 lokalizacji i `tsc --strict` bez błędów.
+**Pułapka:** repo `dane-srodowiskowe` ma domyślną gałąź inną niż `main` (płytki klon trafia na gałąź bez plików); treść wydania jest na `main`, a `git fetch --depth=1 origin refs/heads/main:refs/remotes/origin/main` jest potrzebny jawnie.
+Dlaczego warto zgłosić do new-app-standards: ten test można dołączyć do przykładu jako gotowy dowód zgodności dla każdego nowego konsumenta (kopiuje się razem ze skryptami), zamiast każdy projekt pisał własny.
+
+Status: 🔎 nowe
