@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.53.4] — 05.11.2026
+
+Przygotowanie pod paczkę `dane-srodowiskowe` (standard 19.13), bez zmiany funkcji aplikacji: do `scripts/` trafiły dwa narzędzia konsumenta skopiowane 1:1 z `new-app-standards` (`pobierz-dane-srodowiskowe.mjs` — pobranie z weryfikacją SHA-256 i lockiem, `generuj-modul.mjs` — moduł TS według deklaracji `meteo.konsument.json`) oraz test `lib/__tests__/dane-srodowiskowe-narzedzia.test.ts` (12 przypadków na atrapie wydania: przypięcie wersji, wykrycie podmienionego pliku i innej sumy, odmowa nieznanego pola/lokalizacji/źródła/schematu, brak danych = `null`, znaczniki jakości lokalizacji). Sprawdzone też ręcznie na prawdziwej paczce 0.1.0 zbudowanej z `main` repo danych: 62 lokalizacje, moduł dla pól `te`, `hdd20_15`, `hdd18_15` ≈ 25 KB po kompresji, przechodzi `tsc --strict`. Nie dodano jeszcze `meteo.konsument.json`, `vendor/` ani locka — to krok po gotowej paczce i decyzji, które pola bierze Offgrid (wpis „Integracja Offgrid z paczką środowiskową” na liście zadań).
+
+Wpływ na liczby: brak.
+
 ## [3.53.3] — 05.11.2026
 
 Testy bez zmiany funkcji, praca „bez bazy”: (1) nowy zestaw 34 testów bramki logowania na atrapach Supabase (`lib/adapters/supabase/__tests__/bramka-logowania.test.ts`): `proxy.ts` (bramka wyłączona bez kluczy i przy wartości z `.env.example`, przekierowanie niezalogowanych z `next`, wolny dostęp do `/auth/*`, nonce inny w każdym żądaniu, CSP produkcyjne bez `unsafe-eval`, `getUser()` zamiast niezweryfikowanej sesji, matcher omija `sw.js`/manifest/obrazy), trasa `/auth/callback` (wymiana kodu, open redirect `//host`, `https://…`, `javascript:`), akcje link e-mail / Google / Apple i wylogowanie. Ten sam zestaw zostaje kontraktem zachowania po podłączeniu prawdziwego projektu Supabase. (2) Dwa testy budżetu błędu kalibracji „Horyzontu ze zdjęcia”: pudło 15 px w kliknięciu słońca < 0,5°, zegar aparatu przesunięty o 10 min daje ≈ 2–3° azymutu i < 2° nachylenia (dlatego ekran pokazuje czas zdjęcia).
