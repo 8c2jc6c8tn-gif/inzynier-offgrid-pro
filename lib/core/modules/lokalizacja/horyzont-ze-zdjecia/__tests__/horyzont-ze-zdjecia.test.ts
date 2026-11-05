@@ -325,6 +325,28 @@ describe("calculateHoryzontZeZdjecia", () => {
     expect(r.assumptions.some((a) => typeof a !== "string" && a.kod === "HORZ-ZAL-KALIBRACJA-SLONCE")).toBe(true)
   })
 
+  it("error budget: a 15 px miss of the sun click moves the calibration by less than 0.5°", () => {
+    const s = pikselSlonca()
+    const r = calculateHoryzontZeZdjecia({ ...baza, slonce: { x: s.x + 15, y: s.y - 15 } })
+    const k = r.value!.kamera
+    const dAz = Math.min(Math.abs(k.azymutSrodkaDeg - AZ0), 360 - Math.abs(k.azymutSrodkaDeg - AZ0))
+    expect(dAz).toBeLessThan(0.5)
+    expect(Math.abs(k.nachylenieDeg - NACH0)).toBeLessThan(0.5)
+  })
+
+  it("error budget: a wrong photo clock (10 min) shifts the calibration by the sun's motion (azimuth ≈ 2–3°, tilt < 2°)", () => {
+    // The photo was really taken at `czas`, but the camera clock said 10 minutes later: the sun is
+    // assumed further along its path, so the calibration is off by about the sun's motion in 10 min
+    // (≈ 2.5° of azimuth and ≈ 1.4° of elevation at this latitude, evening). This documents why the screen shows the photo time.
+    const s = pikselSlonca()
+    const r = calculateHoryzontZeZdjecia({ ...baza, czasUtcMs: czas + 10 * 60_000, slonce: { x: s.x, y: s.y } })
+    const k = r.value!.kamera
+    const dAz = Math.min(Math.abs(k.azymutSrodkaDeg - AZ0), 360 - Math.abs(k.azymutSrodkaDeg - AZ0))
+    expect(dAz).toBeGreaterThan(1.5)
+    expect(dAz).toBeLessThan(3.5)
+    expect(Math.abs(k.nachylenieDeg - NACH0)).toBeLessThan(2)
+  })
+
   it("manual orientation needs no sun", () => {
     const r = calculateHoryzontZeZdjecia({ ...baza, orientacjaReczna: { azymutSrodkaDeg: 180, nachylenieKameryDeg: 0 } })
     expect(r.value?.slonce).toBeNull()
