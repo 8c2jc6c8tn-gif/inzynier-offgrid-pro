@@ -1310,3 +1310,12 @@ Status: 🔎 nowe
 Dlaczego warto zgłosić do new-app-standards: ten test można dołączyć do przykładu jako gotowy dowód zgodności dla każdego nowego konsumenta (kopiuje się razem ze skryptami), zamiast każdy projekt pisał własny.
 
 Status: 🔎 nowe
+
+## [09.11.2026] Autozapis z opóźnieniem gubi ostatnią zmianę przy wyjściu z ekranu; odczyt cudzego szkicu musi znać jego walutę
+
+**Problem:** wzorzec autozapisu Seed (5.1, 5.5) z opóźnieniem zapisu (tu 500 ms) zwykle sprząta licznik w funkcji czyszczącej efektu (`return () => clearTimeout(handle)`). Ta sama funkcja uruchamia się przy odmontowaniu ekranu, więc zmiana wpisana tuż przed przejściem na inny ekran (albo przed zamknięciem karty, uśpieniem przeglądarki na telefonie) nigdy nie trafia do magazynu — a ekran, który czyta ten szkic, pokazuje starą liczbę. Drugi błąd na styku ekranów: ekran z kwotami przeliczanymi na walutę wyświetlania zapisuje walutę obok szkicu, ale czytelnik cudzego szkicu (wzorzec „jeden właściciel zapisu, inni tylko czytają”) bierze samą liczbę i traktuje ją jak walutę bazową.
+**Rozwiązanie (do wdrożenia w tym repo, audyt `docs/audyt-powiazan-ekranow-2026-11-09.md`, etapy N1–N2):** przy odmontowaniu oraz na `pagehide`/`visibilitychange → hidden` zapisać od razu stan oczekujący (stan trzymany w `ref`); hak odczytu cudzego szkicu przyjmuje listę pól kwotowych i docelową denominację i sam przelicza według zapisanej waluty szkicu. Test haka: zmiana → odmontowanie przed upływem opóźnienia → magazyn zawiera nową wartość.
+**Pułapka:** testy jednostkowe kalkulatorów i strażniki tego nie łapią — oba błędy są w warstwie przepływu danych między ekranami, której żaden ekran osobno nie testuje. Pomiar przepływu: skrypt `scripts/audyt-powiazan-ekranow.mjs` (macierz „ekran czyta dane spoza siebie” per moduł).
+Dlaczego warto zgłosić do new-app-standards: każda apka rodziny używa tego samego wzorca autozapisu z rozdziału 5 i tej samej waluty wyświetlania; reguła „opóźniony zapis musi się dopełnić przy wyjściu” i „odczyt cudzego Seed przelicza kwoty według jego denominacji” pasuje do 5.5 jako wymóg, nie zalecenie.
+
+Status: 🔎 nowe
