@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.53.5] — 09.11.2026
+
+Audyt powiązań między ekranami (bez zmiany funkcji aplikacji): raport `docs/audyt-powiazan-ekranow-2026-11-09.md` — czy wyniki jednych ekranów trafiają do tych, które ich potrzebują, zgodnie z tabelą zależności kafli (`docs/pulpit-i-nawigacja.md`, sekcja 2) i profilem sprzętu (§10 zasad UX). Wynik: 61 z 311 pozycji rejestru pulpitu czyta dane spoza siebie; sześć błędów w istniejących połączeniach (m.in. utrata ostatniej zmiany przy wyjściu z ekranu w ciągu 0,5 s, kwota czytana z cudzego szkicu bez sprawdzenia waluty); lista brakujących połączeń i cztery decyzje właściciela (D-1…D-4) przed naprawami. Do tego skrypt pomiarowy `scripts/audyt-powiazan-ekranow.mjs` i generowany nim załącznik `docs/audyt-powiazan-ekranow-zalacznik.md`.
+
+Wpływ na liczby: brak.
+
 ## [3.53.4] — 05.11.2026
 
 Przygotowanie pod paczkę `dane-srodowiskowe` (standard 19.13), bez zmiany funkcji aplikacji: do `scripts/` trafiły dwa narzędzia konsumenta skopiowane 1:1 z `new-app-standards` (`pobierz-dane-srodowiskowe.mjs` — pobranie z weryfikacją SHA-256 i lockiem, `generuj-modul.mjs` — moduł TS według deklaracji `meteo.konsument.json`) oraz test `lib/__tests__/dane-srodowiskowe-narzedzia.test.ts` (12 przypadków na atrapie wydania: przypięcie wersji, wykrycie podmienionego pliku i innej sumy, odmowa nieznanego pola/lokalizacji/źródła/schematu, brak danych = `null`, znaczniki jakości lokalizacji). Sprawdzone też ręcznie na prawdziwej paczce 0.1.0 zbudowanej z `main` repo danych: 62 lokalizacje, moduł dla pól `te`, `hdd20_15`, `hdd18_15` ≈ 25 KB po kompresji, przechodzi `tsc --strict`. Nie dodano jeszcze `meteo.konsument.json`, `vendor/` ani locka — to krok po gotowej paczce i decyzji, które pola bierze Offgrid (wpis „Integracja Offgrid z paczką środowiskową” na liście zadań).
