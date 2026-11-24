@@ -145,7 +145,18 @@ const POLA_PVGIS: { pole: PolaPvgis; label: string; unit: string; min: number; m
 
 export default function DeficytyMiesiecznePage() {
   const t = useTranslate()
-  const [zapisany, setStan, info] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, KWOTY)
+  const [zapisany, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    // zuzycie is read at 75–80% load (a load-specific point); histPopyt is advised as a winter average — not linked
+    projekt: {
+      moc: "mocAgregatuKw",
+      histKwp: "mocPvKwp",
+      histMagPoj: "pojemnoscUzytecznaKwh",
+      pvgisLat: "szerokoscGeoDeg",
+      pvgisLon: "dlugoscGeoDeg",
+      pvgisNach: "nachylenieDeg",
+    },
+  })
   // A draft saved before the history fields existed lacks them — fill from the defaults.
   const stan = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...zapisany }), [zapisany])
   const wklejone = useMemo(() => parsujHistorie(stan.histDane), [stan.histDane])
@@ -336,6 +347,7 @@ export default function DeficytyMiesiecznePage() {
             value={stan[pole]}
             onChange={(e) => ustaw(pole, e.target.value)}
             pomoc={<PomocPola ekran="deficyty-miesieczne" pole={pole} />}
+            projekt={projekt.pole(pole)}
           />
         ))}
         <PoleSelect
@@ -384,6 +396,7 @@ export default function DeficytyMiesiecznePage() {
                 value={stan[pole]}
                 onChange={(e) => ustaw(pole, e.target.value)}
                 pomoc={<PomocPola ekran="deficyty-miesieczne" pole={pole} />}
+                projekt={projekt.pole(pole)}
               />
             ))}
           </div>
@@ -532,6 +545,7 @@ export default function DeficytyMiesiecznePage() {
               value={stan.histKwp}
               onChange={(e) => ustaw("histKwp", e.target.value)}
               pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histKwp" />}
+              projekt={projekt.pole("histKwp")}
             />
             <Pole
               label={t("UI-M7-DEFM-HIST-PR")}
@@ -660,6 +674,7 @@ export default function DeficytyMiesiecznePage() {
           value={stan.histMagPoj}
           onChange={(e) => ustaw("histMagPoj", e.target.value)}
           pomoc={<PomocPola ekran="deficyty-miesieczne" pole="histMagPoj" />}
+          projekt={projekt.pole("histMagPoj")}
         />
         {liczba(stan.histMagPoj) > 0 && (
           <>

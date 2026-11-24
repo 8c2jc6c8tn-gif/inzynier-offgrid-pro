@@ -38,7 +38,7 @@ export function TrybDachPlaski() {
   const t = useTranslate()
   const { f0, f2, fMasa } = useFormatyMontazu()
   const { dane } = useLokalizacjaProjektu()
-  const [s, setS] = usePersistedDraft<Seed>("typ-montazu-dach-plaski", PUSTY)
+  const [s, setS, , , projekt] = usePersistedDraft<Seed>("typ-montazu-dach-plaski", PUSTY, { projekt: { nachylenieDeg: "nachylenieDeg" } })
   const wysokoscPvgis = dane?.dane.meta.wysokoscNpmM
   const wynik = useMemo(
     () =>
@@ -77,6 +77,7 @@ export function TrybDachPlaski() {
           max={90}
           value={s.nachylenieDeg}
           onChange={(e) => setS((p) => ({ ...p, nachylenieDeg: e.target.value }))}
+          projekt={projekt.pole("nachylenieDeg")}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="katStelaza" params={{ progSnieg: PROG_ZALEGANIA_SNIEGU_DEG }} />}
         />
       </div>

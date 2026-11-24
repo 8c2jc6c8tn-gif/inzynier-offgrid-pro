@@ -38,7 +38,10 @@ export default function AgregatJakoZapasPage() {
   const { f1 } = useFormaty()
   const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY, {
+    // zuzycieLH is the consumption at 80% load (a load-specific point), not a general figure — not linked
+    projekt: { moc: "mocAgregatuKw" },
+  })
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
 
   const bilans = useMemo(() => {
@@ -95,6 +98,7 @@ export default function AgregatJakoZapasPage() {
           inputMode="decimal"
           value={stan.moc}
           onChange={(e) => ustaw({ moc: e.target.value })}
+          projekt={projekt.pole("moc")}
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="moc" />}
         />
         <Pole

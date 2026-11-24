@@ -144,7 +144,10 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
   const t = useTranslate(true)
   const { f0 } = useFormaty()
   const firma = segment === "firma"
-  const [pv, setPv] = usePersistedDraft<StanPvMagazynu>(kluczPv(segment), POCZATKOWY_PV)
+  // Owner decision D-4: PV power and usable storage of D4/F6 come from the project by default (both segments)
+  const [pv, setPv, , , projekt] = usePersistedDraft<StanPvMagazynu>(kluczPv(segment), POCZATKOWY_PV, {
+    projekt: { mocPvKwp: "mocPvKwp", pojemnoscKwh: "pojemnoscUzytecznaKwh" },
+  })
   const ustaw = <K extends keyof StanPvMagazynu>(k: K, v: StanPvMagazynu[K]) => setPv((p) => ({ ...p, [k]: v }))
 
   const result = useMemo(() => {
@@ -167,6 +170,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             min={0}
             value={pv.mocPvKwp}
             onChange={(e) => ustaw("mocPvKwp", e.target.value)}
+            projekt={projekt.pole("mocPvKwp")}
             pomoc={<PomocPola ekran="siec-pv-magazyn" pole="mocPv" />}
           />
           <Pole
@@ -188,6 +192,7 @@ function PvIMagazyn({ segment, zuzycie }: { segment: Segment; zuzycie: number[] 
             min={0}
             value={pv.pojemnoscKwh}
             onChange={(e) => ustaw("pojemnoscKwh", e.target.value)}
+            projekt={projekt.pole("pojemnoscKwh")}
             pomoc={<PomocPola ekran="siec-pv-magazyn" pole="magazyn" />}
           />
           <Pole

@@ -40,7 +40,9 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function AgregatWMroziePage() {
   const t = useTranslate()
   const { f0 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("agregat-w-mrozie", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("agregat-w-mrozie", STAN_POCZATKOWY, {
+    projekt: { zuzyciePaliwaLH: "zuzyciePaliwaLH" },
+  })
   const ustaw = (pole: PoleLiczbowe) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -139,6 +141,7 @@ export default function AgregatWMroziePage() {
           min={0}
           value={stan.zuzyciePaliwaLH}
           onChange={ustaw("zuzyciePaliwaLH")}
+          projekt={projekt.pole("zuzyciePaliwaLH")}
           pomoc={<PomocPola ekran="agregat-w-mrozie" pole="zuzycie" />}
         />
         <Pole

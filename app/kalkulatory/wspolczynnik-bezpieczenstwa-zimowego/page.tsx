@@ -125,7 +125,10 @@ const przycisk = "min-h-11 self-start rounded-md border px-3 text-small font-med
 
 export default function WspolczynnikBezpieczenstwaZimowegoPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>(EKRAN, STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>(EKRAN, STAN_POCZATKOWY, {
+    // zapotrzebowanie is a monthly figure and wymaganaAutonomia covers the whole system (battery + generator) — not linked
+    projekt: { mocAgregatu: "mocAgregatuKw" },
+  })
   const e2 = useOdczytDraftu<SeedDeficytow>("deficyty-miesieczne").dane
   const e4 = useOdczytDraftu<SeedBlackout>("blackout").dane
   const e6 = useOdczytDraftu<SeedStrategii>("strategia-zamarzanie").dane
@@ -230,7 +233,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
         {!stan.brakAgregatu && (
           <>
             <div className="grid grid-cols-2 gap-3">
-              <Pole label={t("UI-M7-WSP-MOC-AGREGATU")} unit="kW" {...pole("mocAgregatu")} pomoc={<PomocPola ekran={EKRAN} pole="mocAgregatu" />} />
+              <Pole label={t("UI-M7-WSP-MOC-AGREGATU")} unit="kW" {...pole("mocAgregatu")} pomoc={<PomocPola ekran={EKRAN} pole="mocAgregatu" />} projekt={projekt.pole("mocAgregatu")} />
               <Pole label={t("UI-M7-WSP-MOC-WYMAGANA")} unit="kW" {...pole("mocWymagana")} pomoc={<PomocPola ekran={EKRAN} pole="mocWymagana" />} />
             </div>
             {z2.mocAgregatuKw !== null && (

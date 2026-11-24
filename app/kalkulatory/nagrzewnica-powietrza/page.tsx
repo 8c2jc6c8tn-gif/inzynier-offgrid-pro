@@ -69,7 +69,11 @@ const r3 = (x: number) => Math.round(x * 1000) / 1000
 
 export default function NagrzewnicaPowietrzaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY, {
+    konwersjaKwot: PRZELICZ_KWOTY,
+    // zapotrzebowanie is daily heat and zuzycie is the heater's own fuel use — not linked
+    projekt: { bateria: "pojemnoscUzytecznaKwh" },
+  })
   const result = useMemo(
     () =>
       calculateNagrzewnicaPowietrza({
@@ -102,6 +106,7 @@ export default function NagrzewnicaPowietrzaPage() {
         value={stan[pole]}
         onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
         pomoc={<PomocPola ekran="nagrzewnica-powietrza" pole={pole} />}
+        projekt={projekt.pole(pole)}
       />
     ))
 

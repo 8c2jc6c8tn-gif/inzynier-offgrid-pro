@@ -42,7 +42,11 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function DystrybucjaCieplaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY, KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    // annual space-heating demand [kWh/year] = the project's annual heat demand
+    projekt: { cieploRocznieKwh: "zapotrzebowanieCieplaRokKwh" },
+  })
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -106,7 +110,7 @@ export default function DystrybucjaCieplaPage() {
           <legend className="mb-2 text-small font-medium">{t("UI-M6-DYS-POROWNANIE")}</legend>
           <Pole label={t("UI-M6-DYS-COP-SYSTEMU")} {...pole("copSystemu")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="copSystemu" />} />
           <Pole label={t("UI-M6-DYS-COP-ODNIESIENIA")} {...pole("copOdniesienia")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="copOdniesienia" />} />
-          <Pole label={t("UI-M6-DYS-CIEPLO")} unit={t("UI-J-KWH-ROK")} {...pole("cieploRocznieKwh")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cieplo" />} />
+          <Pole label={t("UI-M6-DYS-CIEPLO")} unit={t("UI-J-KWH-ROK")} {...pole("cieploRocznieKwh")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cieplo" />} projekt={projekt.pole("cieploRocznieKwh")} />
           <Pole label={t("UI-M6-DYS-CENA")} unit={t("UI-J-ZL-KWH")} {...pole("cenaPraduZlKwh")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cena" />} />
           <Pole label={t("UI-M6-DYS-DOPLATA")} unit={t("UI-J-ZL")} {...pole("doplataZl")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="doplata" />} />
         </fieldset>

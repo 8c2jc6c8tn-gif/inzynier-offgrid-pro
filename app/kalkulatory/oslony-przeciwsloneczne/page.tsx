@@ -26,7 +26,10 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function OslonyPrzeciwslonecznePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("oslony-przeciwsloneczne", STAN_POCZATKOWY)
+  // Without a project value the field stays empty and still falls back to the location of Module 1 below
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("oslony-przeciwsloneczne", STAN_POCZATKOWY, {
+    projekt: { szerokoscDeg: "szerokoscGeoDeg" },
+  })
   const { lokalizacja } = useLokalizacjaProjektu()
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
@@ -66,6 +69,7 @@ export default function OslonyPrzeciwslonecznePage() {
           inputMode="decimal"
           value={stan.szerokoscDeg}
           onChange={(e) => setStan((prev) => ({ ...prev, szerokoscDeg: e.target.value }))}
+          projekt={projekt.pole("szerokoscDeg")}
           pomoc={<PomocPola ekran="oslony-przeciwsloneczne" pole="szerokosc" />}
         />
         {stan.szerokoscDeg === "" && lokalizacja && <p className="text-caption text-muted-foreground">{t("UI-M6-OSL-Z-PROJEKTU", { lat: r2(lokalizacja.szerokosc) })}</p>}

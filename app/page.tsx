@@ -19,6 +19,7 @@ import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla } from "@/components/tekst-rejestru"
 import { ProjektWNawigacji } from "@/components/projekt/projekt-w-nawigacji"
+import { KartaProjektu } from "@/components/projekt/karta-projektu"
 
 /** Kafel 14 (Ustawienia): zawsze widoczny jako ostatni w siatce, poza kolejnością i ukrywaniem (D85). */
 const USTAWIENIA_WPIS: KafelEntry = {
@@ -156,6 +157,8 @@ export default function PulpitPage() {
             </Link>
           </p>
         </div>
+
+        <KartaProjektu />
 
         {widoczneKafle.length === 0 ? (
           <StanPusty tytul={t("UI-PUL-WSZYSTKIE-KAFLE-UKRYTE")}>

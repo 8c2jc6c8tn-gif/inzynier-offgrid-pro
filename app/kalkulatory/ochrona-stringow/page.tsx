@@ -33,7 +33,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function OchronaStringowPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("ochrona-stringow", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ochrona-stringow", STAN_POCZATKOWY, {
+    projekt: { iscStcA: "iscStcA" },
+  })
   const {
     iscStcA,
     iModMaxOcprA,
@@ -113,6 +115,7 @@ export default function OchronaStringowPage() {
           min={0}
           value={iscStcA}
           onChange={(e) => setIscStcA(e.target.value)}
+          projekt={projekt.pole("iscStcA")}
           pomoc={<PomocPola ekran="ochrona-stringow" pole="isc" />}
         />
         <Pole

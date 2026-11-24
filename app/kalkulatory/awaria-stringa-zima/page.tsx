@@ -38,7 +38,10 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function AwariaStringaZimaPage() {
   const t = useTranslate()
   const { f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("awaria-stringa-zima", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("awaria-stringa-zima", STAN_POCZATKOWY, {
+    // zapotrzebowanieKwhDoba is the demand of the worst month, not the year-round daily demand — not linked
+    projekt: { pojemnoscBateriiKwh: "pojemnoscNominalnaKwh", dodPct: "dodPct", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+  })
   const result = useMemo(
     () => calculateAwariaStringaZima(Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as AwariaStringaZimaInput),
     [stan],
@@ -65,6 +68,7 @@ export default function AwariaStringaZimaPage() {
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
             pomoc={<PomocPola ekran="awaria-stringa-zima" pole={pole} />}
+            projekt={projekt.pole(pole)}
           />
         ))}
       </div>

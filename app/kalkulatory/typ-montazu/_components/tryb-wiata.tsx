@@ -50,7 +50,8 @@ function Rzut({ L, W, dl, sz, bloki, podzial }: { L: number; W: number; dl: numb
 export function TrybWiata() {
   const t = useTranslate()
   const { f0, f2 } = useFormatyMontazu()
-  const [s, setS] = usePersistedDraft<Seed>("typ-montazu-wiata", PUSTY)
+  // The panels lie on the carport roof, so the roof pitch is the panel tilt.
+  const [s, setS, , , projekt] = usePersistedDraft<Seed>("typ-montazu-wiata", PUSTY, { projekt: { mocPaneluW: "mocPaneluWp", nachylenieDeg: "nachylenieDeg" } })
   const wynik = useMemo(
     () =>
       calculateWiata({
@@ -83,6 +84,8 @@ export function TrybWiata() {
             min={0}
             value={s[p.pole]}
             onChange={(e) => setS((prev) => ({ ...prev, [p.pole]: e.target.value }))}
+            projekt={projekt.pole(p.pole)}
+
             pomoc={
               <PomocPola ekran="typ-montazu-pola" pole={p.pole} params={{ wiataMin: WIATA_KAT_SAMOOCZYSZCZANIA_MIN_DEG, wiataMax: WIATA_KAT_SAMOOCZYSZCZANIA_MAX_DEG }} />
             }

@@ -18,6 +18,8 @@ export const pl = {
   "UI-PRJ-PASEK-W-PROJEKCIE": "w projekcie: {p}",
   "UI-PRJ-PASEK-NOWA": "nowa w projekcie",
   "UI-PRJ-PASEK-ZAPISANO": "Zapisano w projekcie.",
+  "UI-PRJ-KARTA-TYTUL": "Mój projekt",
+  "UI-PRJ-KARTA-LINK": "Projekty i porównanie →",
   "UI-PRJ-TYTUL": "Projekty",
   "UI-PRJ-OPIS": "Projekt to komplet danych jednej instalacji: wszystkie wypełnione ekrany i wspólne liczby (napięcie, bateria, panel, zużycie…). Liczba zapisana w projekcie sama wypełnia się na każdym ekranie, który jej potrzebuje. Na ekranie możesz wpisać własną liczbę i sprawdzić „co by było, gdyby” — projekt zmieni się dopiero po kliknięciu „Zapisz w projekcie” na pasku na dole.",
   "UI-PRJ-LISTA": "Twoje projekty",

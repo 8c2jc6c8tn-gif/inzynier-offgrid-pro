@@ -19,6 +19,8 @@ export const en: Record<Klucz, string> = {
   "UI-PRJ-PASEK-W-PROJEKCIE": "in the project: {p}",
   "UI-PRJ-PASEK-NOWA": "new in the project",
   "UI-PRJ-PASEK-ZAPISANO": "Saved to the project.",
+  "UI-PRJ-KARTA-TYTUL": "My project",
+  "UI-PRJ-KARTA-LINK": "Projects and comparison →",
   "UI-PRJ-TYTUL": "Projects",
   "UI-PRJ-OPIS": "A project is the complete data of one installation: every filled-in screen and the shared numbers (voltage, battery, panel, consumption…). A number saved in the project fills itself in on every screen that needs it. On a screen you can type your own number and check „what if” — the project changes only when you click „Save to project” on the bar at the bottom.",
   "UI-PRJ-LISTA": "Your projects",

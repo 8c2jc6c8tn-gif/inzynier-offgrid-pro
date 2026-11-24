@@ -27,7 +27,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function ZacienienieDiodyBocznikujacePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("zacienienie-diody-bocznikujace", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("zacienienie-diody-bocznikujace", STAN_POCZATKOWY, {
+    projekt: { mocPaneluNominalnaW: "mocPaneluWp", liczbaPaneliWStringu: "liczbaPaneliWStringu" },
+  })
   const { mocPaneluNominalnaW, liczbaZacienionychSekcji, liczbaPaneliWStringu } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -76,6 +78,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           min={0}
           value={mocPaneluNominalnaW}
           onChange={(e) => setMocPaneluNominalnaW(e.target.value)}
+          projekt={projekt.pole("mocPaneluNominalnaW")}
           pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="moc" />}
         />
         <Pole
@@ -98,6 +101,7 @@ export default function ZacienienieDiodyBocznikujacePage() {
           min={0}
           value={liczbaPaneliWStringu}
           onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
+          projekt={projekt.pole("liczbaPaneliWStringu")}
           pomoc={<PomocPola ekran="zacienienie-diody-bocznikujace" pole="liczbaPaneli" />}
         />
       </div>

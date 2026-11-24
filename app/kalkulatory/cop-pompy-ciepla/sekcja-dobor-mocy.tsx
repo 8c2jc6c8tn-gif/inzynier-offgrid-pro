@@ -23,7 +23,11 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 /** Moduł 6, Część 2B — dokładka do Ekranu 5: dobór mocy pompy do budynku (dawne 5.27) i podział pompa/dogrzewanie (5.67). */
 export function SekcjaDoborMocy() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Stan>("cop-pompy-ciepla.dobor-mocy", STAN_POCZATKOWY)
+  // Design heat load at the design temperature [kW] = the project's design heat load; with no project value the field
+  // stays empty and still falls back to the live Screen 1 result below. tProj is the normative design temperature — not linked.
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("cop-pompy-ciepla.dobor-mocy", STAN_POCZATKOWY, {
+    projekt: { zapotrzebowanie: "mocGrzewczaKw" },
+  })
   const e1 = useWynikEkranu1()
   const pole = (klucz: Pola, min: number | undefined = 0) => ({
     type: "number",
@@ -67,6 +71,7 @@ export function SekcjaDoborMocy() {
           placeholder={zE1 !== undefined ? String(zE1) : undefined}
           {...pole("zapotrzebowanie")}
           pomoc={<PomocPola ekran="m6d-dobor-mocy-pompy" pole="zapotrzebowanie" />}
+          projekt={projekt.pole("zapotrzebowanie")}
         />
         <Pole label={t("UI-M6D-DMP-MOC-PROJ")} unit="kW" {...pole("mocProj")} pomoc={<PomocPola ekran="m6d-dobor-mocy-pompy" pole="mocProj" />} />
       </div>
