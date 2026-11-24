@@ -28,7 +28,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function LokalizacjaIKlimatPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("lokalizacja-i-klimat", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("lokalizacja-i-klimat", STAN_POCZATKOWY, {
+    projekt: { szerokosc: "szerokoscGeoDeg", dlugosc: "dlugoscGeoDeg", temperaturaMin: "temperaturaMinC" },
+  })
   const { adres, szerokosc, dlugosc, temperaturaMin } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -93,6 +95,7 @@ export default function LokalizacjaIKlimatPage() {
           value={szerokosc}
           onChange={(e) => setSzerokosc(e.target.value)}
           placeholder="np. 52.23"
+          projekt={projekt.pole("szerokosc")}
           pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="szerokosc" />}
         />
         <Pole
@@ -103,6 +106,7 @@ export default function LokalizacjaIKlimatPage() {
           value={dlugosc}
           onChange={(e) => setDlugosc(e.target.value)}
           placeholder="np. 21.01"
+          projekt={projekt.pole("dlugosc")}
           pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="dlugosc" />}
         />
         <Pole
@@ -113,6 +117,7 @@ export default function LokalizacjaIKlimatPage() {
           value={temperaturaMin}
           onChange={(e) => setTemperaturaMin(e.target.value)}
           placeholder="np. -22"
+          projekt={projekt.pole("temperaturaMin")}
           pomoc={<PomocPola ekran="lokalizacja-i-klimat" pole="temperaturaMin" params={{ tMin: TEMPERATURA_MIN_C, tMax: TEMPERATURA_MAX_C }} />}
         />
       </div>

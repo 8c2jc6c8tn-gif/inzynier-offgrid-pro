@@ -10,7 +10,6 @@ import { przeliczPola } from "@/lib/waluta/przelicz"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -47,7 +46,10 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AkumulatorKamperaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY, KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    projekt: { dniBezLadowania: "dniAutonomii", napiecieV: "napiecieUkladuV" },
+  })
   const pole = (klucz: keyof FormularzStan) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -77,9 +79,8 @@ export default function AkumulatorKamperaPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AKK-POTRZEBA")}</legend>
         <Pole label={t("UI-M12-AKK-ZAPOTRZEBOWANIE")} unit="Wh" {...pole("zapotrzebowanieWhDoba")} pomoc={<PomocPola ekran="akumulator-kampera" pole="zapotrzebowanie" />} />
-        <Pole label={t("UI-M12-AKK-DNI")} {...pole("dniBezLadowania")} pomoc={<PomocPola ekran="akumulator-kampera" pole="dni" />} />
-        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="akumulator-kampera" pole="napiecie" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
+        <Pole label={t("UI-M12-AKK-DNI")} {...pole("dniBezLadowania")} projekt={projekt.pole("dniBezLadowania")} pomoc={<PomocPola ekran="akumulator-kampera" pole="dni" />} />
+        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} projekt={projekt.pole("napiecieV")} pomoc={<PomocPola ekran="akumulator-kampera" pole="napiecie" />} />
         <Pole label={t("UI-M12-AKK-ZAPAS-MASY")} unit="kg" {...pole("zapasMasyKg")} pomoc={<PomocPola ekran="akumulator-kampera" pole="zapasMasy" />} />
       </fieldset>
 

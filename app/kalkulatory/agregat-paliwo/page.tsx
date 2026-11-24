@@ -47,7 +47,10 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AgregatPaliwoPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY, KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    projekt: { mocAgregatuKw: "mocAgregatuKw" },
+  })
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -76,7 +79,7 @@ export default function AgregatPaliwoPage() {
       <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
-        <Pole label={t("UI-M12-AP-MOC")} unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocAgregatuKw} onChange={ustaw("mocAgregatuKw")} pomoc={<PomocPola ekran="agregat-paliwo" pole="moc" />} />
+        <Pole label={t("UI-M12-AP-MOC")} unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocAgregatuKw} projekt={projekt.pole("mocAgregatuKw")} onChange={ustaw("mocAgregatuKw")} pomoc={<PomocPola ekran="agregat-paliwo" pole="moc" />} />
         <Pole label={t("UI-M12-AP-OBCIAZENIE")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.obciazeniePct} onChange={ustaw("obciazeniePct")} pomoc={<PomocPola ekran="agregat-paliwo" pole="obciazenie" />} />
         <Pole label={t("UI-M12-AP-ZUZYCIE")} unit="l/h" type="number" inputMode="decimal" min={0} value={stan.zuzycieLH} onChange={ustaw("zuzycieLH")} pomoc={<PomocPola ekran="agregat-paliwo" pole="zuzycie" />} />
         <Pole label={t("UI-M12-AP-GODZINY")} unit="h" type="number" inputMode="decimal" min={0} max={24} value={stan.godzinNaDobe} onChange={ustaw("godzinNaDobe")} pomoc={<PomocPola ekran="agregat-paliwo" pole="godziny" />} />

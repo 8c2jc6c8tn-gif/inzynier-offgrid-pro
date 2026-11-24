@@ -40,6 +40,8 @@ import { useLanguage, useSymbolWaluty, useTranslate, useFormaty } from "@/lib/i1
 import { czyMikroinstalacja, KLUCZ_NAZWY_OBIEKTU, KLUCZ_PROFILU_OBIEKTU, type ProfilObiektu } from "@/lib/obiekt/profil-obiektu"
 import { KLUCZ_DRAFTU_ODBIORNIKOW, zuzycieMikroinstalacjiKwh, type DraftOdbiornikow } from "@/lib/obiekt/zuzycie-z-odbiornikow"
 import type { ProfilSprzetuPanelu } from "@/lib/profil-sprzetu/types"
+import { useAktywnyProjektId, useWartosciProjektu } from "@/lib/projekt/use-projekt"
+import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
 import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
 import {
   aktywneMiejsce,
@@ -245,6 +247,8 @@ export default function PorownywarkaPaneliPage() {
   }, [kodZAdresu])
   const prosty = efektywnyTryb(stan) === "prosty"
   const { profil, zapiszPanel } = useProfilSprzetu()
+  const projektId = useAktywnyProjektId()
+  const wartosciProjektu = useWartosciProjektu(projektId)
   /** U14: saving the primary panel is always asked first, never automatic. */
   const [doZapisuId, setDoZapisuId] = useState<string | null>(null)
   const [zapisanoId, setZapisanoId] = useState<string | null>(null)
@@ -397,6 +401,25 @@ export default function PorownywarkaPaneliPage() {
     const bezCeny: Partial<typeof dane> = { ...dane }
     delete bezCeny.cenaBruttoZl
     zapiszPanel({ podstawowy: bezCeny as ProfilSprzetuPanelu["podstawowy"], katalogId: stan.panele.find((p) => p.id === id)?.katalogId || null, zapisanoIso: new Date().toISOString() })
+    // The user has just confirmed (U14): the panel's card data become the project's panel, read by the PV screens. A number the
+    // card does not give is removed from the project, so the project never mixes two panels.
+    if (projektId) {
+      const e = dane.elektryka ?? null
+      const liczba = (x: number | null | undefined) => (x === null || x === undefined ? null : String(x))
+      void zapiszWartosci(
+        projektId,
+        {
+          mocPaneluWp: liczba(dane.pmaxW),
+          gammaPmaxPctNaC: liczba(dane.gammaPctNaC),
+          vocStcV: liczba(e?.vocV),
+          vmpStcV: liczba(e?.vmpV),
+          iscStcA: liczba(e?.iscA),
+          impStcA: liczba(e?.impA),
+          betaVocPctNaC: liczba(e?.betaVocPctNaC),
+        },
+        "porownywarka-paneli",
+      )
+    }
     setDoZapisuId(null)
     setZapisanoId(id)
   }
@@ -1525,7 +1548,7 @@ export default function PorownywarkaPaneliPage() {
                 zUzytecznoscia={v.zUzytecznoscia}
                 bil={stan.bil ?? BILANS_PUSTY}
                 onBil={(zmiana) => setStan((prev) => ({ ...prev, bil: { ...(prev.bil ?? BILANS_PUSTY), ...zmiana } }))}
-                pojemnoscZProfilu={profil.bateria?.pojemnoscUzytecznaDzisKwh}
+                pojemnoscZProfilu={wartosciProjektu?.pojemnoscUzytecznaKwh ? Number(wartosciProjektu.pojemnoscUzytecznaKwh.v) : undefined}
                 mikro={mikro}
               />
             )}
