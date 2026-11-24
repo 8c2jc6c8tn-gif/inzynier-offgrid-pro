@@ -21,8 +21,8 @@ import { KLUCZ_BLEDU_SERIESCALC, odczytajOdpowiedzSeriescalc } from "@/lib/lokal
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { wejscieDeficytow } from "@/lib/stress-test/wejscie-deficytow"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
+import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect, PoleTekst } from "@/components/ui/pole"
@@ -104,8 +104,6 @@ const STAN_POCZATKOWY: FormularzStan = {
   pvgisDo: "2023",
 }
 
-const KWOTY = przeliczPola<FormularzStan>("cena", "serwis")
-
 const POLA: { pole: PolaAgregatu; label: string; unit: string }[] = [
   { pole: "moc", label: "UI-M7-DEFM-MOC", unit: "kW" },
   { pole: "zuzycie", label: "UI-M7-DEFM-ZUZYCIE", unit: "l/h" },
@@ -145,8 +143,10 @@ const POLA_PVGIS: { pole: PolaPvgis; label: string; unit: string; min: number; m
 
 export default function DeficytyMiesiecznePage() {
   const t = useTranslate()
-  const [zapisany, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [zapisany, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, {
+    // Registered in lib/waluta/kwoty-ekranow.ts: other screens read these amounts from this draft.
+    kwoty: KWOTY_EKRANOW["deficyty-miesieczne"],
     // zuzycie is read at 75–80% load (a load-specific point); histPopyt is advised as a winter average — not linked
     projekt: {
       moc: "mocAgregatuKw",
@@ -159,6 +159,8 @@ export default function DeficytyMiesiecznePage() {
   })
   // A draft saved before the history fields existed lacks them — fill from the defaults.
   const stan = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...zapisany }), [zapisany])
+  // The calculator gets the amounts converted to the working currency (NBP); the form shows what was typed.
+  const stanRoboczy = useMemo<FormularzStan>(() => ({ ...STAN_POCZATKOWY, ...waluty.stanRoboczy }), [waluty.stanRoboczy])
   const wklejone = useMemo(() => parsujHistorie(stan.histDane), [stan.histDane])
   const { zuzycie: zuzycieMiesieczne } = useZuzycieMiesieczne("dom")
   const [pvgisPobiera, setPvgisPobiera] = useState(false)
@@ -198,7 +200,7 @@ export default function DeficytyMiesiecznePage() {
   )
   const telKanal = kanalyMocy.includes(stan.telKanal) ? stan.telKanal : kanalyMocy[0]
 
-  const result = useMemo(() => calculateDeficytyMiesieczne(wejscieDeficytow(stan, wklejone.lata)), [stan, wklejone])
+  const result = useMemo(() => calculateDeficytyMiesieczne(wejscieDeficytow(stanRoboczy, wklejone.lata)), [stanRoboczy, wklejone])
   const v = result.value
   const uwaga = result.warnings.some((w) => w.level === "warning")
   const h = v.historia
@@ -306,7 +308,6 @@ export default function DeficytyMiesiecznePage() {
       >
         {t("UI-M7-DEFM-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-3">
         <legend className="mb-2 text-small font-medium">{t("UI-M7-DEFM-DEFICYTY")}</legend>
@@ -336,20 +337,24 @@ export default function DeficytyMiesiecznePage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M7-DEFM-AGREGAT")}</legend>
-        {POLA.map(({ pole, label, unit }) => (
-          <Pole
-            key={pole}
-            label={t(label)}
-            unit={unit.startsWith("UI-") ? t(unit) : unit}
-            type="number"
-            inputMode="decimal"
-            min={0}
-            value={stan[pole]}
-            onChange={(e) => ustaw(pole, e.target.value)}
-            pomoc={<PomocPola ekran="deficyty-miesieczne" pole={pole} />}
-            projekt={projekt.pole(pole)}
-          />
-        ))}
+        {POLA.map(({ pole, label, unit }) => {
+          const waluta = pole === "cena" || pole === "serwis" ? waluty.pole(pole) : undefined
+          return (
+            <Pole
+              key={pole}
+              label={t(label)}
+              unit={unit.startsWith("UI-") ? t(unit, waluta ? { waluta: symbol(waluta.kod) } : undefined) : unit}
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={stan[pole]}
+              waluta={waluta}
+              onChange={(e) => ustaw(pole, e.target.value)}
+              pomoc={<PomocPola ekran="deficyty-miesieczne" pole={pole} />}
+              projekt={projekt.pole(pole)}
+            />
+          )
+        })}
         <PoleSelect
           label={t("UI-M7-DEFM-HORYZONT")}
           value={stan.horyzont}
@@ -892,6 +897,7 @@ export default function DeficytyMiesiecznePage() {
             </div>
           )}
 
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

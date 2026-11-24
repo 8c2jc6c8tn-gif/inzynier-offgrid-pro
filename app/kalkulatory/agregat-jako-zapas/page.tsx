@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateBilansMiesieczny } from "@/lib/core/modules/siec/bilans-miesieczny/calculator"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
@@ -38,7 +39,11 @@ export default function AgregatJakoZapasPage() {
   const { f1 } = useFormaty()
   const zl = useZl()
   const { zuzycie, pv, wczytano } = useDaneBilansu("dom")
-  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY, {
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<Stan>("siec-agregat-dom", POCZATKOWY, {
+    // Fuel is a purchase: its price may be in any currency; the engine works in PLN (Polish-market screen), results via zl().
+    kwoty: ["cena"],
+    obliczeniaWPln: true,
     // zuzycieLH is the consumption at 80% load (a load-specific point), not a general figure — not linked
     projekt: { moc: "mocAgregatuKw" },
   })
@@ -57,11 +62,11 @@ export default function AgregatJakoZapasPage() {
         deficytKwh: deficyt,
         mocAgregatuKw: liczba(stan.moc),
         sredniZuzycieLH: liczba(stan.zuzycieLH),
-        cenaZaLitrZl: liczba(stan.cena),
+        cenaZaLitrZl: liczba(waluty.stanRoboczy.cena),
         maWyjscieSterujaceBms: stan.bms,
         ...naWejscieBezpieczenstwa(stan),
       }),
-    [deficyt, stan],
+    [deficyt, stan, waluty.stanRoboczy.cena],
   )
   if (!wczytano) return <StanLadowania linie={6} />
   const poziom = poziomWerdyktu(result.status, result.warnings)
@@ -112,10 +117,11 @@ export default function AgregatJakoZapasPage() {
         />
         <Pole
           label={t("UI-AGZ-CENA")}
-          unit={t("UI-J-ZL-L")}
+          unit={t("UI-J-ZL-L", { waluta: symbol(waluty.pole("cena").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.cena}
+          waluta={waluty.pole("cena")}
           onChange={(e) => ustaw({ cena: e.target.value })}
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="cenaPaliwa" />}
         />

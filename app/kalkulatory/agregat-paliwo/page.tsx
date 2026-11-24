@@ -3,8 +3,7 @@
 import { useMemo } from "react"
 import { calculateAgregatPaliwo } from "@/lib/core/modules/kalkulator-mobilny/agregat-paliwo/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -39,20 +38,23 @@ const STAN_POCZATKOWY: FormularzStan = {
   podlaczenieAgregatu: "",
 }
 
-const KWOTY = przeliczPola<FormularzStan>("cenaZlL", "kosztPorownawczyZlKwh")
-
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
 const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AgregatPaliwoPage() {
   const t = useTranslate()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("agregat-paliwo", STAN_POCZATKOWY, {
+    kwoty: ["cenaZlL", "kosztPorownawczyZlKwh"],
     projekt: { mocAgregatuKw: "mocAgregatuKw" },
   })
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCeny = waluty.pole("cenaZlL")
+  const wPorownania = waluty.pole("kosztPorownawczyZlKwh")
 
   const result = useMemo(
     () =>
@@ -61,11 +63,11 @@ export default function AgregatPaliwoPage() {
         obciazeniePct: liczba(stan.obciazeniePct),
         zuzycieLH: liczba(stan.zuzycieLH),
         godzinNaDobe: liczba(stan.godzinNaDobe),
-        cenaZlL: liczba(stan.cenaZlL),
-        kosztPorownawczyZlKwh: liczba(stan.kosztPorownawczyZlKwh),
+        cenaZlL: liczba(r.cenaZlL),
+        kosztPorownawczyZlKwh: liczba(r.kosztPorownawczyZlKwh),
         ...naWejscieBezpieczenstwa(stan),
       }),
-    [stan],
+    [stan, r],
   )
   // Directive #4 / D48: a critical safety answer turns the verdict red, even while the numbers are incomplete.
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -76,15 +78,14 @@ export default function AgregatPaliwoPage() {
       <NaglowekEkranu tytul={t("UI-M12-AP-TYTUL")} ekran="agregat-paliwo" wynik={result}>
         {t("UI-M12-AP-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole label={t("UI-M12-AP-MOC")} unit="kW" type="number" inputMode="decimal" min={0} value={stan.mocAgregatuKw} projekt={projekt.pole("mocAgregatuKw")} onChange={ustaw("mocAgregatuKw")} pomoc={<PomocPola ekran="agregat-paliwo" pole="moc" />} />
         <Pole label={t("UI-M12-AP-OBCIAZENIE")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.obciazeniePct} onChange={ustaw("obciazeniePct")} pomoc={<PomocPola ekran="agregat-paliwo" pole="obciazenie" />} />
         <Pole label={t("UI-M12-AP-ZUZYCIE")} unit="l/h" type="number" inputMode="decimal" min={0} value={stan.zuzycieLH} onChange={ustaw("zuzycieLH")} pomoc={<PomocPola ekran="agregat-paliwo" pole="zuzycie" />} />
         <Pole label={t("UI-M12-AP-GODZINY")} unit="h" type="number" inputMode="decimal" min={0} max={24} value={stan.godzinNaDobe} onChange={ustaw("godzinNaDobe")} pomoc={<PomocPola ekran="agregat-paliwo" pole="godziny" />} />
-        <Pole label={t("UI-M12-AP-CENA")} unit={t("UI-M12-J-ZL-L")} type="number" inputMode="decimal" min={0} value={stan.cenaZlL} onChange={ustaw("cenaZlL")} pomoc={<PomocPola ekran="agregat-paliwo" pole="cena" />} />
-        <Pole label={t("UI-M12-AP-POROWNANIE")} unit={t("UI-M12-J-ZL-KWH")} type="number" inputMode="decimal" min={0} value={stan.kosztPorownawczyZlKwh} onChange={ustaw("kosztPorownawczyZlKwh")} pomoc={<PomocPola ekran="agregat-paliwo" pole="porownanie" />} />
+        <Pole label={t("UI-M12-AP-CENA")} unit={t("UI-M12-J-ZL-L", { waluta: symbol(wCeny.kod) })} type="number" inputMode="decimal" min={0} value={stan.cenaZlL} waluta={wCeny} onChange={ustaw("cenaZlL")} pomoc={<PomocPola ekran="agregat-paliwo" pole="cena" />} />
+        <Pole label={t("UI-M12-AP-POROWNANIE")} unit={t("UI-M12-J-ZL-KWH", { waluta: symbol(wPorownania.kod) })} type="number" inputMode="decimal" min={0} value={stan.kosztPorownawczyZlKwh} waluta={wPorownania} onChange={ustaw("kosztPorownawczyZlKwh")} pomoc={<PomocPola ekran="agregat-paliwo" pole="porownanie" />} />
       </div>
 
       <PolaBezpieczenstwaAgregatu
@@ -118,6 +119,7 @@ export default function AgregatPaliwoPage() {
           {result.value.krotnoscPorownania > 0 && (
             <p className="mt-1 text-small">{t("UI-M12-AP-KROTNOSC", { x: r1(result.value.krotnoscPorownania) })}</p>
           )}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

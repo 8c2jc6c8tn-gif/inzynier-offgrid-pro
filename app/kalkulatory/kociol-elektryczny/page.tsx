@@ -3,8 +3,7 @@
 import { useMemo } from "react"
 import { calculateKociolElektryczny } from "@/lib/core/modules/ogrzewanie/kociol-elektryczny/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -26,11 +25,10 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaZaKwhZl: "",
 }
 
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZaKwhZl")
-
 export default function KociolElektrycznyPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("kociol-elektryczny", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("kociol-elektryczny", STAN_POCZATKOWY, { kwoty: ["cenaZaKwhZl"] })
   const { zapotrzebowanieCieplneKwh, copPompy, cenaZaKwhZl } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -46,14 +44,18 @@ export default function KociolElektrycznyPage() {
   const setCopPompy = (a: string | ((p: string) => string)) => setPole("copPompy", a)
   const setCenaZaKwhZl = (a: string | ((p: string) => string)) => setPole("cenaZaKwhZl", a)
 
+  // The price typed in another currency is converted to the working currency (NBP) for the calculator.
+  const cenaRobocza = waluty.stanRoboczy.cenaZaKwhZl
+  const wCeny = waluty.pole("cenaZaKwhZl")
+
   const result = useMemo(
     () =>
       calculateKociolElektryczny({
         zapotrzebowanieCieplneKwh: zapotrzebowanieCieplneKwh === "" ? 0 : Number(zapotrzebowanieCieplneKwh),
         copPompy: copPompy === "" ? 0 : Number(copPompy),
-        cenaZaKwhZl: cenaZaKwhZl === "" ? 0 : Number(cenaZaKwhZl),
+        cenaZaKwhZl: cenaRobocza === "" ? 0 : Number(cenaRobocza),
       }),
-    [zapotrzebowanieCieplneKwh, copPompy, cenaZaKwhZl],
+    [zapotrzebowanieCieplneKwh, copPompy, cenaRobocza],
   )
 
   return (
@@ -62,8 +64,6 @@ export default function KociolElektrycznyPage() {
       <NaglowekEkranu tytul={t("UI-KOCELE-KOCIOL-ELEKTRYCZNY-POMPA")} ekran="kociol-elektryczny" wynik={result}>
         {t("UI-KOCELE-KOCIOL-ELEKTRYCZNY-SPRAWNOSC")}
       </NaglowekEkranu>
-
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole
@@ -88,11 +88,12 @@ export default function KociolElektrycznyPage() {
         />
         <Pole
           label={t("UI-KOCELE-CENA-ENERGII-ELEKTRYCZNEJ")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(wCeny.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={cenaZaKwhZl}
+          waluta={wCeny}
           onChange={(e) => setCenaZaKwhZl(e.target.value)}
           pomoc={<PomocPola ekran="kociol-elektryczny" pole="cena" />}
         />
@@ -110,6 +111,7 @@ export default function KociolElektrycznyPage() {
           <p className="mt-2 text-small">
             {t("UI-KOCELE-POMPA-KWH-KOCIOL", { energiaPompyKwh: result.value.energiaPompyKwh.toFixed(1), kosztPompyZl: result.value.kosztPompyZl.toFixed(2), energiaKotlaKwh: result.value.energiaKotlaKwh.toFixed(1), kosztKotlaZl: result.value.kosztKotlaZl.toFixed(2), mnoznikZuzycia: result.value.mnoznikZuzycia.toFixed(1) })}
           </p>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

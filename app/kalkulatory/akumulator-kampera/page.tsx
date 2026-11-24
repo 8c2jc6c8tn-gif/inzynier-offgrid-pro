@@ -5,8 +5,7 @@ import { BATTERY_TECHNOLOGIES } from "@/lib/core/modules/baterie/porownanie-tech
 import { calculateAkumulatorKampera } from "@/lib/core/modules/kalkulator-mobilny/akumulator-kampera/calculator"
 import type { AkumulatorKamperaInput } from "@/lib/core/modules/kalkulator-mobilny/akumulator-kampera/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -35,8 +34,6 @@ const STAN_POCZATKOWY: FormularzStan = {
   zapasMasyKg: "",
 }
 
-const KWOTY = przeliczPola<FormularzStan>("agmCenaZl", "lfpCenaZl")
-
 // Hints only (Directive #1): the reference cycle counts from M4/E30.
 const opisCykli = (id: string) => BATTERY_TECHNOLOGIES.find((x) => x.id === id)!.cyklePrzyDodOpis
 const PODPOWIEDZ = { cykleAgm: opisCykli("agm"), cykleLfp: opisCykli("lifepo4") }
@@ -46,8 +43,9 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function AkumulatorKamperaPage() {
   const t = useTranslate()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("akumulator-kampera", STAN_POCZATKOWY, {
+    kwoty: ["agmCenaZl", "lfpCenaZl"],
     projekt: { dniBezLadowania: "dniAutonomii", napiecieV: "napiecieUkladuV" },
   })
   const pole = (klucz: keyof FormularzStan) => ({
@@ -58,12 +56,17 @@ export default function AkumulatorKamperaPage() {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, [klucz]: e.target.value })),
   })
 
+  const wAgm = waluty.pole("agmCenaZl")
+  const wLfp = waluty.pole("lfpCenaZl")
+
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const result = useMemo(
     () =>
       calculateAkumulatorKampera(
-        Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as AkumulatorKamperaInput,
+        Object.fromEntries(Object.entries(r).map(([k, v]) => [k, liczba(v)])) as AkumulatorKamperaInput,
       ),
-    [stan],
+    [r],
   )
   const hasWarning = result.warnings.some((w) => w.level === "warning")
   const v = result.value
@@ -74,7 +77,6 @@ export default function AkumulatorKamperaPage() {
       <NaglowekEkranu tytul={t("UI-M12-AKK-TYTUL")} ekran="akumulator-kampera" wynik={result}>
         {t("UI-M12-AKK-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AKK-POTRZEBA")}</legend>
@@ -87,7 +89,7 @@ export default function AkumulatorKamperaPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AKK-AGM")}</legend>
         <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" {...pole("agmAh")} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmAh" />} />
-        <Pole label={t("UI-M12-AKK-CENA")} unit={t("UI-M12-J-ZL")} {...pole("agmCenaZl")} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmCena" />} />
+        <Pole label={t("UI-M12-AKK-CENA")} unit={t("UI-M12-J-ZL", { waluta: symbol(wAgm.kod) })} {...pole("agmCenaZl")} waluta={wAgm} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmCena" />} />
         <Pole label={t("UI-M12-AKK-MASA")} unit="kg" {...pole("agmMasaKg")} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmMasa" />} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("agmDodPct")} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmDod" params={PODPOWIEDZ} />} />
         <Pole label={t("UI-M12-AKK-CYKLE")} {...pole("agmCykle")} pomoc={<PomocPola ekran="akumulator-kampera" pole="agmCykle" />} />
@@ -96,7 +98,7 @@ export default function AkumulatorKamperaPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AKK-LFP")}</legend>
         <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" {...pole("lfpAh")} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpAh" />} />
-        <Pole label={t("UI-M12-AKK-CENA")} unit={t("UI-M12-J-ZL")} {...pole("lfpCenaZl")} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpCena" />} />
+        <Pole label={t("UI-M12-AKK-CENA")} unit={t("UI-M12-J-ZL", { waluta: symbol(wLfp.kod) })} {...pole("lfpCenaZl")} waluta={wLfp} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpCena" />} />
         <Pole label={t("UI-M12-AKK-MASA")} unit="kg" {...pole("lfpMasaKg")} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpMasa" />} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("lfpDodPct")} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpDod" params={PODPOWIEDZ} />} />
         <Pole label={t("UI-M12-AKK-CYKLE")} {...pole("lfpCykle")} pomoc={<PomocPola ekran="akumulator-kampera" pole="lfpCykle" />} />
@@ -117,6 +119,7 @@ export default function AkumulatorKamperaPage() {
           <p className="mt-1 text-small">
             {t("UI-M12-AKK-WIERSZ-LFP", { kg: Math.round(v.lfp.masaKg), zl: Math.round(v.lfp.cenaZl), kwh: r2(v.lfp.kosztKwhZyciaZl) })}
           </p>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

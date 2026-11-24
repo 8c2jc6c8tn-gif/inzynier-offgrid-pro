@@ -10,6 +10,7 @@ import { calculateScenariuszePrzejscia } from "@/lib/core/modules/siec/scenarius
 import { OPIS_SCENARIUSZA, SCENARIUSZE } from "@/lib/core/modules/siec/scenariusze-przejscia/constants"
 import type { IdScenariusza, ParametryScenariusza } from "@/lib/core/modules/siec/scenariusze-przejscia/input"
 import { HORYZONT_DOMYSLNY_LAT } from "@/lib/core/modules/siec/sciezka-cen-energii/constants"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -77,6 +78,15 @@ const NAZWA: Record<IdScenariusza, string> = {
 }
 
 const ROK_BAZOWY = Number(DANE_ROZLICZEN.stanNa.slice(0, 4))
+
+/**
+ * Purchases may be paid in any currency (owner decision 24.11.2026): investment, storage cost, service and fuel. Grid rates,
+ * the subsidy and the value of fed-in energy are Polish legal amounts in PLN and have no currency choice. The engine works in PLN.
+ */
+const KWOTY_SCENARIUSZY = [
+  "paliwo",
+  ...(["A", "B", "C", "D"] as const).flatMap((id) => [`scen.${id}.inwestycja`, `scen.${id}.kosztMagazynu`, `scen.${id}.serwis`]),
+]
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
 /**
@@ -89,7 +99,12 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   const { f0 } = useFormaty()
   const zl = useZl()
   const firma = segment === "firma"
-  const [stan, setStan] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY, {
+    kwoty: KWOTY_SCENARIUSZY,
+    obliczeniaWPln: true,
+  })
+  const pln = waluty.stanRoboczy
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const ustawScen = (id: IdScenariusza, z: Partial<StanScenariusza>) =>
     setStan((p) => ({ ...p, scen: { ...p.scen, [id]: { ...p.scen[id], ...z } } }))
@@ -116,13 +131,14 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   const result = useMemo(() => {
     const parametry = (id: IdScenariusza): ParametryScenariusza => {
       const s = stan.scen[id]
+      const sPln = pln.scen[id]
       return {
-        inwestycjaZl: liczbaLubNull(s.inwestycja),
+        inwestycjaZl: liczbaLubNull(sPln.inwestycja),
         dotacjaZl: num(s.dotacja),
         mocPvKwp: s.moc === "" ? pvMoc : Number(s.moc),
         pojemnoscMagazynuKwh: id === "A" ? 0 : s.pojemnosc === "" ? pvPojemnosc : Number(s.pojemnosc),
-        kosztMagazynuZl: id === "A" ? 0 : num(s.kosztMagazynu),
-        serwisRokZl: num(s.serwis),
+        kosztMagazynuZl: id === "A" ? 0 : num(sPln.kosztMagazynu),
+        serwisRokZl: num(sPln.serwis),
       }
     }
     return calculateScenariuszePrzejscia({
@@ -141,7 +157,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
         cenaZmiennaKwhBruttoZl: stan.cenaZmienna !== "" ? Number(stan.cenaZmienna) : (echoRachunku?.zmienna ?? null),
         wartoscNadwyzkiKwhZl: liczbaLubNull(stan.wartoscNadwyzki),
       },
-      agregat: { mocKw: num(stan.agregatMoc), zuzycieLH: liczbaLubNull(stan.agregatLH), cenaPaliwaZlL: liczbaLubNull(stan.paliwo) },
+      agregat: { mocKw: num(stan.agregatMoc), zuzycieLH: liczbaLubNull(stan.agregatLH), cenaPaliwaZlL: liczbaLubNull(pln.paliwo) },
       scenariusze: { A: parametry("A"), B: parametry("B"), C: parametry("C"), D: parametry("D") },
       kontrola: {
         osobyZalezneOdZasilania: stan.osobyZalezne === "" ? null : stan.osobyZalezne === "tak",
@@ -150,7 +166,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
         dopuszczalnyCzasBezZasilaniaH: liczbaLubNull(stan.czasBezZasilania),
       },
     })
-  }, [stan, segment, zuzycie, uzysk, pv, pvMoc, pvPojemnosc, echoRachunku])
+  }, [stan, pln, segment, zuzycie, uzysk, pv, pvMoc, pvPojemnosc, echoRachunku])
 
   if (!w1 || !w2 || !w3) return <StanLadowania linie={8} />
   const brakZrodel = !zuzycie || !uzysk
@@ -262,10 +278,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
           <div className="grid grid-cols-2 gap-3">
             <Pole
               label={t("UI-SCEN-INWESTYCJA")}
-              unit={t("UI-J-ZL")}
+              unit={t("UI-J-ZL", { waluta: symbol(waluty.pole(`scen.${id}.inwestycja`).kod) })}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].inwestycja}
+              waluta={waluty.pole(`scen.${id}.inwestycja`)}
               onChange={(e) => ustawScen(id, { inwestycja: e.target.value })}
               pomoc={<PomocPola ekran="siec-scenariusze" pole="inwestycja" />}
             />
@@ -302,10 +319,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
                 />
                 <Pole
                   label={t("UI-SCEN-KOSZT-MAGAZYNU")}
-                  unit={t("UI-J-ZL")}
+                  unit={t("UI-J-ZL", { waluta: symbol(waluty.pole(`scen.${id}.kosztMagazynu`).kod) })}
                   type="number"
                   inputMode="decimal"
                   value={stan.scen[id].kosztMagazynu}
+                  waluta={waluty.pole(`scen.${id}.kosztMagazynu`)}
                   onChange={(e) => ustawScen(id, { kosztMagazynu: e.target.value })}
                   pomoc={<PomocPola ekran="siec-scenariusze" pole="kosztMagazynu" />}
                 />
@@ -313,10 +331,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             )}
             <Pole
               label={t("UI-SCEN-SERWIS")}
-              unit={t("UI-J-ZL-ROK")}
+              unit={t("UI-J-ZL-ROK", { waluta: symbol(waluty.pole(`scen.${id}.serwis`).kod) })}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].serwis}
+              waluta={waluty.pole(`scen.${id}.serwis`)}
               onChange={(e) => ustawScen(id, { serwis: e.target.value })}
               pomoc={<PomocPola ekran="siec-scenariusze" pole="serwis" />}
             />
@@ -343,10 +362,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
               />
               <Pole
                 label={t("UI-SCEN-CENA-PALIWA")}
-                unit={t("UI-J-ZL-L")}
+                unit={t("UI-J-ZL-L", { waluta: symbol(waluty.pole("paliwo").kod) })}
                 type="number"
                 inputMode="decimal"
                 value={stan.paliwo}
+                waluta={waluty.pole("paliwo")}
                 onChange={(e) => ustaw({ paliwo: e.target.value })}
                 pomoc={<PomocPola ekran="siec-scenariusze" pole="paliwoCena" />}
               />
