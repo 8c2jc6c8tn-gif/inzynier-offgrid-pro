@@ -8,7 +8,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-WAL-NARZUT": "Rate markup (%)",
   "UI-WAL-NARZUT-OPIS": "Widens the rate like a card or exchange-office spread (rate × (1 + markup)). Default 0 — the plain reference rate.",
   "UI-WAL-KURS-RECZNY": "Own rate: how many {waluta} per 1 PLN (empty = automatic rate)",
-  "UI-WAL-ZRODLO": "Automatic rates: European Central Bank reference rates (api.frankfurter.dev). The app server fetches and permanently stores them (with history); when you are online the app downloads the current data and saves it on the device — offline it uses the last saved rates (date of last update below). Want a different rate (e.g. your bank's)? Enter it by hand above (optionally add a markup).",
+  "UI-WAL-ZRODLO": "Automatic rates: National Bank of Poland average rates, table A (api.nbp.pl). The app server fetches and permanently stores them (with history); when you are online the app downloads the current data and saves it on the device — offline it uses the last saved rates (date of last update below). Want a different rate (e.g. your bank's)? Enter it by hand above (optionally add a markup).",
   "UI-WAL-STAN-KURSOW": "Rates of {data} (fetched {pobrano}).",
   "UI-WAL-BRAK-KURSU": "No rate for {waluta} — amounts are shown in PLN. Go online or enter a rate by hand.",
   "UI-WAL-ODSWIEZ": "Refresh rates",

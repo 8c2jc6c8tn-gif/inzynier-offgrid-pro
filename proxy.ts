@@ -53,9 +53,9 @@ const ULDK_CONNECT_SRC = "https://uldk.gugik.gov.pl"
 // kafle przez fetch (connect-src) i rysuje je jako obrazy (img-src). Tylko w trybie online.
 const GEOPORTAL_SRC = "https://mapy.geoportal.gov.pl"
 
-// Kursy walut (ECB przez Frankfurter) — wołane z przeglądarki, tylko gdy użytkownik wybrał walutę
+// Kursy walut (NBP, tabela A; do 3.54 EBC przez Frankfurter) — wołane z przeglądarki, tylko gdy użytkownik wybrał walutę
 // inną niż PLN; bufor w localStorage działa offline (lib/waluta/storage.ts).
-const KURSY_SRC = "https://api.frankfurter.dev"
+const KURSY_SRC = "https://api.nbp.pl"
 
 function buildCsp(nonce: string): string {
   // Next.js dev mode (React Refresh/HMR) wstrzykuje własne inline skrypty i wymaga
