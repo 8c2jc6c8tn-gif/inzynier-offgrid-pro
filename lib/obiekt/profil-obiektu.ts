@@ -16,22 +16,16 @@ export type ProfilObiektu = {
   miesiaceUzytkowania: boolean[]
   /**
    * Nominal DC system voltage of the micro-installation, chosen once for the site (owner decision 11.10.2026). Empty = not chosen;
-   * screens only suggest it next to their own voltage field (never fill it silently). Absent in drafts saved before this field existed.
+   * absent in drafts saved before this field existed. The field is linked to the project quantity `napiecieUkladuV` (owner decision
+   * 23.11.2026), so it may hold the project value as text ("24") as well as a number chosen in the list — read it with `Number(x)`.
    */
-  napiecieUkladuV?: NapiecieUkladuV | ""
+  napiecieUkladuV?: number | string
 }
 
 export const NAPIECIA_UKLADU_V = [12, 24, 48] as const
 export type NapiecieUkladuV = (typeof NAPIECIA_UKLADU_V)[number]
 
 export const PROFIL_OBIEKTU_POCZATKOWY: ProfilObiektu = { rodzaj: "", miesiaceUzytkowania: Array(12).fill(false), napiecieUkladuV: "" }
-
-/** The system voltage to suggest on a micro-installation screen; `null` when the site is not a micro-installation or no voltage is chosen. */
-export function napiecieUkladuDoPodpowiedzi(profil: ProfilObiektu | null | undefined): NapiecieUkladuV | null {
-  if (!profil || !czyMikroinstalacja(profil.rodzaj)) return null
-  const v = profil.napiecieUkladuV
-  return NAPIECIA_UKLADU_V.find((x) => x === v) ?? null
-}
 
 /** Mikroinstalacja: zasilanie liczone z odbiorników, bez strat ciepła i bez zużycia z rachunku za prąd. */
 export function czyMikroinstalacja(rodzaj: RodzajObiektu | "" | undefined): boolean {

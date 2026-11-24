@@ -24,7 +24,9 @@ const NOSNIKI = [
   "useLokalizacjaProjektu",
   "useDaneTmy",
   "useRodzajObiektu",
-  "NapiecieZProfilu",
+  "projekt.pole",
+  "useWynikiDoProjektu",
+  "ODCZYT_PV",
   "useWynikEkranu1",
   "useOgrzewanieElektryczne",
   "useDaneMrozuZEkranu1",
@@ -144,7 +146,7 @@ const wierszeMacierzy = []
 for (const m of listaModulow) {
   for (const ekran of m.ekrany) {
     const tresc = zrodloEkranu(path.join(ROOT, "app/kalkulatory", ekran, "page.tsx"), 3, new Set())
-    wierszeMacierzy.push({ modul: m.id, ekran, nosniki: NOSNIKI.filter((n) => new RegExp(`\\b${n}\\b`).test(tresc)) })
+    wierszeMacierzy.push({ modul: m.id, ekran, nosniki: NOSNIKI.filter((n) => new RegExp(`\\b${n.replace(".", "\\.")}\\b`).test(tresc)) })
   }
 }
 

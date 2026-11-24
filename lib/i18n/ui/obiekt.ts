@@ -16,8 +16,6 @@ export const pl = {
   "UI-OBIEKT-LINK-ODBIORNIKI": "Uzupełnij listę odbiorników →",
   "UI-OBIEKT-BRAK-MIESIECY": "Zaznacz co najmniej jeden miesiąc użytkowania, żeby policzyć zużycie.",
   "UI-OBIEKT-NAPIECIE": "Napięcie układu (opcjonalnie)",
-  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Z profilu obiektu: napięcie układu {v} V.",
-  "UI-OBIEKT-NAPIECIE-UZYJ": "Wpisz {v} V",
   "UI-OBIEKT-UKRYTO-EKRANY": "Część ekranów dotyczących budynku jest ukryta, bo rodzaj obiektu to kamper. Nadal otworzysz je z odnośników na innych ekranach.",
   "UI-OBIEKT-UKRYTO-POLA": "Pola dotyczące budynku są ukryte, bo rodzaj obiektu to kamper.",
   "UI-OBIEKT-UKRYTO-USTAWIENIA": "Rodzaj obiektu zmienisz w Ustawieniach.",
