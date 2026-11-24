@@ -24,6 +24,7 @@ beforeEach(() => {
   _resetMagazynuWartosci()
   window.localStorage.removeItem(KLUCZ_LISTY_PROJEKTOW)
   window.localStorage.removeItem("offgrid.waluta.v1")
+  window.localStorage.removeItem("offgrid.kursy.v1")
 })
 afterEach(cleanup)
 
@@ -69,6 +70,8 @@ describe("useOdczytDraftu — amounts of another screen (audit 3.2)", () => {
   it("an amount saved in EUR is converted to PLN for a Polish-market reader", async () => {
     magazyn.set("offgrid.draft.oplacalnosc-magazynu", { cenaBateriiZl: "1000", inne: "x" })
     magazyn.set("offgrid.draftwaluta.oplacalnosc-magazynu", { kod: "EUR", kurs: 0.25, dataEcb: null, reczny: true, narzutProc: 0 })
+    // 3.55.0: the amount keeps its currency (EUR, from the old marker) and is converted at the current rate (0.25 EUR per PLN).
+    window.localStorage.setItem("offgrid.kursy.v1", JSON.stringify({ pobranoMs: Date.now(), dataEcb: "2026-11-23", kursy: { EUR: 0.25 } }))
     const { result } = renderHook(() => useOdczytDraftu<{ cenaBateriiZl: string }>("oplacalnosc-magazynu", { kwoty: ["cenaBateriiZl"], waluta: "pln" }))
     await waitFor(() => expect(result.current.wczytano).toBe(true))
     expect(result.current.dane?.cenaBateriiZl).toBe("4000")
