@@ -139,7 +139,7 @@ export default function OptymalizacjaIzolacjiPage() {
         srednieTemperaturyMiesieczneC: miesiace,
         cenaCieplaZlKwh: n(r.cenaCiepla),
       }),
-    [r, ti, miesiace],
+    [stan, r, ti, miesiace],
   )
   const v = wynik.value
   const najtanszy = v && v.najtanszyIndex !== null ? v.warianty[v.najtanszyIndex]! : null

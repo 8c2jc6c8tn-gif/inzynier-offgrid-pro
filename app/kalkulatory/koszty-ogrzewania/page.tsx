@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -11,14 +11,13 @@ import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porown
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { usePersistedDraft, type StanWalutyPola } from "@/lib/adapters/use-persisted-draft"
 import { calculateKosztyOgrzewania, type WynikZrodla } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/calculator"
 import { LICZBA_LAT_ZRODLO, SPOSOB_LICZENIA } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/constants"
 import type { RodzajZrodla, ZrodloCiepla } from "@/lib/core/modules/ogrzewanie/koszty-ogrzewania/input"
 import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 
 const RODZAJE: { id: RodzajZrodla; label: string; jednostka: string }[] = [
   { id: "drewno", label: "UI-KOSOGR-DREWNO-KOMINEK-PIEC", jednostka: "mp" },
@@ -34,7 +33,9 @@ const RODZAJE: { id: RodzajZrodla; label: string; jednostka: string }[] = [
 ]
 const JEDNOSTKI = ["kg", "t", "mp", "m³", "l"]
 
+/** `id` — each source's amounts keep their own currency (`zrodla.<id>.cenaZl`); drafts saved before 3.55.0 get it on load. */
 type ZrodloSeed = {
+  id: string
   nazwa: string
   rodzaj: RodzajZrodla
   jednostka: string
@@ -51,6 +52,7 @@ type ZrodloSeed = {
 type Seed = { zapotrzebowanieSezonKwh: string; liczbaLat: string; zrodla: ZrodloSeed[] }
 
 const noweZrodlo = (rodzaj: RodzajZrodla): ZrodloSeed => ({
+  id: crypto.randomUUID(),
   nazwa: "",
   rodzaj,
   jednostka: RODZAJE.find((r) => r.id === rodzaj)!.jednostka,
@@ -69,11 +71,8 @@ const noweZrodlo = (rodzaj: RodzajZrodla): ZrodloSeed => ({
 const STAN_POCZATKOWY: Seed = { zapotrzebowanieSezonKwh: "", liczbaLat: String(LICZBA_LAT_ZRODLO), zrodla: [] }
 
 // Money fields of every heat source (price per unit, purchase + installation, yearly service).
-const PRZELICZ_ZRODLO = przeliczPola<ZrodloSeed>("cenaZl", "kosztInwestycjiZl", "kosztSerwisuRocznyZl")
-const PRZELICZ_KWOTY = (stan: Seed, wspolczynnik: number): Seed => ({
-  ...stan,
-  zrodla: stan.zrodla.map((z) => PRZELICZ_ZRODLO(z, wspolczynnik)),
-})
+const POLA_KWOT = ["cenaZl", "kosztInwestycjiZl", "kosztSerwisuRocznyZl"] as const
+const KWOTY = POLA_KWOT.map((p) => `zrodla.*.${p}`)
 
 const n = (s: string) => liczba(s) ?? null
 const nazwaZrodla = (z: ZrodloSeed, i: number, t: (k: string) => string) =>
@@ -96,10 +95,24 @@ function doWejscia(z: ZrodloSeed, i: number, t: (k: string) => string): ZrodloCi
   }
 }
 
-function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (p: Partial<ZrodloSeed>) => void; usun: () => void }) {
+function KartaZrodla({
+  z,
+  i,
+  waluta,
+  ustaw,
+  usun,
+}: {
+  z: ZrodloSeed
+  i: number
+  waluta: (pole: (typeof POLA_KWOT)[number]) => StanWalutyPola
+  ustaw: (p: Partial<ZrodloSeed>) => void
+  usun: () => void
+}) {
   const t = useTranslate()
+  const symbol = useSymbolWaluty()
   const sposob = SPOSOB_LICZENIA[z.rodzaj]
-  const pole = (klucz: keyof ZrodloSeed, label: string, unit?: string) => (
+  const kwota = (klucz: keyof ZrodloSeed) => ((POLA_KWOT as readonly string[]).includes(klucz) ? waluta(klucz as (typeof POLA_KWOT)[number]) : undefined)
+  const pole = (klucz: Exclude<keyof ZrodloSeed, "id">, label: string, unit?: string) => (
     <Pole
       id={`zrodlo-${i}-${klucz}`}
       label={label}
@@ -108,6 +121,7 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
       inputMode="decimal"
       min={0}
       value={z[klucz] as string}
+      waluta={kwota(klucz)}
       onChange={(e) => ustaw({ [klucz]: e.target.value })}
       pomoc={<PomocPola ekran="koszty-ogrzewania" pole={klucz} />}
     />
@@ -134,7 +148,13 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
             ))}
           </PoleSelect>
         )}
-        {pole("cenaZl", "Cena", sposob === "prad" ? t("UI-J-ZL-KWH") : t("UI-KOSOGR-ZL", { jednostka: z.jednostka }))}
+        {pole(
+          "cenaZl",
+          "Cena",
+          sposob === "prad"
+            ? t("UI-J-ZL-KWH", { waluta: symbol(waluta("cenaZl").kod) })
+            : t("UI-KOSOGR-ZL", { jednostka: z.jednostka, waluta: symbol(waluta("cenaZl").kod) }),
+        )}
         {sposob === "paliwo" && pole("wartoscOpalowaKwh", t("UI-KOSOGR-WARTOSC-OPALOWA"), `kWh/${z.jednostka}`)}
         {sposob === "paliwo" && pole("sprawnoscPct", t("UI-KOSOGR-SPRAWNOSC-URZADZENIA"), "%")}
         {sposob === "karta" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA"), "kW")}
@@ -142,8 +162,8 @@ function KartaZrodla({ z, i, ustaw, usun }: { z: ZrodloSeed; i: number; ustaw: (
         {z.rodzaj === "pompa-ciepla" && pole("cop", t("UI-KOSOGR-COP-SREDNI-SEZONIE"))}
         {sposob === "paliwo" && pole("mocGrzewczaKw", t("UI-KOSOGR-MOC-GRZEWCZA-OPCJONALNIE"), "kW")}
         {sposob !== "prad" && pole("poborPraduW", t("UI-KOSOGR-POBOR-PRADU-PRACY"), "W")}
-        {pole("kosztInwestycjiZl", t("UI-KOSOGR-KOSZT-ZAKUPU-MONTAZU"), t("UI-J-ZL"))}
-        {pole("kosztSerwisuRocznyZl", t("UI-KOSOGR-SERWIS-PRZEGLADY-ROCZNIE"), t("UI-J-ZL"))}
+        {pole("kosztInwestycjiZl", t("UI-KOSOGR-KOSZT-ZAKUPU-MONTAZU"), t("UI-J-ZL", { waluta: symbol(waluta("kosztInwestycjiZl").kod) }))}
+        {pole("kosztSerwisuRocznyZl", t("UI-KOSOGR-SERWIS-PRZEGLADY-ROCZNIE"), t("UI-J-ZL", { waluta: symbol(waluta("kosztSerwisuRocznyZl").kod) }))}
       </div>
       <Button variant="ghost" className="min-h-11 w-fit" onClick={usun}>
         {t("UI-KOSOGR-USUN-ZRODLO")}
@@ -157,7 +177,14 @@ export default function KosztyOgrzewaniaPage() {
   const formatLiczbe = useFormatLiczby()
   const { f0, f1 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const [stan, setStan, info] = usePersistedDraft<Seed>("koszty-ogrzewania", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const [stan, setStan, waluty, wczytano] = usePersistedDraft<Seed>("koszty-ogrzewania", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // Sources saved before 3.55.0 have no id: give them one, so each source's amounts keep their own currency.
+  useEffect(() => {
+    if (wczytano && stan.zrodla.some((z) => !z.id))
+      setStan((s) => ({ ...s, zrodla: s.zrodla.map((z) => (z.id ? z : { ...z, id: crypto.randomUUID() })) }))
+  }, [wczytano, stan.zrodla, setStan])
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const ustawZrodlo = (i: number, p: Partial<ZrodloSeed>) => setStan((s) => ({ ...s, zrodla: s.zrodla.map((z, j) => (j === i ? { ...z, ...p } : z)) }))
 
   const wynik = useMemo(
@@ -165,9 +192,9 @@ export default function KosztyOgrzewaniaPage() {
       calculateKosztyOgrzewania({
         zapotrzebowanieSezonKwh: n(stan.zapotrzebowanieSezonKwh),
         liczbaLat: n(stan.liczbaLat),
-        zrodla: stan.zrodla.map((z, i) => doWejscia(z, i, t)),
+        zrodla: r.zrodla.map((z, i) => doWejscia(z, i, t)),
       }),
-    [stan, t],
+    [stan, r, t],
   )
   const v = wynik.value
   const lata = n(stan.liczbaLat) ?? 0
@@ -198,8 +225,6 @@ export default function KosztyOgrzewaniaPage() {
         {t("UI-KOSOGR-DREWNO-WEGIEL-PELLET")}
       </NaglowekEkranu>
 
-      <PrzeliczoneInfo info={info} />
-
       <section className="flex flex-col gap-3">
         <div className="grid gap-3 sm:grid-cols-2">
           <Pole
@@ -229,7 +254,7 @@ export default function KosztyOgrzewaniaPage() {
         <h2 className="font-semibold">{t("UI-KOSOGR-ZRODLA-CIEPLA-POROWNANIA")}</h2>
         {stan.zrodla.length === 0 && <p className="text-small text-muted-foreground">{t("UI-KOSOGR-DODAJ-NAJMNIEJ-JEDNO")}</p>}
         {stan.zrodla.map((z, i) => (
-          <KartaZrodla key={i} z={z} i={i} ustaw={(p) => ustawZrodlo(i, p)} usun={() => setStan((s) => ({ ...s, zrodla: s.zrodla.filter((_, j) => j !== i) }))} />
+          <KartaZrodla key={z.id || i} z={z} i={i} waluta={(p) => waluty.pole(`zrodla.${z.id}.${p}`)} ustaw={(p) => ustawZrodlo(i, p)} usun={() => setStan((s) => ({ ...s, zrodla: s.zrodla.filter((_, j) => j !== i) }))} />
         ))}
         <Button variant="outline" className="min-h-11 w-fit" onClick={() => setStan((s) => ({ ...s, zrodla: [...s.zrodla, noweZrodlo("drewno")] }))}>
           {t("UI-KOSOGR-DODAJ-ZRODLO-CIEPLA")}
@@ -259,6 +284,7 @@ export default function KosztyOgrzewaniaPage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.ranking.map((r) => ({ ...r, id: r.indeks }))} minWidth={720} />
           </div>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} />
           <p className="mt-2 text-small">
             {t("UI-KOSOGR-TYLKO-PRAD-POROWNANIE")}{" "}

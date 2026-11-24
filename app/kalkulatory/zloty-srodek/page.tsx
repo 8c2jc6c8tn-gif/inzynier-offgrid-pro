@@ -16,8 +16,7 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { KATEGORIE_TERENU, type KategoriaTerenu, type StrefaWiatrowa } from "@/lib/core/modules/pv/eurokod-1/wiatr"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateZlotySrodek, type PunktKata } from "@/lib/core/modules/pv/zloty-srodek/calculator"
@@ -69,8 +68,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   nachylenieDeg: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBalastu", "cenaKwh")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["cenaBalastu", "cenaKwh"]
 
 const OPIS_TERENU: Record<KategoriaTerenu, string> = {
   "0": "UI-TYPMON-COMWSP-MORZE",
@@ -166,7 +165,12 @@ export default function ZlotySrodekPage() {
   const { f0, f1, f2 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const denominacja = useDenominacja()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const robocze = waluty.stanRoboczy
+  const wBalastu = waluty.pole("cenaBalastu")
+  const wKwh = waluty.pole("cenaKwh")
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null } | null>(null)
   const ustaw = (pole: keyof FormularzStan, v: string) => setStan((prev) => ({ ...prev, [pole]: v }))
@@ -211,14 +215,14 @@ export default function ZlotySrodekPage() {
         wspolczynnikTarcia: n(stan.wspolczynnikTarcia ?? ""),
         glebokoscPodstawyM: n(stan.glebokoscPodstawy ?? ""),
         metodaCf: stan.metodaCf === "trend" ? "trend" : "liniowa",
-        cenaBalastuZlKg: n(stan.cenaBalastu),
+        cenaBalastuZlKg: n(robocze.cenaBalastu),
         mocInstalacjiKwp: n(stan.mocKwp),
         wspolczynnikPr: n(stan.pr),
-        cenaEnergiiZlKwh: n(stan.cenaKwh),
+        cenaEnergiiZlKwh: n(robocze.cenaKwh),
         liczbaLat: n(stan.lata),
         nachylenieDeg: n(stan.nachylenieDeg),
       }),
-    [aktualna, strefa, wysokoscNpm, kategoria, stan],
+    [aktualna, strefa, wysokoscNpm, kategoria, stan, robocze],
   )
 
   if (!wczytano) return <StanLadowania linie={6} />
@@ -236,7 +240,6 @@ export default function ZlotySrodekPage() {
       <NaglowekEkranu tytul={t("UI-ZLOSRO-ZLOTY-SRODEK-KAT")} ekran="zloty-srodek" wynik={result}>
         {t("UI-ZLOSRO-KAT-KTORY-DAJE")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <SekcjaDanychNaslonecznienia lokalizacja={lokalizacja} dane={dane} tmy={tmy} />
 
@@ -380,12 +383,13 @@ export default function ZlotySrodekPage() {
         <p className="text-small text-muted-foreground">{t("UI-ZLOSRO-STATECZNOSC-OPIS")}</p>
         <Pole
           label={t("UI-ZLOSRO-CENA-BALASTU")}
-          unit={t("UI-ZLOSRO-ZL-KG")}
+          unit={t("UI-ZLOSRO-ZL-KG", { waluta: symbol(wBalastu.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           step={0.1}
           value={stan.cenaBalastu}
+          waluta={wBalastu}
           onChange={(e) => ustaw("cenaBalastu", e.target.value)}
           pomoc={<PomocPola ekran="zloty-srodek" pole="cenaBalastu" params={{ cena: Number((CENA_BALASTU_PODPOWIEDZ_ZL_KG * denominacja.kurs).toPrecision(3)) }} />}
         />
@@ -416,12 +420,13 @@ export default function ZlotySrodekPage() {
           />
           <Pole
             label={t("UI-ZLOSRO-WARTOSC-KWH")}
-            unit={t("UI-J-ZL")}
+            unit={t("UI-J-ZL", { waluta: symbol(wKwh.kod) })}
             type="number"
             inputMode="decimal"
             min={0}
             step={0.01}
             value={stan.cenaKwh}
+            waluta={wKwh}
             onChange={(e) => ustaw("cenaKwh", e.target.value)}
             pomoc={<PomocPola ekran="zloty-srodek" pole="wartoscKwh" />}
           />
@@ -572,6 +577,7 @@ export default function ZlotySrodekPage() {
               <strong>{t("UI-ZLOSRO-SLUPKI-KOTWICZACE-GRUNCIE")}</strong> {t("UI-ZLOSRO-ZAMIAST-CIEZARU-SLUPKI")}
             </li>
           </ul>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

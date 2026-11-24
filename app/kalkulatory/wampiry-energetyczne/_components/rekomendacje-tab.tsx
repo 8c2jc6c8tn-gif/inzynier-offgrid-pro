@@ -1,6 +1,8 @@
 "use client"
 
 import { useMemo } from "react"
+import type { StanWalutyPola } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczenieWalutyPola, WyborWalutyPola } from "@/components/waluta-pola"
 import { calculatePorownanieMetod, wybierzMetodeDlaKategorii } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/calculator"
 import type { EtykietaRekomendacji } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/calculator"
 import { KATEGORIE_URZADZEN, METODY_ODLACZANIA } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/rekomendacje-sprzetowe/constants"
@@ -25,14 +27,20 @@ export function RekomendacjeTab({
   dobor,
   onChangePorownanie,
   onChangeDobor,
+  porownanieObliczenia,
+  waluta,
 }: {
   porownanie: PorownanieMetodInput
   dobor: DoborMetodyInput
   onChangePorownanie: (v: PorownanieMetodInput) => void
   onChangeDobor: (v: DoborMetodyInput) => void
+  /** The same comparison with every amount in the working currency (each was typed in its own currency). */
+  porownanieObliczenia: PorownanieMetodInput
+  /** Currency of one amount: `porownanieMetod.metody.<id>.<field>`. */
+  waluta: (sciezka: string) => StanWalutyPola
 }) {
   const t = useTranslate()
-  const wynikPorownanie = useMemo(() => calculatePorownanieMetod(porownanie), [porownanie])
+  const wynikPorownanie = useMemo(() => calculatePorownanieMetod(porownanieObliczenia), [porownanieObliczenia])
   const wynikDobor = useMemo(() => wybierzMetodeDlaKategorii(dobor), [dobor])
 
   function dodajMetode(id: MetodaOdlaczaniaId) {
@@ -73,6 +81,7 @@ export function RekomendacjeTab({
                   className="min-h-10 w-24 rounded-md border border-input bg-background px-2"
                   aria-label={t("UI-WAMENE-COMREKTAB-KOSZT-ZAKUPU", { p: etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id) })}
                 />
+                <WyborWalutyPola waluta={waluta(`porownanieMetod.metody.${m.id}.kosztZakupuZl`)} />
                 <PomocPola ekran="wampiry-energetyczne" pole="koszt" />
                 <input
                   type="number"
@@ -83,6 +92,7 @@ export function RekomendacjeTab({
                   className="min-h-10 w-28 rounded-md border border-input bg-background px-2"
                   aria-label={t("UI-WAMENE-COMREKTAB-ROCZNA-OSZCZEDNOSC", { p: etykieta(t, KLUCZ_METODY_ODLACZANIA, m.id, def?.label ?? m.id) })}
                 />
+                <WyborWalutyPola waluta={waluta(`porownanieMetod.metody.${m.id}.rocznaOszczednoscZl`)} />
                 <PomocPola ekran="wampiry-energetyczne" pole="oszczednosc" />
                 <button
                   type="button"
@@ -92,6 +102,10 @@ export function RekomendacjeTab({
                 >
                   {t("UI-WAMENE-COMREKTAB-USUN")}
                 </button>
+                <span className="flex basis-full flex-col">
+                  <PrzeliczenieWalutyPola waluta={waluta(`porownanieMetod.metody.${m.id}.kosztZakupuZl`)} />
+                  <PrzeliczenieWalutyPola waluta={waluta(`porownanieMetod.metody.${m.id}.rocznaOszczednoscZl`)} />
+                </span>
               </li>
             )
           })}
