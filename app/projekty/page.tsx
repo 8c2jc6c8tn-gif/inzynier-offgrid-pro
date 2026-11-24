@@ -13,6 +13,7 @@ import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { useNazwaEkranu } from "@/components/projekt/nazwa-ekranu"
 import { nazwaProjektu } from "@/components/projekt/nazwa-projektu"
 import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { formatujDate } from "@/lib/i18n/liczby"
 import { utworzProjekt, ustawAktywny, usunProjekt, zmienNazwe } from "@/lib/projekt/operacje"
 import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
 import { useListaProjektow, useWartosciProjektu, useWartosciWieluProjektow } from "@/lib/projekt/use-projekt"
@@ -37,7 +38,7 @@ function useLiczba() {
 
 function useData() {
   const jezyk = useLanguage()
-  return (iso: string) => (iso ? new Date(iso).toLocaleDateString(jezyk) : "")
+  return (iso: string) => (iso ? formatujDate(new Date(iso), jezyk) : "")
 }
 
 export default function ProjektyPage() {
