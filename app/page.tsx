@@ -18,6 +18,8 @@ import { KAFLE, USTAWIENIA_KAFEL, znajdzKafel, type KafelEntry } from "@/lib/pul
 import { getServerSnapshot, getSnapshot, subscribe } from "@/lib/pulpit/storage"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { NazwaKafla } from "@/components/tekst-rejestru"
+import { ProjektWNawigacji } from "@/components/projekt/projekt-w-nawigacji"
+import { KartaProjektu } from "@/components/projekt/karta-projektu"
 
 /** Kafel 14 (Ustawienia): zawsze widoczny jako ostatni w siatce, poza kolejnością i ukrywaniem (D85). */
 const USTAWIENIA_WPIS: KafelEntry = {
@@ -84,8 +86,11 @@ export default function PulpitPage() {
     <div data-pulpit className="min-h-screen bg-background text-foreground">
       <KafleIkonySymbole />
       <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3 text-small">
-        <span className="font-mono text-caption uppercase tracking-widest text-muted-foreground">
-          {t("UI-PUL-INZYNIER-OFFGRID-PRO")}
+        <span className="flex flex-col">
+          <span className="font-mono text-caption uppercase tracking-widest text-muted-foreground">
+            {t("UI-PUL-INZYNIER-OFFGRID-PRO")}
+          </span>
+          <ProjektWNawigacji className="w-fit rounded-md text-small font-medium hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none" />
         </span>
         <nav className="flex items-center gap-1">
           <Link
@@ -152,6 +157,8 @@ export default function PulpitPage() {
             </Link>
           </p>
         </div>
+
+        <KartaProjektu />
 
         {widoczneKafle.length === 0 ? (
           <StanPusty tytul={t("UI-PUL-WSZYSTKIE-KAFLE-UKRYTE")}>

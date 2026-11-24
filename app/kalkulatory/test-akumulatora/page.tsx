@@ -15,7 +15,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type PolaLiczbowe = "napiecieZnamionoweV" | "napiecieSpoczynkoweV" | "mocObciazeniaW" | "napiecieObciazenieV" | "rezystancjaKartaMOhm"
 
@@ -39,7 +38,9 @@ const POZIOM = { dobry: "ok", "do-wymiany": "uwaga", uszkodzony: "uwaga", niejas
 
 export default function TestAkumulatoraPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("test-akumulatora", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("test-akumulatora", STAN_POCZATKOWY, {
+    projekt: { napiecieZnamionoweV: "napiecieUkladuV" },
+  })
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -79,8 +80,7 @@ export default function TestAkumulatoraPage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-TA-KROK1", { h: CZAS_SPOCZYNKU_H })}</legend>
-        <Pole label={t("UI-M12-TA-ZNAMIONOWE")} unit="V" {...pole("napiecieZnamionoweV")} pomoc={<PomocPola ekran="test-akumulatora" pole="znamionowe" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieZnamionoweV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieZnamionoweV: v }))} />
+        <Pole label={t("UI-M12-TA-ZNAMIONOWE")} unit="V" {...pole("napiecieZnamionoweV")} projekt={projekt.pole("napiecieZnamionoweV")} pomoc={<PomocPola ekran="test-akumulatora" pole="znamionowe" />} />
         <Pole label={t("UI-M12-TA-SPOCZYNKOWE")} unit="V" {...pole("napiecieSpoczynkoweV")} pomoc={<PomocPola ekran="test-akumulatora" pole="spoczynkowe" params={{ h: CZAS_SPOCZYNKU_H }} />} />
       </fieldset>
 

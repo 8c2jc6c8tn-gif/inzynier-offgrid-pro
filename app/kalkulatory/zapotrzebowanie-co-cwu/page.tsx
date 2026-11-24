@@ -31,7 +31,10 @@ const n = (s: string) => liczba(s) ?? null
 export default function ZapotrzebowanieCoCwuPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<Seed>("zapotrzebowanie-co-cwu", STAN_POCZATKOWY)
+  // Without a project value the field stays empty and still falls back to the Module 2 household size below
+  const [stan, setStan, , , projekt] = usePersistedDraft<Seed>("zapotrzebowanie-co-cwu", STAN_POCZATKOWY, {
+    projekt: { liczbaOsob: "liczbaOsob" },
+  })
   const ustaw = <K extends keyof Seed>(k: K, v: Seed[K]) => setStan((s) => ({ ...s, [k]: v }))
   const ekran1 = useOdczytDraftu<SeedObciazenia>(KLUCZ_DRAFTU_OBCIAZENIA)
   const modul2 = useOdczytDraftu<DraftDomownikow>("liczba-domownikow")
@@ -111,6 +114,7 @@ export default function ZapotrzebowanieCoCwuPage() {
             value={stan.liczbaOsob}
             placeholder={osobyZModulu2 !== null ? String(osobyZModulu2) : undefined}
             onChange={(e) => ustaw("liczbaOsob", e.target.value)}
+            projekt={projekt.pole("liczbaOsob")}
             pomoc={<PomocPola ekran="zapotrzebowanie-co-cwu" pole="osoby" />}
           />
           <Pole

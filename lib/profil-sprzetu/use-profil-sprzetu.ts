@@ -7,34 +7,42 @@
  * jeden ustalony klucz, nie `kluczEkranu` per wywołanie).
  *
  * Zapis zablokowany do zakończenia pierwszego wczytania (`wczytanoRef`), żeby wywołanie
- * `zapiszBaterie` tuż po zamontowaniu komponentu nie nadpisało jeszcze niewczytanych danych
+ * `zapiszPanel` tuż po zamontowaniu komponentu nie nadpisało jeszcze niewczytanych danych
  * pustym stanem startowym.
  */
 import { useCallback, useEffect, useRef, useState } from "react"
+import { kluczProjektu } from "@/lib/projekt/projekty"
+import { useAktywnyProjektId } from "@/lib/projekt/use-projekt"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
-import { migrujProfil, WERSJA_PROFILU_SPRZETU, type ProfilSprzetu, type ProfilSprzetuBaterii, type ProfilSprzetuPanelu } from "./types"
+import { migrujProfil, WERSJA_PROFILU_SPRZETU, type ProfilSprzetu, type ProfilSprzetuPanelu } from "./types"
 
-const KEY = "offgrid.profil-sprzetu.v1"
+/** Per project (project 1 keeps the pre-project key `offgrid.profil-sprzetu.v1`). */
+const BAZA = "profil-sprzetu.v1"
 
 export function useProfilSprzetu(): {
   profil: ProfilSprzetu
   wczytano: boolean
-  zapiszBaterie: (dane: Partial<ProfilSprzetuBaterii>) => void
   /** Zapisuje panel podstawowy (U14) — wołać wyłącznie po zgodzie użytkownika, nigdy automatycznie. */
   zapiszPanel: (panel: ProfilSprzetuPanelu) => void
 } {
+  const projektId = useAktywnyProjektId()
+  const KEY = projektId ? kluczProjektu(projektId, BAZA) : null
   const [profil, setProfil] = useState<ProfilSprzetu>({})
   const [wczytano, setWczytano] = useState(false)
   const wczytanoRef = useRef(false)
+  const keyRef = useRef(KEY)
 
   useEffect(() => {
+    if (!KEY) return
     let aktywny = true
+    keyRef.current = KEY
+    wczytanoRef.current = false
     indexedDbStorageAdapter
       .getItem<ProfilSprzetu>(KEY)
       .then((zapisany) => {
         if (!aktywny) return
-        if (zapisany !== null) setProfil(migrujProfil(zapisany))
+        setProfil(zapisany !== null ? migrujProfil(zapisany) : {})
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -53,7 +61,7 @@ export function useProfilSprzetu(): {
     return () => {
       aktywny = false
     }
-  }, [])
+  }, [KEY])
 
   // useCallback ze stabilną tożsamością (deps: []) — bezpieczne jako zależność useEffect w
   // komponentach wołających, bez ryzyka nieskończonej pętli renderowania (setProfil/wczytanoRef
@@ -61,7 +69,8 @@ export function useProfilSprzetu(): {
   const zapisz = useCallback((zmiana: (poprzedni: ProfilSprzetu) => ProfilSprzetu) => {
     setProfil((poprzedni) => {
       const nowy: ProfilSprzetu = { ...zmiana(poprzedni), schemaVersion: WERSJA_PROFILU_SPRZETU }
-      if (wczytanoRef.current) {
+      const KEY = keyRef.current
+      if (wczytanoRef.current && KEY) {
         indexedDbStorageAdapter.setItem(KEY, nowy).catch((err) => {
           consoleReporter.reportError({
             userMessage: "Nie udało się zapisać profilu sprzętu — zmiana obowiązuje tylko w tej sesji.",
@@ -75,11 +84,7 @@ export function useProfilSprzetu(): {
     })
   }, [])
 
-  const zapiszBaterie = useCallback(
-    (dane: Partial<ProfilSprzetuBaterii>) => zapisz((poprzedni) => ({ ...poprzedni, bateria: { ...poprzedni.bateria, ...dane } })),
-    [zapisz],
-  )
   const zapiszPanel = useCallback((panel: ProfilSprzetuPanelu) => zapisz((poprzedni) => ({ ...poprzedni, panel })), [zapisz])
 
-  return { profil, wczytano, zapiszBaterie, zapiszPanel }
+  return { profil, wczytano, zapiszPanel }
 }

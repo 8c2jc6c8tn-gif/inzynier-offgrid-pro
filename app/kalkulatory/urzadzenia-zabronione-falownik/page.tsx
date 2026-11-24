@@ -30,7 +30,9 @@ const liczba = (s: string) => (s === "" ? 0 : Number(s))
 
 export default function UrzadzeniaZabronioneFalownikPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("urzadzenia-zabronione-falownik", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("urzadzenia-zabronione-falownik", STAN_POCZATKOWY, {
+    projekt: { mocFalownikaW: "mocFalownikaW" },
+  })
   const aktualizuj = (id: string, zmiana: Partial<Wiersz>) =>
     setStan((prev) => ({ ...prev, urzadzenia: prev.urzadzenia.map((o) => (o.id === id ? { ...o, ...zmiana } : o)) }))
 
@@ -58,7 +60,7 @@ export default function UrzadzeniaZabronioneFalownikPage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-UZF-FALOWNIK")}</legend>
-        <Pole label={t("UI-M12-UZF-MOC-CIAGLA")} unit="W" type="number" inputMode="decimal" min={0} value={stan.mocFalownikaW} onChange={(e) => setStan((prev) => ({ ...prev, mocFalownikaW: e.target.value }))} pomoc={<PomocPola ekran="urzadzenia-zabronione-falownik" pole="mocCiagla" />} />
+        <Pole label={t("UI-M12-UZF-MOC-CIAGLA")} unit="W" type="number" inputMode="decimal" min={0} value={stan.mocFalownikaW} projekt={projekt.pole("mocFalownikaW")} onChange={(e) => setStan((prev) => ({ ...prev, mocFalownikaW: e.target.value }))} pomoc={<PomocPola ekran="urzadzenia-zabronione-falownik" pole="mocCiagla" />} />
         <Pole label={t("UI-M12-UZF-MOC-SZCZYTOWA")} unit="W" type="number" inputMode="decimal" min={0} value={stan.mocSzczytowaW} onChange={(e) => setStan((prev) => ({ ...prev, mocSzczytowaW: e.target.value }))} pomoc={<PomocPola ekran="urzadzenia-zabronione-falownik" pole="mocSzczytowa" />} />
       </fieldset>
 

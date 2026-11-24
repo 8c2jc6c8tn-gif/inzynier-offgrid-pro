@@ -43,6 +43,7 @@ const liczba = (s: string) => (s === "" ? 0 : Number(s))
 export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu: string; pojazd: boolean }) {
   const t = useTranslate()
   const { f1, f2 } = useFormaty()
+  // Not linked to the project voltage: the list offers 12/24 V only, a 48 V project would show „choose” while computing 48 V.
   const [stan, setStan] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY)
   const idWlasny = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>

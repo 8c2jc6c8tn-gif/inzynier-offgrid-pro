@@ -50,7 +50,17 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DopasowanieTablicyFalownikaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dopasowanie-tablicy-falownika", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dopasowanie-tablicy-falownika", STAN_POCZATKOWY, {
+    projekt: {
+      vocStcV: "vocStcV",
+      vmpStcV: "vmpStcV",
+      impA: "impStcA",
+      betaPctNaC: "betaVocPctNaC",
+      tminC: "temperaturaMinC",
+      liczbaPaneliWStringu: "liczbaPaneliWStringu",
+      mocFalownikaAcW: "mocFalownikaW",
+    },
+  })
   const {
     vocStcV,
     vmpStcV,
@@ -165,6 +175,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           min={0}
           value={vocStcV}
           onChange={(e) => setVocStcV(e.target.value)}
+          projekt={projekt.pole("vocStcV")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="voc" />}
         />
         <Pole
@@ -175,6 +186,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           min={0}
           value={vmpStcV}
           onChange={(e) => setVmpStcV(e.target.value)}
+          projekt={projekt.pole("vmpStcV")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="vmp" />}
         />
         <Pole
@@ -185,6 +197,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           min={0}
           value={impA}
           onChange={(e) => setImpA(e.target.value)}
+          projekt={projekt.pole("impA")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="imp" />}
         />
         <Pole
@@ -195,6 +208,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           step="0.01"
           value={betaPctNaC}
           onChange={(e) => setBetaPctNaC(e.target.value)}
+          projekt={projekt.pole("betaPctNaC")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="beta" params={{ betaMin: BETA_TYPOWA_MIN_PCT_NA_C, betaMax: BETA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
@@ -204,6 +218,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           inputMode="decimal"
           value={tminC}
           onChange={(e) => setTminC(e.target.value)}
+          projekt={projekt.pole("tminC")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="tmin" />}
         />
         <Pole
@@ -214,6 +229,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           min={0}
           value={liczbaPaneliWStringu}
           onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
+          projekt={projekt.pole("liczbaPaneliWStringu")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="liczbaPaneli" />}
         />
 
@@ -267,6 +283,7 @@ export default function DopasowanieTablicyFalownikaPage() {
           min={0}
           value={mocFalownikaAcW}
           onChange={(e) => setMocFalownikaAcW(e.target.value)}
+          projekt={projekt.pole("mocFalownikaAcW")}
           pomoc={<PomocPola ekran="dopasowanie-tablicy-falownika" pole="mocAc" params={{ dcacMin: DC_AC_RATIO_ZALECANE_MIN, dcacMax: DC_AC_RATIO_ZALECANE_MAX }} />}
         />
       </div>

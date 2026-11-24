@@ -60,7 +60,7 @@ const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number
 export default function WiatrPowyzej30Page() {
   const t = useTranslate()
   const { f0, f2 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wiatr-powyzej-30", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("wiatr-powyzej-30", STAN_POCZATKOWY, { projekt: { nachylenieDeg: "nachylenieDeg" } })
   const { nachylenieDeg, wysokoscNpmM, wysokoscKonstrukcjiM } = stan
   // Drafts saved before a field existed carry no value for it — treat as empty.
   const strefa = stan.strefa ?? ""
@@ -116,6 +116,7 @@ export default function WiatrPowyzej30Page() {
           max={KAT_MAX_DEG}
           value={nachylenieDeg}
           onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
+          projekt={projekt.pole("nachylenieDeg")}
           pomoc={<PomocPola ekran="wiatr-powyzej-30" pole="nachylenie" params={{ maxKat: KAT_NORMOWY_MAX_DEG }} />}
         />
         <PoleSelect

@@ -39,7 +39,9 @@ function opisSprawnosci(s: Sprawnosc): string {
 export default function TechnologiePaneliPage() {
   const t = useTranslate()
   const { f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("technologie-paneli", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("technologie-paneli", STAN_POCZATKOWY, {
+    projekt: { mocInstalacjiKwp: "mocPvKwp" },
+  })
   const { zakladka, mocInstalacjiKwp } = stan
 
   const result = useMemo(
@@ -104,6 +106,7 @@ export default function TechnologiePaneliPage() {
         min={0}
         value={mocInstalacjiKwp}
         onChange={(e) => setStan((prev) => ({ ...prev, mocInstalacjiKwp: e.target.value }))}
+        projekt={projekt.pole("mocInstalacjiKwp")}
         pomoc={<PomocPola ekran="technologie-paneli" pole="moc" />}
       />
       {result.status === "INVALID_INPUT" && (

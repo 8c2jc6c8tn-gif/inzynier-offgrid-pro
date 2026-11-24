@@ -108,6 +108,17 @@ export class IndexedDbStorageAdapter implements StorageAdapter {
     })
   }
 
+  /** Every key of the key-value store that starts with `prefix` (copying and removing a project, `lib/projekt/operacje.ts`). */
+  async listKeys(prefix: string): Promise<string[]> {
+    const db = await openDb()
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readonly")
+      const req = tx.objectStore(STORE_NAME).getAllKeys(IDBKeyRange.bound(prefix, prefix + "\uffff"))
+      req.onsuccess = () => resolve((req.result as IDBValidKey[]).filter((k): k is string => typeof k === "string"))
+      req.onerror = () => reject(req.error)
+    })
+  }
+
   async removeItem(key: string): Promise<void> {
     const db = await openDb()
     return new Promise((resolve, reject) => {

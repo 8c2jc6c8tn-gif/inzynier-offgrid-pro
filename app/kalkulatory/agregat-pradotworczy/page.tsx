@@ -43,7 +43,10 @@ const KWOTY = przeliczPola<FormularzStan>("cenaZaLitrZl")
 export default function AgregatPradotworczyPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    projekt: { mocAgregatuKw: "mocAgregatuKw", sredniZuzycieLH: "zuzyciePaliwaLH" },
+  })
   const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
     stan
 
@@ -113,6 +116,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={mocAgregatuKw}
           onChange={(e) => setMocAgregatuKw(e.target.value)}
+          projekt={projekt.pole("mocAgregatuKw")}
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="moc" />}
         />
         <Pole
@@ -122,6 +126,7 @@ export default function AgregatPradotworczyPage() {
           inputMode="decimal"
           value={sredniZuzycieLH}
           onChange={(e) => setSredniZuzycieLH(e.target.value)}
+          projekt={projekt.pole("sredniZuzycieLH")}
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="zuzycie" />}
         />
         <Pole

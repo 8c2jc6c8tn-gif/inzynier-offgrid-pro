@@ -12,7 +12,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; godzinNaDobe: string; naOsobe: boolean }
 
@@ -37,7 +36,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function WeekendPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("weekend", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("weekend", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh", napiecieV: "napiecieUkladuV", dodPct: "dodPct" },
+  })
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -127,14 +128,14 @@ export default function WeekendPage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-WK-AKUMULATOR")}</legend>
-        <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" {...pole("pojemnoscAh")} pomoc={<PomocPola ekran="weekend" pole="pojemnosc" />} />
-        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="weekend" pole="napiecie" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
+        <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" {...pole("pojemnoscAh")} projekt={projekt.pole("pojemnoscAh")} pomoc={<PomocPola ekran="weekend" pole="pojemnosc" />} />
+        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} projekt={projekt.pole("napiecieV")} pomoc={<PomocPola ekran="weekend" pole="napiecie" />} />
         <Pole
           label={t("UI-M12-MA-DOD")}
           unit="%"
           max={100}
           {...pole("dodPct")}
+          projekt={projekt.pole("dodPct")}
           pomoc={<PomocPola ekran="weekend" pole="dod" params={{ min: DOD_LIFEPO4_TYPOWY_MIN_PCT, max: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />
       </fieldset>

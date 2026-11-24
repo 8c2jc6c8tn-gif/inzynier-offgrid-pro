@@ -31,7 +31,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function ProfilAstronomicznyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("profil-astronomiczny", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("profil-astronomiczny", STAN_POCZATKOWY, {
+    projekt: { szerokoscGeograficzna: "szerokoscGeoDeg" },
+  })
   const { szerokoscGeograficzna, dzienRoku, mocOdbiornikaNocnegoW } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -80,6 +82,7 @@ export default function ProfilAstronomicznyPage() {
           max={90}
           value={szerokoscGeograficzna}
           onChange={(e) => setSzerokoscGeograficzna(e.target.value)}
+          projekt={projekt.pole("szerokoscGeograficzna")}
           pomoc={<PomocPola ekran="profil-astronomiczny" pole="szerokosc" />}
         />
         <Pole

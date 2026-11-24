@@ -91,7 +91,8 @@ export default function KatIAzymutPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("kat-i-azymut", STAN_POCZATKOWY)
+  // `nachylenieDeg` is not linked yet: it is a bare range slider (no `Pole`), so the project status/↺ could not be shown.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("kat-i-azymut", STAN_POCZATKOWY, { projekt: { mocInstalacjiKwp: "mocPvKwp" } })
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null; blad: boolean } | null>(null)
   const ustaw = (pole: keyof FormularzStan, v: string) => setStan((prev) => ({ ...prev, [pole]: v }))
@@ -196,6 +197,7 @@ export default function KatIAzymutPage() {
               min={0}
               value={stan.mocInstalacjiKwp}
               onChange={(e) => ustaw("mocInstalacjiKwp", e.target.value)}
+              projekt={projekt.pole("mocInstalacjiKwp")}
               pomoc={<PomocPola ekran="kat-i-azymut" pole="moc" />}
             />
             <Pole

@@ -49,7 +49,11 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function LadowanieZAgregatuPage() {
   const t = useTranslate()
   const { f0, f2 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, KWOTY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, {
+    konwersjaKwot: KWOTY,
+    // zuzyciePaliwaLH is read at the load this screen computes (a load-specific point), not a general figure — not linked
+    projekt: { mocAgregatuKw: "mocAgregatuKw", pojemnoscKwh: "pojemnoscUzytecznaKwh" },
+  })
   const result = useMemo(
     () =>
       calculateLadowanieZAgregatu(
@@ -79,6 +83,7 @@ export default function LadowanieZAgregatuPage() {
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
             pomoc={<PomocPola ekran="ladowanie-z-agregatu" pole={pole} />}
+            projekt={projekt.pole(pole)}
           />
         ))}
       </div>

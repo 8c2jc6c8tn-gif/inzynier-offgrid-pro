@@ -36,7 +36,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function StressTestMpptPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("stress-test-mppt", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("stress-test-mppt", STAN_POCZATKOWY, {
+    projekt: { vocStcV: "vocStcV", betaPctNaC: "betaVocPctNaC", tminC: "temperaturaMinC", liczbaPaneliWStringu: "liczbaPaneliWStringu" },
+  })
   const { vocStcV, betaPctNaC, tminC, liczbaPaneliWStringu, limitMpptV } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -120,6 +122,7 @@ export default function StressTestMpptPage() {
           min={0}
           value={vocStcV}
           onChange={(e) => setVocStcV(e.target.value)}
+          projekt={projekt.pole("vocStcV")}
           pomoc={<PomocPola ekran="stress-test-mppt" pole="voc" />}
         />
         <Pole
@@ -129,6 +132,7 @@ export default function StressTestMpptPage() {
           inputMode="decimal"
           value={betaPctNaC}
           onChange={(e) => setBetaPctNaC(e.target.value)}
+          projekt={projekt.pole("betaPctNaC")}
           pomoc={<PomocPola ekran="stress-test-mppt" pole="beta" params={{ betaMin: BETA_TYPOWA_MIN_PCT_NA_C, betaMax: BETA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
@@ -138,6 +142,7 @@ export default function StressTestMpptPage() {
           inputMode="decimal"
           value={tminC}
           onChange={(e) => setTminC(e.target.value)}
+          projekt={projekt.pole("tminC")}
           pomoc={<PomocPola ekran="stress-test-mppt" pole="tmin" />}
         />
         <Pole
@@ -148,6 +153,7 @@ export default function StressTestMpptPage() {
           min={0}
           value={liczbaPaneliWStringu}
           onChange={(e) => setLiczbaPaneliWStringu(e.target.value)}
+          projekt={projekt.pole("liczbaPaneliWStringu")}
           pomoc={<PomocPola ekran="stress-test-mppt" pole="liczbaPaneli" />}
         />
         <Pole

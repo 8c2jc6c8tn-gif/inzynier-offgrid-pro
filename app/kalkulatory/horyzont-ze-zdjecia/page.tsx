@@ -62,7 +62,7 @@ export default function HoryzontZeZdjeciaPage() {
   const t = useTranslate()
   const { f0, f1, f2 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan] = usePersistedDraft<Stan>("horyzont-ze-zdjecia", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("horyzont-ze-zdjecia", STAN_POCZATKOWY, { projekt: { nachylenie: "nachylenieDeg" } })
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -513,6 +513,7 @@ export default function HoryzontZeZdjeciaPage() {
             step="any"
             value={stan.nachylenie}
             onChange={(e) => ustaw("nachylenie", e.target.value)}
+            projekt={projekt.pole("nachylenie")}
             pomoc={<PomocPola ekran="horyzont-ze-zdjecia" pole="nachyleniePaneli" />}
           />
           <Pole

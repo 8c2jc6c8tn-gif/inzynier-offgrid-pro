@@ -40,7 +40,10 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function StrategiaZamarzaniePage() {
   const t = useTranslate()
   const { f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("strategia-zamarzanie", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("strategia-zamarzanie", STAN_POCZATKOWY, {
+    // capacity × (SoC − SoC_min): the nameplate capacity of the bank
+    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+  })
 
   function aktualizuj(id: string, zmiana: Partial<Wiersz>) {
     setStan((prev) => ({ ...prev, odbiorniki: prev.odbiorniki.map((o) => (o.id === id ? { ...o, ...zmiana } : o)) }))
@@ -85,6 +88,7 @@ export default function StrategiaZamarzaniePage() {
             value={stan[p]}
             onChange={(e) => setStan((prev) => ({ ...prev, [p]: e.target.value }))}
             pomoc={<PomocPola ekran="strategia-zamarzanie" pole={p} />}
+            projekt={projekt.pole(p)}
           />
         ))}
       </div>

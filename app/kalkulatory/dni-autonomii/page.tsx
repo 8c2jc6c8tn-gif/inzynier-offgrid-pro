@@ -29,7 +29,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DniAutonomiiPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dni-autonomii", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dni-autonomii", STAN_POCZATKOWY, {
+    // `dniAutonomii` is not linked: the select offers only fixed options, a project value outside them would not fit.
+    projekt: { zapotrzebowanieDoboweKwh: "zapotrzebowanieDoboweKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", dodPct: "dodPct" },
+  })
   const { dniAutonomii, zapotrzebowanieDoboweKwh, sprawnoscFalownikaPct, dodPct } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -89,6 +92,7 @@ export default function DniAutonomiiPage() {
           min={0}
           value={zapotrzebowanieDoboweKwh}
           onChange={(e) => setZapotrzebowanieDoboweKwh(e.target.value)}
+          projekt={projekt.pole("zapotrzebowanieDoboweKwh")}
           pomoc={<PomocPola ekran="dni-autonomii" pole="zapotrzebowanie" />}
         />
         <Pole
@@ -100,6 +104,7 @@ export default function DniAutonomiiPage() {
           max={100}
           value={sprawnoscFalownikaPct}
           onChange={(e) => setSprawnoscFalownikaPct(e.target.value)}
+          projekt={projekt.pole("sprawnoscFalownikaPct")}
           pomoc={<PomocPola ekran="dni-autonomii" pole="sprawnosc" />}
         />
         <Pole
@@ -111,6 +116,7 @@ export default function DniAutonomiiPage() {
           max={100}
           value={dodPct}
           onChange={(e) => setDodPct(e.target.value)}
+          projekt={projekt.pole("dodPct")}
           pomoc={<PomocPola ekran="dni-autonomii" pole="dod" />}
         />
       </div>

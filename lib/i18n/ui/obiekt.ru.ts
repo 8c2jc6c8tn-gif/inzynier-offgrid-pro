@@ -17,8 +17,6 @@ export const ru: Record<Klucz, string> = {
   "UI-OBIEKT-LINK-ODBIORNIKI": "Заполнить список потребителей →",
   "UI-OBIEKT-BRAK-MIESIECY": "Отметьте хотя бы один месяц использования, чтобы посчитать потребление.",
   "UI-OBIEKT-NAPIECIE": "Напряжение системы (необязательно)",
-  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "Из профиля объекта: напряжение системы {v} В.",
-  "UI-OBIEKT-NAPIECIE-UZYJ": "Ввести {v} В",
   "UI-OBIEKT-UKRYTO-EKRANY": "Часть экранов о здании скрыта, потому что тип объекта — кемпер. Их по-прежнему можно открыть по ссылкам на других экранах.",
   "UI-OBIEKT-UKRYTO-POLA": "Поля о здании скрыты, потому что тип объекта — кемпер.",
   "UI-OBIEKT-UKRYTO-USTAWIENIA": "Тип объекта можно изменить в Настройках.",

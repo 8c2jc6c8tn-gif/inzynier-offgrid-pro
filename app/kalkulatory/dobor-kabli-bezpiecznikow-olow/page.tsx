@@ -42,7 +42,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborKabliBezpiecznikowOlowPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-kabli-bezpiecznikow-olow", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-kabli-bezpiecznikow-olow", STAN_POCZATKOWY, {
+    projekt: { napiecieV: "napiecieUkladuV" },
+  })
   const {
     pradA,
     napiecieV,
@@ -156,6 +158,7 @@ export default function DoborKabliBezpiecznikowOlowPage() {
           inputMode="decimal"
           min={0}
           value={napiecieV}
+          projekt={projekt.pole("napiecieV")}
           onChange={(e) => setNapiecieV(e.target.value)}
           pomoc={<PomocPola ekran="dobor-kabli-bezpiecznikow-olow" pole="napiecie" />}
         />

@@ -40,7 +40,10 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function BlackoutPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("blackout", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("blackout", STAN_POCZATKOWY, {
+    // zuzycieDoboweKwh is the winter (frost) daily use, not the year-round daily demand — not linked
+    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+  })
 
   const result = useMemo(
     () =>
@@ -71,6 +74,7 @@ export default function BlackoutPage() {
             value={stan[pole]}
             onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
             pomoc={<PomocPola ekran="blackout" pole={pole} />}
+            projekt={projekt.pole(pole)}
           />
         ))}
       </div>

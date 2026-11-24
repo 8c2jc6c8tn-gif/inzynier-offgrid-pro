@@ -18,6 +18,8 @@ import { Ikona, IKONA } from "@/components/ui/ikona"
 import { isAiAvailable } from "@/lib/ai/is-ai-available"
 import { pytajAsystenta } from "@/lib/ai/pytaj-asystenta"
 import { useLanguage, useTranslate } from "@/lib/i18n/language-context"
+import { usePathname } from "next/navigation"
+import { useAktywnyProjektId, useWartosciProjektu } from "@/lib/projekt/use-projekt"
 
 /** Assistant avatar: Bob, or a line „ai” icon when the 3D icons are chosen instead of the mascot (D87). */
 function AwatarAsystenta({ className, ikona }: { className: string; ikona: string }) {
@@ -42,6 +44,9 @@ export function AsystentAi() {
   const [odpowiedz, setOdpowiedz] = useState<string | null>(null)
   const [zrodlo, setZrodlo] = useState<string | null>(null)
   const [blad, setBlad] = useState<string | null>(null)
+  // N7 (owner decision 24.11.2026): the open project's numbers and the current screen go with the question.
+  const sciezka = usePathname()
+  const wartosciProjektu = useWartosciProjektu(useAktywnyProjektId())
 
   useEffect(() => {
     isAiAvailable()
@@ -58,7 +63,9 @@ export function AsystentAi() {
     setWysylanie(true)
     setBlad(null)
     setOdpowiedz(null)
-    const wynik = await pytajAsystenta(pytanie, jezyk)
+    const ekran = sciezka?.startsWith("/kalkulatory/") ? sciezka.slice("/kalkulatory/".length).split("/")[0] : undefined
+    const wartosci = Object.fromEntries(Object.entries(wartosciProjektu ?? {}).map(([id, w]) => [id, w.v]))
+    const wynik = await pytajAsystenta(pytanie, jezyk, { ekran, wartosci })
     setWysylanie(false)
     if ("bladKey" in wynik) {
       setBlad(wynik.bladKey)

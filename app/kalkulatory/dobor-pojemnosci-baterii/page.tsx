@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import Link from "next/link"
 import { calculateDoborPojemnosci } from "@/lib/core/modules/baterie/dobor-pojemnosci/calculator"
 import {
@@ -8,8 +8,10 @@ import {
   DOD_LIFEPO4_TYPOWY_MIN_PCT,
   SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT,
 } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
-import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
-import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useWartosciProjektu, useAktywnyProjektId } from "@/lib/projekt/use-projekt"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
+import { takaSamaLiczba } from "@/lib/projekt/wielkosci"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -35,7 +37,14 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborPojemnosciBateriiPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-pojemnosci-baterii", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-pojemnosci-baterii", STAN_POCZATKOWY, {
+    projekt: {
+      zapotrzebowanieDoboweKwh: "zapotrzebowanieDoboweKwh",
+      dniAutonomii: "dniAutonomii",
+      sprawnoscFalownikaPct: "sprawnoscFalownikaPct",
+      dodPct: "dodPct",
+    },
+  })
   const { zapotrzebowanieDoboweKwh, dniAutonomii, sprawnoscFalownikaPct, dodPct } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -60,18 +69,17 @@ export default function DoborPojemnosciBateriiPage() {
     [zapotrzebowanieDoboweKwh, dniAutonomii, sprawnoscFalownikaPct, dodPct],
   )
 
-  // Profil sprzętu (docs/zrodla/Zasady_UX_Doradca_v2_1.md, §10) — wynik tego ekranu zasila
-  // domyślne wypełnienie Ekranu 6 (starzenie-degradacja), a jego bufor starzeniowy wraca tutaj
-  // jako uzupełnienie rekomendacji (assumption BUFOR-STARZENIOWY-NIE-DOLICZONY poniżej).
-  const { profil, zapiszBaterie } = useProfilSprzetu()
-  useEffect(() => {
-    if (result.status !== "VALID") return
-    zapiszBaterie({
-      pojemnoscUzytecznaDzisKwh: result.value.pojemnoscUzytecznaKwh,
-      pojemnoscUzytecznaDzisZaktualizowanoIso: new Date().toISOString(),
-    })
-  }, [result, zapiszBaterie])
-  const bufor = profil.bateria
+  // Project (owner decision 23.11.2026): the usable capacity is offered to the project from the quiet bar; once saved, the
+  // ageing screen (starzenie-degradacja) is filled with it, and its buffer comes back here when it was computed for this value.
+  useWynikiDoProjektu("dobor-pojemnosci-baterii", { pojemnoscUzytecznaKwh: result.status === "VALID" ? Number(result.value.pojemnoscUzytecznaKwh.toFixed(2)) : null })
+  const wartosci = useWartosciProjektu(useAktywnyProjektId())
+  const starzenie = useOdczytDraftu<{ horyzontLata?: number }>("starzenie-degradacja").dane
+  const zBuforem = wartosci?.pojemnoscZBuforemKwh?.v
+  const buforPasuje =
+    result.status === "VALID" &&
+    zBuforem !== undefined &&
+    wartosci?.pojemnoscUzytecznaKwh !== undefined &&
+    takaSamaLiczba(wartosci.pojemnoscUzytecznaKwh.v, result.value.pojemnoscUzytecznaKwh.toFixed(2))
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -88,6 +96,7 @@ export default function DoborPojemnosciBateriiPage() {
           inputMode="decimal"
           min={0}
           value={zapotrzebowanieDoboweKwh}
+          projekt={projekt.pole("zapotrzebowanieDoboweKwh")}
           onChange={(e) => setZapotrzebowanieDoboweKwh(e.target.value)}
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="zapotrzebowanie" />}
         />
@@ -98,6 +107,7 @@ export default function DoborPojemnosciBateriiPage() {
           inputMode="decimal"
           min={0}
           value={dniAutonomii}
+          projekt={projekt.pole("dniAutonomii")}
           onChange={(e) => setDniAutonomii(e.target.value)}
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="dniAutonomii" />}
         />
@@ -109,6 +119,7 @@ export default function DoborPojemnosciBateriiPage() {
           min={0}
           max={100}
           value={sprawnoscFalownikaPct}
+          projekt={projekt.pole("sprawnoscFalownikaPct")}
           onChange={(e) => setSprawnoscFalownikaPct(e.target.value)}
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="sprawnosc" params={{ sprawnosc: SPRAWNOSC_FALOWNIKA_SUGEROWANA_PCT }} />}
         />
@@ -120,6 +131,7 @@ export default function DoborPojemnosciBateriiPage() {
           min={0}
           max={100}
           value={dodPct}
+          projekt={projekt.pole("dodPct")}
           onChange={(e) => setDodPct(e.target.value)}
           pomoc={<PomocPola ekran="dobor-pojemnosci-baterii" pole="dod" params={{ dodMin: DOD_LIFEPO4_TYPOWY_MIN_PCT, dodMax: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />
@@ -134,11 +146,10 @@ export default function DoborPojemnosciBateriiPage() {
       ) : (
         <WerdyktPanel poziom="ok" etykieta={t("UI-DOBPOJBAT-WYMAGANA-POJEMNOSC-UZYTECZNA")}>
           <WynikGlowny>{result.value.pojemnoscUzytecznaKwh.toFixed(1)} kWh</WynikGlowny>
-          {bufor?.pojemnoscPoczatkowaZBuforemKwh !== undefined &&
-          bufor.pojemnoscUzytecznaDzisKwh === result.value.pojemnoscUzytecznaKwh ? (
+          {buforPasuje && zBuforem !== undefined ? (
             <p className="mt-1 text-small">
-              {t("UI-DOBPOJBAT-UWZGLEDNIENIEM-STARZENIA-OGN", { buforHoryzontLata: bufor.buforHoryzontLata ?? "—" })}
-              <strong>{bufor.pojemnoscPoczatkowaZBuforemKwh.toFixed(1)} kWh</strong> {t("UI-DOBPOJBAT-POJEMNOSCI-POCZATKOWEJ-ZAMOW")}
+              {t("UI-DOBPOJBAT-UWZGLEDNIENIEM-STARZENIA-OGN", { buforHoryzontLata: starzenie?.horyzontLata ?? "—" })}
+              <strong>{Number(zBuforem).toFixed(1)} kWh</strong> {t("UI-DOBPOJBAT-POJEMNOSCI-POCZATKOWEJ-ZAMOW")}
             </p>
           ) : (
             <p className="mt-1 text-small text-muted-foreground">

@@ -40,7 +40,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function ColdCRatePage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("cold-c-rate", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("cold-c-rate", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh" },
+  })
   const { temperaturaOgniwaC, pojemnoscAh } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -91,6 +93,7 @@ export default function ColdCRatePage() {
           inputMode="decimal"
           min={0}
           value={pojemnoscAh}
+          projekt={projekt.pole("pojemnoscAh")}
           onChange={(e) => setPojemnoscAh(e.target.value)}
           pomoc={<PomocPola ekran="cold-c-rate" pole="pojemnosc" />}
         />

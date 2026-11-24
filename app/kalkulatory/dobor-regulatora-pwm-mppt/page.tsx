@@ -6,7 +6,6 @@ import { PROG_MOC_MPPT_OPLACALNY_W } from "@/lib/core/modules/kalkulator-mobilny
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -28,7 +27,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborRegulatoraPwmMpptPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-regulatora-pwm-mppt", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-regulatora-pwm-mppt", STAN_POCZATKOWY, {
+    projekt: { napiecieAkumulatoraV: "napiecieUkladuV" },
+  })
   const { mocPaneliW, napiecieNominalnePaneluV, napiecieAkumulatoraV } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -93,10 +94,10 @@ export default function DoborRegulatoraPwmMpptPage() {
           inputMode="decimal"
           min={0}
           value={napiecieAkumulatoraV}
+          projekt={projekt.pole("napiecieAkumulatoraV")}
           onChange={(e) => setNapiecieAkumulatoraV(e.target.value)}
           pomoc={<PomocPola ekran="dobor-regulatora-pwm-mppt" pole="napiecieAkumulatora" />}
         />
-        <NapiecieZProfilu aktualne={napiecieAkumulatoraV} onUzyj={setNapiecieAkumulatoraV} />
       </div>
 
       {result.status === "INVALID_INPUT" ? (

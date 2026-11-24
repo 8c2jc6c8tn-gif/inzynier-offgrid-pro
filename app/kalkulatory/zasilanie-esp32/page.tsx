@@ -42,7 +42,9 @@ const liczba = (v: string) => (v === "" ? null : Number(v))
 export default function ZasilanieEsp32Page() {
   const t = useTranslate()
   const { f2 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("zasilanie-esp32", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("zasilanie-esp32", STAN_POCZATKOWY, {
+    projekt: { napiecieMagistraliV: "napiecieUkladuV" },
+  })
   const result = useMemo(() => {
     const { sposob, ...liczby } = stan
     return calculateZasilanieEsp32({
@@ -82,6 +84,7 @@ export default function ZasilanieEsp32Page() {
               inputMode="decimal"
               min={0}
               value={stan[pole]}
+              projekt={projekt.pole(pole)}
               onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
               pomoc={<PomocPola ekran="zasilanie-esp32" pole={pole} />}
             />

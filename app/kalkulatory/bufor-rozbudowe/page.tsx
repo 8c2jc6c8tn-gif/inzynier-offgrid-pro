@@ -27,7 +27,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function BuforRozbudowyPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("bufor-rozbudowe", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("bufor-rozbudowe", STAN_POCZATKOWY, {
+    projekt: { zapotrzebowanieCalkowiteKwh: "zapotrzebowanieDoboweKwh" },
+  })
   const { zapotrzebowanieCalkowiteKwh, buforPct } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -65,6 +67,7 @@ export default function BuforRozbudowyPage() {
           inputMode="decimal"
           value={zapotrzebowanieCalkowiteKwh}
           onChange={(e) => setZapotrzebowanieCalkowiteKwh(e.target.value)}
+          projekt={projekt.pole("zapotrzebowanieCalkowiteKwh")}
           pomoc={<PomocPola ekran="bufor-rozbudowe" pole="zapotrzebowanie" />}
         />
         <PoleSelect

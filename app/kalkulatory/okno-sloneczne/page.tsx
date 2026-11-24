@@ -35,7 +35,10 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function OknoSlonecznePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("okno-sloneczne", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("okno-sloneczne", STAN_POCZATKOWY, {
+    // the field is labelled and documented as the usable capacity; "zuzycie" is the use during the sun window only — not linked
+    projekt: { pojemnosc: "pojemnoscUzytecznaKwh" },
+  })
   const pole = (klucz: Pola, bezMin = false) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -79,7 +82,7 @@ export default function OknoSlonecznePage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M7-OKNO-BATERIA")}</legend>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label={t("UI-M7-OKNO-POJEMNOSC")} unit="kWh" {...pole("pojemnosc")} pomoc={<PomocPola ekran="okno-sloneczne" pole="pojemnosc" />} />
+          <Pole label={t("UI-M7-OKNO-POJEMNOSC")} unit="kWh" {...pole("pojemnosc")} pomoc={<PomocPola ekran="okno-sloneczne" pole="pojemnosc" />} projekt={projekt.pole("pojemnosc")} />
           <Pole label={t("UI-M7-OKNO-SOC")} unit="%" max={100} {...pole("soc")} pomoc={<PomocPola ekran="okno-sloneczne" pole="soc" />} />
         </div>
         <Pole label={t("UI-M7-OKNO-GRZALKI")} unit="kWh" {...pole("grzalki")} pomoc={<PomocPola ekran="okno-sloneczne" pole="grzalki" />} />

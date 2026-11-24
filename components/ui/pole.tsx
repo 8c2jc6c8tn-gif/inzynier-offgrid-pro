@@ -9,6 +9,8 @@ import {
 import { PomocPole } from "@/components/ui/chmurka"
 import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
+import { ZnacznikPola } from "@/components/projekt/znacznik-pola"
+import type { StanPolaProjektu } from "@/lib/adapters/use-persisted-draft"
 
 /**
  * Pole formularza — jeden reużywalny komponent zamiast kopiowanego w every ekranie stringa
@@ -59,10 +61,12 @@ type PoleProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id">
   error?: string
   className?: string
   id?: string
+  /** Link to the project quantity (`projekt.pole("…")` from `usePersistedDraft`) — shows „from the project” / own value with ↺. */
+  projekt?: StanPolaProjektu
 }
 
 /** Pole tekstowe/liczbowe. Zastępuje duplikowany `Field`/`inputClass` z ekranów kalkulatorów. */
-export function Pole({ label, unit, pomoc, error, className, id, ...props }: PoleProps) {
+export function Pole({ label, unit, pomoc, error, className, id, projekt, ...props }: PoleProps) {
   // Standard 8.10: id from useId(), never from the label text (repeated labels in lists).
   const autoId = useId()
   const inputId = id ?? autoId
@@ -75,6 +79,7 @@ export function Pole({ label, unit, pomoc, error, className, id, ...props }: Pol
         aria-invalid={Boolean(error) || props["aria-invalid"]}
         {...props}
       />
+      <ZnacznikPola projekt={projekt} />
       {error && (
         <span role="alert" className="text-caption text-werdykt-blad-foreground">
           {error}
@@ -90,10 +95,11 @@ type PoleSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "className"
   className?: string
   id?: string
   children: ReactNode
+  projekt?: StanPolaProjektu
 }
 
 /** Pole wyboru (select) w tym samym stylu co `Pole` — ta sama skala stanów. */
-export function PoleSelect({ label, pomoc, className, id, children, ...props }: PoleSelectProps) {
+export function PoleSelect({ label, pomoc, className, id, children, projekt, ...props }: PoleSelectProps) {
   const autoId = useId()
   const selectId = id ?? autoId
   return (
@@ -102,6 +108,7 @@ export function PoleSelect({ label, pomoc, className, id, children, ...props }: 
       <select id={selectId} className={cn(STAN_KLASY, "cursor-pointer", className)} {...props}>
         {children}
       </select>
+      <ZnacznikPola projekt={projekt} />
     </div>
   )
 }

@@ -64,7 +64,10 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 /** Moduł 10, Ekran 4 — automatyczny dobór i optymalizacja źródeł zasilania (dawne 12.7, 12.8, 12.9). */
 export default function DoborZrodelZasilaniaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<Stan>("dobor-zrodel-zasilania", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("dobor-zrodel-zasilania", STAN_POCZATKOWY, {
+    // the pack's nameplate capacity in Ah (C-rate → charging current of the storage bank)
+    projekt: { pojemnosc: "pojemnoscNominalnaAh" },
+  })
   const ustaw = <K extends keyof Stan>(k: K, v: Stan[K]) => setStan((s) => ({ ...s, [k]: v }))
 
   const result = useMemo(
@@ -154,6 +157,7 @@ export default function DoborZrodelZasilaniaPage() {
           min={0}
           value={stan.pojemnosc}
           onChange={(e) => ustaw("pojemnosc", e.target.value)}
+          projekt={projekt.pole("pojemnosc")}
           pomoc={<PomocPola ekran="cold-c-rate" pole="pojemnosc" />}
         />
         <Pole

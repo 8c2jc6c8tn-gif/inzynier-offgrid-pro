@@ -13,6 +13,11 @@
  */
 import type { DanePanelu } from "@/lib/core/modules/pv/porownywarka-paneli/input"
 
+/**
+ * Legacy (until 3.54.0): written by „Dobór pojemności” and „Starzenie” before projects existed. Since 3.54.0 both use the
+ * project quantities (`lib/projekt/wielkosci.ts`: `pojemnoscUzytecznaKwh`, `pojemnoscZBuforemKwh`); old records keep this
+ * section, nothing reads it.
+ */
 export type ProfilSprzetuBaterii = {
   /** Pojemność użyteczna potrzebna dziś [kWh] — wynik Ekranu 1 (dobor-pojemnosci). */
   pojemnoscUzytecznaDzisKwh?: number

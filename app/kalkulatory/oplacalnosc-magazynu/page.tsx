@@ -35,7 +35,10 @@ const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBateriiZl", "kosztAltern
 export default function OplacalnoscMagazynuPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, {
+    konwersjaKwot: PRZELICZ_KWOTY,
+    projekt: { pojemnoscUzytecznaKwh: "pojemnoscUzytecznaKwh" },
+  })
   const { cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -100,6 +103,7 @@ export default function OplacalnoscMagazynuPage() {
           type="number"
           inputMode="decimal"
           value={pojemnoscUzytecznaKwh}
+          projekt={projekt.pole("pojemnoscUzytecznaKwh")}
           onChange={(e) => setPojemnoscUzytecznaKwh(e.target.value)}
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="pojemnosc" />}
         />

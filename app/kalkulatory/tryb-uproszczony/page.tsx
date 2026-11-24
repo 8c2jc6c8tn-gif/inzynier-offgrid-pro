@@ -5,7 +5,6 @@ import { calculateTrybUproszczony } from "@/lib/core/modules/kalkulator-mobilny/
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { WerdyktPanel } from "@/components/werdykt"
 import { Pole } from "@/components/ui/pole"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { PomocPola } from "@/components/ui/pomoc"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -25,7 +24,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function TrybUproszczonyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("tryb-uproszczony", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("tryb-uproszczony", STAN_POCZATKOWY, {
+    projekt: { napiecieV: "napiecieUkladuV" },
+  })
   const { pojemnoscAh, napiecieV, mocOdbiornikaW } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -74,10 +75,10 @@ export default function TrybUproszczonyPage() {
           type="number"
           inputMode="decimal"
           value={napiecieV}
+          projekt={projekt.pole("napiecieV")}
           onChange={(e) => setNapiecieV(e.target.value)}
           pomoc={<PomocPola ekran="tryb-uproszczony" pole="napiecie" />}
         />
-        <NapiecieZProfilu aktualne={napiecieV} onUzyj={setNapiecieV} />
         <Pole
           label={t("UI-TRYUPR-MOC-ODBIORNIKA")}
           unit="W"

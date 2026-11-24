@@ -29,7 +29,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborMocyFalownikaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-mocy-falownika", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-mocy-falownika", STAN_POCZATKOWY, {
+    projekt: { mocFalownikaWybranaW: "mocFalownikaW" },
+  })
   const { mocSzczytowaW, mocPozornaVa, wspolczynnikJednoczesnosci, mocFalownikaWybranaW } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -124,6 +126,7 @@ export default function DoborMocyFalownikaPage() {
           inputMode="decimal"
           min={0}
           value={mocFalownikaWybranaW}
+          projekt={projekt.pole("mocFalownikaWybranaW")}
           onChange={(e) => setMocFalownikaWybranaW(e.target.value)}
           pomoc={<PomocPola ekran="dobor-mocy-falownika" pole="mocFalownika" />}
         />

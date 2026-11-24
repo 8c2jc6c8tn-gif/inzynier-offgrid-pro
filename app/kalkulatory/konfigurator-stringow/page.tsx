@@ -42,7 +42,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function KonfiguratorStringowPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("konfigurator-stringow", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("konfigurator-stringow", STAN_POCZATKOWY, {
+    // `liczbaPaneli` is not linked: it is the whole array in the pure series OR the pure parallel mode, not one string.
+    projekt: { vmpV: "vmpStcV", impA: "impStcA", panelWGrupie: "liczbaPaneliWStringu" },
+  })
   const { mode, vmpV, impA, liczbaPaneli, panelWGrupie, liczbaGrup } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -111,6 +114,7 @@ export default function KonfiguratorStringowPage() {
           inputMode="decimal"
           value={vmpV}
           onChange={(e) => setVmpV(e.target.value)}
+          projekt={projekt.pole("vmpV")}
           pomoc={<PomocPola ekran="konfigurator-stringow" pole="vmp" />}
         />
         <Pole
@@ -120,6 +124,7 @@ export default function KonfiguratorStringowPage() {
           inputMode="decimal"
           value={impA}
           onChange={(e) => setImpA(e.target.value)}
+          projekt={projekt.pole("impA")}
           pomoc={<PomocPola ekran="konfigurator-stringow" pole="imp" />}
         />
 
@@ -132,6 +137,7 @@ export default function KonfiguratorStringowPage() {
               inputMode="decimal"
               value={panelWGrupie}
               onChange={(e) => setPanelWGrupie(e.target.value)}
+              projekt={projekt.pole("panelWGrupie")}
               pomoc={<PomocPola ekran="konfigurator-stringow" pole="szereg" />}
             />
             <Pole

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { czyMikroinstalacja, napiecieUkladuDoPodpowiedzi, PROFIL_OBIEKTU_POCZATKOWY, zuzycieMiesieczneKwh } from "../profil-obiektu"
+import { czyMikroinstalacja, PROFIL_OBIEKTU_POCZATKOWY, zuzycieMiesieczneKwh } from "../profil-obiektu"
 import { dobowaWhNaMiesiac, dobowaWhZOdbiornikow, dotyczyObiektu, maOdbiornikiSezonowe, zuzycieMikroinstalacjiKwh } from "../zuzycie-z-odbiornikow"
 
 const urzadzenie = (mocW: number, godzinNaDobe: number, extra: object = {}) => ({
@@ -121,23 +121,6 @@ describe("jedna lista odbiorników, osobny wybór dla obiektu", () => {
     expect(dotyczyObiektu(ladowarka, "budynek")).toBe(true)
     expect(dotyczyObiektu(ladowarka, "")).toBe(true)
     expect(zuzycieMikroinstalacjiKwh({ urzadzenia: [ladowarka] }, { rodzaj: "kamper", miesiaceUzytkowania: caly_rok })).toBeNull()
-  })
-})
-
-describe("napięcie układu z profilu obiektu", () => {
-  const profil = (rodzaj: "kamper" | "budynek" | "", napiecieUkladuV?: 12 | 24 | 48 | "") => ({ rodzaj, miesiaceUzytkowania: [], napiecieUkladuV })
-
-  it("podpowiada tylko dla mikroinstalacji z wybranym napięciem", () => {
-    expect(napiecieUkladuDoPodpowiedzi(profil("kamper", 24))).toBe(24)
-    expect(napiecieUkladuDoPodpowiedzi(profil("kamper", ""))).toBeNull()
-    expect(napiecieUkladuDoPodpowiedzi(profil("budynek", 24))).toBeNull()
-    expect(napiecieUkladuDoPodpowiedzi(profil("", 12))).toBeNull()
-  })
-
-  it("stary draft bez pola, brak profilu i wartość spoza listy (np. 36) nic nie podpowiadają", () => {
-    expect(napiecieUkladuDoPodpowiedzi(profil("kamper"))).toBeNull()
-    expect(napiecieUkladuDoPodpowiedzi(null)).toBeNull()
-    expect(napiecieUkladuDoPodpowiedzi({ ...profil("kamper"), napiecieUkladuV: 36 as never })).toBeNull()
   })
 })
 

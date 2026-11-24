@@ -25,7 +25,10 @@ const KLUCZE_MIESIECY = Array.from({ length: 12 }, (_, i) => `UI-MIES-${String(i
 
 export function ObiektSekcja() {
   const t = useTranslate()
-  const [profil, setProfil] = usePersistedDraft<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU, PROFIL_OBIEKTU_POCZATKOWY)
+  // The voltage follows the project quantity (owner decision 23.11.2026); the hook writes it as text ("24"), so the select reads it via String().
+  const [profil, setProfil, , , projekt] = usePersistedDraft<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU, PROFIL_OBIEKTU_POCZATKOWY, {
+    projekt: { napiecieUkladuV: "napiecieUkladuV" },
+  })
   const miesiace = profil.miesiaceUzytkowania.length === 12 ? profil.miesiaceUzytkowania : PROFIL_OBIEKTU_POCZATKOWY.miesiaceUzytkowania
   const mikro = czyMikroinstalacja(profil.rodzaj)
 
@@ -79,6 +82,7 @@ export function ObiektSekcja() {
           <PoleSelect
             label={t("UI-OBIEKT-NAPIECIE")}
             value={String(profil.napiecieUkladuV ?? "")}
+            projekt={projekt.pole("napiecieUkladuV")}
             onChange={(e) => setProfil((prev) => ({ ...prev, napiecieUkladuV: e.target.value === "" ? "" : (Number(e.target.value) as NapiecieUkladuV) }))}
             pomoc={<PomocPola ekran="ustawienia-obiekt" pole="napiecie" />}
           >

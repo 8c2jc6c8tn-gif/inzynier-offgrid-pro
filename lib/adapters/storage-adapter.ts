@@ -10,4 +10,6 @@ export interface StorageAdapter {
   getItem<T>(key: string): Promise<T | null>
   setItem<T>(key: string, value: T): Promise<void>
   removeItem(key: string): Promise<void>
+  /** Keys starting with `prefix` (whole-project copy and removal; SQLite: `WHERE key >= ? AND key < ?`). */
+  listKeys(prefix: string): Promise<string[]>
 }

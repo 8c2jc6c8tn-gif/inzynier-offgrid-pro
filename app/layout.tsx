@@ -5,6 +5,7 @@ import { Caveat, Inter, JetBrains_Mono, Lato, Roboto, Source_Sans_3, Source_Seri
 import { AsystentAi } from '@/components/asystent-ai'
 import { BazaWersjaListener } from '@/components/pwa/baza-wersja-listener'
 import { Powiadomienia } from '@/components/pwa/powiadomienia'
+import { PasekProjektu } from '@/components/projekt/pasek-projektu'
 import { SwRejestracja } from '@/components/pwa/sw-rejestracja'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { SUPPORTED_LANGUAGES, negocjujJezyk } from '@/lib/i18n/language'
@@ -193,6 +194,8 @@ export default async function RootLayout({
       <body className="antialiased">
         <LanguageProvider>
           {children}
+          {/* Quiet „save to project” bar (owner decision 23.11.2026) — shown only while the screen differs from the project. */}
+          <PasekProjektu />
           <AsystentAi />
           <Powiadomienia />
           {/* IndexedDB schema-version conflicts between tabs (standard 5.11) → reload toast. */}

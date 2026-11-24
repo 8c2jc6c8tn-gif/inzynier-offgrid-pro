@@ -13,6 +13,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
 import { calculateObciazenieCieplne, type MiesiacCiepla, type StrataPrzegrody } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import {
   STREFY_KLIMATYCZNE,
@@ -293,6 +294,12 @@ export default function ObciazenieCieplnePage() {
 
   const wynik = useMemo(() => calculateObciazenieCieplne(wejscieObciazenia(stan)), [stan])
   const v = wynik.value
+  useWynikiDoProjektu(KLUCZ_DRAFTU_OBCIAZENIA, {
+    // Design heat load Φ: the calculator gives W, the project quantity is kW (÷ 1000, a unit prefix only)
+    mocGrzewczaKw: v ? Number((v.obciazenieW / 1000).toFixed(2)) : null,
+    // Annual heat only when all 12 monthly means are entered — a sum of fewer months is not the yearly demand
+    zapotrzebowanieCieplaRokKwh: v && v.miesiace?.length === 12 && v.cieploSumaMiesiecyKwh !== null ? Math.round(v.cieploSumaMiesiecyKwh) : null,
+  })
   const poziom: WerdyktPoziom = wynik.warnings.some((w) => w.level === "critical") ? "blad" : "uwaga"
 
   const kolumnyPrzegrod: Kolumna<StrataPrzegrody & { id: number }>[] = [

@@ -64,7 +64,10 @@ export default function PrognozaSocPage() {
   const formatLiczbe = useFormatLiczby()
   const { f0 } = useFormaty()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("prognoza-soc", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("prognoza-soc", STAN_POCZATKOWY, {
+    // produkcja/zuzycie are per-window power series (arrays) — not linked
+    projekt: { pojemnoscKwh: "pojemnoscUzytecznaKwh" },
+  })
   const ustaw = (pole: keyof Omit<FormularzStan, "produkcja" | "zuzycie" | "dniPct">) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
   const ustawTablice = (pole: "produkcja" | "zuzycie" | "dniPct", n: number, dlugosc: number) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -110,7 +113,7 @@ export default function PrognozaSocPage() {
 
       <div className="flex flex-col gap-4">
         <p className="text-small font-medium text-muted-foreground">{t("UI-PROGSOC-BATERIA")}</p>
-        <Pole label={t("UI-PROGSOC-POJEMNOSC")} unit="kWh" type="number" inputMode="decimal" min={0} value={stan.pojemnoscKwh} onChange={ustaw("pojemnoscKwh")} pomoc={<PomocPola ekran="prognoza-soc" pole="pojemnosc" />} />
+        <Pole label={t("UI-PROGSOC-POJEMNOSC")} unit="kWh" type="number" inputMode="decimal" min={0} value={stan.pojemnoscKwh} onChange={ustaw("pojemnoscKwh")} pomoc={<PomocPola ekran="prognoza-soc" pole="pojemnosc" />} projekt={projekt.pole("pojemnoscKwh")} />
         <Pole label={t("UI-PROGSOC-SOC-START")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.socStartPct} onChange={ustaw("socStartPct")} pomoc={<PomocPola ekran="prognoza-soc" pole="socStart" />} />
         <Pole label={t("UI-PROGSOC-SOC-MIN")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.socMinPct} onChange={ustaw("socMinPct")} pomoc={<PomocPola ekran="prognoza-soc" pole="socMin" />} />
         <Pole label={t("UI-PROGSOC-SOC-MAKS")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.socMaksPct} onChange={ustaw("socMaksPct")} pomoc={<PomocPola ekran="prognoza-soc" pole="socMaks" />} />

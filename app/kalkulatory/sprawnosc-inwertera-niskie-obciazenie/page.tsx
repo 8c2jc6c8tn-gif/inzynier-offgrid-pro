@@ -27,7 +27,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function SprawnoscInwerteraPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("sprawnosc-inwertera-niskie-obciazenie", STAN_POCZATKOWY)
+  // `sprawnoscPct` is not linked: it is the efficiency at this particular (low) load, not the inverter's design efficiency.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("sprawnosc-inwertera-niskie-obciazenie", STAN_POCZATKOWY, {
+    projekt: { mocFalownikaW: "mocFalownikaW" },
+  })
   const { zapotrzebowanieW, mocFalownikaW, sprawnoscPct } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -83,6 +86,7 @@ export default function SprawnoscInwerteraPage() {
           min={0}
           value={mocFalownikaW}
           onChange={(e) => setMocFalownikaW(e.target.value)}
+          projekt={projekt.pole("mocFalownikaW")}
           pomoc={<PomocPola ekran="sprawnosc-inwertera-niskie-obciazenie" pole="mocFalownika" />}
         />
         <Pole

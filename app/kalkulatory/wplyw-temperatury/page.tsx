@@ -35,7 +35,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function WplywTemperaturyPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wplyw-temperatury", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("wplyw-temperatury", STAN_POCZATKOWY, {
+    projekt: { gammaPctNaC: "gammaPmaxPctNaC", mocNominalnaW: "mocPaneluWp" },
+  })
   const { temperaturaOtoczeniaC, przyrostTemperaturyC, gammaPctNaC, mocNominalnaW } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -102,6 +104,7 @@ export default function WplywTemperaturyPage() {
           inputMode="decimal"
           value={gammaPctNaC}
           onChange={(e) => setGammaPctNaC(e.target.value)}
+          projekt={projekt.pole("gammaPctNaC")}
           pomoc={<PomocPola ekran="wplyw-temperatury" pole="gamma" params={{ gammaMin: GAMMA_TYPOWA_MIN_PCT_NA_C, gammaMax: GAMMA_TYPOWA_MAX_PCT_NA_C }} />}
         />
         <Pole
@@ -112,6 +115,7 @@ export default function WplywTemperaturyPage() {
           min={0}
           value={mocNominalnaW}
           onChange={(e) => setMocNominalnaW(e.target.value)}
+          projekt={projekt.pole("mocNominalnaW")}
           pomoc={<PomocPola ekran="wplyw-temperatury" pole="moc" />}
         />
       </div>

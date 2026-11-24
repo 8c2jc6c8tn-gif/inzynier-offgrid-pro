@@ -12,6 +12,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { calculateLiczbaPaneli } from "@/lib/core/modules/pv/liczba-paneli/calculator"
 import { type IdOkresu, LIMIT_MONTAZOWY_PODPOWIEDZ_SZT } from "@/lib/core/modules/pv/liczba-paneli/constants"
@@ -61,7 +62,9 @@ export default function LiczbaPaneliPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("liczba-paneli", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("liczba-paneli", STAN_POCZATKOWY, {
+    projekt: { nachylenieDeg: "nachylenieDeg", mocPaneluWp: "mocPaneluWp", zapotrzebowanieKwh: "zapotrzebowanieDoboweKwh" },
+  })
   // A camper has no heating season of a building: the extra-consumption field and its months are hidden and count as zero.
   const ukryjSezonGrzewczy = czyUkryjPolaBudynku(useRodzajObiektu())
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
@@ -110,6 +113,13 @@ export default function LiczbaPaneliPage() {
       }),
     [aktualna, stan, ukryjSezonGrzewczy],
   )
+
+  // The recommended variant is the design decision; its power is already in kWp (calculator: n × Wp / 1000), only rounded here.
+  const rekomendowany = result.value?.warianty.find((w) => w.id === result.value?.rekomendacja) ?? null
+  useWynikiDoProjektu("liczba-paneli", {
+    liczbaPaneli: rekomendowany?.liczbaPaneli ?? null,
+    mocPvKwp: rekomendowany?.mocKwp == null ? null : Number(rekomendowany.mocKwp.toFixed(3)),
+  })
 
   if (!wczytano) return <StanLadowania linie={6} />
   const r = result.value
@@ -160,6 +170,7 @@ export default function LiczbaPaneliPage() {
             max={90}
             value={stan.nachylenieDeg}
             onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
+            projekt={projekt.pole("nachylenieDeg")}
             pomoc={<PomocPola ekran="liczba-paneli" pole="kat" />}
           />
         )}
@@ -176,6 +187,7 @@ export default function LiczbaPaneliPage() {
             min={0}
             value={stan.mocPaneluWp}
             onChange={(e) => ustaw("mocPaneluWp", e.target.value)}
+            projekt={projekt.pole("mocPaneluWp")}
             pomoc={<PomocPola ekran="liczba-paneli" pole="mocPanelu" />}
           />
           <Pole
@@ -212,6 +224,7 @@ export default function LiczbaPaneliPage() {
           min={0}
           value={stan.zapotrzebowanieKwh}
           onChange={(e) => ustaw("zapotrzebowanieKwh", e.target.value)}
+          projekt={projekt.pole("zapotrzebowanieKwh")}
           pomoc={<PomocPola ekran="liczba-paneli" pole="zuzycie" />}
         />
         {ukryjSezonGrzewczy ? (

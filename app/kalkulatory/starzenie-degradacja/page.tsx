@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 import Link from "next/link"
 import { calculateStarzenieDegradacja } from "@/lib/core/modules/baterie/starzenie-degradacja/calculator"
 import type { HoryzontLata } from "@/lib/core/modules/baterie/starzenie-degradacja/input"
@@ -8,7 +8,7 @@ import {
   DEGRADACJA_TYPOWA_MAX_PCT,
   DEGRADACJA_TYPOWA_MIN_PCT,
 } from "@/lib/core/modules/baterie/starzenie-degradacja/constants"
-import { useProfilSprzetu } from "@/lib/profil-sprzetu/use-profil-sprzetu"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -33,7 +33,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function StarzenieDegradacjaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("starzenie-degradacja", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("starzenie-degradacja", STAN_POCZATKOWY, {
+    projekt: { pojemnoscUzytecznaDzisKwh: "pojemnoscUzytecznaKwh" },
+  })
   const { pojemnoscUzytecznaDzisKwh, horyzontLata, degradacjaRocznaPct } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -46,21 +48,6 @@ export default function StarzenieDegradacjaPage() {
   const setHoryzontLata = (a: HoryzontLata | ((p: HoryzontLata) => HoryzontLata)) => setPole("horyzontLata", a)
   const setDegradacjaRocznaPct = (a: string | ((p: string) => string)) => setPole("degradacjaRocznaPct", a)
 
-  // Profil sprzętu (docs/zrodla/Zasady_UX_Doradca_v2_1.md, §10) — jednorazowe auto-wypełnienie
-  // z wyniku Ekranu 1 (dobor-pojemnosci), gdy dostępny. Ustawienie stanu bezpośrednio w renderze
-  // (nie w useEffect — wzorzec "Adjusting state when a prop changes" z react.dev, bez refów —
-  // niedozwolone podczas renderu w tym projekcie), bo `profil` ładuje się asynchronicznie z
-  // IndexedDB tylko raz po zamontowaniu: React odrzuca ten render i renderuje ponownie z już
-  // wypełnionym polem, bez migotania. `autoWypelnione` pilnuje, żeby to zdarzyło się tylko raz —
-  // dalsze ręczne edycje pola nie są nadpisywane wsteczną zmianą profilu.
-  const { profil, zapiszBaterie } = useProfilSprzetu()
-  const [autoWypelnione, setAutoWypelnione] = useState(false)
-  const zEkranu1 = profil.bateria?.pojemnoscUzytecznaDzisKwh
-  if (!autoWypelnione && zEkranu1 !== undefined) {
-    setAutoWypelnione(true)
-    setPojemnoscUzytecznaDzisKwh(String(zEkranu1))
-  }
-
   const result = useMemo(
     () =>
       calculateStarzenieDegradacja({
@@ -71,14 +58,9 @@ export default function StarzenieDegradacjaPage() {
     [pojemnoscUzytecznaDzisKwh, horyzontLata, degradacjaRocznaPct],
   )
 
-  useEffect(() => {
-    if (result.status !== "VALID") return
-    zapiszBaterie({
-      pojemnoscPoczatkowaZBuforemKwh: result.value.pojemnoscPoczatkowaKwh,
-      buforHoryzontLata: horyzontLata,
-      pojemnoscZBuforemZaktualizowanoIso: new Date().toISOString(),
-    })
-  }, [result, horyzontLata, zapiszBaterie])
+  // Project (owner decision 23.11.2026): the usable capacity comes from the project (saved from „Dobór pojemności”) and
+  // follows it until the user types their own; the capacity with the ageing buffer is offered back from the quiet bar.
+  useWynikiDoProjektu("starzenie-degradacja", { pojemnoscZBuforemKwh: result.status === "VALID" ? Number(result.value.pojemnoscPoczatkowaKwh.toFixed(2)) : null })
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -95,6 +77,7 @@ export default function StarzenieDegradacjaPage() {
           inputMode="decimal"
           min={0}
           value={pojemnoscUzytecznaDzisKwh}
+          projekt={projekt.pole("pojemnoscUzytecznaDzisKwh")}
           onChange={(e) => setPojemnoscUzytecznaDzisKwh(e.target.value)}
           pomoc={<PomocPola ekran="starzenie-degradacja" pole="pojemnoscDzis" />}
         />

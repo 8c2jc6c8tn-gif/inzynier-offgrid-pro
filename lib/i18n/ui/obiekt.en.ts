@@ -17,8 +17,6 @@ export const en: Record<Klucz, string> = {
   "UI-OBIEKT-LINK-ODBIORNIKI": "Fill in the list of appliances →",
   "UI-OBIEKT-BRAK-MIESIECY": "Tick at least one month of use to calculate the consumption.",
   "UI-OBIEKT-NAPIECIE": "System voltage (optional)",
-  "UI-OBIEKT-NAPIECIE-PODPOWIEDZ": "From the site profile: system voltage {v} V.",
-  "UI-OBIEKT-NAPIECIE-UZYJ": "Enter {v} V",
   "UI-OBIEKT-UKRYTO-EKRANY": "Some screens about a building are hidden because the site type is a camper. You can still open them from links on other screens.",
   "UI-OBIEKT-UKRYTO-POLA": "Fields about a building are hidden because the site type is a camper.",
   "UI-OBIEKT-UKRYTO-USTAWIENIA": "You can change the site type in Settings.",

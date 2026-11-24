@@ -27,7 +27,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function DetekcjaZwarciaEFusePage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("detekcja-zwarcia-efuse", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("detekcja-zwarcia-efuse", STAN_POCZATKOWY, {
+    projekt: { napiecieBateriiV: "napiecieUkladuV" },
+  })
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, zdolnoscLaczeniowaTranzystorowA } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -74,6 +76,7 @@ export default function DetekcjaZwarciaEFusePage() {
           type="number"
           inputMode="decimal"
           value={napiecieBateriiV}
+          projekt={projekt.pole("napiecieBateriiV")}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
           pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="napiecie" />}
         />

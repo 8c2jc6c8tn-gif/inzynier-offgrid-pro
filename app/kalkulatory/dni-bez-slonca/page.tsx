@@ -16,7 +16,6 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type FormularzStan = {
   pojemnoscAh: string
@@ -39,7 +38,9 @@ const liczba = (s: string) => (s === "" ? 0 : Number(s))
 export default function DniBezSloncaPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dni-bez-slonca", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dni-bez-slonca", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh", napiecieV: "napiecieUkladuV", dodPct: "dodPct" },
+  })
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -70,6 +71,7 @@ export default function DniBezSloncaPage() {
           inputMode="decimal"
           min={0}
           value={stan.pojemnoscAh}
+          projekt={projekt.pole("pojemnoscAh")}
           onChange={ustaw("pojemnoscAh")}
           pomoc={<PomocPola ekran="dni-bez-slonca" pole="pojemnosc" />}
         />
@@ -80,10 +82,10 @@ export default function DniBezSloncaPage() {
           inputMode="decimal"
           min={0}
           value={stan.napiecieV}
+          projekt={projekt.pole("napiecieV")}
           onChange={ustaw("napiecieV")}
           pomoc={<PomocPola ekran="dni-bez-slonca" pole="napiecie" />}
         />
-        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
         <Pole
           label={t("UI-DNIBEZSLO-DOPUSZCZALNE-ROZLADOWANIE-DO")}
           unit="%"
@@ -92,6 +94,7 @@ export default function DniBezSloncaPage() {
           min={0}
           max={100}
           value={stan.dodPct}
+          projekt={projekt.pole("dodPct")}
           onChange={ustaw("dodPct")}
           pomoc={<PomocPola ekran="dni-bez-slonca" pole="dod" params={{ dodMin: DOD_LIFEPO4_TYPOWY_MIN_PCT, dodMax: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />

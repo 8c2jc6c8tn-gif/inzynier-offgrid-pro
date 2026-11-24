@@ -13,7 +13,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string }
 
@@ -48,7 +47,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function MamAkumulatorPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("mam-akumulator", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("mam-akumulator", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh", napiecieV: "napiecieUkladuV", dodPct: "dodPct" },
+  })
   const ustaw = (pole: Exclude<keyof FormularzStan, "urzadzenia">) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
   const aktualizuj = (id: string, zmiana: Partial<Wiersz>) =>
@@ -88,9 +89,8 @@ export default function MamAkumulatorPage() {
             </option>
           ))}
         </PoleSelect>
-        <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="mam-akumulator" pole="pojemnosc" />} />
-        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieV} onChange={ustaw("napiecieV")} pomoc={<PomocPola ekran="mam-akumulator" pole="napiecie" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
+        <Pole label={t("UI-M12-MA-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} projekt={projekt.pole("pojemnoscAh")} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="mam-akumulator" pole="pojemnosc" />} />
+        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieV} projekt={projekt.pole("napiecieV")} onChange={ustaw("napiecieV")} pomoc={<PomocPola ekran="mam-akumulator" pole="napiecie" />} />
         <Pole
           label={t("UI-M12-MA-DOD")}
           unit="%"
@@ -99,6 +99,7 @@ export default function MamAkumulatorPage() {
           min={0}
           max={100}
           value={stan.dodPct}
+          projekt={projekt.pole("dodPct")}
           onChange={ustaw("dodPct")}
           pomoc={<PomocPola ekran="mam-akumulator" pole="dod" params={{ min: DOD_LIFEPO4_TYPOWY_MIN_PCT, max: DOD_LIFEPO4_TYPOWY_MAX_PCT }} />}
         />
