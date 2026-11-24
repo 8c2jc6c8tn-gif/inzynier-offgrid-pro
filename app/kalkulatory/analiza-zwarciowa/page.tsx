@@ -31,7 +31,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function AnalizaZwarciowaPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY, {
+    projekt: { napiecieBateriiV: "napiecieUkladuV", iscPanelaA: "iscStcA" },
+  })
   const { napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -93,6 +95,7 @@ export default function AnalizaZwarciowaPage() {
           inputMode="decimal"
           min={0}
           value={napiecieBateriiV}
+          projekt={projekt.pole("napiecieBateriiV")}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="napiecie" />}
         />
@@ -113,6 +116,7 @@ export default function AnalizaZwarciowaPage() {
           inputMode="decimal"
           min={0}
           value={iscPanelaA}
+          projekt={projekt.pole("iscPanelaA")}
           onChange={(e) => setIscPanelaA(e.target.value)}
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="isc" />}
         />

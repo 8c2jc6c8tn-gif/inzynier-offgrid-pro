@@ -74,3 +74,38 @@ describe("useOdczytDraftu — amounts of another screen (audit 3.2)", () => {
     expect(result.current.dane?.cenaBateriiZl).toBe("4000")
   })
 })
+
+describe("usePersistedDraft — the quiet bar", () => {
+  it("a value typed into a linked field that the project does not have yet is offered for saving", async () => {
+    const { wpisyPaska } = await import("../pasek")
+    const { result } = renderHook(() => usePersistedDraft<Stan>("ekran-d", POCZ, { projekt: { napiecieV: "napiecieUkladuV" } }))
+    await waitFor(() => expect(result.current[3]).toBe(true))
+    act(() => result.current[1]((p) => ({ ...p, napiecieV: "24" })))
+    await waitFor(() => expect(wpisyPaska().flatMap((w) => w.kandydaci)).toEqual([{ wielkosc: "napiecieUkladuV", wartosc: "24", wProjekcie: null, pole: "napiecieV" }]))
+    await act(() => wpisyPaska()[0]!.zapisz())
+    await waitFor(() => expect(wpisyPaska()).toEqual([]))
+    expect(result.current[4].pole("napiecieV")?.status.rodzaj).toBe("projekt")
+  })
+})
+
+describe("useOdczytDraftu — another screen's draft seen with the project values (M14)", () => {
+  const opcje = { projekt: { mapa: { moc: "mocPvKwp" as const }, poczatkowy: { moc: "", inne: "" } } }
+
+  it("a never-opened owner screen still gives the project value; nothing in the project = no data", async () => {
+    const pusty = renderHook(() => useOdczytDraftu<{ moc: string; inne: string }>("siec-pv-dom", opcje))
+    await waitFor(() => expect(pusty.result.current.wczytano).toBe(true))
+    expect(pusty.result.current.dane).toBeNull()
+    pusty.unmount()
+    await zapiszWartosci("p1", { mocPvKwp: "5.5" }, "liczba-paneli")
+    const { result } = renderHook(() => useOdczytDraftu<{ moc: string; inne: string }>("siec-pv-dom", opcje))
+    await waitFor(() => expect(result.current.dane).toEqual({ moc: "5.5", inne: "" }))
+  })
+
+  it("an own value typed on the owner screen wins over the project", async () => {
+    await zapiszWartosci("p1", { mocPvKwp: "5.5" }, "liczba-paneli")
+    magazyn.set("offgrid.draft.siec-pv-firma", { moc: "8", inne: "x" })
+    magazyn.set("offgrid.draftprojekt.siec-pv-firma", { moc: "wlasna" })
+    const { result } = renderHook(() => useOdczytDraftu<{ moc: string; inne: string }>("siec-pv-firma", opcje))
+    await waitFor(() => expect(result.current.dane).toEqual({ moc: "8", inne: "x" }))
+  })
+})

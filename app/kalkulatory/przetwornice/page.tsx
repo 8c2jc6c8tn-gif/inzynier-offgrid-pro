@@ -13,7 +13,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; krotnoscRozruchu: string }
 
@@ -53,7 +52,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function PrzetwornicePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("przetwornice", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("przetwornice", STAN_POCZATKOWY, {
+    projekt: { napiecieAkumulatoraV: "napiecieUkladuV", mocFalownikaW: "mocFalownikaW" },
+  })
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -106,8 +107,7 @@ export default function PrzetwornicePage() {
       </div>
 
       <div role="tabpanel" className="flex flex-col gap-4">
-        <Pole label={t("UI-M12-PRZ-NAPIECIE-AKUMULATORA")} unit="V" {...pole("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="przetwornice" pole="napiecieAkumulatora" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieAkumulatoraV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieAkumulatoraV: v }))} />
+        <Pole label={t("UI-M12-PRZ-NAPIECIE-AKUMULATORA")} unit="V" {...pole("napiecieAkumulatoraV")} projekt={projekt.pole("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="przetwornice" pole="napiecieAkumulatora" />} />
         <Pole label={t("UI-M12-PRZ-SPRAWNOSC")} unit="%" max={100} {...pole("sprawnoscPct")} pomoc={<PomocPola ekran="przetwornice" pole="sprawnosc" />} />
 
         {!falownik && (
@@ -157,7 +157,7 @@ export default function PrzetwornicePage() {
               </button>
             </fieldset>
             <Pole label={t("UI-M12-PRZ-ZAPAS")} unit="×" {...pole("zapasMocy")} pomoc={<PomocPola ekran="przetwornice" pole="zapas" params={{ zapasMin: ZAPAS_MOCY_BIBLIA.min, zapasMax: ZAPAS_MOCY_BIBLIA.max }} />} />
-            <Pole label={t("UI-M12-PRZ-MOC-FALOWNIKA")} unit="W" {...pole("mocFalownikaW")} pomoc={<PomocPola ekran="przetwornice" pole="mocFalownika" />} />
+            <Pole label={t("UI-M12-PRZ-MOC-FALOWNIKA")} unit="W" {...pole("mocFalownikaW")} projekt={projekt.pole("mocFalownikaW")} pomoc={<PomocPola ekran="przetwornice" pole="mocFalownika" />} />
             <Pole label={t("UI-M12-PRZ-SZCZYT-FALOWNIKA")} unit="W" {...pole("mocSzczytowaFalownikaW")} pomoc={<PomocPola ekran="przetwornice" pole="szczytFalownika" />} />
           </>
         )}

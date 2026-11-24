@@ -36,7 +36,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function SymulacjaLadowaniaRozladowaniaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("symulacja-ladowania-rozladowania", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("symulacja-ladowania-rozladowania", STAN_POCZATKOWY, {
+    projekt: { pojemnoscUzytecznaKwh: "pojemnoscUzytecznaKwh" },
+  })
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: string) {
     setStan((prev) => ({ ...prev, [pole]: wartosc }))
@@ -85,6 +87,7 @@ export default function SymulacjaLadowaniaRozladowaniaPage() {
           inputMode="decimal"
           min={0}
           value={stan.pojemnoscUzytecznaKwh}
+          projekt={projekt.pole("pojemnoscUzytecznaKwh")}
           onChange={(e) => setPole("pojemnoscUzytecznaKwh", e.target.value)}
           pomoc={<PomocPola ekran="symulacja-ladowania-rozladowania" pole="pojemnosc" />}
         />

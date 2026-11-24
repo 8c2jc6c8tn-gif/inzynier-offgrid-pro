@@ -290,6 +290,11 @@ export type OpcjeOdczytu = {
    */
   kwoty?: readonly string[]
   waluta?: "pln" | "wyswietlana"
+  /**
+   * The owner screen's field → quantity map and initial state: the read then sees what the owner screen would show — linked
+   * fields filled from the project — even when the owner screen was never opened since the project value was saved.
+   */
+  projekt?: { mapa: MapaPol<Record<string, unknown>>; poczatkowy: Record<string, unknown> }
 }
 
 /**
@@ -300,8 +305,15 @@ export type OpcjeOdczytu = {
  */
 export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): { dane: T | null; wczytano: boolean } {
   const projektId = useAktywnyProjektId()
-  const [stan, setStan] = useState<{ dane: T | null; waluta: DenominacjaKwot; klucz: string | null }>({ dane: null, waluta: DENOMINACJA_PLN, klucz: null })
+  const [stan, setStan] = useState<{ dane: T | null; zn: Znaczniki; waluta: DenominacjaKwot; klucz: string | null }>({
+    dane: null,
+    zn: {},
+    waluta: DENOMINACJA_PLN,
+    klucz: null,
+  })
   const klucze = useMemo(() => (projektId ? kluczeDraftu(projektId, kluczEkranu) : null), [projektId, kluczEkranu])
+  const powiazanie = opcje?.projekt
+  const wartosci = useWartosciProjektu(powiazanie ? projektId : null)
   const teraz = useDenominacja()
   const kwotyKlucz = opcje?.kwoty?.join(",") ?? ""
   const { kod: kodTeraz, kurs: kursTeraz } = teraz
@@ -310,9 +322,13 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
   useEffect(() => {
     if (!klucze) return
     let aktywny = true
-    Promise.all([indexedDbStorageAdapter.getItem<T>(klucze.draft), indexedDbStorageAdapter.getItem<unknown>(klucze.waluta)])
-      .then(([dane, waluta]) => {
-        if (aktywny) setStan({ dane, waluta: czyDenominacja(waluta) ? waluta : DENOMINACJA_PLN, klucz: klucze.draft })
+    Promise.all([
+      indexedDbStorageAdapter.getItem<T>(klucze.draft),
+      indexedDbStorageAdapter.getItem<unknown>(klucze.waluta),
+      indexedDbStorageAdapter.getItem<unknown>(klucze.znaczniki),
+    ])
+      .then(([dane, waluta, zn]) => {
+        if (aktywny) setStan({ dane, zn: czyZnaczniki(zn) ? zn : {}, waluta: czyDenominacja(waluta) ? waluta : DENOMINACJA_PLN, klucz: klucze.draft })
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -321,20 +337,32 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
           source: "lib/adapters/use-persisted-draft",
           cause: err,
         })
-        if (aktywny) setStan({ dane: null, waluta: DENOMINACJA_PLN, klucz: klucze.draft })
+        if (aktywny) setStan({ dane: null, zn: {}, waluta: DENOMINACJA_PLN, klucz: klucze.draft })
       })
     return () => {
       aktywny = false
     }
   }, [klucze])
 
-  const wczytano = klucze !== null && stan.klucz === klucze.draft
+  const czekaNaProjekt = powiazanie !== undefined && wartosci === null
+  const wczytano = klucze !== null && stan.klucz === klucze.draft && !czekaNaProjekt
+  // The map and initial state are compared by content: call sites pass literals.
+  const powiazanieKlucz = powiazanie ? JSON.stringify(powiazanie) : ""
+  const zProjektem = useMemo(() => {
+    if (!wczytano || !powiazanieKlucz || wartosci === null) return stan.dane
+    const { mapa, poczatkowy } = JSON.parse(powiazanieKlucz) as NonNullable<OpcjeOdczytu["projekt"]>
+    const baza = (stan.dane ?? poczatkowy) as Record<string, unknown>
+    const s = synchronizuj(scalSzkic(poczatkowy, baza), poczatkowy, stan.zn, mapa, wartosci).stan
+    // Never filled and nothing from the project either: still „no data”.
+    if (stan.dane === null && Object.keys(mapa).every((p) => s[p] === poczatkowy[p])) return null
+    return s as T
+  }, [wczytano, powiazanieKlucz, wartosci, stan])
   const dane = useMemo(() => {
     const kwoty = kwotyKlucz === "" ? [] : kwotyKlucz.split(",")
-    if (!wczytano || stan.dane === null || kwoty.length === 0) return wczytano ? stan.dane : null
+    if (!wczytano || zProjektem === null || kwoty.length === 0) return wczytano ? zProjektem : null
     const cel = docelowaPln ? DENOMINACJA_PLN : { kurs: kursTeraz, kod: kodTeraz }
-    if (stan.waluta.kod === cel.kod) return stan.dane
-    return przeliczPola<T>(...(kwoty as (keyof T)[]))(stan.dane, wspolczynnikPrzeliczenia(stan.waluta, cel))
-  }, [wczytano, stan, kwotyKlucz, docelowaPln, kodTeraz, kursTeraz])
+    if (stan.waluta.kod === cel.kod) return zProjektem
+    return przeliczPola<T>(...(kwoty as (keyof T)[]))(zProjektem, wspolczynnikPrzeliczenia(stan.waluta, cel))
+  }, [wczytano, zProjektem, stan.waluta, kwotyKlucz, docelowaPln, kodTeraz, kursTeraz])
   return { dane, wczytano }
 }

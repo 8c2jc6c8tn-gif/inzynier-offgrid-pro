@@ -19,7 +19,7 @@ import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { type StanRachunku, kluczRachunku, wejscieRachunku } from "./formularz-rachunku"
 import { POCZATKOWY_WZROSTU, PoleWzrostuCen, type StanWzrostuCen, trybZeStanu } from "./pole-wzrostu-cen"
-import { type StanPvMagazynu, kluczPv } from "./pv-magazyn"
+import { type StanPvMagazynu, kluczPv, ODCZYT_PV } from "./pv-magazyn"
 import { uzyskZeStanu } from "./uzysk-pv"
 import { liczbaLubNull, poziomWerdyktu, stawkiDoPomocy } from "./wspolne"
 import { useZuzycieMiesieczne } from "./zuzycie-miesieczne"
@@ -95,7 +95,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
     setStan((p) => ({ ...p, scen: { ...p.scen, [id]: { ...p.scen[id], ...z } } }))
 
   const { zuzycie, wczytano: w1 } = useZuzycieMiesieczne(segment)
-  const { dane: pv, wczytano: w2 } = useOdczytDraftu<StanPvMagazynu>(kluczPv(segment))
+  const { dane: pv, wczytano: w2 } = useOdczytDraftu<StanPvMagazynu>(kluczPv(segment), ODCZYT_PV)
   const { dane: rachunekStan, wczytano: w3 } = useOdczytDraftu<StanRachunku>(kluczRachunku(segment))
 
   // Echo D1/F1: fixed part = „cena trzymania sieci”, variable brutto per kWh = (brutto − fixed) / kWh.

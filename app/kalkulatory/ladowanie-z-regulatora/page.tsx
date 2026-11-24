@@ -5,7 +5,6 @@ import { calculateLadowanieZRegulatora, type Ograniczenie } from "@/lib/core/mod
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
@@ -58,7 +57,9 @@ export default function LadowanieZRegulatoraPage() {
   const { f0 } = useFormaty()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("ladowanie-z-regulatora", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ladowanie-z-regulatora", STAN_POCZATKOWY, {
+    projekt: { napiecieAkumulatoraV: "napiecieUkladuV", pojemnoscAh: "pojemnoscNominalnaAh" },
+  })
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
 
@@ -118,10 +119,9 @@ export default function LadowanieZRegulatoraPage() {
         <Pole label={t("UI-LADREG-SPRAWNOSC")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.sprawnoscPct} onChange={ustaw("sprawnoscPct")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="sprawnosc" />} />
 
         <p className="text-small font-medium text-muted-foreground">{t("UI-LADREG-AKUMULATOR")}</p>
-        <Pole label={t("UI-LADREG-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieAkumulatoraV} onChange={ustaw("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="napiecie" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieAkumulatoraV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieAkumulatoraV: v }))} />
+        <Pole label={t("UI-LADREG-NAPIECIE")} unit="V" type="number" inputMode="decimal" min={0} value={stan.napiecieAkumulatoraV} projekt={projekt.pole("napiecieAkumulatoraV")} onChange={ustaw("napiecieAkumulatoraV")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="napiecie" />} />
         <Pole label={t("UI-LADREG-LIMIT-AKUMULATORA")} unit="A" type="number" inputMode="decimal" min={0} value={stan.maksPradAkumulatoraA} onChange={ustaw("maksPradAkumulatoraA")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="limitAkumulatora" />} />
-        <Pole label={t("UI-LADREG-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="pojemnosc" />} />
+        <Pole label={t("UI-LADREG-POJEMNOSC")} unit="Ah" type="number" inputMode="decimal" min={0} value={stan.pojemnoscAh} projekt={projekt.pole("pojemnoscAh")} onChange={ustaw("pojemnoscAh")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="pojemnosc" />} />
 
         <p className="text-small font-medium text-muted-foreground">{t("UI-LADREG-ZAKRES")}</p>
         <Pole label={t("UI-LADREG-SOC-OD")} unit="%" type="number" inputMode="decimal" min={0} max={100} value={stan.socOdPct} onChange={ustaw("socOdPct")} pomoc={<PomocPola ekran="ladowanie-z-regulatora" pole="socOd" />} />

@@ -16,7 +16,7 @@ import { pustyRejestr, type Rejestr } from "@/lib/core/telemetria/rejestr"
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { IndexedDbMagazynProbek } from "@/lib/adapters/telemetria/magazyn-probek"
 import { wczytajRejestr } from "@/lib/adapters/telemetria/rejestr-zrodel"
-import { kluczPv, type StanPvMagazynu } from "@/components/siec/pv-magazyn"
+import { kluczPv, ODCZYT_PV, type StanPvMagazynu } from "@/components/siec/pv-magazyn"
 import { KLUCZ_BLEDU_SERIESCALC, odczytajOdpowiedzSeriescalc } from "@/lib/lokalizacja/dane-seriescalc"
 import { OPTYMALNE_OBCIAZENIE_PCT } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/constants"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
@@ -163,7 +163,7 @@ export default function DeficytyMiesiecznePage() {
   const { zuzycie: zuzycieMiesieczne } = useZuzycieMiesieczne("dom")
   const [pvgisPobiera, setPvgisPobiera] = useState(false)
   const [pvgisKomunikat, setPvgisKomunikat] = useState<{ blad: boolean; tekst: string } | null>(null)
-  const { dane: pvM14 } = useOdczytDraftu<StanPvMagazynu>(kluczPv("dom"))
+  const { dane: pvM14 } = useOdczytDraftu<StanPvMagazynu>(kluczPv("dom"), ODCZYT_PV)
   const sprawnoscM14 = pvM14?.sprawnoscProcent?.trim() ?? ""
   const braki = useMemo(() => brakujaceDni(wklejone.lata), [wklejone])
 

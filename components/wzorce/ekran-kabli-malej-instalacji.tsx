@@ -43,7 +43,7 @@ const liczba = (s: string) => (s === "" ? 0 : Number(s))
 export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu: string; pojazd: boolean }) {
   const t = useTranslate()
   const { f1, f2 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>(kluczSzkicu, STAN_POCZATKOWY, { projekt: { napiecieV: "napiecieUkladuV" } })
   const idWlasny = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
@@ -78,6 +78,7 @@ export function EkranKabliMalejInstalacji({ kluczSzkicu, pojazd }: { kluczSzkicu
         <PoleSelect
           label={t("UI-EKRKABMALINS-NAPIECIE-INSTALACJI")}
           value={stan.napiecieV}
+          projekt={projekt.pole("napiecieV")}
           onChange={(e) => setStan((prev) => ({ ...prev, napiecieV: Number(e.target.value) as FormularzStan["napiecieV"] }))}
           pomoc={<PomocPola ekran="kable-male-instalacje" pole="napiecie" />}
         >

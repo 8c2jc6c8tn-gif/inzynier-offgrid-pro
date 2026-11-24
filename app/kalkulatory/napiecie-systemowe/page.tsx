@@ -14,6 +14,7 @@ import {
 } from "@/lib/core/modules/baterie/napiecie-systemowe/constants"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
 import { przeliczPola } from "@/lib/waluta/przelicz"
 import { PrzeliczoneInfo } from "@/components/przeliczone-info"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
@@ -162,7 +163,10 @@ export default function NapiecieSystemowePage() {
   const t = useTranslate()
   // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
   // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, {
+    konwersjaKwot: PRZELICZ_KWOTY,
+    projekt: { mocCiaglaFalownikaPlanowanaW: "mocFalownikaW", dlugoscTrasyM: "dlugoscGlownyDcM" },
+  })
   const {
     mocSzczytowaW,
     zastosowanie,
@@ -314,6 +318,10 @@ export default function NapiecieSystemowePage() {
   )
 
   const result = useMemo(() => calculateNapiecieSystemowe(input), [input])
+  // The recommended system voltage is offered only while the screen shows it (not for invalid or incomplete input).
+  useWynikiDoProjektu("napiecie-systemowe", {
+    napiecieUkladuV: result.status !== "INVALID_INPUT" && result.status !== "INCOMPLETE" ? result.value.napiecieRekomendowaneV : null,
+  })
 
   const poziom: WerdyktPoziom | null =
     result.status === "INVALID_INPUT" ? "blad" : result.status === "INCOMPLETE" ? null : result.status === "VALID_WITH_WARNINGS" || result.status === "ESTIMATE" ? "uwaga" : "ok"
@@ -488,6 +496,7 @@ export default function NapiecieSystemowePage() {
             inputMode="decimal"
             min={0}
             value={mocCiaglaFalownikaPlanowanaW}
+            projekt={projekt.pole("mocCiaglaFalownikaPlanowanaW")}
             onChange={(e) => setMocCiaglaFalownikaPlanowanaW(e.target.value)}
             pomoc={<PomocPola ekran="napiecie-systemowe" pole="mocFalownika" />}
           />
@@ -525,6 +534,7 @@ export default function NapiecieSystemowePage() {
               inputMode="decimal"
               min={0}
               value={dlugoscTrasyM}
+              projekt={projekt.pole("dlugoscTrasyM")}
               onChange={(e) => setDlugoscTrasyM(e.target.value)}
               pomoc={<PomocPola ekran="napiecie-systemowe" pole="dlugosc" />}
             />

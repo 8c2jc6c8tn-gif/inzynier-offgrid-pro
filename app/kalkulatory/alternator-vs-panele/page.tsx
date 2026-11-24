@@ -13,7 +13,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type PolaLiczbowe = Exclude<keyof AlternatorVsPaneleInput, "typAkumulatora" | "maDcDc">
 
@@ -48,7 +47,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function AlternatorVsPanelePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("alternator-vs-panele", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("alternator-vs-panele", STAN_POCZATKOWY, {
+    projekt: { napiecieV: "napiecieUkladuV", pojemnoscAh: "pojemnoscNominalnaAh" },
+  })
   const ustaw = (klucz: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setStan((prev) => ({ ...prev, [klucz]: e.target.value }))
   const pole = (klucz: PolaLiczbowe) => ({ type: "number", inputMode: "decimal" as const, min: 0, value: stan[klucz], onChange: ustaw(klucz) })
@@ -83,8 +84,7 @@ export default function AlternatorVsPanelePage() {
         {t("UI-M12-AL-OPIS")}
       </NaglowekEkranu>
 
-      <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="napiecie" />} />
-      <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
+      <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} projekt={projekt.pole("napiecieV")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="napiecie" />} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-AL-ALTERNATOR")}</legend>
@@ -117,7 +117,7 @@ export default function AlternatorVsPanelePage() {
           <option value="nie">{t("UI-NIE")}</option>
         </PoleSelect>
         <Pole label={t("UI-M12-AL-NAPIECIE-LADOWANIA")} unit="V" {...pole("napiecieLadowaniaV")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="napiecieLadowania" />} />
-        <Pole label={t("UI-M12-AL-POJEMNOSC")} unit="Ah" {...pole("pojemnoscAh")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="pojemnosc" />} />
+        <Pole label={t("UI-M12-AL-POJEMNOSC")} unit="Ah" {...pole("pojemnoscAh")} projekt={projekt.pole("pojemnoscAh")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="pojemnosc" />} />
         <Pole label={t("UI-M12-AL-SOC")} unit="%" max={100} {...pole("socStartPct")} pomoc={<PomocPola ekran="alternator-vs-panele" pole="soc" />} />
       </fieldset>
 

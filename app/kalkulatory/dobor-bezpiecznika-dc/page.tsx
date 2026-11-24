@@ -28,7 +28,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function DoborBezpiecznikaDcPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-dc", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-dc", STAN_POCZATKOWY, {
+    projekt: { napiecieBateriiV: "napiecieUkladuV" },
+  })
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, aicBezpiecznikaA } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -96,6 +98,7 @@ export default function DoborBezpiecznikaDcPage() {
           type="number"
           inputMode="decimal"
           value={napiecieBateriiV}
+          projekt={projekt.pole("napiecieBateriiV")}
           onChange={(e) => setNapiecieBateriiV(e.target.value)}
           pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="napiecie" />}
         />

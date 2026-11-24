@@ -12,7 +12,6 @@ import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { NapiecieZProfilu } from "@/components/napiecie-z-profilu"
 
 type Wiersz = { id: string; nazwa: string; mocW: string; godzinNaDobe: string; krotnoscRozruchu: string }
 
@@ -52,7 +51,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function KreatorMalegoOdbiornikaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("kreator-malego-odbiornika", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("kreator-malego-odbiornika", STAN_POCZATKOWY, {
+    projekt: { napiecieV: "napiecieUkladuV" },
+  })
   const ustaw = (klucz: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setStan((prev) => ({ ...prev, [klucz]: e.target.value }))
   const pole = (klucz: PolaLiczbowe) => ({ type: "number", inputMode: "decimal" as const, min: 0, value: stan[klucz], onChange: ustaw(klucz) })
@@ -143,8 +144,7 @@ export default function KreatorMalegoOdbiornikaPage() {
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-KZ-ZESTAW")}</legend>
         <Pole label={t("UI-M12-KZ-CZAS")} unit="h" {...pole("czasPodtrzymaniaH")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="czas" />} />
-        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="napiecie" />} />
-        <NapiecieZProfilu aktualne={stan.napiecieV} onUzyj={(v) => setStan((prev) => ({ ...prev, napiecieV: v }))} />
+        <Pole label={t("UI-M12-MA-NAPIECIE")} unit="V" {...pole("napiecieV")} projekt={projekt.pole("napiecieV")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="napiecie" />} />
         <Pole label={t("UI-M12-MA-DOD")} unit="%" max={100} {...pole("uzytecznaPct")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="uzyteczna" />} />
         <PoleSelect label={t("UI-M12-KZ-FALOWNIK")} value={stan.przezFalownik} onChange={ustaw("przezFalownik")} pomoc={<PomocPola ekran="kreator-malego-odbiornika" pole="falownik" />}>
           <option value="">{t("UI-WYBIERZ")}</option>

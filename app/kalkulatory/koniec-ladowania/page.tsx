@@ -38,7 +38,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function KoniecLadowaniaPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("koniec-ladowania", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("koniec-ladowania", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh" },
+  })
   const { pojemnoscAh, napiecieAbsorpcjiV, progKoncowyC, aktualnyPradA, aktualneNapiecieV } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -95,6 +97,7 @@ export default function KoniecLadowaniaPage() {
           type="number"
           inputMode="decimal"
           value={pojemnoscAh}
+          projekt={projekt.pole("pojemnoscAh")}
           onChange={(e) => setPojemnoscAh(e.target.value)}
           pomoc={<PomocPola ekran="koniec-ladowania" pole="pojemnosc" />}
         />
