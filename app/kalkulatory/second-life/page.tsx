@@ -4,8 +4,7 @@ import { useMemo } from "react"
 import { calculateSecondLife } from "@/lib/core/modules/baterie/second-life/calculator"
 import type { MetodaSzacunkuSoh } from "@/lib/core/modules/baterie/second-life/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -34,14 +33,16 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaNowejLiFePO4ZlZaKwh: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZakupuZl", "cenaNowejLiFePO4ZlZaKwh")
-
 export default function SecondLifePage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("second-life", STAN_POCZATKOWY, { kwoty: ["cenaZakupuZl", "cenaNowejLiFePO4ZlZaKwh"] })
   const { pojemnoscDeklarowanaKwh, cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, cenaNowejLiFePO4ZlZaKwh } = stan
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCenaZakupuZl = waluty.pole("cenaZakupuZl")
+  const wCenaNowejLiFePO4ZlZaKwh = waluty.pole("cenaNowejLiFePO4ZlZaKwh")
 
   function setPole<K extends keyof FormularzStan>(
     pole: K,
@@ -63,13 +64,13 @@ export default function SecondLifePage() {
     () =>
       calculateSecondLife({
         pojemnoscDeklarowanaKwh: pojemnoscDeklarowanaKwh === "" ? 0 : Number(pojemnoscDeklarowanaKwh),
-        cenaZakupuZl: cenaZakupuZl === "" ? 0 : Number(cenaZakupuZl),
+        cenaZakupuZl: r.cenaZakupuZl === "" ? 0 : Number(r.cenaZakupuZl),
         metodaSzacunku,
         wiekLata: wiekLata === "" ? 0 : Number(wiekLata),
         przebiegKm: przebiegKm === "" ? 0 : Number(przebiegKm),
-        cenaNowejLiFePO4ZlZaKwh: cenaNowejLiFePO4ZlZaKwh === "" ? null : Number(cenaNowejLiFePO4ZlZaKwh),
+        cenaNowejLiFePO4ZlZaKwh: r.cenaNowejLiFePO4ZlZaKwh === "" ? null : Number(r.cenaNowejLiFePO4ZlZaKwh),
       }),
-    [pojemnoscDeklarowanaKwh, cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, cenaNowejLiFePO4ZlZaKwh],
+    [pojemnoscDeklarowanaKwh, r.cenaZakupuZl, metodaSzacunku, wiekLata, przebiegKm, r.cenaNowejLiFePO4ZlZaKwh],
   )
 
   const hasCritical = result.warnings.some((w) => w.level === "critical")
@@ -96,7 +97,6 @@ export default function SecondLifePage() {
       >
         {t("UI-SECLIF-KUPUJESZ-KOTA-WORKU")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole
@@ -110,10 +110,11 @@ export default function SecondLifePage() {
         />
         <Pole
           label={t("UI-SECLIF-CENA-ZAKUPU")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(wCenaZakupuZl.kod) })}
           type="number"
           inputMode="decimal"
           value={cenaZakupuZl}
+          waluta={wCenaZakupuZl}
           onChange={(e) => setCenaZakupuZl(e.target.value)}
           pomoc={<PomocPola ekran="second-life" pole="cena" />}
         />
@@ -151,10 +152,11 @@ export default function SecondLifePage() {
         )}
         <Pole
           label={t("UI-SECLIF-CENA-NOWEJ-BATERII")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(wCenaNowejLiFePO4ZlZaKwh.kod) })}
           type="number"
           inputMode="decimal"
           value={cenaNowejLiFePO4ZlZaKwh}
+          waluta={wCenaNowejLiFePO4ZlZaKwh}
           onChange={(e) => setCenaNowejLiFePO4ZlZaKwh(e.target.value)}
           pomoc={<PomocPola ekran="second-life" pole="cenaNowej" />}
         />
@@ -183,6 +185,7 @@ export default function SecondLifePage() {
                 {w.message ?? t(w.i18nKey ?? w.code, w.params)}
               </p>
             ))}
+            <RozbicieKwot rozbicie={waluty.rozbicie} />
             <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
         )

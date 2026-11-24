@@ -17,12 +17,23 @@
  * offered for saving by the quiet bar in the layout. A pending save is written at once when the screen closes or the page is
  * hidden (audit 3.1: the debounce used to drop the last change when the user left the screen within 0.5 s).
  */
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react"
 import { indexedDbStorageAdapter } from "./indexeddb-storage-adapter"
 import { consoleReporter } from "@/lib/core/reporter"
-import { wspolczynnikPrzeliczenia, type DenominacjaKwot, przeliczPola } from "@/lib/waluta/przelicz"
-import { useDenominacja } from "@/lib/waluta/use-waluta"
-import { WALUTA_BAZOWA } from "@/lib/waluta/waluty"
+import { kursEfektywny, type DenominacjaKwot } from "@/lib/waluta/przelicz"
+import { getServerSnapshot as walutaSerwer, getSnapshot as walutaSnapshot, kursyPrzeterminowane, odswiezKursy, subscribe as walutaSubscribe } from "@/lib/waluta/storage"
+import { czyKodWaluty, WALUTA_BAZOWA, WALUTY, type KodWaluty } from "@/lib/waluta/waluty"
+import {
+  przeliczMiedzyWalutami,
+  rozbiciePoWalutach,
+  stanWWalucie,
+  walutyPoZmianie,
+  walutyZeStaregoSzkicu,
+  wartoscSciezki,
+  liczbaKwoty,
+  type KursOd,
+  type WalutyPol,
+} from "@/lib/waluta/kwoty-pol"
 import { kluczProjektu } from "@/lib/projekt/projekty"
 import { useAktywnyProjektId, useWartosciProjektu } from "@/lib/projekt/use-projekt"
 import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
@@ -31,13 +42,6 @@ import { ustawWpisPaska } from "@/lib/projekt/pasek"
 import { WIELKOSCI, type WartosciProjektu, type WielkoscId } from "@/lib/projekt/wielkosci"
 
 const DEBOUNCE_MS = 500
-const DENOMINACJA_PLN: DenominacjaKwot = { kod: WALUTA_BAZOWA, kurs: 1, dataEcb: null, reczny: false, narzutProc: 0 }
-
-/** What the user is told after the amounts of this screen were converted. */
-export interface InfoPrzeliczenia {
-  z: DenominacjaKwot
-  na: DenominacjaKwot
-}
 
 function czyDenominacja(v: unknown): v is DenominacjaKwot {
   return zwyklyObiekt(v) && typeof v.kod === "string" && typeof v.kurs === "number" && v.kurs > 0
@@ -59,6 +63,52 @@ export function scalSzkic<T>(poczatkowy: T, zapisany: T): T {
   return zwyklyObiekt(poczatkowy) && zwyklyObiekt(zapisany) ? ({ ...poczatkowy, ...zapisany } as T) : zapisany
 }
 
+function czyWalutyPol(v: unknown): v is WalutyPol {
+  return zwyklyObiekt(v) && Object.values(v).every((x) => typeof x === "string" && czyKodWaluty(x))
+}
+
+/**
+ * Working currency (Settings) and the effective rate of any currency (NBP table A, own rate, markup) — `null` when unknown.
+ * Without a known rate for the chosen currency the working currency falls back to PLN (never a wrong number).
+ */
+function useKursyWalut() {
+  const stan = useSyncExternalStore(walutaSubscribe, walutaSnapshot, walutaSerwer)
+  return useMemo(() => {
+    const { kod, narzutProc, reczne } = stan.preferencja
+    const pobrane = stan.kursy?.kursy ?? {}
+    const kurs: KursOd = (k) => kursEfektywny(k, pobrane, reczne, narzutProc)
+    return { stan, kurs, robocza: (kurs(kod) === null ? WALUTA_BAZOWA : kod) as KodWaluty }
+  }, [stan])
+}
+
+/** Currency of one money field (`Pole`/`PoleSelect` prop `waluta=`): its code, the conversion to the working currency. */
+export type StanWalutyPola = {
+  kod: KodWaluty
+  robocza: KodWaluty
+  /** The typed amount in the working currency; `null` when empty, already in the working currency or the rate is unknown. */
+  wRoboczej: number | null
+  brakKursu: boolean
+  /** The conversion uses a rate typed by the user in Settings (not NBP). */
+  reczny: boolean
+  ustaw: (kod: KodWaluty) => void
+}
+
+export interface WalutyEkranu<T> {
+  /** The currency every result and sum is in (Settings). */
+  robocza: KodWaluty
+  /** Date of the NBP table the automatic rates come from. */
+  dataKursow: string | null
+  /** The state with every declared amount converted for the calculator (working currency, or PLN with `obliczeniaWPln`). */
+  stanRoboczy: T
+  /** Typed amounts summed per currency (the „1 200 € + 3 400 zł” breakdown). */
+  rozbicie: Partial<Record<KodWaluty, number>>
+  /** `sciezka`: a declared flat field or a concrete list path `list.<row id>.field`. */
+  pole: (sciezka: string) => StanWalutyPola
+}
+
+/** Every currency the user can choose for an amount. */
+export const KODY_WALUT: readonly KodWaluty[] = WALUTY.map((w) => w.kod)
+
 function czyZnaczniki(v: unknown): v is Znaczniki {
   return zwyklyObiekt(v) && Object.values(v).every((x) => x === "projekt" || x === "wlasna")
 }
@@ -69,6 +119,7 @@ export function kluczeDraftu(projektId: string, kluczEkranu: string) {
     draft: kluczProjektu(projektId, `draft.${kluczEkranu}`),
     waluta: kluczProjektu(projektId, `draftwaluta.${kluczEkranu}`),
     znaczniki: kluczProjektu(projektId, `draftprojekt.${kluczEkranu}`),
+    waluty: kluczProjektu(projektId, `draftwaluty.${kluczEkranu}`),
   }
 }
 
@@ -87,24 +138,25 @@ export interface ProjektEkranu<T> {
 
 export type OpcjeDraftu<T> = {
   /**
-   * The money fields of the form: when the display currency changes, the typed amounts (and the PLN defaults of a fresh form)
-   * are converted at the effective rate (ECB via Frankfurter, own rate, markup) — the third tuple element then says how, so the
-   * screen can show it. The currency the draft is denominated in is stored next to the draft and written together with it; a
-   * screen that is not open during the change converts on its next visit.
+   * Money fields (owner decisions 24.11.2026, `lib/waluta/kwoty-pol.ts`): flat field names and list fields as `list.*.field`.
+   * Each amount keeps its own currency (by default the working currency from Settings); `waluty.stanRoboczy` gives the state
+   * converted for the calculator.
    */
-  konwersjaKwot?: (stan: T, wspolczynnik: number) => T
+  kwoty?: readonly string[]
+  /** The calculator works in PLN (Polish-market screens: tariffs and fees are PLN by law); otherwise in the working currency. */
+  obliczeniaWPln?: boolean
   /** Fields that mean exactly a project quantity (`lib/projekt/wielkosci.ts`). */
   projekt?: MapaPol<T>
 }
 
-type Para<T> = { stan: T; zn: Znaczniki }
-type Oczekujacy = { klucze: ReturnType<typeof kluczeDraftu>; para: Para<unknown>; waluta: DenominacjaKwot | null }
+type Para<T> = { stan: T; zn: Znaczniki; wal: WalutyPol }
+type Oczekujacy = { klucze: ReturnType<typeof kluczeDraftu>; para: Para<unknown>; kwoty: boolean }
 
 function zapiszOczekujacy(o: Oczekujacy) {
   Promise.all([
     indexedDbStorageAdapter.setItem(o.klucze.draft, o.para.stan),
     Object.keys(o.para.zn).length > 0 ? indexedDbStorageAdapter.setItem(o.klucze.znaczniki, o.para.zn) : Promise.resolve(),
-    o.waluta ? indexedDbStorageAdapter.setItem(o.klucze.waluta, o.waluta) : Promise.resolve(),
+    o.kwoty ? indexedDbStorageAdapter.setItem(o.klucze.waluty, o.para.wal) : Promise.resolve(),
   ]).catch((err) => {
     consoleReporter.reportError({
       userMessage: "Nie udało się zapisać wpisanych danych — mogą nie przetrwać przeładowania strony.",
@@ -115,35 +167,35 @@ function zapiszOczekujacy(o: Oczekujacy) {
   })
 }
 
-/** Third argument: the money-field converter alone (older call sites) or the options object. */
 export function usePersistedDraft<T>(
   kluczEkranu: string,
   poczatkowy: T,
-  opcjeLubKonwersja?: OpcjeDraftu<T> | ((stan: T, wspolczynnik: number) => T),
-): [T, (aktualizator: Aktualizator<T>) => void, InfoPrzeliczenia | null, boolean, ProjektEkranu<T>] {
-  const opcje: OpcjeDraftu<T> = typeof opcjeLubKonwersja === "function" ? { konwersjaKwot: opcjeLubKonwersja } : (opcjeLubKonwersja ?? {})
+  opcje: OpcjeDraftu<T> = {},
+): [T, (aktualizator: Aktualizator<T>) => void, WalutyEkranu<T>, boolean, ProjektEkranu<T>] {
   const projektId = useAktywnyProjektId()
   const klucze = useMemo(() => (projektId ? kluczeDraftu(projektId, kluczEkranu) : null), [projektId, kluczEkranu])
-  const [para, setPara] = useState<Para<T>>({ stan: poczatkowy, zn: {} })
+  const [para, setPara] = useState<Para<T>>({ stan: poczatkowy, zn: {}, wal: {} })
   const [wczytanoKlucz, setWczytanoKlucz] = useState<string | null>(null)
   const wczytano = klucze !== null && wczytanoKlucz === klucze.draft
-  const [info, setInfo] = useState<InfoPrzeliczenia | null>(null)
   const poczatkowyRef = useRef(poczatkowy)
   const wczytanoRef = useRef(false)
-  const konwersjaRef = useRef(opcje.konwersjaKwot)
+  const kwotyKlucz = opcje.kwoty?.join(",") ?? ""
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- compared by content: call sites pass a fresh literal
+  const kwoty = useMemo(() => opcje.kwoty ?? [], [kwotyKlucz])
+  const kursy = useKursyWalut()
+  const kursyRef = useRef(kursy)
   const mapaKlucz = opcje.projekt ? JSON.stringify(opcje.projekt) : ""
   // eslint-disable-next-line react-hooks/exhaustive-deps -- the map is compared by content: call sites pass a fresh literal
   const mapa = useMemo(() => opcje.projekt, [mapaKlucz])
-  const denominacjaStanuRef = useRef<DenominacjaKwot>(DENOMINACJA_PLN)
   const oczekujacyRef = useRef<Oczekujacy | null>(null)
-  const teraz = useDenominacja()
   const wartosci = useWartosciProjektu(mapa ? projektId : null)
   const wartosciRef = useRef<WartosciProjektu | null>(wartosci)
   const paraRef = useRef(para)
   useEffect(() => {
     wartosciRef.current = wartosci
     paraRef.current = para
-  }, [wartosci, para])
+    kursyRef.current = kursy
+  }, [wartosci, para, kursy])
 
   const zapiszTeraz = useCallback(() => {
     const o = oczekujacyRef.current
@@ -159,15 +211,17 @@ export function usePersistedDraft<T>(
       indexedDbStorageAdapter.getItem<T>(klucze.draft),
       indexedDbStorageAdapter.getItem<unknown>(klucze.waluta),
       indexedDbStorageAdapter.getItem<unknown>(klucze.znaczniki),
+      indexedDbStorageAdapter.getItem<unknown>(klucze.waluty),
     ])
-      .then(([zapisany, zapisanaWaluta, znaczniki]) => {
+      .then(([zapisany, zapisanaWaluta, znaczniki, waluty]) => {
         if (!aktywny) return
         // Another project may have been open a moment ago: a project without this draft starts from the initial state.
-        setPara({
-          stan: zapisany !== null ? scalSzkic(poczatkowyRef.current, zapisany) : poczatkowyRef.current,
-          zn: czyZnaczniki(znaczniki) ? znaczniki : {},
-        })
-        denominacjaStanuRef.current = czyDenominacja(zapisanaWaluta) ? zapisanaWaluta : DENOMINACJA_PLN
+        const stan = zapisany !== null ? scalSzkic(poczatkowyRef.current, zapisany) : poczatkowyRef.current
+        // A draft saved before 3.55.0 has no per-field currencies: its amounts are in the old denomination of the whole draft.
+        const wal = czyWalutyPol(waluty)
+          ? waluty
+          : walutyZeStaregoSzkicu(stan, kwoty, czyDenominacja(zapisanaWaluta) && czyKodWaluty(zapisanaWaluta.kod) ? zapisanaWaluta.kod : WALUTA_BAZOWA)
+        setPara({ stan, zn: czyZnaczniki(znaczniki) ? znaczniki : {}, wal })
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -185,7 +239,7 @@ export function usePersistedDraft<T>(
     return () => {
       aktywny = false
     }
-  }, [klucze])
+  }, [klucze, kwoty])
 
   // Leaving the screen (or switching the project): write what is still waiting for the debounce, to the OLD keys.
   useEffect(() => () => zapiszTeraz(), [klucze, zapiszTeraz])
@@ -201,41 +255,40 @@ export function usePersistedDraft<T>(
     }
   }, [zapiszTeraz])
 
-  // Display currency changed (or a screen opened after a change): convert the money fields once.
+  // Rates for every currency used by an amount on this screen (not only the working one).
+  const potrzebneKursy = [...new Set(Object.values(para.wal))].filter((k): k is KodWaluty => !!k && k !== WALUTA_BAZOWA).join(",")
   useEffect(() => {
-    const konwersja = konwersjaRef.current
-    const z = denominacjaStanuRef.current
-    if (!wczytano || !konwersja || z.kod === teraz.kod) return
-    const wspolczynnik = wspolczynnikPrzeliczenia(z, teraz)
-    setPara((prev) => ({ ...prev, stan: konwersja(prev.stan, wspolczynnik) }))
-    denominacjaStanuRef.current = teraz
-    setInfo({ z, na: teraz })
-  }, [wczytano, teraz])
+    if (potrzebneKursy && kursyPrzeterminowane(kursy.stan.kursy) && navigator.onLine) void odswiezKursy()
+  }, [potrzebneKursy, kursy.stan.kursy])
 
   // Fill linked fields from the project — after loading and whenever a project value changes (saved on another screen too).
   useEffect(() => {
     if (!wczytano || !mapa || wartosci === null) return
     setPara((prev) => {
       const s = synchronizuj(prev.stan, poczatkowyRef.current, prev.zn, mapa, wartosci)
-      return s.stan === prev.stan && s.znaczniki === prev.zn ? prev : { stan: s.stan, zn: s.znaczniki }
+      return s.stan === prev.stan && s.znaczniki === prev.zn ? prev : { ...prev, stan: s.stan, zn: s.znaczniki }
     })
   }, [wczytano, wartosci, mapa])
 
   useEffect(() => {
     if (!wczytanoRef.current || !klucze) return
-    oczekujacyRef.current = { klucze, para, waluta: konwersjaRef.current ? denominacjaStanuRef.current : null }
+    oczekujacyRef.current = { klucze, para, kwoty: kwoty.length > 0 }
     const handle = setTimeout(zapiszTeraz, DEBOUNCE_MS)
     return () => clearTimeout(handle)
-  }, [klucze, para, info, zapiszTeraz])
+  }, [klucze, para, kwoty, zapiszTeraz])
 
   const setStan = useCallback(
     (aktualizator: Aktualizator<T>) => {
       setPara((prev) => {
         const stan = typeof aktualizator === "function" ? (aktualizator as (p: T) => T)(prev.stan) : aktualizator
-        return { stan, zn: mapa ? poEdycji(prev.stan, stan, prev.zn, mapa, wartosciRef.current) : prev.zn }
+        return {
+          stan,
+          zn: mapa ? poEdycji(prev.stan, stan, prev.zn, mapa, wartosciRef.current) : prev.zn,
+          wal: kwoty.length > 0 ? walutyPoZmianie(stan, kwoty, prev.wal, kursyRef.current.robocza) : prev.wal,
+        }
       })
     },
-    [mapa],
+    [mapa, kwoty],
   )
 
   // The quiet bar: own values of this screen that differ from the project.
@@ -270,7 +323,7 @@ export function usePersistedDraft<T>(
             if (!wp) return
             setPara((prev) => {
               const p = (poczatkowyRef.current as Record<string, unknown>)[pole]
-              return { stan: { ...prev.stan, [pole]: typeof p === "number" ? Number(wp.v) : wp.v }, zn: { ...prev.zn, [pole]: "projekt" } }
+              return { ...prev, stan: { ...prev.stan, [pole]: typeof p === "number" ? Number(wp.v) : wp.v }, zn: { ...prev.zn, [pole]: "projekt" } }
             })
           },
         }
@@ -279,17 +332,41 @@ export function usePersistedDraft<T>(
     [para, wartosci, wczytano, mapa],
   )
 
+  const obliczeniaWPln = opcje.obliczeniaWPln === true
+  const waluty = useMemo<WalutyEkranu<T>>(() => {
+    const cel = obliczeniaWPln ? WALUTA_BAZOWA : kursy.robocza
+    return {
+      robocza: kursy.robocza,
+      dataKursow: kursy.stan.kursy?.dataEcb || null,
+      stanRoboczy: kwoty.length > 0 ? stanWWalucie(para.stan, kwoty, para.wal, cel, kursy.kurs) : para.stan,
+      rozbicie: rozbiciePoWalutach(para.stan, kwoty, para.wal),
+      pole: (sciezka) => {
+        const kod = para.wal[sciezka] ?? kursy.robocza
+        const x = liczbaKwoty(wartoscSciezki(para.stan, sciezka))
+        return {
+          kod,
+          robocza: kursy.robocza,
+          wRoboczej: x === null || kod === kursy.robocza ? null : przeliczMiedzyWalutami(x, kod, kursy.robocza, kursy.kurs),
+          brakKursu: x !== null && kod !== kursy.robocza && przeliczMiedzyWalutami(x, kod, kursy.robocza, kursy.kurs) === null,
+          reczny: kursy.stan.preferencja.reczne[kod] !== undefined || kursy.stan.preferencja.reczne[kursy.robocza] !== undefined,
+          ustaw: (nowy) => setPara((prev) => ({ ...prev, wal: { ...prev.wal, [sciezka]: nowy } })),
+        }
+      },
+    }
+  }, [para, kwoty, kursy, obliczeniaWPln])
+
   // The fourth element tells whether the saved draft was already read: an edit made before that would be overwritten by the load.
-  return [para.stan, setStan, info, wczytano, projekt]
+  return [para.stan, setStan, waluty, wczytano, projekt]
 }
 
 export type OpcjeOdczytu = {
   /**
-   * Money fields of the other screen's draft (audit 3.2). They are converted from the currency that draft was saved in to
-   * `waluta`: "pln" for Polish-market screens whose amounts are PLN by law, "wyswietlana" for the rest.
+   * Money fields of the other screen's draft (audit 3.2), as that screen declares them (`kwoty`). Each is converted from the
+   * currency it was typed in to `waluta`: "pln" for Polish-market screens whose amounts are PLN by law, "robocza" (the working
+   * currency from Settings) for the rest.
    */
   kwoty?: readonly string[]
-  waluta?: "pln" | "wyswietlana"
+  waluta?: "pln" | "robocza"
   /**
    * The owner screen's field → quantity map and initial state: the read then sees what the owner screen would show — linked
    * fields filled from the project — even when the owner screen was never opened since the project value was saved.
@@ -305,18 +382,18 @@ export type OpcjeOdczytu = {
  */
 export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): { dane: T | null; wczytano: boolean } {
   const projektId = useAktywnyProjektId()
-  const [stan, setStan] = useState<{ dane: T | null; zn: Znaczniki; waluta: DenominacjaKwot; klucz: string | null }>({
+  const [stan, setStan] = useState<{ dane: T | null; zn: Znaczniki; wal: WalutyPol | null; stara: KodWaluty; klucz: string | null }>({
     dane: null,
     zn: {},
-    waluta: DENOMINACJA_PLN,
+    wal: null,
+    stara: WALUTA_BAZOWA,
     klucz: null,
   })
   const klucze = useMemo(() => (projektId ? kluczeDraftu(projektId, kluczEkranu) : null), [projektId, kluczEkranu])
   const powiazanie = opcje?.projekt
   const wartosci = useWartosciProjektu(powiazanie ? projektId : null)
-  const teraz = useDenominacja()
+  const kursy = useKursyWalut()
   const kwotyKlucz = opcje?.kwoty?.join(",") ?? ""
-  const { kod: kodTeraz, kurs: kursTeraz } = teraz
   const docelowaPln = opcje?.waluta === "pln"
 
   useEffect(() => {
@@ -326,9 +403,12 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
       indexedDbStorageAdapter.getItem<T>(klucze.draft),
       indexedDbStorageAdapter.getItem<unknown>(klucze.waluta),
       indexedDbStorageAdapter.getItem<unknown>(klucze.znaczniki),
+      indexedDbStorageAdapter.getItem<unknown>(klucze.waluty),
     ])
-      .then(([dane, waluta, zn]) => {
-        if (aktywny) setStan({ dane, zn: czyZnaczniki(zn) ? zn : {}, waluta: czyDenominacja(waluta) ? waluta : DENOMINACJA_PLN, klucz: klucze.draft })
+      .then(([dane, waluta, zn, wal]) => {
+        if (!aktywny) return
+        const stara = czyDenominacja(waluta) && czyKodWaluty(waluta.kod) ? waluta.kod : WALUTA_BAZOWA
+        setStan({ dane, zn: czyZnaczniki(zn) ? zn : {}, wal: czyWalutyPol(wal) ? wal : null, stara, klucz: klucze.draft })
       })
       .catch((err) => {
         consoleReporter.reportError({
@@ -337,7 +417,7 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
           source: "lib/adapters/use-persisted-draft",
           cause: err,
         })
-        if (aktywny) setStan({ dane: null, zn: {}, waluta: DENOMINACJA_PLN, klucz: klucze.draft })
+        if (aktywny) setStan({ dane: null, zn: {}, wal: null, stara: WALUTA_BAZOWA, klucz: klucze.draft })
       })
     return () => {
       aktywny = false
@@ -360,9 +440,8 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
   const dane = useMemo(() => {
     const kwoty = kwotyKlucz === "" ? [] : kwotyKlucz.split(",")
     if (!wczytano || zProjektem === null || kwoty.length === 0) return wczytano ? zProjektem : null
-    const cel = docelowaPln ? DENOMINACJA_PLN : { kurs: kursTeraz, kod: kodTeraz }
-    if (stan.waluta.kod === cel.kod) return zProjektem
-    return przeliczPola<T>(...(kwoty as (keyof T)[]))(zProjektem, wspolczynnikPrzeliczenia(stan.waluta, cel))
-  }, [wczytano, zProjektem, stan.waluta, kwotyKlucz, docelowaPln, kodTeraz, kursTeraz])
+    const wal = stan.wal ?? walutyZeStaregoSzkicu(zProjektem, kwoty, stan.stara)
+    return stanWWalucie(zProjektem, kwoty, wal, docelowaPln ? WALUTA_BAZOWA : kursy.robocza, kursy.kurs)
+  }, [wczytano, zProjektem, stan.wal, stan.stara, kwotyKlucz, docelowaPln, kursy])
   return { dane, wczytano }
 }

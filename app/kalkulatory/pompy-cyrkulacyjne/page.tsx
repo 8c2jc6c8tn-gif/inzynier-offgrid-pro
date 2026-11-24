@@ -3,8 +3,7 @@
 import { useMemo } from "react"
 import { calculatePompyCyrkulacyjne } from "@/lib/core/modules/ogrzewanie/pompy-cyrkulacyjne/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -33,13 +32,14 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaZlKwh: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaZlKwh")
-
 export default function PompyCyrkulacyjnePage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("pompy-cyrkulacyjne", STAN_POCZATKOWY, { kwoty: ["cenaZlKwh"] })
   const { mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH, dniSezonu, cenaZlKwh } = stan
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCenaZlKwh = waluty.pole("cenaZlKwh")
 
   function setPole<K extends keyof FormularzStan>(
     pole: K,
@@ -63,9 +63,9 @@ export default function PompyCyrkulacyjnePage() {
         mocNowejPompyW: mocNowejPompyW === "" ? 0 : Number(mocNowejPompyW),
         godzinyPracyDobowoH: godzinyPracyDobowoH === "" ? 0 : Number(godzinyPracyDobowoH),
         dniSezonu: dniSezonu === "" ? 0 : Number(dniSezonu),
-        cenaZlKwh: cenaZlKwh === "" ? 0 : Number(cenaZlKwh),
+        cenaZlKwh: r.cenaZlKwh === "" ? 0 : Number(r.cenaZlKwh),
       }),
-    [mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH, dniSezonu, cenaZlKwh],
+    [mocObecnejPompyW, mocNowejPompyW, godzinyPracyDobowoH, dniSezonu, r.cenaZlKwh],
   )
 
   const hasWarning = result.warnings.some((w) => w.level === "warning")
@@ -76,7 +76,6 @@ export default function PompyCyrkulacyjnePage() {
       <NaglowekEkranu tytul={t("UI-POMCYR-POMPY-CYRKULACYJNE-DOBOR")} ekran="pompy-cyrkulacyjne" wynik={result}>
         {t("UI-POMCYR-OFF-GRIDZIE-POMPY")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole
@@ -123,11 +122,12 @@ export default function PompyCyrkulacyjnePage() {
           />
           <Pole
             label={t("UI-M6D-PCS-CENA")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(wCenaZlKwh.kod) })}
             type="number"
             inputMode="decimal"
             min={0}
             value={cenaZlKwh}
+            waluta={wCenaZlKwh}
             onChange={(e) => setCenaZlKwh(e.target.value)}
             pomoc={<PomocPola ekran="m6d-pompy-cyrkulacyjne-sezon" pole="cena" />}
           />
@@ -158,6 +158,7 @@ export default function PompyCyrkulacyjnePage() {
           {result.value.oszczednoscSezonZl !== null && (
             <p className="mt-1 text-small">{t("UI-M6D-PCS-ZL", { zl: result.value.oszczednoscSezonZl.toFixed(0) })}</p>
           )}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

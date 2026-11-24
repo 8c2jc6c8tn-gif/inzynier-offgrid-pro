@@ -19,7 +19,8 @@ import { wierszeWyniku } from "@/components/porownywarka-paneli/wiersze-wyniku"
 import { WlasnyKatalogPaneli, WyborZWlasnegoKatalogu } from "@/components/porownywarka-paneli/wlasny-katalog"
 import { WyborZKatalogu } from "@/components/porownywarka-paneli/wybor-z-katalogu"
 import { RankingKatalogu } from "@/components/porownywarka-paneli/ranking"
-import { ZestawyPorownan } from "@/components/porownywarka-paneli/zestawy"
+import { KWOTY_FORMULARZA_PANELI, ZestawyPorownan, type WalutyMigawki } from "@/components/porownywarka-paneli/zestawy"
+import { RozbicieKwot, useSymbolWaluty as useSymbolWalutyPola } from "@/components/waluta-pola"
 import { SekcjaDanychNaslonecznienia } from "@/components/lokalizacja/sekcja-dane-nasloniecznienia"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { WyborOknaTypowego } from "@/components/odstep-rzedow-wybor-okna"
@@ -49,7 +50,6 @@ import {
   budujWejscie,
   efektywnyTryb,
   kolejnyId,
-  KWOTY,
   MIEJSCE_PUSTE,
   migrujStarySzkic,
   OBCIAZENIA_PUSTE,
@@ -66,7 +66,7 @@ import { useOgrzewanieElektryczne } from "@/lib/ogrzewanie/draft-obciazenia-ciep
 import { useOgrzewanieMalegoObiektu } from "@/lib/obiekt/maly-obiekt-ciepla-draft"
 import { kodZFragmentu } from "@/lib/porownywarka-paneli/udostepnianie"
 import { opcjeCsvDlaJezyka, pobierzPlikTekstowy, wynikiDoCsv } from "@/lib/porownywarka-paneli/eksport-wynikow"
-import { kwotyWlasnegoKatalogu, panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog } from "@/lib/porownywarka-paneli/wlasny-katalog"
+import { panelZWpisu, WLASNY_KATALOG_PUSTY, type WlasnyKatalog, type WpisWlasnegoKatalogu } from "@/lib/porownywarka-paneli/wlasny-katalog"
 import { liczba, powierzchnieZModelu } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 
@@ -196,6 +196,14 @@ function WykresMiesiecy({ panele }: { panele: WynikPanelu[] }) {
   )
 }
 
+/**
+ * Own catalogue rows in the draft also carry `id` (= `wlId`): per-row currencies need a row id (`lib/waluta/kwoty-pol.ts`).
+ * The CSV holds no currency, so an imported price gets the working currency of the moment it was imported.
+ */
+type WlasnyKatalogZId = { wpisy: (WpisWlasnegoKatalogu & { id?: string })[] }
+const KWOTY_WLASNEGO_KATALOGU = ["wpisy.*.cena"] as const
+const zIdWierszy = (k: WlasnyKatalog): WlasnyKatalogZId => ({ wpisy: k.wpisy.map((w) => ({ ...w, id: w.wlId })) })
+
 const subskrybujHash = (callback: () => void) => {
   window.addEventListener("hashchange", callback)
   return () => window.removeEventListener("hashchange", callback)
@@ -208,9 +216,15 @@ export default function PorownywarkaPaneliPage() {
   const zakresTekst = (min: number, max: number) => (f0(min) === f0(max) ? f0(min) : `${f0(min)}–${f0(max)}`)
   const jezyk = useLanguage()
   const waluta = useSymbolWaluty()
+  const symbol = useSymbolWalutyPola()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, KWOTY)
-  const [wlasnyKatalog, setWlasnyKatalog] = usePersistedDraft<WlasnyKatalog>("porownywarka-wlasny-katalog", WLASNY_KATALOG_PUSTY, kwotyWlasnegoKatalogu)
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("porownywarka-paneli", STAN_POCZATKOWY, { kwoty: KWOTY_FORMULARZA_PANELI })
+  const [wlasnyKatalog, setWlasnyKatalogDraft, walutyKatalogu] = usePersistedDraft<WlasnyKatalogZId>("porownywarka-wlasny-katalog", WLASNY_KATALOG_PUSTY, {
+    kwoty: KWOTY_WLASNEGO_KATALOGU,
+  })
+  const setWlasnyKatalog = (k: WlasnyKatalog) => setWlasnyKatalogDraft(zIdWierszy(k))
+  // The calculator works in the working currency: amounts typed in another currency are converted (NBP).
+  const r = waluty.stanRoboczy
   const { zuzycie: zuzycieDom } = useZuzycieMiesieczne("dom")
   // Micro-installation (camper, garden cabin, garage): consumption comes from the appliance list and the months of use, not from the M14 bills.
   const { dane: profilObiektu } = useOdczytDraftu<ProfilObiektu>(KLUCZ_PROFILU_OBIEKTU)
@@ -281,31 +295,36 @@ export default function PorownywarkaPaneliPage() {
     if (stan.tryb === undefined) setStan((prev) => (prev.tryb ? prev : { ...prev, tryb: efektywnyTryb(prev) }))
   }, [stan.tryb, setStan])
 
+  // Own catalogue rows saved before per-row currencies have no `id`: give them one, so their prices get a currency.
+  useEffect(() => {
+    if (wlasnyKatalog.wpisy.some((w) => w.id !== w.wlId)) setWlasnyKatalogDraft((prev) => zIdWierszy(prev))
+  }, [wlasnyKatalog, setWlasnyKatalogDraft])
+
   const miejsce = aktywneMiejsce(stan)
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
 
   const { kurs } = useDenominacja()
-  const osprzetScenariusza = useMemo(() => osprzetScenariuszaZFormularza(stan, kurs), [stan, kurs])
+  const osprzetScenariusza = useMemo(() => osprzetScenariuszaZFormularza(r, kurs), [r, kurs])
   const wejscie = useMemo(
-    () => budujWejscie({ stan, miejsce: aktywneMiejsce(stan), lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t, osprzetScenariusza }),
-    [stan, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t, osprzetScenariusza],
+    () => budujWejscie({ stan: r, miejsce: aktywneMiejsce(r), lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t, osprzetScenariusza }),
+    [r, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t, osprzetScenariusza],
   )
 
   /** The same panels in every saved place (U18) — computed only while that tab is open. */
   const wynikiMiejsc = useMemo(
     () =>
       zakladka === "miejsca"
-        ? stan.miejsca.map((m) => ({ id: m.id, wynik: calculatePorownywarkaPaneli(budujWejscie({ stan, miejsce: m, lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t })) }))
+        ? r.miejsca.map((m) => ({ id: m.id, wynik: calculatePorownywarkaPaneli(budujWejscie({ stan: r, miejsce: m, lokalizacja, dane, zuzycie, ogrzewanieElektryczne: ogrzewanieDoBilansu, t })) }))
         : [],
-    [zakladka, stan, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t],
+    [zakladka, r, lokalizacja, dane, zuzycie, ogrzewanieDoBilansu, t],
   )
 
   const result = useMemo(() => calculatePorownywarkaPaneli(wejscie), [wejscie])
   /** The device and accessories summary goes onto the printed offer, so it is computed only while that tab is open. */
   const zwrotZOsprzetem = stan.zwrotZOsprzetem === true
   const podsumowanie = useMemo(
-    () => (zakladka === "oferta" || (zakladka === "oplacalnosc" && zwrotZOsprzetem) ? podsumujUrzadzenie({ stan, panele: result.value.panele, dane: wejscie.panele, kurs }) : null),
-    [zakladka, zwrotZOsprzetem, stan, result, wejscie, kurs],
+    () => (zakladka === "oferta" || (zakladka === "oplacalnosc" && zwrotZOsprzetem) ? podsumujUrzadzenie({ stan: r, panele: result.value.panele, dane: wejscie.panele, kurs }) : null),
+    [zakladka, zwrotZOsprzetem, r, result, wejscie, kurs],
   )
   /** Payback and winter-kWh cost with the device and accessories added (opt-in); `undefined` = the switch is off. */
   const zwroty = useMemo(
@@ -365,13 +384,17 @@ export default function PorownywarkaPaneliPage() {
     if (k) ustawPanel(idPanelu, seedZKatalogu(k))
   }
 
-  /** Own catalogue (CSV) → one panel of the comparison: the typed texts replace the panel's, its form id stays. */
+  /** Own catalogue (CSV) → one panel of the comparison: the typed texts replace the panel's, its form id stays — and the price keeps its currency. */
   function wstawZWlasnego(idPanelu: string, wlId: string) {
     const w = wlasnyKatalog.wpisy.find((x) => x.wlId === wlId)
-    if (w) ustawPanel(idPanelu, panelZWpisu(w))
+    if (!w) return
+    const { id: _id, ...wpis } = w
+    void _id
+    ustawPanel(idPanelu, panelZWpisu(wpis))
+    if (w.cena.trim() !== "") waluty.pole(`panele.${idPanelu}.cena`).ustaw(walutyKatalogu.pole(`wpisy.${w.wlId}.cena`).kod)
   }
 
-  /** Ranking → comparison: the chosen catalogue panels replace the panel list (a price already typed for the same panel stays). */
+  /** Ranking → comparison: the chosen catalogue panels replace the panel list (a price already typed for the same panel stays, with its currency). */
   function wstawZRankingu(idKatalogu: string[]) {
     setStan((prev) => ({
       ...prev,
@@ -381,6 +404,16 @@ export default function PorownywarkaPaneliPage() {
         return [{ ...PANEL_PUSTY(`p${i + 1}`), ...seedZKatalogu(k), cena: prev.panele.find((x) => x.katalogId === id)?.cena ?? "" }]
       }),
     }))
+    idKatalogu.filter((id) => KATALOG_PANELI_PV.some((x) => x.id === id)).forEach((id, i) => {
+      const stary = stan.panele.find((x) => x.katalogId === id)
+      if (stary && stary.cena.trim() !== "") waluty.pole(`panele.p${i + 1}.cena`).ustaw(waluty.pole(`panele.${stary.id}.cena`).kod)
+    })
+  }
+
+  /** A saved set back into the form, each amount in the currency it was saved with. */
+  function wczytajZestaw(zapisany: FormularzStan, walutyZestawu: WalutyMigawki) {
+    setStan(zapisany)
+    for (const [sciezka, kod] of Object.entries(walutyZestawu)) waluty.pole(sciezka).ustaw(kod)
   }
 
   function dodajPanel() {
@@ -514,14 +547,14 @@ export default function PorownywarkaPaneliPage() {
 
       <PrzelacznikTrybu tryb={prosty ? "prosty" : "pelny"} onZmien={(k) => ustaw("tryb", k)} />
 
-      {prosty && otwartoZLinku && <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />}
+      {prosty && otwartoZLinku && <ZestawyPorownan stan={stan} waluty={waluty} onWczytaj={wczytajZestaw} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />}
 
       {prosty ? (
         <PytaniaProste
           stan={stan}
           miejsce={miejsce}
           powierzchnie={powierzchnie}
-          waluta={waluta}
+          waluty={waluty}
           blokZuzycia={komunikatZuzycia}
           ustaw={ustaw}
           ustawMiejsce={ustawMiejsce}
@@ -534,7 +567,7 @@ export default function PorownywarkaPaneliPage() {
         />
       ) : (
         <>
-      <ZestawyPorownan stan={stan} onWczytaj={(zapisany) => setStan(zapisany)} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />
+      <ZestawyPorownan stan={stan} waluty={waluty} onWczytaj={wczytajZestaw} kodZLinku={kodZLinku} onKodObsluzony={kodObsluzony} />
 
       <section className="flex flex-col gap-4">
         <h2 className="font-semibold">{t("UI-PORP-KROK-MIEJSCE")}</h2>
@@ -821,12 +854,13 @@ export default function PorownywarkaPaneliPage() {
               />
               <Pole
                 label={t("UI-PORP-CENA")}
-                unit={waluta}
+                unit={t("UI-J-ZL", { waluta: symbol(waluty.pole(`panele.${p.id}.cena`).kod) })}
                 type="number"
                 inputMode="decimal"
                 min={0}
                 step="any"
                 value={p.cena}
+                waluta={waluty.pole(`panele.${p.id}.cena`)}
                 onChange={(e) => ustawPanel(p.id, { cena: e.target.value })}
                 pomoc={<PomocPola ekran="porownywarka-paneli" pole="cena" />}
               />
@@ -1039,12 +1073,13 @@ export default function PorownywarkaPaneliPage() {
         {(stan.wycena === "siec" || stan.wycena === "reczna") && (
           <Pole
             label={t("UI-PORP-STAWKA")}
-            unit={`${waluta}/kWh`}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("stawka").kod) })}
             type="number"
             inputMode="decimal"
             min={0}
             step="any"
             value={stan.stawka}
+            waluta={waluty.pole("stawka")}
             onChange={(e) => ustaw("stawka", e.target.value)}
             pomoc={<PomocPola ekran="porownywarka-paneli" pole="stawka" />}
           />
@@ -1054,23 +1089,25 @@ export default function PorownywarkaPaneliPage() {
             <div className="grid grid-cols-2 items-end gap-3">
               <Pole
                 label={t("UI-PORP-CENA-DZIEN")}
-                unit={`${waluta}/kWh`}
+                unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("cenaDzien").kod) })}
                 type="number"
                 inputMode="decimal"
                 min={0}
                 step="any"
                 value={stan.cenaDzien}
+                waluta={waluty.pole("cenaDzien")}
                 onChange={(e) => ustaw("cenaDzien", e.target.value)}
                 pomoc={<PomocPola ekran="porownywarka-paneli" pole="stawkaDzien" />}
               />
               <Pole
                 label={t("UI-PORP-CENA-NOC")}
-                unit={`${waluta}/kWh`}
+                unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("cenaNoc").kod) })}
                 type="number"
                 inputMode="decimal"
                 min={0}
                 step="any"
                 value={stan.cenaNoc}
+                waluta={waluty.pole("cenaNoc")}
                 onChange={(e) => ustaw("cenaNoc", e.target.value)}
                 pomoc={<PomocPola ekran="porownywarka-paneli" pole="stawkaNoc" />}
               />
@@ -1172,12 +1209,13 @@ export default function PorownywarkaPaneliPage() {
             />
             <Pole
               label={t("UI-PORP-AGR-CENA")}
-              unit={`${waluta}/l`}
+              unit={t("UI-J-ZL-L", { waluta: symbol(waluty.pole("agrCena").kod) })}
               type="number"
               inputMode="decimal"
               min={0}
               step="any"
               value={stan.agrCena}
+              waluta={waluty.pole("agrCena")}
               onChange={(e) => ustaw("agrCena", e.target.value)}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="agregatCena" />}
             />
@@ -1202,6 +1240,7 @@ export default function PorownywarkaPaneliPage() {
         ) : (
           <>
             {prosty && <WerdyktProstyKarta wynik={result} waluta={waluta} naPelny={() => ustaw("tryb", "pelny")} />}
+            {prosty && <RozbicieKwot rozbicie={waluty.rozbicie} />}
             {!prosty && (
             <WerdyktPanel poziom={result.status === "VALID" ? "ok" : "uwaga"} etykieta={t("UI-PORP-WERDYKT")}>
               <WynikGlowny>{naglowekWyniku}</WynikGlowny>
@@ -1240,6 +1279,7 @@ export default function PorownywarkaPaneliPage() {
                   <li>{t(v.zakresModelu.slabeSwiatlo ? "UI-PORP-ZAKRES-SWIATLO-TAK" : "UI-PORP-ZAKRES-SWIATLO-NIE")}</li>
                 </ul>
               </div>
+              <RozbicieKwot rozbicie={waluty.rozbicie} />
               <WynikSzczegoly assumptions={[]} warnings={result.warnings} />
             </WerdyktPanel>
             )}
@@ -1358,7 +1398,7 @@ export default function PorownywarkaPaneliPage() {
             )}
 
             {zakladka === "urzadzenie" && (
-              <UrzadzenieIBos panele={v.panele} dane={wejscie.panele} stan={stan} ustaw={ustaw} naElektryke={() => setZakladka("elektryka")} />
+              <UrzadzenieIBos panele={v.panele} dane={wejscie.panele} stan={stan} waluty={waluty} ustaw={ustaw} naElektryke={() => setZakladka("elektryka")} />
             )}
 
             {zakladka === "oferta" && (

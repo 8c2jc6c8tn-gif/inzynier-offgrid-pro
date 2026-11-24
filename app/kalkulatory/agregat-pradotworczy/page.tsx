@@ -3,8 +3,7 @@
 import { useMemo } from "react"
 import { calculateAgregatPradotworczy } from "@/lib/core/modules/zapotrzebowanie/agregat-pradotworczy/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -38,17 +37,19 @@ const STAN_POCZATKOWY: FormularzStan = {
   podlaczenieAgregatu: "",
 }
 
-const KWOTY = przeliczPola<FormularzStan>("cenaZaLitrZl")
-
 export default function AgregatPradotworczyPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("agregat-pradotworczy", STAN_POCZATKOWY, {
+    kwoty: ["cenaZaLitrZl"],
     projekt: { mocAgregatuKw: "mocAgregatuKw", sredniZuzycieLH: "zuzyciePaliwaLH" },
   })
   const { deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu } =
     stan
+  // The fuel price typed in another currency is converted to the working currency (NBP) for the calculator.
+  const cenaRobocza = waluty.stanRoboczy.cenaZaLitrZl
+  const wCeny = waluty.pole("cenaZaLitrZl")
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -68,11 +69,11 @@ export default function AgregatPradotworczyPage() {
         deficytKwh: deficytKwh === "" ? 0 : Number(deficytKwh),
         mocAgregatuKw: mocAgregatuKw === "" ? 0 : Number(mocAgregatuKw),
         sredniZuzycieLH: sredniZuzycieLH === "" ? 0 : Number(sredniZuzycieLH),
-        cenaZaLitrZl: cenaZaLitrZl === "" ? 0 : Number(cenaZaLitrZl),
+        cenaZaLitrZl: cenaRobocza === "" ? 0 : Number(cenaRobocza),
         maWyjscieSterujaceBms,
         ...naWejscieBezpieczenstwa({ miejsceAgregatu, podlaczenieAgregatu }),
       }),
-    [deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaZaLitrZl, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu],
+    [deficytKwh, mocAgregatuKw, sredniZuzycieLH, cenaRobocza, maWyjscieSterujaceBms, miejsceAgregatu, podlaczenieAgregatu],
   )
 
   // 1.1.0 (D48): a critical safety warning (CO, no changeover switch) turns the verdict red.
@@ -97,7 +98,6 @@ export default function AgregatPradotworczyPage() {
       >
         {t("UI-AGRPRA-SYSTEM-POROWNUJE-PRODUKCJE")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole
@@ -131,10 +131,11 @@ export default function AgregatPradotworczyPage() {
         />
         <Pole
           label={t("UI-AGRPRA-CENA-PALIWA")}
-          unit={t("UI-J-ZL-L")}
+          unit={t("UI-J-ZL-L", { waluta: symbol(wCeny.kod) })}
           type="number"
           inputMode="decimal"
           value={cenaZaLitrZl}
+          waluta={wCeny}
           onChange={(e) => setCenaZaLitrZl(e.target.value)}
           pomoc={<PomocPola ekran="agregat-pradotworczy" pole="cena" />}
         />
@@ -179,6 +180,7 @@ export default function AgregatPradotworczyPage() {
             <p className="mt-1 text-small">
               {t("UI-AGRPRA-ZUZYCIE-PALIWA-KOSZT", { zuzyciePaliwaLitry: formatLiczbe(result.value.zuzyciePaliwaLitry, { maximumFractionDigits: 1 }), kosztZl: formatLiczbe(result.value.kosztZl, { maximumFractionDigits: 0 }) })}
             </p>
+            <RozbicieKwot rozbicie={waluty.rozbicie} />
             <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
         )

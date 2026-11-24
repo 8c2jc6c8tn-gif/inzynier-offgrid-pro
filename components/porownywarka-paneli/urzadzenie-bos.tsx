@@ -15,6 +15,8 @@ import { ladowanieAkumulatoraPaneli } from "@/lib/porownywarka-paneli/ladowanie-
 import type { FormularzStan } from "@/lib/porownywarka-paneli/stan"
 import { kluczUkladu, podsumujUrzadzenie, wylaczoneBos, type PanelNaUrzadzeniu } from "@/lib/porownywarka-paneli/urzadzenie"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
+import { useSymbolWaluty as useSymbolWalutyPola } from "@/components/waluta-pola"
+import type { WalutyEkranu } from "@/lib/adapters/use-persisted-draft"
 
 type Formatuj = (x: number) => string
 
@@ -61,6 +63,8 @@ export function UrzadzenieIBos(p: {
   /** Dane paneli przekazane do silnika (moc i elektryka każdego panelu). */
   dane: DanePanelu[]
   stan: FormularzStan
+  /** Currency of each amount of the form; the summary is computed from the amounts in the working currency. */
+  waluty: WalutyEkranu<FormularzStan>
   ustaw: <K extends keyof FormularzStan>(pole: K, v: FormularzStan[K]) => void
   /** Przejście na zakładkę „Elektryka”, gdzie wpisuje się najniższą temperaturę. */
   naElektryke: () => void
@@ -68,9 +72,11 @@ export function UrzadzenieIBos(p: {
   const t = useTranslate()
   const { f0, f1, f2 } = useFormaty()
   const waluta = useSymbolWaluty()
+  const symbol = useSymbolWalutyPola()
   const { kurs } = useDenominacja()
-  const { stan, ustaw } = p
-  const podsumowanie = useMemo(() => podsumujUrzadzenie({ stan, panele: p.panele, dane: p.dane, kurs }), [stan, p.panele, p.dane, kurs])
+  const { stan, ustaw, waluty } = p
+  const stanRoboczy = waluty.stanRoboczy
+  const podsumowanie = useMemo(() => podsumujUrzadzenie({ stan: stanRoboczy, panele: p.panele, dane: p.dane, kurs }), [stanRoboczy, p.panele, p.dane, kurs])
   const urzadzenie = podsumowanie?.urzadzenie
   const limity = podsumowanie?.limity ?? null
   const mikro = podsumowanie?.mikro ?? false
@@ -147,12 +153,13 @@ export function UrzadzenieIBos(p: {
         />
         <Pole
           label={t("UI-PORP-URZ-CENA-URZ")}
-          unit={waluta}
+          unit={t("UI-J-ZL", { waluta: symbol(waluty.pole("cenaUrzadzenia").kod) })}
           type="number"
           inputMode="decimal"
           step="any"
           min="0"
           value={stan.cenaUrzadzenia ?? ""}
+          waluta={waluty.pole("cenaUrzadzenia")}
           onChange={(e) => ustaw("cenaUrzadzenia", e.target.value)}
           pomoc={<PomocPola ekran="porownywarka-paneli" pole="urzCenaUrzadzenia" />}
         />
@@ -245,13 +252,14 @@ export function UrzadzenieIBos(p: {
                   />
                   <Pole
                     label={t("UI-PORP-URZ-CENA-WLASNA", { pozycja: t(KLUCZ_POZYCJI[poz.id]) })}
-                    unit={`${waluta}/${t(KLUCZ_JEDNOSTKI[poz.jednostka])}`}
+                    unit={`${symbol(waluty.pole(`bosCeny.${poz.id}`).kod)}/${t(KLUCZ_JEDNOSTKI[poz.jednostka])}`}
                     type="number"
                     inputMode="decimal"
                     step="any"
                     min="0"
                     placeholder={min === max ? f2(min) : `${f2(min)}–${f2(max)}`}
                     value={stan.bosCeny?.[poz.id] ?? ""}
+                    waluta={waluty.pole(`bosCeny.${poz.id}`)}
                     onChange={(e) => ustawCene(poz.id, e.target.value)}
                     pomoc={<PomocPola ekran="porownywarka-paneli" pole="urzCenaOsprzetu" />}
                   />

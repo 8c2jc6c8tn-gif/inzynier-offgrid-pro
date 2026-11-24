@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { parsujOdpowiedzKursow, urlKursowEbc } from "../kursy-zrodlo"
+import { parsujOdpowiedzKursow, URL_TABELI_NBP } from "../kursy-zrodlo"
 
 describe("parsujOdpowiedzKursow", () => {
   it("accepts a Frankfurter response and keeps only positive finite rates", () => {
@@ -11,7 +11,7 @@ describe("parsujOdpowiedzKursow", () => {
     expect(parsujOdpowiedzKursow({ date: 5, rates: {} })).toBeNull()
     expect(parsujOdpowiedzKursow({ date: "2026-10-01" })).toBeNull()
   })
-  it("builds the ECB URL with PLN base", () => {
-    expect(urlKursowEbc()).toContain("base=PLN")
+  it("asks NBP table A as JSON", () => {
+    expect(URL_TABELI_NBP).toBe("https://api.nbp.pl/api/exchangerates/tables/A/?format=json")
   })
 })

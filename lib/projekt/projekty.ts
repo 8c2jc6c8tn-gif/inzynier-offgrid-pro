@@ -42,7 +42,7 @@ export function kluczProjektu(projektId: string, baza: string): string {
  * Key prefixes that belong to a project (everything else — TMY cache, telemetry samples, layout, language — is shared).
  * Prefixes ending with "." are families (one key per screen); the others are single keys.
  */
-export const BAZY_PROJEKTU = ["draft.", "draftwaluta.", "draftprojekt.", "profil-sprzetu.v1", "wielkosci-projektu.v1"] as const
+export const BAZY_PROJEKTU = ["draft.", "draftwaluta.", "draftwaluty.", "draftprojekt.", "profil-sprzetu.v1", "wielkosci-projektu.v1"] as const
 
 /** True when `klucz` (a full storage key) belongs to the project `projektId`. */
 export function nalezyDoProjektu(klucz: string, projektId: string): boolean {

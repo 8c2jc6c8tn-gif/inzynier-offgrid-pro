@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import { KATALOG_PANELI_PV } from "@/lib/core/dane/katalog-paneli-pv"
 import { profilDobowyZPor } from "@/lib/core/modules/pv/porownywarka-paneli/bilans-godzinowy"
-import { aktywneMiejsce, BILANS_PUSTY, bilansZFormularza, budujWejscie, elektrykaRecznaZPanelu, kolejnyId, KWOTY_ZESTAWOW, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
+import { aktywneMiejsce, BILANS_PUSTY, bilansZFormularza, budujWejscie, elektrykaRecznaZPanelu, kolejnyId, MIEJSCE_PUSTE, migrujStarySzkic, PANEL_PUSTY, seedZKatalogu, STAN_POCZATKOWY, wymiaryZMiejsca, type FormularzStan } from "../stan"
 
 const t = (k: string, p?: Record<string, string | number>) => (p ? `${k}:${JSON.stringify(p)}` : k)
 
@@ -59,15 +59,6 @@ describe("wymiaryZMiejsca i budujWejscie", () => {
     expect(w.panele[0]).toMatchObject({ pmaxW: k.pmaxW, cenaBruttoZl: 500, dlugoscMm: k.dlugoscMm, masaKg: k.masaKg })
     expect(w.zapotrzebowanieMiesiaceKwh).toHaveLength(12)
     expect(budujWejscie({ stan: { ...stan, uzyjZuzycia: false }, miejsce, lokalizacja: null, dane: null, zuzycie: Array(12).fill(100), t }).zapotrzebowanieMiesiaceKwh).toBeNull()
-  })
-})
-
-describe("zestawy: przeliczenie kwot", () => {
-  it("ceny paneli w zapisanych zestawach przeliczane współczynnikiem waluty", () => {
-    const st: FormularzStan = { ...STAN_POCZATKOWY, stawka: "1", panele: [{ ...PANEL_PUSTY("p1"), cena: "400" }] }
-    const wynik = KWOTY_ZESTAWOW({ zestawy: [{ id: "z1", nazwa: "A", zapisanoIso: "2026-10-08T00:00:00.000Z", stan: st }] }, 0.25)
-    expect(Number(wynik.zestawy[0]!.stan.panele[0]!.cena)).toBeCloseTo(100, 6)
-    expect(Number(wynik.zestawy[0]!.stan.stawka)).toBeCloseTo(0.25, 6)
   })
 })
 

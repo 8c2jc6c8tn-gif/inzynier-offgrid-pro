@@ -4,8 +4,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateNagrzewnicaPowietrza } from "@/lib/core/modules/ogrzewanie/nagrzewnica-powietrza/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -60,7 +59,7 @@ const POLA_PRADU: { pole: Pola; label: string; unit: string }[] = [
   { pole: "bateria", label: "UI-NP-BATERIA", unit: "kWh" },
 ]
 
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaPaliwa", "cenaPradu")
+const KWOTY: readonly Pola[] = ["cenaPaliwa", "cenaPradu"]
 
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
@@ -69,46 +68,53 @@ const r3 = (x: number) => Math.round(x * 1000) / 1000
 
 export default function NagrzewnicaPowietrzaPage() {
   const t = useTranslate()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY, {
-    konwersjaKwot: PRZELICZ_KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("nagrzewnica-powietrza", STAN_POCZATKOWY, {
+    kwoty: KWOTY,
     // zapotrzebowanie is daily heat and zuzycie is the heater's own fuel use — not linked
     projekt: { bateria: "pojemnoscUzytecznaKwh" },
   })
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const result = useMemo(
     () =>
       calculateNagrzewnicaPowietrza({
         mocCieplnaKw: liczba(stan.moc),
         zuzyciePaliwaLH: liczba(stan.zuzycie),
-        cenaPaliwaZlL: liczba(stan.cenaPaliwa),
+        cenaPaliwaZlL: liczba(r.cenaPaliwa),
         poborPraduW: liczba(stan.pobor),
         energiaRozruchuWh: liczba(stan.rozruch),
         rozruchyNaDobe: liczba(stan.rozruchy),
-        cenaPraduZlKwh: liczba(stan.cenaPradu),
+        cenaPraduZlKwh: liczba(r.cenaPradu),
         copElektryczne: liczba(stan.cop),
         zapotrzebowanieCieplaDobaKwh: liczba(stan.zapotrzebowanie),
         dniOgrzewania: liczba(stan.dni),
         pojemnoscBateriiKwh: liczba(stan.bateria),
       }),
-    [stan],
+    [stan, r],
   )
   const v = result.value
   const uwaga = result.warnings.some((w) => w.level === "warning")
 
   const pola = (lista: { pole: Pola; label: string; unit: string }[]) =>
-    lista.map(({ pole, label, unit }) => (
-      <Pole
-        key={pole}
-        label={t(label)}
-        unit={unit.startsWith("UI-") ? t(unit) : unit || undefined}
-        type="number"
-        inputMode="decimal"
-        min={0}
-        value={stan[pole]}
-        onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-        pomoc={<PomocPola ekran="nagrzewnica-powietrza" pole={pole} />}
-        projekt={projekt.pole(pole)}
-      />
-    ))
+    lista.map(({ pole, label, unit }) => {
+      const waluta = KWOTY.includes(pole) ? waluty.pole(pole) : undefined
+      return (
+        <Pole
+          key={pole}
+          label={t(label)}
+          unit={unit.startsWith("UI-") ? t(unit, waluta ? { waluta: symbol(waluta.kod) } : undefined) : unit || undefined}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={stan[pole]}
+          waluta={waluta}
+          onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
+          pomoc={<PomocPola ekran="nagrzewnica-powietrza" pole={pole} />}
+          projekt={projekt.pole(pole)}
+        />
+      )
+    })
 
   const taniejKlucz = v?.taniej === "nagrzewnica" ? "UI-NP-TANIEJ-NAGRZEWNICA" : v?.taniej === "elektryczne" ? "UI-NP-TANIEJ-PRAD" : "UI-NP-TANIEJ-ROWNO"
 
@@ -118,8 +124,6 @@ export default function NagrzewnicaPowietrzaPage() {
       <NaglowekEkranu tytul={t("UI-NP-TYTUL")} ekran="nagrzewnica-powietrza" wynik={result}>
         {t("UI-NP-OPIS")}
       </NaglowekEkranu>
-
-      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-NP-NAGRZEWNICA")}</legend>
@@ -205,6 +209,7 @@ export default function NagrzewnicaPowietrzaPage() {
             </div>
           )}
 
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

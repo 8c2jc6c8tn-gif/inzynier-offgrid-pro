@@ -5,8 +5,7 @@ import { calculateStacjaVsDiy } from "@/lib/core/modules/kalkulator-mobilny/stac
 import type { StacjaVsDiyInput } from "@/lib/core/modules/kalkulator-mobilny/stacja-vs-diy/input"
 import { DOD_LIFEPO4_TYPOWY_MAX_PCT, DOD_LIFEPO4_TYPOWY_MIN_PCT } from "@/lib/core/modules/baterie/dobor-pojemnosci/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -30,8 +29,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   masaDiyKg: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaStacjiZl", "cenaDiyZl")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["cenaStacjiZl", "cenaDiyZl"]
 
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const r1 = (x: number) => Math.round(x * 10) / 10
@@ -39,7 +38,10 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function StacjaVsDiyPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("stacja-vs-diy", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("stacja-vs-diy", STAN_POCZATKOWY, { kwoty: KWOTY })
+  const wStacji = waluty.pole("cenaStacjiZl")
+  const wDiy = waluty.pole("cenaDiyZl")
   const pole = (klucz: keyof FormularzStan) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -48,12 +50,14 @@ export default function StacjaVsDiyPage() {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, [klucz]: e.target.value })),
   })
 
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const result = useMemo(
     () =>
       calculateStacjaVsDiy(
-        Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as Record<keyof StacjaVsDiyInput, number>,
+        Object.fromEntries(Object.entries(r).map(([k, v]) => [k, liczba(v)])) as Record<keyof StacjaVsDiyInput, number>,
       ),
-    [stan],
+    [r],
   )
   const v = result.value
 
@@ -63,11 +67,10 @@ export default function StacjaVsDiyPage() {
       <NaglowekEkranu tytul={t("UI-M12-SD-TYTUL")} ekran="stacja-vs-diy" wynik={result}>
         {t("UI-M12-SD-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-SD-STACJA")}</legend>
-        <Pole label={t("UI-M12-SD-CENA")} unit={t("UI-M12-J-ZL")} {...pole("cenaStacjiZl")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="cenaStacji" />} />
+        <Pole label={t("UI-M12-SD-CENA")} unit={t("UI-M12-J-ZL", { waluta: symbol(wStacji.kod) })} {...pole("cenaStacjiZl")} waluta={wStacji} pomoc={<PomocPola ekran="stacja-vs-diy" pole="cenaStacji" />} />
         <Pole label={t("UI-M12-SD-POJEMNOSC-WH")} unit="Wh" {...pole("pojemnoscStacjiWh")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="pojemnoscStacji" />} />
         <Pole label={t("UI-M12-SD-UZYTECZNA")} unit="%" max={100} {...pole("uzytecznaStacjiPct")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="uzytecznaStacji" />} />
         <Pole label={t("UI-M12-SD-MASA")} unit="kg" {...pole("masaStacjiKg")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="masaStacji" />} />
@@ -75,7 +78,7 @@ export default function StacjaVsDiyPage() {
 
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-2 text-small font-medium">{t("UI-M12-SD-DIY")}</legend>
-        <Pole label={t("UI-M12-SD-CENA-DIY")} unit={t("UI-M12-J-ZL")} {...pole("cenaDiyZl")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="cenaDiy" />} />
+        <Pole label={t("UI-M12-SD-CENA-DIY")} unit={t("UI-M12-J-ZL", { waluta: symbol(wDiy.kod) })} {...pole("cenaDiyZl")} waluta={wDiy} pomoc={<PomocPola ekran="stacja-vs-diy" pole="cenaDiy" />} />
         <Pole label={t("UI-M12-SD-POJEMNOSC-AH")} unit="Ah" {...pole("pojemnoscDiyAh")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="pojemnoscDiy" />} />
         <Pole label={t("UI-M12-SD-NAPIECIE")} unit="V" {...pole("napiecieDiyV")} pomoc={<PomocPola ekran="stacja-vs-diy" pole="napiecieDiy" />} />
         <Pole
@@ -104,6 +107,7 @@ export default function StacjaVsDiyPage() {
           {v.kgNaKwhStacja > 0 && v.kgNaKwhDiy > 0 && (
             <p className="mt-1 text-small">{t("UI-M12-SD-MASA-WIERSZ", { st: r1(v.kgNaKwhStacja), diy: r1(v.kgNaKwhDiy) })}</p>
           )}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

@@ -5,8 +5,7 @@ import { useMemo } from "react"
 import { calculateDystrybucjaCiepla } from "@/lib/core/modules/ogrzewanie/dystrybucja-ciepla/calculator"
 import type { SystemDystrybucji, ZrodloCiepla } from "@/lib/core/modules/ogrzewanie/dystrybucja-ciepla/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Pole } from "@/components/ui/pole"
@@ -31,8 +30,6 @@ const STAN_POCZATKOWY: FormularzStan = {
   cenaPraduZlKwh: "",
 }
 
-const KWOTY = przeliczPola<FormularzStan>("doplataZl", "cenaPraduZlKwh")
-
 const ZRODLA: ZrodloCiepla[] = ["pompa-ciepla", "inne"]
 const SYSTEMY: SystemDystrybucji[] = ["podlogowe", "grzejniki-niskotemperaturowe", "grzejniki-standardowe"]
 const POZIOM = { dobre: "ok", zle: "blad", "inne-zrodlo": "ok" } as const
@@ -42,8 +39,9 @@ const r1 = (x: number) => Math.round(x * 10) / 10
 
 export default function DystrybucjaCieplaPage() {
   const t = useTranslate()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("dystrybucja-ciepla", STAN_POCZATKOWY, {
+    kwoty: ["doplataZl", "cenaPraduZlKwh"],
     // annual space-heating demand [kWh/year] = the project's annual heat demand
     projekt: { cieploRocznieKwh: "zapotrzebowanieCieplaRokKwh" },
   })
@@ -55,6 +53,11 @@ export default function DystrybucjaCieplaPage() {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setStan((prev) => ({ ...prev, [klucz]: e.target.value })),
   })
 
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCeny = waluty.pole("cenaPraduZlKwh")
+  const wDoplaty = waluty.pole("doplataZl")
+
   const result = useMemo(
     () =>
       calculateDystrybucjaCiepla({
@@ -63,10 +66,10 @@ export default function DystrybucjaCieplaPage() {
         cieploRocznieKwh: liczba(stan.cieploRocznieKwh),
         copSystemu: liczba(stan.copSystemu),
         copOdniesienia: liczba(stan.copOdniesienia),
-        doplataZl: liczba(stan.doplataZl),
-        cenaPraduZlKwh: liczba(stan.cenaPraduZlKwh),
+        doplataZl: liczba(r.doplataZl),
+        cenaPraduZlKwh: liczba(r.cenaPraduZlKwh),
       }),
-    [stan],
+    [stan, r],
   )
   const v = result.value
   const pompaNiskotemp = stan.zrodloCiepla === "pompa-ciepla" && stan.system !== null && stan.system !== "grzejniki-standardowe"
@@ -77,7 +80,6 @@ export default function DystrybucjaCieplaPage() {
       <NaglowekEkranu tytul={t("UI-M6-DYS-TYTUL")} ekran="dystrybucja-ciepla" wynik={result}>
         {t("UI-M6-DYS-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 flex items-center gap-1.5 text-small font-medium">
@@ -111,8 +113,8 @@ export default function DystrybucjaCieplaPage() {
           <Pole label={t("UI-M6-DYS-COP-SYSTEMU")} {...pole("copSystemu")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="copSystemu" />} />
           <Pole label={t("UI-M6-DYS-COP-ODNIESIENIA")} {...pole("copOdniesienia")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="copOdniesienia" />} />
           <Pole label={t("UI-M6-DYS-CIEPLO")} unit={t("UI-J-KWH-ROK")} {...pole("cieploRocznieKwh")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cieplo" />} projekt={projekt.pole("cieploRocznieKwh")} />
-          <Pole label={t("UI-M6-DYS-CENA")} unit={t("UI-J-ZL-KWH")} {...pole("cenaPraduZlKwh")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cena" />} />
-          <Pole label={t("UI-M6-DYS-DOPLATA")} unit={t("UI-J-ZL")} {...pole("doplataZl")} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="doplata" />} />
+          <Pole label={t("UI-M6-DYS-CENA")} unit={t("UI-J-ZL-KWH", { waluta: symbol(wCeny.kod) })} {...pole("cenaPraduZlKwh")} waluta={wCeny} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="cena" />} />
+          <Pole label={t("UI-M6-DYS-DOPLATA")} unit={t("UI-J-ZL", { waluta: symbol(wDoplaty.kod) })} {...pole("doplataZl")} waluta={wDoplaty} pomoc={<PomocPola ekran="dystrybucja-ciepla" pole="doplata" />} />
         </fieldset>
       )}
 
@@ -132,6 +134,7 @@ export default function DystrybucjaCieplaPage() {
           )}
           {v.oszczednoscZlRok !== null && <p className="mt-1 text-small">{t("UI-M6-DYS-WYNIK-ZL", { zl: Math.round(v.oszczednoscZlRok) })}</p>}
           {v.zwrotLat !== null && <p className="mt-1 text-small">{t("UI-M6-DYS-WYNIK-ZWROT", { lat: r1(v.zwrotLat) })}</p>}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

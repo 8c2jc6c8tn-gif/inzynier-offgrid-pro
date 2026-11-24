@@ -6,8 +6,7 @@ import { calculateWplywCzynnika, paramsDoWyswietlenia } from "@/lib/core/modules
 import { CZYNNIKI, NUMERY_ZRODLA, POLA_CZYNNIKA } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/constants"
 import type { Czynnik, KluczPola } from "@/lib/core/modules/ogrzewanie/wplyw-czynnika/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -21,11 +20,8 @@ type FormularzStan = { czynnik: Czynnik | ""; pola: Partial<Record<KluczPola, st
 
 const STAN_POCZATKOWY: FormularzStan = { czynnik: "", pola: {} }
 
-/** Money field (price per metre of pipe) converted when the display currency changes. */
-const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => {
-  const cena = stan.pola.cenaZlM
-  return cena === undefined ? stan : { ...stan, pola: { ...stan.pola, cenaZlM: przeliczPoleTekst(cena, wspolczynnik) } }
-}
+/** Money field (price per metre of pipe): keeps the currency it was typed in. */
+const KWOTY = ["pola.cenaZlM"]
 
 /** Units shown next to the fields; `UI-` entries are translated (they contain words, not symbols). */
 const JEDNOSTKI: Record<KluczPola, string> = {
@@ -93,20 +89,27 @@ const JEDNOSTKI: Record<KluczPola, string> = {
 /** Moduł 6, Część 2D — one screen for the "wpływ czynnika X" family (dawne 5.69, 5.73–5.100). */
 export default function WplywCzynnikaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("wplyw-czynnika", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("wplyw-czynnika", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // The price typed in another currency is converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const czynnik = stan.czynnik === "" ? null : stan.czynnik
   const definicje = czynnik ? POLA_CZYNNIKA[czynnik] : []
 
   const result = useMemo(() => {
     const pola: Partial<Record<KluczPola, number>> = {}
-    for (const [k, s] of Object.entries(stan.pola) as [KluczPola, string | undefined][]) {
+    for (const [k, s] of Object.entries(r.pola) as [KluczPola, string | undefined][]) {
       if (s !== undefined && s !== "") pola[k] = Number(s)
     }
-    return calculateWplywCzynnika({ czynnik: stan.czynnik === "" ? null : stan.czynnik, pola })
-  }, [stan])
+    return calculateWplywCzynnika({ czynnik: r.czynnik === "" ? null : r.czynnik, pola })
+  }, [r])
   const v = result.value
   const uwaga = result.warnings.some((w) => w.level !== "info")
-  const jednostka = (k: KluczPola) => (JEDNOSTKI[k].startsWith("UI-") ? t(JEDNOSTKI[k]) : JEDNOSTKI[k])
+  const waluta = (k: KluczPola) => (KWOTY.includes(`pola.${k}`) ? waluty.pole(`pola.${k}`) : undefined)
+  const jednostka = (k: KluczPola) => {
+    const w = waluta(k)
+    return JEDNOSTKI[k].startsWith("UI-") ? t(JEDNOSTKI[k], w ? { waluta: symbol(w.kod) } : undefined) : JEDNOSTKI[k]
+  }
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 p-6">
@@ -114,7 +117,6 @@ export default function WplywCzynnikaPage() {
       <NaglowekEkranu tytul={t("UI-M6-WPC-TYTUL")} ekran="wplyw-czynnika" wynik={result}>
         {t("UI-M6-WPC-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <PoleSelect
@@ -145,6 +147,7 @@ export default function WplywCzynnikaPage() {
             min={d.rodzaj === "temperatura" ? undefined : 0}
             max={d.rodzaj === "procent" ? 100 : d.rodzaj === "ulamek" ? 1 : d.rodzaj === "godziny" ? 24 : undefined}
             value={stan.pola[d.klucz] ?? ""}
+            waluta={waluta(d.klucz)}
             onChange={(e) => setStan((prev) => ({ ...prev, pola: { ...prev.pola, [d.klucz]: e.target.value } }))}
             pomoc={<PomocPola ekran="wplyw-czynnika" pole={d.klucz} />}
           />
@@ -165,6 +168,7 @@ export default function WplywCzynnikaPage() {
               {t(w.klucz, paramsDoWyswietlenia(w.params))}
             </p>
           ))}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

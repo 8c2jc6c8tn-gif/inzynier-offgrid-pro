@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { calculateLadowanieZAgregatu } from "@/lib/core/modules/stress-test/ladowanie-z-agregatu/calculator"
 import type { LadowanieZAgregatuInput } from "@/lib/core/modules/stress-test/ladowanie-z-agregatu/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -42,24 +42,25 @@ const POLA: { pole: keyof LadowanieZAgregatuInput; label: string; unit: string }
   { pole: "cenaPaliwaZlL", label: "UI-M7-LADAG-CENA", unit: "UI-J-ZL-L" },
 ]
 
-const KWOTY = przeliczPola<FormularzStan>("cenaPaliwaZlL")
-
 const liczba = (v: string) => (v === "" ? null : Number(v))
 
 export default function LadowanieZAgregatuPage() {
   const t = useTranslate()
   const { f0, f2 } = useFormaty()
-  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, {
-    konwersjaKwot: KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, {
+    kwoty: ["cenaPaliwaZlL"],
     // zuzyciePaliwaLH is read at the load this screen computes (a load-specific point), not a general figure — not linked
     projekt: { mocAgregatuKw: "mocAgregatuKw", pojemnoscKwh: "pojemnoscUzytecznaKwh" },
   })
+  // The fuel price typed in another currency is converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
   const result = useMemo(
     () =>
       calculateLadowanieZAgregatu(
-        Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as LadowanieZAgregatuInput,
+        Object.fromEntries(Object.entries(r).map(([k, v]) => [k, liczba(v)])) as LadowanieZAgregatuInput,
       ),
-    [stan],
+    [r],
   )
   const v = result.value
   const krytyczne = result.warnings.some((w) => w.level === "critical")
@@ -73,19 +74,23 @@ export default function LadowanieZAgregatuPage() {
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        {POLA.map(({ pole, label, unit }) => (
-          <Pole
-            key={pole}
-            label={t(label)}
-            unit={unit.startsWith("UI-") ? t(unit) : unit}
-            type="number"
-            inputMode="decimal"
-            value={stan[pole]}
-            onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
-            pomoc={<PomocPola ekran="ladowanie-z-agregatu" pole={pole} />}
-            projekt={projekt.pole(pole)}
-          />
-        ))}
+        {POLA.map(({ pole, label, unit }) => {
+          const waluta = pole === "cenaPaliwaZlL" ? waluty.pole(pole) : undefined
+          return (
+            <Pole
+              key={pole}
+              label={t(label)}
+              unit={unit.startsWith("UI-") ? t(unit, waluta ? { waluta: symbol(waluta.kod) } : undefined) : unit}
+              type="number"
+              inputMode="decimal"
+              value={stan[pole]}
+              waluta={waluta}
+              onChange={(e) => setStan((prev) => ({ ...prev, [pole]: e.target.value }))}
+              pomoc={<PomocPola ekran="ladowanie-z-agregatu" pole={pole} />}
+              projekt={projekt.pole(pole)}
+            />
+          )
+        })}
       </div>
 
       {result.status === "INVALID_INPUT" ? (
@@ -112,6 +117,7 @@ export default function LadowanieZAgregatuPage() {
             {v.litryNaKwhMagazynu !== null && <li>{t("UI-M7-LADAG-LITRY-KWH-MAG", { wartosc: f2(v.litryNaKwhMagazynu) })}</li>}
             {v.kosztZl !== null && <li>{t("UI-M7-LADAG-KOSZT", { koszt: f2(v.kosztZl) })}</li>}
           </ul>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} />
         </WerdyktPanel>
       )}

@@ -20,6 +20,7 @@ import {
   type SeedStrategii,
 } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/zrodla"
 import { wagiZeStanu, wejscieWspolczynnika } from "@/lib/stress-test/wejscie-wspolczynnika"
+import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
@@ -129,7 +130,7 @@ export default function WspolczynnikBezpieczenstwaZimowegoPage() {
     // zapotrzebowanie is a monthly figure and wymaganaAutonomia covers the whole system (battery + generator) — not linked
     projekt: { mocAgregatu: "mocAgregatuKw" },
   })
-  const e2 = useOdczytDraftu<SeedDeficytow>("deficyty-miesieczne").dane
+  const e2 = useOdczytDraftu<SeedDeficytow>("deficyty-miesieczne", { kwoty: KWOTY_EKRANOW["deficyty-miesieczne"] }).dane
   const e4 = useOdczytDraftu<SeedBlackout>("blackout").dane
   const e6 = useOdczytDraftu<SeedStrategii>("strategia-zamarzanie").dane
   const e10 = useOdczytDraftu<SeedSpof>("analiza-spof").dane

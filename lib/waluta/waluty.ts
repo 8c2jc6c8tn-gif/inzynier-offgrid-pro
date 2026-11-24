@@ -1,8 +1,8 @@
 /**
  * Currencies the user can display money in. The engine and the data files (tariffs, fees) stay
  * in PLN — those are Polish legal rates; the chosen currency only changes how a result is shown
- * (convert at the display boundary). `automatyczny: false` = not published by the ECB feed, so a
- * manual rate is the only source.
+ * (convert at the display boundary). `automatyczny: false` = not published in NBP table A (checked
+ * 24.11.2026; BGN dropped from it), so a manual rate is the only source.
  */
 export const WALUTA_BAZOWA = "PLN"
 
@@ -18,12 +18,12 @@ export const WALUTY = [
   { kod: "DKK", automatyczny: true },
   { kod: "HUF", automatyczny: true },
   { kod: "RON", automatyczny: true },
-  { kod: "BGN", automatyczny: true },
+  { kod: "BGN", automatyczny: false },
   { kod: "CAD", automatyczny: true },
   { kod: "AUD", automatyczny: true },
   { kod: "JPY", automatyczny: true },
   { kod: "TRY", automatyczny: true },
-  { kod: "UAH", automatyczny: false },
+  { kod: "UAH", automatyczny: true },
 ] as const
 
 export type KodWaluty = (typeof WALUTY)[number]["kod"]

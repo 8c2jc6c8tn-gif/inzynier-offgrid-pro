@@ -1,12 +1,12 @@
 /**
  * Display-currency preference + cached exchange rates. Same pattern as lib/i18n/storage.ts
  * (`useSyncExternalStore` + localStorage, no cookie — 17.4, offline-first). Rates are fetched from
- * the ECB reference feed (Frankfurter) when online and cached, so the last known rate keeps
+ * NBP table A (average rates) when online and cached, so the last known rate keeps
  * working offline. A rate can also be entered by hand (`reczne`) or widened with `narzutProc`.
  */
 import { consoleReporter } from "@/lib/core/reporter"
 import { czyKodWaluty, WALUTA_BAZOWA, type KodWaluty } from "./waluty"
-import { liczbyDodatnie, parsujOdpowiedzKursow, URL_KURSOW_SERWER, urlKursowEbc, type OdpowiedzKursow } from "./kursy-zrodlo"
+import { liczbyDodatnie, parsujOdpowiedzKursow, parsujTabeleNbp, URL_KURSOW_SERWER, URL_TABELI_NBP, type OdpowiedzKursow } from "./kursy-zrodlo"
 import type { Kursy } from "./przelicz"
 
 export const KLUCZ_PREFERENCJI = "offgrid.waluta.v1"
@@ -106,23 +106,23 @@ export function zapiszPreferencje(p: PreferencjaWaluty): void {
 
 let wToku: Promise<boolean> | null = null
 
-async function pobierzJson(url: string): Promise<OdpowiedzKursow> {
+async function pobierzJson(url: string, parsuj: (json: unknown) => OdpowiedzKursow | null): Promise<OdpowiedzKursow> {
   const odp = await fetch(url)
   if (!odp.ok) throw new Error(`HTTP ${odp.status}`)
-  const dane = parsujOdpowiedzKursow(await odp.json())
+  const dane = parsuj(await odp.json())
   if (!dane) throw new Error("pusta odpowiedź")
   return dane
 }
 
 /**
- * Fetch ECB rates (base PLN) and cache them locally. Order: our server copy (`/api/kursy`), then
- * Frankfurter directly. Resolves false on any failure (offline → the last saved rate stays, with its date).
+ * Fetch NBP average rates (table A) and cache them locally. Order: our server copy (`/api/kursy`), then
+ * the NBP API directly. Resolves false on any failure (offline → the last saved rate stays, with its date).
  */
 export function odswiezKursy(): Promise<boolean> {
   if (typeof window === "undefined") return Promise.resolve(false)
   if (wToku) return wToku
-  wToku = pobierzJson(URL_KURSOW_SERWER)
-    .catch(() => pobierzJson(urlKursowEbc()))
+  wToku = pobierzJson(URL_KURSOW_SERWER, parsujOdpowiedzKursow)
+    .catch(() => pobierzJson(URL_TABELI_NBP, parsujTabeleNbp))
     .then((dane) => {
       const zapis: KursyZapisane = { pobranoMs: Date.now(), dataEcb: dane.date, kursy: dane.rates }
       zapisz(KLUCZ_KURSOW, JSON.stringify(zapis))
@@ -132,7 +132,7 @@ export function odswiezKursy(): Promise<boolean> {
     .catch((err) => {
       consoleReporter.reportError({
         userMessage: "Nie udało się pobrać kursów walut — używam ostatnich zapisanych.",
-        technicalDetails: "pobranie kursów (serwer aplikacji i Frankfurter/ECB) nie powiodło się",
+        technicalDetails: "pobranie kursów (serwer aplikacji i NBP, tabela A) nie powiodło się",
         source: "lib/waluta/storage.odswiezKursy",
         cause: err,
       })

@@ -6,8 +6,7 @@ import { calculateTaryfaNocnaPompyCiepla } from "@/lib/core/modules/ogrzewanie/t
 import type { ZasilanieNocy } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/input"
 import { parsujGodzinyStrefy, parsujProfil } from "@/lib/core/modules/ogrzewanie/taryfa-nocna-pompy-ciepla/parsuj"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleSelect, PoleTekst } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -35,8 +34,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   strefa: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaDzien", "cenaNoc")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["cenaDzien", "cenaNoc"]
 
 const ZASILANIA: ZasilanieNocy[] = ["siec", "agregat", "bateria"]
 const KLUCZ_ZASILANIA: Record<ZasilanieNocy, string> = {
@@ -55,7 +54,12 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 /** Moduł 6, Część 2C — dawne 5.59: heat pump on a night tariff (grid, generator or battery), buffer shifts the heat. */
 export default function TaryfaNocnaPompyCieplaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("taryfa-nocna-pompy-ciepla", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("taryfa-nocna-pompy-ciepla", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wDzien = waluty.pole("cenaDzien")
+  const wNoc = waluty.pole("cenaNoc")
   const pole = (klucz: Pola) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -73,8 +77,8 @@ export default function TaryfaNocnaPompyCieplaPage() {
       calculateTaryfaNocnaPompyCiepla({
         cieploDobaKwh: liczba(stan.cieplo),
         godzinyNocH: liczba(stan.godziny),
-        cenaDzienZlKwh: liczba(stan.cenaDzien),
-        cenaNocZlKwh: liczba(stan.cenaNoc),
+        cenaDzienZlKwh: liczba(r.cenaDzien),
+        cenaNocZlKwh: liczba(r.cenaNoc),
         copDzien: liczba(stan.copDzien),
         copNoc: liczba(stan.copNoc),
         pojemnoscBuforaL: liczba(stan.buforL),
@@ -84,7 +88,7 @@ export default function TaryfaNocnaPompyCieplaPage() {
         godzinyStrefyNocnej: strefa.godziny,
         stratyBuforaKwhDoba: liczba(stan.straty),
       }),
-    [stan, profil, strefa],
+    [stan, r, profil, strefa],
   )
   const v = result.value
   const uwaga = result.status === "VALID_WITH_WARNINGS"
@@ -95,7 +99,6 @@ export default function TaryfaNocnaPompyCieplaPage() {
       <NaglowekEkranu tytul={t("UI-M6-TAN-TYTUL")} ekran="taryfa-nocna-pompy-ciepla" wynik={result}>
         {t("UI-M6-TAN-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <section className={SEKCJA_KLASY}>
         <h2 className={SEKCJA_TYTUL_KLASY}>{t("UI-M6-TAN-SEKCJA-TARYFA")}</h2>
@@ -121,14 +124,16 @@ export default function TaryfaNocnaPompyCieplaPage() {
         <div className="grid grid-cols-2 gap-3">
           <Pole
             label={t("UI-M6-TAN-CENA-DZIEN")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(wDzien.kod) })}
             {...pole("cenaDzien")}
+            waluta={wDzien}
             pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="cenaDzien" />}
           />
           <Pole
             label={t("UI-M6-TAN-CENA-NOC")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(wNoc.kod) })}
             {...pole("cenaNoc")}
+            waluta={wNoc}
             pomoc={<PomocPola ekran="taryfa-nocna-pompy-ciepla" pole="cenaNoc" />}
           />
         </div>
@@ -194,6 +199,7 @@ export default function TaryfaNocnaPompyCieplaPage() {
           <p className="mt-1 text-small">{t("UI-M6-TAN-PRZESUNIETE", { kwh: r2(v.przesunieteKwh), bufor: r2(v.pojemnoscBuforaKwh) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-NOC", { kwh: r2(v.pradNocKwh), kw: r2(v.mocNocSredniaKw) })}</p>
           <p className="mt-1 text-small">{t("UI-M6-TAN-UDZIAL-NOCY", { pct: r1(v.udzialNocyPct), straty: r2(v.stratyBuforaKwh) })}</p>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

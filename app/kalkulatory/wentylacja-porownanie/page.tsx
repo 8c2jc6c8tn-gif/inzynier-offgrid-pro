@@ -4,8 +4,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { calculateWentylacjaPorownanie } from "@/lib/core/modules/ogrzewanie/wentylacja-porownanie/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 import { Pole, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -42,8 +41,8 @@ const STAN_POCZATKOWY: FormularzStan = {
   doplataZl: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaPraduZlKwh", "doplataZl")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["cenaPraduZlKwh", "doplataZl"]
 
 const liczba = (s: string) => (s === "" ? 0 : Number(s))
 const temperatura = (s: string) => (s === "" ? null : Number(s))
@@ -52,7 +51,12 @@ const r2 = (x: number) => Math.round(x * 100) / 100
 
 export default function WentylacjaPorownaniePage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("wentylacja-porownanie", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("wentylacja-porownanie", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCeny = waluty.pole("cenaPraduZlKwh")
+  const wDoplaty = waluty.pole("doplataZl")
   const pole = (klucz: PolaLiczbowe) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -78,11 +82,11 @@ export default function WentylacjaPorownaniePage() {
         mocWentylatorowW: liczba(stan.mocWentylatorowW),
         copOgrzewania: liczba(stan.copOgrzewania),
         dniSezonu: liczba(stan.dniSezonu),
-        cenaPraduZlKwh: liczba(stan.cenaPraduZlKwh),
-        doplataZl: liczba(stan.doplataZl),
+        cenaPraduZlKwh: liczba(r.cenaPraduZlKwh),
+        doplataZl: liczba(r.doplataZl),
         szczelnyDom: stan.szczelnyDom,
       }),
-    [stan],
+    [stan, r],
   )
   const v = result.value
   const uwaga = result.warnings.some((w) => w.level === "warning")
@@ -93,7 +97,6 @@ export default function WentylacjaPorownaniePage() {
       <NaglowekEkranu tytul={t("UI-M6-WPOR-TYTUL")} ekran="wentylacja-porownanie" wynik={result}>
         {t("UI-M6-WPOR-OPIS")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="grid grid-cols-2 gap-3">
         <Pole label={t("UI-M6-WPOR-T-WEW")} unit="°C" {...poleT("tWewC")} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="tWew" />} />
@@ -131,8 +134,8 @@ export default function WentylacjaPorownaniePage() {
           <Pole label={t("UI-M6-WPOR-DNI")} max={366} {...pole("dniSezonu")} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="dni" />} />
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <Pole label={t("UI-M6-WPOR-CENA")} unit={t("UI-J-ZL-KWH")} {...pole("cenaPraduZlKwh")} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="cena" />} />
-          <Pole label={t("UI-M6-WPOR-DOPLATA")} unit={t("UI-J-ZL")} {...pole("doplataZl")} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="doplata" />} />
+          <Pole label={t("UI-M6-WPOR-CENA")} unit={t("UI-J-ZL-KWH", { waluta: symbol(wCeny.kod) })} {...pole("cenaPraduZlKwh")} waluta={wCeny} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="cena" />} />
+          <Pole label={t("UI-M6-WPOR-DOPLATA")} unit={t("UI-J-ZL", { waluta: symbol(wDoplaty.kod) })} {...pole("doplataZl")} waluta={wDoplaty} pomoc={<PomocPola ekran="wentylacja-porownanie" pole="doplata" />} />
         </div>
       </fieldset>
 
@@ -183,6 +186,7 @@ export default function WentylacjaPorownaniePage() {
               </tr>
             </tbody>
           </table>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

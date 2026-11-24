@@ -1,6 +1,8 @@
 "use client"
 
 import { useMemo } from "react"
+import type { StanWalutyPola } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { calculateAutonomiaStandby, calculateKosztRocznyStandby, calculateWplywNaDobor } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty/calculator"
 import type { AutonomiaStandbyInput, KosztRocznyStandbyInput, WplywNaDoborInput } from "@/lib/core/modules/zapotrzebowanie/wampiry-energetyczne/symulacje-i-raporty/input"
 import { Pole } from "@/components/ui/pole"
@@ -33,6 +35,8 @@ export function SymulacjeTab({
   onChangeKosztRoczny,
   onChangeWplywNaDobor,
   sumaStandbyW,
+  kosztRocznyObliczenia,
+  walutaCeny,
 }: {
   autonomia: AutonomiaStandbyInput
   kosztRoczny: KosztRocznyStandbyInput
@@ -41,10 +45,14 @@ export function SymulacjeTab({
   onChangeKosztRoczny: (v: KosztRocznyStandbyInput) => void
   onChangeWplywNaDobor: (v: WplywNaDoborInput) => void
   sumaStandbyW: number
+  /** The yearly-cost input with the energy price in the working currency (typed in its own currency). */
+  kosztRocznyObliczenia: KosztRocznyStandbyInput
+  walutaCeny: StanWalutyPola
 }) {
+  const symbol = useSymbolWaluty()
   const t = useTranslate()
   const wynikAutonomia = useMemo(() => calculateAutonomiaStandby(autonomia), [autonomia])
-  const wynikKoszt = useMemo(() => calculateKosztRocznyStandby(kosztRoczny), [kosztRoczny])
+  const wynikKoszt = useMemo(() => calculateKosztRocznyStandby(kosztRocznyObliczenia), [kosztRocznyObliczenia])
   const wynikDobor = useMemo(() => calculateWplywNaDobor(wplywNaDobor), [wplywNaDobor])
 
   return (
@@ -118,10 +126,11 @@ export function SymulacjeTab({
         />
         <Pole
           label={t("UI-WAMENE-COMSYMTAB-CENA-ENERGII")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(walutaCeny.kod) })}
           type="number"
           inputMode="decimal"
           value={kosztRoczny.cenaEnergiiZlZaKwh || ""}
+          waluta={walutaCeny}
           onChange={(e) => onChangeKosztRoczny({ ...kosztRoczny, cenaEnergiiZlZaKwh: Number(e.target.value) })}
           pomoc={<PomocPola ekran="wampiry-energetyczne" pole="cenaEnergii" />}
         />

@@ -15,8 +15,7 @@ import {
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleSelect, PoleCheckbox } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, WerdyktBadge, type WerdyktPoziom } from "@/components/werdykt"
@@ -137,34 +136,16 @@ const STAN_POCZATKOWY: FormularzStan = {
 const SEKCJA_KLASY = "flex flex-col gap-4 rounded-lg border p-4"
 const SEKCJA_TYTUL_KLASY = "text-small font-semibold uppercase tracking-wide text-muted-foreground"
 
-// Every field of `ceny` is a component price in the display currency.
-const PRZELICZ_CENY = przeliczPola<CenyStan>(
-  "cenaOgniwaZl",
-  "cenaBms4sZl",
-  "cenaBms8sZl",
-  "cenaBms16sZl",
-  "cenaFalownika12vZl",
-  "cenaFalownika24vZl",
-  "cenaFalownika48vZl",
-  "cenaPrzewodow12vZl",
-  "cenaPrzewodow24vZl",
-  "cenaPrzewodow48vZl",
-  "cenaBezpiecznika12vZl",
-  "cenaBezpiecznika24vZl",
-  "cenaBezpiecznika48vZl",
-  "cenaPrzetwornicyDcDcZl",
-)
-const PRZELICZ_KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
-  ...stan,
-  ceny: PRZELICZ_CENY(stan.ceny, wspolczynnik),
-})
+// Every field of `ceny` is a component price; each keeps the currency it was typed in.
+const KWOTY = (Object.keys(STAN_POCZATKOWY.ceny) as (keyof CenyStan)[]).map((k) => `ceny.${k}`)
 
 export default function NapiecieSystemowePage() {
   const t = useTranslate()
+  const symbol = useSymbolWaluty()
   // Seed całego formularza — persystowany (IndexedDB) pod jednym kluczem, żeby przeładowanie
   // strony nie gubiło wpisanych danych (zgłoszenie użytkownika, 15.09.2026).
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, {
-    konwersjaKwot: PRZELICZ_KWOTY,
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("napiecie-systemowe", STAN_POCZATKOWY, {
+    kwoty: KWOTY,
     projekt: { mocCiaglaFalownikaPlanowanaW: "mocFalownikaW", dlugoscTrasyM: "dlugoscGlownyDcM" },
   })
   const {
@@ -186,6 +167,8 @@ export default function NapiecieSystemowePage() {
     liczbaLiniiOswietlenia24v,
     planowanaKonwersja24Do48,
   } = stan
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const cenyRobocze = waluty.stanRoboczy.ceny
 
   /** Aktualizuje jedno pole Seed-u, zachowując resztę — akceptuje wartość albo funkcję
    *  aktualizującą, tak jak `useState`, żeby wywołania niżej (`setX((prev) => ...)`) działały bez zmian. */
@@ -279,21 +262,21 @@ export default function NapiecieSystemowePage() {
       liczbaKabliWWiazce: num(liczbaKabliWWiazce),
       dopuszczalnySpadekNapieciaPct: num(dopuszczalnySpadekNapieciaPct),
       docelowaPojemnoscKwh: num(docelowaPojemnoscKwh),
-      cenaOgniwaZl: num(ceny.cenaOgniwaZl),
-      cenaBms4sZl: num(ceny.cenaBms4sZl),
-      cenaBms8sZl: num(ceny.cenaBms8sZl),
-      cenaBms16sZl: num(ceny.cenaBms16sZl),
-      cenaFalownika12vZl: num(ceny.cenaFalownika12vZl),
-      cenaFalownika24vZl: num(ceny.cenaFalownika24vZl),
-      cenaFalownika48vZl: num(ceny.cenaFalownika48vZl),
-      cenaPrzewodow12vZl: num(ceny.cenaPrzewodow12vZl),
-      cenaPrzewodow24vZl: num(ceny.cenaPrzewodow24vZl),
-      cenaPrzewodow48vZl: num(ceny.cenaPrzewodow48vZl),
-      cenaBezpiecznika12vZl: num(ceny.cenaBezpiecznika12vZl),
-      cenaBezpiecznika24vZl: num(ceny.cenaBezpiecznika24vZl),
-      cenaBezpiecznika48vZl: num(ceny.cenaBezpiecznika48vZl),
+      cenaOgniwaZl: num(cenyRobocze.cenaOgniwaZl),
+      cenaBms4sZl: num(cenyRobocze.cenaBms4sZl),
+      cenaBms8sZl: num(cenyRobocze.cenaBms8sZl),
+      cenaBms16sZl: num(cenyRobocze.cenaBms16sZl),
+      cenaFalownika12vZl: num(cenyRobocze.cenaFalownika12vZl),
+      cenaFalownika24vZl: num(cenyRobocze.cenaFalownika24vZl),
+      cenaFalownika48vZl: num(cenyRobocze.cenaFalownika48vZl),
+      cenaPrzewodow12vZl: num(cenyRobocze.cenaPrzewodow12vZl),
+      cenaPrzewodow24vZl: num(cenyRobocze.cenaPrzewodow24vZl),
+      cenaPrzewodow48vZl: num(cenyRobocze.cenaPrzewodow48vZl),
+      cenaBezpiecznika12vZl: num(cenyRobocze.cenaBezpiecznika12vZl),
+      cenaBezpiecznika24vZl: num(cenyRobocze.cenaBezpiecznika24vZl),
+      cenaBezpiecznika48vZl: num(cenyRobocze.cenaBezpiecznika48vZl),
       liczbaLiniiOswietlenia24vPrzySystemie48v: num(liczbaLiniiOswietlenia24v),
-      cenaPrzetwornicyDcDcZl: num(ceny.cenaPrzetwornicyDcDcZl),
+      cenaPrzetwornicyDcDcZl: num(cenyRobocze.cenaPrzetwornicyDcDcZl),
       planowanaKonwersja24Do48,
     }),
     [
@@ -311,7 +294,7 @@ export default function NapiecieSystemowePage() {
       liczbaKabliWWiazce,
       dopuszczalnySpadekNapieciaPct,
       docelowaPojemnoscKwh,
-      ceny,
+      cenyRobocze,
       liczbaLiniiOswietlenia24v,
       planowanaKonwersja24Do48,
     ],
@@ -337,8 +320,6 @@ export default function NapiecieSystemowePage() {
       >
         {t("UI-NAPSYS-WYBIERAMY-NAPIECIA-PODSTAWIE")}
       </NaglowekEkranu>
-
-      <PrzeliczoneInfo info={info} />
 
       {/* Rdzeń — pole ręczne + wynik */}
       <div className={SEKCJA_KLASY}>
@@ -682,20 +663,24 @@ export default function NapiecieSystemowePage() {
                   ["cenaBezpiecznika48vZl", "UI-NAPSYS-CENA-BEZPIECZNIK", "48V"],
                   ["cenaPrzetwornicyDcDcZl", "UI-NAPSYS-CENA-PRZETWORNICA", ""],
                 ] as const
-              ).map(([klucz, etykieta, u]) => (
-                <Pole
-                  key={klucz}
-                  id={`cena-${klucz}`}
-                  label={t(etykieta, { u })}
-                  unit={t("UI-J-ZL")}
-                  type="number"
-                  inputMode="decimal"
-                  min={0}
-                  value={ceny[klucz]}
-                  onChange={(e) => setCeny((prev) => ({ ...prev, [klucz]: e.target.value }))}
-                  pomoc={<PomocPola ekran="napiecie-systemowe" pole="cenaSkladnika" />}
-                />
-              ))}
+              ).map(([klucz, etykieta, u]) => {
+                const waluta = waluty.pole(`ceny.${klucz}`)
+                return (
+                  <Pole
+                    key={klucz}
+                    id={`cena-${klucz}`}
+                    label={t(etykieta, { u })}
+                    unit={t("UI-J-ZL", { waluta: symbol(waluta.kod) })}
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    value={ceny[klucz]}
+                    waluta={waluta}
+                    onChange={(e) => setCeny((prev) => ({ ...prev, [klucz]: e.target.value }))}
+                    pomoc={<PomocPola ekran="napiecie-systemowe" pole="cenaSkladnika" />}
+                  />
+                )
+              })}
             </div>
           </details>
 
@@ -757,6 +742,7 @@ export default function NapiecieSystemowePage() {
                   </tr>
                 </tbody>
               </table>
+              <RozbicieKwot rozbicie={waluty.rozbicie} />
             </div>
           )}
         </div>

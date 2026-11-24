@@ -11,6 +11,7 @@ import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
+import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { zBlackoutu, type SeedBlackout } from "@/lib/core/modules/stress-test/wspolczynnik-bezpieczenstwa-zimowego/zrodla"
 import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
@@ -38,7 +39,7 @@ export default function RaportKryzysowyPage() {
   const { f0, f1 } = useFormaty()
   const [panele, setPanele] = usePersistedDraft<PaneleSeed>("raport-kryzysowy", PUSTE_PANELE)
   const e1 = useOdczytDraftu<StanSymulacjiMrozu>(KLUCZ_DRAFTU_SYMULACJI_MROZU)
-  const e2 = useOdczytDraftu<Partial<PolaDeficytow>>("deficyty-miesieczne")
+  const e2 = useOdczytDraftu<Partial<PolaDeficytow>>("deficyty-miesieczne", { kwoty: KWOTY_EKRANOW["deficyty-miesieczne"] })
   const e4 = useOdczytDraftu<SeedBlackout>("blackout")
   const e12 = useOdczytDraftu<PolaWspolczynnika>("wspolczynnik-bezpieczenstwa-zimowego")
 
