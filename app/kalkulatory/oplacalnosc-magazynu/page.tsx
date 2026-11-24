@@ -3,8 +3,8 @@
 import { useMemo } from "react"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
+import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -30,16 +30,20 @@ const STAN_POCZATKOWY: FormularzStan = {
   kosztAlternatywyZlZaKwh: "",
 }
 
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaBateriiZl", "kosztAlternatywyZlZaKwh")
 
 export default function OplacalnoscMagazynuPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan, info, , projekt] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, {
-    konwersjaKwot: PRZELICZ_KWOTY,
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("oplacalnosc-magazynu", STAN_POCZATKOWY, {
+    kwoty: KWOTY_EKRANOW["oplacalnosc-magazynu"],
     projekt: { pojemnoscUzytecznaKwh: "pojemnoscUzytecznaKwh" },
   })
   const { cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh } = stan
+  // The calculator works in the working currency: amounts typed in another currency are converted (NBP).
+  const r = waluty.stanRoboczy
+  const wCeny = waluty.pole("cenaBateriiZl")
+  const wAlternatywy = waluty.pole("kosztAlternatywyZlZaKwh")
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -56,13 +60,13 @@ export default function OplacalnoscMagazynuPage() {
   const result = useMemo(
     () =>
       calculateOplacalnoscMagazynu({
-        cenaBateriiZl: cenaBateriiZl === "" ? 0 : Number(cenaBateriiZl),
+        cenaBateriiZl: r.cenaBateriiZl === "" ? 0 : Number(r.cenaBateriiZl),
         pojemnoscUzytecznaKwh: pojemnoscUzytecznaKwh === "" ? 0 : Number(pojemnoscUzytecznaKwh),
         liczbaCykli: liczbaCykli === "" ? 0 : Number(liczbaCykli),
         sprawnoscPct: sprawnoscPct === "" ? 0 : Number(sprawnoscPct),
-        kosztAlternatywyZlZaKwh: kosztAlternatywyZlZaKwh === "" ? null : Number(kosztAlternatywyZlZaKwh),
+        kosztAlternatywyZlZaKwh: r.kosztAlternatywyZlZaKwh === "" ? null : Number(r.kosztAlternatywyZlZaKwh),
       }),
-    [cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, kosztAlternatywyZlZaKwh],
+    [r.cenaBateriiZl, pojemnoscUzytecznaKwh, liczbaCykli, sprawnoscPct, r.kosztAlternatywyZlZaKwh],
   )
 
   const poziom: WerdyktPoziom | null =
@@ -85,15 +89,14 @@ export default function OplacalnoscMagazynuPage() {
         {t("UI-OPLMAG-BATERIA-SKARBONKA-ENERGII")}
       </NaglowekEkranu>
 
-      <PrzeliczoneInfo info={info} />
-
       <div className="flex flex-col gap-4">
         <Pole
           label={t("UI-OPLMAG-CENA-BATERII")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(wCeny.kod) })}
           type="number"
           inputMode="decimal"
           value={cenaBateriiZl}
+          waluta={wCeny}
           onChange={(e) => setCenaBateriiZl(e.target.value)}
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="cena" />}
         />
@@ -128,10 +131,11 @@ export default function OplacalnoscMagazynuPage() {
         />
         <Pole
           label={t("UI-OPLMAG-KOSZT-ALTERNATYWY-AGREGAT")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(wAlternatywy.kod) })}
           type="number"
           inputMode="decimal"
           value={kosztAlternatywyZlZaKwh}
+          waluta={wAlternatywy}
           onChange={(e) => setKosztAlternatywyZlZaKwh(e.target.value)}
           pomoc={<PomocPola ekran="oplacalnosc-magazynu" pole="alternatywa" />}
         />
@@ -160,6 +164,7 @@ export default function OplacalnoscMagazynuPage() {
                 {w.message ?? t(w.i18nKey ?? w.code, w.params)}
               </p>
             ))}
+            <RozbicieKwot rozbicie={waluty.rozbicie} />
             <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
         )

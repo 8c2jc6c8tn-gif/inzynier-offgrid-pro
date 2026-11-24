@@ -10,7 +10,8 @@ import { PomocPole } from "@/components/ui/chmurka"
 import { PomocPola } from "@/components/ui/pomoc"
 import { cn } from "@/lib/utils"
 import { ZnacznikPola } from "@/components/projekt/znacznik-pola"
-import type { StanPolaProjektu } from "@/lib/adapters/use-persisted-draft"
+import type { StanPolaProjektu, StanWalutyPola } from "@/lib/adapters/use-persisted-draft"
+import { PrzeliczenieWalutyPola, WyborWalutyPola } from "@/components/waluta-pola"
 
 /**
  * Pole formularza — jeden reużywalny komponent zamiast kopiowanego w every ekranie stringa
@@ -63,22 +64,27 @@ type PoleProps = Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "id">
   id?: string
   /** Link to the project quantity (`projekt.pole("…")` from `usePersistedDraft`) — shows „from the project” / own value with ↺. */
   projekt?: StanPolaProjektu
+  /** Money field: the currency of the amount (`waluty.pole("…")` from `usePersistedDraft`) — a currency choice and the conversion. */
+  waluta?: StanWalutyPola
 }
 
 /** Pole tekstowe/liczbowe. Zastępuje duplikowany `Field`/`inputClass` z ekranów kalkulatorów. */
-export function Pole({ label, unit, pomoc, error, className, id, projekt, ...props }: PoleProps) {
+export function Pole({ label, unit, pomoc, error, className, id, projekt, waluta, ...props }: PoleProps) {
   // Standard 8.10: id from useId(), never from the label text (repeated labels in lists).
   const autoId = useId()
   const inputId = id ?? autoId
   return (
     <div className="flex flex-col gap-1 text-small">
       <Etykieta label={label} unit={unit} pomoc={pomoc} htmlFor={inputId} />
-      <input
-        id={inputId}
-        className={cn(STAN_KLASY, className)}
-        aria-invalid={Boolean(error) || props["aria-invalid"]}
-        {...props}
-      />
+      {waluta ? (
+        <div className="flex gap-2">
+          <input id={inputId} className={cn(STAN_KLASY, className)} aria-invalid={Boolean(error) || props["aria-invalid"]} {...props} />
+          <WyborWalutyPola waluta={waluta} />
+        </div>
+      ) : (
+        <input id={inputId} className={cn(STAN_KLASY, className)} aria-invalid={Boolean(error) || props["aria-invalid"]} {...props} />
+      )}
+      {waluta && <PrzeliczenieWalutyPola waluta={waluta} />}
       <ZnacznikPola projekt={projekt} />
       {error && (
         <span role="alert" className="text-caption text-werdykt-blad-foreground">

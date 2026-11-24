@@ -1,8 +1,8 @@
 /** Currency settings (`components/waluta-wybor.tsx`, section in `app/ustawienia/page.tsx`). */
 // English: ./waluta.en.ts, Russian: ./waluta.ru.ts (one language per file, so each is its own lazy chunk — lib/i18n/rejestr-slownikow.ts).
 export const pl = {
-  "UI-WAL-TYTUL": "Waluta wyświetlania",
-  "UI-WAL-OPIS": "Kwoty wyników (koszty, rachunki, zwroty) pokazujemy w wybranej walucie, przeliczone z PLN. Stawki i opłaty w danych to polskie stawki w PLN — zmienia się tylko sposób pokazania wyniku. Kwoty wpisane w polach przeliczamy przy zmianie waluty po kursie z dnia pobrania.",
+  "UI-WAL-TYTUL": "Waluta rozliczeniowa",
+  "UI-WAL-OPIS": "W tej walucie aplikacja pokazuje wszystkie wyniki i sumy. Każda wpisana kwota pamięta swoją walutę (domyślnie tę z Ustawień; przy polu możesz wybrać inną, np. cenę panelu w euro). Kwota w innej walucie jest przeliczana po kursie średnim NBP, a przeliczenie widać przy polu. Zmiana waluty tutaj nie zmienia wpisanych kwot. Stawki i opłaty z polskich taryf są w PLN.",
   "UI-WAL-WYBOR": "Waluta",
   "UI-WAL-NARZUT": "Narzut na kursie (%)",
   "UI-WAL-NARZUT-OPIS": "Poszerza kurs jak spread karty lub kantoru (kurs × (1 + narzut)). Domyślnie 0 — czysty kurs referencyjny.",
@@ -14,7 +14,9 @@ export const pl = {
   "UI-WAL-ODSWIEZONO": "Kursy odświeżone.",
   "UI-WAL-ODSWIEZ-BLAD": "Nie udało się pobrać kursów (offline?) — używam ostatnich zapisanych.",
   "UI-WAL-RECZNY-TYLKO": "Dla {waluta} nie ma kursu automatycznego — wpisz kurs ręcznie.",
-  "UI-WAL-PRZELICZONO-ECB": "Kwoty w polach przeliczono z {z} na {na} zgodnie z kursem Europejskiego Banku Centralnego (Frankfurter) na dzień {data}{narzut}.",
-  "UI-WAL-PRZELICZONO-RECZNY": "Kwoty w polach przeliczono z {z} na {na} zgodnie z Twoim własnym kursem{narzut}.",
-  "UI-WAL-NARZUT-DOPISEK": ", z narzutem {narzut}%",
+  "UI-WAL-POLE-WYBOR": "Waluta kwoty",
+  "UI-WAL-POLE-PRZELICZENIE": "≈ {kwota} (kurs NBP z {data})",
+  "UI-WAL-POLE-PRZELICZENIE-RECZNY": "≈ {kwota} (Twój kurs z Ustawień)",
+  "UI-WAL-POLE-BRAK-KURSU": "Brak kursu {z} → {na}: połącz się z internetem albo wpisz kurs w Ustawieniach. Do tego czasu ta kwota nie jest liczona.",
+  "UI-WAL-ROZBICIE": "Wpisane kwoty: {lista}",
 } as const

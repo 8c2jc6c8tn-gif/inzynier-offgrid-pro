@@ -7,6 +7,7 @@ import { isComputed } from "@/lib/core/calc-result"
 import { calculateOplacalnoscMagazynu } from "@/lib/core/modules/baterie/oplacalnosc-magazynu/calculator"
 import { calculateStrumienieBess, type IdStrumienia } from "@/lib/core/modules/siec/strumienie-bess/calculator"
 import type { GrupaMocy } from "@/lib/core/modules/siec/strumienie-bess/input"
+import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -52,7 +53,11 @@ export default function MagazynFirmyPage() {
   const zl = useZl()
   const [stan, setStan] = usePersistedDraft<Stan>("siec-magazyn-firmy", POCZATKOWY)
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
-  const { dane: e23, wczytano } = useOdczytDraftu<StanE23>("oplacalnosc-magazynu")
+  const { dane: e23, wczytano } = useOdczytDraftu<StanE23>("oplacalnosc-magazynu", {
+    // Polish-market screen: the battery price is read in PLN whatever currency it was typed in (audit 3.2).
+    kwoty: KWOTY_EKRANOW["oplacalnosc-magazynu"],
+    waluta: "pln",
+  })
 
   const echo = useMemo(() => {
     if (!e23) return null
