@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -11,44 +11,53 @@ import { KartaPorownawcza, type Kolumna } from "@/components/wzorce/karta-porown
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useOdczytDraftu, usePersistedDraft, type StanWalutyPola } from "@/lib/adapters/use-persisted-draft"
 import { calculateOptymalizacjaIzolacji, type WynikWariantu } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/calculator"
 import { LAT_ANALIZY } from "@/lib/core/modules/ogrzewanie/optymalizacja-izolacji/constants"
 import { useTranslate, useFormatLiczby, useFormaty } from "@/lib/i18n/language-context"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
-import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { KLUCZ_DRAFTU_OBCIAZENIA, uPrzegrodySeed, wejscieObciazenia, type SeedObciazenia } from "@/lib/ogrzewanie/draft-obciazenia-cieplnego"
 
-type WariantSeed = { nazwa: string; lambda: string; grubosc: string; cena: string }
+/** `id` — each row's price keeps its own currency (`warianty.<id>.cena`); drafts saved before 3.55.0 get it on load. */
+type WariantSeed = { id: string; nazwa: string; lambda: string; grubosc: string; cena: string }
 type Seed = { przegroda: string; powierzchniaM2: string; uWM2K: string; warianty: WariantSeed[]; cenaCiepla: string }
 
-const nowyWariant = (nazwa: string): WariantSeed => ({ nazwa, lambda: "", grubosc: "", cena: "" })
+const nowyWariant = (nazwa: string, id: string = crypto.randomUUID()): WariantSeed => ({ id, nazwa, lambda: "", grubosc: "", cena: "" })
 /** Materials named by the source: wełna, styropian, piana PUR, celuloza. */
 const stanPoczatkowy = (t: (k: string) => string): Seed => ({
   przegroda: "",
   powierzchniaM2: "",
   uWM2K: "",
   warianty: [
-    nowyWariant(t("UI-OPTIZO-WELNA-MINERALNA")),
-    nowyWariant(t("UI-OPTIZO-STYROPIAN")),
-    nowyWariant(t("UI-OPTIZO-PIANA-PUR")),
-    nowyWariant(t("UI-OPTIZO-CELULOZA")),
+    nowyWariant(t("UI-OPTIZO-WELNA-MINERALNA"), "welna"),
+    nowyWariant(t("UI-OPTIZO-STYROPIAN"), "styropian"),
+    nowyWariant(t("UI-OPTIZO-PIANA-PUR"), "piana-pur"),
+    nowyWariant(t("UI-OPTIZO-CELULOZA"), "celuloza"),
   ],
   cenaCiepla: "",
 })
 
 /** Money fields: price per m² of each variant and the heat price. */
-const przeliczKwotySeed = (s: Seed, wsp: number): Seed => ({
-  ...s,
-  warianty: s.warianty.map((w) => ({ ...w, cena: przeliczPoleTekst(w.cena, wsp) })),
-  cenaCiepla: przeliczPoleTekst(s.cenaCiepla, wsp),
-})
+const KWOTY = ["warianty.*.cena", "cenaCiepla"]
 
 const n = (s: string) => liczba(s) ?? null
 
-function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw: (z: Partial<WariantSeed>) => void; usun: () => void }) {
+function KartaWariantu({
+  w,
+  i,
+  waluta,
+  ustaw,
+  usun,
+}: {
+  w: WariantSeed
+  i: number
+  waluta: StanWalutyPola
+  ustaw: (z: Partial<WariantSeed>) => void
+  usun: () => void
+}) {
   const t = useTranslate()
+  const symbol = useSymbolWaluty()
   return (
     <div className="flex flex-col gap-3 rounded-lg border p-3">
       <Pole id={`wariant-${i}-nazwa`} label={t("UI-OPTIZO-MATERIAL")} value={w.nazwa} onChange={(e) => ustaw({ nazwa: e.target.value })} pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="material" />} />
@@ -78,11 +87,12 @@ function KartaWariantu({ w, i, ustaw, usun }: { w: WariantSeed; i: number; ustaw
         <Pole
           id={`wariant-${i}-cena`}
           label={t("UI-OPTIZO-CENA")}
-          unit={t("UI-OPTIZO-ZL-M")}
+          unit={t("UI-OPTIZO-ZL-M", { waluta: symbol(waluta.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={w.cena}
+          waluta={waluta}
           onChange={(e) => ustaw({ cena: e.target.value })}
           pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="cena" />}
         />
@@ -99,7 +109,16 @@ export default function OptymalizacjaIzolacjiPage() {
   const formatLiczbe = useFormatLiczby()
   const { f0, f3 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const [stan, setStan, info] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t), przeliczKwotySeed)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty, wczytano] = usePersistedDraft<Seed>("optymalizacja-izolacji", stanPoczatkowy(t), { kwoty: KWOTY })
+  // Rows saved before 3.55.0 have no id: give them one, so each row's price keeps its own currency.
+  useEffect(() => {
+    if (wczytano && stan.warianty.some((w) => !w.id))
+      setStan((s) => ({ ...s, warianty: s.warianty.map((w) => (w.id ? w : { ...w, id: crypto.randomUUID() })) }))
+  }, [wczytano, stan.warianty, setStan])
+  // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCenyCiepla = waluty.pole("cenaCiepla")
   const ustaw = (z: Partial<Seed>) => setStan((s) => ({ ...s, ...z }))
   const ustawWariant = (i: number, z: Partial<WariantSeed>) =>
     setStan((s) => ({ ...s, warianty: s.warianty.map((w, j) => (j === i ? { ...w, ...z } : w)) }))
@@ -115,12 +134,12 @@ export default function OptymalizacjaIzolacjiPage() {
     () =>
       calculateOptymalizacjaIzolacji({
         przegroda: { nazwa: stan.przegroda, powierzchniaM2: n(stan.powierzchniaM2), uWM2K: n(stan.uWM2K) },
-        warianty: stan.warianty.map((w) => ({ nazwa: w.nazwa.trim(), lambdaWmK: n(w.lambda), gruboscCm: n(w.grubosc), cenaZlM2: n(w.cena) })),
+        warianty: r.warianty.map((w) => ({ nazwa: w.nazwa.trim(), lambdaWmK: n(w.lambda), gruboscCm: n(w.grubosc), cenaZlM2: n(w.cena) })),
         temperaturaWewnetrznaC: ti,
         srednieTemperaturyMiesieczneC: miesiace,
-        cenaCieplaZlKwh: n(stan.cenaCiepla),
+        cenaCieplaZlKwh: n(r.cenaCiepla),
       }),
-    [stan, ti, miesiace],
+    [r, ti, miesiace],
   )
   const v = wynik.value
   const najtanszy = v && v.najtanszyIndex !== null ? v.warianty[v.najtanszyIndex]! : null
@@ -141,7 +160,6 @@ export default function OptymalizacjaIzolacjiPage() {
       <NaglowekEkranu tytul={t("UI-OPTIZO-OPTYMALIZACJA-IZOLACJI")} ekran="optymalizacja-izolacji" wynik={wynik} parametry={{ lata: LAT_ANALIZY }}>
         {t("UI-OPTIZO-POROWNANIE-MATERIALOW-GRUBOS", { LAT_ANALIZY })}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <section className="flex flex-col gap-3 rounded-lg border p-4">
         <h2 className="font-semibold">{t("UI-OPTIZO-PRZEGRODA-KLIMAT-EKRANU")}</h2>
@@ -209,9 +227,10 @@ export default function OptymalizacjaIzolacjiPage() {
         </p>
         {stan.warianty.map((w, i) => (
           <KartaWariantu
-            key={i}
+            key={w.id || i}
             w={w}
             i={i}
+            waluta={waluty.pole(`warianty.${w.id}.cena`)}
             ustaw={(z) => ustawWariant(i, z)}
             usun={() => setStan((s) => ({ ...s, warianty: s.warianty.filter((_, j) => j !== i) }))}
           />
@@ -221,11 +240,12 @@ export default function OptymalizacjaIzolacjiPage() {
         </Button>
         <Pole
           label={t("UI-OPTIZO-CENA-CIEPLA-OPCJONALNIE")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(wCenyCiepla.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={stan.cenaCiepla}
+          waluta={wCenyCiepla}
           onChange={(e) => ustaw({ cenaCiepla: e.target.value })}
           pomoc={<PomocPola ekran="optymalizacja-izolacji" pole="cenaCiepla" />}
         />
@@ -262,6 +282,7 @@ export default function OptymalizacjaIzolacjiPage() {
           <div className="mt-3">
             <KartaPorownawcza kolumny={kolumny} wiersze={v.warianty.map((w, i) => ({ ...w, id: i }))} minWidth={560} />
           </div>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={wynik.assumptions} warnings={wynik.warnings} formula={wynik.formula} formulaKey={wynik.formulaKey} formulaParams={wynik.formulaParams} />
         </WerdyktPanel>
       )}

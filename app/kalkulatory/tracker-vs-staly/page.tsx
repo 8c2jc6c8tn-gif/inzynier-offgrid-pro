@@ -5,8 +5,7 @@ import { useMemo } from "react"
 import { calculateTrackerVsStaly } from "@/lib/core/modules/pv/tracker-vs-staly/calculator"
 import { ZYSK_TRACKERA_MAX_PCT, ZYSK_TRACKERA_MIN_PCT } from "@/lib/core/modules/pv/tracker-vs-staly/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -26,8 +25,8 @@ type FormularzStan = {
 
 const STAN_POCZATKOWY: FormularzStan = { liczbaPaneliTracker: "", kosztTrackeraZl: "", kosztPaneluZl: "", uzyskPaneluKwh: "" }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("kosztTrackeraZl", "kosztPaneluZl")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["kosztTrackeraZl", "kosztPaneluZl"]
 
 type WierszPorownania = { id: string; parametr: string; tracker: string; staly: string }
 
@@ -53,7 +52,12 @@ export default function TrackerVsStalyPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const liczba = (v: number, miejsca = 0) => formatLiczbe(v, { maximumFractionDigits: miejsca })
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("tracker-vs-staly", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("tracker-vs-staly", STAN_POCZATKOWY, { kwoty: KWOTY })
+  // Costs typed in another currency are converted to the working currency (NBP); results and the table are in it.
+  const r = waluty.stanRoboczy
+  const wTrackera = waluty.pole("kosztTrackeraZl")
+  const wPanelu = waluty.pole("kosztPaneluZl")
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan({ ...stan, [pole]: e.target.value })
 
@@ -61,17 +65,17 @@ export default function TrackerVsStalyPage() {
     () =>
       calculateTrackerVsStaly({
         liczbaPaneliTracker: naLiczbe(stan.liczbaPaneliTracker),
-        kosztTrackeraZl: naLiczbe(stan.kosztTrackeraZl),
-        kosztPaneluZl: naLiczbe(stan.kosztPaneluZl),
+        kosztTrackeraZl: naLiczbe(r.kosztTrackeraZl),
+        kosztPaneluZl: naLiczbe(r.kosztPaneluZl),
         uzyskPaneluKwh: naLiczbe(stan.uzyskPaneluKwh),
       }),
-    [stan],
+    [stan, r],
   )
   const w = result.value
 
   const wiersze: WierszPorownania[] = [
     { id: "panele", parametr: t("UI-TRAVSSTA-LICZBA-PANELI"), tracker: `${liczba(naLiczbe(stan.liczbaPaneliTracker))} ${t("UI-J-SZT")}`, staly: `${liczba(w.liczbaPaneliStaly)} ${t("UI-J-SZT")}` },
-    { id: "koszt", parametr: t("UI-TRAVSSTA-DODATKOWY-KOSZT"), tracker: t("UI-TRAVSSTA-ZL", { p: liczba(naLiczbe(stan.kosztTrackeraZl)) }), staly: t("UI-TRAVSSTA-ZL", { p: liczba(w.dodatkowePanele * naLiczbe(stan.kosztPaneluZl)) }) },
+    { id: "koszt", parametr: t("UI-TRAVSSTA-DODATKOWY-KOSZT"), tracker: t("UI-TRAVSSTA-ZL", { p: liczba(naLiczbe(r.kosztTrackeraZl)) }), staly: t("UI-TRAVSSTA-ZL", { p: liczba(w.dodatkowePanele * naLiczbe(r.kosztPaneluZl)) }) },
     { id: "uzysk", parametr: t("UI-TRAVSSTA-UZYSK-ROCZNY"), tracker: `${liczba(w.uzyskTrackerMinKwh)}–${liczba(w.uzyskTrackerMaxKwh)} kWh`, staly: `${liczba(w.uzyskStalyKwh)} kWh` },
     { id: "wiatr", parametr: t("UI-TRAVSSTA-NAPOR-WIATRU"), tracker: t("UI-TRAVSSTA-DUZO-WIEKSZY-LICZONY"), staly: t("UI-TRAVSSTA-POLICZYSZ-ZLOTYM-SRODKU") },
   ]
@@ -87,14 +91,13 @@ export default function TrackerVsStalyPage() {
       >
         {t("UI-TRAVSSTA-TRACKER-OBRACA-PANELE", { ZYSK_TRACKERA_MIN_PCT, ZYSK_TRACKERA_MAX_PCT })}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <Pole label={t("UI-TRAVSSTA-LICZBA-PANELI-TRACKERZE")} unit={t("UI-J-SZT")} type="number" inputMode="numeric" min={0} step={1}
         value={stan.liczbaPaneliTracker} onChange={ustaw("liczbaPaneliTracker")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="liczbaPaneli" />} />
-      <Pole label={t("UI-TRAVSSTA-KOSZT-TRACKERA-MECHANIZM")} unit={t("UI-J-ZL")} type="number" inputMode="decimal" min={0}
-        value={stan.kosztTrackeraZl} onChange={ustaw("kosztTrackeraZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztTrackera" />} />
-      <Pole label={t("UI-TRAVSSTA-KOSZT-JEDNEGO-DODATKOWEGO")} unit={t("UI-J-ZL")} type="number" inputMode="decimal" min={0}
-        value={stan.kosztPaneluZl} onChange={ustaw("kosztPaneluZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztPanelu" />} />
+      <Pole label={t("UI-TRAVSSTA-KOSZT-TRACKERA-MECHANIZM")} unit={t("UI-J-ZL", { waluta: symbol(wTrackera.kod) })} type="number" inputMode="decimal" min={0}
+        value={stan.kosztTrackeraZl} waluta={wTrackera} onChange={ustaw("kosztTrackeraZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztTrackera" />} />
+      <Pole label={t("UI-TRAVSSTA-KOSZT-JEDNEGO-DODATKOWEGO")} unit={t("UI-J-ZL", { waluta: symbol(wPanelu.kod) })} type="number" inputMode="decimal" min={0}
+        value={stan.kosztPaneluZl} waluta={wPanelu} onChange={ustaw("kosztPaneluZl")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="kosztPanelu" />} />
       <Pole label={t("UI-TRAVSSTA-ROCZNY-UZYSK-JEDNEGO")} unit={t("UI-J-KWH-ROK")} type="number" inputMode="decimal" min={0}
         value={stan.uzyskPaneluKwh} onChange={ustaw("uzyskPaneluKwh")} pomoc={<PomocPola ekran="tracker-vs-staly" pole="uzyskPanelu" />} />
 
@@ -130,6 +133,7 @@ export default function TrackerVsStalyPage() {
               </Link>
               .
             </p>
+            <RozbicieKwot rozbicie={waluty.rozbicie} />
             <WynikSzczegoly assumptions={result.assumptions} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           </WerdyktPanel>
           <KartaPorownawcza kolumny={kolumny(t)} wiersze={wiersze} minWidth={320} />

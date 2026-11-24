@@ -10,8 +10,7 @@ import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
@@ -32,13 +31,14 @@ const STAN_POCZATKOWY: FormularzStan = {
   liczbaCykli: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("kosztWymianyBateriiZl")
-
 export default function VehicleToHomePage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("vehicle-to-home", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("vehicle-to-home", STAN_POCZATKOWY, { kwoty: ["kosztWymianyBateriiZl"] })
   const { wspieraV2h, pojemnoscBaterEvKwh, rezerwaNaDojazdKwh, sprawnoscEfektywnaPct, kosztWymianyBateriiZl, liczbaCykli } = stan
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wKosztWymianyBateriiZl = waluty.pole("kosztWymianyBateriiZl")
 
   function setPole<K extends keyof FormularzStan>(
     pole: K,
@@ -63,10 +63,10 @@ export default function VehicleToHomePage() {
         pojemnoscBaterEvKwh: pojemnoscBaterEvKwh === "" ? 0 : Number(pojemnoscBaterEvKwh),
         rezerwaNaDojazdKwh: rezerwaNaDojazdKwh === "" ? 0 : Number(rezerwaNaDojazdKwh),
         sprawnoscEfektywnaPct: sprawnoscEfektywnaPct === "" ? 0 : Number(sprawnoscEfektywnaPct),
-        kosztWymianyBateriiZl: kosztWymianyBateriiZl === "" ? 0 : Number(kosztWymianyBateriiZl),
+        kosztWymianyBateriiZl: r.kosztWymianyBateriiZl === "" ? 0 : Number(r.kosztWymianyBateriiZl),
         liczbaCykli: liczbaCykli === "" ? 0 : Number(liczbaCykli),
       }),
-    [wspieraV2h, pojemnoscBaterEvKwh, rezerwaNaDojazdKwh, sprawnoscEfektywnaPct, kosztWymianyBateriiZl, liczbaCykli],
+    [wspieraV2h, pojemnoscBaterEvKwh, rezerwaNaDojazdKwh, sprawnoscEfektywnaPct, r.kosztWymianyBateriiZl, liczbaCykli],
   )
 
   return (
@@ -75,7 +75,6 @@ export default function VehicleToHomePage() {
       <NaglowekEkranu tytul={t("UI-VEHTOHOM-VEHICLE-HOME-V2H")} ekran="vehicle-to-home" wynik={result}>
         {t("UI-VEHTOHOM-AUTO-MOZE-BYC")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <PoleCheckbox
@@ -117,11 +116,12 @@ export default function VehicleToHomePage() {
         />
         <Pole
           label={t("UI-VEHTOHOM-KOSZT-WYMIANY-BATERII")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(wKosztWymianyBateriiZl.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={kosztWymianyBateriiZl}
+          waluta={wKosztWymianyBateriiZl}
           onChange={(e) => setKosztWymianyBateriiZl(e.target.value)}
           pomoc={<PomocPola ekran="vehicle-to-home" pole="kosztWymiany" />}
         />
@@ -152,6 +152,7 @@ export default function VehicleToHomePage() {
           <p className="mt-2 text-small">
             {t("UI-VEHTOHOM-KOSZT-KWH-BATERII", { kosztZaKwh: result.value.kosztZaKwh.toFixed(2) })}
           </p>
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
         </WerdyktPanel>
       )}

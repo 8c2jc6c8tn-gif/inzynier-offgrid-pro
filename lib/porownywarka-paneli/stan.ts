@@ -259,7 +259,10 @@ export const STAN_POCZATKOWY: FormularzStan = {
   kryteria: domyslnyWyborKryteriow(),
 }
 
-/** Money typed in the display currency follows the currency switch (the panel prices live in a list, so a custom converter). */
+/**
+ * Converts every amount of a shared package (`udostepnianie.ts`: the package carries one currency for the whole form). The
+ * screen itself keeps a currency per amount since 3.55.0 (`KWOTY_FORMULARZA_PANELI`, `components/porownywarka-paneli/zestawy.tsx`).
+ */
 const KWOTY_PROSTE = przeliczPola<FormularzStan>("stawka", "cenaDzien", "cenaNoc", "agrCena")
 export const KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan => ({
   ...KWOTY_PROSTE(stan, wspolczynnik),
@@ -272,9 +275,6 @@ export const KWOTY = (stan: FormularzStan, wspolczynnik: number): FormularzStan 
 export type ZestawSeed = { id: string; nazwa: string; zapisanoIso: string; stan: FormularzStan }
 export type StanZestawow = { zestawy: ZestawSeed[] }
 export const STAN_ZESTAWOW_POCZATKOWY: StanZestawow = { zestawy: [] }
-export const KWOTY_ZESTAWOW = (stan: StanZestawow, wspolczynnik: number): StanZestawow => ({
-  zestawy: stan.zestawy.map((z) => ({ ...z, stan: KWOTY(z.stan, wspolczynnik) })),
-})
 
 /** The mode the screen shows: the saved choice, otherwise the full mode for a draft that already holds data and the simple one for an empty form. */
 export function efektywnyTryb(stan: Pick<FormularzStan, "tryb" | "panele" | "miejsca">): "prosty" | "pelny" {

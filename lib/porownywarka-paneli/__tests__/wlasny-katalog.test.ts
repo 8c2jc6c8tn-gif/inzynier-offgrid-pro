@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { rozbierzCsv } from "../csv"
-import { dolaczWpisy, importujKatalogCsv, kwotyWlasnegoKatalogu, KOLUMNY_CSV, MAKS_WIERSZY_CSV, panelZWpisu, szablonCsv } from "../wlasny-katalog"
+import { dolaczWpisy, importujKatalogCsv, KOLUMNY_CSV, MAKS_WIERSZY_CSV, panelZWpisu, szablonCsv } from "../wlasny-katalog"
 import { panelDoSilnika } from "../stan"
 
 const NAGLOWEK = "nazwa;producent;moc_wp;cena;wsp_temp_pmax_proc_na_c;noct_c;bifacjalny"
@@ -109,9 +109,4 @@ describe("katalog w stanie", () => {
     expect(panel).toMatchObject({ katalogId: "", nazwa: "A", moc: "500", cena: "100" })
   })
 
-  it("kwotyWlasnegoKatalogu przelicza tylko ceny", () => {
-    const k = kwotyWlasnegoKatalogu({ wpisy: dolaczWpisy([], wpisy) }, 0.5)
-    expect(k.wpisy.map((w) => Number(w.cena))).toEqual([50, 40])
-    expect(k.wpisy.map((w) => w.moc)).toEqual(["500", "400"])
-  })
 })

@@ -9,7 +9,6 @@ import type { PorownywarkaInput } from "@/lib/core/modules/pv/porownywarka-panel
 import { domyslnyWyborKryteriow } from "@/lib/core/modules/pv/porownywarka-paneli/kryteria"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { rozbierzCsv, wykryjSeparator, zbudujCsv, type Separator } from "./csv"
-import { przeliczPoleTekst } from "@/lib/waluta/przelicz"
 import { panelDoSilnika, PANEL_PUSTY, type PanelSeed } from "./stan"
 
 /** A catalogue entry: the form texts of a panel (without the form id), with its own id in the user's catalogue. */
@@ -184,7 +183,3 @@ export function dolaczWpisy(istniejace: readonly WpisWlasnegoKatalogu[], nowe: W
   return [...istniejace, ...nowe.map((w, i) => ({ ...w, wlId: `w${maks + i + 1}` }))]
 }
 
-/** Prices of the catalogue typed in the display currency follow the currency switch. */
-export function kwotyWlasnegoKatalogu(k: WlasnyKatalog, wspolczynnik: number): WlasnyKatalog {
-  return { wpisy: k.wpisy.map((w) => ({ ...w, cena: przeliczPoleTekst(w.cena, wspolczynnik) })) }
-}

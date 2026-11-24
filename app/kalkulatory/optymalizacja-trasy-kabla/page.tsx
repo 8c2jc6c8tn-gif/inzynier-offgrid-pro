@@ -4,8 +4,7 @@ import { useMemo } from "react"
 import { calculateOptymalizacjaTrasyKabla } from "@/lib/core/modules/okablowanie/optymalizacja-trasy-kabla/calculator"
 import type { Material, SposobUlozenia } from "@/lib/core/modules/okablowanie/dobor-przekroju-kabla/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -52,12 +51,13 @@ const STAN_POCZATKOWY: FormularzStan = {
   kosztB: "",
 }
 
-/** Money fields converted when the display currency changes. */
-const PRZELICZ_KWOTY = przeliczPola<FormularzStan>("cenaEnergiiZlZaKwh", "kosztA", "kosztB")
+/** Money fields: each keeps the currency it was typed in. */
+const KWOTY = ["cenaEnergiiZlZaKwh", "kosztA", "kosztB"]
 
 export default function OptymalizacjaTrasyKablaPage() {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY, { kwoty: KWOTY })
   const {
     pradA,
     napiecieV,
@@ -75,6 +75,11 @@ export default function OptymalizacjaTrasyKablaPage() {
     przekrojB,
     kosztB,
   } = stan
+  // Amounts typed in another currency are converted to the working currency (NBP) for the calculator.
+  const r = waluty.stanRoboczy
+  const wCeny = waluty.pole("cenaEnergiiZlZaKwh")
+  const wKosztuA = waluty.pole("kosztA")
+  const wKosztuB = waluty.pole("kosztB")
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -108,17 +113,17 @@ export default function OptymalizacjaTrasyKablaPage() {
         temperaturaOtoczeniaC: temperaturaOtoczeniaC === "" ? null : Number(temperaturaOtoczeniaC),
         liczbaKabliWWiazce: liczbaKabliWWiazce === "" ? 0 : Number(liczbaKabliWWiazce),
         dopuszczalnySpadekNapieciaPct: dopuszczalnySpadekNapieciaPct === "" ? 0 : Number(dopuszczalnySpadekNapieciaPct),
-        cenaEnergiiZlZaKwh: cenaEnergiiZlZaKwh === "" ? 0 : Number(cenaEnergiiZlZaKwh),
+        cenaEnergiiZlZaKwh: r.cenaEnergiiZlZaKwh === "" ? 0 : Number(r.cenaEnergiiZlZaKwh),
         liczbaLat: liczbaLat === "" ? 0 : Number(liczbaLat),
         trasaA: {
           dlugoscTrasyM: dlugoscA === "" ? 0 : Number(dlugoscA),
           przekrojMm2: przekrojA === "" ? 0 : Number(przekrojA),
-          kosztZakupuZl: kosztA === "" ? 0 : Number(kosztA),
+          kosztZakupuZl: r.kosztA === "" ? 0 : Number(r.kosztA),
         },
         trasaB: {
           dlugoscTrasyM: dlugoscB === "" ? 0 : Number(dlugoscB),
           przekrojMm2: przekrojB === "" ? 0 : Number(przekrojB),
-          kosztZakupuZl: kosztB === "" ? 0 : Number(kosztB),
+          kosztZakupuZl: r.kosztB === "" ? 0 : Number(r.kosztB),
         },
       }),
     [
@@ -129,14 +134,14 @@ export default function OptymalizacjaTrasyKablaPage() {
       temperaturaOtoczeniaC,
       liczbaKabliWWiazce,
       dopuszczalnySpadekNapieciaPct,
-      cenaEnergiiZlZaKwh,
+      r.cenaEnergiiZlZaKwh,
       liczbaLat,
       dlugoscA,
       przekrojA,
-      kosztA,
+      r.kosztA,
       dlugoscB,
       przekrojB,
-      kosztB,
+      r.kosztB,
     ],
   )
 
@@ -175,7 +180,6 @@ export default function OptymalizacjaTrasyKablaPage() {
       >
         {t("UI-OPTTRAKAB-PATRZ-TYLKO-CENE")}
       </NaglowekEkranu>
-      <PrzeliczoneInfo info={info} />
 
       <div className="flex flex-col gap-4">
         <Pole
@@ -249,11 +253,12 @@ export default function OptymalizacjaTrasyKablaPage() {
         />
         <Pole
           label={t("UI-OPTTRAKAB-CENA-ENERGII-ELEKTRYCZNEJ")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(wCeny.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={cenaEnergiiZlZaKwh}
+          waluta={wCeny}
           onChange={(e) => setCenaEnergiiZlZaKwh(e.target.value)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="cenaEnergii" />}
         />
@@ -296,11 +301,12 @@ export default function OptymalizacjaTrasyKablaPage() {
         <Pole
           id="koszt-trasy-a"
           label={t("UI-OPTTRAKAB-KOSZT-ZAKUPU-KABEL")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(wKosztuA.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={kosztA}
+          waluta={wKosztuA}
           onChange={(e) => setKosztA(e.target.value)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="koszt" />}
         />
@@ -333,11 +339,12 @@ export default function OptymalizacjaTrasyKablaPage() {
         <Pole
           id="koszt-trasy-b"
           label={t("UI-OPTTRAKAB-KOSZT-ZAKUPU-KABEL")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(wKosztuB.kod) })}
           type="number"
           inputMode="decimal"
           min={0}
           value={kosztB}
+          waluta={wKosztuB}
           onChange={(e) => setKosztB(e.target.value)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="koszt" />}
         />
@@ -349,6 +356,7 @@ export default function OptymalizacjaTrasyKablaPage() {
             {t("UI-OPTTRAKAB-TCO-KWH-ROK", { tcoAZl: result.value.tcoAZl.toFixed(0), strataRocznaAKwh: result.value.strataRocznaAKwh.toFixed(1), tcoBZl: result.value.tcoBZl.toFixed(0), strataRocznaBKwh: result.value.strataRocznaBKwh.toFixed(1) })}
           </WynikGlowny>
         ) : null}
+        {verdict === "green" && <RozbicieKwot rozbicie={waluty.rozbicie} />}
         <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
       </WerdyktPanel>
     </main>

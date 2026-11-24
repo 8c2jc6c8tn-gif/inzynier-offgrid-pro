@@ -8,8 +8,7 @@ import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { przeliczPola } from "@/lib/waluta/przelicz"
-import { PrzeliczoneInfo } from "@/components/przeliczone-info"
+import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
 import type { ObciazenieCieplneResult } from "@/lib/core/modules/ogrzewanie/obciazenie-cieplne/calculator"
 import { calculateRaportEfektywnosci } from "@/lib/core/modules/ogrzewanie/raport-efektywnosci-budynku/calculator"
 import { useTranslate } from "@/lib/i18n/language-context"
@@ -19,7 +18,6 @@ type Pola = "powierzchnia" | "cieploRok" | "cena"
 type Stan = Record<Pola, string>
 
 const STAN_POCZATKOWY: Stan = { powierzchnia: "", cieploRok: "", cena: "" }
-const PRZELICZ_KWOTY = przeliczPola<Stan>("cena")
 
 const r0 = (x: number) => Math.round(x)
 
@@ -29,7 +27,11 @@ const r0 = (x: number) => Math.round(x)
  */
 export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCieplneResult; cop: number }) {
   const t = useTranslate()
-  const [stan, setStan, info] = usePersistedDraft<Stan>("obciazenie-cieplne.raport", STAN_POCZATKOWY, PRZELICZ_KWOTY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>("obciazenie-cieplne.raport", STAN_POCZATKOWY, { kwoty: ["cena"] })
+  // The price typed in another currency is converted to the working currency (NBP) for the calculator.
+  const cenaRobocza = waluty.stanRoboczy.cena
+  const wCeny = waluty.pole("cena")
   const pole = (klucz: Pola) => ({
     type: "number",
     inputMode: "decimal" as const,
@@ -49,9 +51,9 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
         cieploRokKwh: liczba(stan.cieploRok) ?? cieploAuto ?? 0,
         powierzchniaM2: liczba(stan.powierzchnia) ?? 0,
         cop,
-        cenaZlKwh: liczba(stan.cena) ?? 0,
+        cenaZlKwh: liczba(cenaRobocza) ?? 0,
       }),
-    [stan, wynik, cop, cieploAuto, wentylacja],
+    [stan, cenaRobocza, wynik, cop, cieploAuto, wentylacja],
   )
   const v = result.value
   const najwieksza = v.ranking[0]
@@ -60,7 +62,6 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
     <section className="flex flex-col gap-4 rounded-lg border p-4">
       <h2 className="font-semibold">{t("UI-M6D-RAP-TYTUL")}</h2>
       <p className="text-small text-muted-foreground">{t("UI-M6D-RAP-OPIS")}</p>
-      <PrzeliczoneInfo info={info} />
       <div className="grid grid-cols-2 gap-3">
         <Pole label={t("UI-M6D-RAP-POWIERZCHNIA")} unit="m²" {...pole("powierzchnia")} pomoc={<PomocPola ekran="m6d-raport-efektywnosci" pole="powierzchnia" />} />
         <Pole
@@ -71,7 +72,7 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
           pomoc={<PomocPola ekran="m6d-raport-efektywnosci" pole="cieploRok" />}
         />
       </div>
-      <Pole label={t("UI-M6D-RAP-CENA")} unit={t("UI-J-ZL-KWH")} {...pole("cena")} pomoc={<PomocPola ekran="m6d-raport-efektywnosci" pole="cena" />} />
+      <Pole label={t("UI-M6D-RAP-CENA")} unit={t("UI-J-ZL-KWH", { waluta: symbol(wCeny.kod) })} {...pole("cena")} waluta={wCeny} pomoc={<PomocPola ekran="m6d-raport-efektywnosci" pole="cena" />} />
 
       {result.status === "INVALID_INPUT" ? (
         <WerdyktPanel poziom="blad" etykieta={t("UI-M6-BLAD-DANYCH")}>
@@ -88,6 +89,7 @@ export function SekcjaRaportEfektywnosci({ wynik, cop }: { wynik: ObciazenieCiep
           {v.wskaznikKwhM2Rok !== null && <p className="mt-2 text-small">{t("UI-M6D-RAP-WSKAZNIK", { kwh: r0(v.wskaznikKwhM2Rok) })}</p>}
           {v.energiaElRokKwh !== null && <p className="mt-1 text-small">{t("UI-M6D-RAP-PRAD", { kwh: r0(v.energiaElRokKwh) })}</p>}
           {v.kosztRokZl !== null && <p className="mt-1 text-small">{t("UI-M6D-RAP-KOSZT", { zl: r0(v.kosztRokZl) })}</p>}
+          <RozbicieKwot rozbicie={waluty.rozbicie} />
           <WynikSzczegoly assumptions={result.assumptions} warnings={result.warnings} formula={result.formula} formulaKey={result.formulaKey} formulaParams={result.formulaParams} />
           <p className="mt-2 text-small">
             <Link href="/kalkulatory/cop-pompy-ciepla" className="underline">

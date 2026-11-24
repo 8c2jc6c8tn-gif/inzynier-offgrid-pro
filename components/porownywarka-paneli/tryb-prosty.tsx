@@ -8,6 +8,8 @@ import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { useSymbolWaluty } from "@/components/waluta-pola"
+import type { WalutyEkranu } from "@/lib/adapters/use-persisted-draft"
 import type { CalcResult } from "@/lib/core/calc-result"
 import type { PorownywarkaResult } from "@/lib/core/modules/pv/porownywarka-paneli/calculator"
 import { MAKS_PANELI_W_ZESTAWIE } from "@/lib/core/modules/pv/porownywarka-paneli/constants"
@@ -47,7 +49,8 @@ export function PytaniaProste(p: {
   stan: FormularzStan
   miejsce: MiejsceSeed
   powierzchnie: PowierzchniaProjektu[]
-  waluta: string
+  /** Currency of each amount of the form (panel prices, the grid rate). */
+  waluty: WalutyEkranu<FormularzStan>
   /** The note about the monthly consumption (same block as in the full mode). */
   blokZuzycia: ReactNode
   ustaw: <K extends keyof FormularzStan>(pole: K, v: FormularzStan[K]) => void
@@ -60,7 +63,8 @@ export function PytaniaProste(p: {
   naPelny: () => void
 }) {
   const t = useTranslate()
-  const { stan, miejsce } = p
+  const symbol = useSymbolWaluty()
+  const { stan, miejsce, waluty } = p
   const strona = odczytajStrone(miejsce.azymut)
   const wartoscStrony = strona.rodzaj === "strona" ? strona.id : strona.rodzaj === "wlasna" ? "wlasna" : ""
   // Prices of the electricity: the simple mode only edits the single grid rate; any other kind of pricing was set in the full mode.
@@ -133,12 +137,13 @@ export function PytaniaProste(p: {
             <WyborZKatalogu katalogId={panel.katalogId} onWybierz={(id) => p.wstawZKatalogu(panel.id, id)} />
             <Pole
               label={t("UI-PORP-CENA")}
-              unit={p.waluta}
+              unit={t("UI-J-ZL", { waluta: symbol(waluty.pole(`panele.${panel.id}.cena`).kod) })}
               type="number"
               inputMode="decimal"
               min={0}
               step="any"
               value={panel.cena}
+              waluta={waluty.pole(`panele.${panel.id}.cena`)}
               onChange={(e) => p.ustawPanel(panel.id, { cena: e.target.value })}
               pomoc={<PomocPola ekran="porownywarka-paneli" pole="cena" />}
             />
@@ -171,12 +176,13 @@ export function PytaniaProste(p: {
         {wycenaProsta ? (
           <Pole
             label={t("UI-PORP-STAWKA")}
-            unit={`${p.waluta}/kWh`}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("stawka").kod) })}
             type="number"
             inputMode="decimal"
             min={0}
             step="any"
             value={stan.stawka}
+            waluta={waluty.pole("stawka")}
             onChange={(e) => {
               p.ustaw("stawka", e.target.value)
               if (stan.wycena === "") p.ustaw("wycena", "siec")
