@@ -23,6 +23,7 @@ export const ru: Record<keyof typeof pl, string> = {
   "UI-EKRAN-2-PRZETWORNICE-DCDC": "Преобразователи DC/DC",
   "UI-EKRAN-2-MOC-POZORNA-COSFI": "Полная мощность (cos φ)",
   "UI-EKRAN-2-LOAD-SHEDDING": "Матрица приоритетов отключения (Smart Load Shedding)",
+  "UI-EKRAN-2-BILANS-ZAPOTRZEBOWANIA": "Баланс потребности",
   "UI-EKRAN-2-BUFOR-ROZBUDOWE": "Запас на расширение",
   "UI-EKRAN-2-URZADZENIA-ZMIENNE": "Переменные нагрузки и класс энергоэффективности",
   "UI-EKRAN-2-SPRAWNOSC-INWERTERA-NISKIE-OBCIAZENIE": "КПД инвертора при малой нагрузке",

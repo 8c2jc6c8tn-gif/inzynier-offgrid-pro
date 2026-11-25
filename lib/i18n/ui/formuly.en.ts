@@ -107,4 +107,5 @@ export const en: Record<Klucz, string> = {
   "UI-FORMULA-ZAPOTRZEBOWANIE-WAMPIRY-ENERGETYCZNE-SYMULACJE-I-RAPORTY-WPLYW": "\\Delta C_{usable} = \\dfrac{(E_{standby} \\times elimination\\%) \\times d_{autonomy}}{\\eta_{inverter} \\times DoD}",
   "UI-FORMULA-PV-WIATR-POWYZEJ-30": "q_p = c_e(z) \\cdot q_b;\\quad p = q_p \\cdot c_{p,net}(30^\\circ);\\quad F_w = c_sc_d \\cdot c_f(30^\\circ,\\varphi) \\cdot q_p \\cdot A_{ref};\\quad m = \\max\\left(0,\\ \\frac{\\gamma_Q F_w}{\\gamma_{G,inf}\\, g} - G\\right)",
   "UI-FORMULA-PV-OGRODZENIE": "q_p = c_e(z_e)\\, q_b;\\quad F = c_f\\, q_p\\, s\\, h;\\quad M_{Ed} = \\gamma_Q F z_c \\le \\frac{W_{el} f_y}{\\gamma_{M0}};\\quad H_u = c\\,\\frac{\\gamma D K_p L^3}{e + L} \\ge \\gamma_Q F,\\ K_p = \\tan^2\\left(45^\\circ + \\frac{\\varphi'_d}{2}\\right)",
+  "UI-FORMULA-ZAPOTRZEBOWANIE-BILANS": "E_{day} = \\sum_i E_i \\quad E_{month\\,m} = \\sum_i E_{i,m} \\quad E_{with\\,buffer} = E \\times (1 + buffer\\%)",
 }

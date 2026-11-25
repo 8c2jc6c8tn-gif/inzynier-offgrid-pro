@@ -201,6 +201,7 @@ import { sprawnoscInwerteraTool } from "./tools/sprawnosc-inwertera-niskie-obcia
 import { przetworniceDcdcTool } from "./tools/przetwornice-dcdc-tool"
 import { loadSheddingTool } from "./tools/load-shedding-tool"
 import { buforRozbudowyTool } from "./tools/bufor-rozbudowe-tool"
+import { bilansZapotrzebowaniaTool } from "./tools/bilans-zapotrzebowania-tool"
 import { architekturaFazowaTool } from "./tools/architektura-fazowa-tool"
 import { kategorieSpecjalneTool } from "./tools/kategorie-specjalne-tool"
 import { agregatPradotworczyTool } from "./tools/agregat-pradotworczy-tool"
@@ -428,6 +429,7 @@ const NARZEDZIA: Array<AiToolDefinition<any, any>> = [
   przetworniceDcdcTool,
   loadSheddingTool,
   buforRozbudowyTool,
+  bilansZapotrzebowaniaTool,
   architekturaFazowaTool,
   kategorieSpecjalneTool,
   agregatPradotworczyTool,

@@ -7,6 +7,7 @@ import {
   WSPOLCZYNNIK_KWH_NA_L_K,
 } from "@/lib/core/modules/zapotrzebowanie/bojler-cwu/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wejscieBojlera } from "@/lib/zapotrzebowanie/zrodla-bilansu"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
@@ -48,12 +49,8 @@ export default function BojlerCwuPage() {
 
   const result = useMemo(
     () =>
-      calculateBojlerCwu({
-        wolumenCwuLDoba: wolumenCwuLDoba === "" ? 0 : Number(wolumenCwuLDoba),
-        deltaTK: deltaTK === "" ? 0 : Number(deltaTK),
-        mocGrzalkiKw: mocGrzalkiKw === "" ? 0 : Number(mocGrzalkiKw),
-        pojemnoscBojleraL: pojemnoscBojleraL === "" ? 0 : Number(pojemnoscBojleraL),
-      }),
+      // The same conversion the demand balance uses (one place: lib/zapotrzebowanie/zrodla-bilansu.ts).
+      calculateBojlerCwu(wejscieBojlera({ wolumenCwuLDoba, deltaTK, mocGrzalkiKw, pojemnoscBojleraL })),
     [wolumenCwuLDoba, deltaTK, mocGrzalkiKw, pojemnoscBojleraL],
   )
 

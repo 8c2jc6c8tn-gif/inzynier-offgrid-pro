@@ -52,6 +52,7 @@ export const KAFLE: KafelEntry[] = [
       { href: "/kalkulatory/przetwornice-dcdc", label: "Przetwornice DC/DC" },
       { href: "/kalkulatory/moc-pozorna-cosfi", label: "Moc pozorna (cos φ)" },
       { href: "/kalkulatory/load-shedding", label: "Macierz priorytetów odłączania (Smart Load Shedding)" },
+      { href: "/kalkulatory/bilans-zapotrzebowania", label: "Bilans zapotrzebowania" },
       { href: "/kalkulatory/bufor-rozbudowe", label: "Bufor na rozbudowę" },
       { href: "/kalkulatory/urzadzenia-zmienne", label: "Urządzenia zmienne i klasa energetyczna" },
       { href: "/kalkulatory/sprawnosc-inwertera-niskie-obciazenie", label: "Sprawność inwertera przy niskim obciążeniu" },

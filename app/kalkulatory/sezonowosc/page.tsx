@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateSezonowosc } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/calculator"
 import type { TypSezonowosci } from "@/lib/core/modules/zapotrzebowanie/sezonowosc/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wejscieSezonowosci } from "@/lib/zapotrzebowanie/zrodla-bilansu"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -60,14 +61,8 @@ export default function SezonowoscPage() {
 
   const result = useMemo(
     () =>
-      calculateSezonowosc({
-        zapotrzebowanieKwhDoba: zapotrzebowanieKwhDoba === "" ? 0 : Number(zapotrzebowanieKwhDoba),
-        typ,
-        miesiacOd: miesiacOd === "" ? 0 : Number(miesiacOd),
-        miesiacDo: miesiacDo === "" ? 0 : Number(miesiacDo),
-        aktualnyMiesiac: aktualnyMiesiac === "" ? 0 : Number(aktualnyMiesiac),
-        czyWeekend,
-      }),
+      // The same conversion the demand balance uses (lib/zapotrzebowanie/zrodla-bilansu.ts).
+      calculateSezonowosc(wejscieSezonowosci({ zapotrzebowanieKwhDoba, typ, miesiacOd, miesiacDo, aktualnyMiesiac, czyWeekend })),
     [zapotrzebowanieKwhDoba, typ, miesiacOd, miesiacDo, aktualnyMiesiac, czyWeekend],
   )
 

@@ -9,6 +9,7 @@ import {
 } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/constants"
 import type { KlasaEnergetyczna, PozycjaUrzadzenia } from "@/lib/core/modules/zapotrzebowanie/urzadzenia-zmienne/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wejscieZmiennych } from "@/lib/zapotrzebowanie/zrodla-bilansu"
 import { PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, poziomOstrzezen } from "@/components/werdykt"
@@ -67,12 +68,8 @@ export default function UrzadzeniaZmiennePage() {
 
   const result = useMemo(
     () =>
-      calculateUrzadzeniaZmienne({
-        urzadzenia,
-        plytaIndukcyjnaWybrana,
-        plytaIndukcyjnaMocW: plytaIndukcyjnaMocW === "" ? 0 : Number(plytaIndukcyjnaMocW),
-        plytaIndukcyjnaCzasMin: plytaIndukcyjnaCzasMin === "" ? 0 : Number(plytaIndukcyjnaCzasMin),
-      }),
+      // The same conversion the demand balance uses (lib/zapotrzebowanie/zrodla-bilansu.ts).
+      calculateUrzadzeniaZmienne(wejscieZmiennych({ urzadzenia, plytaIndukcyjnaWybrana, plytaIndukcyjnaMocW, plytaIndukcyjnaCzasMin })),
     [urzadzenia, plytaIndukcyjnaWybrana, plytaIndukcyjnaMocW, plytaIndukcyjnaCzasMin],
   )
 

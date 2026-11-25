@@ -96,6 +96,7 @@ const MIGRATED_MODULES = [
   "lib/core/modules/pv/zacienienie-diody-bocznikujace",
   "lib/core/modules/zapotrzebowanie/agregat-pradotworczy",
   "lib/core/modules/zapotrzebowanie/bojler-cwu",
+  "lib/core/modules/zapotrzebowanie/bilans-zapotrzebowania",
   "lib/core/modules/zapotrzebowanie/bufor-rozbudowe",
   "lib/core/modules/zapotrzebowanie/load-shedding",
   "lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika",
