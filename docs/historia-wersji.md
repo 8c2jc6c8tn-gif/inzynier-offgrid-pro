@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.56.0] — 25.11.2026
+
+Nowy ekran **„Bilans zapotrzebowania”** w module 2 (decyzja właściciela D-3, karty 24.11.2026). Sumuje dobowe zużycie z ekranów, które użytkownik już wypełnił — lista odbiorników („Zużycie per urządzenie”, ta sama dla budynku i mikroinstalacji), bojler C.W.U., wampiry energetyczne (standby × 24 h), pobór własny falownika, urządzenia zmienne z płytą indukcyjną, kategorie specjalne i urządzenie sezonowe — bez wpisywania drugi raz. Każdą pozycję można odznaczyć (np. gdy urządzenie jest już na liście odbiorników); niewypełniony ekran jest wymieniony, nie zgadywany. Wynik: doba typowa i najgorszy miesiąc (z tabelą 12 miesięcy), z buforem z ekranu „Bufor na rozbudowę” i bez; do projektu (pasek „Zapisz w projekcie”) trafia wybrana liczba bez bufora. Ekrany bojlera, poboru falownika, urządzeń zmiennych i sezonowości zamieniają szkic na wejście kalkulatora tą samą funkcją co bilans (`lib/zapotrzebowanie/zrodla-bilansu.ts`). Narzędzie AI `policz_bilans_zapotrzebowania`, PL/EN/RU, „?” i „i”.
+
+Wpływ na liczby: nowy wynik (suma istniejących); wzory pozostałych ekranów bez zmian.
+
 ## [3.55.0] — 24.11.2026
 
 Waluty (D107, decyzje właściciela na kartach 24.11.2026). (1) **Kursy z NBP** — kursy średnie, tabela A (`api.nbp.pl`; dotąd EBC przez Frankfurter), serwer aplikacji i zapas offline jak dotąd; lew bułgarski tylko z kursem ręcznym (NBP go nie publikuje). (2) **Waluta robocza** = waluta z Ustawień: w niej są wszystkie wyniki i sumy. (3) **Każda kwota ma swoją walutę** — wybór przy polu (w listach osobno dla każdego wiersza), pod polem przeliczenie na walutę roboczą po kursie NBP z datą tabeli; brak kursu = kwota nie jest liczona (komunikat przy polu). (4) Zmiana waluty w Ustawieniach **nie przelicza już wpisanych kwot**; zapisane szkice dostają walutę, w której były zapisane (migracja bez utraty danych). (5) Pod wynikiem rozbicie kwot, gdy na ekranie są co najmniej dwie waluty. (6) Odczyt kwot z cudzego ekranu zawsze przez walutę każdego pola (rejestr `lib/waluta/kwoty-ekranow.ts`) — m.in. „Magazyn firmy” czyta cenę baterii z „Opłacalności magazynu” poprawnie także przy euro. Kwoty z mocy prawa złotowe (taryfy, opłaty, dotacje, RCE) bez wyboru waluty.

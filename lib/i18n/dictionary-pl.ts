@@ -2346,6 +2346,20 @@ export const dictionaryPl = {
   "OG-Z-EC7": "Nośność fundamentu liczona jako najniekorzystniejsza z czterech podejść obliczeniowych PN-EN 1997-1 (PO1-K1, PO1-K2, PO2, PO3), bo brak Załącznika krajowego. Wartości γR;e dla parcia biernego nie zostały zweryfikowane.",
   "OG-Z-SZTYWNY": "Fundament traktowany jak sztywny, krótki pal w gruncie niespoistym; parcie bierne Kp = tan²(45° + φ′d/2), sprawdzana jest tylko nośność na siłę poziomą (bez osiadania i wyrywania).",
   "OG-Z-SZCZELINY": "Niewpisane szczeliny między panelami a słupkiem i między rzędami przyjęto jako 0 mm.",
+  "BILANS-ZRODLO-ODBIORNIKI": "Lista odbiorników („Zużycie per urządzenie”)",
+  "BILANS-ZRODLO-BOJLER": "Bojler C.W.U.",
+  "BILANS-ZRODLO-WAMPIRY": "Wampiry energetyczne (standby)",
+  "BILANS-ZRODLO-FALOWNIK": "Pobór własny falownika",
+  "BILANS-ZRODLO-ZMIENNE": "Urządzenia zmienne i płyta indukcyjna",
+  "BILANS-ZRODLO-SPECJALNE": "Kategorie specjalne",
+  "BILANS-ZRODLO-SEZONOWE": "Urządzenie sezonowe („Sezonowość”)",
+  "BILANS-UJEMNA-WARTOSC": "Pozycja „{zrodlo}” ma ujemne zużycie — sprawdź dane na jej ekranie.",
+  "BILANS-MIESIACE": "Pozycja „{zrodlo}” nie ma zużycia dla wszystkich 12 miesięcy.",
+  "BILANS-BUFOR-UJEMNY": "Bufor na rozbudowę nie może być ujemny.",
+  "BILANS-BRAK-DANYCH": "„{zrodlo}”: ekran nie jest jeszcze wypełniony — ta pozycja nie jest liczona, więc bilans może być zaniżony.",
+  "BILANS-ZAL-PODWOJNE-LICZENIE": "Pozycje się sumują. Jeśli urządzenie jest już na liście odbiorników (np. bojler, płyta, pobór standby), odznacz jego osobną pozycję, żeby nie liczyć go dwa razy.",
+  "BILANS-ZAL-SEZONOWE": "Urządzenie sezonowe liczy się tylko w swoich miesiącach (nie w dobie typowej); urządzenie weekendowe — w najgorszym miesiącu jako dzień weekendu.",
+  "BILANS-ZAL-BEZ-BUFORA": "Bufor na rozbudowę nie jest wybrany na swoim ekranie — wyniki z buforem równe są wynikom bez bufora.",
 } as const
 
 export type KluczTlumaczenia = keyof typeof dictionaryPl

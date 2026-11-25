@@ -176,6 +176,18 @@ export const pl = {
       soc: { nazwa: "Aktualny SoC baterii [%]", cel: "Stan naładowania, dla którego sprawdzasz decyzję.", gdzie: "Wyświetlacz BMS/falownika.", zakres: "0–100%." },
     },
   },
+  "bilans-zapotrzebowania": {
+    migawka: {
+      oCoChodzi: "Ile energii na dobę potrzebuje cały obiekt — zebrane z ekranów Modułu 2, które już wypełniłeś, bez wpisywania drugi raz.",
+      jakDziala: "Suma pozycji dobowych: lista odbiorników, bojler, standby, pobór własny falownika, urządzenia zmienne, kategorie specjalne i urządzenie sezonowe. Doba typowa to urządzenia pracujące codziennie; najgorszy miesiąc to miesiąc z największym dobowym zużyciem. Na końcu bufor na rozbudowę.",
+      poCo: "Jedna liczba zapotrzebowania dla projektu — wpisuje się sama na ekranach baterii, paneli i stress-testu.",
+      fizyka: "E_doba = Σ E_i;  E_miesiąc = Σ E_i,miesiąc;  E_z_buforem = E · (1 + bufor%).",
+    },
+    pola: {
+      zrodla: { nazwa: "Pozycje bilansu", cel: "Które ekrany wchodzą do sumy.", gdzie: "Wartości pochodzą z ekranów Modułu 2 (link przy pozycji).", zakres: "Odznacz pozycję, jeśli to samo urządzenie jest już na liście odbiorników — inaczej policzysz je dwa razy." },
+      doProjektu: { nazwa: "Do projektu zapisz", cel: "Którą liczbę pasek „Zapisz w projekcie” zaproponuje jako zapotrzebowanie dobowe projektu.", gdzie: "Doba typowa do doboru na co dzień; najgorszy miesiąc, gdy projektujesz pod najtrudniejszy okres.", zakres: "Bez bufora — bufor dolicza ekran „Bufor na rozbudowę”." },
+    },
+  },
   "bufor-rozbudowe": {
     migawka: {
       oCoChodzi: "System projektowany tylko pod dzisiejsze potrzeby za dwa lata będzie za mały.",
@@ -448,6 +460,18 @@ export const en: Tlumaczenie<typeof pl> = {
       soc: { nazwa: "Current battery SoC [%]", cel: "State of charge for which you check the decision.", gdzie: "BMS/inverter display.", zakres: "0–100%." },
     },
   },
+  "bilans-zapotrzebowania": {
+    migawka: {
+      oCoChodzi: "How much energy per day the whole site needs — gathered from the Module 2 screens you have already filled in, without typing it again.",
+      jakDziala: "The sum of daily items: appliance list, boiler, standby, inverter self-consumption, variable appliances, special categories and the seasonal device. The typical day is the devices that run every day; the worst month is the month with the highest daily consumption. The expansion buffer comes last.",
+      poCo: "One demand figure for the project — it fills itself in on the battery, panel and stress-test screens.",
+      fizyka: "E_day = Σ E_i;  E_month = Σ E_i,month;  E_with_buffer = E · (1 + buffer%).",
+    },
+    pola: {
+      zrodla: { nazwa: "Balance items", cel: "Which screens go into the sum.", gdzie: "The values come from the Module 2 screens (link next to the item).", zakres: "Untick an item if the same device is already on the appliance list — otherwise it is counted twice." },
+      doProjektu: { nazwa: "Save to the project", cel: "Which figure the „Save to project” bar offers as the project's daily demand.", gdzie: "The typical day for everyday sizing; the worst month when you design for the hardest period.", zakres: "Without the buffer — the „Expansion buffer” screen adds it." },
+    },
+  },
   "bufor-rozbudowe": {
     migawka: {
       oCoChodzi: "A system designed only for today's needs will be too small in two years.",
@@ -718,6 +742,18 @@ export const ru: Tlumaczenie<typeof pl> = {
     pola: {
       priorytet: { nazwa: "Приоритет потребителя", cel: "Порядок отключения при падении SoC.", gdzie: "Ваше решение — критические берутся с экрана «Системы жизнеобеспечения».", zakres: "1 — критический, 2 — комфорт, 3 — избыточный." },
       soc: { nazwa: "Текущий SoC батареи [%]", cel: "Уровень заряда, для которого проверяется решение.", gdzie: "Дисплей BMS/инвертора.", zakres: "0–100%." },
+    },
+  },
+  "bilans-zapotrzebowania": {
+    migawka: {
+      oCoChodzi: "Сколько энергии в сутки нужно всему объекту — собрано с уже заполненных экранов Модуля 2, без повторного ввода.",
+      jakDziala: "Сумма суточных позиций: список потребителей, бойлер, standby, собственное потребление инвертора, переменные устройства, особые категории и сезонное устройство. Типичные сутки — устройства, работающие каждый день; худший месяц — месяц с наибольшим суточным потреблением. В конце — запас на расширение.",
+      poCo: "Одна цифра потребности для проекта — она сама подставляется на экранах батареи, панелей и стресс-теста.",
+      fizyka: "E_сутки = Σ E_i;  E_месяц = Σ E_i,месяц;  E_с_запасом = E · (1 + запас%).",
+    },
+    pola: {
+      zrodla: { nazwa: "Позиции баланса", cel: "Какие экраны входят в сумму.", gdzie: "Значения берутся с экранов Модуля 2 (ссылка у позиции).", zakres: "Снимите отметку, если то же устройство уже есть в списке потребителей — иначе оно учтётся дважды." },
+      doProjektu: { nazwa: "Сохранить в проекте", cel: "Какую цифру панель «Сохранить в проекте» предложит как суточную потребность проекта.", gdzie: "Типичные сутки — для повседневного подбора; худший месяц — если проектируете под самый трудный период.", zakres: "Без запаса — запас добавляет экран «Запас на расширение»." },
     },
   },
   "bufor-rozbudowe": {

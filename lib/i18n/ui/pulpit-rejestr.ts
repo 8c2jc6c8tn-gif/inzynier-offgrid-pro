@@ -27,6 +27,7 @@ export const pl = {
   "UI-EKRAN-2-PRZETWORNICE-DCDC": "Przetwornice DC/DC",
   "UI-EKRAN-2-MOC-POZORNA-COSFI": "Moc pozorna (cos φ)",
   "UI-EKRAN-2-LOAD-SHEDDING": "Macierz priorytetów odłączania (Smart Load Shedding)",
+  "UI-EKRAN-2-BILANS-ZAPOTRZEBOWANIA": "Bilans zapotrzebowania",
   "UI-EKRAN-2-BUFOR-ROZBUDOWE": "Bufor na rozbudowę",
   "UI-EKRAN-2-URZADZENIA-ZMIENNE": "Urządzenia zmienne i klasa energetyczna",
   "UI-EKRAN-2-SPRAWNOSC-INWERTERA-NISKIE-OBCIAZENIE": "Sprawność inwertera przy niskim obciążeniu",

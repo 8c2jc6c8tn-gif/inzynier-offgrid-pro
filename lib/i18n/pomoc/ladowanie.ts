@@ -280,6 +280,7 @@ export const MODUL_POMOCY_PO_EKRANIE: Record<string, ModulPomocy> = {
   "sprawnosc-inwertera-niskie-obciazenie": "m02",
   "przetwornice-dcdc": "m02",
   "load-shedding": "m02",
+  "bilans-zapotrzebowania": "m02",
   "bufor-rozbudowe": "m02",
   "architektura-fazowa": "m02",
   "kategorie-specjalne": "m02",

@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculatePoborWlasnyFalownika } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/calculator"
 import { DOMYSLNY_POBOR_JALOWY_W } from "@/lib/core/modules/zapotrzebowanie/pobor-wlasny-falownika/constants"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { wejscieFalownika } from "@/lib/zapotrzebowanie/zrodla-bilansu"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -28,7 +29,8 @@ export default function PoborWlasnyFalownikaPage() {
     }))
 
   const result = useMemo(
-    () => calculatePoborWlasnyFalownika({ poborJalowyW: poborJalowyW === "" ? 0 : Number(poborJalowyW) }),
+    // The same conversion the demand balance uses (lib/zapotrzebowanie/zrodla-bilansu.ts).
+    () => calculatePoborWlasnyFalownika(wejscieFalownika({ poborJalowyW })),
     [poborJalowyW],
   )
 

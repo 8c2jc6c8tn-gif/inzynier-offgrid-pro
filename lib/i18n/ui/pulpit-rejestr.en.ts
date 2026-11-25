@@ -23,6 +23,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-EKRAN-2-PRZETWORNICE-DCDC": "DC/DC converters",
   "UI-EKRAN-2-MOC-POZORNA-COSFI": "Apparent power (cos φ)",
   "UI-EKRAN-2-LOAD-SHEDDING": "Load-shedding priority matrix (Smart Load Shedding)",
+  "UI-EKRAN-2-BILANS-ZAPOTRZEBOWANIA": "Demand balance",
   "UI-EKRAN-2-BUFOR-ROZBUDOWE": "Expansion buffer",
   "UI-EKRAN-2-URZADZENIA-ZMIENNE": "Variable loads and energy class",
   "UI-EKRAN-2-SPRAWNOSC-INWERTERA-NISKIE-OBCIAZENIE": "Inverter efficiency at low load",
