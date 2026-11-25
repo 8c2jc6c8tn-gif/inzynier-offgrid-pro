@@ -14,6 +14,7 @@ export const pl = {
   "UI-BIL-DOBA-TYPOWA": "Doba typowa",
   "UI-BIL-NAJGORSZY": "Najgorszy miesiąc: {miesiac}",
   "UI-BIL-Z-BUFOREM": "Z buforem: {v} kWh/dobę",
+  "UI-BIL-ROWNO": "Zużycie jest takie samo w każdym miesiącu — nie ma osobnego najgorszego miesiąca.",
   "UI-BIL-MIESIACE": "Zużycie dobowe w kolejnych miesiącach [kWh/dobę]",
   "UI-BIL-DO-PROJEKTU": "Do projektu zapisz",
   "UI-BIL-OPCJA-TYPOWA": "dobę typową",

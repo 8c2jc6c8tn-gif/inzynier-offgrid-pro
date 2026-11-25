@@ -15,6 +15,7 @@ export const en: Record<Klucz, string> = {
   "UI-BIL-DOBA-TYPOWA": "Typical day",
   "UI-BIL-NAJGORSZY": "Worst month: {miesiac}",
   "UI-BIL-Z-BUFOREM": "With the buffer: {v} kWh/day",
+  "UI-BIL-ROWNO": "Consumption is the same in every month — there is no separate worst month.",
   "UI-BIL-MIESIACE": "Daily consumption month by month [kWh/day]",
   "UI-BIL-DO-PROJEKTU": "Save to the project",
   "UI-BIL-OPCJA-TYPOWA": "the typical day",

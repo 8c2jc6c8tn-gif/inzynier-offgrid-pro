@@ -22,7 +22,6 @@ export type BilansZapotrzebowaniaResult = {
 
 const FORMULA =
   "E_{doba} = \\sum_i E_i \\quad E_{miesiąc\\,m} = \\sum_i E_{i,m} \\quad E_{z\\,buforem} = E \\times (1 + bufor\\%)"
-const FORMULA_KEY = "UI-FORMULA-ZAPOTRZEBOWANIE-BILANS"
 
 const pusty: BilansZapotrzebowaniaResult = {
   typowaKwh: 0,
@@ -48,7 +47,7 @@ export function calculateBilansZapotrzebowania(input: BilansZapotrzebowaniaInput
     liczbaWlaczonych: input.pozycje.filter((p) => p.wlaczona).length,
     buforPct: input.buforPct ?? 0,
   }
-  const baza = { unit: "kWh/doba", formula: FORMULA, formulaKey: FORMULA_KEY, inputs, calculatorVersion: CALCULATOR_VERSION }
+  const baza = { unit: "kWh/doba", formula: FORMULA, formulaKey: "UI-FORMULA-ZAPOTRZEBOWANIE-BILANS", inputs, calculatorVersion: CALCULATOR_VERSION }
   if (errors.length > 0) return { ...baza, value: pusty, status: "INVALID_INPUT", assumptions: [], warnings: errors }
 
   const wlaczone = input.pozycje.filter((p) => p.wlaczona)

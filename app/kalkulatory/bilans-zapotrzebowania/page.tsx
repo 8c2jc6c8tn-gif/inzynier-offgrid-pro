@@ -164,7 +164,9 @@ export default function BilansZapotrzebowaniaPage() {
         <WerdyktPanel poziom={poziomOstrzezen(result.status)} etykieta={t("UI-BIL-DOBA-TYPOWA")}>
           <WynikGlowny>{t("UI-BIL-KWH-DOBA", { v: f2(v.typowaKwh) })}</WynikGlowny>
           <p className="text-small">{t("UI-BIL-Z-BUFOREM", { v: f2(v.typowaZBuforemKwh) })}</p>
-          {v.najgorszyMiesiac !== null && (
+          {v.najgorszyMiesiac !== null && Math.min(...v.miesiaceKwh) === v.najgorszyKwh ? (
+            <p className="mt-2 text-small">{t("UI-BIL-ROWNO")}</p>
+          ) : v.najgorszyMiesiac !== null && (
             <p className="mt-2 text-small font-medium">
               {t("UI-BIL-NAJGORSZY", { miesiac: t(KLUCZE_MIESIECY[v.najgorszyMiesiac]!) })}: {t("UI-BIL-KWH-DOBA", { v: f2(v.najgorszyKwh) })} ·{" "}
               {t("UI-BIL-Z-BUFOREM", { v: f2(v.najgorszyZBuforemKwh) })}
