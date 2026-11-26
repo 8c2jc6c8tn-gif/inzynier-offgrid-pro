@@ -273,7 +273,7 @@ export const ru: Record<Klucz, string> = {
   "UI-PORTECMAG-OBSLUGA": "Обслуживание",
   "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA": "Энергия за срок службы",
   "UI-PORTECMAG-POROWNANIE-TECHNOLOGII-MAGAZ": "Сравнение технологий накопителей",
-  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Планируемая ёмкость накопителя (необязательно)",
+  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Планируемая номинальная ёмкость накопителя (необязательно)",
   "UI-PORTECMAG-BEZ-WPISANIA-POROWNANIE": "например, 45 — если не указано: сравнение на 1 кВт·ч",
   "UI-KONLAD-NAPELNIANIE-BUTELKI-CISNIENI":
     "Это как наполнение бутылки: давление уже есть, но нужно немного подождать, чтобы вода дошла до самого конца. Модуль 4, экран 13.",

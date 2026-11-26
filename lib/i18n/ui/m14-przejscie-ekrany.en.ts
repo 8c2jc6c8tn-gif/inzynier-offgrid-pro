@@ -24,7 +24,7 @@ export const en: Record<Klucz, string> = {
   "UI-REZ-KOSZT-OPIS":
     "K ≈ DSO connection fee rate [PLN/kW] × connection capacity — groups IV–VI, standard distance. You will find the rate in your DSO's tariff (the chapter on connection fees); the app does not have it yet.",
   "UI-REZ-STAWKA": "Connection fee rate",
-  "UI-REZ-J-ZL-KW": "PLN/kW",
+  "UI-REZ-J-ZL-KW": "{waluta}/kW",
   "UI-REZ-MOC": "Connection capacity",
   "UI-REZ-ODLEGLOSC": "Distance from the grid",
   "UI-REZ-ODL-TAK": "Within the standard distance from the DSO tariff",

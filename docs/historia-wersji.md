@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.57.0] — 25.11.2026
+
+Decyzje właściciela z 25.11.2026 (D108). (1) **Kraj projektu** — wybór na stronie projektów (domyślnie Polska). Kwoty urzędowe (taryfy, ceny i opłaty z rachunku, opłata mocowa, moc bierna, RCE, depozyt, dotacje) są w walucie kraju projektu — bez wyboru waluty, z przeliczeniem przy polu; obliczenia na polskich danych dostają je w PLN po kursie NBP. Ekrany kafli „Dom – sieć” i „Firma – sieć” dla projektu poza Polską pokazują informację, że stawki i przepisy są polskie. (2) **Pojemność nominalna** zamiast „użytecznej” w polach „Okna słonecznego”, „Prognozy SoC”, „Ładowania z agregatu” i „Porównania technologii magazynów” — SoC liczy się od pełnej pojemności (kalkulatory tak liczyły; poprawione etykiety, pomoc i opisy narzędzi AI). (3) Nowe liczby projektu: **minimalny SoC** (blackout, strategia zamarzania, prognoza SoC), **zużycie dobowe zimą** (blackout, awaria stringa zimą), **prąd zwarciowy magazynu** (wynik „Analizy zwarciowej” → dobór bezpieczników, wyłączników i kabli), **azymut paneli** (7 ekranów PV; konwencja N = 0°, S = 180°).
+
+Wpływ na liczby: wzory bez zmian. Pola pojemności na czterech ekranach należy wypełniać pojemnością nominalną (tak liczyły kalkulatory — wcześniej etykieta sugerowała użyteczną, co zaniżało wynik). Dla projektu w Polsce kwoty urzędowe liczą się jak dotąd.
+
 ## [3.56.0] — 25.11.2026
 
 Nowy ekran **„Bilans zapotrzebowania”** w module 2 (decyzja właściciela D-3, karty 24.11.2026). Sumuje dobowe zużycie z ekranów, które użytkownik już wypełnił — lista odbiorników („Zużycie per urządzenie”, ta sama dla budynku i mikroinstalacji), bojler C.W.U., wampiry energetyczne (standby × 24 h), pobór własny falownika, urządzenia zmienne z płytą indukcyjną, kategorie specjalne i urządzenie sezonowe — bez wpisywania drugi raz. Każdą pozycję można odznaczyć (np. gdy urządzenie jest już na liście odbiorników); niewypełniony ekran jest wymieniony, nie zgadywany. Wynik: doba typowa i najgorszy miesiąc (z tabelą 12 miesięcy), z buforem z ekranu „Bufor na rozbudowę” i bez; do projektu (pasek „Zapisz w projekcie”) trafia wybrana liczba bez bufora. Ekrany bojlera, poboru falownika, urządzeń zmiennych i sezonowości zamieniają szkic na wejście kalkulatora tą samą funkcją co bilans (`lib/zapotrzebowanie/zrodla-bilansu.ts`). Narzędzie AI `policz_bilans_zapotrzebowania`, PL/EN/RU, „?” i „i”.

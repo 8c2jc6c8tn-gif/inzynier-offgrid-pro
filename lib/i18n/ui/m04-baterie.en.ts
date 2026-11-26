@@ -272,7 +272,7 @@ export const en: Record<Klucz, string> = {
   "UI-PORTECMAG-OBSLUGA": "Maintenance",
   "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA": "Lifetime energy",
   "UI-PORTECMAG-POROWNANIE-TECHNOLOGII-MAGAZ": "Storage technology comparison",
-  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Planned storage capacity (optional)",
+  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Planned nominal storage capacity (optional)",
   "UI-PORTECMAG-BEZ-WPISANIA-POROWNANIE": "e.g. 45 — if left empty: comparison per 1 kWh",
   "UI-KONLAD-NAPELNIANIE-BUTELKI-CISNIENI":
     "It's like filling a bottle — the pressure is already there, but you have to wait a moment for the water to reach the very end. Module 4, Screen 13.",

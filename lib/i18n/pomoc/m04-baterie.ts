@@ -980,10 +980,10 @@ export const pl = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Planowana pojemność magazynu [kWh] (opcjonalnie)",
-        cel: "Przelicza tabelę (masa, koszt) na Twój rozmiar magazynu.",
-        gdzie: "Z ekranu „Dobór pojemności baterii”.",
-        zakres: "Wynik z Ekranu 1.",
+        nazwa: "Planowana pojemność nominalna magazynu [kWh] (opcjonalnie)",
+        cel: "Przelicza tabelę (masa, koszt, energia w całym życiu) na Twój rozmiar magazynu; energię użyteczną ekran liczy sam, mnożąc przez DoD każdej technologii.",
+        gdzie: "Z karty magazynu — pojemność nominalna. Wynik „Doboru pojemności baterii” to pojemność użyteczna: podziel ją przez DoD wybranej technologii.",
+        zakres: "Pojemność nominalna, bez mnożenia przez DoD.",
       },
     },
   },
@@ -2104,10 +2104,10 @@ export const en: Tlumaczenie<typeof pl> = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Planned storage capacity [kWh] (optional)",
-        cel: "Scales the table (weight, cost) to your storage size.",
-        gdzie: "From the “Battery capacity sizing” screen.",
-        zakres: "The Screen 1 result.",
+        nazwa: "Planned nominal storage capacity [kWh] (optional)",
+        cel: "Scales the table (weight, cost, lifetime energy) to your storage size; the screen derives the usable energy itself, multiplying by each technology's DoD.",
+        gdzie: "From the storage datasheet — the nominal capacity. The „Battery capacity sizing” result is the usable capacity: divide it by the chosen technology's DoD.",
+        zakres: "The nominal capacity, not multiplied by DoD.",
       },
     },
   },
@@ -3228,10 +3228,10 @@ export const ru: Tlumaczenie<typeof pl> = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Планируемая ёмкость накопителя [кВт·ч] (необязательно)",
-        cel: "Пересчитывает таблицу (масса, стоимость) на размер вашего накопителя.",
-        gdzie: "С экрана «Подбор ёмкости батареи».",
-        zakres: "Результат Экрана 1.",
+        nazwa: "Планируемая номинальная ёмкость накопителя [кВт·ч] (необязательно)",
+        cel: "Пересчитывает таблицу (масса, стоимость, энергия за весь срок) на размер вашего накопителя; полезную энергию экран считает сам, умножая на DoD каждой технологии.",
+        gdzie: "Из паспорта накопителя — номинальная ёмкость. Результат «Подбора ёмкости батареи» — полезная ёмкость: разделите её на DoD выбранной технологии.",
+        zakres: "Номинальная ёмкость, без умножения на DoD.",
       },
     },
   },

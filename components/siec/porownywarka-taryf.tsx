@@ -1,5 +1,7 @@
 "use client"
 
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { useMemo } from "react"
 import type { Grupa, OkresRozliczeniowy, OsdId, Strefa } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { calculatePorownanieTaryf, type PowodWylaczenia } from "@/lib/core/modules/siec/porownanie-taryf/calculator"
@@ -29,6 +31,15 @@ type Stan = {
   warianty: Partial<Record<Grupa, WariantStan>>
 }
 
+/**
+ * Official amounts (owner decision 25.11.2026): sale prices per group and zone and the trading fee are in the currency of the
+ * project's country, no currency choice. The engine works in PLN (Polish tariffs).
+ */
+const KWOTY_KRAJU_POROWNANIA = [
+  "handlowa",
+  ...[...GRUPY_DOM, ...GRUPY_FIRMA].flatMap((gr) => STREFY_GRUPY[gr].map((z) => `warianty.${gr}.ceny.${z}`)),
+]
+
 /** Exclusion reasons — `UI-PORTAR-POWOD-*` keys, render through `t()`. */
 const POWOD: Record<PowodWylaczenia, string> = {
   moc: "UI-PORTAR-POWOD-MOC",
@@ -45,18 +56,26 @@ const POWOD: Record<PowodWylaczenia, string> = {
  */
 export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
   const t = useTranslate(true)
+  // Official amounts are in the project country's currency (D108): their units show its symbol.
+  const symbolKraju = useSymbolWaluty()(useKrajProjektu().waluta)
   const zl = useZl()
   const grupy = segment === "dom" ? GRUPY_DOM : GRUPY_FIRMA
-  const [stan, setStan] = usePersistedDraft<Stan>(`siec-porownanie-${segment}`, {
-    osd: "tauron",
-    fazy: "trojfazowa",
-    mocUmownaKw: "",
-    rok: "2026",
-    okres: segment === "dom" ? "2" : "1",
-    handlowa: "",
-    energiaMocowa: "",
-    warianty: {},
-  })
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>(
+    `siec-porownanie-${segment}`,
+    {
+      osd: "tauron",
+      fazy: "trojfazowa",
+      mocUmownaKw: "",
+      rok: "2026",
+      okres: segment === "dom" ? "2" : "1",
+      handlowa: "",
+      energiaMocowa: "",
+      warianty: {},
+    },
+    { kwotyKraju: KWOTY_KRAJU_POROWNANIA, obliczeniaWPln: true },
+  )
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
   const wariant = (gr: Grupa): WariantStan => stan.warianty[gr] ?? { aktywny: false, zuzycie: {}, ceny: {} }
   const ustawWariant = (gr: Grupa, zmiana: Partial<WariantStan>) =>
@@ -64,9 +83,9 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
 
   const result = useMemo(() => {
     const warianty: WariantTaryfy[] = grupy
-      .filter((gr) => stan.warianty[gr]?.aktywny)
+      .filter((gr) => pln.warianty[gr]?.aktywny)
       .map((gr) => {
-        const w = stan.warianty[gr]!
+        const w = pln.warianty[gr]!
         const zuzycie: Partial<Record<Strefa, number>> = {}
         const ceny: Partial<Record<Strefa, number>> = {}
         for (const z of STREFY_GRUPY[gr]) {
@@ -83,11 +102,11 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
       mocUmownaKw: liczba(stan.mocUmownaKw),
       okresRozliczeniowy: stan.okres,
       zuzycieMiesieczneKwh: null,
-      oplataHandlowaZlMies: liczbaLubNull(stan.handlowa),
+      oplataHandlowaZlMies: liczbaLubNull(pln.handlowa),
       energiaMocowaKwh: segment === "dom" ? null : liczbaLubNull(stan.energiaMocowa),
       warianty,
     })
-  }, [segment, stan, grupy])
+  }, [segment, stan, pln, grupy])
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const najtansza = result.value.pozycje[0]?.rachunek
 
@@ -148,10 +167,11 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
         </PoleSelect>
         <Pole
           label={t("UI-PORTAR-OPLATA-HANDLOWA-SPRZEDAWCY")}
-          unit={t("UI-PORTAR-MIES-NETTO")}
+          unit={t("UI-PORTAR-MIES-NETTO", { waluta: symbolKraju })}
           type="number"
           inputMode="decimal"
           value={stan.handlowa}
+          waluta={waluty.pole("handlowa")}
           onChange={(e) => ustaw("handlowa", e.target.value)}
           pomoc={<PomocPola ekran="siec-rachunek" pole="handlowa" />}
         />
@@ -183,10 +203,11 @@ export function PorownywarkaTaryf({ segment }: { segment: Segment }) {
                     />
                     <Pole
                       label={t("UI-PORTAR-CENA-ENERGII", { gr, p: t(ETYKIETA_STREFY[z]) })}
-                      unit={t("UI-PORTAR-KWH-NETTO")}
+                      unit={t("UI-PORTAR-KWH-NETTO", { waluta: symbolKraju })}
                       type="number"
                       inputMode="decimal"
                       value={w.ceny[z] ?? ""}
+                      waluta={waluty.pole(`warianty.${gr}.ceny.${z}`)}
                       onChange={(e) => ustawWariant(gr, { ceny: { ...w.ceny, [z]: e.target.value } })}
                       pomoc={<PomocPola ekran="siec-rachunek" pole="cenaStrefy" />}
                     />

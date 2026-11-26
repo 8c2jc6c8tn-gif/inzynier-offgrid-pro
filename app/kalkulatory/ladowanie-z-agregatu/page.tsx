@@ -51,7 +51,7 @@ export default function LadowanieZAgregatuPage() {
   const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("ladowanie-z-agregatu", STAN_POCZATKOWY, {
     kwoty: ["cenaPaliwaZlL"],
     // zuzyciePaliwaLH is read at the load this screen computes (a load-specific point), not a general figure — not linked
-    projekt: { mocAgregatuKw: "mocAgregatuKw", pojemnoscKwh: "pojemnoscUzytecznaKwh" },
+    projekt: { mocAgregatuKw: "mocAgregatuKw", pojemnoscKwh: "pojemnoscNominalnaKwh" },
   })
   // The fuel price typed in another currency is converted to the working currency (NBP) for the calculator.
   const r = waluty.stanRoboczy

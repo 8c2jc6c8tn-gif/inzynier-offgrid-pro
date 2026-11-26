@@ -1,11 +1,13 @@
 "use client"
 
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
 import { useMemo } from "react"
 import type { Grupa, OkresRozliczeniowy, OsdId, Strefa } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { calculateRachunek } from "@/lib/core/modules/siec/rachunek-za-prad/calculator"
 import { STREFY_GRUPY } from "@/lib/core/modules/siec/rachunek-za-prad/constants"
 import type { Fazy, RachunekInput, Segment } from "@/lib/core/modules/siec/rachunek-za-prad/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -76,6 +78,23 @@ export function poczatkowyRachunek(segment: Segment): StanRachunku {
   }
 }
 
+const STREFY_WSZYSTKIE = Object.keys(ETYKIETA_STREFY) as Strefa[]
+
+/**
+ * Official amounts of the bill (owner decision 25.11.2026): energy prices, the trading fee and the distribution rates from the
+ * invoice are in the currency of the project's country, no currency choice. The engine works in PLN (Polish tariffs).
+ */
+export const KWOTY_KRAJU_RACHUNKU = [
+  ...STREFY_WSZYSTKIE.flatMap((z) => [`ceny.${z}`, `wlZmienna.${z}`]),
+  "handlowa",
+  "wlStala",
+  "wlAbonament",
+  "wlJakosciowa",
+  "wlOze",
+  "wlKogeneracyjna",
+  "wlMocowa",
+]
+
 /** Strefowe → numbers only for the zones of the group; empty = not entered. */
 function strefoweLiczby(s: Strefowe, strefy: Strefa[], puste: "pomin" | "zero"): Partial<Record<Strefa, number>> {
   const wynik: Partial<Record<Strefa, number>> = {}
@@ -130,9 +149,19 @@ export function wejscieRachunku(segment: Segment, stan: StanRachunku, zuzycieMie
  */
 export function FormularzRachunku({ segment }: { segment: Segment }) {
   const t = useTranslate(true)
+  // Official amounts are in the project country's currency (D108): their units show its symbol.
+  const symbolKraju = useSymbolWaluty()(useKrajProjektu().waluta)
   const formatLiczbe = useFormatLiczby()
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment))
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<StanRachunku>(kluczRachunku(segment), poczatkowyRachunek(segment), {
+    kwotyKraju: KWOTY_KRAJU_RACHUNKU,
+    obliczeniaWPln: true,
+  })
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
+  // Unit with the currency symbol of one field
+  const jedn = (klucz: string, sciezka: string) => t(klucz, { waluta: symbol(waluty.pole(sciezka).kod) })
   const { zuzycie: zuzycieMies } = useZuzycieMiesieczne(segment)
   const ustaw = <K extends keyof StanRachunku>(pole: K, v: StanRachunku[K]) => setStan((p) => ({ ...p, [pole]: v }))
   const ustawStrefe = (pole: "zuzycie" | "ceny" | "wlZmienna", z: Strefa, v: string) =>
@@ -144,8 +173,8 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
   const pokazFaktura = stan.zFaktury || !maStawki
 
   const result = useMemo(
-    () => calculateRachunek(wejscieRachunku(segment, stan, zuzycieMies)),
-    [segment, stan, zuzycieMies],
+    () => calculateRachunek(wejscieRachunku(segment, pln, zuzycieMies)),
+    [segment, pln, zuzycieMies],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -222,10 +251,11 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               />
               <Pole
                 label={t("UI-FORRAC-CENA-ENERGII", { p: t(ETYKIETA_STREFY[z]) })}
-                unit={t("UI-FORRAC-KWH-NETTO")}
+                unit={t("UI-FORRAC-KWH-NETTO", { waluta: symbolKraju })}
                 type="number"
                 inputMode="decimal"
                 value={stan.ceny[z] ?? ""}
+                waluta={waluty.pole(`ceny.${z}`)}
                 onChange={(e) => ustawStrefe("ceny", z, e.target.value)}
                 pomoc={<PomocPola ekran="siec-rachunek" pole="cenaStrefy" />}
               />
@@ -233,10 +263,11 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
           ))}
           <Pole
             label={t("UI-FORRAC-OPLATA-HANDLOWA-SPRZEDAWCY")}
-            unit={t("UI-FORRAC-MIES-NETTO")}
+            unit={t("UI-FORRAC-MIES-NETTO", { waluta: symbolKraju })}
             type="number"
             inputMode="decimal"
             value={stan.handlowa}
+            waluta={waluty.pole("handlowa")}
             onChange={(e) => ustaw("handlowa", e.target.value)}
             pomoc={<PomocPola ekran="siec-rachunek" pole="handlowa" />}
           />
@@ -268,65 +299,72 @@ export function FormularzRachunku({ segment }: { segment: Segment }) {
               <Pole
                 key={z}
                 label={t("UI-FORRAC-OPLATA-SIECIOWA-ZMIENNA", { p: t(ETYKIETA_STREFY[z]) })}
-                unit={t("UI-J-ZL-KWH")}
+                unit={jedn("UI-J-ZL-KWH", `wlZmienna.${z}`)}
                 type="number"
                 inputMode="decimal"
                 value={stan.wlZmienna[z] ?? ""}
+                waluta={waluty.pole(`wlZmienna.${z}`)}
                 onChange={(e) => ustawStrefe("wlZmienna", z, e.target.value)}
                 pomoc={<PomocPola ekran="siec-rachunek" pole="siecZmienna" />}
               />
             ))}
             <Pole
               label={t("UI-FORRAC-OPLATA-SIECIOWA-STALA")}
-              unit={g ? t("UI-J-ZL-MIES") : t("UI-FORRAC-MIES")}
+              unit={g ? jedn("UI-J-ZL-MIES", "wlStala") : t("UI-FORRAC-MIES", { waluta: symbolKraju })}
               type="number"
               inputMode="decimal"
               value={stan.wlStala}
+              waluta={waluty.pole("wlStala")}
               onChange={(e) => ustaw("wlStala", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="siecStala" />}
             />
             <Pole
               label={t("UI-FORRAC-OPLATA-ABONAMENTOWA")}
-              unit={t("UI-J-ZL-MIES")}
+              unit={jedn("UI-J-ZL-MIES", "wlAbonament")}
               type="number"
               inputMode="decimal"
               value={stan.wlAbonament}
+              waluta={waluty.pole("wlAbonament")}
               onChange={(e) => ustaw("wlAbonament", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="abonament" />}
             />
             <Pole
               label={t("UI-FORRAC-STAWKA-JAKOSCIOWA")}
-              unit={t("UI-J-ZL-KWH")}
+              unit={jedn("UI-J-ZL-KWH", "wlJakosciowa")}
               type="number"
               inputMode="decimal"
               value={stan.wlJakosciowa}
+              waluta={waluty.pole("wlJakosciowa")}
               onChange={(e) => ustaw("wlJakosciowa", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="jakosciowa" />}
             />
             <Pole
               label={t("UI-FORRAC-OPLATA-OZE")}
-              unit={t("UI-J-ZL-KWH")}
+              unit={jedn("UI-J-ZL-KWH", "wlOze")}
               type="number"
               inputMode="decimal"
               value={stan.wlOze}
+              waluta={waluty.pole("wlOze")}
               onChange={(e) => ustaw("wlOze", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="oze" />}
             />
             <Pole
               label={t("UI-FORRAC-OPLATA-KOGENERACYJNA")}
-              unit={t("UI-J-ZL-KWH")}
+              unit={jedn("UI-J-ZL-KWH", "wlKogeneracyjna")}
               type="number"
               inputMode="decimal"
               value={stan.wlKogeneracyjna}
+              waluta={waluty.pole("wlKogeneracyjna")}
               onChange={(e) => ustaw("wlKogeneracyjna", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="kogeneracyjna" />}
             />
             <Pole
               label={t("UI-FORRAC-OPLATA-MOCOWA")}
-              unit={g ? t("UI-J-ZL-MIES") : t("UI-J-ZL-KWH")}
+              unit={jedn(g ? "UI-J-ZL-MIES" : "UI-J-ZL-KWH", "wlMocowa")}
               type="number"
               inputMode="decimal"
               value={stan.wlMocowa}
+              waluta={waluty.pole("wlMocowa")}
               onChange={(e) => ustaw("wlMocowa", e.target.value)}
               pomoc={<PomocPola ekran="siec-rachunek" pole="mocowa" />}
             />

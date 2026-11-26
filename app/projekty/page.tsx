@@ -9,12 +9,14 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Pole, PoleCheckbox } from "@/components/ui/pole"
+import { Pole, PoleCheckbox, PoleSelect } from "@/components/ui/pole"
 import { useNazwaEkranu } from "@/components/projekt/nazwa-ekranu"
 import { nazwaProjektu } from "@/components/projekt/nazwa-projektu"
 import { useFormatLiczby, useLanguage, useTranslate } from "@/lib/i18n/language-context"
 import { formatujDate } from "@/lib/i18n/liczby"
-import { utworzProjekt, ustawAktywny, usunProjekt, zmienNazwe } from "@/lib/projekt/operacje"
+import { utworzProjekt, ustawAktywny, usunProjekt, zmienKraj, zmienNazwe } from "@/lib/projekt/operacje"
+import { KRAJE } from "@/lib/projekt/kraje"
+import { nazwaKraju } from "@/lib/projekt/nazwa-kraju"
 import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
 import { useListaProjektow, useWartosciProjektu, useWartosciWieluProjektow } from "@/lib/projekt/use-projekt"
 import { GRUPY_WIELKOSCI, ID_WIELKOSCI, takaSamaLiczba, WIELKOSCI, type WartosciProjektu, type WielkoscId } from "@/lib/projekt/wielkosci"
@@ -43,6 +45,7 @@ function useData() {
 
 export default function ProjektyPage() {
   const t = useTranslate()
+  const jezyk = useLanguage()
   const lista = useListaProjektow()
   const liczba = useLiczba()
   const data = useData()
@@ -52,6 +55,8 @@ export default function ProjektyPage() {
   const [zajety, setZajety] = useState(false)
   const aktywneWartosci = useWartosciProjektu(lista?.aktywnyId ?? null)
   const wartosciKolumn = useWartosciWieluProjektow(porownywane)
+
+  const kraje = KRAJE.map((k) => ({ ...k, nazwa: nazwaKraju(k.kod, jezyk) })).sort((a, b) => (a.kod === "PL" ? -1 : b.kod === "PL" ? 1 : a.nazwa.localeCompare(b.nazwa, jezyk)))
 
   if (!lista) return <main className="mx-auto max-w-3xl p-6" />
   const aktywny = lista.projekty.find((p) => p.id === lista.aktywnyId)!
@@ -87,6 +92,7 @@ export default function ProjektyPage() {
         </Link>
         <h1 className="mt-2 text-h1 font-semibold">{t("UI-PRJ-TYTUL")}</h1>
         <p className="mt-1 text-small text-muted-foreground">{t("UI-PRJ-OPIS")}</p>
+        <p className="mt-1 text-small text-muted-foreground">{t("UI-PRJ-KRAJ-OPIS")}</p>
       </div>
 
       <section className="flex flex-col gap-3">
@@ -113,6 +119,13 @@ export default function ProjektyPage() {
                   )}
                 </div>
                 <Pole label={t("UI-PRJ-NAZWA")} id={`nazwa-${p.id}`} value={p.nazwa} placeholder={nazwa(p)} onChange={(e) => zmienNazwe(p.id, e.target.value)} />
+                <PoleSelect label={t("UI-PRJ-KRAJ")} id={`kraj-${p.id}`} value={p.kraj} onChange={(e) => zmienKraj(p.id, e.target.value)}>
+                  {kraje.map((k) => (
+                    <option key={k.kod} value={k.kod}>
+                      {k.nazwa} ({k.waluta})
+                    </option>
+                  ))}
+                </PoleSelect>
                 <div className="flex flex-wrap items-center gap-3 text-caption text-muted-foreground">
                   {p.utworzonoIso && <span>{t("UI-PRJ-UTWORZONO", { data: data(p.utworzonoIso) })}</span>}
                   {lista.projekty.length > 1 && (

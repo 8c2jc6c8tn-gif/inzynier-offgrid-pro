@@ -27,7 +27,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DoborBezpiecznikaRozlacznikaPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-rozlacznika", STAN_POCZATKOWY)
+  // The short-circuit current comes from „Analiza zwarciowa” (its help says so): the battery bank's value from the project.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-rozlacznika", STAN_POCZATKOWY, {
+    projekt: { pradZwarciowyA: "pradZwarciowyMagazynuA" },
+  })
   const { pradZnamionowyA, pradZwarciowyA, aicBezpiecznikaA } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -95,6 +98,7 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
         inputMode="decimal"
         min={0}
         value={pradZwarciowyA || ""}
+        projekt={projekt.pole("pradZwarciowyA")}
         onChange={(e) => setPradZwarciowyA(Number(e.target.value))}
         pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="pradZwarcia" />}
       />

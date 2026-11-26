@@ -22,21 +22,21 @@ describe("project key namespace", () => {
 describe("project list", () => {
   it("missing or broken storage → one project, the first", () => {
     for (const raw of [null, "{", "[]", JSON.stringify({ projekty: [] })]) {
-      expect(parsujListe(raw)).toEqual({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "" }] })
+      expect(parsujListe(raw)).toEqual({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "", kraj: "PL" }] })
     }
   })
 
   it("drops malformed and duplicated entries; an unknown active id falls back to the first project", () => {
     const raw = JSON.stringify({ aktywnyId: "zz", projekty: [{ id: "p2", nazwa: "Dom" }, { id: "p2" }, { id: "BAD ID" }, 5] })
-    expect(parsujListe(raw)).toEqual({ aktywnyId: "p2", projekty: [{ id: "p2", nazwa: "Dom", utworzonoIso: "" }] })
+    expect(parsujListe(raw)).toEqual({ aktywnyId: "p2", projekty: [{ id: "p2", nazwa: "Dom", utworzonoIso: "", kraj: "PL" }] })
   })
 
   it("new id, adding, removing (never the last one)", () => {
     const s = parsujListe(null)
     expect(noweId(s)).toBe("p2")
-    const s2 = zListaPoDodaniu(s, { id: "p2", nazwa: "", utworzonoIso: "" }, true)
+    const s2 = zListaPoDodaniu(s, { id: "p2", nazwa: "", utworzonoIso: "", kraj: "PL" }, true)
     expect(s2.aktywnyId).toBe("p2")
-    expect(zListaPoUsunieciu(s2, "p2")).toEqual({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "" }] })
+    expect(zListaPoUsunieciu(s2, "p2")).toEqual({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "", kraj: "PL" }] })
     expect(zListaPoUsunieciu(s, "p1")).toBeNull()
     expect(zListaPoUsunieciu(s2, "p9")).toBeNull()
   })
@@ -59,5 +59,21 @@ describe("quantity values", () => {
       parsujWartosci({ napiecieUkladuV: { v: "24", zrodlo: "x", iso: "i" }, nieznana: { v: "1" }, dodPct: { v: "abc" }, vocStcV: 5 }),
     ).toEqual({ napiecieUkladuV: { v: "24", zrodlo: "x", iso: "i" } })
     expect(parsujWartosci(null)).toEqual({})
+  })
+})
+
+describe("project country", () => {
+  it("defaults to Poland; an unknown code falls back to Poland; the grid tiles are the Polish-data screens", async () => {
+    const { parsujListe: parsuj } = await import("../projekty")
+    const { czyEkranDanychPolskich, walutaKraju } = await import("../kraje")
+    expect(parsuj(null).projekty[0]!.kraj).toBe("PL")
+    expect(parsuj(JSON.stringify({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", kraj: "XX" }] })).projekty[0]!.kraj).toBe("PL")
+    expect(parsuj(JSON.stringify({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", kraj: "DE" }] })).projekty[0]!.kraj).toBe("DE")
+    expect(walutaKraju("DE")).toBe("EUR")
+    expect(walutaKraju("BG")).toBe("EUR")
+    expect(walutaKraju("CZ")).toBe("CZK")
+    const kafle = [{ id: 15, ekrany: [{ href: "/kalkulatory/rachunek-dom" }] }, { id: 3, ekrany: [{ href: "/kalkulatory/liczba-paneli" }] }]
+    expect(czyEkranDanychPolskich("rachunek-dom", kafle)).toBe(true)
+    expect(czyEkranDanychPolskich("liczba-paneli", kafle)).toBe(false)
   })
 })

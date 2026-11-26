@@ -250,9 +250,9 @@ export const pl = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Pojemność użyteczna baterii [kWh]",
-        cel: "Całkowita energia, którą możesz realnie z baterii pobrać; od niej zależy, jak szybko stan naładowania rośnie i maleje.",
-        gdzie: "W karcie baterii: „Usable capacity”; dla LiFePO4 12,8 V 100 Ah to ok. 1,28 kWh nominalnie — użyteczna zależy od zakresu pracy BMS. Dla banku: suma baterii.",
+        nazwa: "Pojemność nominalna baterii [kWh]",
+        cel: "Pełna pojemność, od której liczy się stan naładowania (SoC, jak w BMS); od niej zależy, jak szybko SoC rośnie i maleje. Minimalny SoC ustawiasz osobnym polem.",
+        gdzie: "W karcie baterii: pojemność nominalna; dla LiFePO4 12,8 V 100 Ah to 1,28 kWh. Dla banku: suma baterii.",
         zakres: "Z karty baterii; aplikacja nie zgaduje pojemności.",
       },
       socStart: {
@@ -577,9 +577,9 @@ export const en: Tlumaczenie<typeof pl> = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Battery usable capacity [kWh]",
-        cel: "The total energy you can really take from the battery; it sets how fast the state of charge rises and falls.",
-        gdzie: "In the battery datasheet: “Usable capacity”; for LiFePO4 12.8 V 100 Ah it is about 1.28 kWh nominal — the usable one depends on the BMS working range. For a bank: the sum of the batteries.",
+        nazwa: "Battery nominal capacity [kWh]",
+        cel: "The full capacity the state of charge is counted from (SoC, as in the BMS); it sets how fast SoC rises and falls. The minimum SoC is a separate field.",
+        gdzie: "In the battery datasheet: the nominal capacity; for LiFePO4 12.8 V 100 Ah it is 1.28 kWh. For a bank: the sum of the batteries.",
         zakres: "From the battery datasheet; the app does not guess the capacity.",
       },
       socStart: {
@@ -904,9 +904,9 @@ export const ru: Tlumaczenie<typeof pl> = {
     },
     pola: {
       pojemnosc: {
-        nazwa: "Полезная ёмкость батареи [кВт·ч]",
-        cel: "Полная энергия, которую реально можно взять из батареи; от неё зависит, как быстро растёт и падает уровень заряда.",
-        gdzie: "В карточке батареи: «Usable capacity»; для LiFePO4 12,8 В 100 А·ч это около 1,28 кВт·ч номинально — полезная зависит от рабочего диапазона BMS. Для банка: сумма батарей.",
+        nazwa: "Номинальная ёмкость батареи [кВт·ч]",
+        cel: "Полная ёмкость, от которой считается уровень заряда (SoC, как в BMS); от неё зависит, как быстро SoC растёт и падает. Минимальный SoC задаётся отдельным полем.",
+        gdzie: "В карточке батареи: номинальная ёмкость; для LiFePO4 12,8 В 100 А·ч это 1,28 кВт·ч. Для банка: сумма батарей.",
         zakres: "Из карточки батареи; приложение не угадывает ёмкость.",
       },
       socStart: {

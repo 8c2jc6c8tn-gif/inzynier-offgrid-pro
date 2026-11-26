@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { calculateMocBierna } from "@/lib/core/modules/siec/moc-bierna/calculator"
 import { DANE_ROZLICZEN } from "@/lib/core/dane/rozliczenia-pl-2026"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -32,16 +33,28 @@ export default function MocBiernaPage() {
   const t = useTranslate(true)
   const formatLiczbe = useFormatLiczby()
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-bierna", {
-    tgFi: "",
-    tgFi0: TG_FI0,
-    energiaCzynna: "",
-    cRk: "",
-    pojemnosciowa: "",
-    moc: "",
-    tgFiCel: "",
-    koszt: "",
-  })
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>(
+    "siec-moc-bierna",
+    {
+      tgFi: "",
+      tgFi0: TG_FI0,
+      energiaCzynna: "",
+      cRk: "",
+      pojemnosciowa: "",
+      moc: "",
+      tgFiCel: "",
+      koszt: "",
+    },
+    {
+      // The capacitor bank is a purchase (any currency); the energy price Crk is an official amount (project country's currency)
+      kwoty: ["koszt"],
+      kwotyKraju: ["cRk"],
+      obliczeniaWPln: true,
+    },
+  )
+  // Amounts converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = <K extends keyof Stan>(pole: K, v: string) => setStan((p) => ({ ...p, [pole]: v }))
 
   const result = useMemo(
@@ -50,13 +63,13 @@ export default function MocBiernaPage() {
         tgFi: liczbaLubNull(stan.tgFi),
         tgFi0: liczba(stan.tgFi0),
         energiaCzynnaKwh: liczba(stan.energiaCzynna),
-        cRkZlKwh: liczbaLubNull(stan.cRk),
+        cRkZlKwh: liczbaLubNull(pln.cRk),
         energiaPojemnosciowaKvarh: liczba(stan.pojemnosciowa),
         mocCzynnaSredniaKw: liczba(stan.moc),
         tgFiCel: liczbaLubNull(stan.tgFiCel),
-        kosztBateriiZl: liczba(stan.koszt),
+        kosztBateriiZl: liczba(pln.koszt),
       }),
-    [stan],
+    [stan, pln],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -104,10 +117,11 @@ export default function MocBiernaPage() {
         />
         <Pole
           label={t("UI-MOCBIE-CENA")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("cRk").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.cRk}
+          waluta={waluty.pole("cRk")}
           onChange={(e) => ustaw("cRk", e.target.value)}
           pomoc={<PomocPola ekran="moc-bierna" pole="crk" />}
         />
@@ -140,10 +154,11 @@ export default function MocBiernaPage() {
         />
         <Pole
           label={t("UI-MOCBIE-KOSZT-BATERII-KONDENSATOROW")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(waluty.pole("koszt").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.koszt}
+          waluta={waluty.pole("koszt")}
           onChange={(e) => ustaw("koszt", e.target.value)}
           pomoc={<PomocPola ekran="moc-bierna" pole="kosztBaterii" />}
         />

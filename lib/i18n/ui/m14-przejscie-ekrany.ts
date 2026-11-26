@@ -24,7 +24,7 @@ export const pl = {
   "UI-REZ-KOSZT-OPIS":
     "K ≈ stawka opłaty przyłączeniowej OSD [zł/kW] × moc przyłączeniowa — grupy IV–VI, odległość standardowa. Stawkę znajdziesz w taryfie swojego OSD (rozdział o opłatach za przyłączenie); aplikacja jeszcze jej nie ma.",
   "UI-REZ-STAWKA": "Stawka opłaty przyłączeniowej",
-  "UI-REZ-J-ZL-KW": "zł/kW",
+  "UI-REZ-J-ZL-KW": "{waluta}/kW",
   "UI-REZ-MOC": "Moc przyłączeniowa",
   "UI-REZ-ODLEGLOSC": "Odległość od sieci",
   "UI-REZ-ODL-TAK": "W standardowej odległości z taryfy OSD",

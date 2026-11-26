@@ -63,7 +63,7 @@ export default function LiczbaPaneliPage() {
   const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("liczba-paneli", STAN_POCZATKOWY, {
-    projekt: { nachylenieDeg: "nachylenieDeg", mocPaneluWp: "mocPaneluWp", zapotrzebowanieKwh: "zapotrzebowanieDoboweKwh" },
+    projekt: { azymutDeg: "azymutDeg", nachylenieDeg: "nachylenieDeg", mocPaneluWp: "mocPaneluWp", zapotrzebowanieKwh: "zapotrzebowanieDoboweKwh" },
   })
   // A camper has no heating season of a building: the extra-consumption field and its months are hidden and count as zero.
   const ukryjSezonGrzewczy = czyUkryjPolaBudynku(useRodzajObiektu())
@@ -145,6 +145,7 @@ export default function LiczbaPaneliPage() {
           min={0}
           max={360}
           value={stan.azymutDeg}
+          projekt={projekt.pole("azymutDeg")}
           onChange={(e) => ustaw("azymutDeg", e.target.value)}
           pomoc={<PomocPola ekran="liczba-paneli" pole="azymut" />}
         />

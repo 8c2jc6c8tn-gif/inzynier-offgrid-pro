@@ -1,5 +1,7 @@
 "use client"
 
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { useMemo } from "react"
 import { calculateMocUmowna } from "@/lib/core/modules/siec/moc-umowna/calculator"
 import type { WariantPomiaru } from "@/lib/core/modules/siec/moc-umowna/input"
@@ -29,15 +31,24 @@ type Stan = {
 
 export default function MocUmownaPage() {
   const t = useTranslate(true)
+  // Official amounts are in the project country's currency (D108): their units show its symbol.
+  const symbolKraju = useSymbolWaluty()(useKrajProjektu().waluta)
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-moc-umowna", {
-    osd: "tauron",
-    grupa: "C21",
-    moc: "",
-    stala: "",
-    wariant: "suma10",
-    maksy: Array(12).fill(""),
-  })
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>(
+    "siec-moc-umowna",
+    {
+      osd: "tauron",
+      grupa: "C21",
+      moc: "",
+      stala: "",
+      wariant: "suma10",
+      maksy: Array(12).fill(""),
+    },
+    // The fixed network rate from the invoice is an official amount: the project country's currency, no choice
+    { kwotyKraju: ["stala"], obliczeniaWPln: true },
+  )
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
 
   const result = useMemo(
@@ -47,12 +58,12 @@ export default function MocUmownaPage() {
         grupa: stan.grupa,
         dataRozliczenia: "2026-12-31",
         mocUmownaKw: liczba(stan.moc),
-        stalaZlKwMiesWlasna: nadpisanie(stan.stala),
+        stalaZlKwMiesWlasna: nadpisanie(pln.stala),
         wariantPomiaru: stan.wariant,
         // 🔎 TD22: no fields for the 10 largest values yet — variant "suma10" gives an upper estimate.
         miesiace: stan.maksy.map((m) => ({ maksKw: m === "" ? null : Number(m), dziesiecNajwiekszychKw: null })),
       }),
-    [stan],
+    [stan, pln],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -89,10 +100,11 @@ export default function MocUmownaPage() {
         />
         <Pole
           label={t("UI-MOCUMO-SKLADNIK-STALY-STAWKI")}
-          unit={t("UI-MOCUMO-MIES")}
+          unit={t("UI-MOCUMO-MIES", { waluta: symbolKraju })}
           type="number"
           inputMode="decimal"
           value={stan.stala}
+          waluta={waluty.pole("stala")}
           onChange={(e) => ustaw("stala", e.target.value)}
           pomoc={<PomocPola ekran="moc-umowna" pole="skladnikStaly" />}
         />

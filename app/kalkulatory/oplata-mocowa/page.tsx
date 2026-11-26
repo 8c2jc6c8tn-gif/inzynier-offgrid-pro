@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { calculateOplataMocowa } from "@/lib/core/modules/siec/oplata-mocowa/calculator"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -20,7 +21,15 @@ export default function OplataMocowaPage() {
   const t = useTranslate(true)
   const formatLiczbe = useFormatLiczby()
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-oplata-mocowa", { roczna: "", wGodzinach: "", przesuniecie: "0", stawka: "" })
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>(
+    "siec-oplata-mocowa",
+    { roczna: "", wGodzinach: "", przesuniecie: "0", stawka: "" },
+    // The capacity charge rate from the invoice is an official amount: the project country's currency, no choice
+    { kwotyKraju: ["stawka"], obliczeniaWPln: true },
+  )
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = <K extends keyof Stan>(pole: K, v: string) => setStan((p) => ({ ...p, [pole]: v }))
 
   const result = useMemo(
@@ -30,9 +39,9 @@ export default function OplataMocowaPage() {
         energiaRocznaKwh: liczba(stan.roczna),
         energiaWGodzinachKwh: liczbaLubNull(stan.wGodzinach),
         przesuniecieProcent: liczba(stan.przesuniecie),
-        stawkaWlasnaZlKwh: nadpisanie(stan.stawka),
+        stawkaWlasnaZlKwh: nadpisanie(pln.stawka),
       }),
-    [stan],
+    [stan, pln],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -74,10 +83,11 @@ export default function OplataMocowaPage() {
         />
         <Pole
           label={t("UI-OPLMOC-STAWKA-FAKTURY-OPCJONALNIE")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("stawka").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.stawka}
+          waluta={waluty.pole("stawka")}
           onChange={(e) => ustaw("stawka", e.target.value)}
           pomoc={<PomocPola ekran="oplata-mocowa" pole="stawka" />}
         />

@@ -369,9 +369,9 @@ export const pl = {
         "zakres": "0 = brak odbiorników; wartość stała przez cały cykl."
       },
       "pojemnoscKwh": {
-        "nazwa": "Pojemność użyteczna magazynu [kWh]",
-        "cel": "Przelicza różnicę progów SOC na energię do naładowania.",
-        "gdzie": "Karta magazynu × dopuszczalne DoD (Moduł 4).",
+        "nazwa": "Pojemność nominalna magazynu [kWh]",
+        "cel": "Przelicza różnicę progów SOC na energię do naładowania — SOC liczy się od pełnej, nominalnej pojemności.",
+        "gdzie": "Karta magazynu: pojemność nominalna, bez mnożenia przez DoD.",
         "zakres": "Twój magazyn; wymagane > 0."
       },
       "socStartPct": {
@@ -427,9 +427,9 @@ export const pl = {
         "zakres": "Puste = 0."
       },
       "pojemnosc": {
-        "nazwa": "Pojemność użyteczna baterii [kWh]",
-        "cel": "Przelicza energię na procent SoC.",
-        "gdzie": "Karta baterii × dopuszczalne DoD (Moduł 4).",
+        "nazwa": "Pojemność nominalna baterii [kWh]",
+        "cel": "Przelicza energię na procent SoC — SoC (jak w BMS) liczy się od pełnej, nominalnej pojemności.",
+        "gdzie": "Karta baterii: pojemność nominalna (dla banku suma baterii), bez mnożenia przez DoD.",
         "zakres": "Karta katalogowa urządzenia."
       },
       "soc": {
@@ -1082,9 +1082,9 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "0 = no loads; constant throughout the cycle."
       },
       "pojemnoscKwh": {
-        "nazwa": "Usable store capacity [kWh]",
-        "cel": "Converts the SOC threshold difference into the energy to charge.",
-        "gdzie": "Store datasheet × permitted DoD (Module 4).",
+        "nazwa": "Nominal store capacity [kWh]",
+        "cel": "Converts the SOC threshold difference into the energy to charge — SOC is counted from the full, nominal capacity.",
+        "gdzie": "Store datasheet: the nominal capacity, not multiplied by DoD.",
         "zakres": "Your store; required > 0."
       },
       "socStartPct": {
@@ -1140,9 +1140,9 @@ export const en: Tlumaczenie<typeof pl> = {
         "zakres": "Empty = 0."
       },
       "pojemnosc": {
-        "nazwa": "Usable battery capacity [kWh]",
-        "cel": "Turns energy into SoC percent.",
-        "gdzie": "Battery datasheet × allowed DoD (Module 4).",
+        "nazwa": "Nominal battery capacity [kWh]",
+        "cel": "Turns energy into SoC percent — SoC (as in the BMS) is counted from the full, nominal capacity.",
+        "gdzie": "Battery datasheet: the nominal capacity (for a bank the sum of the batteries), not multiplied by DoD.",
         "zakres": "The device datasheet."
       },
       "soc": {
@@ -1795,9 +1795,9 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "0 = нагрузок нет; постоянна весь цикл."
       },
       "pojemnoscKwh": {
-        "nazwa": "Полезная ёмкость накопителя [кВт·ч]",
-        "cel": "Переводит разницу порогов SOC в энергию для заряда.",
-        "gdzie": "Паспорт накопителя × допустимая DoD (Модуль 4).",
+        "nazwa": "Номинальная ёмкость накопителя [кВт·ч]",
+        "cel": "Переводит разницу порогов SOC в энергию для заряда — SOC считается от полной номинальной ёмкости.",
+        "gdzie": "Паспорт накопителя: номинальная ёмкость, без умножения на DoD.",
         "zakres": "Ваш накопитель; требуется > 0."
       },
       "socStartPct": {
@@ -1853,9 +1853,9 @@ export const ru: Tlumaczenie<typeof pl> = {
         "zakres": "Пусто = 0."
       },
       "pojemnosc": {
-        "nazwa": "Полезная ёмкость батареи [кВт·ч]",
-        "cel": "Переводит энергию в проценты SoC.",
-        "gdzie": "Паспорт батареи × допустимая DoD (Модуль 4).",
+        "nazwa": "Номинальная ёмкость батареи [кВт·ч]",
+        "cel": "Переводит энергию в проценты SoC — SoC (как в BMS) считается от полной номинальной ёмкости.",
+        "gdzie": "Паспорт батареи: номинальная ёмкость (для банка — сумма батарей), без умножения на DoD.",
         "zakres": "Паспорт устройства."
       },
       "soc": {

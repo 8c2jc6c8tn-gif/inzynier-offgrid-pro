@@ -113,7 +113,7 @@ export default function OdstepRzedowPage() {
   const { f0, f1 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("odstep-rzedow", STAN_POCZATKOWY, { projekt: { nachylenie: "nachylenieDeg" } })
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("odstep-rzedow", STAN_POCZATKOWY, { projekt: { nachylenie: "nachylenieDeg", azymut: "azymutDeg" } })
   const [zakladka, setZakladka] = useState<Zakladka>("katy")
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
@@ -227,6 +227,7 @@ export default function OdstepRzedowPage() {
             max={360}
             step="any"
             value={stan.azymut}
+            projekt={projekt.pole("azymut")}
             onChange={(e) => ustaw("azymut", e.target.value)}
             pomoc={<PomocPola ekran="odstep-rzedow" pole="azymut" />}
           />

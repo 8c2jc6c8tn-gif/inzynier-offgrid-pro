@@ -39,8 +39,8 @@ export default function AwariaStringaZimaPage() {
   const t = useTranslate()
   const { f1 } = useFormaty()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("awaria-stringa-zima", STAN_POCZATKOWY, {
-    // zapotrzebowanieKwhDoba is the demand of the worst month, not the year-round daily demand — not linked
-    projekt: { pojemnoscBateriiKwh: "pojemnoscNominalnaKwh", dodPct: "dodPct", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+    // zapotrzebowanieKwhDoba is the winter-month demand on this winter screen — the winter quantity, not the year-round demand
+    projekt: { pojemnoscBateriiKwh: "pojemnoscNominalnaKwh", dodPct: "dodPct", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", zapotrzebowanieKwhDoba: "zuzycieZimoweKwh" },
   })
   const result = useMemo(
     () => calculateAwariaStringaZima(Object.fromEntries(Object.entries(stan).map(([k, v]) => [k, liczba(v)])) as AwariaStringaZimaInput),

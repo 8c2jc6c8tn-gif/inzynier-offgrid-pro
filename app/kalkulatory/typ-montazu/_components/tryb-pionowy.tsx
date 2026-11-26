@@ -47,7 +47,7 @@ function WykresRoznicy({ wartosci }: { wartosci: (number | null)[] }) {
 export function TrybPionowy() {
   const t = useTranslate()
   const { f0, f1, znak } = useFormatyMontazu()
-  const [s, setS] = usePersistedDraft<Seed>("typ-montazu-pionowy", PUSTY)
+  const [s, setS, , , projekt] = usePersistedDraft<Seed>("typ-montazu-pionowy", PUSTY, { projekt: { azymutDeg: "azymutDeg" } })
   const ustaw = (p: keyof Seed, v: string) => setS((prev) => ({ ...prev, [p]: v }))
   const tab = useTabelaNapromieniowania(s.azymutDeg)
   const wynik = useMemo(
@@ -61,7 +61,7 @@ export function TrybPionowy() {
       <p className="text-small text-muted-foreground">
         {t("UI-TYPMON-COMTRYPIO-PANELE-OGRODZENIU-SCIANIE")}
       </p>
-      <PoleAzymutu wartosc={s.azymutDeg} ustaw={(x) => ustaw("azymutDeg", x)} tab={tab} />
+      <PoleAzymutu wartosc={s.azymutDeg} ustaw={(x) => ustaw("azymutDeg", x)} tab={tab} projekt={projekt.pole("azymutDeg")} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
           label={t("UI-TYPMON-COMTRYPIO-DOLNA-KRAWEDZ-PANELI")}

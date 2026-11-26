@@ -1,9 +1,11 @@
 "use client"
 
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
 import { useMemo } from "react"
 import { calculateDepozyt } from "@/lib/core/modules/siec/depozyt-prosumencki/calculator"
 import type { SystemCeny } from "@/lib/core/modules/siec/depozyt-prosumencki/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
@@ -27,11 +29,22 @@ type Stan = {
 
 const POCZATKOWY: Stan = { miesiac: "2026-06", energia: "", cena: "", system: "rce", wykorzystano: "", pelnyKoszt: "" }
 
+/** Official amounts (owner decision 25.11.2026): market price, deposit and bill price are in the project country's currency. */
+const KWOTY_KRAJU: readonly (keyof Stan)[] = ["cena", "wykorzystano", "pelnyKoszt"]
+
 export default function DepozytProsumenckiPage() {
   const t = useTranslate(true)
+  // Official amounts are in the project country's currency (D108): their units show its symbol.
+  const symbolKraju = useSymbolWaluty()(useKrajProjektu().waluta)
   const formatLiczbe = useFormatLiczby()
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-depozyt-prosumencki", POCZATKOWY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>("siec-depozyt-prosumencki", POCZATKOWY, {
+    kwotyKraju: KWOTY_KRAJU,
+    obliczeniaWPln: true,
+  })
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((p) => ({ ...p, [pole]: v }))
 
   const result = useMemo(
@@ -39,12 +52,12 @@ export default function DepozytProsumenckiPage() {
       calculateDepozyt({
         dataMiesiaca: /^\d{4}-\d{2}$/.test(stan.miesiac) ? `${stan.miesiac}-15` : "0000-01-01",
         energiaOddanaKwh: liczba(stan.energia),
-        cenaRynkowaZlMwh: liczba(stan.cena),
+        cenaRynkowaZlMwh: liczba(pln.cena),
         systemCeny: stan.system,
-        wykorzystanoZl: liczbaLubNull(stan.wykorzystano),
-        pelnyKosztKwhBruttoZl: liczbaLubNull(stan.pelnyKoszt),
+        wykorzystanoZl: liczbaLubNull(pln.wykorzystano),
+        pelnyKosztKwhBruttoZl: liczbaLubNull(pln.pelnyKoszt),
       }),
-    [stan],
+    [stan, pln],
   )
   const poziom = poziomWerdyktu(result.status, result.warnings)
   const v = result.value
@@ -116,28 +129,31 @@ export default function DepozytProsumenckiPage() {
         </PoleSelect>
         <Pole
           label={t("UI-DEPPRO-SREDNIA-CENA-TEJ")}
-          unit={t("UI-DEPPRO-MWH")}
+          unit={t("UI-DEPPRO-MWH", { waluta: symbolKraju })}
           type="number"
           inputMode="decimal"
           value={stan.cena}
+          waluta={waluty.pole("cena")}
           onChange={(e) => ustaw("cena", e.target.value)}
           pomoc={<PomocPola ekran="depozyt-prosumencki" pole="sredniaCena" />}
         />
         <Pole
           label={t("UI-DEPPRO-ILE-TEGO-DEPOZYTU")}
-          unit={t("UI-J-ZL")}
+          unit={t("UI-J-ZL", { waluta: symbol(waluty.pole("wykorzystano").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.wykorzystano}
+          waluta={waluty.pole("wykorzystano")}
           onChange={(e) => ustaw("wykorzystano", e.target.value)}
           pomoc={<PomocPola ekran="depozyt-prosumencki" pole="wykorzystanie" />}
         />
         <Pole
           label={t("UI-DEPPRO-PELNY-KOSZT-KWH")}
-          unit={t("UI-J-ZL-KWH")}
+          unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("pelnyKoszt").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.pelnyKoszt}
+          waluta={waluty.pole("pelnyKoszt")}
           onChange={(e) => ustaw("pelnyKoszt", e.target.value)}
           pomoc={<PomocPola ekran="depozyt-prosumencki" pole="pelnyKoszt" />}
         />

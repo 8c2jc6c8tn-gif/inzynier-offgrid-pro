@@ -11,7 +11,7 @@ import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 export const OknoSloneczneToolInput = z.object({
   energiaOknaKwh: z.number().describe("Produkcja PV w oknie słonecznym [kWh]"),
   zuzycieWOknieKwh: z.number().describe("Zużycie domu w czasie okna [kWh]; 0 = brak"),
-  pojemnoscBateriiKwh: z.number().describe("Pojemność użyteczna baterii [kWh]"),
+  pojemnoscBateriiKwh: z.number().describe("Pojemność nominalna baterii [kWh] — SoC liczony od pełnej pojemności, bez mnożenia przez DoD"),
   socStartPct: z.number().describe("SoC na początku okna [%]"),
   grzalkiBmsKwh: z.number().describe("Energia grzałek BMS potrzebna przed ładowaniem [kWh]; 0 = bateria nie wymaga ogrzania"),
   bojlerL: z.number().describe("Pojemność bojlera C.W.U. [l]; 0 = bez bojlera"),
