@@ -58,7 +58,7 @@ describe("usePersistedDraft — filled from the project", () => {
     magazyn.set("offgrid.draft.ekran-c", { napiecieV: "", inne: "z projektu 1" })
     const { result } = renderHook(() => usePersistedDraft<Stan>("ekran-c", POCZ))
     await waitFor(() => expect(result.current[0].inne).toBe("z projektu 1"))
-    act(() => zapiszListe({ aktywnyId: "p2", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "" }, { id: "p2", nazwa: "B", utworzonoIso: "" }] }))
+    act(() => zapiszListe({ aktywnyId: "p2", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "", kraj: "PL" }, { id: "p2", nazwa: "B", utworzonoIso: "", kraj: "PL" }] }))
     await waitFor(() => expect(result.current[0].inne).toBe(""))
     act(() => result.current[1]((p) => ({ ...p, inne: "projekt 2" })))
     await waitFor(() => expect(magazyn.get("offgrid.p.p2.draft.ekran-c")).toEqual({ napiecieV: "", inne: "projekt 2" }))
@@ -110,5 +110,26 @@ describe("useOdczytDraftu — another screen's draft seen with the project value
     magazyn.set("offgrid.draftprojekt.siec-pv-firma", { moc: "wlasna" })
     const { result } = renderHook(() => useOdczytDraftu<{ moc: string; inne: string }>("siec-pv-firma", opcje))
     await waitFor(() => expect(result.current.dane).toEqual({ moc: "8", inne: "x" }))
+  })
+})
+
+describe("official amounts follow the project's country (owner decision 25.11.2026)", () => {
+  it("Poland: nothing changes; Germany: the official amount is in EUR, fixed, and converted to PLN for the calculator", async () => {
+    window.localStorage.setItem("offgrid.kursy.v1", JSON.stringify({ pobranoMs: Date.now(), dataEcb: "2026-11-23", kursy: { EUR: 0.25 } }))
+    type S = { stawka: string }
+    const opcje = { kwotyKraju: ["stawka"], obliczeniaWPln: true }
+    const pl = renderHook(() => usePersistedDraft<S>("ekran-kraj", { stawka: "" }, opcje))
+    await waitFor(() => expect(pl.result.current[3]).toBe(true))
+    act(() => pl.result.current[1]({ stawka: "1" }))
+    expect(pl.result.current[2].pole("stawka")).toMatchObject({ kod: "PLN", stala: true })
+    expect(pl.result.current[2].stanRoboczy.stawka).toBe("1")
+    pl.unmount()
+    act(() => zapiszListe({ aktywnyId: "p1", projekty: [{ id: "p1", nazwa: "", utworzonoIso: "", kraj: "DE" }] }))
+    const de = renderHook(() => usePersistedDraft<S>("ekran-kraj", { stawka: "" }, opcje))
+    await waitFor(() => expect(de.result.current[0].stawka).toBe("1"))
+    expect(de.result.current[2].pole("stawka")).toMatchObject({ kod: "EUR", stala: true })
+    expect(de.result.current[2].stanRoboczy.stawka).toBe("4")
+    de.result.current[2].pole("stawka").ustaw("USD")
+    expect(de.result.current[2].pole("stawka").kod).toBe("EUR")
   })
 })

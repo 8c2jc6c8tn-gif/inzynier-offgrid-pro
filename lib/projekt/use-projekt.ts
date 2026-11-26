@@ -4,6 +4,7 @@ import { useEffect, useRef, useSyncExternalStore } from "react"
 import { getServerSnapshot, getSnapshot, subscribe, type Projekt, type StanProjektow } from "./projekty"
 import { subskrybujWartosci, wartosciZPamieci, wczytajWartosci } from "./magazyn-wartosci"
 import type { WartosciProjektu } from "./wielkosci"
+import { KRAJ_DOMYSLNY, walutaKraju } from "./kraje"
 
 /** The project list; `null` on the server and during hydration (storage keys are not known yet — read nothing). */
 export function useListaProjektow(): StanProjektow | null {
@@ -54,3 +55,9 @@ export function useWartosciWieluProjektow(ids: readonly string[]): Record<string
   )
 }
 const PUSTE: Record<string, WartosciProjektu | null> = {}
+
+/** Country of the open project and its currency (official amounts); Poland until the list is known. */
+export function useKrajProjektu() {
+  const kraj = useAktywnyProjekt()?.kraj ?? KRAJ_DOMYSLNY
+  return { kraj, waluta: walutaKraju(kraj) }
+}

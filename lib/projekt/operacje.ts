@@ -6,6 +6,7 @@
 import { indexedDbStorageAdapter } from "@/lib/adapters/indexeddb-storage-adapter"
 import { BAZY_PROJEKTU, getSnapshot, kluczProjektu, noweId, zapiszListe, zListaPoDodaniu, zListaPoUsunieciu } from "./projekty"
 import { zapomnijWartosci } from "./magazyn-wartosci"
+import { KRAJ_DOMYSLNY } from "./kraje"
 
 /** Every storage key of the project, paired with its "base" (the part that is the same in every project). */
 async function kluczeProjektu(projektId: string): Promise<{ klucz: string; baza: string }[]> {
@@ -29,8 +30,14 @@ export async function utworzProjekt(nazwa: string, kopiaZ: string | null): Promi
       if (wartosc !== null) await indexedDbStorageAdapter.setItem(kluczProjektu(id, baza), wartosc)
     }
   }
-  zapiszListe(zListaPoDodaniu(stan, { id, nazwa: nazwa.trim(), utworzonoIso: new Date().toISOString() }, true))
+  const zrodlo = kopiaZ ? stan.projekty.find((p) => p.id === kopiaZ) : undefined
+  zapiszListe(zListaPoDodaniu(stan, { id, nazwa: nazwa.trim(), utworzonoIso: new Date().toISOString(), kraj: zrodlo?.kraj ?? KRAJ_DOMYSLNY }, true))
   return id
+}
+
+export function zmienKraj(id: string, kraj: string): void {
+  const stan = getSnapshot()
+  zapiszListe({ ...stan, projekty: stan.projekty.map((p) => (p.id === id ? { ...p, kraj } : p)) })
 }
 
 export function zmienNazwe(id: string, nazwa: string): void {

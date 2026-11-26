@@ -26,6 +26,7 @@ import { czyKodWaluty, WALUTA_BAZOWA, WALUTY, type KodWaluty } from "@/lib/walut
 import {
   przeliczMiedzyWalutami,
   rozbiciePoWalutach,
+  sciezkiKonkretne,
   stanWWalucie,
   walutyPoZmianie,
   walutyZeStaregoSzkicu,
@@ -35,7 +36,7 @@ import {
   type WalutyPol,
 } from "@/lib/waluta/kwoty-pol"
 import { kluczProjektu } from "@/lib/projekt/projekty"
-import { useAktywnyProjektId, useWartosciProjektu } from "@/lib/projekt/use-projekt"
+import { useAktywnyProjektId, useKrajProjektu, useWartosciProjektu } from "@/lib/projekt/use-projekt"
 import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
 import { kandydaciZPol, poEdycji, statusPola, synchronizuj, type MapaPol, type StatusPola, type Znaczniki } from "@/lib/projekt/powiazania"
 import { ustawWpisPaska } from "@/lib/projekt/pasek"
@@ -90,6 +91,8 @@ export type StanWalutyPola = {
   brakKursu: boolean
   /** The conversion uses a rate typed by the user in Settings (not NBP). */
   reczny: boolean
+  /** The currency is fixed by the project's country (official amount) — no choice is offered. */
+  stala: boolean
   ustaw: (kod: KodWaluty) => void
 }
 
@@ -145,6 +148,11 @@ export type OpcjeDraftu<T> = {
   kwoty?: readonly string[]
   /** The calculator works in PLN (Polish-market screens: tariffs and fees are PLN by law); otherwise in the working currency. */
   obliczeniaWPln?: boolean
+  /**
+   * Official amounts (grid tariffs, fees, bill prices, subsidies — owner decision 25.11.2026): always in the currency of the
+   * project's country (`lib/projekt/kraje.ts`), no currency choice; shown converted like any other amount.
+   */
+  kwotyKraju?: readonly string[]
   /** Fields that mean exactly a project quantity (`lib/projekt/wielkosci.ts`). */
   projekt?: MapaPol<T>
 }
@@ -333,15 +341,24 @@ export function usePersistedDraft<T>(
   )
 
   const obliczeniaWPln = opcje.obliczeniaWPln === true
+  const kwotyKrajuKlucz = opcje.kwotyKraju?.join(",") ?? ""
+  const { waluta: walutaKraju } = useKrajProjektu()
   const waluty = useMemo<WalutyEkranu<T>>(() => {
     const cel = obliczeniaWPln ? WALUTA_BAZOWA : kursy.robocza
+    // Official amounts: every non-empty one is in the country's currency, whatever the per-field map says.
+    const sciezkiKraju = kwotyKrajuKlucz === "" ? [] : kwotyKrajuKlucz.split(",")
+    const stale = new Set(sciezkiKonkretne(para.stan, sciezkiKraju))
+    const wal: WalutyPol = { ...para.wal }
+    for (const s of stale) if (liczbaKwoty(wartoscSciezki(para.stan, s)) !== null) wal[s] = walutaKraju
+    const wszystkie = [...kwoty, ...sciezkiKraju]
     return {
       robocza: kursy.robocza,
       dataKursow: kursy.stan.kursy?.dataEcb || null,
-      stanRoboczy: kwoty.length > 0 ? stanWWalucie(para.stan, kwoty, para.wal, cel, kursy.kurs) : para.stan,
-      rozbicie: rozbiciePoWalutach(para.stan, kwoty, para.wal),
+      stanRoboczy: wszystkie.length > 0 ? stanWWalucie(para.stan, wszystkie, wal, cel, kursy.kurs) : para.stan,
+      rozbicie: rozbiciePoWalutach(para.stan, wszystkie, wal),
       pole: (sciezka) => {
-        const kod = para.wal[sciezka] ?? kursy.robocza
+        const stala = stale.has(sciezka)
+        const kod = stala ? walutaKraju : (para.wal[sciezka] ?? kursy.robocza)
         const x = liczbaKwoty(wartoscSciezki(para.stan, sciezka))
         return {
           kod,
@@ -349,11 +366,18 @@ export function usePersistedDraft<T>(
           wRoboczej: x === null || kod === kursy.robocza ? null : przeliczMiedzyWalutami(x, kod, kursy.robocza, kursy.kurs),
           brakKursu: x !== null && kod !== kursy.robocza && przeliczMiedzyWalutami(x, kod, kursy.robocza, kursy.kurs) === null,
           reczny: kursy.stan.preferencja.reczne[kod] !== undefined || kursy.stan.preferencja.reczne[kursy.robocza] !== undefined,
-          ustaw: (nowy) => setPara((prev) => ({ ...prev, wal: { ...prev.wal, [sciezka]: nowy } })),
+          stala,
+          ustaw: (nowy) => {
+            if (!stala) setPara((prev) => ({ ...prev, wal: { ...prev.wal, [sciezka]: nowy } }))
+          },
         }
       },
     }
-  }, [para, kwoty, kursy, obliczeniaWPln])
+  }, [para, kwoty, kursy, obliczeniaWPln, kwotyKrajuKlucz, walutaKraju])
+  // A project abroad: the official amounts need the rate of the country's currency too.
+  useEffect(() => {
+    if (kwotyKrajuKlucz && walutaKraju !== WALUTA_BAZOWA && kursyPrzeterminowane(kursy.stan.kursy) && navigator.onLine) void odswiezKursy()
+  }, [kwotyKrajuKlucz, walutaKraju, kursy.stan.kursy])
 
   // The fourth element tells whether the saved draft was already read: an edit made before that would be overwritten by the load.
   return [para.stan, setStan, waluty, wczytano, projekt]

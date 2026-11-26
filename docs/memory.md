@@ -3011,3 +3011,7 @@ Decyzje właściciela na kartach (pełna treść: `rejestr-decyzji.md` D106; dal
 
 Ekran `bilans-zapotrzebowania` tylko czyta szkice ekranów modułu 2 i liczy je ich własnymi kalkulatorami przez `lib/zapotrzebowanie/zrodla-bilansu.ts` — te same funkcje `wejscie*` używają ekrany-źródła (bojler, pobór falownika, urządzenia zmienne, sezonowość), więc **zmiana pola na którymś z tych ekranów wymaga zmiany konwertera w jednym miejscu**, a bilans podąża sam. Wynik do projektu (`zapotrzebowanieDoboweKwh`) jest **bez bufora** — ekran bufora podpięty do tej samej liczby dolicza go sam. Pułapka: `poziomOstrzezen` z `components/werdykt.tsx` przyjmuje status, nie listę ostrzeżeń.
 
+## Kraj projektu i kwoty urzędowe (3.57.0, 25.11.2026, D108)
+
+Kraj jest w liście projektów (`Projekt.kraj`, `lib/projekt/kraje.ts`, `useKrajProjektu()`); pola kwot urzędowych deklaruje się w haku jako `kwotyKraju` (waluta = waluta kraju, `stala: true`, bez wyboru), zakupy dalej jako `kwoty`. Ekrany kafli 15 i 16 dostają baner „dotyczy Polski” automatycznie przez `NaglowekEkranu` (`czyEkranDanychPolskich`) — nowy ekran sieciowy nie potrzebuje nic dopisywać. **Pułapka:** Bułgaria ma euro od 1.01.2026 (NBP nie publikuje BGN) — `walutaKraju("BG")` = EUR.
+

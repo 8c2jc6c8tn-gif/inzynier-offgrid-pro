@@ -3,6 +3,9 @@ import { IlustracjaEkranu } from "@/components/ilustracja-ekranu"
 import type { IkonaEkranu } from "@/lib/pulpit/maskotki"
 import { MigawkaInfo, type WynikMigawki } from "@/components/ui/pomoc"
 import type { EkranPomocy } from "@/lib/i18n/pomoc"
+import { DotyczyPolski } from "@/components/projekt/dotyczy-polski"
+import { czyEkranDanychPolskich } from "@/lib/projekt/kraje"
+import { KAFLE } from "@/lib/pulpit/registry"
 
 /**
  * Nagłówek ekranu kalkulatora — `<h1>` + akapit z kontekstem (migawka edukacyjna/moduł/ekran),
@@ -42,6 +45,11 @@ export function NaglowekEkranu({
         )}
       </div>
       {children && <p className="mt-1 text-small text-muted-foreground">{children}</p>}
+      {ekran && czyEkranDanychPolskich(ekran, KAFLE) && (
+        <div className="mt-2">
+          <DotyczyPolski />
+        </div>
+      )}
     </div>
   )
 }

@@ -9,6 +9,7 @@
  * existed (`offgrid.draft.<screen>` …), so nothing has to be migrated: what the user typed so far simply becomes project 1.
  */
 import { consoleReporter } from "@/lib/core/reporter"
+import { czyKodKraju, KRAJ_DOMYSLNY } from "./kraje"
 
 export const KLUCZ_LISTY_PROJEKTOW = "offgrid.projekty.v1"
 const CHANGE_EVENT = "offgrid-projekty-change"
@@ -21,6 +22,8 @@ export type Projekt = {
   /** Empty = the default name („Projekt 1”) is shown in the UI language. */
   nazwa: string
   utworzonoIso: string
+  /** ISO 3166 code of the project's country (`kraje.ts`); sets the currency of official amounts. Default Poland. */
+  kraj: string
 }
 
 export type StanProjektow = {
@@ -28,7 +31,7 @@ export type StanProjektow = {
   projekty: Projekt[]
 }
 
-const DOMYSLNY: StanProjektow = { aktywnyId: ID_PIERWSZEGO, projekty: [{ id: ID_PIERWSZEGO, nazwa: "", utworzonoIso: "" }] }
+const DOMYSLNY: StanProjektow = { aktywnyId: ID_PIERWSZEGO, projekty: [{ id: ID_PIERWSZEGO, nazwa: "", utworzonoIso: "", kraj: KRAJ_DOMYSLNY }] }
 
 /**
  * Storage key of a per-project item. `baza` is the part after `offgrid.` used before projects existed, e.g. `draft.bojler-cwu`.
@@ -63,7 +66,12 @@ export function parsujListe(raw: string | null): StanProjektow {
       : []
     const unikalne = projekty.filter((p, i) => projekty.findIndex((q) => q.id === p.id) === i)
     if (unikalne.length === 0) return DOMYSLNY
-    const lista = unikalne.map((p) => ({ id: p.id, nazwa: typeof p.nazwa === "string" ? p.nazwa : "", utworzonoIso: typeof p.utworzonoIso === "string" ? p.utworzonoIso : "" }))
+    const lista = unikalne.map((p) => ({
+      id: p.id,
+      nazwa: typeof p.nazwa === "string" ? p.nazwa : "",
+      utworzonoIso: typeof p.utworzonoIso === "string" ? p.utworzonoIso : "",
+      kraj: czyKodKraju(p.kraj) ? p.kraj : KRAJ_DOMYSLNY,
+    }))
     const aktywnyId = lista.some((p) => p.id === o.aktywnyId) ? (o.aktywnyId as string) : lista[0]!.id
     return { aktywnyId, projekty: lista }
   } catch {

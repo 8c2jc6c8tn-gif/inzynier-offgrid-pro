@@ -16,6 +16,14 @@ import type { KodWaluty } from "@/lib/waluta/waluty"
 /** The select next to the input. */
 export function WyborWalutyPola({ waluta, id }: { waluta: StanWalutyPola; id?: string }) {
   const t = useTranslate()
+  // Official amount: the currency is the country's — shown, not chosen.
+  if (waluta.stala) {
+    return (
+      <span id={id} aria-label={t("UI-WAL-POLE-WYBOR")} className="flex min-h-11 shrink-0 items-center rounded-md border border-dashed px-2 text-small text-muted-foreground">
+        {waluta.kod}
+      </span>
+    )
+  }
   return (
     <select
       id={id}
