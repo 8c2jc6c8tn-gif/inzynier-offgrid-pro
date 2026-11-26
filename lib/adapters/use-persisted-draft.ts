@@ -390,6 +390,8 @@ export type OpcjeOdczytu = {
    * currency from Settings) for the rest.
    */
   kwoty?: readonly string[]
+  /** Official amounts of that draft (the owner screen's `kwotyKraju`): in the project country's currency. */
+  kwotyKraju?: readonly string[]
   waluta?: "pln" | "robocza"
   /**
    * The owner screen's field → quantity map and initial state: the read then sees what the owner screen would show — linked
@@ -418,6 +420,8 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
   const wartosci = useWartosciProjektu(powiazanie ? projektId : null)
   const kursy = useKursyWalut()
   const kwotyKlucz = opcje?.kwoty?.join(",") ?? ""
+  const kwotyKrajuOdczytKlucz = opcje?.kwotyKraju?.join(",") ?? ""
+  const { waluta: walutaKrajuOdczytu } = useKrajProjektu()
   const docelowaPln = opcje?.waluta === "pln"
 
   useEffect(() => {
@@ -463,9 +467,11 @@ export function useOdczytDraftu<T>(kluczEkranu: string, opcje?: OpcjeOdczytu): {
   }, [wczytano, powiazanieKlucz, wartosci, stan])
   const dane = useMemo(() => {
     const kwoty = kwotyKlucz === "" ? [] : kwotyKlucz.split(",")
-    if (!wczytano || zProjektem === null || kwoty.length === 0) return wczytano ? zProjektem : null
-    const wal = stan.wal ?? walutyZeStaregoSzkicu(zProjektem, kwoty, stan.stara)
-    return stanWWalucie(zProjektem, kwoty, wal, docelowaPln ? WALUTA_BAZOWA : kursy.robocza, kursy.kurs)
-  }, [wczytano, zProjektem, stan.wal, stan.stara, kwotyKlucz, docelowaPln, kursy])
+    const kraju = kwotyKrajuOdczytKlucz === "" ? [] : kwotyKrajuOdczytKlucz.split(",")
+    if (!wczytano || zProjektem === null || kwoty.length + kraju.length === 0) return wczytano ? zProjektem : null
+    const wal: WalutyPol = { ...(stan.wal ?? walutyZeStaregoSzkicu(zProjektem, kwoty, stan.stara)) }
+    for (const s of sciezkiKonkretne(zProjektem, kraju)) if (liczbaKwoty(wartoscSciezki(zProjektem, s)) !== null) wal[s] = walutaKrajuOdczytu
+    return stanWWalucie(zProjektem, [...kwoty, ...kraju], wal, docelowaPln ? WALUTA_BAZOWA : kursy.robocza, kursy.kurs)
+  }, [wczytano, zProjektem, stan.wal, stan.stara, kwotyKlucz, kwotyKrajuOdczytKlucz, walutaKrajuOdczytu, docelowaPln, kursy])
   return { dane, wczytano }
 }

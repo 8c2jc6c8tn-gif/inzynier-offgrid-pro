@@ -1,5 +1,7 @@
 "use client"
 
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import Link from "next/link"
 import { useMemo } from "react"
 import { calculateKosztPowrotu } from "@/lib/core/modules/siec/koszt-powrotu/calculator"
@@ -34,18 +36,26 @@ const POCZATKOWY: Stan = { stawka: "", moc: "", odleglosc: "" }
  */
 export default function RezygnacjaZPrzylaczaPage() {
   const t = useTranslate(true)
+  // Official amounts are in the project country's currency (D108): their units show its symbol.
+  const symbolKraju = useSymbolWaluty()(useKrajProjektu().waluta)
   const zl = useZl()
   const [{ segment }, setSegment] = usePersistedDraft(KLUCZ_SEGMENTU_PRZEJSCIA, POCZATKOWY_SEGMENTU)
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-koszt-powrotu", POCZATKOWY)
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>("siec-koszt-powrotu", POCZATKOWY, {
+    // The connection rate from the DSO tariff is an official amount: the project country's currency, no choice
+    kwotyKraju: ["stawka"],
+    obliczeniaWPln: true,
+  })
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const result = useMemo(
     () =>
       calculateKosztPowrotu({
-        stawkaZlKw: liczbaLubNull(stan.stawka),
+        stawkaZlKw: liczbaLubNull(pln.stawka),
         mocPrzylaczeniowaKw: liczba(stan.moc),
         odlegloscStandardowa: stan.odleglosc === "" ? null : stan.odleglosc === "tak",
       }),
-    [stan],
+    [stan, pln],
   )
   const v = result.value
 
@@ -85,10 +95,11 @@ export default function RezygnacjaZPrzylaczaPage() {
         <div className="grid grid-cols-2 gap-3">
           <Pole
             label={t("UI-REZ-STAWKA")}
-            unit={t("UI-REZ-J-ZL-KW")}
+            unit={t("UI-REZ-J-ZL-KW", { waluta: symbolKraju })}
             type="number"
             inputMode="decimal"
             value={stan.stawka}
+            waluta={waluty.pole("stawka")}
             onChange={(e) => ustaw({ stawka: e.target.value })}
             pomoc={<PomocPola ekran="rezygnacja-z-przylacza" pole="stawka" />}
           />

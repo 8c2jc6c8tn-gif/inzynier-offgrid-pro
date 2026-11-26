@@ -26,6 +26,7 @@ export const en: Record<Klucz, string> = {
   "UI-PRJ-KRAJ": "Project country",
   "UI-PRJ-KRAJ-OPIS": "The country sets the currency of official amounts (tariffs, fees, bill prices, subsidies). Purchases have their own currency choice, and results are in the currency from Settings.",
   "UI-PRJ-DOTYCZY-POLSKI": "This screen uses Polish rates, tariffs and regulations, while the project country is {kraj}. Enter official amounts in {waluta}; a version for other countries is in preparation.",
+  "UI-PRJ-BRAK-KURSU-KRAJU": "No {waluta} rate: the official amounts you typed are not counted, the screen uses the Polish rates from its data. Go online or enter the rate in Settings.",
   "UI-PRJ-ZMIEN-KRAJ": "Change the project country →",
   "UI-PRJ-LISTA": "Your projects",
   "UI-PRJ-AKTYWNY": "open",

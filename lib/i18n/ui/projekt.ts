@@ -25,6 +25,7 @@ export const pl = {
   "UI-PRJ-KRAJ": "Kraj projektu",
   "UI-PRJ-KRAJ-OPIS": "Od kraju zależy waluta kwot urzędowych (taryfy, opłaty, ceny z rachunku, dotacje). Zakupy mają własny wybór waluty, a wyniki są w walucie z Ustawień.",
   "UI-PRJ-DOTYCZY-POLSKI": "Ten ekran korzysta z polskich stawek, taryf i przepisów, a kraj projektu to {kraj}. Kwoty urzędowe wpisuj w {waluta}; wersja dla innych krajów jest w przygotowaniu.",
+  "UI-PRJ-BRAK-KURSU-KRAJU": "Brak kursu {waluta}: wpisane kwoty urzędowe nie są liczone, ekran liczy na polskich stawkach z danych. Połącz się z internetem albo wpisz kurs w Ustawieniach.",
   "UI-PRJ-ZMIEN-KRAJ": "Zmień kraj projektu →",
   "UI-PRJ-LISTA": "Twoje projekty",
   "UI-PRJ-AKTYWNY": "otwarty",

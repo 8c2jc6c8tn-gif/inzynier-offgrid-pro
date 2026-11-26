@@ -9,6 +9,7 @@ import { calculateStrumienieBess, type IdStrumienia } from "@/lib/core/modules/s
 import type { GrupaMocy } from "@/lib/core/modules/siec/strumienie-bess/input"
 import { KWOTY_EKRANOW } from "@/lib/waluta/kwoty-ekranow"
 import { useOdczytDraftu, usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useSymbolWaluty } from "@/components/waluta-pola"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
 import { Pole, PoleSelect } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
@@ -35,6 +36,12 @@ type Stan = {
 }
 const POCZATKOWY: Stan = { grupa: "C1x", autoKwh: "", autoZysk: "", arbKwh: "", arbZysk: "", mocowaKwh: "", mocUmowna: "" }
 
+/**
+ * Official amounts (owner decision 25.11.2026): the gains come from the grid tariff (purchase price − value of exported energy,
+ * zone price spread, contracted power fee), so they are in the project country's currency, no currency choice.
+ */
+const KWOTY_KRAJU: readonly (keyof Stan)[] = ["autoZysk", "arbZysk", "mocUmowna"]
+
 /** Translation keys (`t()`). */
 const NAZWA: Record<IdStrumienia, string> = {
   autokonsumpcja: "UI-BESS-S-AUTOKONSUMPCJA",
@@ -51,7 +58,13 @@ const NAZWA: Record<IdStrumienia, string> = {
 export default function MagazynFirmyPage() {
   const t = useTranslate(true)
   const zl = useZl()
-  const [stan, setStan] = usePersistedDraft<Stan>("siec-magazyn-firmy", POCZATKOWY)
+  const symbol = useSymbolWaluty()
+  const [stan, setStan, waluty] = usePersistedDraft<Stan>("siec-magazyn-firmy", POCZATKOWY, {
+    kwotyKraju: KWOTY_KRAJU,
+    obliczeniaWPln: true,
+  })
+  // Amounts typed in the country's currency, converted to PLN for the engine (NBP)
+  const pln = waluty.stanRoboczy
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const { dane: e23, wczytano } = useOdczytDraftu<StanE23>("oplacalnosc-magazynu", {
     // Polish-market screen: the battery price is read in PLN whatever currency it was typed in (audit 3.2).
@@ -79,13 +92,13 @@ export default function MagazynFirmyPage() {
         kosztCykluZlKwh: echo?.koszt ?? null,
         cenaMagazynuZl: echo?.cena ?? null,
         autokonsumpcjaKwhRok: liczba(stan.autoKwh),
-        autokonsumpcjaZyskZlKwh: liczbaLubNull(stan.autoZysk),
+        autokonsumpcjaZyskZlKwh: liczbaLubNull(pln.autoZysk),
         arbitrazKwhRok: liczba(stan.arbKwh),
-        arbitrazZyskZlKwh: liczbaLubNull(stan.arbZysk),
+        arbitrazZyskZlKwh: liczbaLubNull(pln.arbZysk),
         mocowaKwhRok: liczba(stan.mocowaKwh),
-        mocUmownaZlRok: liczbaLubNull(stan.mocUmowna),
+        mocUmownaZlRok: liczbaLubNull(pln.mocUmowna),
       }),
-    [stan, echo],
+    [stan, pln, echo],
   )
   if (!wczytano) return <StanLadowania linie={6} />
   const v = result.value
@@ -128,10 +141,11 @@ export default function MagazynFirmyPage() {
           />
           <Pole
             label={t("UI-BESS-ZYSK")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("autoZysk").kod) })}
             type="number"
             inputMode="decimal"
             value={stan.autoZysk}
+            waluta={waluty.pole("autoZysk")}
             onChange={(e) => ustaw({ autoZysk: e.target.value })}
             pomoc={<PomocPola ekran="magazyn-firmy" pole="zyskKwh" />}
           />
@@ -156,10 +170,11 @@ export default function MagazynFirmyPage() {
           />
           <Pole
             label={t("UI-BESS-ROZNICA")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("arbZysk").kod) })}
             type="number"
             inputMode="decimal"
             value={stan.arbZysk}
+            waluta={waluty.pole("arbZysk")}
             onChange={(e) => ustaw({ arbZysk: e.target.value })}
             pomoc={<PomocPola ekran="magazyn-firmy" pole="roznicaCen" />}
           />
@@ -195,10 +210,11 @@ export default function MagazynFirmyPage() {
         </PoleSelect>
         <Pole
           label={t("UI-BESS-OSZCZEDNOSC")}
-          unit={t("UI-J-ZL-ROK")}
+          unit={t("UI-J-ZL-ROK", { waluta: symbol(waluty.pole("mocUmowna").kod) })}
           type="number"
           inputMode="decimal"
           value={stan.mocUmowna}
+          waluta={waluty.pole("mocUmowna")}
           onChange={(e) => ustaw({ mocUmowna: e.target.value })}
           pomoc={<PomocPola ekran="magazyn-firmy" pole="mocUmowna" />}
         />

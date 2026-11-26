@@ -1,5 +1,9 @@
 "use client"
 
+import { przeliczMiedzyWalutami } from "@/lib/waluta/kwoty-pol"
+import { kursEfektywny } from "@/lib/waluta/przelicz"
+import { useWaluta } from "@/lib/waluta/use-waluta"
+import { useKrajProjektu } from "@/lib/projekt/use-projekt"
 import Link from "next/link"
 import { useMemo } from "react"
 import { DANE_ROZLICZEN } from "@/lib/core/dane/rozliczenia-pl-2026"
@@ -18,7 +22,7 @@ import { StanLadowania, StanPusty } from "@/components/ui/stany"
 import { WerdyktPanel } from "@/components/werdykt"
 import { SekcjaAkordeon } from "@/components/wzorce/sekcja-akordeon"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
-import { type StanRachunku, kluczRachunku, wejscieRachunku } from "./formularz-rachunku"
+import { type StanRachunku, kluczRachunku, wejscieRachunku, KWOTY_KRAJU_RACHUNKU } from "./formularz-rachunku"
 import { POCZATKOWY_WZROSTU, PoleWzrostuCen, type StanWzrostuCen, trybZeStanu } from "./pole-wzrostu-cen"
 import { type StanPvMagazynu, kluczPv, ODCZYT_PV } from "./pv-magazyn"
 import { uzyskZeStanu } from "./uzysk-pv"
@@ -81,11 +85,18 @@ const ROK_BAZOWY = Number(DANE_ROZLICZEN.stanNa.slice(0, 4))
 
 /**
  * Purchases may be paid in any currency (owner decision 24.11.2026): investment, storage cost, service and fuel. Grid rates,
- * the subsidy and the value of fed-in energy are Polish legal amounts in PLN and have no currency choice. The engine works in PLN.
+ * the subsidy and the value of fed-in energy are official amounts: always in the currency of the project's country, no currency
+ * choice (owner decision 25.11.2026). The engine works in PLN.
  */
 const KWOTY_SCENARIUSZY = [
   "paliwo",
   ...(["A", "B", "C", "D"] as const).flatMap((id) => [`scen.${id}.inwestycja`, `scen.${id}.kosztMagazynu`, `scen.${id}.serwis`]),
+]
+const KWOTY_KRAJU_SCENARIUSZY = [
+  "kosztStaly",
+  "cenaZmienna",
+  "wartoscNadwyzki",
+  ...(["A", "B", "C", "D"] as const).map((id) => `scen.${id}.dotacja`),
 ]
 const num = (s: string) => (s === "" ? 0 : Number(s))
 
@@ -102,16 +113,28 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
   const symbol = useSymbolWaluty()
   const [stan, setStan, waluty] = usePersistedDraft<Stan>(`siec-scenariusze-${segment}`, POCZATKOWY, {
     kwoty: KWOTY_SCENARIUSZY,
+    kwotyKraju: KWOTY_KRAJU_SCENARIUSZY,
     obliczeniaWPln: true,
   })
   const pln = waluty.stanRoboczy
+  // The bill gives PLN; the fields are in the project country's currency — the hint is shown in the field's currency.
+  const { waluta: walutaKrajuProjektu } = useKrajProjektu()
+  const { stan: stanWaluty } = useWaluta()
+  const wKraju = (pln: number) =>
+    przeliczMiedzyWalutami(pln, "PLN", walutaKrajuProjektu, (k) =>
+      kursEfektywny(k, stanWaluty.kursy?.kursy ?? {}, stanWaluty.preferencja.reczne, stanWaluty.preferencja.narzutProc),
+    )
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
   const ustawScen = (id: IdScenariusza, z: Partial<StanScenariusza>) =>
     setStan((p) => ({ ...p, scen: { ...p.scen, [id]: { ...p.scen[id], ...z } } }))
 
   const { zuzycie, wczytano: w1 } = useZuzycieMiesieczne(segment)
   const { dane: pv, wczytano: w2 } = useOdczytDraftu<StanPvMagazynu>(kluczPv(segment), ODCZYT_PV)
-  const { dane: rachunekStan, wczytano: w3 } = useOdczytDraftu<StanRachunku>(kluczRachunku(segment))
+  const { dane: rachunekStan, wczytano: w3 } = useOdczytDraftu<StanRachunku>(kluczRachunku(segment), {
+    // The bill's official amounts are in the project country's currency; the engine works in PLN.
+    kwotyKraju: KWOTY_KRAJU_RACHUNKU,
+    waluta: "pln",
+  })
 
   // Echo D1/F1: fixed part = „cena trzymania sieci”, variable brutto per kWh = (brutto − fixed) / kWh.
   const echoRachunku = useMemo(() => {
@@ -134,7 +157,7 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
       const sPln = pln.scen[id]
       return {
         inwestycjaZl: liczbaLubNull(sPln.inwestycja),
-        dotacjaZl: num(s.dotacja),
+        dotacjaZl: num(sPln.dotacja),
         mocPvKwp: s.moc === "" ? pvMoc : Number(s.moc),
         pojemnoscMagazynuKwh: id === "A" ? 0 : s.pojemnosc === "" ? pvPojemnosc : Number(s.pojemnosc),
         kosztMagazynuZl: id === "A" ? 0 : num(sPln.kosztMagazynu),
@@ -153,9 +176,9 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
       sprawnoscMagazynu: pv?.sprawnoscProcent ? Number(pv.sprawnoscProcent) / 100 : null,
       zywotnoscMagazynuLat: liczbaLubNull(stan.zywotnosc),
       siec: {
-        kosztStalyRokBruttoZl: stan.kosztStaly !== "" ? Number(stan.kosztStaly) : (echoRachunku?.staly ?? null),
-        cenaZmiennaKwhBruttoZl: stan.cenaZmienna !== "" ? Number(stan.cenaZmienna) : (echoRachunku?.zmienna ?? null),
-        wartoscNadwyzkiKwhZl: liczbaLubNull(stan.wartoscNadwyzki),
+        kosztStalyRokBruttoZl: pln.kosztStaly !== "" ? Number(pln.kosztStaly) : (echoRachunku?.staly ?? null),
+        cenaZmiennaKwhBruttoZl: pln.cenaZmienna !== "" ? Number(pln.cenaZmienna) : (echoRachunku?.zmienna ?? null),
+        wartoscNadwyzkiKwhZl: liczbaLubNull(pln.wartoscNadwyzki),
       },
       agregat: { mocKw: num(stan.agregatMoc), zuzycieLH: liczbaLubNull(stan.agregatLH), cenaPaliwaZlL: liczbaLubNull(pln.paliwo) },
       scenariusze: { A: parametry("A"), B: parametry("B"), C: parametry("C"), D: parametry("D") },
@@ -227,30 +250,33 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
           />
           <Pole
             label={t("UI-SCEN-CENA-TRZYMANIA")}
-            unit={t("UI-J-ZL-ROK")}
+            unit={t("UI-J-ZL-ROK", { waluta: symbol(waluty.pole("kosztStaly").kod) })}
             type="number"
             inputMode="decimal"
             value={stan.kosztStaly}
-            placeholder={echoRachunku ? f0(echoRachunku.staly) : ""}
+            waluta={waluty.pole("kosztStaly")}
+            placeholder={echoRachunku && wKraju(echoRachunku.staly) !== null ? f0(wKraju(echoRachunku.staly)!) : ""}
             onChange={(e) => ustaw({ kosztStaly: e.target.value })}
             pomoc={<PomocPola ekran="siec-scenariusze" pole="cenaSieci" />}
           />
           <Pole
             label={t("UI-SCEN-KOSZT-ZMIENNY")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("cenaZmienna").kod) })}
             type="number"
             inputMode="decimal"
             value={stan.cenaZmienna}
-            placeholder={echoRachunku ? echoRachunku.zmienna.toFixed(2) : ""}
+            waluta={waluty.pole("cenaZmienna")}
+            placeholder={echoRachunku && wKraju(echoRachunku.zmienna) !== null ? wKraju(echoRachunku.zmienna)!.toFixed(2) : ""}
             onChange={(e) => ustaw({ cenaZmienna: e.target.value })}
             pomoc={<PomocPola ekran="siec-scenariusze" pole="kosztKwh" />}
           />
           <Pole
             label={t("UI-SCEN-WARTOSC-ODDANEJ")}
-            unit={t("UI-J-ZL-KWH")}
+            unit={t("UI-J-ZL-KWH", { waluta: symbol(waluty.pole("wartoscNadwyzki").kod) })}
             type="number"
             inputMode="decimal"
             value={stan.wartoscNadwyzki}
+            waluta={waluty.pole("wartoscNadwyzki")}
             onChange={(e) => ustaw({ wartoscNadwyzki: e.target.value })}
             pomoc={<PomocPola ekran="siec-scenariusze" pole="wartoscOddanej" params={stawkiDoPomocy()} />}
           />
@@ -288,10 +314,11 @@ export function PorownanieScenariuszy({ segment }: { segment: Segment }) {
             />
             <Pole
               label={t("UI-SCEN-DOTACJA")}
-              unit={t("UI-J-ZL")}
+              unit={t("UI-J-ZL", { waluta: symbol(waluty.pole(`scen.${id}.dotacja`).kod) })}
               type="number"
               inputMode="decimal"
               value={stan.scen[id].dotacja}
+              waluta={waluty.pole(`scen.${id}.dotacja`)}
               onChange={(e) => ustawScen(id, { dotacja: e.target.value })}
               pomoc={<PomocPola ekran="siec-scenariusze" pole="dotacja" />}
             />
