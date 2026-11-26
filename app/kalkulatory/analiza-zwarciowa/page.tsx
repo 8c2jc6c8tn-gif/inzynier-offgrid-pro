@@ -2,7 +2,9 @@
 
 import { useMemo } from "react"
 import { calculateAnalizaZwarciowa } from "@/lib/core/modules/okablowanie/analiza-zwarciowa/calculator"
+import { isComputed } from "@/lib/core/calc-result"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
+import { useWynikiDoProjektu } from "@/lib/projekt/use-wyniki-do-projektu"
 import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel, type WerdyktPoziom } from "@/components/werdykt"
@@ -59,7 +61,11 @@ export default function AnalizaZwarciowaPage() {
         aicZabezpieczeniaA: aicZabezpieczeniaA === "" ? 0 : Number(aicZabezpieczeniaA),
       }),
     [napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA],
-  )
+  )  // The battery bank's short-circuit current goes to the project (the protection screens read it).
+  useWynikiDoProjektu("analiza-zwarciowa", {
+    pradZwarciowyMagazynuA: isComputed(result.status) ? Number(result.value.pradZwarciowyBateriaA.toFixed(1)) : null,
+  })
+
 
   const hasCritical = result.warnings.some((w) => w.level === "critical")
 

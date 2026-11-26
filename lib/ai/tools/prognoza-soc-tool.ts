@@ -10,7 +10,7 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const PrognozaSocToolInput = z.object({
-  pojemnoscUzytecznaKwh: z.number().describe("Pojemność użyteczna baterii [kWh] — z karty baterii"),
+  pojemnoscUzytecznaKwh: z.number().describe("Pojemność nominalna baterii [kWh] — z karty baterii; SoC liczony od pełnej pojemności"),
   socStartPct: z.number().describe("Stan naładowania na początku prognozy [%]"),
   socMinPct: z.number().describe("Najniższy dopuszczalny stan naładowania [%] — próg BMS/falownika albo rezerwa usera"),
   socMaksPct: z.number().optional().describe("Najwyższy stan naładowania [%] — brak = 100"),

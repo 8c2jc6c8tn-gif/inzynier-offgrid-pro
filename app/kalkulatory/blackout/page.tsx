@@ -41,8 +41,8 @@ export default function BlackoutPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("blackout", STAN_POCZATKOWY, {
-    // zuzycieDoboweKwh is the winter (frost) daily use, not the year-round daily demand — not linked
-    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+    // zuzycieDoboweKwh is the winter (frost) daily use — the winter quantity, not the year-round daily demand
+    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", socMinPct: "socMinPct", zuzycieDoboweKwh: "zuzycieZimoweKwh" },
   })
 
   const result = useMemo(

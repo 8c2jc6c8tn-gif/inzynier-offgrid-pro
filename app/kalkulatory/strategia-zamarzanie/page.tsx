@@ -42,7 +42,7 @@ export default function StrategiaZamarzaniePage() {
   const { f1 } = useFormaty()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("strategia-zamarzanie", STAN_POCZATKOWY, {
     // capacity × (SoC − SoC_min): the nameplate capacity of the bank
-    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct" },
+    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", socMinPct: "socMinPct" },
   })
 
   function aktualizuj(id: string, zmiana: Partial<Wiersz>) {

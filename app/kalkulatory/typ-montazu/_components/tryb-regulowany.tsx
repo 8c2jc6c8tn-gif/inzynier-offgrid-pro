@@ -46,7 +46,7 @@ const kolumny = (t: (kod: string) => string, f0: (x: number) => string, f2: (x: 
 export function TrybRegulowany() {
   const t = useTranslate()
   const { f0, f1, f2, fMasa } = useFormatyMontazu()
-  const [s, setS] = usePersistedDraft<Seed>("typ-montazu-regulowany", PUSTY)
+  const [s, setS, , , projekt] = usePersistedDraft<Seed>("typ-montazu-regulowany", PUSTY, { projekt: { azymutDeg: "azymutDeg" } })
   const tab = useTabelaNapromieniowania(s.azymutDeg)
   const wynik = useMemo(
     () =>
@@ -72,7 +72,7 @@ export function TrybRegulowany() {
         </Link>
         .
       </p>
-      <PoleAzymutu wartosc={s.azymutDeg} ustaw={(x) => setS((p) => ({ ...p, azymutDeg: x }))} tab={tab} />
+      <PoleAzymutu wartosc={s.azymutDeg} ustaw={(x) => setS((p) => ({ ...p, azymutDeg: x }))} tab={tab} projekt={projekt.pole("azymutDeg")} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Pole
           label={t("UI-TYPMON-COMTRYREG-NAJMNIEJSZY-KAT-REGULACJI")}

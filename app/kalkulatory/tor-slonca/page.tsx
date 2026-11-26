@@ -53,7 +53,7 @@ export default function TorSloncaPage() {
   const t = useTranslate()
   const { f0, f1, f2 } = useFormaty()
   const { skaner, lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("tor-slonca", STAN_POCZATKOWY, { projekt: { nachylenie: "nachylenieDeg", moc: "mocPvKwp" } })
+  const [stan, setStan, , , projekt] = usePersistedDraft<Stan>("tor-slonca", STAN_POCZATKOWY, { projekt: { nachylenie: "nachylenieDeg", moc: "mocPvKwp", azymut: "azymutDeg" } })
   const ustaw = <K extends keyof Stan>(pole: K, v: Stan[K]) => setStan((prev) => ({ ...prev, [pole]: v }))
   const powierzchnie = useMemo(() => powierzchnieZModelu(skaner.value), [skaner.value])
   const [godzina, setGodzina] = useState(GODZINA_POCZATKOWA_H)
@@ -180,6 +180,7 @@ export default function TorSloncaPage() {
             max={360}
             step="any"
             value={stan.azymut}
+            projekt={projekt.pole("azymut")}
             onChange={(e) => ustaw("azymut", e.target.value)}
             pomoc={<PomocPola ekran="tor-slonca" pole="azymut" />}
           />

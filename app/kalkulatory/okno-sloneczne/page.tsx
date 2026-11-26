@@ -37,7 +37,7 @@ export default function OknoSlonecznePage() {
   const t = useTranslate()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("okno-sloneczne", STAN_POCZATKOWY, {
     // the field is labelled and documented as the usable capacity; "zuzycie" is the use during the sun window only — not linked
-    projekt: { pojemnosc: "pojemnoscUzytecznaKwh" },
+    projekt: { pojemnosc: "pojemnoscNominalnaKwh" },
   })
   const pole = (klucz: Pola, bezMin = false) => ({
     type: "number",

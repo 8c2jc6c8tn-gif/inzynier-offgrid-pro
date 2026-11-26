@@ -38,7 +38,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function PorownanieTechnologiiMagazynowPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("porownanie-technologii-magazynow", STAN_POCZATKOWY)
+  // The calculator multiplies the capacity by each technology's DoD: the field is the nominal capacity (owner decision 25.11.2026).
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("porownanie-technologii-magazynow", STAN_POCZATKOWY, {
+    projekt: { pojemnoscKwh: "pojemnoscNominalnaKwh" },
+  })
   const { pojemnoscKwh } = stan
   const setPojemnoscKwh = (a: string | ((p: string) => string)) =>
     setStan((prev) => ({ ...prev, pojemnoscKwh: typeof a === "function" ? a(prev.pojemnoscKwh) : a }))
@@ -73,6 +76,7 @@ export default function PorownanieTechnologiiMagazynowPage() {
         className="max-w-xs"
         placeholder={t("UI-PORTECMAG-BEZ-WPISANIA-POROWNANIE")}
         value={pojemnoscKwh}
+        projekt={projekt.pole("pojemnoscKwh")}
         onChange={(e) => setPojemnoscKwh(e.target.value)}
         pomoc={<PomocPola ekran="porownanie-technologii-magazynow" pole="pojemnosc" />}
       />

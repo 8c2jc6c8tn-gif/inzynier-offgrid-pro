@@ -15,7 +15,7 @@ export const LadowanieZAgregatuToolInput = z.object({
   mocAgregatuKw: n("Moc znamionowa (ciągła) agregatu [kW]"),
   mocLadowarkiKw: n("Maksymalna moc ładowania ładowarki/falownika z agregatu [kW]"),
   mocOdbiornikowKw: n("Moc odbiorników na linii awaryjnej podczas ładowania [kW]; 0 = brak"),
-  pojemnoscKwh: n("Pojemność użyteczna magazynu [kWh]"),
+  pojemnoscKwh: n("Pojemność nominalna magazynu [kWh] — progi SOC liczone od pełnej pojemności"),
   socStartPct: n("Próg SOC startu agregatu [%]"),
   socStopPct: n("Próg SOC zatrzymania agregatu [%]"),
   sprawnoscLadowaniaPct: n("Sprawność ładowania AC → magazyn wg karty ładowarki [%]"),

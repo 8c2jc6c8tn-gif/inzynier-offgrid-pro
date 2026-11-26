@@ -140,7 +140,7 @@ export const en: Record<keyof typeof pl, string> = {
   "UI-PROGSOC-TYTUL": "State-of-charge forecast and timeline",
   "UI-PROGSOC-OPIS": "How the battery's state of charge will change over the next 24–72 hours, when it charges, when the energy runs out and when there is a surplus. Calculated from your daily profile. Module 10.",
   "UI-PROGSOC-BATERIA": "Battery",
-  "UI-PROGSOC-POJEMNOSC": "Usable capacity",
+  "UI-PROGSOC-POJEMNOSC": "Nominal capacity",
   "UI-PROGSOC-SOC-START": "State of charge at the start",
   "UI-PROGSOC-SOC-MIN": "Lowest allowed state of charge",
   "UI-PROGSOC-SOC-MAKS": "Highest state of charge (optional)",

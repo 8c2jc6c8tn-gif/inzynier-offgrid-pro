@@ -31,7 +31,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function WylacznikiNadpradoweDcPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("wylaczniki-nadpradowe-dc", STAN_POCZATKOWY)
+  // The short-circuit current comes from „Analiza zwarciowa” (its help says so): the battery bank's value from the project.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("wylaczniki-nadpradowe-dc", STAN_POCZATKOWY, {
+    projekt: { pradZwarciowyA: "pradZwarciowyMagazynuA" },
+  })
   const { pradA, napiecieV, liczbaBiegunow, certyfikowanyDoDc, aicA, pradZwarciowyA } = stan
 
   function setPole<K extends keyof FormularzStan>(
@@ -141,6 +144,7 @@ export default function WylacznikiNadpradoweDcPage() {
           inputMode="decimal"
           min={0}
           value={pradZwarciowyA}
+          projekt={projekt.pole("pradZwarciowyA")}
           onChange={(e) => setPradZwarciowyA(e.target.value)}
           pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="pradZwarcia" />}
         />

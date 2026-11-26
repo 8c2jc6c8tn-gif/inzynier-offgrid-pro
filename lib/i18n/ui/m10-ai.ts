@@ -142,7 +142,7 @@ export const pl = {
   "UI-PROGSOC-TYTUL": "Prognoza stanu naładowania i oś czasu",
   "UI-PROGSOC-OPIS": "Jak będzie się zmieniał stan naładowania baterii w najbliższych 24–72 godzinach, kiedy się naładuje, kiedy zabraknie energii i kiedy jest nadwyżka. Liczone z Twojego profilu doby. Moduł 10.",
   "UI-PROGSOC-BATERIA": "Bateria",
-  "UI-PROGSOC-POJEMNOSC": "Pojemność użyteczna",
+  "UI-PROGSOC-POJEMNOSC": "Pojemność nominalna",
   "UI-PROGSOC-SOC-START": "Stan naładowania na początku",
   "UI-PROGSOC-SOC-MIN": "Najniższy dopuszczalny stan naładowania",
   "UI-PROGSOC-SOC-MAKS": "Najwyższy stan naładowania (opcjonalnie)",

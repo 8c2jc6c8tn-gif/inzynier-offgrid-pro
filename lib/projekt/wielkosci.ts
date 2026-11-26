@@ -39,12 +39,16 @@ export const WIELKOSCI = {
   liczbaOsob: d("zapotrzebowanie", "", "UI-WLK-LICZBA-OSOB", 0),
   zapotrzebowanieDoboweKwh: d("zapotrzebowanie", "kWh", "UI-WLK-ZAPOTRZEBOWANIE-DOBOWE", 0),
   dniAutonomii: d("zapotrzebowanie", "", "UI-WLK-DNI-AUTONOMII", 0),
+  /** Daily use in winter frost [kWh/day] — higher than the year-round daily demand; owner decision 25.11.2026. */
+  zuzycieZimoweKwh: d("zapotrzebowanie", "kWh", "UI-WLK-ZUZYCIE-ZIMOWE", 0),
 
   napiecieUkladuV: d("magazyn", "V", "UI-WLK-NAPIECIE-UKLADU", 0),
   pojemnoscUzytecznaKwh: d("magazyn", "kWh", "UI-WLK-POJEMNOSC-UZYTECZNA", 0),
   pojemnoscNominalnaKwh: d("magazyn", "kWh", "UI-WLK-POJEMNOSC-NOMINALNA", 0),
   pojemnoscNominalnaAh: d("magazyn", "Ah", "UI-WLK-POJEMNOSC-AH", 0),
   dodPct: d("magazyn", "%", "UI-WLK-DOD", 0, 100),
+  /** The lowest state of charge the system may reach (BMS/inverter cut-off or the user's reserve) [%]. */
+  socMinPct: d("magazyn", "%", "UI-WLK-SOC-MIN", 0, 100),
   pojemnoscZBuforemKwh: d("magazyn", "kWh", "UI-WLK-POJEMNOSC-Z-BUFOREM", 0),
 
   mocPaneluWp: d("pv", "Wp", "UI-WLK-MOC-PANELU", 0),
@@ -58,6 +62,8 @@ export const WIELKOSCI = {
   liczbaPaneliWStringu: d("pv", "", "UI-WLK-PANELE-W-STRINGU", 0),
   mocPvKwp: d("pv", "kWp", "UI-WLK-MOC-PV", 0),
   nachylenieDeg: d("pv", "°", "UI-WLK-NACHYLENIE", 0, 90),
+  /** Direction the panels face, the app's single convention: N = 0, E = 90, S = 180, W = 270 (PVGIS fields with S = 0 are not linked). */
+  azymutDeg: d("pv", "°", "UI-WLK-AZYMUT", 0, 360),
 
   mocFalownikaW: d("falownik", "W", "UI-WLK-MOC-FALOWNIKA", 0),
   sprawnoscFalownikaPct: d("falownik", "%", "UI-WLK-SPRAWNOSC-FALOWNIKA", 0, 100),
@@ -65,6 +71,8 @@ export const WIELKOSCI = {
   pradGlownyDcA: d("okablowanie", "A", "UI-WLK-PRAD-GLOWNY-DC", 0),
   przekrojGlownyDcMm2: d("okablowanie", "mm²", "UI-WLK-PRZEKROJ-GLOWNY-DC", 0),
   dlugoscGlownyDcM: d("okablowanie", "m", "UI-WLK-DLUGOSC-GLOWNY-DC", 0),
+  /** Prospective short-circuit current of the battery bank [A] — the „Analiza zwarciowa” result, read by the protection screens. */
+  pradZwarciowyMagazynuA: d("okablowanie", "A", "UI-WLK-PRAD-ZWARCIOWY-MAGAZYNU", 0),
 
   mocAgregatuKw: d("agregat", "kW", "UI-WLK-MOC-AGREGATU", 0),
   zuzyciePaliwaLH: d("agregat", "l/h", "UI-WLK-ZUZYCIE-PALIWA", 0),

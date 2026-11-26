@@ -272,7 +272,7 @@ export const pl = {
   "UI-PORTECMAG-OBSLUGA": "Obsługa",
   "UI-PORTECMAG-ENERGIA-CYKLU-ZYCIA": "Energia w cyklu życia",
   "UI-PORTECMAG-POROWNANIE-TECHNOLOGII-MAGAZ": "Porównanie technologii magazynów",
-  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Planowana pojemność magazynu (opcjonalnie)",
+  "UI-PORTECMAG-PLANOWANA-POJEMNOSC-MAGAZYNU": "Planowana pojemność nominalna magazynu (opcjonalnie)",
   "UI-PORTECMAG-BEZ-WPISANIA-POROWNANIE": "np. 45 — bez wpisania: porównanie na 1 kWh",
   "UI-KONLAD-NAPELNIANIE-BUTELKI-CISNIENI":
     "To jak napełnianie butelki — ciśnienie już jest, ale trzeba chwilę odczekać, żeby woda dotarła do samego końca. Moduł 4, Ekran 13.",

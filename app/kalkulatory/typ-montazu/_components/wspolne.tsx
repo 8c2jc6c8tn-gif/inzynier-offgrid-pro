@@ -1,5 +1,6 @@
 "use client"
 
+import type { StanPolaProjektu } from "@/lib/adapters/use-persisted-draft"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pole, PoleSelect } from "@/components/ui/pole"
@@ -283,7 +284,7 @@ export function useTabelaNapromieniowania(azymutTekst: string) {
   }
 }
 
-export function PoleAzymutu({ wartosc, ustaw, tab }: { wartosc: string; ustaw: (v: string) => void; tab: ReturnType<typeof useTabelaNapromieniowania> }) {
+export function PoleAzymutu({ wartosc, ustaw, tab, projekt }: { wartosc: string; ustaw: (v: string) => void; projekt?: StanPolaProjektu; tab: ReturnType<typeof useTabelaNapromieniowania> }) {
   const t = useTranslate()
   return (
     <section className="flex flex-col gap-3">
@@ -295,6 +296,7 @@ export function PoleAzymutu({ wartosc, ustaw, tab }: { wartosc: string; ustaw: (
         min={0}
         max={360}
         value={wartosc}
+        projekt={projekt}
         onChange={(e) => ustaw(e.target.value)}
         pomoc={<PomocPola ekran="typ-montazu-pola" pole="azymut" />}
       />

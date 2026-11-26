@@ -166,7 +166,10 @@ export default function ZlotySrodekPage() {
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
   const denominacja = useDenominacja()
   const symbol = useSymbolWaluty()
-  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, { kwoty: KWOTY })
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, {
+    kwoty: KWOTY,
+    projekt: { azymutDeg: "azymutDeg" },
+  })
   // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
   const robocze = waluty.stanRoboczy
   const wBalastu = waluty.pole("cenaBalastu")
@@ -253,6 +256,7 @@ export default function ZlotySrodekPage() {
           min={0}
           max={360}
           value={stan.azymutDeg}
+          projekt={projekt.pole("azymutDeg")}
           onChange={(e) => ustaw("azymutDeg", e.target.value)}
           pomoc={<PomocPola ekran="zloty-srodek" pole="azymut" />}
         />
