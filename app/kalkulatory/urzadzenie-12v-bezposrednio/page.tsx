@@ -39,7 +39,10 @@ export default function Urzadzenie12vBezposrednioPage() {
   const formatLiczbe = useFormatLiczby()
   const f1 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   // Not linked to the project voltage: the list offers 12/24 V only (a 48 V project would show „choose” while computing 48 V).
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("urzadzenie-12v-bezposrednio", STAN_POCZATKOWY)
+  // The list keeps its options (12/24 V): it takes the project voltage only when it is one of them.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("urzadzenie-12v-bezposrednio", STAN_POCZATKOWY, {
+    projekt: { napiecieSystemuV: { wielkosc: "napiecieUkladuV", opcje: [12, 24] } },
+  })
   const idStabilizator = useId()
   const maksLadowania = stan.maksNapiecieLadowaniaV ?? ""
 
@@ -73,6 +76,7 @@ export default function Urzadzenie12vBezposrednioPage() {
         <PoleSelect
           label={t("UI-URZ12VBEZ-NAPIECIE-INSTALACJI-AKUMULAT")}
           value={stan.napiecieSystemuV}
+          projekt={projekt.pole("napiecieSystemuV")}
           onChange={(e) =>
             setStan((prev) => ({ ...prev, napiecieSystemuV: Number(e.target.value) as FormularzStan["napiecieSystemuV"] }))
           }

@@ -38,7 +38,7 @@ import {
 import { kluczProjektu } from "@/lib/projekt/projekty"
 import { useAktywnyProjektId, useKrajProjektu, useWartosciProjektu } from "@/lib/projekt/use-projekt"
 import { zapiszWartosci } from "@/lib/projekt/magazyn-wartosci"
-import { kandydaciZPol, poEdycji, statusPola, synchronizuj, type MapaPol, type StatusPola, type Znaczniki } from "@/lib/projekt/powiazania"
+import { kandydaciZPol, poEdycji, statusPola, synchronizuj, wartoscDlaPola, wielkoscPowiazania, type MapaPol, type StatusPola, type Znaczniki } from "@/lib/projekt/powiazania"
 import { ustawWpisPaska } from "@/lib/projekt/pasek"
 import { WIELKOSCI, type WartosciProjektu, type WielkoscId } from "@/lib/projekt/wielkosci"
 
@@ -321,9 +321,10 @@ export function usePersistedDraft<T>(
   const projekt = useMemo<ProjektEkranu<T>>(
     () => ({
       pole: (pole) => {
-        const id: WielkoscId | undefined = mapa?.[pole]
-        if (!id || !wczytano || wartosci === null) return undefined
-        const wp = wartosci[id]
+        const pw = mapa?.[pole]
+        if (!pw || !wczytano || wartosci === null) return undefined
+        const id = wielkoscPowiazania(pw)
+        const wp = wartoscDlaPola(pw, wartosci)
         return {
           status: statusPola((para.stan as Record<string, unknown>)[pole], para.zn[pole], wp),
           jednostka: WIELKOSCI[id].jednostka,

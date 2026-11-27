@@ -50,7 +50,9 @@ export default function DoborPrzekrojuKablaPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const LICZBA = (v: number) => formatLiczbe(v, { maximumFractionDigits: 2 })
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("dobor-przekroju-kabla", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-przekroju-kabla", STAN_POCZATKOWY, {
+    projekt: { napiecieV: "napiecieUkladuV" },
+  })
   const {
     pradA,
     napiecieV,
@@ -168,6 +170,7 @@ export default function DoborPrzekrojuKablaPage() {
           type="number"
           inputMode="decimal"
           min={0}
+          projekt={projekt.pole("napiecieV")}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
           pomoc={<PomocPola ekran="dobor-przekroju-kabla" pole="napiecie" />}

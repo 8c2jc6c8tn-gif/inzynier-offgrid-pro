@@ -13,8 +13,27 @@ import { takaSamaLiczba, wartoscDoZapisu, type WartosciProjektu, type WielkoscId
 
 export type Znacznik = "projekt" | "wlasna"
 export type Znaczniki = Partial<Record<string, Znacznik>>
+/**
+ * How one field is linked: the quantity, or the quantity plus the fixed options of a select field (owner decision 26.11.2026:
+ * „a list keeps its options; it takes the project value only when the value is one of them”). A project value outside the
+ * options does not exist for that field — nothing is written into the list and ↺ is not offered.
+ */
+export type PowiazaniePola = WielkoscId | { wielkosc: WielkoscId; opcje: readonly number[] }
 /** Screen field → project quantity. Only fields that mean exactly the quantity (same meaning, same unit). */
-export type MapaPol<T> = Partial<Record<Extract<keyof T, string>, WielkoscId>>
+export type MapaPol<T> = Partial<Record<Extract<keyof T, string>, PowiazaniePola>>
+
+export function wielkoscPowiazania(p: PowiazaniePola): WielkoscId {
+  return typeof p === "string" ? p : p.wielkosc
+}
+
+/** The project value as one field sees it (`undefined` when the project has none, or it is not among the field's options). */
+export function wartoscDlaPola<W extends { v: string }>(p: PowiazaniePola, wartosci: Partial<Record<WielkoscId, W>> | null): W | undefined {
+  const w = wartosci?.[wielkoscPowiazania(p)]
+  if (!w || typeof p === "string") return w
+  return p.opcje.some((o) => takaSamaLiczba(String(o), w.v)) ? w : undefined
+}
+
+const wpisy = <T>(mapa: MapaPol<T>) => Object.entries(mapa) as [string, PowiazaniePola][]
 
 type Rekord = Record<string, unknown>
 
@@ -37,8 +56,8 @@ export function synchronizuj<T>(
   const p = poczatkowy as Rekord
   let nowyStan: Rekord | null = null
   let noweZn: Znaczniki | null = null
-  for (const [pole, id] of Object.entries(mapa) as [string, WielkoscId][]) {
-    const wp = wartosci[id]?.v
+  for (const [pole, pw] of wpisy(mapa)) {
+    const wp = wartoscDlaPola(pw, wartosci)?.v
     const biezaca = s[pole]
     const zn = znaczniki[pole]
     let cel: Znacznik | undefined = zn
@@ -71,10 +90,10 @@ export function poEdycji<T>(przed: T, po: T, znaczniki: Znaczniki, mapa: MapaPol
   const a = przed as Rekord
   const b = po as Rekord
   let nowe: Znaczniki | null = null
-  for (const [pole, id] of Object.entries(mapa) as [string, WielkoscId][]) {
+  for (const [pole, pw] of wpisy(mapa)) {
     if (a[pole] === b[pole]) continue
     const v = tekst(b[pole])
-    const wp = wartosci?.[id]?.v
+    const wp = wartoscDlaPola(pw, wartosci)?.v
     const cel: Znacznik | undefined = v === "" ? undefined : wp !== undefined && takaSamaLiczba(v, wp) ? "projekt" : "wlasna"
     if (cel === znaczniki[pole]) continue
     nowe ??= { ...znaczniki }
@@ -107,7 +126,8 @@ export function kandydaciZPol<T>(stan: T, znaczniki: Znaczniki, mapa: MapaPol<T>
   const s = stan as Rekord
   const wynik: Kandydat[] = []
   const widziane = new Set<WielkoscId>()
-  for (const [pole, id] of Object.entries(mapa) as [string, WielkoscId][]) {
+  for (const [pole, pw] of wpisy(mapa)) {
+    const id = wielkoscPowiazania(pw)
     if (znaczniki[pole] !== "wlasna" || widziane.has(id)) continue
     const v = wartoscDoZapisu(id, tekst(s[pole]))
     const wp = wartosci[id]?.v ?? null

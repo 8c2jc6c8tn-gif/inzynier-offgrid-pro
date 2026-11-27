@@ -25,7 +25,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function TrybUproszczonyPage() {
   const t = useTranslate()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("tryb-uproszczony", STAN_POCZATKOWY, {
-    projekt: { napiecieV: "napiecieUkladuV" },
+    projekt: { napiecieV: "napiecieUkladuV", pojemnoscAh: "pojemnoscNominalnaAh" },
   })
   const { pojemnoscAh, napiecieV, mocOdbiornikaW } = stan
 
@@ -65,6 +65,7 @@ export default function TrybUproszczonyPage() {
           unit="Ah"
           type="number"
           inputMode="decimal"
+          projekt={projekt.pole("pojemnoscAh")}
           value={pojemnoscAh}
           onChange={(e) => setPojemnoscAh(e.target.value)}
           pomoc={<PomocPola ekran="tryb-uproszczony" pole="pojemnosc" />}

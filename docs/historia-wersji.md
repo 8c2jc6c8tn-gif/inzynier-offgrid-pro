@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.59.0] — 26.11.2026
+
+Domknięcie podpięć do projektu (D110). Połączone z liczbami projektu: napięcie systemowe w „Doborze przekroju kabla” i „Optymalizacji trasy kabla”, zapotrzebowanie dobowe w „Symulacji miesiąca zachmurzenia”, kąt pochylenia panelu w „Czystości i śniegu”, pojemność pakietu w „Pierwszym uruchomieniu” i „Trybie uproszczonym”, temperatura w miejscu montażu w „Sztywnieniu izolacji”. Listy napięć w „Demontażu pakietu” i „Urządzeniu 12 V bezpośrednio” wybierają napięcie z projektu, gdy jest jedną z opcji listy. Pojemność akumulatora UPS świadomie bez połączenia.
+
+Wpływ na liczby: wzory bez zmian. Puste pola (i domyślne 48 V w „Demontażu pakietu”) mogą dostać wartość z projektu; wpisane wcześniej liczby zostają jako własne.
+
 ## [3.58.0] — 26.11.2026
 
 Decyzje właściciela z 26.11.2026 (D109). (1) **Pięć nowych liczb projektu:** rezystancja wewnętrzna magazynu [Ω] (Analiza zwarciowa, Detekcja zwarcia e-fuse, Dobór bezpiecznika DC), liczba stringów równoległych (Analiza zwarciowa, Ochrona stringów), strefa wiatrowa i wysokość n.p.m. (Złoty środek, Ogrodzenie PV, Wiatr powyżej 30°; Obciążenie dachu śniegiem — tylko wysokość), zużycie paliwa przy 80% obciążenia (Agregat jako zapas, Deficyty miesięczne). (2) **Suwaki kąta nachylenia** na „Kąt i azymut” i „Złoty środek” biorą kąt z projektu i pokazują znacznik pod suwakiem. (3) **Dni autonomii** — pole liczbowe zamiast listy 1/2/3/5/7 (typowe wartości w „?”), połączone z projektem; wcześniejszy wybór z listy przechodzi do pola. (4) Pod „prądem zwarciowym w tym punkcie” (Dobór bezpiecznika-rozłącznika, Wyłączniki nadprądowe DC) dopisek: wartość z projektu dotyczy baterii, dla obwodu PV wpisz własną z Analizy zwarciowej.

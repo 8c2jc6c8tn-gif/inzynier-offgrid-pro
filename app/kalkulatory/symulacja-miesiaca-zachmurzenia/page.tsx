@@ -40,7 +40,7 @@ function formatujGodzine(godzinaW24h: number): string {
 export default function SymulacjaMiesiacaZachmurzeniaPage() {
   const t = useTranslate()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("symulacja-miesiaca-zachmurzenia", STAN_POCZATKOWY, {
-    projekt: { pojemnoscUzytecznaKwh: "pojemnoscUzytecznaKwh" },
+    projekt: { pojemnoscUzytecznaKwh: "pojemnoscUzytecznaKwh", zapotrzebowanieDoboweKwh: "zapotrzebowanieDoboweKwh" },
   })
 
   function setPole<K extends keyof FormularzStan>(pole: K, wartosc: string) {
@@ -118,6 +118,7 @@ export default function SymulacjaMiesiacaZachmurzeniaPage() {
           type="number"
           inputMode="decimal"
           min={0}
+          projekt={projekt.pole("zapotrzebowanieDoboweKwh")}
           value={stan.zapotrzebowanieDoboweKwh}
           onChange={(e) => setPole("zapotrzebowanieDoboweKwh", e.target.value)}
           pomoc={<PomocPola ekran="symulacja-miesiaca-zachmurzenia" pole="zapotrzebowanie" />}

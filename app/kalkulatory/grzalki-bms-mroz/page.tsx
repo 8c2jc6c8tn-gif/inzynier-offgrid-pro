@@ -38,6 +38,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function GrzalkiBmsMrozPage() {
   const t = useTranslate()
+  // `temperaturaMinC` here is the temperature AT THE BATTERY (often indoors), not the site minimum — not linked.
   const [stan, setStan] = usePersistedDraft<FormularzStan>("grzalki-bms-mroz", STAN_POCZATKOWY)
   const { temperaturaMinC, socPct, produkcjaPv } = stan
 

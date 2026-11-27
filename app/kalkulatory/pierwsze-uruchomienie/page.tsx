@@ -28,7 +28,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function PierwszeUruchomieniePage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("pierwsze-uruchomienie", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("pierwsze-uruchomienie", STAN_POCZATKOWY, {
+    projekt: { pojemnoscAh: "pojemnoscNominalnaAh" },
+  })
   const { pojemnoscAh, napiecieNajwyzszegoOgniwaV, potwierdzoneIds } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -85,6 +87,7 @@ export default function PierwszeUruchomieniePage() {
         type="number"
         inputMode="decimal"
         min={0}
+        projekt={projekt.pole("pojemnoscAh")}
         value={pojemnoscAh || ""}
         onChange={(e) => setPojemnoscAh(Number(e.target.value))}
         pomoc={<PomocPola ekran="pierwsze-uruchomienie" pole="pojemnosc" params={{ cRate: TEST_LADOWANIA_C_RATE, czas: CZAS_TESTU_MIN, prog: PROG_TOP_BALANCING_V }} />}

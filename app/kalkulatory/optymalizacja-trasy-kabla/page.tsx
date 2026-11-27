@@ -57,7 +57,10 @@ const KWOTY = ["cenaEnergiiZlZaKwh", "kosztA", "kosztB"]
 export default function OptymalizacjaTrasyKablaPage() {
   const t = useTranslate()
   const symbol = useSymbolWaluty()
-  const [stan, setStan, waluty] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY, { kwoty: KWOTY })
+  const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("optymalizacja-trasy-kabla", STAN_POCZATKOWY, {
+    kwoty: KWOTY,
+    projekt: { napiecieV: "napiecieUkladuV" },
+  })
   const {
     pradA,
     napiecieV,
@@ -198,6 +201,7 @@ export default function OptymalizacjaTrasyKablaPage() {
           type="number"
           inputMode="decimal"
           min={0}
+          projekt={projekt.pole("napiecieV")}
           value={napiecieV}
           onChange={(e) => setNapiecieV(e.target.value)}
           pomoc={<PomocPola ekran="optymalizacja-trasy-kabla" pole="napiecie" />}
