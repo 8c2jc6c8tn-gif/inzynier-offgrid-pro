@@ -96,7 +96,9 @@ const jedenZ = <T extends string>(lista: readonly T[], s: string): T | null => (
 export default function OgrodzeniePvPage() {
   const t = useTranslate()
   const { f0, f1, f2 } = useFormaty()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("ogrodzenie-pv", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ogrodzenie-pv", STAN_POCZATKOWY, {
+    projekt: { strefa: "strefaWiatrowa", wysokoscNpmM: "wysokoscNpmM" },
+  })
   const ustaw = <K extends keyof FormularzStan>(pole: K, wartosc: FormularzStan[K]) => setStan((prev) => ({ ...prev, [pole]: wartosc }))
   // Drafts saved before a field existed carry no value for it — treat as empty.
   const s = { ...STAN_POCZATKOWY, ...stan }
@@ -149,13 +151,13 @@ export default function OgrodzeniePvPage() {
         <Pole label={t("UI-OGRPV-LICZBA-RZEDOW")} type="number" inputMode="numeric" min={1} step={1} value={s.liczbaRzedow} onChange={(e) => ustaw("liczbaRzedow", e.target.value)} pomoc={<PomocPola ekran="ogrodzenie-pv" pole="liczbaRzedow" />} />
         <Pole label={t("UI-OGRPV-DLUGOSC-OGRODZENIA")} unit="m" type="number" inputMode="decimal" min={0} value={s.dlugoscOgrodzeniaM} onChange={(e) => ustaw("dlugoscOgrodzeniaM", e.target.value)} pomoc={<PomocPola ekran="ogrodzenie-pv" pole="dlugoscOgrodzenia" />} />
 
-        <PoleSelect label={t("UI-TYPMON-COMWSP-STREFA-WIATROWA")} value={s.strefa} onChange={(e) => ustaw("strefa", e.target.value)} pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}>
+        <PoleSelect label={t("UI-TYPMON-COMWSP-STREFA-WIATROWA")} value={s.strefa} projekt={projekt.pole("strefa")} onChange={(e) => ustaw("strefa", e.target.value)} pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}>
           <option value="">{t("UI-WYBIERZ")}</option>
           <option value="1">{t("UI-TYPMON-COMWSP-STREFA")}</option>
           <option value="2">{t("UI-TYPMON-COMWSP-STREFA-2")}</option>
           <option value="3">{t("UI-TYPMON-COMWSP-STREFA-3")}</option>
         </PoleSelect>
-        <Pole label={t("UI-TYPMON-COMWSP-WYSOKOSC-TERENU")} unit="m" type="number" inputMode="decimal" value={s.wysokoscNpmM} onChange={(e) => ustaw("wysokoscNpmM", e.target.value)} pomoc={<PomocPola ekran="typ-montazu-pola" pole="wysokoscNpm" />} />
+        <Pole label={t("UI-TYPMON-COMWSP-WYSOKOSC-TERENU")} unit="m" type="number" inputMode="decimal" value={s.wysokoscNpmM} projekt={projekt.pole("wysokoscNpmM")} onChange={(e) => ustaw("wysokoscNpmM", e.target.value)} pomoc={<PomocPola ekran="typ-montazu-pola" pole="wysokoscNpm" />} />
         <PoleSelect label={t("UI-TYPMON-COMWSP-TEREN-WOKOL-KATEGORIA")} value={s.kategoria} onChange={(e) => ustaw("kategoria", e.target.value)} pomoc={<PomocPola ekran="typ-montazu-pola" pole="teren" />}>
           <option value="">{t("UI-WYBIERZ")}</option>
           {KATEGORIE_TERENU.map((k) => (

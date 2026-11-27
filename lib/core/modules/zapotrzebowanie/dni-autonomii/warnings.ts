@@ -1,5 +1,15 @@
 import type { Warning } from "@/lib/core/calc-result"
 
+export function dniAutonomiiUjemne(value: number): Warning {
+  return {
+    code: "DNI-AUTONOMII-NIEDODATNIE",
+    level: "critical",
+    i18nKey: "DNI-AUTONOMII-NIEDODATNIE",
+    technicalMessage: `dniAutonomii = ${value}, oczekiwano >= 0 (0 = nie wpisano)`,
+    field: "dniAutonomii",
+  }
+}
+
 export function zapotrzebowanieUjemne(value: number): Warning {
   return {
     code: "ZAPOTRZEBOWANIE-UJEMNE",

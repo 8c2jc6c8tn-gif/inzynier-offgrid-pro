@@ -35,6 +35,9 @@ export const WIELKOSCI = {
   szerokoscGeoDeg: d("lokalizacja", "°", "UI-WLK-SZEROKOSC", -90, 90),
   dlugoscGeoDeg: d("lokalizacja", "°", "UI-WLK-DLUGOSC", -180, 180),
   temperaturaMinC: d("lokalizacja", "°C", "UI-WLK-TEMPERATURA-MIN", -70, 30),
+  /** Wind zone of the site per PN-EN 1991-1-4 Polish national annex (1–3), as chosen on the structure screens. */
+  strefaWiatrowa: d("lokalizacja", "", "UI-WLK-STREFA-WIATROWA", 1, 3),
+  wysokoscNpmM: d("lokalizacja", "m", "UI-WLK-WYSOKOSC-NPM", -500, 9000),
 
   liczbaOsob: d("zapotrzebowanie", "", "UI-WLK-LICZBA-OSOB", 0),
   zapotrzebowanieDoboweKwh: d("zapotrzebowanie", "kWh", "UI-WLK-ZAPOTRZEBOWANIE-DOBOWE", 0),
@@ -50,6 +53,8 @@ export const WIELKOSCI = {
   /** The lowest state of charge the system may reach (BMS/inverter cut-off or the user's reserve) [%]. */
   socMinPct: d("magazyn", "%", "UI-WLK-SOC-MIN", 0, 100),
   pojemnoscZBuforemKwh: d("magazyn", "kWh", "UI-WLK-POJEMNOSC-Z-BUFOREM", 0),
+  /** Internal resistance of the whole battery bank [Ω] (datasheet / measurement) — sets the short-circuit current. */
+  rezystancjaWewnMagazynuOhm: d("magazyn", "Ω", "UI-WLK-REZYSTANCJA-MAGAZYNU", 0),
 
   mocPaneluWp: d("pv", "Wp", "UI-WLK-MOC-PANELU", 0),
   vocStcV: d("pv", "V", "UI-WLK-VOC", 0),
@@ -60,6 +65,7 @@ export const WIELKOSCI = {
   gammaPmaxPctNaC: d("pv", "%/°C", "UI-WLK-GAMMA-PMAX", -2, 2),
   liczbaPaneli: d("pv", "", "UI-WLK-LICZBA-PANELI", 0),
   liczbaPaneliWStringu: d("pv", "", "UI-WLK-PANELE-W-STRINGU", 0),
+  liczbaStringowRownoleglych: d("pv", "", "UI-WLK-STRINGI-ROWNOLEGLE", 0),
   mocPvKwp: d("pv", "kWp", "UI-WLK-MOC-PV", 0),
   nachylenieDeg: d("pv", "°", "UI-WLK-NACHYLENIE", 0, 90),
   /** Direction the panels face, the app's single convention: N = 0, E = 90, S = 180, W = 270 (PVGIS fields with S = 0 are not linked). */
@@ -76,6 +82,8 @@ export const WIELKOSCI = {
 
   mocAgregatuKw: d("agregat", "kW", "UI-WLK-MOC-AGREGATU", 0),
   zuzyciePaliwaLH: d("agregat", "l/h", "UI-WLK-ZUZYCIE-PALIWA", 0),
+  /** Fuel use at 80% load [l/h] — the working point of a battery-charging generator (owner decision 26.11.2026). */
+  zuzyciePaliwa80LH: d("agregat", "l/h", "UI-WLK-ZUZYCIE-PALIWA-80", 0),
 
   mocGrzewczaKw: d("cieplo", "kW", "UI-WLK-MOC-GRZEWCZA", 0),
   zapotrzebowanieCieplaRokKwh: d("cieplo", "kWh", "UI-WLK-CIEPLO-ROK", 0),

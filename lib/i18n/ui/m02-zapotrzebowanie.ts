@@ -56,7 +56,7 @@ export const pl = {
     "Im więcej dni bez słońca system ma wytrzymać wyłącznie na baterii, tym większy (i droższy) musi być magazyn energii. Wartość stąd docelowo zasila Moduł 4, Ekran 1 (dobór pojemności baterii). Moduł 2, Ekran 7.",
   "UI-DNIAUT-OPCJONALNIE-PODGLAD-ZYWO":
     "Opcjonalnie — podgląd na żywo szacunkowego wpływu na wielkość magazynu (te same dane co Moduł 4, Ekran 1):",
-  "UI-DNIAUT-WYBIERZ-DNI-AUTONOMII": "Wybierz dni autonomii, żeby zobaczyć wynik.",
+  "UI-DNIAUT-WYBIERZ-DNI-AUTONOMII": "Wpisz dni autonomii, żeby zobaczyć wynik.",
   "UI-DNIAUT-SPRAWDZ-WPISANE-OPCJONALNE": "Sprawdź wpisane opcjonalne dane — coś jest poza zakresem.",
   "UI-DNIAUT-DNI-AUTONOMII": "Dni autonomii",
   "UI-DNIAUT-DZIEN": "dzień",

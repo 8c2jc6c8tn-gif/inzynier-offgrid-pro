@@ -4,7 +4,7 @@ import type { DniAutonomiiInput } from "./input"
 import { validateInput } from "./validation"
 import { wplywNaMagazyn } from "./warnings"
 
-export const CALCULATOR_VERSION = "1.0.0"
+export const CALCULATOR_VERSION = "1.1.0"
 
 export type DniAutonomiiResult = {
   dniAutonomii: number

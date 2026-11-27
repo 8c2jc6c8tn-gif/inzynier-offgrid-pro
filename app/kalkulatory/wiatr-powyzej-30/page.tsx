@@ -60,7 +60,9 @@ const liczbaLubNull = (s: string) => (s.trim() === "" || !Number.isFinite(Number
 export default function WiatrPowyzej30Page() {
   const t = useTranslate()
   const { f0, f2 } = useFormaty()
-  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("wiatr-powyzej-30", STAN_POCZATKOWY, { projekt: { nachylenieDeg: "nachylenieDeg" } })
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("wiatr-powyzej-30", STAN_POCZATKOWY, {
+    projekt: { nachylenieDeg: "nachylenieDeg", strefa: "strefaWiatrowa", wysokoscNpmM: "wysokoscNpmM" },
+  })
   const { nachylenieDeg, wysokoscNpmM, wysokoscKonstrukcjiM } = stan
   // Drafts saved before a field existed carry no value for it — treat as empty.
   const strefa = stan.strefa ?? ""
@@ -121,6 +123,7 @@ export default function WiatrPowyzej30Page() {
         />
         <PoleSelect
           label={t("UI-TYPMON-COMWSP-STREFA-WIATROWA")}
+          projekt={projekt.pole("strefa")}
           value={strefa}
           onChange={(e) => ustaw("strefa", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
@@ -137,6 +140,7 @@ export default function WiatrPowyzej30Page() {
           inputMode="decimal"
           min={WYSOKOSC_NPM_ZAKRES_M[0]}
           max={WYSOKOSC_NPM_ZAKRES_M[1]}
+          projekt={projekt.pole("wysokoscNpmM")}
           value={wysokoscNpmM}
           onChange={(e) => ustaw("wysokoscNpmM", e.target.value)}
           pomoc={<PomocPola ekran="typ-montazu-pola" pole="wysokoscNpm" />}

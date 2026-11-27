@@ -34,7 +34,12 @@ export default function AnalizaZwarciowaPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("analiza-zwarciowa", STAN_POCZATKOWY, {
-    projekt: { napiecieBateriiV: "napiecieUkladuV", iscPanelaA: "iscStcA" },
+    projekt: {
+      napiecieBateriiV: "napiecieUkladuV",
+      iscPanelaA: "iscStcA",
+      rezystancjaWewnetrznaBateriiOhm: "rezystancjaWewnMagazynuOhm",
+      liczbaStringowRownoleglych: "liczbaStringowRownoleglych",
+    },
   })
   const { napiecieBateriiV, rezystancjaWewnetrznaBateriiOhm, iscPanelaA, liczbaStringowRownoleglych, aicZabezpieczeniaA } = stan
 
@@ -111,6 +116,7 @@ export default function AnalizaZwarciowaPage() {
           type="number"
           inputMode="decimal"
           min={0}
+          projekt={projekt.pole("rezystancjaWewnetrznaBateriiOhm")}
           value={rezystancjaWewnetrznaBateriiOhm}
           onChange={(e) => setRezystancjaWewnetrznaBateriiOhm(e.target.value)}
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="rezystancja" />}
@@ -132,6 +138,7 @@ export default function AnalizaZwarciowaPage() {
           type="number"
           inputMode="numeric"
           min={0}
+          projekt={projekt.pole("liczbaStringowRownoleglych")}
           value={liczbaStringowRownoleglych}
           onChange={(e) => setLiczbaStringowRownoleglych(e.target.value)}
           pomoc={<PomocPola ekran="analiza-zwarciowa" pole="stringi" />}

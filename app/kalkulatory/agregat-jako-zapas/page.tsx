@@ -44,8 +44,8 @@ export default function AgregatJakoZapasPage() {
     // Fuel is a purchase: its price may be in any currency; the engine works in PLN (Polish-market screen), results via zl().
     kwoty: ["cena"],
     obliczeniaWPln: true,
-    // zuzycieLH is the consumption at 80% load (a load-specific point), not a general figure — not linked
-    projekt: { moc: "mocAgregatuKw" },
+    // zuzycieLH is the consumption at 80% load — linked to its own quantity `zuzyciePaliwa80LH` (owner decision 26.11.2026)
+    projekt: { moc: "mocAgregatuKw", zuzycieLH: "zuzyciePaliwa80LH" },
   })
   const ustaw = (z: Partial<Stan>) => setStan((p) => ({ ...p, ...z }))
 
@@ -111,6 +111,7 @@ export default function AgregatJakoZapasPage() {
           unit="l/h"
           type="number"
           inputMode="decimal"
+          projekt={projekt.pole("zuzycieLH")}
           value={stan.zuzycieLH}
           onChange={(e) => ustaw({ zuzycieLH: e.target.value })}
           pomoc={<PomocPola ekran="agregat-jako-zapas" pole="paliwo" />}

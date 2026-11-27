@@ -137,17 +137,20 @@ export default function WylacznikiNadpradoweDcPage() {
           onChange={(e) => setAicA(e.target.value)}
           pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="aic" />}
         />
-        <Pole
-          label={t("UI-WYLNADDC-PRAD-ZWARCIOWY-TYM")}
-          unit="A"
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={pradZwarciowyA}
-          projekt={projekt.pole("pradZwarciowyA")}
-          onChange={(e) => setPradZwarciowyA(e.target.value)}
-          pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="pradZwarcia" />}
-        />
+        <div className="flex flex-col gap-1">
+          <Pole
+            label={t("UI-WYLNADDC-PRAD-ZWARCIOWY-TYM")}
+            unit="A"
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={pradZwarciowyA}
+            projekt={projekt.pole("pradZwarciowyA")}
+            onChange={(e) => setPradZwarciowyA(e.target.value)}
+            pomoc={<PomocPola ekran="wylaczniki-nadpradowe-dc" pole="pradZwarcia" />}
+          />
+          <p className="text-caption text-muted-foreground">{t("UI-PRJ-ZWARCIE-PRZY-BATERII")}</p>
+        </div>
       </div>
 
       <WerdyktPanel poziom={verdictPoziom[verdict]} etykieta={verdictLabel[verdict]}>

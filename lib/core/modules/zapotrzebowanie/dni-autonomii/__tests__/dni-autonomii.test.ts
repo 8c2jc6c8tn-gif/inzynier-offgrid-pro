@@ -79,4 +79,16 @@ describe("calculateDniAutonomii", () => {
     expect(result.warnings[0].params).toEqual({ dni: 3, pojemnosc: "47.4" })
     expect(result.warnings[0].message).toBeUndefined()
   })
+
+  it("VALID — dowolna liczba dni z pola liczbowego (4 dni, decyzja 26.11.2026)", () => {
+    const result = calculateDniAutonomii({ dniAutonomii: 4, zapotrzebowanieDoboweKwh: 10, sprawnoscFalownikaPct: 100, dodPct: 100 })
+    expect(result.status).toBe("VALID")
+    expect(result.value.pojemnoscUzytecznaSzacowanaKwh).toBeCloseTo(40, 9)
+  })
+
+  it("INVALID_INPUT — ujemna liczba dni", () => {
+    const result = calculateDniAutonomii({ dniAutonomii: -1, zapotrzebowanieDoboweKwh: 0, sprawnoscFalownikaPct: 0, dodPct: 0 })
+    expect(result.status).toBe("INVALID_INPUT")
+    expect(result.warnings[0].i18nKey).toBe("DNI-AUTONOMII-NIEDODATNIE")
+  })
 })

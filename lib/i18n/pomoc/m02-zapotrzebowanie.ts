@@ -111,7 +111,7 @@ export const pl = {
       fizyka: "C_użyteczna = E_dobowe · d / (η · DoD).",
     },
     pola: {
-      dni: { nazwa: "Dni autonomii", cel: "Ile dni pochmurnych z rzędu system ma przetrwać bez słońca i agregatu.", gdzie: "Twoja decyzja — zależy od klimatu i tego, czy masz agregat.", zakres: "Do wyboru: {opcje} dni." },
+      dni: { nazwa: "Dni autonomii", cel: "Ile dni pochmurnych z rzędu system ma przetrwać bez słońca i agregatu.", gdzie: "Twoja decyzja — zależy od klimatu i tego, czy masz agregat.", zakres: "Liczba dni, typowo {opcje}." },
       zapotrzebowanie: { nazwa: "Zapotrzebowanie dobowe [kWh]", cel: "Energia zużywana na dobę.", gdzie: "Z bilansu Modułu 2.", zakres: TWOJ },
       sprawnosc: SPRAWNOSC_FALOWNIKA,
       dod: DOD,
@@ -395,7 +395,7 @@ export const en: Tlumaczenie<typeof pl> = {
       fizyka: "C_usable = E_daily · d / (η · DoD).",
     },
     pola: {
-      dni: { nazwa: "Days of autonomy", cel: "How many cloudy days in a row the system must survive without sun and generator.", gdzie: "Your decision — depends on climate and whether you have a generator.", zakres: "Choose: {opcje} days." },
+      dni: { nazwa: "Days of autonomy", cel: "How many cloudy days in a row the system must survive without sun and generator.", gdzie: "Your decision — depends on climate and whether you have a generator.", zakres: "Number of days, typically {opcje}." },
       zapotrzebowanie: { nazwa: "Daily demand [kWh]", cel: "Energy used per day.", gdzie: "From the Module 2 balance.", zakres: TWOJ_EN },
       sprawnosc: SPRAWNOSC_FALOWNIKA_EN,
       dod: DOD_EN,
@@ -679,7 +679,7 @@ export const ru: Tlumaczenie<typeof pl> = {
       fizyka: "C_полезн = E_сут · d / (η · DoD).",
     },
     pola: {
-      dni: { nazwa: "Дни автономии", cel: "Сколько пасмурных дней подряд система должна пережить без солнца и генератора.", gdzie: "Ваше решение — зависит от климата и наличия генератора.", zakres: "На выбор: {opcje} дн." },
+      dni: { nazwa: "Дни автономии", cel: "Сколько пасмурных дней подряд система должна пережить без солнца и генератора.", gdzie: "Ваше решение — зависит от климата и наличия генератора.", zakres: "Число дней, обычно {opcje}." },
       zapotrzebowanie: { nazwa: "Суточная потребность [кВт·ч]", cel: "Энергия, расходуемая за сутки.", gdzie: "Из баланса Модуля 2.", zakres: TWOJ_RU },
       sprawnosc: SPRAWNOSC_FALOWNIKA_RU,
       dod: DOD_RU,
