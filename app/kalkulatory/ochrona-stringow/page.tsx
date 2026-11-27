@@ -34,7 +34,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 export default function OchronaStringowPage() {
   const t = useTranslate()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("ochrona-stringow", STAN_POCZATKOWY, {
-    projekt: { iscStcA: "iscStcA" },
+    projekt: { iscStcA: "iscStcA", liczbaStringowRownoleglych: "liczbaStringowRownoleglych" },
   })
   const {
     iscStcA,
@@ -134,6 +134,7 @@ export default function OchronaStringowPage() {
           type="number"
           inputMode="numeric"
           min={0}
+          projekt={projekt.pole("liczbaStringowRownoleglych")}
           value={liczbaStringowRownoleglych}
           onChange={(e) => setLiczbaStringowRownoleglych(e.target.value)}
           pomoc={<PomocPola ekran="ochrona-stringow" pole="stringi" params={{ progStringow: PROG_LICZBY_STRINGOW }} />}

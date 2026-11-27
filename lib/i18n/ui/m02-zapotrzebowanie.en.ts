@@ -57,7 +57,7 @@ export const en: Record<Klucz, string> = {
     "The more sunless days the system has to survive on the battery alone, the larger (and more expensive) the energy storage must be. The value from here will feed Module 4, Screen 1 (battery capacity sizing). Module 2, Screen 7.",
   "UI-DNIAUT-OPCJONALNIE-PODGLAD-ZYWO":
     "Optional — live preview of the estimated effect on the storage size (same data as Module 4, Screen 1):",
-  "UI-DNIAUT-WYBIERZ-DNI-AUTONOMII": "Choose the days of autonomy to see the result.",
+  "UI-DNIAUT-WYBIERZ-DNI-AUTONOMII": "Enter the days of autonomy to see the result.",
   "UI-DNIAUT-SPRAWDZ-WPISANE-OPCJONALNE": "Check the optional data entered — something is out of range.",
   "UI-DNIAUT-DNI-AUTONOMII": "Days of autonomy",
   "UI-DNIAUT-DZIEN": "day",

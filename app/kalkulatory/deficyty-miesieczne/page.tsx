@@ -147,9 +147,11 @@ export default function DeficytyMiesiecznePage() {
   const [zapisany, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("deficyty-miesieczne", STAN_POCZATKOWY, {
     // Registered in lib/waluta/kwoty-ekranow.ts: other screens read these amounts from this draft.
     kwoty: KWOTY_EKRANOW["deficyty-miesieczne"],
-    // zuzycie is read at 75–80% load (a load-specific point); histPopyt is advised as a winter average — not linked
+    // zuzycie is the use at the charging working point (75–80% load) — linked to `zuzyciePaliwa80LH` (owner decision 26.11.2026);
+    // histPopyt is advised as a winter average — not linked
     projekt: {
       moc: "mocAgregatuKw",
+      zuzycie: "zuzyciePaliwa80LH",
       histKwp: "mocPvKwp",
       histMagPoj: "pojemnoscUzytecznaKwh",
       pvgisLat: "szerokoscGeoDeg",

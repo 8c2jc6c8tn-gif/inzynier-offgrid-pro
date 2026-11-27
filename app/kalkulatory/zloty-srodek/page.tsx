@@ -14,6 +14,7 @@ import { WyborMetodyCf } from "@/components/wzorce/wybor-metody-cf"
 import { NaglowekEkranu } from "@/components/wzorce/naglowek-ekranu"
 import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { WynikSzczegoly } from "@/components/wzorce/wynik-szczegoly"
+import { ZnacznikPola } from "@/components/projekt/znacznik-pola"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { useDenominacja } from "@/lib/waluta/use-waluta"
 import { RozbicieKwot, useSymbolWaluty } from "@/components/waluta-pola"
@@ -168,7 +169,7 @@ export default function ZlotySrodekPage() {
   const symbol = useSymbolWaluty()
   const [stan, setStan, waluty, , projekt] = usePersistedDraft<FormularzStan>("zloty-srodek", STAN_POCZATKOWY, {
     kwoty: KWOTY,
-    projekt: { azymutDeg: "azymutDeg" },
+    projekt: { azymutDeg: "azymutDeg", nachylenieDeg: "nachylenieDeg", strefa: "strefaWiatrowa", wysokoscNpmM: "wysokoscNpmM" },
   })
   // Prices typed in another currency are converted to the working currency (NBP) for the calculator.
   const robocze = waluty.stanRoboczy
@@ -272,6 +273,7 @@ export default function ZlotySrodekPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           <PoleSelect
             label={t("UI-ZLOSRO-STREFA-WIATROWA")}
+            projekt={projekt.pole("strefa")}
             value={stan.strefa}
             onChange={(e) => ustaw("strefa", e.target.value)}
             pomoc={<PomocPola ekran="typ-montazu-pola" pole="strefa" />}
@@ -286,6 +288,7 @@ export default function ZlotySrodekPage() {
             unit="m"
             type="number"
             inputMode="decimal"
+            projekt={projekt.pole("wysokoscNpmM")}
             value={stan.wysokoscNpmM}
             onChange={(e) => ustaw("wysokoscNpmM", e.target.value)}
             placeholder={wysokoscPvgis !== undefined ? String(wysokoscPvgis) : undefined}
@@ -494,6 +497,7 @@ export default function ZlotySrodekPage() {
               onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
               className="min-h-11 w-full accent-sky-600"
             />
+            <ZnacznikPola projekt={projekt.pole("nachylenieDeg")} />
           </div>
           {wyb && (
             <p className="text-small">

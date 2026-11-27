@@ -1,11 +1,10 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { calculateDniAutonomii } from "@/lib/core/modules/zapotrzebowanie/dni-autonomii/calculator"
 import { OPCJE_DNI_AUTONOMII } from "@/lib/core/modules/zapotrzebowanie/dni-autonomii/constants"
-import type { DniAutonomiiInput } from "@/lib/core/modules/zapotrzebowanie/dni-autonomii/input"
 import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
-import { Pole, PoleSelect } from "@/components/ui/pole"
+import { Pole } from "@/components/ui/pole"
 import { PomocPola } from "@/components/ui/pomoc"
 import { WerdyktPanel } from "@/components/werdykt"
 import { NawigacjaEkranu } from "@/components/nawigacja-ekranu"
@@ -14,14 +13,17 @@ import { WynikGlowny } from "@/components/wzorce/wynik-glowny"
 import { useTranslate } from "@/lib/i18n/language-context"
 
 type FormularzStan = {
-  dniAutonomii: DniAutonomiiInput["dniAutonomii"]
+  /** Number field since 26.11.2026 (was a select 1/2/3/5/7 kept as a number under the legacy key `dniAutonomii`). */
+  dni: string
+  /** Legacy (select era): read once into `dni`, then cleared. */
+  dniAutonomii?: number
   zapotrzebowanieDoboweKwh: string
   sprawnoscFalownikaPct: string
   dodPct: string
 }
 
 const STAN_POCZATKOWY: FormularzStan = {
-  dniAutonomii: 0,
+  dni: "",
   zapotrzebowanieDoboweKwh: "",
   sprawnoscFalownikaPct: "",
   dodPct: "",
@@ -29,11 +31,18 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DniAutonomiiPage() {
   const t = useTranslate()
-  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dni-autonomii", STAN_POCZATKOWY, {
-    // `dniAutonomii` is not linked: the select offers only fixed options, a project value outside them would not fit.
-    projekt: { zapotrzebowanieDoboweKwh: "zapotrzebowanieDoboweKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", dodPct: "dodPct" },
+  const [stan, setStan, , wczytano, projekt] = usePersistedDraft<FormularzStan>("dni-autonomii", STAN_POCZATKOWY, {
+    // `dni` is a number field linked to the project (owner decision 26.11.2026); 1/2/3/5/7 are only the typical values in its help.
+    projekt: { dni: "dniAutonomii", zapotrzebowanieDoboweKwh: "zapotrzebowanieDoboweKwh", sprawnoscFalownikaPct: "sprawnoscFalownikaPct", dodPct: "dodPct" },
   })
-  const { dniAutonomii, zapotrzebowanieDoboweKwh, sprawnoscFalownikaPct, dodPct } = stan
+  const { dni, zapotrzebowanieDoboweKwh, sprawnoscFalownikaPct, dodPct } = stan
+
+  // A draft from the select era keeps the choice as a number under `dniAutonomii` — carry it into the field once.
+  const dawneDni = stan.dniAutonomii
+  useEffect(() => {
+    if (!wczytano || dawneDni === undefined) return
+    setStan((prev) => ({ ...prev, dni: prev.dni === "" && dawneDni > 0 ? String(dawneDni) : prev.dni, dniAutonomii: undefined }))
+  }, [wczytano, dawneDni, setStan])
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
     setStan((prev) => ({
@@ -41,9 +50,7 @@ export default function DniAutonomiiPage() {
       [pole]: typeof akcja === "function" ? (akcja as (p: FormularzStan[K]) => FormularzStan[K])(prev[pole]) : akcja,
     }))
   }
-  const setDniAutonomii = (
-    a: DniAutonomiiInput["dniAutonomii"] | ((p: DniAutonomiiInput["dniAutonomii"]) => DniAutonomiiInput["dniAutonomii"]),
-  ) => setPole("dniAutonomii", a)
+  const setDni = (a: string | ((p: string) => string)) => setPole("dni", a)
   const setZapotrzebowanieDoboweKwh = (a: string | ((p: string) => string)) => setPole("zapotrzebowanieDoboweKwh", a)
   const setSprawnoscFalownikaPct = (a: string | ((p: string) => string)) => setPole("sprawnoscFalownikaPct", a)
   const setDodPct = (a: string | ((p: string) => string)) => setPole("dodPct", a)
@@ -51,12 +58,12 @@ export default function DniAutonomiiPage() {
   const result = useMemo(
     () =>
       calculateDniAutonomii({
-        dniAutonomii,
+        dniAutonomii: dni === "" ? 0 : Number(dni),
         zapotrzebowanieDoboweKwh: zapotrzebowanieDoboweKwh === "" ? 0 : Number(zapotrzebowanieDoboweKwh),
         sprawnoscFalownikaPct: sprawnoscFalownikaPct === "" ? 0 : Number(sprawnoscFalownikaPct),
         dodPct: dodPct === "" ? 0 : Number(dodPct),
       }),
-    [dniAutonomii, zapotrzebowanieDoboweKwh, sprawnoscFalownikaPct, dodPct],
+    [dni, zapotrzebowanieDoboweKwh, sprawnoscFalownikaPct, dodPct],
   )
 
   return (
@@ -67,19 +74,18 @@ export default function DniAutonomiiPage() {
       </NaglowekEkranu>
 
       <div className="flex flex-col gap-4">
-        <PoleSelect
+        <Pole
           label={t("UI-DNIAUT-DNI-AUTONOMII")}
-          value={dniAutonomii}
-          onChange={(e) => setDniAutonomii(Number(e.target.value) as DniAutonomiiInput["dniAutonomii"])}
+          unit={t("UI-J-DNI")}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step="any"
+          value={dni}
+          onChange={(e) => setDni(e.target.value)}
+          projekt={projekt.pole("dni")}
           pomoc={<PomocPola ekran="dni-autonomii" pole="dni" params={{ opcje: OPCJE_DNI_AUTONOMII.join(", ") }} />}
-        >
-          <option value={0}>{t("UI-WYBIERZ")}</option>
-          {OPCJE_DNI_AUTONOMII.map((opcja) => (
-            <option key={opcja} value={opcja}>
-              {opcja} {opcja === 1 ? t("UI-DNIAUT-DZIEN") : t("UI-J-DNI")}
-            </option>
-          ))}
-        </PoleSelect>
+        />
 
         <p className="text-small text-muted-foreground">
           {t("UI-DNIAUT-OPCJONALNIE-PODGLAD-ZYWO")}

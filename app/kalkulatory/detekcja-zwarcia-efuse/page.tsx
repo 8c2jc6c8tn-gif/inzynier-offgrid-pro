@@ -28,7 +28,7 @@ export default function DetekcjaZwarciaEFusePage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("detekcja-zwarcia-efuse", STAN_POCZATKOWY, {
-    projekt: { napiecieBateriiV: "napiecieUkladuV" },
+    projekt: { napiecieBateriiV: "napiecieUkladuV", rezystancjaWewnetrznaOhm: "rezystancjaWewnMagazynuOhm" },
   })
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, zdolnoscLaczeniowaTranzystorowA } = stan
 
@@ -85,6 +85,7 @@ export default function DetekcjaZwarciaEFusePage() {
           unit="Ω"
           type="number"
           inputMode="decimal"
+          projekt={projekt.pole("rezystancjaWewnetrznaOhm")}
           value={rezystancjaWewnetrznaOhm}
           onChange={(e) => setRezystancjaWewnetrznaOhm(e.target.value)}
           pomoc={<PomocPola ekran="detekcja-zwarcia-efuse" pole="rezystancja" />}

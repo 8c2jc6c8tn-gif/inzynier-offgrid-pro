@@ -3015,3 +3015,6 @@ Ekran `bilans-zapotrzebowania` tylko czyta szkice ekranów modułu 2 i liczy je 
 
 Kraj jest w liście projektów (`Projekt.kraj`, `lib/projekt/kraje.ts`, `useKrajProjektu()`); pola kwot urzędowych deklaruje się w haku jako `kwotyKraju` (waluta = waluta kraju, `stala: true`, bez wyboru), zakupy dalej jako `kwoty`. Ekrany kafli 15 i 16 dostają baner „dotyczy Polski” automatycznie przez `NaglowekEkranu` (`czyEkranDanychPolskich`) — nowy ekran sieciowy nie potrzebuje nic dopisywać. **Pułapka:** Bułgaria ma euro od 1.01.2026 (NBP nie publikuje BGN) — `walutaKraju("BG")` = EUR.
 
+## Kolejne liczby projektu, suwaki, dni autonomii (3.58.0, 26.11.2026, D109)
+
+Suwak (`<input type="range">`) łączy się z projektem jak zwykłe pole: wpis w mapie `projekt` haka + `<ZnacznikPola projekt={projekt.pole("…")} />` pod suwakiem. **Pułapka:** zmiana typu pola szkicu (liczba z listy → tekst pola) — stara wartość `0` dałaby w `synchronizuj` tekst „0” ≠ „” i pole uznane za własne; dlatego „Dni autonomii” mają nowe pole `dni` i jednorazowe przeniesienie z `dniAutonomii` po wczytaniu. **Pułapka:** „strefa” na „Obciążeniu dachu śniegiem” to strefa śniegowa — nie łączyć z `strefaWiatrowa`.

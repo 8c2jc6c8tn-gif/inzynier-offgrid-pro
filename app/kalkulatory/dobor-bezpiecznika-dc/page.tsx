@@ -29,7 +29,7 @@ export default function DoborBezpiecznikaDcPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("dobor-bezpiecznika-dc", STAN_POCZATKOWY, {
-    projekt: { napiecieBateriiV: "napiecieUkladuV" },
+    projekt: { napiecieBateriiV: "napiecieUkladuV", rezystancjaWewnetrznaOhm: "rezystancjaWewnMagazynuOhm" },
   })
   const { napiecieBateriiV, rezystancjaWewnetrznaOhm, aicBezpiecznikaA } = stan
 
@@ -107,6 +107,7 @@ export default function DoborBezpiecznikaDcPage() {
           unit="Ω"
           type="number"
           inputMode="decimal"
+          projekt={projekt.pole("rezystancjaWewnetrznaOhm")}
           value={rezystancjaWewnetrznaOhm}
           onChange={(e) => setRezystancjaWewnetrznaOhm(e.target.value)}
           pomoc={<PomocPola ekran="dobor-bezpiecznika-dc" pole="rezystancja" />}

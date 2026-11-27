@@ -11,8 +11,12 @@
  */
 
 export type DniAutonomiiInput = {
-  /** Dni autonomii — suwak dyskretny 1/2/3/5/7 ze źródła. 0 = jeszcze nie wybrano. */
-  dniAutonomii: 0 | 1 | 2 | 3 | 5 | 7
+  /**
+   * Dni autonomii — liczba dni (także ułamkowa); typowe wartości 1/2/3/5/7 ze źródła są tylko podpowiedzią
+   * (`OPCJE_DNI_AUTONOMII`), decyzja właściciela 26.11.2026 — pole liczbowe zamiast listy, łączone z liczbą projektu.
+   * 0 = jeszcze nie wpisano.
+   */
+  dniAutonomii: number
   /** Opcjonalne — do podglądu wpływu na wielkość magazynu. Zapotrzebowanie dobowe [kWh]. 0 = pominięte. */
   zapotrzebowanieDoboweKwh: number
   /** Opcjonalne — sprawność falownika [%], 0–100. 0 = pominięte. */

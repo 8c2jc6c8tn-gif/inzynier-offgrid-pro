@@ -44,7 +44,10 @@ export default function ObciazenieDachuSniegiemPage() {
   const formatLiczbe = useFormatLiczby()
   const { f0 } = useFormaty()
   const f2 = (x: number) => formatLiczbe(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("obciazenie-dachu-sniegiem", STAN_POCZATKOWY)
+  // `strefa` here is the SNOW zone (PN-EN 1991-1-3), not the wind zone of the project — deliberately not linked.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("obciazenie-dachu-sniegiem", STAN_POCZATKOWY, {
+    projekt: { wysokoscNpmM: "wysokoscNpmM" },
+  })
   const idBarierki = useId()
   const ustaw = (pole: keyof FormularzStan) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setStan((prev) => ({ ...prev, [pole]: e.target.value }))
@@ -99,6 +102,7 @@ export default function ObciazenieDachuSniegiemPage() {
           unit="m"
           type="number"
           inputMode="decimal"
+          projekt={projekt.pole("wysokoscNpmM")}
           value={stan.wysokoscNpmM}
           onChange={ustaw("wysokoscNpmM")}
           pomoc={<PomocPola ekran="obciazenie-dachu-sniegiem" pole="wysokosc" />}

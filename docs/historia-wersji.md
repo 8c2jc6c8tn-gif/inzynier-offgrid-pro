@@ -2,6 +2,12 @@
 
 Zasady numeracji: `docs/wersjonowanie.md`. Najnowszy wpis na górze; jego numer musi zgadzać się z `package.json` (pilnuje tego test). Każdy wpis ma linię „Wpływ na liczby”.
 
+## [3.58.0] — 26.11.2026
+
+Decyzje właściciela z 26.11.2026 (D109). (1) **Pięć nowych liczb projektu:** rezystancja wewnętrzna magazynu [Ω] (Analiza zwarciowa, Detekcja zwarcia e-fuse, Dobór bezpiecznika DC), liczba stringów równoległych (Analiza zwarciowa, Ochrona stringów), strefa wiatrowa i wysokość n.p.m. (Złoty środek, Ogrodzenie PV, Wiatr powyżej 30°; Obciążenie dachu śniegiem — tylko wysokość), zużycie paliwa przy 80% obciążenia (Agregat jako zapas, Deficyty miesięczne). (2) **Suwaki kąta nachylenia** na „Kąt i azymut” i „Złoty środek” biorą kąt z projektu i pokazują znacznik pod suwakiem. (3) **Dni autonomii** — pole liczbowe zamiast listy 1/2/3/5/7 (typowe wartości w „?”), połączone z projektem; wcześniejszy wybór z listy przechodzi do pola. (4) Pod „prądem zwarciowym w tym punkcie” (Dobór bezpiecznika-rozłącznika, Wyłączniki nadprądowe DC) dopisek: wartość z projektu dotyczy baterii, dla obwodu PV wpisz własną z Analizy zwarciowej.
+
+Wpływ na liczby: wzory bez zmian. Puste pola podpięte do nowych liczb projektu mogą dostać wartość z projektu (wypełniony ekran pokaże wynik); wpisane wcześniej liczby zostają jako własne. „Dni autonomii” przyjmują teraz dowolną liczbę dni (np. 4), wynik liczony tym samym wzorem.
+
 ## [3.57.0] — 25.11.2026
 
 Decyzje właściciela z 25.11.2026 (D108). (1) **Kraj projektu** — wybór na stronie projektów (domyślnie Polska). Kwoty urzędowe (taryfy, ceny i opłaty z rachunku, opłata mocowa, moc bierna, RCE, depozyt, dotacje) są w walucie kraju projektu — bez wyboru waluty, z przeliczeniem przy polu; obliczenia na polskich danych dostają je w PLN po kursie NBP. Ekrany kafli „Dom – sieć” i „Firma – sieć” dla projektu poza Polską pokazują informację, że stawki i przepisy są polskie. (2) **Pojemność nominalna** zamiast „użytecznej” w polach „Okna słonecznego”, „Prognozy SoC”, „Ładowania z agregatu” i „Porównania technologii magazynów” — SoC liczy się od pełnej pojemności (kalkulatory tak liczyły; poprawione etykiety, pomoc i opisy narzędzi AI). (3) Nowe liczby projektu: **minimalny SoC** (blackout, strategia zamarzania, prognoza SoC), **zużycie dobowe zimą** (blackout, awaria stringa zimą), **prąd zwarciowy magazynu** (wynik „Analizy zwarciowej” → dobór bezpieczników, wyłączników i kabli), **azymut paneli** (7 ekranów PV; konwencja N = 0°, S = 180°).

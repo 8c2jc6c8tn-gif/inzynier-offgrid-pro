@@ -15,6 +15,7 @@ import { usePersistedDraft } from "@/lib/adapters/use-persisted-draft"
 import { calculateKatIAzymut } from "@/lib/core/modules/pv/kat-i-azymut/calculator"
 import type { TabelaNapromieniowania } from "@/lib/core/modules/pv/kat-i-azymut/input"
 import { useTranslate, useFormaty } from "@/lib/i18n/language-context"
+import { ZnacznikPola } from "@/components/projekt/znacznik-pola"
 import { liczba } from "@/lib/lokalizacja/model-dzialki"
 import { useLokalizacjaProjektu } from "@/lib/lokalizacja/use-lokalizacja-projektu"
 import { useObliczeniaWTle } from "@/lib/lokalizacja/use-obliczenia-w-tle"
@@ -91,8 +92,10 @@ export default function KatIAzymutPage() {
   const t = useTranslate()
   const { f0, f1 } = useFormaty()
   const { lokalizacja, dane, tmy, wczytano } = useLokalizacjaProjektu()
-  // `nachylenieDeg` is not linked yet: it is a bare range slider (no `Pole`), so the project status/↺ could not be shown.
-  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("kat-i-azymut", STAN_POCZATKOWY, { projekt: { mocInstalacjiKwp: "mocPvKwp", azymutDeg: "azymutDeg" } })
+  // `nachylenieDeg` is a range slider: its project status/↺ is shown by `ZnacznikPola` under it.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("kat-i-azymut", STAN_POCZATKOWY, {
+    projekt: { mocInstalacjiKwp: "mocPvKwp", azymutDeg: "azymutDeg", nachylenieDeg: "nachylenieDeg" },
+  })
   const { uruchom, stan: obliczenia } = useObliczeniaWTle()
   const [tabela, setTabela] = useState<{ klucz: string; t: TabelaNapromieniowania | null; blad: boolean } | null>(null)
   const ustaw = (pole: keyof FormularzStan, v: string) => setStan((prev) => ({ ...prev, [pole]: v }))
@@ -188,6 +191,7 @@ export default function KatIAzymutPage() {
               onChange={(e) => ustaw("nachylenieDeg", e.target.value)}
               className="min-h-11 w-full accent-sky-600"
             />
+            <ZnacznikPola projekt={projekt.pole("nachylenieDeg")} />
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <Pole

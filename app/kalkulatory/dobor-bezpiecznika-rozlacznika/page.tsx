@@ -91,17 +91,20 @@ export default function DoborBezpiecznikaRozlacznikaPage() {
         pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="prad" />}
       />
 
-      <Pole
-        label={t("UI-DOBBEZROZ-PRAD-ZWARCIOWY-TYM")}
-        unit="A"
-        type="number"
-        inputMode="decimal"
-        min={0}
-        value={pradZwarciowyA || ""}
-        projekt={projekt.pole("pradZwarciowyA")}
-        onChange={(e) => setPradZwarciowyA(Number(e.target.value))}
-        pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="pradZwarcia" />}
-      />
+      <div className="flex flex-col gap-1">
+        <Pole
+          label={t("UI-DOBBEZROZ-PRAD-ZWARCIOWY-TYM")}
+          unit="A"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          value={pradZwarciowyA || ""}
+          projekt={projekt.pole("pradZwarciowyA")}
+          onChange={(e) => setPradZwarciowyA(Number(e.target.value))}
+          pomoc={<PomocPola ekran="dobor-bezpiecznika-rozlacznika" pole="pradZwarcia" />}
+        />
+        <p className="text-caption text-muted-foreground">{t("UI-PRJ-ZWARCIE-PRZY-BATERII")}</p>
+      </div>
 
       <Pole
         label={t("UI-DOBBEZROZ-ZDOLNOSC-LACZENIOWA-AIC")}

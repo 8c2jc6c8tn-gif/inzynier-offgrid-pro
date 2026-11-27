@@ -1,6 +1,6 @@
 /**
  * Narzędzie AI (9.3) dla Modułu 2, Ekran 7 "Dni autonomii". `operationType: 'read'`. Dni
- * autonomii pochodzą WYŁĄCZNIE od usera (suwak 1/2/3/5/7 wg źródła). Trzy pola opcjonalne
+ * autonomii pochodzą WYŁĄCZNIE od usera (liczba dni; typowo 1/2/3/5/7 wg źródła). Trzy pola opcjonalne
  * (zapotrzebowanie dobowe, sprawność falownika, DoD) służą tylko do podglądu szacunkowego
  * wpływu na wielkość magazynu (wzorzec "echo" Modułu 4/Ekran 1) — również od usera, nie zgaduj.
  */
@@ -11,8 +11,8 @@ import type { AiToolDefinition } from "../types"
 import { tekstyOstrzezen, tekstyZalozen } from "./teksty-wyniku"
 
 export const DniAutonomiiToolInput = z.object({
-  dniAutonomii: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(5), z.literal(7)])
-    .describe("Dni autonomii — suwak dyskretny ze źródła — od usera"),
+  dniAutonomii: z.number().positive()
+    .describe("Dni autonomii (typowo 1, 2, 3, 5 lub 7) — od usera"),
   zapotrzebowanieDoboweKwh: z.number().optional().describe("Opcjonalnie: zapotrzebowanie dobowe [kWh] do podglądu wpływu na magazyn"),
   sprawnoscFalownikaPct: z.number().optional().describe("Opcjonalnie: sprawność falownika [%], 0-100"),
   dodPct: z.number().optional().describe("Opcjonalnie: DoD [%], 0-100"),
