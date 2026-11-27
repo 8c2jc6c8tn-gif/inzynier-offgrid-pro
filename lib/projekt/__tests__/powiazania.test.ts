@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { kandydaciZPol, kandydaciZWynikow, poEdycji, statusPola, synchronizuj, type MapaPol } from "../powiazania"
+import { kandydaciZPol, kandydaciZWynikow, poEdycji, statusPola, synchronizuj, wartoscDlaPola, type MapaPol } from "../powiazania"
 import type { WartosciProjektu } from "../wielkosci"
 
 type Stan = { napiecieV: string; pojemnoscAh: string; sprawnosc: string; inne: string }
@@ -87,5 +87,23 @@ describe("statusPola and the save-bar candidates", () => {
       { wielkosc: "liczbaPaneli", wartosc: "12", wProjekcie: "10", pole: null },
     ])
     expect(kandydaciZWynikow({ liczbaPaneli: 12 }, { liczbaPaneli: w("12") })).toEqual([])
+  })
+})
+
+describe("select fields with fixed options (owner decision 26.11.2026)", () => {
+  type S = { napiecie: number }
+  const P: S = { napiecie: 48 }
+  const M: MapaPol<S> = { napiecie: { wielkosc: "napiecieUkladuV", opcje: [12, 24, 48] } }
+
+  it("takes the project value when it is one of the options", () => {
+    const r = synchronizuj(P, P, {}, M, { napiecieUkladuV: w("24") })
+    expect(r.stan.napiecie).toBe(24)
+    expect(r.znaczniki.napiecie).toBe("projekt")
+  })
+
+  it("leaves the list alone when the project value is not an option", () => {
+    const r = synchronizuj(P, P, {}, M, { napiecieUkladuV: w("51.2") })
+    expect(r.stan).toBe(P)
+    expect(wartoscDlaPola(M.napiecie!, { napiecieUkladuV: w("51.2") })).toBeUndefined()
   })
 })

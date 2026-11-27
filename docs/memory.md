@@ -3018,3 +3018,7 @@ Kraj jest w liście projektów (`Projekt.kraj`, `lib/projekt/kraje.ts`, `useKraj
 ## Kolejne liczby projektu, suwaki, dni autonomii (3.58.0, 26.11.2026, D109)
 
 Suwak (`<input type="range">`) łączy się z projektem jak zwykłe pole: wpis w mapie `projekt` haka + `<ZnacznikPola projekt={projekt.pole("…")} />` pod suwakiem. **Pułapka:** zmiana typu pola szkicu (liczba z listy → tekst pola) — stara wartość `0` dałaby w `synchronizuj` tekst „0” ≠ „” i pole uznane za własne; dlatego „Dni autonomii” mają nowe pole `dni` i jednorazowe przeniesienie z `dniAutonomii` po wczytaniu. **Pułapka:** „strefa” na „Obciążeniu dachu śniegiem” to strefa śniegowa — nie łączyć z `strefaWiatrowa`.
+
+## Domknięcie podpięć, listy o stałych opcjach (3.59.0, 26.11.2026, D110)
+
+Pole-lista (select liczbowy) łączy się przez `{ wielkosc, opcje: [12, 24, 48] }` w mapie `projekt` — wartość projektu spoza opcji nie jest wpisywana i nie ma ↺ (`wartoscDlaPola`). Niepołączone pola o podobnej nazwie mają komentarz „not linked” z powodem — skan kandydatów warto zaczynać od plików bez takiego komentarza.

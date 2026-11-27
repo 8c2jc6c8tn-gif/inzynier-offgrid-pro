@@ -30,7 +30,9 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function CzystoscISniegPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("czystosc-i-snieg", STAN_POCZATKOWY)
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("czystosc-i-snieg", STAN_POCZATKOWY, {
+    projekt: { katStopni: "nachylenieDeg" },
+  })
   const { katStopni, spadekProdukcjiPct, deszczWCiaguKilkuDni } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -76,6 +78,7 @@ export default function CzystoscISniegPage() {
               unit="°"
               type="number"
               inputMode="decimal"
+              projekt={projekt.pole("katStopni")}
               value={katStopni}
               onChange={(e) => setKatStopni(e.target.value)}
               pomoc={<PomocPola ekran="czystosc-i-snieg" pole="kat" />}

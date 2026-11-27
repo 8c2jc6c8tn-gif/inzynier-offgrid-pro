@@ -103,7 +103,10 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function DemontazPakietuPage() {
   const t = useTranslate()
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("demontaz-pakietu", STAN_POCZATKOWY)
+  // The list keeps its options (the rules exist only for 12/24/48 V): it takes the project voltage only when it is one of them.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("demontaz-pakietu", STAN_POCZATKOWY, {
+    projekt: { napiecieSystemu: { wielkosc: "napiecieUkladuV", opcje: [12, 24, 48] } },
+  })
   const { napiecieSystemu, napieciePakietuV, potwierdzoneIds } = stan
 
   function setPole<K extends keyof FormularzStan>(pole: K, akcja: FormularzStan[K] | ((prev: FormularzStan[K]) => FormularzStan[K])) {
@@ -154,6 +157,7 @@ export default function DemontazPakietuPage() {
       <PoleSelect
         label={t("UI-DEMPAK-NAPIECIE-SYSTEMU")}
         value={napiecieSystemu}
+        projekt={projekt.pole("napiecieSystemu")}
         onChange={(e) => setNapiecieSystemu(Number(e.target.value) as NapiecieSystemu)}
         pomoc={<PomocPola ekran="demontaz-pakietu" pole="napiecieSystemu" />}
       >

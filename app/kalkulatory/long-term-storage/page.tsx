@@ -32,6 +32,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function LongTermStoragePage() {
   const t = useTranslate()
+  // `temperaturaMinC` here is the storage-place temperature, not the site minimum — not linked.
   const [stan, setStan] = usePersistedDraft<FormularzStan>("long-term-storage", STAN_POCZATKOWY)
   const { socDocelowyPct, temperaturaMinC, potwierdzoneIds } = stan
 

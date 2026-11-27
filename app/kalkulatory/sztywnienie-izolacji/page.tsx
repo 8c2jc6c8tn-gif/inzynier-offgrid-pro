@@ -33,7 +33,10 @@ export default function SztywnienieIzolacjiPage() {
   const t = useTranslate()
   const formatLiczbe = useFormatLiczby()
   const f0 = (x: number) => formatLiczbe(x, { maximumFractionDigits: 1 })
-  const [stan, setStan] = usePersistedDraft<FormularzStan>("sztywnienie-izolacji", STAN_POCZATKOWY)
+  // Default = the site minimum (the coldest case, owner decision 26.11.2026); a cable indoors gets its own value.
+  const [stan, setStan, , , projekt] = usePersistedDraft<FormularzStan>("sztywnienie-izolacji", STAN_POCZATKOWY, {
+    projekt: { temperaturaMinimalnaC: "temperaturaMinC" },
+  })
   const idBazowe = useId()
 
   const result = useMemo(
@@ -73,6 +76,7 @@ export default function SztywnienieIzolacjiPage() {
           type="number"
           inputMode="decimal"
           value={stan.temperaturaMinimalnaC}
+          projekt={projekt.pole("temperaturaMinimalnaC")}
           onChange={(e) => setStan((prev) => ({ ...prev, temperaturaMinimalnaC: e.target.value }))}
           pomoc={<PomocPola ekran="sztywnienie-izolacji" pole="temp" />}
         />

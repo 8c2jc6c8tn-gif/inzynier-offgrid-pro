@@ -54,6 +54,7 @@ const STAN_POCZATKOWY: FormularzStan = {
 
 export default function UpsKrytycznyPage() {
   const t = useTranslate()
+  // `pojemnoscAh` is not linked: a UPS usually has its own small battery, not the main bank (owner decision 26.11.2026).
   const [stan, setStan] = usePersistedDraft<FormularzStan>("ups-krytyczny", STAN_POCZATKOWY)
   const { urzadzenia, pojemnoscAh, napiecieV } = stan
   const progMin = stan.progMin ?? ""
